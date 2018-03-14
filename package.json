@@ -1,0 +1,23 @@
+{
+  "name": "hcmi-portal",
+  "version": "0.1.0",
+  "description": "HCMI Portal",
+  "scripts": {
+    "netlify:": "cd ui && yarn build",
+    "api": "cd api && yarn start",
+    "ui": "cd ui && yarn start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nci-hcmi-catalog/portal.git"
+  },
+  "author": "OICR",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nci-hcmi-catalog/portal/issues"
+  },
+  "homepage": "https://github.com/nci-hcmi-catalog/portal#readme",
+  "devDependencies": {
+    "prettier": "^1.11.1"
+  }
+}
