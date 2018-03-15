@@ -3,6 +3,9 @@
 ### Quickstart
 
 ```
+# install
+make
+
 # start api
 PORT=<> yarn api
 
