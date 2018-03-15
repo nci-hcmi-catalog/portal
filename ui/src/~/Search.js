@@ -1,12 +1,12 @@
 import React from 'react';
-import { injectGlobal as css } from 'emotion';
+import { css } from 'emotion';
 import { Link } from 'react-router-dom';
 import { Arranger, Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
 import Url from '~/Url';
 import { Row } from '~/Layout';
 
-css`
+let style = css`
   .ReactTable .rt-resizable-header-content {
     color: #900;
   }
@@ -68,7 +68,7 @@ export default props => (
           projectId={props.version}
           render={props => {
             return (
-              <div>
+              <div css={style}>
                 <Row>
                   <Aggregations
                     {...{
