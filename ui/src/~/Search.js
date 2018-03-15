@@ -39,6 +39,10 @@ css`
     font-size: 0.9rem;
     font-family: Open Sans, sans-serif;
   }
+
+  .aggregation-card {
+    border-left-color: #774928 !important;
+  }
 `;
 
 export default props => (
