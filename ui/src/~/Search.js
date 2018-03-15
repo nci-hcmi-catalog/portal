@@ -1,6 +1,7 @@
 import React from 'react';
 import { Arranger, Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
-import Url from './Url';
+import Url from '~/Url';
+import { Flex } from '~/Layout';
 
 export default props => (
   <Url
@@ -12,7 +13,7 @@ export default props => (
           render={props => {
             return (
               <div>
-                <div>
+                <Flex>
                   <Aggregations
                     {...{
                       ...props,
@@ -46,7 +47,7 @@ export default props => (
                       fieldTypesForFilter={['text', 'keyword', 'id']}
                     />
                   </div>
-                </div>
+                </Flex>
               </div>
             );
           }}
