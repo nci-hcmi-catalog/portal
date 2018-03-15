@@ -72,7 +72,7 @@ export default () => (
             )}
           />
           <Route
-            path="/:modelId"
+            path="/model/:modelId"
             render={({ match }) => (
               <div>
                 <Link to="/">« Back to List View</Link>

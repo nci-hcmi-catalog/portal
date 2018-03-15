@@ -42,6 +42,9 @@ export default props => (
                     <Table
                       {...props}
                       {...url}
+                      customTypes={{
+                        entity: ({ value }) => <Link to={`/model/${value}`}>{value}</Link>,
+                      }}
                       index="models"
                       graphqlField="models"
                       columnDropdownText="Columns"
