@@ -1,8 +1,38 @@
 import React from 'react';
+import { injectGlobal as css } from 'emotion';
+import { Link } from 'react-router-dom';
 import { Arranger, Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
 import Url from '~/Url';
 import { Row } from '~/Layout';
+
+css`
+  .ReactTable .rt-resizable-header-content {
+    color: #900;
+  }
+
+  .ReactTable.-striped .rt-tr.-odd {
+    background-color: #fff2cc;
+  }
+
+  .ReactTable .rt-thead {
+    background-color: #ffffff;
+  }
+
+  .sqon-view {
+    background-color: #ffffff;
+    border: 1px solid #d4d6dd;
+    padding: 4px 19px 14px;
+  }
+
+  .sqon-value {
+    background-color: #900;
+    color: #fff;
+    padding: 0 7px 0 12px;
+    margin-right: 4px;
+    cursor: pointer;
+  }
+`;
 
 export default props => (
   <Url
