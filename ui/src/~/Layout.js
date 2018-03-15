@@ -1,9 +1,11 @@
+import React from 'react';
 import styled from 'react-emotion';
 import {
   space,
   width,
   fontSize,
   color,
+  flex,
   alignItems,
   justifyContent,
   flexDirection,
@@ -16,12 +18,16 @@ let Box = styled.div`
   ${color}
 `;
 
-let Flex = styled.div`
+let Row = styled.div`
   display: flex;
+  ${flex}
   ${space}
   ${alignItems}
   ${justifyContent}
   ${flexDirection}
+  ${color}
 `;
 
-export { Box, Flex };
+let Col = p => <Row flexDirection="column" {...p} />;
+
+export { Box, Row, Col };

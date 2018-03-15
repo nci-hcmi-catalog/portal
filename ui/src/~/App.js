@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import globals from '~/globals';
 import Search from '~/Search';
 import Model from '~/Model';
-import { Flex, Box } from './Layout';
+import { Row, Col, Box } from './Layout';
 
 export default () => (
   <Router>
@@ -21,16 +21,16 @@ export default () => (
             path="/"
             exact
             render={() => (
-              <div>
-                <Flex>
-                  <Flex ml="auto">
+              <Col>
+                <Row>
+                  <Row ml="auto">
                     <Link to="/admin/manage_users">
                       <Box p={15}>Administrator</Box>
                     </Link>
-                  </Flex>
-                </Flex>
+                  </Row>
+                </Row>
                 <Search version={state.version} />
-              </div>
+              </Col>
             )}
           />
           <Route
@@ -40,17 +40,54 @@ export default () => (
           <Route
             path="/admin"
             render={({ match }) => (
-              <div>
-                <div
-                  css={`
-                  dis
-                `}
-                >
-                  <Link to="/">« Back to List View</Link>
-                  <div />
-                </div>
-                <div />
-              </div>
+              <Col>
+                <Row>
+                  <Row p={15}>
+                    <Link to="/">« Back to List View</Link>
+                  </Row>
+                  <Row flex={1} p={15}>
+                    HCMI Searchable Catalog Administration
+                  </Row>
+                  <Row p={15}>Logout</Row>
+                </Row>
+                <Row>
+                  <Col p={15}>
+                    <Link to="/admin/manage_users">
+                      <Row>
+                        <Row p={10}>icon</Row>
+                        <Col p={10}>
+                          <Row>Manage Users</Row>
+                        </Col>
+                      </Row>
+                    </Link>
+                    <Link to="/admin/manage_users">
+                      <Row>
+                        <Row p={10}>icon</Row>
+                        <Col p={10}>
+                          <Row>Single Model Upload</Row>
+                        </Col>
+                      </Row>
+                    </Link>
+                    <Link to="/admin/manage_users">
+                      <Row>
+                        <Row p={10}>icon</Row>
+                        <Col p={10}>
+                          <Row>Bulk Model Upload</Row>
+                        </Col>
+                      </Row>
+                    </Link>
+                    <Link to="/admin/manage_users">
+                      <Row>
+                        <Row p={10}>icon</Row>
+                        <Col p={10}>
+                          <Row>Manage Models</Row>
+                        </Col>
+                      </Row>
+                    </Link>
+                  </Col>
+                  <Row p={15}>Users</Row>
+                </Row>
+              </Col>
             )}
           />
           <Route
