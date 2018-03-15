@@ -43,6 +43,20 @@ css`
   .aggregation-card {
     border-left-color: #774928 !important;
   }
+
+  .aggregation-card .bucket-item .bucket-count {
+    border-radius: 5px;
+    background-color: #fff2cc;
+    color: #343434;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: Open Sans, sans-serif;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-left: auto;
+  }
 `;
 
 export default props => (
