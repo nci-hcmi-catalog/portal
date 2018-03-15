@@ -24,6 +24,7 @@ export default () => (
             render={() => (
               <Col>
                 <Row>
+                  <Row p={15}>HCMI Data Portal</Row>
                   <Row ml="auto">
                     <Link to="/admin/manage_users">
                       <Box p={15}>Administrator</Box>

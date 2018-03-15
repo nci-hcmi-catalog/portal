@@ -1,5 +1,6 @@
 import React from 'react';
 import { Arranger, Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
+import '@arranger/components/public/themeStyles/beagle/beagle.css';
 import Url from '~/Url';
 import { Row } from '~/Layout';
 
