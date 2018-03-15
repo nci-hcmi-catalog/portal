@@ -1,21 +1,22 @@
 {
-  "name": "example-ui",
+  "name": "hcmi-portal-ui",
   "version": "0.0.1-0.0.10.0",
   "private": true,
   "dependencies": {
     "@arranger/components": "^0.1.37",
     "babel-polyfill": "^6.26.0",
     "emotion": "^9.0.2",
+    "query-string": "^6.0.0",
     "react": "^16.2.0",
+    "react-component-component": "^1.2.1",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.0.17",
+    "url-join": "^4.0.0"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test --env=jsdom",
-    "eject": "react-app-rewired eject"
+    "start": "NODE_PATH=src react-app-rewired start",
+    "build": "NODE_PATH=src react-app-rewired build"
   },
   "devDependencies": {
     "react-app-rewired": "^1.5.0"
