@@ -24,7 +24,16 @@ export default () => (
             render={() => (
               <Col>
                 <Row>
-                  <Row p={15}>HCMI Data Portal</Row>
+                  <Row
+                    p={15}
+                    css={`
+                      color: #900;
+                      font-weight: bold;
+                      font-size: 1.3em;
+                    `}
+                  >
+                    HCMI Data Portal
+                  </Row>
                   <Row ml="auto">
                     <Link to="/admin/manage_users">
                       <Box p={15}>Administrator</Box>

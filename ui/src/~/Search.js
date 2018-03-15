@@ -32,6 +32,13 @@ css`
     margin-right: 4px;
     cursor: pointer;
   }
+
+  .aggregation-card .title-wrapper .title {
+    color: #900;
+    font-weight: bolder;
+    font-size: 0.9rem;
+    font-family: Open Sans, sans-serif;
+  }
 `;
 
 export default props => (
