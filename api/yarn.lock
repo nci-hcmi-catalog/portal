@@ -37,9 +37,9 @@
     lodash "^4.17.4"
     uuid "^3.2.1"
 
-"@arranger/server@0.1.37":
-  version "0.1.37"
-  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-0.1.37.tgz#c12876e03f7277f2a0d7f752c813096a52417563"
+"@arranger/server@0.1.38":
+  version "0.1.38"
+  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-0.1.38.tgz#9dce85c6b6a37bb25745edee394dc12d63ce7565"
   dependencies:
     "@arranger/mapping-utils" "^0.1.36"
     "@arranger/middleware" "^0.1.36"
