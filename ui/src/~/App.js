@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import globals from '~/globals';
 import Search from '~/Search';
 import Model from '~/Model';
+import AdminNav from '~/AdminNav';
 import { Row, Col, Box } from './Layout';
 
 export default () => (
@@ -51,41 +52,20 @@ export default () => (
                   <Row p={15}>Logout</Row>
                 </Row>
                 <Row>
-                  <Col p={15}>
-                    <Link to="/admin/manage_users">
-                      <Row>
-                        <Row p={10}>icon</Row>
-                        <Col p={10}>
-                          <Row>Manage Users</Row>
-                        </Col>
-                      </Row>
-                    </Link>
-                    <Link to="/admin/manage_users">
-                      <Row>
-                        <Row p={10}>icon</Row>
-                        <Col p={10}>
-                          <Row>Single Model Upload</Row>
-                        </Col>
-                      </Row>
-                    </Link>
-                    <Link to="/admin/manage_users">
-                      <Row>
-                        <Row p={10}>icon</Row>
-                        <Col p={10}>
-                          <Row>Bulk Model Upload</Row>
-                        </Col>
-                      </Row>
-                    </Link>
-                    <Link to="/admin/manage_users">
-                      <Row>
-                        <Row p={10}>icon</Row>
-                        <Col p={10}>
-                          <Row>Manage Models</Row>
-                        </Col>
-                      </Row>
-                    </Link>
-                  </Col>
-                  <Row p={15}>Users</Row>
+                  <AdminNav />
+                  <Route path="/admin/manage_users" render={() => <Row p={15}>Users</Row>} />
+                  <Route
+                    path="/admin/single_model_upload"
+                    render={() => <Row p={15}>single model upload</Row>}
+                  />
+                  <Route
+                    path="/admin/bulk_model_upload"
+                    render={() => <Row p={15}>bulk model upload</Row>}
+                  />
+                  <Route
+                    path="/admin/manage_models"
+                    render={() => <Row p={15}>manage models</Row>}
+                  />
                 </Row>
               </Col>
             )}
