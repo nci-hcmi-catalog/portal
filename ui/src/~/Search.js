@@ -16,14 +16,7 @@ export default props => (
           render={props => {
             return (
               <Row css={searchStyles}>
-                <Aggregations
-                  {...{
-                    ...props,
-                    setSQON: url.setSQON,
-                    index: 'models',
-                    graphqlField: 'models',
-                  }}
-                />
+                <Aggregations {...props} {...url} index="models" graphqlField="models" />
                 <Col p={30} flex={1}>
                   <Row>
                     <CurrentSQON {...props} {...url} index="models" graphqlField="models" />
