@@ -25,13 +25,7 @@ export default props => (
                       graphqlField: 'models',
                     }}
                   />
-                  <Col
-                    p={30}
-                    style={{
-                      position: 'relative',
-                      flexGrow: 1,
-                    }}
-                  >
+                  <Col p={30} flex={1}>
                     <Row>
                       <CurrentSQON {...props} {...url} index="models" graphqlField="models" />
                     </Row>
