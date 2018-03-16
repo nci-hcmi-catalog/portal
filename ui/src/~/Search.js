@@ -4,7 +4,7 @@ import { Arranger, Aggregations, CurrentSQON, Table } from '@arranger/components
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
 import searchStyles from '~/searchStyles';
 import Url from '~/Url';
-import { Row } from '~/Layout';
+import { Row, Col } from '~/Layout';
 
 export default props => (
   <Url
