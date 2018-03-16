@@ -15,34 +15,32 @@ export default props => (
           projectId={props.version}
           render={props => {
             return (
-              <div css={searchStyles}>
-                <Row>
-                  <Aggregations
-                    {...{
-                      ...props,
-                      setSQON: url.setSQON,
-                      index: 'models',
-                      graphqlField: 'models',
+              <Row css={searchStyles}>
+                <Aggregations
+                  {...{
+                    ...props,
+                    setSQON: url.setSQON,
+                    index: 'models',
+                    graphqlField: 'models',
+                  }}
+                />
+                <Col p={30} flex={1}>
+                  <Row>
+                    <CurrentSQON {...props} {...url} index="models" graphqlField="models" />
+                  </Row>
+                  <Table
+                    {...props}
+                    {...url}
+                    customTypes={{
+                      entity: ({ value }) => <Link to={`/model/${value}`}>{value}</Link>,
                     }}
+                    index="models"
+                    graphqlField="models"
+                    columnDropdownText="Columns"
+                    fieldTypesForFilter={['text', 'keyword', 'id']}
                   />
-                  <Col p={30} flex={1}>
-                    <Row>
-                      <CurrentSQON {...props} {...url} index="models" graphqlField="models" />
-                    </Row>
-                    <Table
-                      {...props}
-                      {...url}
-                      customTypes={{
-                        entity: ({ value }) => <Link to={`/model/${value}`}>{value}</Link>,
-                      }}
-                      index="models"
-                      graphqlField="models"
-                      columnDropdownText="Columns"
-                      fieldTypesForFilter={['text', 'keyword', 'id']}
-                    />
-                  </Col>
-                </Row>
-              </div>
+                </Col>
+              </Row>
             );
           }}
         />
