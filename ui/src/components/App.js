@@ -3,11 +3,11 @@ import React from 'react';
 import Component from 'react-component-component';
 import { Dashboard as ArrangerDashboard } from '@arranger/components';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
-import globals from '~/globals';
-import Search from '~/Search';
-import Model from '~/Model';
-import AdminNav from '~/AdminNav';
-import { Row, Col, Box } from './Layout';
+import globals from 'utils/globals';
+import Search from 'components/Search';
+import Model from 'components/Model';
+import AdminNav from 'components/AdminNav';
+import { Row, Col, Box } from 'components/Layout';
 
 export default () => (
   <Router>

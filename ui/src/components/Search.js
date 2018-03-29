@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Arranger, Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
-import searchStyles from '~/searchStyles';
-import Url from '~/Url';
-import { Row, Col } from '~/Layout';
+import searchStyles from 'utils/searchStyles';
+import Url from 'components/Url';
+import { Row, Col } from 'components/Layout';
 
 export default props => (
   <Url
