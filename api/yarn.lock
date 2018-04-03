@@ -2,20 +2,20 @@
 # yarn lockfile v1
 
 
-"@arranger/mapping-utils@^0.1.36":
-  version "0.1.36"
-  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.1.36.tgz#d19b192bc597e839828b1280aedcd67ff9509ee3"
+"@arranger/mapping-utils@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.1.tgz#9828d97a5034625d38c2354f1192d4b422dc048e"
   dependencies:
-    "@arranger/middleware" "^0.1.36"
+    "@arranger/middleware" "^0.2.4"
     babel-polyfill "^6.26.0"
     elasticsearch "^14.0.0"
     graphql-fields "^1.0.2"
     lodash "^4.17.4"
     node-fetch "^2.0.0"
 
-"@arranger/middleware@^0.1.36":
-  version "0.1.36"
-  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.1.36.tgz#ac59c75b668b8452aa86a42fd94f1ac11ad67ea8"
+"@arranger/middleware@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.2.4.tgz#1f0a018530f722bee88117d05933baf970abaa24"
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
@@ -25,11 +25,11 @@
     utf8 "^3.0.0"
     winston "^2.4.0"
 
-"@arranger/schema@^0.1.36":
-  version "0.1.36"
-  resolved "https://registry.yarnpkg.com/@arranger/schema/-/schema-0.1.36.tgz#92186a6a20f5f9701a522fa89061417b2bd6e70a"
+"@arranger/schema@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@arranger/schema/-/schema-0.3.1.tgz#f4f3e049995cb3e6c7f0b98b56094bd98d644614"
   dependencies:
-    "@arranger/mapping-utils" "^0.1.36"
+    "@arranger/mapping-utils" "^0.3.1"
     babel-polyfill "^6.26.0"
     elasticsearch "^14.0.0"
     graphql-tools "^2.14.1"
@@ -37,13 +37,13 @@
     lodash "^4.17.4"
     uuid "^3.2.1"
 
-"@arranger/server@0.1.38":
-  version "0.1.38"
-  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-0.1.38.tgz#9dce85c6b6a37bb25745edee394dc12d63ce7565"
+"@arranger/server@0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-0.3.1.tgz#baf7185b971cdc19f670562752e445df961711a8"
   dependencies:
-    "@arranger/mapping-utils" "^0.1.36"
-    "@arranger/middleware" "^0.1.36"
-    "@arranger/schema" "^0.1.36"
+    "@arranger/mapping-utils" "^0.3.1"
+    "@arranger/middleware" "^0.2.4"
+    "@arranger/schema" "^0.3.1"
     apollo-server-express "^1.3.1"
     babel-polyfill "^6.26.0"
     body-parser "^1.18.2"

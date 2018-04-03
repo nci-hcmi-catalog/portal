@@ -16,10 +16,15 @@ export default props => (
           render={props => {
             return (
               <Row css={searchStyles}>
-                <Aggregations {...props} {...url} index="models" graphqlField="models" />
+                <Aggregations {...props} {...url} index={props.index} graphqlField={props.index} />
                 <Col p={30} flex={1}>
                   <Row>
-                    <CurrentSQON {...props} {...url} index="models" graphqlField="models" />
+                    <CurrentSQON
+                      {...props}
+                      {...url}
+                      index={props.index}
+                      graphqlField={props.index}
+                    />
                   </Row>
                   <Table
                     {...props}
@@ -27,8 +32,8 @@ export default props => (
                     customTypes={{
                       entity: ({ value }) => <Link to={`/model/${value}`}>{value}</Link>,
                     }}
-                    index="models"
-                    graphqlField="models"
+                    index={props.index}
+                    graphqlField={props.index}
                     columnDropdownText="Columns"
                     fieldTypesForFilter={['text', 'keyword', 'id']}
                   />

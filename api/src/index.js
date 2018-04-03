@@ -1,7 +1,20 @@
-import createServer from '@arranger/server';
+import 'babel-polyfill';
+import express from 'express';
+import socketIO from 'socket.io';
+import { Server } from 'http';
+import { rainbow } from 'chalk-animation';
+import Arranger from '@arranger/server';
+import cors from 'cors';
 
-let server = createServer({
-  esHost: process.env.ES_URL,
+const port = process.env.PORT || 5050;
+const app = express();
+const http = Server(app);
+const io = socketIO(http);
+app.use(cors());
+
+Arranger({ io }).then(router => {
+  app.use(router);
+  http.listen(port, async () => {
+    rainbow(`⚡️ Listening on port ${port} ⚡️`);
+  });
 });
-
-server.listen(process.env.PORT || 5050);

@@ -40,7 +40,7 @@ export default () => (
                     </Link>
                   </Row>
                 </Row>
-                <Search version={state.version} />
+                <Search version={state.version} index="models" />
               </Col>
             )}
           />

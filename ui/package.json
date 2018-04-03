@@ -3,7 +3,7 @@
   "version": "0.0.1-0.0.10.0",
   "private": true,
   "dependencies": {
-    "@arranger/components": "^0.1.37",
+    "@arranger/components": "0.3.1",
     "babel-polyfill": "^6.26.0",
     "emotion": "^9.0.2",
     "query-string": "5.1.0",
