@@ -8,6 +8,7 @@ import Search from 'components/Search';
 import Model from 'components/Model';
 import AdminNav from 'components/AdminNav';
 import { Row, Col, Box } from 'components/Layout';
+import Header from 'components/Header';
 
 export default () => (
   <Router>
@@ -84,7 +85,7 @@ export default () => (
             path="/model/:modelId"
             render={({ match }) => (
               <div>
-                <Link to="/">« Back to List View</Link>
+                <Header />
                 <Model modelId={match.params.modelId} />
               </div>
             )}
