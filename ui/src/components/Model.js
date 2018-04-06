@@ -4,6 +4,7 @@ import Component from 'react-component-component';
 import { api } from '@arranger/components';
 import globals from 'utils/globals';
 import ModelBar from 'components/ModelBar';
+import ModelFooterBar from 'components/ModelFooterBar';
 import { Row, Col } from 'components/Layout';
 import Spinner from 'react-spinkit';
 
@@ -197,7 +198,6 @@ export default ({ modelId }) => (
                   />
                 </Col>
                 <Col
-                  width="31%"
                   css={`
                     color: #323232;
                     background: #fff;
@@ -239,6 +239,8 @@ export default ({ modelId }) => (
             />
           </Row>
         )}
+
+        <ModelFooterBar name={modelId} />
       </div>
     )}
   </Component>

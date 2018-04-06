@@ -32,7 +32,8 @@ export default css`
     color: #ffffff;
     text-transform: uppercase;
   }
-  .model-bar .pagination {
+  .model-bar .pagination,
+  .model-footer-bar .pagination {
     margin-left: 20px;
     background: #fff;
     width: 653px;
@@ -107,5 +108,27 @@ export default css`
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
+  }
+
+  .model-footer-bar {
+    background-color: #ebf1f3;
+    color: #724c31;
+    align-items: center;
+    justify-content: space-between;
+    padding: 35px 30px;
+  }
+
+  .model-footer-bar a {
+    font-family: 'Libre Franklin';
+    font-size: 12px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.67;
+    letter-spacing: normal;
+    text-align: left;
+    color: #724c31;
+    text-decoration: none;
+    text-transform: uppercase;
   }
 `;
