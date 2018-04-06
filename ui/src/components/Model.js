@@ -5,6 +5,7 @@ import { api } from '@arranger/components';
 import globals from 'utils/globals';
 import ModelBar from 'components/ModelBar';
 import { Row, Col } from 'components/Layout';
+import Spinner from 'react-spinkit';
 
 import styles from 'utils/modelStyles';
 import AdminIcon from 'icons/AdminIcon';
@@ -75,9 +76,9 @@ export default ({ modelId }) => (
   >
     {({ state }) => (
       <div css={styles}>
+        <ModelBar name={modelId} />
         {state.model ? (
           [
-            <ModelBar name={state.model.name} />,
             <section
               className="model-section"
               css={`
@@ -227,7 +228,16 @@ export default ({ modelId }) => (
             </section>,
           ]
         ) : (
-          <div>Loading...</div>
+          <Row justifyContent="center">
+            <Spinner
+              fadeIn="full"
+              name="ball-pulse-sync"
+              style={{
+                paddingTop: 90,
+                width: 90,
+              }}
+            />
+          </Row>
         )}
       </div>
     )}
