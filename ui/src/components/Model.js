@@ -1,11 +1,15 @@
 import React from 'react';
 import Component from 'react-component-component';
+
 import { api } from '@arranger/components';
+import globals from 'utils/globals';
 import ModelBar from 'components/ModelBar';
 import { Row, Col } from 'components/Layout';
-import globals from 'utils/globals';
 
 import styles from 'utils/modelStyles';
+import AdminIcon from 'icons/AdminIcon';
+import ModelIcon from 'icons/ModelIcon';
+import PatientIcon from 'icons/PatientIcon';
 
 const HorizontalTable = ({ data, css }) => (
   <table className="entity-horizontal-table" css={css}>
@@ -80,7 +84,10 @@ export default ({ modelId }) => (
                 background-color: #f3f6f7;
               `}
             >
-              <h3>Model Details</h3>
+              <h3>
+                <ModelIcon height={50} width={50} />
+                Model Details
+              </h3>
               <Row className="row">
                 <Col width="31%">
                   <HorizontalTable
@@ -130,7 +137,10 @@ export default ({ modelId }) => (
             >
               <Row className="row">
                 <Col width="31%">
-                  <h3>Patient Details</h3>
+                  <h3>
+                    <PatientIcon height={50} width={50} />
+                    Patient Details
+                  </h3>
                   <HorizontalTable
                     data={{
                       'age at diagnosis': `${state.model.age_at_diagnosis} years`,
@@ -145,7 +155,16 @@ export default ({ modelId }) => (
                 </Col>
 
                 <Col width="31%">
-                  <h3>Model Administration</h3>
+                  <h3>
+                    <AdminIcon
+                      height={50}
+                      width={50}
+                      css={`
+                        fill: #900000;
+                      `}
+                    />{' '}
+                    Model Administration
+                  </h3>
                   <HorizontalTable
                     data={{
                       'date availabile': state.model.model_availability,

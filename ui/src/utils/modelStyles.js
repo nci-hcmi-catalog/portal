@@ -59,6 +59,8 @@ export default css`
     letter-spacing: normal;
     text-align: left;
     color: #900000;
+    display: flex;
+    align-items: center;
   }
 
   .model-section .row {
