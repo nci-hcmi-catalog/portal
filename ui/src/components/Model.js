@@ -26,14 +26,11 @@ const HorizontalTable = ({ data, css }) => (
   </table>
 );
 
-export default ({ modelName }) => (
-  <Component
-    initialState={{ model: null }}
-    didMount={async ({ setState }) => {
-      const { data } = await api({
-        endpoint: `${globals.VERSION}/graphql`,
-        body: {
-          query: `query($filters: JSON) {
+const fetchData = async ({ setState, modelName }) => {
+  const { data } = await api({
+    endpoint: `${globals.VERSION}/graphql`,
+    body: {
+      query: `query($filters: JSON) {
             models {
               hits(first: 1 filters: $filters) {
                 edges {
@@ -68,14 +65,31 @@ export default ({ modelName }) => (
               }
             }
           }`,
-          variables: {
-            filters: { op: 'in', content: { field: 'name', value: [modelName] } },
-          },
-        },
-      });
+      variables: {
+        filters: { op: 'in', content: { field: 'name', value: [modelName] } },
+      },
+    },
+  });
 
-      setState({ model: data.models.hits.edges[0].node });
+  setState({ model: data.models.hits.edges[0].node, loading: false });
+};
+
+export default ({ modelName }) => (
+  <Component
+    modelName={modelName}
+    initialState={{ model: null, loading: true }}
+    didMount={async ({ setState, props }) => {
+      await fetchData({ setState, modelName: props.modelName });
     }}
+    didUpdate={async ({ setState, props, prevProps, state }) => {
+      if (props.modelName !== prevProps.modelName && !state.loading) {
+        setState({ loading: true });
+        await fetchData({ setState, modelName: props.modelName });
+      }
+    }}
+    shouldUpdate={({ state, props, nextProps, nextState }) =>
+      state.loading !== nextState.loading || props.modelName !== nextProps.modelName
+    }
   >
     {({ state }) => (
       <div css={styles}>
