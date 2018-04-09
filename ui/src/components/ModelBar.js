@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Row } from 'components/Layout';
 
+import { Row } from 'components/Layout';
+import ModelPager from 'components/ModelPager';
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 
 export default ({ name }) => (
@@ -19,9 +20,9 @@ export default ({ name }) => (
       <h2>Model {name}</h2>
       <Row alignItems="center">
         <Link to="/">
-          <ArrowLeftIcon height={9} width={5} /> Back to Search
+          <ArrowLeftIcon height={9} width={5} /> BACK TO SEARCH
         </Link>
-        <Row className="pagination">pagination placeholder</Row>
+        <ModelPager modelName={name} />
       </Row>
       <div>download buttons</div>
     </Row>

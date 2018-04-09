@@ -15,16 +15,18 @@ import PatientIcon from 'icons/PatientIcon';
 
 const HorizontalTable = ({ data, css }) => (
   <table className="entity-horizontal-table" css={css}>
-    {Object.keys(data).map(key => (
-      <tr>
-        <td className="heading">{key}</td>
-        <td>{data[key]}</td>
-      </tr>
-    ))}
+    <tbody>
+      {Object.keys(data).map(key => (
+        <tr key={key}>
+          <td className="heading">{key}</td>
+          <td>{data[key]}</td>
+        </tr>
+      ))}
+    </tbody>
   </table>
 );
 
-export default ({ modelId }) => (
+export default ({ modelName }) => (
   <Component
     initialState={{ model: null }}
     didMount={async ({ setState }) => {
@@ -67,7 +69,7 @@ export default ({ modelId }) => (
             }
           }`,
           variables: {
-            filters: { op: 'in', content: { field: 'name', value: [modelId] } },
+            filters: { op: 'in', content: { field: 'name', value: [modelName] } },
           },
         },
       });
@@ -77,10 +79,11 @@ export default ({ modelId }) => (
   >
     {({ state }) => (
       <div css={styles}>
-        <ModelBar name={modelId} />
+        <ModelBar name={modelName} />
         {state.model ? (
           [
             <section
+              key="model-details"
               className="model-section"
               css={`
                 background-color: #f3f6f7;
@@ -132,6 +135,7 @@ export default ({ modelId }) => (
               </Row>
             </section>,
             <section
+              key="patient-details"
               className="model-section"
               css={`
                 background-color: #ebf1f3;
@@ -233,14 +237,14 @@ export default ({ modelId }) => (
               fadeIn="full"
               name="ball-pulse-sync"
               style={{
-                paddingTop: 90,
+                margin: 45,
                 width: 90,
               }}
             />
           </Row>
         )}
 
-        <ModelFooterBar name={modelId} />
+        <ModelFooterBar name={modelName} />
       </div>
     )}
   </Component>

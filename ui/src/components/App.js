@@ -82,11 +82,11 @@ export default () => (
             )}
           />
           <Route
-            path="/model/:modelId"
+            path="/model/:modelName"
             render={({ match }) => (
               <div>
                 <Header />
-                <Model modelId={match.params.modelId} />
+                <Model modelName={match.params.modelName} />
               </div>
             )}
           />

@@ -30,10 +30,9 @@ export default css`
     letter-spacing: normal;
     text-align: left;
     color: #ffffff;
-    text-transform: uppercase;
   }
-  .model-bar .pagination,
-  .model-footer-bar .pagination {
+
+  .pagination {
     margin-left: 20px;
     background: #fff;
     width: 653px;
@@ -43,6 +42,11 @@ export default css`
     border: solid 1px #cacbcf;
     color: #323232;
     align-items: center;
+  }
+
+  .pagination a {
+    color: #900000;
+    text-decoration: none;
   }
 
   .model-section {
