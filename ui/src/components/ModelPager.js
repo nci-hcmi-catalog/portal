@@ -1,6 +1,7 @@
 import React from 'react';
 import Component from 'react-component-component';
 import { Link } from 'react-router-dom';
+import Spinner from 'react-spinkit';
 
 import { api } from '@arranger/components';
 import globals from 'utils/globals';
@@ -62,30 +63,48 @@ export default ({ modelName }) => (
       state.loading !== nextState.loading || props.modelName !== nextProps.modelName
     }
   >
-    {({ state }) =>
-      !state.loading ? (
-        <Row className="pagination" justifyContent="space-between">
-          <div
-            css={`
-              border-right: solid 1px #cacbcf;
-              padding: 6px 10px;
-            `}
-          >
+    {({ state }) => (
+      <Row className="pagination" justifyContent="space-between">
+        <div
+          css={`
+            border-right: solid 1px #cacbcf;
+            padding: 6px 10px;
+            min-width: 160px;
+          `}
+        >
+          {state.loading ? (
+            <Row className="loading" justifyContent="space-around">
+              PREVIOUS: <Spinner fadeIn="half" name="circle" color="#900000" />
+            </Row>
+          ) : (
             <Link to={`/model/${state.prevName}`}>PREVIOUS: {state.prevName}</Link>
-          </div>
-          <div>Showing 1 of {state.total.toLocaleString()} Models</div>
-          <div
-            css={`
-              border-left: solid 1px #cacbcf;
-              padding: 6px 10px;
-            `}
-          >
-            <Link to={`/model/${state.nextName}`}>NEXT: {state.nextName}</Link>
-          </div>
+          )}
+        </div>
+        <Row width={300} justifyContent="center">
+          Showing 1 of{' '}
+          {state.loading ? (
+            <Spinner fadeIn="half" name="circle" color="#900000" style={{ margin: '0 10px' }} />
+          ) : (
+            state.total.toLocaleString()
+          )}{' '}
+          Models
         </Row>
-      ) : (
-        <div>loading</div>
-      )
-    }
+        <div
+          css={`
+            border-left: solid 1px #cacbcf;
+            padding: 6px 10px;
+            min-width: 160px;
+          `}
+        >
+          {state.loading ? (
+            <Row className="loading" justifyContent="space-around">
+              Next: <Spinner fadeIn="half" name="circle" color="#900000" />
+            </Row>
+          ) : (
+            <Link to={`/model/${state.nextName}`}>NEXT: {state.nextName}</Link>
+          )}
+        </div>
+      </Row>
+    )}
   </Component>
 );

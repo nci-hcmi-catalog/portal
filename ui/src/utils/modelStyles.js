@@ -17,7 +17,9 @@ export default css`
     line-height: 0.86;
     letter-spacing: normal;
     text-align: left;
+    min-width: 250px;
   }
+
   .model-bar a {
     color: #fff;
     text-decoration: none;
@@ -29,13 +31,11 @@ export default css`
     line-height: 1.67;
     letter-spacing: normal;
     text-align: left;
-    color: #ffffff;
   }
 
   .pagination {
     margin-left: 20px;
     background: #fff;
-    width: 653px;
     height: 35px;
     border-radius: 10px;
     background-color: #ffffff;
@@ -47,6 +47,19 @@ export default css`
   .pagination a {
     color: #900000;
     text-decoration: none;
+  }
+
+  .pagination .loading {
+    color: #900000;
+    text-decoration: none;
+    font-family: 'Libre Franklin';
+    font-size: 12px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.67;
+    letter-spacing: normal;
+    text-align: left;
   }
 
   .model-section {
