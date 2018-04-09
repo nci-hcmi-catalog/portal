@@ -26,6 +26,7 @@ let Row = styled.div`
   ${justifyContent}
   ${flexDirection}
   ${color}
+  ${width}
 `;
 
 let Col = p => <Row flexDirection="column" {...p} />;

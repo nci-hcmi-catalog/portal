@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Route } from 'react-router-dom';
 import { parse, stringify } from 'query-string';
 
@@ -12,7 +12,7 @@ export default props => (
         setSQON: sqon => {
           p.history.push({ search: stringify({ ...search, sqon: JSON.stringify(sqon) }) });
         },
-      });
+      })
     }}
   </Route>
 );
