@@ -2,20 +2,20 @@
 # yarn lockfile v1
 
 
-"@arranger/mapping-utils@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.1.tgz#9828d97a5034625d38c2354f1192d4b422dc048e"
+"@arranger/mapping-utils@^0.3.10", "@arranger/mapping-utils@^0.3.6":
+  version "0.3.10"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.10.tgz#0b273f07f127515f234692eee394c846e71500ff"
   dependencies:
-    "@arranger/middleware" "^0.2.4"
+    "@arranger/middleware" "^0.3.10"
     babel-polyfill "^6.26.0"
     elasticsearch "^14.0.0"
     graphql-fields "^1.0.2"
     lodash "^4.17.4"
     node-fetch "^2.0.0"
 
-"@arranger/middleware@^0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.2.4.tgz#1f0a018530f722bee88117d05933baf970abaa24"
+"@arranger/middleware@^0.3.10", "@arranger/middleware@^0.3.6":
+  version "0.3.10"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.3.10.tgz#49d2bbedd7efd0ece742bb73760cc780b1b6e243"
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
@@ -25,11 +25,11 @@
     utf8 "^3.0.0"
     winston "^2.4.0"
 
-"@arranger/schema@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@arranger/schema/-/schema-0.3.1.tgz#f4f3e049995cb3e6c7f0b98b56094bd98d644614"
+"@arranger/schema@^0.3.6":
+  version "0.3.10"
+  resolved "https://registry.yarnpkg.com/@arranger/schema/-/schema-0.3.10.tgz#225f86ddccd96ebef9d13c6899b09699bfd22134"
   dependencies:
-    "@arranger/mapping-utils" "^0.3.1"
+    "@arranger/mapping-utils" "^0.3.10"
     babel-polyfill "^6.26.0"
     elasticsearch "^14.0.0"
     graphql-tools "^2.14.1"
@@ -37,13 +37,13 @@
     lodash "^4.17.4"
     uuid "^3.2.1"
 
-"@arranger/server@0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-0.3.1.tgz#baf7185b971cdc19f670562752e445df961711a8"
+"@arranger/server@0.3.6":
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-0.3.6.tgz#c92d187fec4993e36f2884586742c2eabb84a746"
   dependencies:
-    "@arranger/mapping-utils" "^0.3.1"
-    "@arranger/middleware" "^0.2.4"
-    "@arranger/schema" "^0.3.1"
+    "@arranger/mapping-utils" "^0.3.6"
+    "@arranger/middleware" "^0.3.6"
+    "@arranger/schema" "^0.3.6"
     apollo-server-express "^1.3.1"
     babel-polyfill "^6.26.0"
     body-parser "^1.18.2"
