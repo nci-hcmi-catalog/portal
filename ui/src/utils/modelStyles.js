@@ -41,7 +41,7 @@ export default css`
     background-color: #ffffff;
     border: solid 1px #cacbcf;
     align-items: center;
-    font-family: LibreFranklin;
+    font-family: 'Libre Franklin';
     font-size: 14px;
     font-weight: 500;
     font-style: normal;
@@ -81,7 +81,13 @@ export default css`
     align-items: start;
   }
 
+  .model-section .col {
+    width: 31%;
+    min-width: 440px;
+  }
+
   .image-caption {
+    font-family: 'Open Sans';
     font-size: 12px;
     font-weight: normal;
     font-style: oblique;
@@ -97,7 +103,16 @@ export default css`
     border: solid 1px #cacbcf;
     border-collapse: collapse;
     width: 100%;
+    font-family: 'Open Sans';
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.71;
+    letter-spacing: normal;
+    text-align: left;
   }
+
   .entity-horizontal-table tr:nth-child(even) {
     background: #ffffff;
   }
@@ -116,11 +131,12 @@ export default css`
   .entity-horizontal-table td.heading {
     color: #64666a;
     text-transform: uppercase;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
-    width: 210px;
+    width: 200px;
+    font-family: 'Libre Franklin';
   }
 
   .model-footer-bar {

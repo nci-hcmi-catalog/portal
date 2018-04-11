@@ -3,6 +3,8 @@ import styled from 'react-emotion';
 import {
   space,
   width,
+  minWidth,
+  maxWidth,
   fontSize,
   color,
   flex,
@@ -27,6 +29,8 @@ let Row = styled.div`
   ${flexDirection}
   ${color}
   ${width}
+  ${minWidth}
+  ${maxWidth}
 `;
 
 let Col = p => <Row flexDirection="column" {...p} />;

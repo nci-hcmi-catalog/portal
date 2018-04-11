@@ -108,7 +108,7 @@ export default ({ modelName }) => (
                 Model Details
               </h3>
               <Row className="row">
-                <Col width="31%">
+                <Col className="col">
                   <HorizontalTable
                     data={{
                       name: state.model.name,
@@ -119,7 +119,7 @@ export default ({ modelName }) => (
                   />
                 </Col>
 
-                <Col width="31%">
+                <Col className="col">
                   <HorizontalTable
                     data={{
                       'primary site': state.model.primary_site,
@@ -132,7 +132,7 @@ export default ({ modelName }) => (
                     }}
                   />
                 </Col>
-                <Col width="31%">
+                <Col className="col">
                   <HorizontalTable
                     data={{
                       'clinical tumor diagnosis': 'TBD',
@@ -156,7 +156,7 @@ export default ({ modelName }) => (
               `}
             >
               <Row className="row">
-                <Col width="31%">
+                <Col className="col">
                   <h3>
                     <PatientIcon height={50} width={50} />
                     Patient Details
@@ -174,7 +174,7 @@ export default ({ modelName }) => (
                   />
                 </Col>
 
-                <Col width="31%">
+                <Col className="col">
                   <h3>
                     <AdminIcon
                       height={50}
@@ -216,6 +216,7 @@ export default ({ modelName }) => (
                   />
                 </Col>
                 <Col
+                  className="col"
                   css={`
                     color: #323232;
                     background: #fff;
