@@ -74,10 +74,7 @@ export default ({ modelName }) => (
             to={`/model/${state.prevName}`}
             css={`
               border-right: solid 1px #cacbcf;
-              padding: 6px 10px;
-              min-width: 170px;
               opacity: ${state.loading ? '0.5' : '1'};
-              transition: opacity 0.5s ease-in;
             `}
           >
             <span>PREVIOUS: {state.prevName}</span>
@@ -96,10 +93,7 @@ export default ({ modelName }) => (
             to={`/model/${state.nextName}`}
             css={`
               border-left: solid 1px #cacbcf;
-              padding: 6px 10px;
-              min-width: 170px;
               opacity: ${state.loading ? '0.5' : '1'};
-              transition: opacity 0.5s ease-in;
             `}
           >
             NEXT: {state.nextName}

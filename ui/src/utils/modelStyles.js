@@ -55,6 +55,10 @@ export default css`
   .pagination a {
     color: #900000;
     text-decoration: none;
+
+    padding: 6px 0px 6px 6px;
+    width: 208px;
+    transition: opacity 0.5s ease-in;
   }
 
   .model-section {
