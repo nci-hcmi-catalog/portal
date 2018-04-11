@@ -92,7 +92,7 @@ export default css`
 
   .image-caption {
     font-family: 'Open Sans';
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
     font-style: oblique;
     font-stretch: normal;
