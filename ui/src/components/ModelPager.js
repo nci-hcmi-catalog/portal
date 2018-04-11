@@ -64,47 +64,61 @@ export default ({ modelName }) => (
     }
   >
     {({ state }) => (
-      <Row className="pagination" justifyContent="space-between">
-        <div
-          css={`
-            border-right: solid 1px #cacbcf;
-            padding: 6px 10px;
-            min-width: 160px;
-          `}
+      <div>
+        <Row
+          className="pagination"
+          css={state.loading ? 'pointer-events: none; pointer: not-allowed;' : ''}
+          justifyContent="space-between"
         >
-          {state.loading ? (
-            <Row className="loading" justifyContent="space-around">
-              PREVIOUS: <Spinner fadeIn="half" name="circle" color="#900000" />
-            </Row>
-          ) : (
-            <Link to={`/model/${state.prevName}`}>PREVIOUS: {state.prevName}</Link>
-          )}
-        </div>
-        <Row width={300} justifyContent="center">
-          Showing 1 of{' '}
-          {state.loading ? (
-            <Spinner fadeIn="half" name="circle" color="#900000" style={{ margin: '0 10px' }} />
-          ) : (
-            state.total.toLocaleString()
-          )}{' '}
-          Models
+          <Link
+            to={`/model/${state.prevName}`}
+            css={`
+              border-right: solid 1px #cacbcf;
+              padding: 6px 10px;
+              min-width: 170px;
+              opacity: ${state.loading ? '0.5' : '1'};
+              transition: opacity 0.5s ease-in;
+            `}
+          >
+            <span>PREVIOUS: {state.prevName}</span>
+          </Link>
+          <Row
+            width={300}
+            justifyContent="center"
+            css={`
+              opacity: ${state.loading ? '0.5' : '1'};
+              transition: opacity 0.5s ease-in;
+            `}
+          >
+            Showing 1 of {state.total.toLocaleString()} Models
+          </Row>
+          <Link
+            to={`/model/${state.nextName}`}
+            css={`
+              border-left: solid 1px #cacbcf;
+              padding: 6px 10px;
+              min-width: 170px;
+              opacity: ${state.loading ? '0.5' : '1'};
+              transition: opacity 0.5s ease-in;
+            `}
+          >
+            NEXT: {state.nextName}
+          </Link>
         </Row>
-        <div
-          css={`
-            border-left: solid 1px #cacbcf;
-            padding: 6px 10px;
-            min-width: 160px;
-          `}
-        >
-          {state.loading ? (
-            <Row className="loading" justifyContent="space-around">
-              Next: <Spinner fadeIn="half" name="circle" color="#900000" />
-            </Row>
-          ) : (
-            <Link to={`/model/${state.nextName}`}>NEXT: {state.nextName}</Link>
-          )}
-        </div>
-      </Row>
+        {state.loading && (
+          <div
+            css={`
+              display: flex;
+              justify-content: center;
+              position: absolute;
+              width: 640px;
+              margin-top: -28px;
+            `}
+          >
+            <Spinner fadeIn="half" name="circle" color="#900000" />
+          </div>
+        )}
+      </div>
     )}
   </Component>
 );

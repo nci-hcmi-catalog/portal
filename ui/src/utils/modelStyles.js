@@ -40,26 +40,21 @@ export default css`
     border-radius: 10px;
     background-color: #ffffff;
     border: solid 1px #cacbcf;
-    color: #323232;
     align-items: center;
+    font-family: LibreFranklin;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.68;
+    letter-spacing: normal;
+    text-align: left;
+    color: #323232;
   }
 
   .pagination a {
     color: #900000;
     text-decoration: none;
-  }
-
-  .pagination .loading {
-    color: #900000;
-    text-decoration: none;
-    font-family: 'Libre Franklin';
-    font-size: 12px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.67;
-    letter-spacing: normal;
-    text-align: left;
   }
 
   .model-section {
@@ -112,7 +107,7 @@ export default css`
   .entity-horizontal-table td {
     padding: 10px;
     border: solid 1px #cacbcf;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
@@ -121,10 +116,11 @@ export default css`
   .entity-horizontal-table td.heading {
     color: #64666a;
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
+    width: 210px;
   }
 
   .model-footer-bar {

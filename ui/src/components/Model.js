@@ -225,7 +225,7 @@ export default ({ modelName }) => (
                 >
                   <div
                     css={`
-                      width: 497px;
+                      width: 400px;
                       height: 282px;
                       background: #ddd;
                       margin: 20px;
