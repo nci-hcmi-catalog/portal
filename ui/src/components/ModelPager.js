@@ -6,6 +6,8 @@ import Spinner from 'react-spinkit';
 import { api } from '@arranger/components';
 import globals from 'utils/globals';
 import { Row } from 'components/Layout';
+import ArrowLeftIcon from 'icons/ArrowLeftIcon';
+import ArrowRightIcon from 'icons/ArrowRightIcon';
 
 const fetchData = async ({ setState, modelName }) => {
   const { data } = await api({
@@ -64,7 +66,11 @@ export default ({ modelName }) => (
     }
   >
     {({ state }) => (
-      <div>
+      <div
+        css={`
+          display: inline-block;
+        `}
+      >
         <Row
           className="pagination"
           css={state.loading ? 'pointer-events: none; pointer: not-allowed;' : ''}
@@ -77,6 +83,15 @@ export default ({ modelName }) => (
               opacity: ${state.loading ? '0.5' : '1'};
             `}
           >
+            <ArrowLeftIcon
+              height={9}
+              width={5}
+              fill="#900000"
+              css={`
+                opacity: ${state.loading ? '0.5' : '1'};
+                transition: opacity 0.5s ease-in;
+              `}
+            />
             <span>PREVIOUS: {state.prevName}</span>
           </Link>
           <Row
@@ -94,9 +109,22 @@ export default ({ modelName }) => (
             css={`
               border-left: solid 1px #cacbcf;
               opacity: ${state.loading ? '0.5' : '1'};
+              display: flex;
+              justify-content: flex-end;
+              align-items: center;
             `}
           >
-            NEXT: {state.nextName}
+            <span>NEXT: {state.nextName}</span>
+            <ArrowRightIcon
+              height={9}
+              width={5}
+              fill="#900000"
+              css={`
+                margin-left: 10px;
+                opacity: ${state.loading ? '0.5' : '1'};
+                transition: opacity 0.5s ease-in;
+              `}
+            />
           </Link>
         </Row>
         {state.loading && (

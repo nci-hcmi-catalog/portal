@@ -63,7 +63,7 @@ export default css`
 
   .model-section {
     font-family: 'Libre Franklin';
-    padding: 35px;
+    padding: 22px 35px;
     margin: 10px 0;
   }
 
@@ -78,6 +78,7 @@ export default css`
     color: #900000;
     display: flex;
     align-items: center;
+    margin-top: 0;
   }
 
   .model-section .row {
