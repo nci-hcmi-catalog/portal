@@ -17,14 +17,33 @@ export default ({ name }) => (
     />
 
     <Row className="model-bar">
-      <h2>Model {name}</h2>
-      <Row alignItems="center">
+      <Row
+        css={`
+          align-items: center;
+          justify-content: space-between;
+          width: 30%;
+          padding-right: 6px;
+        `}
+      >
+        <h2>Model {name}</h2>
         <Link to="/">
           <ArrowLeftIcon height={9} width={5} /> BACK TO SEARCH
         </Link>
-        <ModelPager modelName={name} />
       </Row>
-      <div>download buttons</div>
+      <ModelPager
+        modelName={name}
+        css={`
+          width: 40%;
+        `}
+      />
+      <Row
+        css={`
+          width: 30%;
+          justify-content: flex-end;
+        `}
+      >
+        download buttons
+      </Row>
     </Row>
   </div>
 );

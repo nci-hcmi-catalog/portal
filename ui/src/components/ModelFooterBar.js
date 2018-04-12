@@ -7,18 +7,24 @@ import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 
 export default ({ name }) => (
   <Row className="model-footer-bar">
-    <Link to="/">
-      <ArrowLeftIcon height={9} width={5} fill="#724c31" /> Back to Search
-    </Link>
-    <div
+    <Link
+      to="/"
       css={`
-        width: 55%;
-        display: flex;
-        justify-content: flex-end;
+        width: 30%;
       `}
     >
-      <ModelPager modelName={name} />
-    </div>
-    <div />
+      <ArrowLeftIcon height={9} width={5} fill="#724c31" /> Back to Search
+    </Link>
+    <ModelPager
+      modelName={name}
+      css={`
+        width: 40%;
+      `}
+    />
+    <div
+      css={`
+        width: 30%;
+      `}
+    />
   </Row>
 );

@@ -10,7 +10,7 @@ export default css`
   }
   .model-bar h2 {
     font-family: 'Libre Franklin';
-    font-size: 28px;
+    font-size: 23px;
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
@@ -34,15 +34,14 @@ export default css`
   }
 
   .pagination {
-    margin-left: 20px;
     background: #fff;
     height: 35px;
     border-radius: 10px;
     background-color: #ffffff;
     border: solid 1px #cacbcf;
     align-items: center;
-    font-family: 'Libre Franklin';
-    font-size: 14px;
+    font-family: 'Open Sans';
+    font-size: 12px;
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
@@ -55,9 +54,11 @@ export default css`
   .pagination a {
     color: #900000;
     text-decoration: none;
+    font-family: 'Libre Franklin';
+    font-size: 12px;
 
     padding: 6px 0px 6px 6px;
-    width: 208px;
+    width: 204px;
     transition: opacity 0.5s ease-in;
   }
 

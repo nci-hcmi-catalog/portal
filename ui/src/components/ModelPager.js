@@ -48,7 +48,7 @@ const fetchData = async ({ setState, modelName }) => {
   });
 };
 
-export default ({ modelName }) => (
+export default ({ modelName, className }) => (
   <Component
     modelName={modelName}
     initialState={{ prevName: null, nextName: null, total: 0, loading: true }}
@@ -69,6 +69,7 @@ export default ({ modelName }) => (
       <div
         css={`
           display: inline-block;
+          ${className};
         `}
       >
         <Row
@@ -95,11 +96,11 @@ export default ({ modelName }) => (
             <span>PREVIOUS: {state.prevName}</span>
           </Link>
           <Row
-            width={300}
             justifyContent="center"
             css={`
               opacity: ${state.loading ? '0.5' : '1'};
               transition: opacity 0.5s ease-in;
+              padding: 0 6px;
             `}
           >
             Showing 1 of {state.total.toLocaleString()} Models
@@ -133,7 +134,7 @@ export default ({ modelName }) => (
               display: flex;
               justify-content: center;
               position: absolute;
-              width: 640px;
+              width: 580px;
               margin-top: -28px;
             `}
           >
