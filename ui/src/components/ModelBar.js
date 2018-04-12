@@ -10,21 +10,38 @@ export default ({ name }) => (
     <div
       css={`
         height: 6px;
-        box-shadow: 0 0 4.9px 0.1px #bbbbbb;
         background-color: #ffffff;
-        border: solid 1px #e0e1e6;
       `}
     />
 
     <Row className="model-bar">
-      <h2>Model {name}</h2>
-      <Row alignItems="center">
+      <Row
+        css={`
+          align-items: center;
+          justify-content: space-between;
+          width: 30%;
+          padding-right: 20px;
+        `}
+      >
+        <h2>Model {name}</h2>
         <Link to="/">
           <ArrowLeftIcon height={9} width={5} /> BACK TO SEARCH
         </Link>
-        <ModelPager modelName={name} />
       </Row>
-      <div>download buttons</div>
+      <ModelPager
+        modelName={name}
+        css={`
+          width: 40%;
+        `}
+      />
+      <Row
+        css={`
+          width: 30%;
+          justify-content: flex-end;
+        `}
+      >
+        download buttons
+      </Row>
     </Row>
   </div>
 );

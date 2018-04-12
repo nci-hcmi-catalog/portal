@@ -9,6 +9,7 @@ import Model from 'components/Model';
 import AdminNav from 'components/AdminNav';
 import { Row, Col, Box } from 'components/Layout';
 import Header from 'components/Header';
+import Footer from 'components/Footer';
 
 export default () => (
   <Router>
@@ -87,6 +88,7 @@ export default () => (
               <div>
                 <Header />
                 <Model modelName={match.params.modelName} />
+                <Footer />
               </div>
             )}
           />

@@ -10,7 +10,7 @@ export default css`
   }
   .model-bar h2 {
     font-family: 'Libre Franklin';
-    font-size: 28px;
+    font-size: 23px;
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
@@ -34,38 +34,38 @@ export default css`
   }
 
   .pagination {
-    margin-left: 20px;
     background: #fff;
     height: 35px;
     border-radius: 10px;
     background-color: #ffffff;
     border: solid 1px #cacbcf;
-    color: #323232;
     align-items: center;
+    font-family: 'Open Sans';
+    font-size: 12px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.68;
+    letter-spacing: normal;
+    text-align: left;
+    color: #323232;
   }
 
   .pagination a {
     color: #900000;
     text-decoration: none;
-  }
-
-  .pagination .loading {
-    color: #900000;
-    text-decoration: none;
     font-family: 'Libre Franklin';
     font-size: 12px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.67;
-    letter-spacing: normal;
-    text-align: left;
+
+    padding: 6px 0px 6px 6px;
+    width: 204px;
+    transition: opacity 0.5s ease-in;
   }
 
   .model-section {
     font-family: 'Libre Franklin';
-    padding: 35px;
-    margin: 10px 0;
+    padding: 22px 35px;
+    margin: 6px 0 10px 0;
   }
 
   .model-section h3 {
@@ -79,6 +79,7 @@ export default css`
     color: #900000;
     display: flex;
     align-items: center;
+    margin-top: 0;
   }
 
   .model-section .row {
@@ -86,8 +87,14 @@ export default css`
     align-items: start;
   }
 
+  .model-section .col {
+    width: 31%;
+    min-width: 440px;
+  }
+
   .image-caption {
-    font-size: 12px;
+    font-family: 'Open Sans';
+    font-size: 14px;
     font-weight: normal;
     font-style: oblique;
     font-stretch: normal;
@@ -102,7 +109,14 @@ export default css`
     border: solid 1px #cacbcf;
     border-collapse: collapse;
     width: 100%;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.71;
+    letter-spacing: normal;
+    text-align: left;
   }
+
   .entity-horizontal-table tr:nth-child(even) {
     background: #ffffff;
   }
@@ -112,11 +126,13 @@ export default css`
   .entity-horizontal-table td {
     padding: 10px;
     border: solid 1px #cacbcf;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
     line-height: 1.57;
+    font-family: 'Open Sans';
+    font-size: 14px;
   }
   .entity-horizontal-table td.heading {
     color: #64666a;
@@ -125,6 +141,8 @@ export default css`
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
+    width: 200px;
+    font-family: 'Libre Franklin';
   }
 
   .model-footer-bar {

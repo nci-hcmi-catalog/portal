@@ -6,6 +6,8 @@ import Spinner from 'react-spinkit';
 import { api } from '@arranger/components';
 import globals from 'utils/globals';
 import { Row } from 'components/Layout';
+import ArrowLeftIcon from 'icons/ArrowLeftIcon';
+import ArrowRightIcon from 'icons/ArrowRightIcon';
 
 const fetchData = async ({ setState, modelName }) => {
   const { data } = await api({
@@ -46,7 +48,7 @@ const fetchData = async ({ setState, modelName }) => {
   });
 };
 
-export default ({ modelName }) => (
+export default ({ modelName, className }) => (
   <Component
     modelName={modelName}
     initialState={{ prevName: null, nextName: null, total: 0, loading: true }}
@@ -64,47 +66,84 @@ export default ({ modelName }) => (
     }
   >
     {({ state }) => (
-      <Row className="pagination" justifyContent="space-between">
-        <div
-          css={`
-            border-right: solid 1px #cacbcf;
-            padding: 6px 10px;
-            min-width: 160px;
-          `}
+      <div
+        css={`
+          display: inline-block;
+          ${className};
+        `}
+      >
+        <Row
+          className="pagination"
+          css={state.loading ? 'pointer-events: none; pointer: not-allowed;' : ''}
+          justifyContent="space-between"
         >
-          {state.loading ? (
-            <Row className="loading" justifyContent="space-around">
-              PREVIOUS: <Spinner fadeIn="half" name="circle" color="#900000" />
-            </Row>
-          ) : (
-            <Link to={`/model/${state.prevName}`}>PREVIOUS: {state.prevName}</Link>
-          )}
-        </div>
-        <Row width={300} justifyContent="center">
-          Showing 1 of{' '}
-          {state.loading ? (
-            <Spinner fadeIn="half" name="circle" color="#900000" style={{ margin: '0 10px' }} />
-          ) : (
-            state.total.toLocaleString()
-          )}{' '}
-          Models
+          <Link
+            to={`/model/${state.prevName}`}
+            css={`
+              border-right: solid 1px #cacbcf;
+              opacity: ${state.loading ? '0.5' : '1'};
+            `}
+          >
+            <ArrowLeftIcon
+              height={9}
+              width={5}
+              fill="#900000"
+              css={`
+                opacity: ${state.loading ? '0.5' : '1'};
+                transition: opacity 0.5s ease-in;
+              `}
+            />
+            <span>PREVIOUS: {state.prevName}</span>
+          </Link>
+          <Row
+            justifyContent="center"
+            css={`
+              background-color: #f8fafb;
+              opacity: ${state.loading ? '0.5' : '1'};
+              transition: opacity 0.5s ease-in;
+              padding: 6px;
+              flex: 1 1 auto;
+            `}
+          >
+            Showing 1 of {state.total.toLocaleString()} Models
+          </Row>
+          <Link
+            to={`/model/${state.nextName}`}
+            css={`
+              border-left: solid 1px #cacbcf;
+              opacity: ${state.loading ? '0.5' : '1'};
+              display: flex;
+              justify-content: flex-end;
+              align-items: center;
+            `}
+          >
+            <span>NEXT: {state.nextName}</span>
+            <ArrowRightIcon
+              height={9}
+              width={5}
+              fill="#900000"
+              css={`
+                margin-left: 10px;
+                opacity: ${state.loading ? '0.5' : '1'};
+                transition: opacity 0.5s ease-in;
+              `}
+            />
+          </Link>
         </Row>
-        <div
-          css={`
-            border-left: solid 1px #cacbcf;
-            padding: 6px 10px;
-            min-width: 160px;
-          `}
-        >
-          {state.loading ? (
-            <Row className="loading" justifyContent="space-around">
-              Next: <Spinner fadeIn="half" name="circle" color="#900000" />
-            </Row>
-          ) : (
-            <Link to={`/model/${state.nextName}`}>NEXT: {state.nextName}</Link>
-          )}
-        </div>
-      </Row>
+        {state.loading && (
+          <div
+            css={`
+              display: flex;
+              justify-content: center;
+              position: absolute;
+              width: 580px;
+              margin-top: -28px;
+            `}
+          >
+            <Spinner fadeIn="half" name="circle" color="#900000" />
+          </div>
+        )}
+      </div>
     )}
   </Component>
 );

@@ -1,11 +1,13 @@
 import React from 'react';
 import bannerPath from 'assets/hcmi-dna-banner.jpg';
 import logoPath from 'assets/logo-NIH-HCMI-Catalog.svg';
-import { Row } from 'components/Layout';
+import { Link } from 'react-router-dom';
 
 export default () => (
-  <Row
+  <Link
+    to="/"
     css={`
+      display: flex;
       background: #fff0ce;
       background-image: url(${bannerPath});
       height: 88px;
@@ -14,6 +16,7 @@ export default () => (
       justify-content: space-between;
       align-items: center;
       padding: 0 23px;
+      text-decoration: none;
     `}
   >
     <img
@@ -39,5 +42,5 @@ export default () => (
     >
       Human Cancer Models Initiative
     </div>
-  </Row>
+  </Link>
 );

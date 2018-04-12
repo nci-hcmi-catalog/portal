@@ -6,6 +6,7 @@
     "@arranger/components": "0.3.1",
     "babel-polyfill": "^6.26.0",
     "emotion": "^9.0.2",
+    "moment": "^2.22.0",
     "query-string": "5.1.0",
     "react": "^16.2.0",
     "react-component-component": "^1.2.1",
