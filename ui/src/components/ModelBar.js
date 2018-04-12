@@ -10,9 +10,7 @@ export default ({ name }) => (
     <div
       css={`
         height: 6px;
-        box-shadow: 0 0 4.9px 0.1px #bbbbbb;
         background-color: #ffffff;
-        border: solid 1px #e0e1e6;
       `}
     />
 
@@ -22,7 +20,7 @@ export default ({ name }) => (
           align-items: center;
           justify-content: space-between;
           width: 30%;
-          padding-right: 6px;
+          padding-right: 20px;
         `}
       >
         <h2>Model {name}</h2>

@@ -1,5 +1,6 @@
 import React from 'react';
 import Component from 'react-component-component';
+import moment from 'moment';
 
 import { api } from '@arranger/components';
 import globals from 'utils/globals';
@@ -187,7 +188,9 @@ export default ({ modelName }) => (
                   </h3>
                   <HorizontalTable
                     data={{
-                      'date availabile': state.model.model_availability,
+                      'date availabile': moment(state.model.model_availability).format(
+                        'DD/MM/YYYY',
+                      ),
                       created: 'TBD',
                       updated: 'TBD',
                       'licensing requirement': state.model.third_party_licensing_requirement,

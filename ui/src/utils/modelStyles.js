@@ -65,7 +65,7 @@ export default css`
   .model-section {
     font-family: 'Libre Franklin';
     padding: 22px 35px;
-    margin: 10px 0;
+    margin: 6px 0 10px 0;
   }
 
   .model-section h3 {
@@ -109,8 +109,6 @@ export default css`
     border: solid 1px #cacbcf;
     border-collapse: collapse;
     width: 100%;
-    font-family: 'Open Sans';
-    font-size: 14px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
@@ -133,6 +131,8 @@ export default css`
     font-style: normal;
     font-stretch: normal;
     line-height: 1.57;
+    font-family: 'Open Sans';
+    font-size: 14px;
   }
   .entity-horizontal-table td.heading {
     color: #64666a;
