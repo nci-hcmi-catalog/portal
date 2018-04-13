@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@arranger/components@0.3.10":
-  version "0.3.10"
-  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-0.3.10.tgz#ff70c445c3fb0b6320feaba836034aed6d517b45"
+"@arranger/components@0.3.13":
+  version "0.3.13"
+  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-0.3.13.tgz#e6a698e82ebf679789ed71363febde3768a5ecce"
   dependencies:
-    "@arranger/mapping-utils" "^0.3.10"
+    "@arranger/mapping-utils" "^0.3.13"
     ajv "^6.1.1"
     babel-polyfill "^6.26.0"
     classnames "^2.2.5"
@@ -20,6 +20,7 @@
     jsonpath "^1.0.0"
     lodash "^4.17.4"
     moment "^2.21.0"
+    pluralize "^7.0.0"
     react-component-component "^1.0.1"
     react-dates "^16.3.6"
     react-grid-layout "^0.16.5"
@@ -41,11 +42,11 @@
     url-parse "^1.2.0"
     uuid "^3.2.1"
 
-"@arranger/mapping-utils@^0.3.10":
-  version "0.3.12"
-  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.12.tgz#d41b92813dd33e88646ec96c1f9cd9155b6e0e6a"
+"@arranger/mapping-utils@^0.3.13":
+  version "0.3.13"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.13.tgz#9f7c386a8551ca8eb0e2e18a087460a59172684d"
   dependencies:
-    "@arranger/middleware" "^0.3.12"
+    "@arranger/middleware" "^0.3.13"
     babel-polyfill "^6.26.0"
     elasticsearch "^14.0.0"
     graphql-fields "^1.0.2"
@@ -53,9 +54,9 @@
     node-fetch "^2.0.0"
     uuid "^3.2.1"
 
-"@arranger/middleware@^0.3.12":
-  version "0.3.12"
-  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.3.12.tgz#26a427364208d50f5ee33d44bb05fa2bf51e6e02"
+"@arranger/middleware@^0.3.13":
+  version "0.3.13"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.3.13.tgz#9994264da97cccdf954c3baa69e294a310192b2f"
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
