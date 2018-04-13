@@ -33,8 +33,5 @@
     "printWidth": 100,
     "trailingComma": "all",
     "singleQuote": true
-  },
-  "dependencies": {
-    "@arranger/components": "0.3.10"
   }
 }
