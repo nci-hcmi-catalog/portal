@@ -1,1 +1,3 @@
+# API requests for static hosts
+/api/*    https://api.hcmi.cancercollaboratory.org/:splat    200
 /*              /index.html          200
