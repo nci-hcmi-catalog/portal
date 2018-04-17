@@ -8,6 +8,7 @@ export default props => (
       let search = parse(p.location.search);
       if (search.sqon) search.sqon = JSON.parse(search.sqon);
       return props.render({
+        history: p.history,
         sqon: search.sqon,
         setSQON: sqon => {
           p.history.push({ search: stringify({ ...search, sqon: JSON.stringify(sqon) }) });

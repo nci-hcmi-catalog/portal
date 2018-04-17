@@ -1,79 +1,128 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Arranger, Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
+
 import searchStyles from 'theme/searchStyles';
+import { api } from '@arranger/components';
 import Url from 'components/Url';
-import moment from 'moment';
 import { Row, Col } from 'theme/system';
+import globals from 'utils/globals';
+import { stringify } from 'query-string';
+import Component from 'react-component-component';
+import { SavedSetsContext } from 'providers/SavedSets';
+
+const createSet = ({ sqon }) =>
+  api({
+    endpoint: `${globals.VERSION}/graphql`,
+    body: {
+      query: `
+      mutation ($sqon: JSON!) {
+        saveSet(sqon: $sqon type: "models" userId: "" path:"name") {
+          sqon
+          size
+          userId
+          setId
+          ids
+        }
+      }`,
+      variables: {
+        sqon,
+      },
+    },
+  });
 
 export default props => (
   <Url
-    render={url => {
-      return (
-        <Arranger
-          {...props}
-          projectId={props.version}
-          render={props => {
-            return (
-              <Row css={searchStyles}>
-                <Aggregations {...props} {...url} index={props.index} graphqlField={props.index} />
-                <Col
-                  p={1}
-                  flex={1}
-                  css={`
-                    height: calc(100vh - 50px);
-                  `}
-                >
-                  <Col p={30} bg="#f4f5f7" flex={1}>
-                    <Row>
-                      {!url.sqon && (
-                        <Row
-                          css={`
-                            line-height: 50px;
-                            padding: 0 14px;
-                            background-color: white;
-                            flex: 1;
-                          `}
-                        >
-                          <span
-                            className="sqon-field"
-                            css={`
-                              font-size: 12px;
-                            `}
-                          >
-                            No filters selected
-                          </span>
-                        </Row>
-                      )}
-                      <CurrentSQON
+    render={({ sqon, setSQON, history }) => (
+      <SavedSetsContext.Consumer>
+        {savedSetsContext => (
+          <Component
+            initialState={{ creatingSet: false }}
+            sqon={sqon}
+            didUpdate={({ setState, props, prevProps }) => {
+              if (props.sqon !== prevProps.sqon) {
+                setState({ creatingSet: false });
+              }
+            }}
+            render={({ state, setState }) => (
+              <Arranger
+                {...props}
+                projectId={props.version}
+                render={props => {
+                  return (
+                    <Row css={searchStyles}>
+                      <Aggregations
                         {...props}
-                        {...url}
+                        sqon={sqon}
+                        setSQON={setSQON}
                         index={props.index}
                         graphqlField={props.index}
                       />
+                      <Col p={30} flex={1}>
+                        <Row>
+                          <CurrentSQON
+                            {...props}
+                            sqon={sqon}
+                            setSQON={setSQON}
+                            index={props.index}
+                            graphqlField={props.index}
+                          />
+                        </Row>
+                        <Table
+                          {...props}
+                          loading={state.creatingSet || props.loading}
+                          sqon={sqon}
+                          setSQON={setSQON}
+                          customTypes={{
+                            entity: ({ value }) => (
+                              <div
+                                className="clickable"
+                                onClick={async () => {
+                                  if (sqon) {
+                                    setState({ creatingSet: true });
+                                    const {
+                                      data: {
+                                        saveSet: { setId, ids },
+                                      },
+                                    } = await createSet({
+                                      sqon,
+                                    });
+                                    setState({ creatingSet: false });
+                                    savedSetsContext.setSet({ setId, ids });
+                                    if (setId) {
+                                      history.push({
+                                        pathname: `/model/${value}`,
+                                        search: stringify({
+                                          sqon: JSON.stringify({
+                                            op: 'in',
+                                            content: { field: 'setId', value: setId },
+                                          }),
+                                        }),
+                                      });
+                                    }
+                                    return;
+                                  }
+                                  history.push(`/model/${value}`);
+                                }}
+                              >
+                                {value}
+                              </div>
+                            ),
+                          }}
+                          index={props.index}
+                          graphqlField={props.index}
+                          columnDropdownText="Columns"
+                          fieldTypesForFilter={['text', 'keyword', 'id']}
+                        />
+                      </Col>
                     </Row>
-                    <Table
-                      {...props}
-                      {...url}
-                      customTypes={{
-                        entity: ({ value }) => <Link to={`/model/${value}`}>{value}</Link>,
-                      }}
-                      index={props.index}
-                      graphqlField={props.index}
-                      columnDropdownText="Columns"
-                      fieldTypesForFilter={['text', 'keyword', 'id']}
-                      exportTSVFilename={`${props.index}-table-${moment().format(
-                        'YYYY-MM-DD',
-                      )}.tsv`}
-                    />
-                  </Col>
-                </Col>
-              </Row>
-            );
-          }}
-        />
-      );
-    }}
+                  );
+                }}
+              />
+            )}
+          />
+        )}
+      </SavedSetsContext.Consumer>
+    )}
   />
 );
