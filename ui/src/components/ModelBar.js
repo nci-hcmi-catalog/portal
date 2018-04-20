@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Row } from 'theme/system';
 import ModelPager from 'components/ModelPager';
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
+import ShareButton from 'components/ShareButton';
 
 export default ({ name }) => (
   <div>
@@ -40,7 +41,7 @@ export default ({ name }) => (
           justify-content: flex-end;
         `}
       >
-        download buttons
+        <ShareButton />
       </Row>
     </Row>
   </div>

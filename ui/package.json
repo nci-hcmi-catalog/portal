@@ -7,6 +7,7 @@
     "babel-polyfill": "^6.26.0",
     "emotion": "^9.0.2",
     "emotion-theming": "^9.1.2",
+    "encodeurl": "^1.0.2",
     "moment": "^2.22.0",
     "query-string": "5.1.0",
     "react": "16.3.1",
@@ -28,16 +29,7 @@
     "react-app-rewired": "^1.5.0"
   },
   "browserslist": {
-    "development": [
-      "last 2 chrome versions",
-      "last 2 firefox versions",
-      "last 2 edge versions"
-    ],
-    "production": [
-      ">1%",
-      "last 4 versions",
-      "Firefox ESR",
-      "not ie < 11"
-    ]
+    "development": ["last 2 chrome versions", "last 2 firefox versions", "last 2 edge versions"],
+    "production": [">1%", "last 4 versions", "Firefox ESR", "not ie < 11"]
   }
 }
