@@ -41,7 +41,10 @@ export default ({ name }) => (
           justify-content: flex-end;
         `}
       >
-        <ShareButton />
+        <ShareButton
+          link={`${window.location.origin}/models/${name}`}
+          quote={`HCMI Model ${name}`}
+        />
       </Row>
     </Row>
   </div>
