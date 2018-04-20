@@ -5,6 +5,7 @@ import '@arranger/components/public/themeStyles/beagle/beagle.css';
 import searchStyles from 'utils/searchStyles';
 import Url from 'components/Url';
 import { Row, Col } from 'components/Layout';
+import moment from 'moment';
 
 export default props => (
   <Url
@@ -36,6 +37,7 @@ export default props => (
                     graphqlField={props.index}
                     columnDropdownText="Columns"
                     fieldTypesForFilter={['text', 'keyword', 'id']}
+                    exportTSVFilename={`${props.index}-table-${moment().format('YYYY-MM-DD')}.tsv`}
                   />
                 </Col>
               </Row>
