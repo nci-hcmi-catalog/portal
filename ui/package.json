@@ -6,6 +6,7 @@
     "@arranger/components": "0.3.19",
     "babel-polyfill": "^6.26.0",
     "emotion": "^9.0.2",
+    "emotion-theming": "^9.1.2",
     "moment": "^2.22.0",
     "query-string": "5.1.0",
     "react": "16.3.1",

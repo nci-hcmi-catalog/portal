@@ -11,7 +11,13 @@ import {
   alignItems,
   justifyContent,
   flexDirection,
+  complexStyle,
 } from 'styled-system';
+
+const buttons = complexStyle({
+  prop: 'buttons',
+  key: 'buttons',
+});
 
 let Box = styled.div`
   ${space}
@@ -35,4 +41,8 @@ let Row = styled.div`
 
 let Col = p => <Row flexDirection="column" {...p} />;
 
-export { Box, Row, Col };
+let Button = styled.button`
+  ${buttons};
+`;
+
+export { Box, Row, Col, Button };
