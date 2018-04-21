@@ -1,7 +1,3 @@
 import React from 'react';
 
-export default ({ children, ...props }) => (
-  <a {...props} target="_blank" rel="noopener noreferrer">
-    {children}
-  </a>
-);
+export default props => <a {...props} target="_blank" rel="noopener noreferrer" />; // eslint-disable-line jsx-a11y/anchor-has-content

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Row } from 'components/Layout';
+import { Row } from 'theme/system';
 
 import ModelPager from 'components/ModelPager';
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';

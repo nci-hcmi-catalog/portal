@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Col, Row } from 'components/Layout';
+import { Col, Row } from 'theme/system';
 
 export default () => (
   <Col p={15}>

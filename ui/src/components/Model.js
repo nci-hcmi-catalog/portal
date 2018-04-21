@@ -3,13 +3,13 @@ import Component from 'react-component-component';
 import moment from 'moment';
 
 import { api } from '@arranger/components';
+import Spinner from 'react-spinkit';
 import globals from 'utils/globals';
 import ModelBar from 'components/ModelBar';
 import ModelFooterBar from 'components/ModelFooterBar';
-import { Row, Col } from 'components/Layout';
-import Spinner from 'react-spinkit';
+import { Row, Col } from 'theme/system';
 
-import styles from 'utils/modelStyles';
+import styles from 'theme/modelStyles';
 import AdminIcon from 'icons/AdminIcon';
 import ModelIcon from 'icons/ModelIcon';
 import PatientIcon from 'icons/PatientIcon';
