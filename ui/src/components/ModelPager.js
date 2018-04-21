@@ -5,7 +5,7 @@ import Spinner from 'react-spinkit';
 
 import { api } from '@arranger/components';
 import globals from 'utils/globals';
-import { Row } from 'components/Layout';
+import { Row } from 'theme/system';
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 import ArrowRightIcon from 'icons/ArrowRightIcon';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Col } from 'components/Layout';
+import { Col } from 'theme/system';
 import ExternalLink from 'components/ExternalLink';
 
 const Footer = () => (
