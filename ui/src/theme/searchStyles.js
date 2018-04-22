@@ -36,6 +36,8 @@ export default css`
 
   .aggregations {
     padding-top: 8px;
+    height: calc(100vh - 50px);
+    overflow-y: auto;
   }
 
   .aggregation-card .title-wrapper {
