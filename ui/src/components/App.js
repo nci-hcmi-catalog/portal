@@ -21,17 +21,13 @@ export default () => (
         }}
       >
         {({ state }) => (
-          <Col>
+          <>
             <Header />
             <Switch>
               <Route
                 path="/"
                 exact
-                render={() => (
-                  <Col>
-                    <Search version={state.version} index="models" />
-                  </Col>
-                )}
+                render={() => <Search version={state.version} index="models" />}
               />
               <Route
                 path="/arranger"
@@ -74,7 +70,7 @@ export default () => (
                 render={({ match }) => <Model modelName={match.params.modelName} />}
               />
             </Switch>
-          </Col>
+          </>
         )}
       </Component>
     </Router>

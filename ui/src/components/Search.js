@@ -18,7 +18,13 @@ export default props => (
             return (
               <Row css={searchStyles}>
                 <Aggregations {...props} {...url} index={props.index} graphqlField={props.index} />
-                <Col p={1} flex={1}>
+                <Col
+                  p={1}
+                  flex={1}
+                  css={`
+                    height: calc(100vh - 50px);
+                  `}
+                >
                   <Col p={30} bg="#f4f5f7">
                     <Row>
                       <CurrentSQON
