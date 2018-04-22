@@ -25,8 +25,27 @@ export default props => (
                     height: calc(100vh - 50px);
                   `}
                 >
-                  <Col p={30} bg="#f4f5f7">
+                  <Col p={30} bg="#f4f5f7" flex={1}>
                     <Row>
+                      {!url.sqon && (
+                        <Row
+                          css={`
+                            line-height: 50px;
+                            padding: 0 14px;
+                            background-color: white;
+                            flex: 1;
+                          `}
+                        >
+                          <span
+                            className="sqon-field"
+                            css={`
+                              font-size: 12px;
+                            `}
+                          >
+                            No filters selected
+                          </span>
+                        </Row>
+                      )}
                       <CurrentSQON
                         {...props}
                         {...url}
