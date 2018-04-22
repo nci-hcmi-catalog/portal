@@ -1,6 +1,10 @@
 import { css } from 'emotion';
 
 export default css`
+  .ReactTable {
+    flex: 1;
+  }
+
   .ReactTable .rt-resizable-header-content {
     color: #353535;
     text-transform: uppercase;
@@ -17,6 +21,10 @@ export default css`
 
   .ReactTable .rt-thead {
     background-color: #ffffff;
+  }
+
+  .ReactTable .rt-tr-group {
+    flex: none;
   }
 
   .sqon-view {
