@@ -22,7 +22,8 @@
     "react-share": "^2.1.1",
     "react-spinkit": "^3.0.0",
     "styled-system": "^2.2.1",
-    "url-join": "^4.0.0"
+    "url-join": "^4.0.0",
+    "victory": "^0.26.0"
   },
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true NODE_PATH=src react-app-rewired start",
