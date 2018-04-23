@@ -11,7 +11,7 @@ import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 're
 import Component from 'react-component-component';
 
 import ShareIcon from 'icons/ShareIcon';
-import { Row, Col } from 'components/Layout';
+import { Row, Col } from 'theme/system';
 
 let Bubble = p => (
   <span
