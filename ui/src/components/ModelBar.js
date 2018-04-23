@@ -42,7 +42,7 @@ export default ({ name }) => (
         `}
       >
         <ShareButton
-          link={`${window.location.origin}/models/${name}`}
+          link={`${window.location.origin}/model/${name}`}
           quote={`HCMI Model ${name}`}
         />
       </Row>

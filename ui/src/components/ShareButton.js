@@ -52,7 +52,7 @@ export default ({ link, error, quote }) => (
             <div className="pill" onClick={() => toggleMenu({}, () => setState({ copied: false }))}>
               <ShareIcon height={13} />Share
             </div>
-            {isOpen ? (
+            {isOpen && (
               <Col
                 css={`
                   width: 210px;
@@ -117,7 +117,7 @@ export default ({ link, error, quote }) => (
                   </React.Fragment>
                 )}
               </Col>
-            ) : null}
+            )}
           </div>
         )}
       />
