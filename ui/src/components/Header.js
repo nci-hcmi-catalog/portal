@@ -10,7 +10,7 @@ export default () => (
       display: flex;
       background: #fff0ce;
       background-image: url(${bannerPath});
-      height: 50px;
+      height: 88px;
       background-repeat: no-repeat;
       background-position: right;
       justify-content: space-between;
@@ -23,14 +23,14 @@ export default () => (
       src={logoPath}
       alt="HCMI Catalog logo"
       css={`
-        height: 39px;
+        height: 51px;
       `}
     />
     <div
       css={`
         text-transform: uppercase;
         font-family: 'Libre Franklin';
-        font-size: 18px;
+        font-size: 30px;
         font-style: normal;
         font-stretch: normal;
         line-height: 0.87;
