@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Row } from 'theme/system';
 
 import Url from 'components/Url';
