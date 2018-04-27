@@ -2,7 +2,7 @@ import React from 'react';
 import { Row } from 'theme/system';
 
 import Url from 'components/Url';
-import ModelPager from 'components/ModelPager';
+import ModelCarousel from 'components/ModelCarousel';
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 
 export default ({ name }) => (
@@ -25,7 +25,7 @@ export default ({ name }) => (
           <ArrowLeftIcon height={9} width={5} fill="#724c31" /> Back to Search
         </div>
         {sqon && (
-          <ModelPager
+          <ModelCarousel
             modelName={name}
             sqon={sqon}
             css={`

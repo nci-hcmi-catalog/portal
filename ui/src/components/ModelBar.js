@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Row } from 'theme/system';
-import ModelPager from 'components/ModelPager';
+import ModelCarousel from 'components/ModelCarousel';
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 import ShareButton from 'components/ShareButton';
 import Url from 'components/Url';
@@ -41,7 +41,7 @@ export default ({ name }) => (
             </div>
           </Row>
           {sqon && (
-            <ModelPager
+            <ModelCarousel
               modelName={name}
               sqon={sqon}
               css={`
