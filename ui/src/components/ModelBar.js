@@ -5,6 +5,7 @@ import ModelCarousel from 'components/ModelCarousel';
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 import ShareButton from 'components/ShareButton';
 import Url from 'components/Url';
+import BackToSearch from 'components/links/BackToSearch';
 
 export default ({ name }) => (
   <Url
@@ -27,18 +28,9 @@ export default ({ name }) => (
             `}
           >
             <h2>Model {name}</h2>
-            <div
-              className="clickable"
-              onClick={() => {
-                if (history.length) {
-                  history.goBack();
-                } else {
-                  history.push('/');
-                }
-              }}
-            >
+            <BackToSearch sqon={sqon} history={history}>
               <ArrowLeftIcon height={9} width={5} /> BACK TO SEARCH
-            </div>
+            </BackToSearch>
           </Row>
           {sqon && (
             <ModelCarousel

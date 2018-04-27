@@ -17,10 +17,8 @@ const createSet = ({ sqon }) =>
     body: {
       query: `
       mutation ($sqon: JSON!) {
-        saveSet(sqon: $sqon type: "models" userId: "" path:"name") {
+        saveSet(sqon: $sqon type: "models" path:"name") {
           sqon
-          size
-          userId
           setId
           ids
         }
@@ -88,7 +86,7 @@ export default props => (
                                       sqon,
                                     });
                                     setState({ creatingSet: false });
-                                    savedSetsContext.setSet({ setId, ids });
+                                    savedSetsContext.setSet({ setId, ids, sqon });
                                     if (setId) {
                                       history.push({
                                         pathname: `/model/${value}`,

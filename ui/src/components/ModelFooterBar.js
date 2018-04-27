@@ -5,25 +5,15 @@ import Url from 'components/Url';
 import ModelCarousel from 'components/ModelCarousel';
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 
+import BackToSearch from 'components/links/BackToSearch';
+
 export default ({ name }) => (
   <Url
     render={({ sqon, history }) => (
       <Row className="model-footer-bar">
-        <div
-          css={`
-            width: 30%;
-          `}
-          className="clickable"
-          onClick={() => {
-            if (history.length) {
-              history.goBack();
-            } else {
-              history.push('/');
-            }
-          }}
-        >
+        <BackToSearch sqon={sqon} history={history}>
           <ArrowLeftIcon height={9} width={5} fill="#724c31" /> Back to Search
-        </div>
+        </BackToSearch>
         {sqon && (
           <ModelCarousel
             modelName={name}

@@ -17,9 +17,11 @@ export default ({ modelName, sqon, className }) => (
           name={modelName}
           loading={context.state.loading}
           items={
-            context.state.sets[
-              (sqon || { content: { value: '' } }).content.value.replace('set_id', '')
-            ] || []
+            (
+              context.state.sets[
+                (sqon || { content: { value: '' } }).content.value.replace('set_id', '')
+              ] || { ids: [] }
+            ).ids || []
           }
           didMount={({ props: { items } }) => {
             if (items.length === 0) {

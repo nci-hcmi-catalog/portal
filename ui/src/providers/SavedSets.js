@@ -26,6 +26,7 @@ class SavedSetsProvider extends React.Component {
                       node {
                         ids
                         setId
+                        sqon
                       }
                     }
                   }
@@ -42,17 +43,17 @@ class SavedSetsProvider extends React.Component {
               sets: {
                 ...this.state.sets,
                 ...sets.hits.edges.reduce(
-                  (acc, { node: { setId, ids } }) => ({ ...acc, [setId]: ids }),
+                  (acc, { node: { setId, ids, sqon } }) => ({ ...acc, [setId]: { ids, sqon } }),
                   {},
                 ),
               },
             });
           },
-          setSet: ({ setId, ids }) =>
+          setSet: ({ setId, ids, sqon }) =>
             this.setState({
               sets: {
                 ...this.state.sets,
-                [setId]: ids,
+                [setId]: { ids, sqon },
               },
             }),
         }}
