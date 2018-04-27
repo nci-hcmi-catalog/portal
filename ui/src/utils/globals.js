@@ -5,5 +5,5 @@ export default globals.reduce(
     ...acc,
     [val]: localStorage[val] || process.env[`REACT_APP_${val}`],
   }),
-  { SETS_KEY: 'hcmiSets' },
+  {},
 );

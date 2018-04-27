@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import { Row } from 'theme/system';
 import ModelPager from 'components/ModelPager';
@@ -9,8 +8,8 @@ import Url from 'components/Url';
 
 export default ({ name }) => (
   <Url
-    render={({ sqon }) => (
-      <div>
+    render={({ sqon, history }) => (
+      <>
         <div
           css={`
             height: 6px;
@@ -28,9 +27,18 @@ export default ({ name }) => (
             `}
           >
             <h2>Model {name}</h2>
-            <Link to="/">
+            <div
+              className="clickable"
+              onClick={() => {
+                if (history.length) {
+                  history.goBack();
+                } else {
+                  history.push('/');
+                }
+              }}
+            >
               <ArrowLeftIcon height={9} width={5} /> BACK TO SEARCH
-            </Link>
+            </div>
           </Row>
           {sqon && (
             <ModelPager
@@ -53,7 +61,7 @@ export default ({ name }) => (
             />
           </Row>
         </Row>
-      </div>
+      </>
     )}
   />
 );

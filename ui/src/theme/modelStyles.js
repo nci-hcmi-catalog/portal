@@ -20,7 +20,8 @@ export default css`
     min-width: 250px;
   }
 
-  .model-bar a {
+  .model-bar .clickable {
+    cursor: pointer;
     color: #fff;
     text-decoration: none;
     font-family: 'Libre Franklin';
@@ -153,7 +154,8 @@ export default css`
     padding: 35px 30px;
   }
 
-  .model-footer-bar a {
+  .model-footer-bar .clickable {
+    cursor: pointer;
     font-family: 'Libre Franklin';
     font-size: 12px;
     font-weight: 500;

@@ -8,16 +8,23 @@ import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 
 export default ({ name }) => (
   <Url
-    render={({ sqon }) => (
+    render={({ sqon, history }) => (
       <Row className="model-footer-bar">
-        <Link
-          to="/"
+        <div
           css={`
             width: 30%;
           `}
+          className="clickable"
+          onClick={() => {
+            if (history.length) {
+              history.goBack();
+            } else {
+              history.push('/');
+            }
+          }}
         >
           <ArrowLeftIcon height={9} width={5} fill="#724c31" /> Back to Search
-        </Link>
+        </div>
         {sqon && (
           <ModelPager
             modelName={name}
