@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@arranger/mapping-utils@^0.3.23":
-  version "0.3.23"
-  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.23.tgz#07f40ab0278a163fb70f022eaccfb89871a64e44"
+"@arranger/mapping-utils@^0.3.24":
+  version "0.3.24"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.24.tgz#5e8c7ba3c87873d0907d5d6f041e5a75777725d6"
   dependencies:
-    "@arranger/middleware" "^0.3.23"
+    "@arranger/middleware" "^0.3.24"
     babel-polyfill "^6.26.0"
     elasticsearch "^14.0.0"
     graphql-fields "^1.0.2"
@@ -14,9 +14,9 @@
     node-fetch "^2.0.0"
     uuid "^3.2.1"
 
-"@arranger/middleware@^0.3.23":
-  version "0.3.23"
-  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.3.23.tgz#405bfda27d1553e8e27e55764f9c8b6adf053912"
+"@arranger/middleware@^0.3.24":
+  version "0.3.24"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.3.24.tgz#713ecd6211163da275d86db8a9786f8153582db7"
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
@@ -26,12 +26,12 @@
     utf8 "^3.0.0"
     winston "^2.4.0"
 
-"@arranger/schema@^0.3.23":
-  version "0.3.23"
-  resolved "https://registry.yarnpkg.com/@arranger/schema/-/schema-0.3.23.tgz#5e7c5a42e143f394e8422eb07d065c034d740b64"
+"@arranger/schema@^0.3.24":
+  version "0.3.24"
+  resolved "https://registry.yarnpkg.com/@arranger/schema/-/schema-0.3.24.tgz#d1ec634d7c87f853549cdf9264fcdc45e2ea6fb2"
   dependencies:
-    "@arranger/mapping-utils" "^0.3.23"
-    "@arranger/middleware" "^0.3.23"
+    "@arranger/mapping-utils" "^0.3.24"
+    "@arranger/middleware" "^0.3.24"
     babel-polyfill "^6.26.0"
     elasticsearch "^14.0.0"
     graphql-scalars "^0.1.5"
@@ -40,13 +40,13 @@
     lodash "^4.17.4"
     uuid "^3.2.1"
 
-"@arranger/server@0.3.23":
-  version "0.3.23"
-  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-0.3.23.tgz#39654f4d4e45144afd6af2d64d8d44e6e6ee4059"
+"@arranger/server@0.3.24":
+  version "0.3.24"
+  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-0.3.24.tgz#03035d11cfaf629c71cd62f1dc1db2405f7e99dd"
   dependencies:
-    "@arranger/mapping-utils" "^0.3.23"
-    "@arranger/middleware" "^0.3.23"
-    "@arranger/schema" "^0.3.23"
+    "@arranger/mapping-utils" "^0.3.24"
+    "@arranger/middleware" "^0.3.24"
+    "@arranger/schema" "^0.3.24"
     apollo-server-express "^1.3.1"
     babel-polyfill "^6.26.0"
     body-parser "^1.18.2"
