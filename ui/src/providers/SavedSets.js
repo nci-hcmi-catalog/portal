@@ -14,6 +14,37 @@ class SavedSetsProvider extends React.Component {
       <SavedSetsContext.Provider
         value={{
           state: this.state,
+          createSet: async ({ sqon }) => {
+            this.setState({ loading: true, sets: this.state.sets });
+            const {
+              data: {
+                saveSet: { setId, ids },
+              },
+            } = await api({
+              endpoint: `${globals.VERSION}/graphql`,
+              body: {
+                query: `
+                mutation ($sqon: JSON!) {
+                  saveSet(sqon: $sqon type: "models" path:"name") {
+                    sqon
+                    setId
+                    ids
+                  }
+                }`,
+                variables: {
+                  sqon,
+                },
+              },
+            });
+            this.setState({
+              loading: false,
+              sets: {
+                ...this.state.sets,
+                [setId]: { sqon, ids },
+              },
+            });
+            return { setId, ids };
+          },
           fetchSets: async ({ sqon }) => {
             this.setState({ loading: true, sets: this.state.sets });
             const { data } = await api({
