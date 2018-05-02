@@ -87,4 +87,9 @@ export default css`
   .showMore-wrapper {
     color: #900;
   }
+  .clickable {
+    color: #900;
+    cursor: pointer;
+    text-decoration: underline;
+  }
 `;
