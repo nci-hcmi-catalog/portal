@@ -14,7 +14,7 @@ class SavedSetsProvider extends React.Component {
       <SavedSetsContext.Provider
         value={{
           state: this.state,
-          createSet: async ({ sqon }) => {
+          createSet: async ({ sqon, sort }) => {
             this.setState({ loading: true, sets: this.state.sets });
             const {
               data: {
@@ -24,8 +24,8 @@ class SavedSetsProvider extends React.Component {
               endpoint: `${globals.VERSION}/graphql`,
               body: {
                 query: `
-                mutation ($sqon: JSON!) {
-                  saveSet(sqon: $sqon type: "models" path:"name") {
+                mutation ($sqon: JSON!, $sort: [Sort]) {
+                  saveSet(sqon: $sqon type: "models" path:"name" sort:$sort) {
                     sqon
                     setId
                     ids
@@ -33,6 +33,7 @@ class SavedSetsProvider extends React.Component {
                 }`,
                 variables: {
                   sqon,
+                  sort,
                 },
               },
             });
