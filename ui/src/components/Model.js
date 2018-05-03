@@ -94,7 +94,7 @@ export default ({ modelName }) => (
   >
     {({ state }) => (
       <div css={styles}>
-        <ModelBar name={modelName} />
+        <ModelBar name={modelName} id={(state.model || { id: '' }).id} />
         {state.model ? (
           [
             <section

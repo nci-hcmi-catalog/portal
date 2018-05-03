@@ -6,8 +6,9 @@ import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 import ShareButton from 'components/ShareButton';
 import Url from 'components/Url';
 import BackToSearch from 'components/links/BackToSearch';
+import { SelectedModelsContext } from 'providers/SelectedModels';
 
-export default ({ name }) => (
+export default ({ name, id }) => (
   <Url
     render={({ sqon, history }) => (
       <>
@@ -47,6 +48,19 @@ export default ({ name }) => (
               justify-content: flex-end;
             `}
           >
+            <SelectedModelsContext.Consumer>
+              {selected => (
+                <div
+                  className="pill"
+                  onClick={() => selected.toggleModel(id)}
+                  style={{ marginRight: '10px' }}
+                >
+                  <input type="checkbox" checked={selected.state.models.includes(id)} />
+                  Select for Download
+                </div>
+              )}
+            </SelectedModelsContext.Consumer>
+
             <ShareButton
               link={`${window.location.origin}/model/${name}`}
               quote={`HCMI Model ${name}`}
