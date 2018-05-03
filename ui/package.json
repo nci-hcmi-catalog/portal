@@ -3,7 +3,7 @@
   "version": "0.0.1-0.0.10.0",
   "private": true,
   "dependencies": {
-    "@arranger/components": "0.3.26",
+    "@arranger/components": "0.3.28",
     "babel-polyfill": "^6.26.0",
     "downshift": "^1.31.10",
     "emotion": "^9.0.2",
@@ -33,7 +33,16 @@
     "react-app-rewired": "^1.5.0"
   },
   "browserslist": {
-    "development": ["last 2 chrome versions", "last 2 firefox versions", "last 2 edge versions"],
-    "production": [">1%", "last 4 versions", "Firefox ESR", "not ie < 11"]
+    "development": [
+      "last 2 chrome versions",
+      "last 2 firefox versions",
+      "last 2 edge versions"
+    ],
+    "production": [
+      ">1%",
+      "last 4 versions",
+      "Firefox ESR",
+      "not ie < 11"
+    ]
   }
 }

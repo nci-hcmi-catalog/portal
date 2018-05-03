@@ -1,11 +1,11 @@
 import React from 'react';
 import Component from 'react-component-component';
-import { stringify } from 'query-string';
 import { Arranger, Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
 
 import searchStyles from 'theme/searchStyles';
 import Url from 'components/Url';
+import TableEntity from 'components/TableEntity';
 import { Row, Col } from 'theme/system';
 import { SavedSetsContext } from 'providers/SavedSets';
 
@@ -48,37 +48,13 @@ export default props => (
                           alwaysSorted={[{ field: 'name', order: 'asc' }]}
                           customTypes={{
                             entity: props => (
-                              <div
-                                className="clickable"
-                                onClick={async () => {
-                                  if (sqon) {
-                                    const { setId } = await savedSetsContext.createSet({
-                                      sqon,
-                                      sort: [...state.sorted, { id: 'name', desc: false }].map(
-                                        ({ id, desc }) => ({
-                                          field: id,
-                                          order: desc ? 'desc' : 'asc',
-                                        }),
-                                      ),
-                                    });
-                                    if (setId) {
-                                      history.push({
-                                        pathname: `/model/${props.value}`,
-                                        search: stringify({
-                                          sqon: JSON.stringify({
-                                            op: 'in',
-                                            content: { field: 'setId', value: setId },
-                                          }),
-                                        }),
-                                      });
-                                    }
-                                    return;
-                                  }
-                                  history.push(`/model/${props.value}`);
-                                }}
-                              >
-                                {props.value}
-                              </div>
+                              <TableEntity
+                                {...props}
+                                savedSetsContext={savedSetsContext}
+                                state={state}
+                                sqon={sqon}
+                                history={history}
+                              />
                             ),
                           }}
                           index={props.index}
