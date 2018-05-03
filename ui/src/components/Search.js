@@ -8,6 +8,7 @@ import searchStyles from 'theme/searchStyles';
 import Url from 'components/Url';
 import { Row, Col } from 'theme/system';
 import { SavedSetsContext } from 'providers/SavedSets';
+import { SelectedModelsContext } from 'providers/SelectedModels';
 
 export default props => (
   <Component initalState={{ sorted: [] }}>
@@ -39,53 +40,66 @@ export default props => (
                             graphqlField={props.index}
                           />
                         </Row>
-                        <Table
-                          {...props}
-                          loading={savedSetsContext.state.loading || props.loading}
-                          sqon={sqon}
-                          setSQON={setSQON}
-                          onSortedChange={sorted => setState({ sorted })}
-                          alwaysSorted={[{ field: 'name', order: 'asc' }]}
-                          customTypes={{
-                            entity: props => (
-                              <div
-                                className="clickable"
-                                onClick={async () => {
-                                  if (sqon) {
-                                    const { setId } = await savedSetsContext.createSet({
-                                      sqon,
-                                      sort: [...state.sorted, { id: 'name', desc: false }].map(
-                                        ({ id, desc }) => ({
-                                          field: id,
-                                          order: desc ? 'desc' : 'asc',
-                                        }),
-                                      ),
-                                    });
-                                    if (setId) {
-                                      history.push({
-                                        pathname: `/model/${props.value}`,
-                                        search: stringify({
-                                          sqon: JSON.stringify({
-                                            op: 'in',
-                                            content: { field: 'setId', value: setId },
-                                          }),
-                                        }),
-                                      });
-                                    }
-                                    return;
-                                  }
-                                  history.push(`/model/${props.value}`);
+                        <SelectedModelsContext.Consumer>
+                          {selected => {
+                            console.log(selected.state.models);
+                            return (
+                              <Table
+                                {...props}
+                                setSelectedTableRows={selectedRows =>
+                                  selected.setModels({ models: selectedRows })
+                                }
+                                keepSelectedOnPageChange={true}
+                                initalSelectedTableRows={selected.state.models}
+                                loading={savedSetsContext.state.loading || props.loading}
+                                sqon={sqon}
+                                setSQON={setSQON}
+                                onSortedChange={sorted => setState({ sorted })}
+                                alwaysSorted={[{ field: 'name', order: 'asc' }]}
+                                customTypes={{
+                                  entity: props => (
+                                    <div
+                                      className="clickable"
+                                      onClick={async () => {
+                                        if (sqon) {
+                                          const { setId } = await savedSetsContext.createSet({
+                                            sqon,
+                                            sort: [
+                                              ...state.sorted,
+                                              { id: 'name', desc: false },
+                                            ].map(({ id, desc }) => ({
+                                              field: id,
+                                              order: desc ? 'desc' : 'asc',
+                                            })),
+                                          });
+                                          if (setId) {
+                                            history.push({
+                                              pathname: `/model/${props.value}`,
+                                              search: stringify({
+                                                sqon: JSON.stringify({
+                                                  op: 'in',
+                                                  content: { field: 'setId', value: setId },
+                                                }),
+                                              }),
+                                            });
+                                          }
+                                          return;
+                                        }
+                                        history.push(`/model/${props.value}`);
+                                      }}
+                                    >
+                                      {props.value}
+                                    </div>
+                                  ),
                                 }}
-                              >
-                                {props.value}
-                              </div>
-                            ),
+                                index={props.index}
+                                graphqlField={props.index}
+                                columnDropdownText="Columns"
+                                fieldTypesForFilter={['text', 'keyword', 'id']}
+                              />
+                            );
                           }}
-                          index={props.index}
-                          graphqlField={props.index}
-                          columnDropdownText="Columns"
-                          fieldTypesForFilter={['text', 'keyword', 'id']}
-                        />
+                        </SelectedModelsContext.Consumer>
                       </Col>
                     </Row>
                   );
