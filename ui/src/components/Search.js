@@ -1,6 +1,13 @@
 import React from 'react';
 import Component from 'react-component-component';
-import { Arranger, Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
+import Spinner from 'react-spinkit';
+import {
+  Arranger,
+  Aggregations,
+  CurrentSQON,
+  Table,
+  QuickSearch,
+} from '@arranger/components/dist/Arranger';
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
 
 import searchStyles from 'theme/searchStyles';
@@ -22,15 +29,59 @@ export default props => (
                 render={props => {
                   return (
                     <Row css={searchStyles}>
-                      <Aggregations
-                        {...props}
-                        sqon={sqon}
-                        setSQON={setSQON}
-                        index={props.index}
-                        graphqlField={props.index}
-                      />
-                      <Col p={30} flex={1}>
+                      <Col className="aggregations-wrapper">
+                        <Col className="aggregations">
+                          <Col className="aggregation-card">
+                            <Row className="header">
+                              <Row className="title-wrapper">
+                                <span className="arrow" />
+                                <span className="title">Quicksearch</span>
+                              </Row>
+                            </Row>
+                            <QuickSearch
+                              {...{ ...props, setSQON }}
+                              placeholder="Enter Identifiers"
+                              LoadingIcon={
+                                <Spinner
+                                  fadeIn="none"
+                                  name="circle"
+                                  color="#a9adc0"
+                                  style={{ width: 15, height: 15 }}
+                                />
+                              }
+                            />
+                          </Col>
+                        </Col>
+                        <Aggregations
+                          {...props}
+                          sqon={sqon}
+                          setSQON={setSQON}
+                          index={props.index}
+                          graphqlField={props.index}
+                        />
+                      </Col>
+                      <Col className="search-results-wrapper" p={30} flex={1}>
                         <Row>
+                          {!sqon && (
+                            <Row
+                              css={`
+                                line-height: 50px;
+                                padding: 0 14px;
+                                background-color: white;
+                                flex: 1;
+                              `}
+                            >
+                              <span
+                                className="sqon-field"
+                                css={`
+                                  font-size: 12px;
+                                  color: #eee;
+                                `}
+                              >
+                                FILTERS
+                              </span>
+                            </Row>
+                          )}
                           <CurrentSQON
                             {...props}
                             sqon={sqon}

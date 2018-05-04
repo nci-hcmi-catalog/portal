@@ -1,5 +1,8 @@
 import { css } from 'emotion';
 
+let headerHeight = '88px';
+let grey = '#f4f5f7';
+
 export default css`
   .ReactTable {
     flex: 1;
@@ -42,10 +45,18 @@ export default css`
     cursor: pointer;
   }
 
+  .search-results-wrapper {
+    background-color: ${grey};
+  }
+
+  .search-results-wrapper,
+  .aggregations-wrapper {
+    height: calc(100vh - ${headerHeight});
+    overflow-y: auto;
+  }
+
   .aggregations {
     padding-top: 8px;
-    height: calc(100vh - 50px);
-    overflow-y: auto;
   }
 
   .aggregation-card .title-wrapper {
@@ -62,7 +73,7 @@ export default css`
   }
 
   .aggregation-card {
-    border-left-color: #774928 !important;
+    border-left: none;
     padding: 0px !important;
   }
 
