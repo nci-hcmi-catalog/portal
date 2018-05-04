@@ -4,13 +4,9 @@ import { xor } from 'lodash';
 export const SelectedModelsContext = React.createContext();
 
 class SelectedModelsProvider extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      models: [],
-    };
-  }
-
+  state = {
+    models: [],
+  };
   render() {
     return (
       <SelectedModelsContext.Provider
@@ -19,9 +15,8 @@ class SelectedModelsProvider extends React.Component {
           setModels: ({ models }) => this.setState({ models }),
           toggleModel: modelId => this.setState({ models: xor(this.state.models, [modelId]) }),
         }}
-      >
-        {this.props.children}
-      </SelectedModelsContext.Provider>
+        {...this.props}
+      />
     );
   }
 }

@@ -14,72 +14,88 @@ import AdminNav from 'components/AdminNav';
 import { Row, Col } from 'theme/system';
 import Header from 'components/Header';
 import theme from 'theme';
+import Modal from 'components/modals/Modal';
 
 import RootProvider from 'providers/RootProvider';
+import { ModalStateContext } from 'providers/ModalState';
+import WarningModal from 'components/modals/WarningModal';
 
 export default () => (
   <ThemeProvider theme={theme}>
-    <Router>
-      <RootProvider>
-        <Component
-          initialState={{
-            version: globals.VERSION,
-          }}
-        >
-          {({ state }) => (
-            <>
-              <Header />
-              <Switch>
-                <Route
-                  path="/"
-                  exact
-                  render={() => <Search version={state.version} index="models" />}
-                />
-                <Route
-                  path="/arranger"
-                  render={({ match }) => <ArrangerDashboard basename={match.url} />}
-                />
-                <Route
-                  path="/admin"
+    <RootProvider>
+      <Router>
+        <ModalStateContext.Consumer>
+          {modalState => (
+            <Component
+              initialState={{
+                version: globals.VERSION,
+              }}
+              didMount={() => {
+                if (!localStorage.getItem(globals.SEEN_WARNING_KEY)) {
+                  modalState.setModal({ component: <WarningModal modalState={modalState} /> });
+                }
+              }}
+            >
+              {({ state }) => (
+                <>
+                  <Header />
+                  <Switch>
+                    <Route
+                      path="/"
+                      exact
+                      render={() => <Search version={state.version} index="models" />}
+                    />
+                    <Route
+                      path="/arranger"
+                      render={({ match }) => <ArrangerDashboard basename={match.url} />}
+                    />
+                    <Route
+                      path="/admin"
                   render={() => (
-                    <Col>
-                      <Row>
-                        <Row p={15}>
-                          <Link to="/">« Back to List View</Link>
-                        </Row>
-                        <Row flex={1} p={15}>
-                          HCMI Searchable Catalog Administration
-                        </Row>
-                        <Row p={15}>Logout</Row>
-                      </Row>
-                      <Row>
-                        <AdminNav />
-                        <Route path="/admin/manage_users" render={() => <Row p={15}>Users</Row>} />
-                        <Route
-                          path="/admin/single_model_upload"
-                          render={() => <Row p={15}>single model upload</Row>}
-                        />
-                        <Route
-                          path="/admin/bulk_model_upload"
-                          render={() => <Row p={15}>bulk model upload</Row>}
-                        />
-                        <Route
-                          path="/admin/manage_models"
-                          render={() => <Row p={15}>manage models</Row>}
-                        />
-                      </Row>
-                    </Col>
-                  )}
-                />
-                <Route
-                  path="/model/:modelName"
-                  render={({ match }) => <Model modelName={match.params.modelName} />}
-                />
-              </Switch>
-            </>
+                        <Col>
+                          <Row>
+                            <Row p={15}>
+                              <Link to="/">« Back to List View</Link>
+                            </Row>
+                            <Row flex={1} p={15}>
+                              HCMI Searchable Catalog Administration
+                            </Row>
+                            <Row p={15}>Logout</Row>
+                          </Row>
+                          <Row>
+                            <AdminNav />
+                            <Route
+                              path="/admin/manage_users"
+                              render={() => <Row p={15}>Users</Row>}
+                            />
+                            <Route
+                              path="/admin/single_model_upload"
+                              render={() => <Row p={15}>single model upload</Row>}
+                            />
+                            <Route
+                              path="/admin/bulk_model_upload"
+                              render={() => <Row p={15}>bulk model upload</Row>}
+                            />
+                            <Route
+                              path="/admin/manage_models"
+                              render={() => <Row p={15}>manage models</Row>}
+                            />
+                          </Row>
+                        </Col>
+                      )}
+                    />
+                    <Route
+                      path="/model/:modelName"
+                      render={({ match }) => <Model modelName={match.params.modelName} />}
+                    />
+                  </Switch>
+                </>
+              )}
+            </Component>
           )}
-        </Component>
-      </RootProvider>
-    </Router>
+        </ModalStateContext.Consumer>
+      </Router>
+      <Modal />
+    </RootProvider>
   </ThemeProvider>
 );
