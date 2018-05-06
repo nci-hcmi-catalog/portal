@@ -1,17 +1,11 @@
 import React from 'react';
 import Component from 'react-component-component';
-import Spinner from 'react-spinkit';
-import {
-  Arranger,
-  Aggregations,
-  CurrentSQON,
-  Table,
-  QuickSearch,
-} from '@arranger/components/dist/Arranger';
+import { Arranger, Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
 
 import searchStyles from 'theme/searchStyles';
 import Url from 'components/Url';
+import Quicksearch from 'components/Quicksearch';
 import TableEntity from 'components/TableEntity';
 import { Row, Col } from 'theme/system';
 import { SavedSetsContext } from 'providers/SavedSets';
@@ -30,34 +24,14 @@ export default props => (
                   return (
                     <Row css={searchStyles}>
                       <Col className="aggregations-wrapper">
-                        <Col className="aggregations">
-                          <Col className="aggregation-card">
-                            <Row className="header">
-                              <Row className="title-wrapper">
-                                <span className="arrow" />
-                                <span className="title">Quicksearch</span>
-                              </Row>
-                            </Row>
-                            <QuickSearch
-                              {...{ ...props, setSQON }}
-                              placeholder="Enter Identifiers"
-                              LoadingIcon={
-                                <Spinner
-                                  fadeIn="none"
-                                  name="circle"
-                                  color="#a9adc0"
-                                  style={{ width: 15, height: 15 }}
-                                />
-                              }
-                            />
-                          </Col>
-                        </Col>
+                        <Quicksearch {...{ ...props, setSQON }} />
                         <Aggregations
                           {...props}
                           sqon={sqon}
                           setSQON={setSQON}
                           index={props.index}
                           graphqlField={props.index}
+                          Wrapper={props => <React.Fragment {...props} />}
                         />
                       </Col>
                       <Col className="search-results-wrapper" p={30} flex={1}>
