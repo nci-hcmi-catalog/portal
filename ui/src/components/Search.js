@@ -75,7 +75,7 @@ export default props => (
                                 className="sqon-field"
                                 css={`
                                   font-size: 12px;
-                                  color: #eee;
+                                  color: #d0d0d0ab;
                                 `}
                               >
                                 FILTERS

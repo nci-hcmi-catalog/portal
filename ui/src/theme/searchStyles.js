@@ -55,10 +55,6 @@ export default css`
     overflow-y: auto;
   }
 
-  .aggregations {
-    padding-top: 8px;
-  }
-
   .aggregation-card .title-wrapper {
     background-color: #f4f5f7;
     padding: 8px;
@@ -75,6 +71,11 @@ export default css`
   .aggregation-card {
     border-left: none;
     padding: 0px !important;
+    margin: 0px !important;
+  }
+
+  .aggregation-card .header {
+    margin: 0;
   }
 
   .aggregation-card .bucket {
