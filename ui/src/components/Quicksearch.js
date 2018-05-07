@@ -17,11 +17,9 @@ export default (
     </Row>
     <Col className="quicksearch-content-wrapper" p={2}>
       <Row className="quicksearch-content" alignItems="center">
-        <Row className="quicksearch-label">Name: </Row>
         <QuickSearch
           {...rest}
           placeholder="Enter Identifiers"
-          whitelist={['name']}
           LoadingIcon={
             <Spinner
               fadeIn="none"
