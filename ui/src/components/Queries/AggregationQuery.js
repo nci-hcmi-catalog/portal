@@ -10,7 +10,10 @@ const fetchData = async ({ setState, sqon, field }) => {
     body: {
       query: `query ${field}Aggregation ($filters: JSON) {
         models {
-          aggregations(filters: $filters) {
+          aggregations(
+            filters: $filters
+            aggregations_filter_themselves: true
+          ) {
             ${field} {
               buckets {
                 doc_count
@@ -39,9 +42,8 @@ export default ({ sqon, ...props }) => (
     }}
     didUpdate={({ setState, prevProps }) => {
       if (!isEqual(sqon, prevProps.sqon)) {
-        console.log('yo its diff');
+        fetchData({ setState, sqon, field: props.field });
       }
     }}
-    shouldUpdate={() => true}
   />
 );

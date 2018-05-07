@@ -2,11 +2,11 @@ import React from 'react';
 import Component from 'react-component-component';
 import { Arranger, Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
-import { VictoryChart, VictoryBar, VictoryPie } from 'victory';
 import searchStyles from 'theme/searchStyles';
 import Url from 'components/Url';
 import Quicksearch from 'components/Quicksearch';
 import PrimarySiteChart from 'components/PrimarySiteChart';
+import GrowthChart from 'components/GrowthChart';
 import TableEntity from 'components/TableEntity';
 import { Row, Col } from 'theme/system';
 import { SavedSetsContext } from 'providers/SavedSets';
@@ -43,8 +43,8 @@ export default props => (
                             padding: 16px;
                           `}
                         >
-                          <PrimarySiteChart />
-                          <Col alignItems="center">
+                          <PrimarySiteChart sqon={sqon} />
+                          {/* <Col alignItems="center">
                             {' '}
                             <span
                               className="sqon-field"
@@ -70,32 +70,8 @@ export default props => (
                                 ]}
                               />
                             </VictoryChart>
-                          </Col>
-                          <Col alignItems="center">
-                            {' '}
-                            <span
-                              className="sqon-field"
-                              css={`
-                                font-size: 12px;
-                              `}
-                            >
-                              2D versus 3D Growth
-                            </span>
-                            <VictoryPie
-                              style={{
-                                labels: {
-                                  display: 'none',
-                                },
-                              }}
-                              innerRadius={100}
-                              colorScale={['#ee7f6d', '#e96535', '#f5b464']}
-                              data={[
-                                { x: 'Cats', y: 35 },
-                                { x: 'Dogs', y: 40 },
-                                { x: 'Birds', y: 55 },
-                              ]}
-                            />
-                          </Col>
+                          </Col> */}
+                          <GrowthChart sqon={sqon} />
                         </Row>
                         <Row>
                           {!sqon && (
