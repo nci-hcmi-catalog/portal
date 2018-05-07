@@ -37,7 +37,7 @@ export default ({ sqon }) => (
             >
               {sortBy(state.buckets, x => x.doc_count)[0]
                 .key.split(' ')
-                .map(x => <div>{x}</div>)}
+                .map((x, i) => <div key={i}>{x}</div>)}
               <div
                 css={`
                   font-size: 12px;
