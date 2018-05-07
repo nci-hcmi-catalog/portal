@@ -39,7 +39,7 @@ export default props => (
                         <Row
                           bg="white"
                           css={`
-                            height: 170px;
+                            height: 185px;
                             padding: 16px;
                           `}
                         >

@@ -30,6 +30,7 @@
     "build": "NODE_PATH=src react-app-rewired build"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0-beta.46",
     "babel-plugin-emotion": "^9.1.2",
     "react-app-rewired": "^1.5.0"
   },

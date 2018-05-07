@@ -10,6 +10,9 @@ const fetchData = async ({ setState, sqon, field }) => {
     body: {
       query: `query ${field}Aggregation ($filters: JSON) {
         models {
+          hits(filters: $filters) {
+            total
+          }
           aggregations(
             filters: $filters
             aggregations_filter_themselves: true
@@ -29,7 +32,11 @@ const fetchData = async ({ setState, sqon, field }) => {
     },
   });
 
-  setState({ buckets: data.models.aggregations[field].buckets, loading: false });
+  setState({
+    total: data.models.hits.total,
+    buckets: data.models.aggregations[field].buckets,
+    loading: false,
+  });
 };
 
 export default ({ sqon, ...props }) => (
