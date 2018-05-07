@@ -1,4 +1,5 @@
 import React from 'react';
+import { isEqual } from 'lodash';
 import globals from 'utils/globals';
 import { api } from '@arranger/components';
 import Component from 'react-component-component';
@@ -31,9 +32,16 @@ const fetchData = async ({ setState, sqon, field }) => {
 export default ({ sqon, ...props }) => (
   <Component
     {...props}
+    sqon={sqon}
     initialState={{ buckets: null, loading: true }}
-    didMount={async ({ setState, props }) => {
+    didMount={({ setState, props }) => {
       fetchData({ setState, sqon, field: props.field });
     }}
+    didUpdate={({ setState, prevProps }) => {
+      if (!isEqual(sqon, prevProps.sqon)) {
+        console.log('yo its diff');
+      }
+    }}
+    shouldUpdate={() => true}
   />
 );

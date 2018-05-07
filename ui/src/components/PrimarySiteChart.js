@@ -1,7 +1,8 @@
 import React from 'react';
-import { VictoryPie } from 'victory';
+import { VictoryPie, VictoryTooltip } from 'victory';
 import AggregationQuery from 'components/Queries/AggregationQuery';
 import { Col } from 'theme/system';
+import theme from 'theme';
 
 export default ({ sqon }) => (
   <Col alignItems="center">
@@ -19,16 +20,18 @@ export default ({ sqon }) => (
           'loading'
         ) : (
           <VictoryPie
+            labelComponent={<VictoryTooltip />}
             style={{
               labels: {
-                display: 'none',
+                fontSize: 40,
               },
             }}
             innerRadius={100}
-            colorScale={['#ee7f6d', '#e96535', '#f5b464']}
+            colorScale={theme.palette}
             data={state.buckets.map(x => ({
               x: x.key,
               y: x.doc_count,
+              label: `${x.key}\n${x.doc_count} Models`,
             }))}
           />
         );
