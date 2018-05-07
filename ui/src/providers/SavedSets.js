@@ -89,9 +89,8 @@ class SavedSetsProvider extends React.Component {
               },
             }),
         }}
-      >
-        {this.props.children}
-      </SavedSetsContext.Provider>
+        {...this.props}
+      />
     );
   }
 }

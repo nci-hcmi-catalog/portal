@@ -10,6 +10,7 @@ import GrowthChart from 'components/GrowthChart';
 import TableEntity from 'components/TableEntity';
 import { Row, Col } from 'theme/system';
 import { SavedSetsContext } from 'providers/SavedSets';
+import { SelectedModelsContext } from 'providers/SelectedModels';
 
 export default props => (
   <Component initalState={{ sorted: [] }}>
@@ -75,29 +76,40 @@ export default props => (
                             graphqlField={props.index}
                           />
                         </Row>
-                        <Table
-                          {...props}
-                          loading={savedSetsContext.state.loading || props.loading}
-                          sqon={sqon}
-                          setSQON={setSQON}
-                          onSortedChange={sorted => setState({ sorted })}
-                          alwaysSorted={[{ field: 'name', order: 'asc' }]}
-                          customTypes={{
-                            entity: props => (
-                              <TableEntity
+                        <SelectedModelsContext.Consumer>
+                          {selected => {
+                            return (
+                              <Table
                                 {...props}
-                                savedSetsContext={savedSetsContext}
-                                state={state}
+                                setSelectedTableRows={selectedRows =>
+                                  selected.setModels({ models: selectedRows })
+                                }
+                                keepSelectedOnPageChange={true}
+                                initalSelectedTableRows={selected.state.models}
+                                loading={savedSetsContext.state.loading || props.loading}
                                 sqon={sqon}
-                                history={history}
+                                setSQON={setSQON}
+                                onSortedChange={sorted => setState({ sorted })}
+                                alwaysSorted={[{ field: 'name', order: 'asc' }]}
+                                customTypes={{
+                                  entity: props => (
+                                    <TableEntity
+                                      {...props}
+                                      savedSetsContext={savedSetsContext}
+                                      state={state}
+                                      sqon={sqon}
+                                      history={history}
+                                    />
+                                  ),
+                                }}
+                                index={props.index}
+                                graphqlField={props.index}
+                                columnDropdownText="Columns"
+                                fieldTypesForFilter={['text', 'keyword', 'id']}
                               />
-                            ),
+                            );
                           }}
-                          index={props.index}
-                          graphqlField={props.index}
-                          columnDropdownText="Columns"
-                          fieldTypesForFilter={['text', 'keyword', 'id']}
-                        />
+                        </SelectedModelsContext.Consumer>
                       </Col>
                     </Row>
                   );

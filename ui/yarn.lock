@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@arranger/components@0.3.29":
-  version "0.3.29"
-  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-0.3.29.tgz#52cd3ce00708c0d82c07db97002815348d11836a"
+"@arranger/components@0.3.30":
+  version "0.3.30"
+  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-0.3.30.tgz#459d14080b272f72fa7f5e01d3bed9be324535dd"
   dependencies:
-    "@arranger/mapping-utils" "^0.3.29"
+    "@arranger/mapping-utils" "^0.3.30"
     ajv "^6.1.1"
     babel-polyfill "^6.26.0"
     classnames "^2.2.5"
@@ -41,11 +41,11 @@
     url-parse "^1.2.0"
     uuid "^3.2.1"
 
-"@arranger/mapping-utils@^0.3.29":
-  version "0.3.29"
-  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.29.tgz#de9c1b78aa0dae05f4d109661ff333fc78c59c20"
+"@arranger/mapping-utils@^0.3.30":
+  version "0.3.30"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.30.tgz#4dac452008a8392231e7bc0878bbce2f08e5fd83"
   dependencies:
-    "@arranger/middleware" "^0.3.29"
+    "@arranger/middleware" "^0.3.30"
     babel-polyfill "^6.26.0"
     elasticsearch "^14.0.0"
     graphql-fields "^1.0.2"
@@ -53,9 +53,9 @@
     node-fetch "^2.0.0"
     uuid "^3.2.1"
 
-"@arranger/middleware@^0.3.29":
-  version "0.3.29"
-  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.3.29.tgz#92841f6faff6df5f330d4e04290e45481313db67"
+"@arranger/middleware@^0.3.30":
+  version "0.3.30"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.3.30.tgz#e449058af4de10145aa39c2b1ee36128c3e8c0cf"
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
@@ -3996,6 +3996,10 @@ execa@^0.7.0:
     p-finally "^1.0.0"
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
+
+exenv@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
 
 exit@^0.1.2:
   version "0.1.2"
@@ -8109,6 +8113,19 @@ react-input-range@^1.3.0:
   dependencies:
     autobind-decorator "^1.3.4"
     prop-types "^15.5.8"
+
+react-lifecycles-compat@^3.0.0:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.2.tgz#7279047275bd727a912e25f734c0559527e84eff"
+
+react-modal@^3.4.4:
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.4.4.tgz#e9dde25e9e85a59c76831f2a2b468712a546aded"
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.5.10"
+    react-lifecycles-compat "^3.0.0"
+    warning "^3.0.0"
 
 react-moment-proptypes@^1.5.0:
   version "1.5.0"
