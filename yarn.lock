@@ -32,6 +32,10 @@
   dependencies:
     "@babel/types" "7.0.0-beta.44"
 
+"@babel/helper-plugin-utils@7.0.0-beta.46":
+  version "7.0.0-beta.46"
+  resolved "https://registry.yarnpkg.com/@babel/helper-plugin-utils/-/helper-plugin-utils-7.0.0-beta.46.tgz#f630adbd9d645d0ba2e43f4955b4ad61f44ccdf4"
+
 "@babel/helper-split-export-declaration@7.0.0-beta.44":
   version "7.0.0-beta.44"
   resolved "https://registry.yarnpkg.com/@babel/helper-split-export-declaration/-/helper-split-export-declaration-7.0.0-beta.44.tgz#c0b351735e0fbcb3822c8ad8db4e583b05ebd9dc"
@@ -45,6 +49,19 @@
     chalk "^2.0.0"
     esutils "^2.0.2"
     js-tokens "^3.0.0"
+
+"@babel/plugin-proposal-optional-chaining@^7.0.0-beta.46":
+  version "7.0.0-beta.46"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-optional-chaining/-/plugin-proposal-optional-chaining-7.0.0-beta.46.tgz#2c8926e6c8c70bbb3844bb2cce61dcd9287176ee"
+  dependencies:
+    "@babel/helper-plugin-utils" "7.0.0-beta.46"
+    "@babel/plugin-syntax-optional-chaining" "7.0.0-beta.46"
+
+"@babel/plugin-syntax-optional-chaining@7.0.0-beta.46":
+  version "7.0.0-beta.46"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-optional-chaining/-/plugin-syntax-optional-chaining-7.0.0-beta.46.tgz#77c51b180a9895d701b398441d94815c56946a75"
+  dependencies:
+    "@babel/helper-plugin-utils" "7.0.0-beta.46"
 
 "@babel/template@7.0.0-beta.44":
   version "7.0.0-beta.44"
