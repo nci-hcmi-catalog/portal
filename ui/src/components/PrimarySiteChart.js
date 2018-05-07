@@ -32,9 +32,12 @@ export default ({ sqon }) => (
                 position: absolute;
                 top: 50%;
                 font-size: 10px;
+                text-align: center;
               `}
             >
-              {sortBy(state.buckets, x => x.doc_count)[0].key}
+              {sortBy(state.buckets, x => x.doc_count)[0]
+                .key.split(' ')
+                .map(x => <div>{x}</div>)}
               <div
                 css={`
                   font-size: 12px;
