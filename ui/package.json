@@ -28,6 +28,7 @@
     "victory": "^0.26.0"
   },
   "scripts": {
+    "💥": "rm -rf node_modules && yarn && yarn start",
     "start": "SKIP_PREFLIGHT_CHECK=true NODE_PATH=src react-app-rewired start",
     "build": "NODE_PATH=src react-app-rewired build"
   },
@@ -37,16 +38,7 @@
     "react-app-rewired": "^1.5.0"
   },
   "browserslist": {
-    "development": [
-      "last 2 chrome versions",
-      "last 2 firefox versions",
-      "last 2 edge versions"
-    ],
-    "production": [
-      ">1%",
-      "last 4 versions",
-      "Firefox ESR",
-      "not ie < 11"
-    ]
+    "development": ["last 2 chrome versions", "last 2 firefox versions", "last 2 edge versions"],
+    "production": [">1%", "last 4 versions", "Firefox ESR", "not ie < 11"]
   }
 }
