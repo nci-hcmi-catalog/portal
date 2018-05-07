@@ -3,7 +3,9 @@ import { Row, Col } from 'theme/system';
 import Spinner from 'react-spinkit';
 import { QuickSearch } from '@arranger/components/dist/Arranger';
 
-export default props => (
+export default (
+  { props, ...rest }, // super subtle bug due to `props` name collision
+) => (
   <div // display: flex is causing this component to have zero height for reasons I do not understand.
     className="quicksearch-wrapper aggregation-card"
   >
@@ -17,7 +19,7 @@ export default props => (
       <Row className="quicksearch-content" alignItems="center">
         <Row className="quicksearch-label">Name: </Row>
         <QuickSearch
-          {...props}
+          {...rest}
           placeholder="Enter Identifiers"
           whitelist={['name']}
           LoadingIcon={
