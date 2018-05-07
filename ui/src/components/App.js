@@ -15,12 +15,12 @@ import { Row, Col } from 'theme/system';
 import Header from 'components/Header';
 import theme from 'theme';
 
-import SavedSetsProvider from 'providers/SavedSets';
+import RootProvider from 'providers/RootProvider';
 
 export default () => (
   <ThemeProvider theme={theme}>
     <Router>
-      <SavedSetsProvider>
+      <RootProvider>
         <Component
           initialState={{
             version: globals.VERSION,
@@ -79,7 +79,7 @@ export default () => (
             </>
           )}
         </Component>
-      </SavedSetsProvider>
+      </RootProvider>
     </Router>
   </ThemeProvider>
 );

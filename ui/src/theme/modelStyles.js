@@ -170,7 +170,7 @@ export default css`
   }
 
   .pill {
-    width: 83px;
+    padding: 0 10px;
     height: 30px;
     border-radius: 10px;
     background-color: #ffffff;
