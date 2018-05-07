@@ -2,10 +2,11 @@ import React from 'react';
 import Component from 'react-component-component';
 import { Arranger, Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
-
 import searchStyles from 'theme/searchStyles';
 import Url from 'components/Url';
 import Quicksearch from 'components/Quicksearch';
+import PrimarySiteChart from 'components/PrimarySiteChart';
+import GrowthChart from 'components/GrowthChart';
 import TableEntity from 'components/TableEntity';
 import { Row, Col } from 'theme/system';
 import { SavedSetsContext } from 'providers/SavedSets';
@@ -35,6 +36,16 @@ export default props => (
                         />
                       </Col>
                       <Col className="search-results-wrapper" p={30} flex={1}>
+                        <Row
+                          bg="white"
+                          css={`
+                            height: 185px;
+                            padding: 16px;
+                          `}
+                        >
+                          <PrimarySiteChart sqon={sqon} />
+                          <GrowthChart sqon={sqon} />
+                        </Row>
                         <Row>
                           {!sqon && (
                             <Row
