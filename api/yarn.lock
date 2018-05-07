@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@arranger/mapping-utils@^0.3.24":
-  version "0.3.24"
-  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.24.tgz#5e8c7ba3c87873d0907d5d6f041e5a75777725d6"
+"@arranger/mapping-utils@^0.3.28":
+  version "0.3.28"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.28.tgz#cc3b0c521e1d8f970409c1224b81202991ce1b65"
   dependencies:
-    "@arranger/middleware" "^0.3.24"
+    "@arranger/middleware" "^0.3.28"
     babel-polyfill "^6.26.0"
     elasticsearch "^14.0.0"
     graphql-fields "^1.0.2"
@@ -14,24 +14,25 @@
     node-fetch "^2.0.0"
     uuid "^3.2.1"
 
-"@arranger/middleware@^0.3.24":
-  version "0.3.24"
-  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.3.24.tgz#713ecd6211163da275d86db8a9786f8153582db7"
+"@arranger/middleware@^0.3.28":
+  version "0.3.28"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.3.28.tgz#96b336cd831963f629e8ca05af16fde7f334a664"
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
+    date-fns "^1.29.0"
     express "^4.16.2"
     lodash "^4.17.4"
     morgan "^1.9.0"
     utf8 "^3.0.0"
     winston "^2.4.0"
 
-"@arranger/schema@^0.3.24":
-  version "0.3.24"
-  resolved "https://registry.yarnpkg.com/@arranger/schema/-/schema-0.3.24.tgz#d1ec634d7c87f853549cdf9264fcdc45e2ea6fb2"
+"@arranger/schema@^0.3.28":
+  version "0.3.28"
+  resolved "https://registry.yarnpkg.com/@arranger/schema/-/schema-0.3.28.tgz#478252946d457832f8bfce9e532e4d7478c2b41a"
   dependencies:
-    "@arranger/mapping-utils" "^0.3.24"
-    "@arranger/middleware" "^0.3.24"
+    "@arranger/mapping-utils" "^0.3.28"
+    "@arranger/middleware" "^0.3.28"
     babel-polyfill "^6.26.0"
     elasticsearch "^14.0.0"
     graphql-scalars "^0.1.5"
@@ -40,13 +41,13 @@
     lodash "^4.17.4"
     uuid "^3.2.1"
 
-"@arranger/server@0.3.24":
-  version "0.3.24"
-  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-0.3.24.tgz#03035d11cfaf629c71cd62f1dc1db2405f7e99dd"
+"@arranger/server@0.3.28":
+  version "0.3.28"
+  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-0.3.28.tgz#ffa487189daa280a32216ea1884830a064b24728"
   dependencies:
-    "@arranger/mapping-utils" "^0.3.24"
-    "@arranger/middleware" "^0.3.24"
-    "@arranger/schema" "^0.3.24"
+    "@arranger/mapping-utils" "^0.3.28"
+    "@arranger/middleware" "^0.3.28"
+    "@arranger/schema" "^0.3.28"
     apollo-server-express "^1.3.1"
     babel-polyfill "^6.26.0"
     body-parser "^1.18.2"
@@ -1262,6 +1263,10 @@ dashdash@^1.12.0:
   resolved "https://registry.yarnpkg.com/dashdash/-/dashdash-1.14.1.tgz#853cfa0f7cbe2fed5de20326b8dd581035f6e2f0"
   dependencies:
     assert-plus "^1.0.0"
+
+date-fns@^1.29.0:
+  version "1.29.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.29.0.tgz#12e609cdcb935127311d04d33334e2960a2a54e6"
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@~2.6.4, debug@~2.6.6:
   version "2.6.9"

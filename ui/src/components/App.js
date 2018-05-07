@@ -41,7 +41,7 @@ export default () => (
                 />
                 <Route
                   path="/admin"
-                  render={({ match }) => (
+                  render={() => (
                     <Col>
                       <Row>
                         <Row p={15}>

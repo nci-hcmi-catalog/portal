@@ -1,5 +1,10 @@
 import { css } from 'emotion';
 
+let headerHeight = '88px';
+let leftColumnWidth = '300px';
+let grey = '#f4f5f7';
+let primaryColor = '#900';
+
 export default css`
   .ReactTable {
     flex: 1;
@@ -35,16 +40,21 @@ export default css`
   }
 
   .sqon-value {
-    background-color: #900;
+    background-color: ${primaryColor};
     color: #fff;
     padding: 0 7px 0 12px;
     margin-right: 4px;
     cursor: pointer;
   }
 
-  .aggregations {
-    padding-top: 8px;
-    height: calc(100vh - 50px);
+  .search-results-wrapper {
+    background-color: ${grey};
+  }
+
+  .search-results-wrapper,
+  .aggregations-wrapper {
+    width: ${leftColumnWidth};
+    height: calc(100vh - ${headerHeight});
     overflow-y: auto;
   }
 
@@ -62,8 +72,13 @@ export default css`
   }
 
   .aggregation-card {
-    border-left-color: #774928 !important;
+    border-left: none;
     padding: 0px !important;
+    margin: 0px !important;
+  }
+
+  .aggregation-card .header {
+    margin: 0;
   }
 
   .aggregation-card .bucket {
@@ -84,11 +99,33 @@ export default css`
     margin-left: auto;
   }
 
-  .showMore-wrapper {
-    color: #900;
+  .quicksearch-wrapper .title-wrapper {
+    flex: 1;
+    justify-content: start;
   }
+
+  .quick-search {
+    flex: 1;
+  }
+
+  .quicksearch-label {
+    font-weight: bold;
+    color: #545454;
+    margin-right: 16px;
+    font-size: 14px;
+  }
+
+  .quick-search-result-entity-1 {
+    background-color: ${primaryColor};
+    color: white;
+  }
+
+  .showMore-wrapper {
+    color: ${primaryColor};
+  }
+
   .clickable {
-    color: #900;
+    color: ${primaryColor};
     cursor: pointer;
     text-decoration: underline;
   }

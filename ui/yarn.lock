@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@arranger/components@0.3.19":
-  version "0.3.19"
-  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-0.3.19.tgz#7646906e59e5f04a2cdba014452a02bf6552784f"
+"@arranger/components@0.3.29":
+  version "0.3.29"
+  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-0.3.29.tgz#52cd3ce00708c0d82c07db97002815348d11836a"
   dependencies:
-    "@arranger/mapping-utils" "^0.3.19"
+    "@arranger/mapping-utils" "^0.3.29"
     ajv "^6.1.1"
     babel-polyfill "^6.26.0"
     classnames "^2.2.5"
@@ -16,7 +16,6 @@
     filesize "^3.5.11"
     formik "^0.11.11"
     graphiql "^0.11.11"
-    js-cookie "^2.2.0"
     jsonpath "^1.0.0"
     lodash "^4.17.4"
     moment "^2.21.0"
@@ -42,11 +41,11 @@
     url-parse "^1.2.0"
     uuid "^3.2.1"
 
-"@arranger/mapping-utils@^0.3.19":
-  version "0.3.19"
-  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.19.tgz#097e6f4083b9b1224e335d6496d43542c077a595"
+"@arranger/mapping-utils@^0.3.29":
+  version "0.3.29"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.29.tgz#de9c1b78aa0dae05f4d109661ff333fc78c59c20"
   dependencies:
-    "@arranger/middleware" "^0.3.19"
+    "@arranger/middleware" "^0.3.29"
     babel-polyfill "^6.26.0"
     elasticsearch "^14.0.0"
     graphql-fields "^1.0.2"
@@ -54,12 +53,13 @@
     node-fetch "^2.0.0"
     uuid "^3.2.1"
 
-"@arranger/middleware@^0.3.19":
-  version "0.3.19"
-  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.3.19.tgz#69f4ca09f89ef20d70779e681601575f9f045417"
+"@arranger/middleware@^0.3.29":
+  version "0.3.29"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.3.29.tgz#92841f6faff6df5f330d4e04290e45481313db67"
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
+    date-fns "^1.29.0"
     express "^4.16.2"
     lodash "^4.17.4"
     morgan "^1.9.0"
@@ -3121,6 +3121,10 @@ data-urls@^1.0.0:
     whatwg-mimetype "^2.0.0"
     whatwg-url "^6.4.0"
 
+date-fns@^1.29.0:
+  version "1.29.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.29.0.tgz#12e609cdcb935127311d04d33334e2960a2a54e6"
+
 date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
@@ -5855,10 +5859,6 @@ jquery@x.*:
 js-base64@^2.1.9:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.4.3.tgz#2e545ec2b0f2957f41356510205214e98fad6582"
-
-js-cookie@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.0.tgz#1b2c279a6eece380a12168b92485265b35b1effb"
 
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
