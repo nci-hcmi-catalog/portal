@@ -50,9 +50,11 @@ export default css`
     background-color: ${grey};
   }
 
+  .search-split-pane,
   .search-results-wrapper,
   .aggregations-wrapper {
-    height: calc(100vh - ${headerHeight});
+    /* important to override react-split-pane inline style */
+    height: calc(100vh - ${headerHeight}) !important;
     overflow-y: auto;
   }
 

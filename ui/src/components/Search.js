@@ -16,6 +16,7 @@ let stable = true;
 export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...props }) => (
   <Row css={searchStyles}>
     <SplitPane
+      className="search-split-pane"
       split="vertical"
       minSize={50}
       defaultSize={state.panelSize}
