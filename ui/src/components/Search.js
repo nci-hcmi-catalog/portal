@@ -44,33 +44,6 @@ export default props => (
                           `}
                         >
                           <PrimarySiteChart sqon={sqon} />
-                          {/* <Col alignItems="center">
-                            {' '}
-                            <span
-                              className="sqon-field"
-                              css={`
-                                font-size: 12px;
-                              `}
-                            >
-                              Top Variants
-                            </span>
-                            <VictoryChart domainPadding={100}>
-                              <VictoryBar
-                                style={{
-                                  data: {
-                                    fill: d => {
-                                      return ['#ee7f6d', '#e96535', '#f5b464'][d.eventKey % 3];
-                                    },
-                                  },
-                                }}
-                                data={[
-                                  { x: 'Cats', y: 55 },
-                                  { x: 'Dogs', y: 40 },
-                                  { x: 'Birds', y: 35 },
-                                ]}
-                              />
-                            </VictoryChart>
-                          </Col> */}
                           <GrowthChart sqon={sqon} />
                         </Row>
                         <Row>
