@@ -8,7 +8,7 @@ import { ThemeProvider } from 'emotion-theming';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { Dashboard as ArrangerDashboard } from '@arranger/components';
 
-import Search from 'components/Search';
+import Search from 'components/SearchWrapper';
 import Model from 'components/Model';
 import AdminNav from 'components/AdminNav';
 import { Row, Col } from 'theme/system';
@@ -51,7 +51,7 @@ export default () => (
                     />
                     <Route
                       path="/admin"
-                  render={() => (
+                      render={() => (
                         <Col>
                           <Row>
                             <Row p={15}>
