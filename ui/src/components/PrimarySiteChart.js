@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React from 'react';
 import { VictoryPie, VictoryTooltip } from 'victory';
 import { sortBy } from 'lodash';
@@ -36,7 +38,7 @@ export default ({ sqon }) => (
               `}
             >
               {sortBy(state.buckets, x => x.doc_count)[0]
-                .key.split(' ')
+                ?.key.split(' ')
                 .map((x, i) => <div key={i}>{x}</div>)}
               <div
                 css={`
@@ -45,7 +47,7 @@ export default ({ sqon }) => (
                   margin-top: 4px;
                 `}
               >
-                {sortBy(state.buckets, x => x.doc_count)[0].doc_count}
+                {sortBy(state.buckets, x => x.doc_count)[0]?.doc_count}
               </div>
             </div>
             <VictoryPie
