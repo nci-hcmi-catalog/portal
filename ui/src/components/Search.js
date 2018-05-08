@@ -12,6 +12,7 @@ import { Row, Col } from 'theme/system';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 
 let stable = true;
+let PassChildren = ({ children }) => <>{children}</>;
 
 export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...props }) => (
   <Row css={searchStyles}>
@@ -37,7 +38,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
                 setSQON={setSQON}
                 index={props.index}
                 graphqlField={props.index}
-                Wrapper={React.Fragment}
+                Wrapper={PassChildren}
               />
             </>
           )}
@@ -61,7 +62,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
           <Component shouldUpdate={() => stable}>
             {() => (
               <>
-                <PrimarySiteChart sqon={sqon} />
+                <PrimarySiteChart sqon={sqon} setSQON={setSQON} />
                 <GrowthChart sqon={sqon} />
               </>
             )}

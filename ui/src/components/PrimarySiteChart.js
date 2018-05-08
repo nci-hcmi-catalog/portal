@@ -3,11 +3,12 @@
 import React from 'react';
 import { VictoryPie, VictoryTooltip } from 'victory';
 import { sortBy } from 'lodash';
+import { toggleSQON } from '@arranger/components/dist/SQONView/utils';
 import AggregationQuery from 'components/Queries/AggregationQuery';
 import { Col } from 'theme/system';
 import theme from 'theme';
 
-export default ({ sqon }) => (
+export default ({ sqon, setSQON }) => (
   <Col
     alignItems="center"
     css={`
@@ -57,6 +58,33 @@ export default ({ sqon }) => (
                   fontSize: 40,
                 },
               }}
+              events={[
+                {
+                  target: 'data',
+                  eventHandlers: {
+                    onClick: (e, props) => {
+                      setSQON(
+                        toggleSQON(
+                          {
+                            op: 'and',
+                            content: [
+                              {
+                                op: 'in',
+                                content: {
+                                  field: 'primary_site',
+                                  value: [].concat(props.slice.data.x || []),
+                                },
+                              },
+                            ],
+                          },
+                          sqon,
+                        ),
+                      );
+                      return [];
+                    },
+                  },
+                },
+              ]}
               innerRadius={102}
               colorScale={theme.palette}
               data={state.buckets.map(x => ({
