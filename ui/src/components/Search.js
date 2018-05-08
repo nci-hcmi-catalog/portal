@@ -37,7 +37,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
                 setSQON={setSQON}
                 index={props.index}
                 graphqlField={props.index}
-                Wrapper={props => <React.Fragment {...props} />}
+                Wrapper={React.Fragment}
               />
             </>
           )}
