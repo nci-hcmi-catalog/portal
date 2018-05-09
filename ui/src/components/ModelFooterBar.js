@@ -11,7 +11,7 @@ export default ({ name }) => (
   <Url
     render={({ sqon, history }) => (
       <Row className="model-footer-bar">
-        <BackToSearch sqon={sqon} history={history}>
+        <BackToSearch sqon={sqon} history={history} css={`padding-right: 20px; width: 30%;`}>
           <ArrowLeftIcon height={9} width={5} fill="#724c31" /> Back to Search
         </BackToSearch>
         {sqon && (
