@@ -21,6 +21,8 @@
     "jest": "^22.4.3"
   },
   "dependencies": {
+    "faker": "^4.1.0",
+    "lodash": "^4.17.10",
     "omit-deep": "^0.3.0"
   }
 }
