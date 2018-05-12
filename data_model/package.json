@@ -1,0 +1,26 @@
+{
+  "name": "hcmi_data_model",
+  "version": "0.1.0",
+  "description": "HCMI Data Model",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nci-hcmi-catalog"
+  },
+  "author": "OICR",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.46",
+    "@babel/core": "^7.0.0-beta.46",
+    "@babel/preset-env": "^7.0.0-beta.46",
+    "babel-core": "^7.0.0-0",
+    "babel-jest": "^22.4.3",
+    "jest": "^22.4.3"
+  },
+  "dependencies": {
+    "omit-deep": "^0.3.0"
+  }
+}
