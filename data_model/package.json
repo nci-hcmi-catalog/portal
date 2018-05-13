@@ -16,9 +16,11 @@
     "@babel/cli": "^7.0.0-beta.46",
     "@babel/core": "^7.0.0-beta.46",
     "@babel/preset-env": "^7.0.0-beta.46",
+    "@babel/register": "^7.0.0-beta.46",
     "babel-core": "^7.0.0-0",
     "babel-jest": "^22.4.3",
-    "jest": "^22.4.3"
+    "jest": "^22.4.3",
+    "yargs": "^11.0.0"
   },
   "dependencies": {
     "faker": "^4.1.0",

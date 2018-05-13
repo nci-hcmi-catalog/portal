@@ -1,4 +1,4 @@
-export default {
+export default () => ({
   analysis: {
     analyzer: {
       autocomplete_analyzed: {
@@ -25,4 +25,4 @@ export default {
   },
   'index.mapping.nested_fields.limit': 100,
   'index.max_result_window': 100000000,
-};
+});
