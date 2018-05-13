@@ -93,27 +93,27 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
         [EXTENSIONS_KEY]: {
           [FAKER_KEY]: ['1', '2', '3', '4'],
         },
-        histological_type: {
-          type: 'keyword',
-          [EXTENSIONS_KEY]: {
-            [FAKER_KEY]: ['Favorable', 'Unfavorable', 'Unknown'],
-          },
+      },
+      histological_type: {
+        type: 'keyword',
+        [EXTENSIONS_KEY]: {
+          [FAKER_KEY]: ['Favorable', 'Unfavorable', 'Unknown'],
         },
-        histopathological_biomarkers: {
-          type: 'keyword',
-          [EXTENSIONS_KEY]: {
-            [FAKER_KEY]: {
-              min: 2,
-              max: 10,
-              enum: [
-                'EWSR1-PBX1',
-                'EWSR1-ZNF444',
-                'EWSR1-POU5F1',
-                'CD99 positive',
-                'RET rearranged',
-                'PTEN negative',
-              ],
-            },
+      },
+      histopathological_biomarkers: {
+        type: 'keyword',
+        [EXTENSIONS_KEY]: {
+          [FAKER_KEY]: {
+            min: 2,
+            max: 10,
+            enum: [
+              'EWSR1-PBX1',
+              'EWSR1-ZNF444',
+              'EWSR1-POU5F1',
+              'CD99 positive',
+              'RET rearranged',
+              'PTEN negative',
+            ],
           },
         },
       },
@@ -336,8 +336,8 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
             type: 'keyword',
             [EXTENSIONS_KEY]: {
               [FAKER_KEY]: {
-                minItems: 1,
-                maxItems: 2,
+                min: 1,
+                max: 2,
                 enum: [
                   'BRAF',
                   'BCOR',
@@ -366,17 +366,17 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
             },
           },
         },
-        name: {
-          type: 'keyword',
-          [EXTENSIONS_KEY]: {
-            [FAKER_KEY]: 'placeholder',
-          },
+      },
+      name: {
+        type: 'keyword',
+        [EXTENSIONS_KEY]: {
+          [FAKER_KEY]: 'placeholder',
         },
-        type: {
-          type: 'keyword',
-          [EXTENSIONS_KEY]: {
-            [FAKER_KEY]: ['SNV', 'Indel', 'Fusion'],
-          },
+      },
+      type: {
+        type: 'keyword',
+        [EXTENSIONS_KEY]: {
+          [FAKER_KEY]: ['SNV', 'Indel', 'Fusion'],
         },
       },
     },

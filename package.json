@@ -6,7 +6,8 @@
     "netlify": "cd ui && yarn && yarn build",
     "api": "cd api && yarn start",
     "ui": "cd ui && yarn start",
-    "mapping": "cd data_model && node bin/index --script mapping"
+    "mapping": "cd data_model && node bin/index --script mapping",
+    "fake": "cd data_model && node bin/index --script fake"
   },
   "repository": {
     "type": "git",
