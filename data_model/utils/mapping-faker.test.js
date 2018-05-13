@@ -1,4 +1,5 @@
 import fake from './mapping-faker';
+import actualMapping from '../model/properties.mapping';
 
 let props = ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) => ({
   histopathological_biomarkers: {
@@ -30,7 +31,7 @@ let props = ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) => (
       aquisition_site: {
         type: 'keyword',
         [EXTENSIONS_KEY]: {
-          [FAKER_KEY]: 'lol',
+          [FAKER_KEY]: /[A-Z]{4}-[a-z]{4}/,
         },
       },
     },
@@ -49,9 +50,17 @@ let props = ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) => (
       },
     },
   },
+  chemotherapeutic_drug_list_available: {
+    type: 'boolean',
+  },
 });
 
 test('Creating a fake doc from mapping should not crash', () => {
   let result = fake(props());
+  console.log('test mapping faker result: \n', result);
+  expect(result).toBeTruthy();
+
+  result = fake(actualMapping());
+  console.log('actual mapping faker result: \n', result);
   expect(result).toBeTruthy();
 });
