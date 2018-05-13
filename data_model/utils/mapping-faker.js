@@ -1,4 +1,4 @@
-import { range, cond, isString, isNumber, isRegExp } from 'lodash';
+import { range, cond, isString, isNumber, isRegExp, mapValues } from 'lodash';
 import { random } from 'faker';
 import RandExp from 'randexp';
 
@@ -49,12 +49,7 @@ let traverse = ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker', ...props
     [v => v.type === 'boolean', random.boolean],
   ];
 
-  return Object.entries(props).reduce((p, [k, v]) => {
-    return {
-      ...p,
-      [k]: cond(conditions)(v),
-    };
-  }, {});
+  return mapValues(props, cond(conditions));
 };
 
 export default traverse;
