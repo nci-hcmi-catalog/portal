@@ -24,7 +24,7 @@ let properties = require(`../${argv._}/properties.mapping`).default();
 let settings = require(`../${argv._}/settings.index`).default();
 
 let main = async () => {
-  let spinner = ora(`Creating ${argv.index} index from ${argv._} data model`).start();
+  let spinner = ora(`Creating ${argv.index} index from ${argv._} mapping`).start();
 
   try {
     await es.indices.create({
@@ -37,8 +37,7 @@ let main = async () => {
     });
 
     spinner.succeed();
-
-    spinner.start('test?');
+    spinner.start(`Loading ${argv.length} documents into the ${argv.index} index`);
 
     await es.bulk({
       body: flattenDeep(
@@ -55,10 +54,10 @@ let main = async () => {
       ),
     });
 
-    spinner.succeed('worked?');
+    spinner.succeed();
   } catch (error) {
-    // console.log();
-    spinner.fail(error.message);
+    spinner.fail();
+    console.log(error);
   }
 };
 
