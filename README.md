@@ -14,6 +14,12 @@ SKIP_PREFLIGHT_CHECK=true yarn ui
 
 # example api prod start command
 ES_URL=http://es.hcmi.cancercollaboratory.org:9200 cd api && pm2 start npm --name api -- run start
+
+# Print elasticsearch mapping
+yarn mapping <data_model> --name model
+
+# Create and populate elasticsearch index from mapping
+yarn fake <data_model> --length 10000 --index model --type model
 ```
 
 #### Specs

@@ -16,11 +16,20 @@
     "@babel/cli": "^7.0.0-beta.46",
     "@babel/core": "^7.0.0-beta.46",
     "@babel/preset-env": "^7.0.0-beta.46",
+    "@babel/register": "^7.0.0-beta.46",
     "babel-core": "^7.0.0-0",
     "babel-jest": "^22.4.3",
-    "jest": "^22.4.3"
+    "jest": "^22.4.3",
+    "yargs": "^11.0.0"
   },
   "dependencies": {
-    "omit-deep": "^0.3.0"
+    "babel-polyfill": "^6.26.0",
+    "elasticsearch": "^14.2.2",
+    "faker": "^4.1.0",
+    "lodash": "^4.17.10",
+    "omit-deep": "^0.3.0",
+    "ora": "^2.1.0",
+    "randexp": "^0.4.9",
+    "uuid": "^3.2.1"
   }
 }
