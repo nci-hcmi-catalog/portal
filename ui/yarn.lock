@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@arranger/components@v0.3.47":
-  version "0.3.47"
-  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-0.3.47.tgz#472924e673e426ed651af7cfa2064d4d259a718c"
+"@arranger/components@0.3.57":
+  version "0.3.57"
+  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-0.3.57.tgz#14b4405e25a84e95d75fcf259d2bb84eeb85aff0"
   dependencies:
-    "@arranger/mapping-utils" "^0.3.47"
+    "@arranger/mapping-utils" "^0.3.57"
     ajv "^6.1.1"
     babel-polyfill "^6.26.0"
     classnames "^2.2.5"
@@ -41,11 +41,11 @@
     url-parse "^1.2.0"
     uuid "^3.2.1"
 
-"@arranger/mapping-utils@^0.3.47":
-  version "0.3.47"
-  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.47.tgz#bf47bceb16e64ee9f75fc124b888947b237e5da4"
+"@arranger/mapping-utils@^0.3.57":
+  version "0.3.57"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.57.tgz#3f29e61cf4e74e9e72538ef7555ee1d69c35cacc"
   dependencies:
-    "@arranger/middleware" "^0.3.47"
+    "@arranger/middleware" "^0.3.57"
     babel-polyfill "^6.26.0"
     elasticsearch "^14.0.0"
     graphql-fields "^1.0.2"
@@ -53,9 +53,9 @@
     node-fetch "^2.0.0"
     uuid "^3.2.1"
 
-"@arranger/middleware@^0.3.47":
-  version "0.3.47"
-  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.3.47.tgz#a0b80f4f150cde233c4f8c0635627dcffe83c372"
+"@arranger/middleware@^0.3.57":
+  version "0.3.57"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.3.57.tgz#8b09d81ffb5412c15c0d412955493ec1e7f3b3eb"
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
@@ -4162,6 +4162,10 @@ file-loader@1.1.6:
 filename-regex@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/filename-regex/-/filename-regex-2.0.1.tgz#c1c4b9bee3e09725ddb106b75c1e301fe2f18b26"
+
+filesaver.js@^1.3.4:
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/filesaver.js/-/filesaver.js-1.3.4.tgz#7911a6313ae84fa370418b2be5e75842b5be5b17"
 
 fileset@^2.0.2:
   version "2.0.3"

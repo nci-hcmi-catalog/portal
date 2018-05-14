@@ -126,12 +126,13 @@ export default css`
   .entity-horizontal-table tr:nth-child(even) {
     background: #ffffff;
   }
+
   .entity-horizontal-table tr:nth-child(odd) {
     background: #f8fafb;
   }
+
   .entity-horizontal-table td {
     padding: 10px;
-    border: solid 1px #cacbcf;
     font-size: 12px;
     font-weight: normal;
     font-style: normal;
@@ -139,8 +140,21 @@ export default css`
     line-height: 1.57;
     font-family: 'Open Sans';
     font-size: 14px;
+    border: 0;
   }
+
+  .entity-horizontal-table td.content {
+    border-left: 0;
+    border-top: solid 1px #cacbcf;
+    border-bottom: solid 1px #cacbcf;
+    border-right: solid 1px #cacbcf;
+  }
+
   .entity-horizontal-table td.heading {
+    border-left: solid 1px #cacbcf;
+    border-top: solid 1px #cacbcf;
+    border-bottom: solid 1px #cacbcf;
+    border-right: 0;
     color: #64666a;
     text-transform: uppercase;
     font-size: 12px;
@@ -175,7 +189,7 @@ export default css`
   }
 
   .pill {
-    padding: 0 10px;
+    padding: 0 15px;
     height: 30px;
     border-radius: 10px;
     background-color: #ffffff;
@@ -194,5 +208,75 @@ export default css`
     align-items: center;
     justify-content: center;
     cursor: pointer;
+  }
+
+  .toolbar {
+    background-color: #ffffff;
+    border-right: solid 1px #cacbcf;
+    border-top: solid 1px #cacbcf;
+    border-left: solid 1px #cacbcf;
+    border-bottom: 0;
+    padding: 20px 24px;
+    font-family: 'Open Sans';
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 2.17;
+    letter-spacing: normal;
+    text-align: left;
+    color: #64666a;
+    z-index: 1;
+  }
+
+  .tabs-title {
+    border: solid 1px #cacbcf;
+    cursor: pointer;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 18px 40px;
+    margin-right: 10px;
+    background-color: #ebf1f3;
+    color: #900000;
+    font-family: 'Libre Franklin';
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-bottom: 0;
+    border-top: solid 1px #cacbcf;
+    border-left: solid 1px #cacbcf;
+    border-right: solid 1px #cacbcf;
+    position: relative;
+    top: 1px;
+    z-index: 0;
+  }
+
+  .tabs-title.active-tab {
+    border-top: solid 1px #cacbcf;
+    border-left: solid 1px #cacbcf;
+    border-right: solid 1px #cacbcf;
+    border-bottom: 0;
+    background-color: #fff;
+    z-index: 2;
+    color: #000;
+  }
+
+  .ReactTable {
+    border-right: 1px solid #cacbcf;
+    border-top: 1px solid #cacbcf;
+    border-left: 1px solid #cacbcf;
+    border-bottom: 0;
+  }
+
+  .ReactTable .rt-tbody .rt-td {
+    border-right: 0;
+    border-bottom: 1px solid #cacbcf;
+  }
+
+  .ReactTable.-striped .rt-th {
+    border-right: 0;
+    border-top: 0;
+    border-left: 0;
+    border-bottom: 1px solid #cacbcf;
   }
 `;

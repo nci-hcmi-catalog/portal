@@ -31,6 +31,10 @@ export default css`
     flex: none;
   }
 
+  .ReactTable .-pagination {
+    box-shadow: none;
+  }
+
   .input-range__track.input-range__track--active {
     background-color: #fc7678;
   }
