@@ -32,7 +32,7 @@ class SavedSetsProvider extends React.Component {
                   }
                 }`,
                 variables: {
-                  sqon,
+                  sqon: sqon || {},
                   sort,
                 },
               },
