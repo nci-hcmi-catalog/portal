@@ -58,6 +58,10 @@ export default css`
     overflow-y: auto;
   }
 
+  .aggregations {
+    width: 100%;
+  }
+
   .aggregation-card .title-wrapper {
     background-color: #f4f5f7;
     padding: 8px;
