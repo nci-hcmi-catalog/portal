@@ -294,7 +294,8 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
       [FAKER_KEY]: ['1:2', '1:4', '1:8'],
     },
   },
-  genes: {type: 'nested',
+  genes: {
+    type: 'nested',
     properties: {
       gene_symbol: {
         type: 'keyword',
