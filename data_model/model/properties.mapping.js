@@ -99,24 +99,6 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
         [EXTENSIONS_KEY]: {
           [FAKER_KEY]: ['Favorable', 'Unfavorable', 'Unknown'],
         },
-      },
-      histopathological_biomarkers: {
-        type: 'keyword',
-        [EXTENSIONS_KEY]: {
-          [FAKER_KEY]: {
-            min: 2,
-            max: 10,
-            enum: [
-              'EWSR1-PBX1',
-              'EWSR1-ZNF444',
-              'EWSR1-POU5F1',
-              'CD99 positive',
-              'RET rearranged',
-              'PTEN negative',
-            ],
-          },
-        },
-      },
     },
   },
   disease_status: {
