@@ -99,6 +99,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
         [EXTENSIONS_KEY]: {
           [FAKER_KEY]: ['Favorable', 'Unfavorable', 'Unknown'],
         },
+      },
     },
   },
   disease_status: {
@@ -310,6 +311,8 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
               'MET',
             ],
           },
+        },
+      },
       variants: {
         type: `nested`,
         properties: {
@@ -436,27 +439,29 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
                       'PAX3 - FOXO1 ',
                       'PAX7 - FOXO1',
                       'RET rearranged',
-                      'ROS1 rearranged',   
+                      'ROS1 rearranged',
                     ],
+                  },
                 },
               },
               type: {
                 type: `keyword`,
                 [EXTENSIONS_KEY]: {
                   [FAKER_KEY]: ['SNV', 'Indel', 'transolocation'],
-              }
-            }
+                },
+              },
+            },
           },
           histopathological_biomarkers: {
             type: `nested`,
-              properties: {
-                name: {
-                  type: `keyword`,
-                  [EXTENSIONS_KEY]: {
-                    [FAKER_KEY]: {
-                      min: 1,
-                      max: 20,
-                      enum: [
+            properties: {
+              name: {
+                type: `keyword`,
+                [EXTENSIONS_KEY]: {
+                  [FAKER_KEY]: {
+                    min: 1,
+                    max: 20,
+                    enum: [
                       'BRAF',
                       'CD99',
                       'Estrogen receptor',
@@ -473,25 +478,28 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
                       'PMS2',
                       'Progesterone receptor',
                       'PTEN',
-                      'SMAD4'
-                      ],
+                      'SMAD4',
+                    ],
                   },
                 },
-                assessment_type: {
-                  type: `keyword`,
-                  [EXTENSIONS_KEY]: {
-                    [FAKER_KEY]: ['IHC','CISH','FISH','Pyrosequencing/methylation-specific PCR'],
+              },
+              assessment_type: {
+                type: `keyword`,
+                [EXTENSIONS_KEY]: {
+                  [FAKER_KEY]: ['IHC', 'CISH', 'FISH', 'Pyrosequencing/methylation-specific PCR'],
                 },
-                expression_level: {
-                  type: `keyword`,
-                  [EXTENSIONS_KEY]: {
-                    [FAKER_KEY]: ['Positive','Negative','Equivocal'],
-                }
-              }
-          }
-        }
-      }
-    }
+              },
+              expression_level: {
+                type: `keyword`,
+                [EXTENSIONS_KEY]: {
+                  [FAKER_KEY]: ['Positive', 'Negative', 'Equivocal'],
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
   therapy: {
     type: 'keyword',
