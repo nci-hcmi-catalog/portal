@@ -474,10 +474,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
               name: {
                 type: `keyword`,
                 [EXTENSIONS_KEY]: {
-                  [FAKER_KEY]: {
-                    min: 1,
-                    max: 20,
-                    enum: [
+                  [FAKER_KEY]: [
                       'BRAF',
                       'CD99',
                       'Estrogen receptor',
@@ -496,7 +493,6 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
                       'PTEN',
                       'SMAD4',
                     ],
-                  },
                 },
               },
               assessment_type: {
