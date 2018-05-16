@@ -279,6 +279,12 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
   },
   genes: {
     type: 'nested',
+    [EXTENSIONS_KEY]: {
+      [FAKER_KEY]: {
+        min: 1,
+        max: 10,
+      },
+    },
     properties: {
       gene_symbol: {
         type: 'keyword',
@@ -314,10 +320,22 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
         },
       },
       variants: {
-        type: `nested`,
+        type: 'nested',
+        [EXTENSIONS_KEY]: {
+          [FAKER_KEY]: {
+            min: 1,
+            max: 10,
+          },
+        },
         properties: {
           clinical_sequencing: {
-            type: `nested`,
+            type: 'nested',
+            [EXTENSIONS_KEY]: {
+              [FAKER_KEY]: {
+                min: 5,
+                max: 10,
+              },
+            },
             properties: {
               name: {
                 type: `keyword`,
@@ -453,7 +471,13 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
             },
           },
           histopathological_biomarkers: {
-            type: `nested`,
+            type: 'nested',
+            [EXTENSIONS_KEY]: {
+              [FAKER_KEY]: {
+                min: 5,
+                max: 10,
+              },
+            },
             properties: {
               name: {
                 type: `keyword`,
