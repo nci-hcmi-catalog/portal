@@ -57,10 +57,8 @@ let props = ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) => (
 
 test('Creating a fake doc from mapping should not crash', () => {
   let result = fake(props());
-  console.log('test mapping faker result: \n', result);
   expect(result).toBeTruthy();
 
   result = fake(actualMapping());
-  console.log('actual mapping faker result: \n', result);
   expect(result).toBeTruthy();
 });

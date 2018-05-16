@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "HCMI Portal",
   "scripts": {
+    "test": "cd data_model && yarn test",
     "netlify": "cd ui && yarn && yarn build",
     "api": "cd api && yarn start",
     "ui": "cd ui && yarn start",
