@@ -9,7 +9,7 @@ export default {
     '#fd7746',
     '#ef904b',
     '#fdab40',
-    '#f8bb4a',
+    'fae8ca',
   ],
   buttons: {
     primary: {
