@@ -35,6 +35,31 @@ export default css`
     background-color: #fc7678;
   }
 
+  .showMore-wrapper.more,
+  .showMore-wrapper.less {
+    justify-content: normal;
+  }
+
+  .showMore-wrapper.more::before {
+    content: '+';
+    border: 1px solid #990000;
+    border-radius: 100px;
+    padding: 1px 5px;
+    transform: scale(0.65);
+    font-weight: bold;
+    margin-right: 2px;
+  }
+
+  .showMore-wrapper.less::before {
+    content: '-';
+    border: 1px solid #990000;
+    border-radius: 100px;
+    padding: 1px 5px;
+    transform: scale(0.65);
+    font-weight: bold;
+    margin-right: 2px;
+  }
+
   .sqon-view {
     background-color: #ffffff;
     border: none;
