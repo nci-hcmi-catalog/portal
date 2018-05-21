@@ -2,8 +2,6 @@ import { range, cond, isString, isNumber, isRegExp, set } from 'lodash';
 import { random } from 'faker';
 import RandExp from 'randexp';
 
-let context = {};
-
 let traverse = (
   {
     EXTENSIONS_KEY = '__extensions',
@@ -18,7 +16,7 @@ let traverse = (
     },
     ...props
   },
-  path = [],
+  { path = [], context = {} } = {},
 ) => {
   let val = v => v[EXTENSIONS_KEY]?.[FAKER_KEY];
 
@@ -52,7 +50,7 @@ let traverse = (
         }
 
         let output = range(random.number(minMax || options.defaults.nested)).map(index =>
-          traverse(v.properties, [...path, k, index]),
+          traverse(v.properties, { path: [...path, k, index], context }),
         );
 
         set(context, [...path, k], output);
@@ -64,7 +62,7 @@ let traverse = (
     [
       ([k, v]) => !val(v) && v.properties,
       ([k, v]) => {
-        let output = traverse(v.properties, [...path, k]);
+        let output = traverse(v.properties, { path: [...path, k], context });
         set(context, [...path, k], output);
         return output;
       },

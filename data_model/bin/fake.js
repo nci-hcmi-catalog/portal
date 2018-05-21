@@ -20,28 +20,43 @@ let es = new elasticsearch.Client({
   host: argv.host || 'http://localhost:9200',
 });
 
-let properties = require(`../${argv._}/properties.mapping`).default();
-let settings = require(`../${argv._}/settings.index`).default();
+let model_properties = require(`../model/properties.mapping`).default();
+let model_settings = require(`../model/settings.index`).default();
+let variant_properties = require(`../variant/properties.mapping`).default();
+let variant_settings = require(`../variant/settings.index`).default();
 
 let main = async () => {
-  let spinner = ora(`Creating ${argv.index} index from ${argv._} mapping`).start();
+  let spinner = ora(`Creating model and variant indices`).start();
 
   try {
+    // model index
     await es.indices.create({
       index: argv.index,
       body: exportMapping({
         name: argv.type,
-        properties,
-        settings,
+        properties: model_properties,
+        settings: model_settings,
+      }),
+    });
+
+    // variant index
+    await es.indices.create({
+      index: `variant_from_${argv.index}`,
+      body: exportMapping({
+        name: `variant_from_${argv.type}`,
+        properties: variant_properties,
+        settings: variant_settings,
       }),
     });
 
     spinner.succeed();
     spinner.start(`Loading ${argv.length} documents into the ${argv.index} index`);
 
+    let models = range(argv.length).map(() => fake(model_properties));
+
     await es.bulk({
       body: flattenDeep(
-        range(argv.length).map(() => [
+        models.map(model => [
           {
             index: {
               _index: argv.index,
@@ -49,7 +64,7 @@ let main = async () => {
               _id: uuid(),
             },
           },
-          fake(properties),
+          model,
         ]),
       ),
     });
