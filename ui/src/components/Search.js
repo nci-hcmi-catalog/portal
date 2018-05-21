@@ -50,6 +50,34 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
           width: calc(100vw - ${state.panelSize}px);
         `}
       >
+        <Row>
+          {!sqon && (
+            <Row
+              css={`
+                line-height: 50px;
+                padding: 0 14px;
+                background-color: white;
+                flex: 1;
+              `}
+            >
+              <span
+                className="sqon-field no-sqon-message"
+                css={`
+                  font-size: 12px;
+                `}
+              >
+                Use the filter panel on the left to customize your model search.
+              </span>
+            </Row>
+          )}
+          <CurrentSQON
+            {...props}
+            sqon={sqon}
+            setSQON={setSQON}
+            index={props.index}
+            graphqlField={props.index}
+          />
+        </Row>
         <Row
           bg="white"
           css={`
@@ -65,35 +93,6 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
               </>
             )}
           </Component>
-        </Row>
-        <Row>
-          {!sqon && (
-            <Row
-              css={`
-                line-height: 50px;
-                padding: 0 14px;
-                background-color: white;
-                flex: 1;
-              `}
-            >
-              <span
-                className="sqon-field"
-                css={`
-                  font-size: 12px;
-                  color: #d0d0d0ab;
-                `}
-              >
-                FILTERS
-              </span>
-            </Row>
-          )}
-          <CurrentSQON
-            {...props}
-            sqon={sqon}
-            setSQON={setSQON}
-            index={props.index}
-            graphqlField={props.index}
-          />
         </Row>
         <Component shouldUpdate={() => stable}>
           {() => (

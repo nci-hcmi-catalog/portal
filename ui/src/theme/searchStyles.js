@@ -39,11 +39,21 @@ export default css`
   }
 
   .sqon-value {
-    background-color: ${primaryColor};
+    background-color: #d3494d;
     color: #fff;
     padding: 0 7px 0 12px;
     margin-right: 4px;
     cursor: pointer;
+  }
+
+  .sqon-clear {
+    background-color: #f3f6f7;
+    color: #724c31;
+    font-weight: bold;
+  }
+
+  .sqon-value-group {
+    color: #323232;
   }
 
   .search-results-wrapper {
@@ -56,6 +66,25 @@ export default css`
     /* important to override react-split-pane inline style */
     height: calc(100vh - ${headerHeight}) !important;
     overflow-y: auto;
+  }
+
+  .no-sqon-message {
+    text-transform: none;
+    color: #676767;
+    font-weight: normal;
+  }
+
+  .search-results-wrapper > * + * {
+    margin-top: 10px;
+  }
+
+  .search-results-wrapper .ReactTable {
+    margin-top: 0;
+    border-top: none;
+  }
+
+  .search-results-wrapper > * {
+    border: 1px solid #d6d6d6;
   }
 
   .aggregations {
