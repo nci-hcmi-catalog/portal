@@ -88,8 +88,13 @@ export default css`
     align-items: start;
   }
 
-  .model-section .col {
+  .model-section .three-col {
     width: 31%;
+    min-width: 440px;
+  }
+
+  .model-section .two-col {
+    width: 48%;
     min-width: 440px;
   }
 
