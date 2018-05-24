@@ -418,7 +418,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
           [FAKER_KEY]: ['clinical_sequencing', 'histopathological_biomarker', 'genomic_sequencing'],
         },
       },  
-      gene_symbol: {
+      genes: {
         type: 'keyword',
         [EXTENSIONS_KEY]: {
           [FAKER_KEY]: [
