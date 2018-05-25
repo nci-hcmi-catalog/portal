@@ -13,6 +13,7 @@ import styles from 'theme/modelStyles';
 import AdminIcon from 'icons/AdminIcon';
 import ModelIcon from 'icons/ModelIcon';
 import PatientIcon from 'icons/PatientIcon';
+import CameraIcon from 'icons/CameraIcon';
 
 const HorizontalTable = ({ data, css }) => (
   <table className="entity-horizontal-table" css={css}>
@@ -109,7 +110,7 @@ export default ({ modelName }) => (
                 Model Details
               </h3>
               <Row className="row">
-                <Col className="col">
+                <Col className="three-col">
                   <HorizontalTable
                     data={{
                       name: state.model.name,
@@ -120,7 +121,7 @@ export default ({ modelName }) => (
                   />
                 </Col>
 
-                <Col className="col">
+                <Col className="three-col">
                   <HorizontalTable
                     data={{
                       'primary site': state.model.primary_site,
@@ -133,7 +134,7 @@ export default ({ modelName }) => (
                     }}
                   />
                 </Col>
-                <Col className="col">
+                <Col className="three-col">
                   <HorizontalTable
                     data={{
                       'clinical tumor diagnosis': 'TBD',
@@ -157,7 +158,7 @@ export default ({ modelName }) => (
               `}
             >
               <Row className="row">
-                <Col className="col">
+                <Col className={state.model.model_image ? 'three-col' : 'two-col'}>
                   <h3>
                     <PatientIcon height={50} width={50} />
                     Patient Details
@@ -175,7 +176,7 @@ export default ({ modelName }) => (
                   />
                 </Col>
 
-                <Col className="col">
+                <Col className={state.model.model_image ? 'three-col' : 'two-col'}>
                   <h3>
                     <AdminIcon
                       height={50}
@@ -218,34 +219,47 @@ export default ({ modelName }) => (
                     }}
                   />
                 </Col>
-                <Col
-                  className="col"
-                  css={`
-                    color: #323232;
-                    background: #fff;
-                    border: solid 1px #cacbcf;
-                    align-items: center;
-                  `}
-                >
-                  <div
-                    css={`
-                      width: 400px;
-                      height: 282px;
-                      background: #ddd;
-                      margin: 20px;
-                    `}
-                  />
-                  <div
-                    css={`
-                      border-top: solid 1px #cacbcf;
-                      width: 100%;
-                      text-align: left;
-                      padding: 20px;
-                    `}
-                  >
-                    <span className="image-caption">image description</span>
-                  </div>
-                </Col>
+                {state.model.model_image && (
+                  <Col className="three-col">
+                    <h3>
+                      <CameraIcon
+                        height={50}
+                        width={50}
+                        css={`
+                          fill: #900000;
+                        `}
+                      />{' '}
+                      Model Image
+                    </h3>
+                    <Col
+                      css={`
+                        color: #323232;
+                        background: #fff;
+                        border: solid 1px #cacbcf;
+                        align-items: center;
+                      `}
+                    >
+                      <div
+                        css={`
+                          width: 400px;
+                          height: 282px;
+                          background: #ddd;
+                          margin: 20px;
+                        `}
+                      />
+                      <div
+                        css={`
+                          border-top: solid 1px #cacbcf;
+                          width: 100%;
+                          text-align: left;
+                          padding: 20px;
+                        `}
+                      >
+                        <span className="image-caption">image description</span>
+                      </div>
+                    </Col>
+                  </Col>
+                )}
               </Row>
             </section>,
           ]
