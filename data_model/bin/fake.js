@@ -5,6 +5,7 @@ import ora from 'ora';
 import uuid from 'uuid/v4';
 import exportMapping from '../utils/export-mapping';
 import fake from '../utils/mapping-faker';
+import createVariants from '../utils/createVariants';
 
 if (!argv.length || typeof argv.length !== 'number') {
   console.log(`missing or invalid --length argument`);
@@ -50,23 +51,29 @@ let main = async () => {
     });
 
     spinner.succeed();
-    spinner.start(`Loading ${argv.length} documents into the ${argv.index} index`);
 
     let models = range(argv.length).map(() => fake(model_properties));
+    let variants = createVariants(models);
+
+    let prepBulk = (docs, _index, _type) =>
+      docs.map(doc => [
+        {
+          index: {
+            _index,
+            _type,
+            _id: uuid(),
+          },
+        },
+        doc,
+      ]);
+
+    spinner.start(`Loading ${argv.length} models and ${variants.length} variants`);
 
     await es.bulk({
-      body: flattenDeep(
-        models.map(model => [
-          {
-            index: {
-              _index: argv.index,
-              _type: argv.type,
-              _id: uuid(),
-            },
-          },
-          model,
-        ]),
-      ),
+      body: flattenDeep([
+        prepBulk(models, argv.index, argv.type),
+        prepBulk(variants, `variant_from_${argv.index}`, `variant_from_${argv.type}`),
+      ]),
     });
 
     spinner.succeed();
