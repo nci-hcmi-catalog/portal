@@ -36,6 +36,14 @@ let props = ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) => (
       },
     },
   },
+  genes: {
+    type: 'nested',
+    properties: {
+      gene_symbol: {
+        type: 'keyword',
+      },
+    },
+  },
   files: {
     type: 'nested',
     [EXTENSIONS_KEY]: {

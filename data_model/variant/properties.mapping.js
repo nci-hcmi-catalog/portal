@@ -1,6 +1,9 @@
 // TODO: add faker annotations
 
 export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) => ({
+  variant_id: {
+    type: 'keyword',
+  },
   category: {
     type: 'keyword',
   },
@@ -15,11 +18,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
     },
   },
   genes: {
-    properties: {
-      gene_symbol: {
-        type: 'keyword',
-      },
-    },
+    type: 'keyword',
   },
   models: {
     type: 'nested',
