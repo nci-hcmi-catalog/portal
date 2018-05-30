@@ -11,7 +11,7 @@ export const BaseSvg = ({ alt = '', height, width, svg, style, className, ...pro
     css={`
       width: ${width}px;
       height: ${height}px;
-      margin-right: 10px;
+      margin-right: 5px;
       ${className};
       ${style};
     `}

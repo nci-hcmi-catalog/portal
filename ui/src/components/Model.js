@@ -1,6 +1,7 @@
 import React from 'react';
 import Component from 'react-component-component';
 import moment from 'moment';
+import { get } from 'lodash';
 
 import { api } from '@arranger/components';
 import Spinner from 'react-spinkit';
@@ -14,6 +15,8 @@ import AdminIcon from 'icons/AdminIcon';
 import ModelIcon from 'icons/ModelIcon';
 import PatientIcon from 'icons/PatientIcon';
 import CameraIcon from 'icons/CameraIcon';
+import VariantsIcon from 'icons/VariantsIcon';
+import VariantTables from 'components/VariantTables';
 
 const HorizontalTable = ({ data, css }) => (
   <table className="entity-horizontal-table" css={css}>
@@ -21,7 +24,7 @@ const HorizontalTable = ({ data, css }) => (
       {Object.keys(data).map(key => (
         <tr key={key}>
           <td className="heading">{key}</td>
-          <td>{data[key]}</td>
+          <td className="content">{data[key]}</td>
         </tr>
       ))}
     </tbody>
@@ -39,29 +42,29 @@ const fetchData = async ({ setState, modelName }) => {
                   node {
                     id
                     name
-                    model_type
+                    type
                     split_ratio
-                    model_growth_rate
+                    growth_rate
                     primary_site
                     neoadjuvant_therapy
-                    pathological_tnm_stage
-                    molecular_characterization
-                    list_of_chemo_drugs_available
-                    sample_acquisition_site
-                    histological_type
-                    tumor_histological_grade
-                    clinical_stage
-                    histopathological_biomarkers
+                    tnm_stage
+                    molecular_characterizations
                     age_at_diagnosis
-                    age_at_sampling
                     vital_status
-                    disease_status_at_unlinking
                     gender
                     race
-                    therapies
-                    third_party_licensing_requirement
-                    model_availability
-                    model_image
+                    chemotherapeutic_drug_list_available
+                    age_at_aquisition
+                    disease_status
+                    therapy
+                    licensing_required
+                    date_of_availability
+                    clinical_diagnosis {
+                      aquisition_site
+                      histological_type
+                      histologcal_grade
+                      clinical_stage_grouping
+                    }
                   }
                 }
               }
@@ -73,7 +76,7 @@ const fetchData = async ({ setState, modelName }) => {
     },
   });
 
-  setState({ model: data.models.hits.edges[0].node, loading: false });
+  setState({ model: get(data, `models.hits.edges[0].node`, {}), loading: false });
 };
 
 export default ({ modelName }) => (
@@ -114,9 +117,9 @@ export default ({ modelName }) => (
                   <HorizontalTable
                     data={{
                       name: state.model.name,
-                      'model type': state.model.model_type,
+                      'model type': state.model.type,
                       'split ratio': state.model.split_ratio,
-                      model_growth_rate: `${state.model.model_growth_rate.toLocaleString()} days`,
+                      growth_rate: `${state.model.growth_rate.toLocaleString()} days`,
                     }}
                   />
                 </Col>
@@ -126,10 +129,10 @@ export default ({ modelName }) => (
                     data={{
                       'primary site': state.model.primary_site,
                       'neoadjuvant therapy': state.model.neoadjuvant_therapy,
-                      'pathological tnm stage': state.model.pathological_tnm_stage,
-                      'molecular characterization': state.model.molecular_characterization,
+                      'pathological tnm stage': state.model.tnm_stage,
+                      'molecular characterization': state.model.molecular_characterizations,
                       'chemotherapeutic drugs': { Y: 'Yes', N: 'No' }[
-                        state.model.list_of_chemo_drugs_available
+                        state.model.clinical_diagnosis.aquisition_site
                       ],
                     }}
                   />
@@ -138,13 +141,10 @@ export default ({ modelName }) => (
                   <HorizontalTable
                     data={{
                       'clinical tumor diagnosis': 'TBD',
-                      'sample acquisition site': state.model.sample_acquisition_site,
-                      'histological type': state.model.histological_type,
-                      'histological grade': state.model.tumor_histological_grade,
-                      'clinical stage': state.model.clinical_stage,
-                      'histopathological biomarkers': (
-                        state.model.histopathological_biomarkers || []
-                      ).join(', '),
+                      'sample acquisition site': state.model.clinical_diagnosis.aquisition_site,
+                      'histological type': state.model.clinical_diagnosis.histological_type,
+                      'histological grade': state.model.clinical_diagnosis.tumor_histological_grade,
+                      'clinical stage': state.model.clinical_diagnosis.clinical_stage_grouping,
                     }}
                   />
                 </Col>
@@ -166,12 +166,12 @@ export default ({ modelName }) => (
                   <HorizontalTable
                     data={{
                       'age at diagnosis': `${state.model.age_at_diagnosis} years`,
-                      'age of sample aquisition': `${state.model.age_at_sampling} years`,
+                      'age of sample aquisition': `${state.model.age_at_aquisition} years`,
                       'vital status': state.model.vital_status,
-                      'disease status': state.model.disease_status_at_unlinking,
+                      'disease status': state.model.disease_status,
                       gender: state.model.gender,
                       race: state.model.race,
-                      therapy: (state.model.therapies || []).join(', '),
+                      therapy: state.model.therapy,
                     }}
                   />
                 </Col>
@@ -189,12 +189,12 @@ export default ({ modelName }) => (
                   </h3>
                   <HorizontalTable
                     data={{
-                      'date availabile': moment(state.model.model_availability).format(
+                      'date availabile': moment(state.model.date_of_availability).format(
                         'DD/MM/YYYY',
                       ),
                       created: 'TBD',
                       updated: 'TBD',
-                      'licensing requirement': state.model.third_party_licensing_requirement,
+                      'licensing requirement': state.model.licensing_required,
                       gender: state.model.gender,
                     }}
                   />
@@ -261,6 +261,21 @@ export default ({ modelName }) => (
                   </Col>
                 )}
               </Row>
+            </section>,
+            <section
+              key="variants"
+              className="model-section"
+              css={`
+                background-color: #f3f6f7;
+              `}
+            >
+              <h3>
+                <VariantsIcon height={50} width={50} />
+                Variants
+              </h3>
+              <Col>
+                <VariantTables modelName={modelName} />
+              </Col>
             </section>,
           ]
         ) : (

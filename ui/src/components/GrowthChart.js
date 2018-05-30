@@ -24,7 +24,7 @@ export default ({ sqon }) => (
     >
       2D versus 3D Growth
     </span>
-    <AggregationQuery sqon={sqon} field="model_type">
+    <AggregationQuery sqon={sqon} field="type">
       {({ state }) => {
         return state.loading ? (
           'loading'
