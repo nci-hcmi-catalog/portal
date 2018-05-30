@@ -279,4 +279,8 @@ export default css`
     border-left: 0;
     border-bottom: 1px solid #cacbcf;
   }
+
+  .ReactTable a {
+    color: #900000;
+  }
 `;
