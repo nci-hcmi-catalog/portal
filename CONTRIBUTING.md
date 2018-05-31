@@ -35,11 +35,13 @@ git checkout -b hotfix/<branch_name> <version>
 ```
 # create a new tag from hotfix branch
 git tag <bumped_version>
+# example: git tag 0.2.1
+
 git push origin --tags
 
 # rebase master to include hotfix
-git checkout Master
-git rebase <bumped_tag>
+git checkout master
+git rebase 0.2.1
 ```
 
 Hotfixing a release should be the only time master is ever rebased! Syncing the remote master after a rebase may require an admin to temporarily disable branch protection.
