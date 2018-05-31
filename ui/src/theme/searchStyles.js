@@ -1,8 +1,12 @@
 import { css } from 'emotion';
 
-let headerHeight = '88px';
-let grey = '#f4f5f7';
-let primaryColor = '#900';
+const headerHeight = '88px';
+const grey = '#f4f5f7';
+const primaryColor = '#900';
+const linkColor = '#774928';
+
+const openSans = '"Open Sans", sans-serif';
+const libreFranklin = '"Libre Franklin", sans-seif';
 
 export default css`
   .ReactTable {
@@ -13,6 +17,8 @@ export default css`
     color: #353535;
     text-transform: uppercase;
     text-align: left;
+    font-family: ${libreFranklin};
+    font-weight: 500;
   }
 
   .ReactTable.-striped .rt-th {
@@ -32,7 +38,18 @@ export default css`
   }
 
   .ReactTable .-pagination {
+    font-family: ${openSans};
     box-shadow: none;
+  }
+
+  .ReactTable .-pagination_button {
+    font-size: 11px;
+    color: ${linkColor};
+  }
+
+  .ReactTable .-pagination_button.-current {
+    color: ${primaryColor};
+    background: #e6e6e6;
   }
 
   .input-range__track.input-range__track--active {
@@ -244,5 +261,23 @@ export default css`
   }
   .Resizer.disabled:hover {
     border-color: transparent;
+  }
+
+  .tableToolbar button {
+    background: none;
+    color: ${linkColor};
+    text-transform: uppercase;
+    font-family: ${libreFranklin};
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.67;
+  }
+
+  .tableToolbar .dropDownButtonContent {
+    font-family: ${libreFranklin};
+  } 
+
+  .tableToolbar .dropDownButton svg {
+    stroke: ${linkColor};
   }
 `;

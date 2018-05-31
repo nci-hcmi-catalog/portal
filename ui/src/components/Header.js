@@ -34,7 +34,8 @@ export default () => (
         background-image: url(${bannerPath});
         height: 88px;
         background-repeat: no-repeat;
-        background-position: right;
+        background-position: center center;
+        background-size: cover;
         justify-content: space-between;
         align-items: center;
         padding: 0 23px;
