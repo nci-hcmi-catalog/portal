@@ -1,4 +1,5 @@
 import { css } from 'emotion';
+import facetarrow from 'assets/icon-facetarrow.svg';
 
 const headerHeight = '88px';
 const grey = '#f4f5f7';
@@ -118,6 +119,61 @@ export default css`
     overflow-y: auto;
   }
 
+  .aggregations-wrapper .arrow {
+    display: block;
+    width: 10px;
+    height: 9px;
+    margin-right: 5px;
+    color: ${primaryColor};
+  }
+
+  .aggregations-wrapper .arrow::after {
+    content: '';
+    display: block;
+    background: url(${facetarrow}) no-repeat;
+    width: 10px;
+    height: 9px;
+  }
+
+  .aggregation-card .header .title-wrapper .title {
+    margin: 0;
+  }
+
+  .aggregation-card .header .title-wrapper {
+    padding: 6px 11px;
+  }
+
+  .aggregation-card .header .title-wrapper > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .aggregation-card .header .title-wrapper .action-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background: #fff;
+    border: solid 1px #cacbcf;
+  }
+
+  .aggregation-card .header .title-wrapper .action-icon svg {
+    fill: #724c31;
+    width: 12px;
+    heigth: 12px;
+  }
+
+  .aggregation-card .filter {
+    padding: 10px 11px;
+  }
+
+  .aggregation-card .bucket {
+    padding: 0 7px;
+  }
+
   .no-sqon-message {
     text-transform: none;
     color: #676767;
@@ -180,6 +236,10 @@ export default css`
     -ms-flex-align: center;
     align-items: center;
     margin-left: auto;
+  }
+
+  .aggregation-card .toggle-button .bucket-count {
+    background-color: #fef7eb;
   }
 
   .quicksearch-wrapper .title-wrapper {

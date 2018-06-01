@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@arranger/components@0.3.57":
-  version "0.3.57"
-  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-0.3.57.tgz#14b4405e25a84e95d75fcf259d2bb84eeb85aff0"
+"@arranger/components@0.3.62":
+  version "0.3.62"
+  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-0.3.62.tgz#6a18e4343e064f61c35cdcce5a2433a697ef29a1"
   dependencies:
-    "@arranger/mapping-utils" "^0.3.57"
+    "@arranger/mapping-utils" "^0.3.62"
     ajv "^6.1.1"
     babel-polyfill "^6.26.0"
     classnames "^2.2.5"
@@ -26,6 +26,7 @@
     react-icons "^2.2.7"
     react-input-range "^1.3.0"
     react-router-dom "^4.2.2"
+    react-scrollbar-size "^2.1.0"
     react-spinkit "^3.0.0"
     react-table "^6.7.6"
     react-toastify "^3.3.2"
@@ -41,11 +42,11 @@
     url-parse "^1.2.0"
     uuid "^3.2.1"
 
-"@arranger/mapping-utils@^0.3.57":
-  version "0.3.57"
-  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.57.tgz#3f29e61cf4e74e9e72538ef7555ee1d69c35cacc"
+"@arranger/mapping-utils@^0.3.62":
+  version "0.3.62"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.3.62.tgz#4a416f2fca71b52aca488b129cd40d44a81e6cfc"
   dependencies:
-    "@arranger/middleware" "^0.3.57"
+    "@arranger/middleware" "^0.3.62"
     babel-polyfill "^6.26.0"
     elasticsearch "^14.0.0"
     graphql-fields "^1.0.2"
@@ -53,9 +54,9 @@
     node-fetch "^2.0.0"
     uuid "^3.2.1"
 
-"@arranger/middleware@^0.3.57":
-  version "0.3.57"
-  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.3.57.tgz#8b09d81ffb5412c15c0d412955493ec1e7f3b3eb"
+"@arranger/middleware@^0.3.62":
+  version "0.3.62"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.3.62.tgz#21a53ce1a709e91986fddd0003ac8b79e2ee6f68"
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
@@ -1198,6 +1199,13 @@
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.42.tgz#352e40c92e0460d3e82f49bd7e79f6cda76f919f"
   dependencies:
     core-js "^2.5.3"
+    regenerator-runtime "^0.11.1"
+
+"@babel/runtime@^7.0.0-beta.42":
+  version "7.0.0-beta.49"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.49.tgz#03b3bf07eb982072c8e851dd2ddd5110282e61bf"
+  dependencies:
+    core-js "^2.5.6"
     regenerator-runtime "^0.11.1"
 
 "@babel/template@7.0.0-beta.42":
@@ -2769,6 +2777,10 @@ core-js@^1.0.0:
 core-js@^2.4.0, core-js@^2.5.0, core-js@^2.5.3:
   version "2.5.5"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.5.tgz#b14dde936c640c0579a6b50cabcc132dd6127e3b"
+
+core-js@^2.5.6:
+  version "2.5.7"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -7971,6 +7983,15 @@ react-error-overlay@5.0.0-next.b2fd8db8:
   version "5.0.0-next.b2fd8db8"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-5.0.0-next.b2fd8db8.tgz#e411264d5e16ffc1b5b27149451be99ed24b43f1"
 
+react-event-listener@^0.5.1:
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/react-event-listener/-/react-event-listener-0.5.9.tgz#c64e84f77156a682614835bdc1bc7ba00912df97"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.42"
+    fbjs "^0.8.16"
+    prop-types "^15.6.0"
+    warning "^3.0.0"
+
 react-fast-compare@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-1.0.0.tgz#813a039155e49b43ceffe99528fe5e9d97a6c938"
@@ -8130,6 +8151,15 @@ react-scripts@^2.0.0-next.66cc7a90:
     whatwg-fetch "2.0.3"
   optionalDependencies:
     fsevents "1.1.3"
+
+react-scrollbar-size@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-scrollbar-size/-/react-scrollbar-size-2.1.0.tgz#105e797135cab92b1f9e16f00071db7f29f80754"
+  dependencies:
+    babel-runtime "^6.26.0"
+    prop-types "^15.6.0"
+    react-event-listener "^0.5.1"
+    stifle "^1.0.2"
 
 react-share@^2.1.1:
   version "2.1.1"
@@ -9087,6 +9117,10 @@ statuses@~1.4.0:
 stealthy-require@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
+
+stifle@^1.0.2:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/stifle/-/stifle-1.0.4.tgz#8b3bcdf52419b0a9c79e35adadce50123c1d8e99"
 
 stream-browserify@^2.0.1:
   version "2.0.1"
