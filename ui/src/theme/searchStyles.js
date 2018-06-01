@@ -1,4 +1,5 @@
 import { css } from 'emotion';
+import facetarrow from 'assets/icon-facetarrow.svg';
 
 const headerHeight = '88px';
 const grey = '#f4f5f7';
@@ -116,6 +117,18 @@ export default css`
     /* important to override react-split-pane inline style */
     height: calc(100vh - ${headerHeight}) !important;
     overflow-y: auto;
+  }
+
+  .aggregations-wrapper .arrow {
+    color: ${primaryColor};
+  }
+
+  .aggregations-wrapper .arrow::after {
+    content: '';
+    display: inline-block;
+    background: url(${facetarrow}) no-repeat;
+    width: 10px;
+    height: 9px;
   }
 
   .no-sqon-message {
