@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@arranger/components": "0.3.62",
+    "@nivo/bar": "^0.42.1",
     "@nivo/pie": "^0.40.0",
     "babel-polyfill": "^6.26.0",
     "downshift": "^1.31.10",

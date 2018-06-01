@@ -1302,6 +1302,18 @@
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.6.2.tgz#19a39bda906e5ba45f39f6f7f3512b2740ceab29"
 
+"@nivo/bar@^0.42.1":
+  version "0.42.1"
+  resolved "https://registry.yarnpkg.com/@nivo/bar/-/bar-0.42.1.tgz#18b1b258adfd7399e69a70bfd608e4aaab301efd"
+  dependencies:
+    "@nivo/core" "0.42.1"
+    "@nivo/legends" "0.42.0"
+    d3-scale "^1.0.6"
+    d3-shape "^1.2.0"
+    lodash "^4.17.4"
+    react-motion "^0.5.2"
+    recompose "^0.26.0"
+
 "@nivo/core@0.36.0":
   version "0.36.0"
   resolved "https://registry.yarnpkg.com/@nivo/core/-/core-0.36.0.tgz#f111071790aa258bd7a035cf27646caf58a69567"
@@ -1318,9 +1330,32 @@
     react-motion "^0.5.2"
     recompose "^0.26.0"
 
+"@nivo/core@0.42.1":
+  version "0.42.1"
+  resolved "https://registry.yarnpkg.com/@nivo/core/-/core-0.42.1.tgz#bf3074b4c72d9cb49c86724ed8a2ce43cfb0cd19"
+  dependencies:
+    d3-color "^1.0.3"
+    d3-format "^1.2.0"
+    d3-hierarchy "^1.1.5"
+    d3-interpolate "^1.1.5"
+    d3-scale "^1.0.6"
+    d3-scale-chromatic "^1.1.1"
+    d3-shape "^1.2.0"
+    lodash "^4.17.4"
+    react-measure "^2.0.2"
+    react-motion "^0.5.2"
+    recompose "^0.26.0"
+
 "@nivo/legends@0.35.2":
   version "0.35.2"
   resolved "https://registry.yarnpkg.com/@nivo/legends/-/legends-0.35.2.tgz#7b7866eb7ca0522cbe6ffd1355813c3ec4eaaf68"
+  dependencies:
+    lodash "^4.17.4"
+    recompose "^0.26.0"
+
+"@nivo/legends@0.42.0":
+  version "0.42.0"
+  resolved "https://registry.yarnpkg.com/@nivo/legends/-/legends-0.42.0.tgz#c6827dbb9c6e665c7956866fb5bfb583f8f8a764"
   dependencies:
     lodash "^4.17.4"
     recompose "^0.26.0"
