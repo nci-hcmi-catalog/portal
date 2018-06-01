@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { groupBy, sumBy } from 'lodash';
-import { VictoryPie, VictoryTooltip } from 'victory';
+import { ResponsivePie } from '@nivo/pie';
 import AggregationQuery from 'components/Queries/AggregationQuery';
 import TwoDIcon from 'assets/icon-2dimensions.svg';
 import ThreeDIcon from 'assets/icon-3dimensions.svg';
@@ -14,6 +14,8 @@ export default ({ sqon }) => (
     alignItems="center"
     css={`
       position: relative;
+      width: 25%;
+      min-width: 382px;
     `}
   >
     <span
@@ -25,7 +27,16 @@ export default ({ sqon }) => (
       2D versus 3D Growth
     </span>
     <AggregationQuery sqon={sqon} field="type">
-      {({ state }) => {
+      {({
+        state,
+        data = Object.entries(groupBy(state.buckets || [], x => x.key.slice(0, 3))).map(
+          ([k, v]) => ({
+            id: k,
+            value: sumBy(v, x => x.doc_count),
+            label: `${k} Growth`,
+          }),
+        ),
+      }) => {
         return state.loading ? (
           'loading'
         ) : (
@@ -64,41 +75,34 @@ export default ({ sqon }) => (
                 )}%
               </span>
             </Col>
-            <VictoryPie
-              sortOrder={
-                Object.entries(groupBy(state.buckets, x => x.key.slice(0, 3)))
-                  .map(([k, v]) => ({
-                    key: k,
-                    total: sumBy(v, x => x.doc_count),
-                  }))
-                  .find(x => x.key === '2-D')?.total ||
-                0 >
-                  Object.entries(groupBy(state.buckets, x => x.key.slice(0, 3)))
-                    .map(([k, v]) => ({
-                      key: k,
-                      total: sumBy(v, x => x.doc_count),
-                    }))
-                    .find(x => x.key === '3-D')?.total ||
-                0
-                  ? 'ascending'
-                  : 'descending'
-              }
-              padAngle={3}
-              labelComponent={<VictoryTooltip />}
-              style={{
-                labels: {
-                  fontSize: 40,
+            <ResponsivePie
+              margin={{
+                top: 12,
+                right: 12,
+                bottom: 12,
+                left: 12,
+              }}
+              data={[data.find(({ id }) => id === '3-D'), data.find(({ id }) => id === '2-D')]}
+              theme={{
+                tooltip: {
+                  container: {
+                    fontSize: '11px',
+                    textAlign: 'center',
+                  },
                 },
               }}
-              sortKey="y"
-              innerRadius={100}
-              colorScale={[theme.palette[2], theme.palette[6]]}
-              data={Object.entries(groupBy(state.buckets, x => x.key.slice(0, 3))).map(
-                ([k, v]) => ({
-                  x: k,
-                  y: sumBy(v, x => x.doc_count),
-                  label: `${k} Growth\n${sumBy(v, x => x.doc_count)} Models`,
-                }),
+              colors={[theme.palette[2], theme.palette[6]]}
+              innerRadius={0.7}
+              enableRadialLabels={false}
+              enableSlicesLabels={false}
+              slicesLabelsSkipAngle={10}
+              animate={false}
+              tooltip={({ id, value, label }) => (
+                <div>
+                  {label}
+                  <br />
+                  {value} Models
+                </div>
               )}
             />
             <Col
