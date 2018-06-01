@@ -37,6 +37,9 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
                 setSQON={setSQON}
                 index={props.index}
                 graphqlField={props.index}
+                componentProps={{
+                  getTermAggProps: () => ({ maxTerms: 4 }),
+                }}
               />
             </>
           )}
