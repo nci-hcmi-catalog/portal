@@ -85,9 +85,9 @@ export default ({ sqon, setSQON }) => (
                 left: 12,
               }}
               data={[
-                data.find(({ id }) => id === '3-D'),
-                data.find(({ id }) => id === '2-D'),
-              ].filter(Boolean)}
+                data.find(({ id }) => id === '3-D') || {id: '3-D', value: 0},
+                data.find(({ id }) => id === '2-D') || {id: '2-D', value: 0},
+              ]}
               colors={[theme.palette[2], theme.palette[6]]}
               innerRadius={0.7}
               enableRadialLabels={false}
