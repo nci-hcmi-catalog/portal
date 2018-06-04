@@ -128,13 +128,13 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
       file_type: {
         type: 'keyword',
         [EXTENSIONS_KEY]: {
-          [FAKER_KEY]: 'image',
+          [FAKER_KEY]: ['image/jpeg', 'image/jpeg', 'image/jpeg'],
         },
       },
       file_name: {
         type: 'keyword',
         [EXTENSIONS_KEY]: {
-          [FAKER_KEY]: 'imagefile',
+          [FAKER_KEY]: ['image1.jpg', 'image2.jpg', 'image3.jpg'],
         },
       },
     },
