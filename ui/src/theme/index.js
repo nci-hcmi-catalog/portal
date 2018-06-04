@@ -17,4 +17,15 @@ export default {
       color: 'white',
     },
   },
+  chart: {
+    tooltip: {
+      container: {
+        border: '1px #aaaaaa solid',
+        background: 'rgb(240, 240, 240)',
+        fontSize: '11px',
+        textAlign: 'center',
+        fontWeight: 'bold',
+      },
+    },
+  },
 };
