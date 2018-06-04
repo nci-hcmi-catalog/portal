@@ -56,6 +56,16 @@ const fetchData = async ({ setState, modelName }) => {
                     chemotherapeutic_drug_list_available
                     age_at_aquisition
                     disease_status
+                    files {
+                      hits{
+                        edges {
+                          node {
+                            file_name
+                            file_type
+                          }
+                        }
+                      }
+                    }
                     therapy
                     licensing_required
                     date_of_availability
