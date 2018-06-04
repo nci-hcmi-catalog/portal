@@ -5,6 +5,7 @@ import AggregationQuery from 'components/Queries/AggregationQuery';
 import { Col } from 'theme/system';
 import theme from 'theme';
 import { ResponsivePie } from '@nivo/pie';
+import { ChartTooltip } from './';
 
 export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
   <Col
@@ -61,24 +62,12 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
               }}
               data={state.buckets.map(x => ({
                 id: x.key,
+                label: x.key,
                 value: x.doc_count,
               }))}
-              tooltip={({ id, value }) => (
-                <div>
-                  {id}
-                  <br />
-                  {value} Models
-                </div>
-              )}
-              theme={{
-                tooltip: {
-                  container: {
-                    fontSize: '11px',
-                    textAlign: 'center',
-                  },
-                },
-              }}
+              tooltip={({ value, label }) => ChartTooltip({value, label})}
               colors={theme.palette}
+              theme={theme.chart}
               innerRadius={0.7}
               enableRadialLabels={false}
               enableSlicesLabels={false}

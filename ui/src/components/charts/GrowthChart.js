@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 import React from 'react';
 import { groupBy, sumBy } from 'lodash';
 import { ResponsivePie } from '@nivo/pie';
@@ -8,8 +7,10 @@ import TwoDIcon from 'assets/icon-2dimensions.svg';
 import ThreeDIcon from 'assets/icon-3dimensions.svg';
 import { Col } from 'theme/system';
 import theme from 'theme';
+import { ChartTooltip } from './';
+import { toggleSQON } from '@arranger/components/dist/SQONView/utils';
 
-export default ({ sqon }) => (
+export default ({ sqon, setSQON }) => (
   <Col
     alignItems="center"
     css={`
@@ -34,6 +35,7 @@ export default ({ sqon }) => (
             id: k,
             value: sumBy(v, x => x.doc_count),
             label: `${k} Growth`,
+            keys: v.map(x => x.key),
           }),
         ),
       }) => {
@@ -82,28 +84,37 @@ export default ({ sqon }) => (
                 bottom: 12,
                 left: 12,
               }}
-              data={[data.find(({ id }) => id === '3-D'), data.find(({ id }) => id === '2-D')]}
-              theme={{
-                tooltip: {
-                  container: {
-                    fontSize: '11px',
-                    textAlign: 'center',
-                  },
-                },
-              }}
+              data={[
+                data.find(({ id }) => id === '3-D'),
+                data.find(({ id }) => id === '2-D'),
+              ].filter(Boolean)}
               colors={[theme.palette[2], theme.palette[6]]}
               innerRadius={0.7}
               enableRadialLabels={false}
               enableSlicesLabels={false}
               slicesLabelsSkipAngle={10}
               animate={false}
-              tooltip={({ id, value, label }) => (
-                <div>
-                  {label}
-                  <br />
-                  {value} Models
-                </div>
-              )}
+              tooltip={({ id, value, label }) => ChartTooltip({ value, label })}
+              theme={theme.chart}
+              onClick={data =>
+                setSQON(
+                  toggleSQON(
+                    {
+                      op: 'and',
+                      content: [
+                        {
+                          op: 'in',
+                          content: {
+                            field: 'type',
+                            value: data.keys || [],
+                          },
+                        },
+                      ],
+                    },
+                    sqon,
+                  ),
+                )
+              }
             />
             <Col
               css={`

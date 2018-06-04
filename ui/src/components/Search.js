@@ -92,7 +92,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
             {() => (
               <>
                 <PrimarySiteChart sqon={sqon} setSQON={setSQON} />
-                <GrowthChart sqon={sqon} />
+                <GrowthChart sqon={sqon} setSQON={setSQON} />
               </>
             )}
           </Component>
