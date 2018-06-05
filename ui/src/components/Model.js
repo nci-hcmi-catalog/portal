@@ -6,6 +6,7 @@ import { get } from 'lodash';
 import { api } from '@arranger/components';
 import Spinner from 'react-spinkit';
 import globals from 'utils/globals';
+import modelImageProcessor from 'utils/modelImageProcessor';
 import ModelBar from 'components/ModelBar';
 import ModelFooterBar from 'components/ModelFooterBar';
 import { Row, Col } from 'theme/system';
@@ -106,7 +107,10 @@ export default ({ modelName }) => (
       state.loading !== nextState.loading || props.modelName !== nextProps.modelName
     }
   >
-    {({ state }) => (
+    {({
+      state,
+      modelImages = modelImageProcessor(state.model ? state.model.files.hits.edges : []),
+    }) => (
       <div css={styles}>
         <ModelBar name={modelName} id={(state.model || { id: '' }).id} />
         {state.model ? (
@@ -168,7 +172,7 @@ export default ({ modelName }) => (
               `}
             >
               <Row className="row">
-                <Col className={state.model.model_image ? 'three-col' : 'two-col'}>
+                <Col className={modelImages ? 'three-col' : 'two-col'}>
                   <h3>
                     <PatientIcon height={50} width={50} />
                     Patient Details
@@ -186,7 +190,7 @@ export default ({ modelName }) => (
                   />
                 </Col>
 
-                <Col className={state.model.model_image ? 'three-col' : 'two-col'}>
+                <Col className={modelImages ? 'three-col' : 'two-col'}>
                   <h3>
                     <AdminIcon
                       height={50}
@@ -229,7 +233,7 @@ export default ({ modelName }) => (
                     }}
                   />
                 </Col>
-                {state.model.model_image && (
+                {modelImages && (
                   <Col className="three-col">
                     <h3>
                       <CameraIcon
@@ -253,8 +257,10 @@ export default ({ modelName }) => (
                         css={`
                           width: 400px;
                           height: 282px;
-                          background: #ddd;
                           margin: 20px;
+                          background-image: url(${modelImages[0].file_name});
+                          background-size: cover;
+                          background-position: center center;
                         `}
                       />
                       <div
