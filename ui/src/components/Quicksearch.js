@@ -12,7 +12,7 @@ export default (
     <Row className="header">
       <Row className="title-wrapper">
         <span className="arrow" />
-        <span className="title">Quicksearch</span>
+        <span className="title">Quick Search</span>
       </Row>
     </Row>
     <Col className="quicksearch-content-wrapper" p={2}>
