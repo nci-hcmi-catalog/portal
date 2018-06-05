@@ -93,7 +93,7 @@ export default ({ sqon, setSQON }) => (
                       top: 25,
                       right: 15,
                       bottom: 38,
-                      left: 60,
+                      left: 50,
                     }}
                     data={coloredTop10}
                     enableLabel={false}
