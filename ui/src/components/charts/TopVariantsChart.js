@@ -1,10 +1,13 @@
 import React from 'react';
+import { range } from 'lodash';
 import { ResponsiveBar } from '@nivo/bar';
 import AggregationQuery from 'components/Queries/AggregationQuery';
 import { Col } from 'theme/system';
 import theme from 'theme';
 import { toggleSQON } from '@arranger/components/dist/SQONView/utils';
 import { ChartTooltip } from './';
+
+const yGridSizes = [10, 100, 1000];
 
 export default ({ sqon, setSQON }) => (
   <Col
@@ -24,6 +27,16 @@ export default ({ sqon, setSQON }) => (
             ...bucket,
             color: theme.palette[i],
           })),
+        yGridStepSize = yGridSizes.reduce(
+          (gridSize, possible) => (state.total > possible ? possible : gridSize),
+          10,
+        ),
+        yGridValues = range(
+          0,
+          top10.reduce((largest, { doc_count }) => (doc_count > largest ? doc_count : largest), 0) +
+            yGridStepSize * 2, //ensure that largest will be in the range
+          yGridStepSize,
+        ),
       }) => {
         return state.loading ? (
           'loading'
@@ -39,10 +52,10 @@ export default ({ sqon, setSQON }) => (
             </span>
             <ResponsiveBar
               margin={{
-                top: 5,
+                top: 20,
                 right: 15,
                 bottom: 38,
-                left: 45,
+                left: 60,
               }}
               data={top10}
               enableLabel={false}
@@ -54,7 +67,7 @@ export default ({ sqon, setSQON }) => (
               }}
               axisBottom={{
                 orient: 'bottom',
-                tickSize: 1,
+                tickSize: 3,
                 tickPadding: 2,
                 tickRotation: -45,
                 legendOffset: 50,
@@ -66,15 +79,14 @@ export default ({ sqon, setSQON }) => (
                 tickPadding: 5,
                 tickRotation: 0,
                 legendPosition: 'center',
-                legendOffset: -35,
+                legendOffset: -45,
                 legend: '# Models',
+                tickValues: yGridValues,
               }}
               enableGridY={true}
+              gridYValues={yGridValues}
               theme={theme.chart}
-              tooltip={({ value, data }) => {
-                console.log(data);
-                return ChartTooltip({ value, label: data.key });
-              }}
+              tooltip={({ value, data }) => ChartTooltip({ value, label: data.key })}
               isInteractive={true}
               onClick={data =>
                 setSQON(
