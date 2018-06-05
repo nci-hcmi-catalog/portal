@@ -27,14 +27,17 @@ export default ({ sqon, setSQON }) => (
             ...bucket,
             color: theme.palette[i],
           })),
+        largestCount = top10.reduce(
+          (largest, { doc_count }) => (doc_count > largest ? doc_count : largest),
+          0,
+        ),
         yGridStepSize = yGridSizes.reduce(
-          (gridSize, possible) => (state.total > possible ? possible : gridSize),
+          (gridSize, possible) => (largestCount > possible ? possible : gridSize),
           10,
         ),
         yGridValues = range(
           0,
-          top10.reduce((largest, { doc_count }) => (doc_count > largest ? doc_count : largest), 0) +
-            yGridStepSize * 2, //ensure that largest will be in the range
+          largestCount + yGridStepSize * 2, //ensure that largest will be in the range
           yGridStepSize,
         ),
       }) => {
@@ -49,10 +52,12 @@ export default ({ sqon, setSQON }) => (
               `}
             >
               Top {top10.length} Variants in {state.total} Models
+              {console.log(yGridStepSize)}
+              {console.log(yGridValues)}
             </span>
             <ResponsiveBar
               margin={{
-                top: 20,
+                top: 25,
                 right: 15,
                 bottom: 38,
                 left: 60,
