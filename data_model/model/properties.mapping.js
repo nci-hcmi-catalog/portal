@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import clinical_sequencing_map from './clinical_sequencing_map';
+import clinical_sequencing_map, { weightedKeys } from './clinical_sequencing_map';
 
 export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) => ({
   age_at_diagnosis: {
@@ -287,7 +287,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
           [FAKER_KEY]: {
             min: 1,
             max: 2,
-            enum: Object.keys(clinical_sequencing_map),
+            enum: weightedKeys,
           },
         },
       },
