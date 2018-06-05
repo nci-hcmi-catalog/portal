@@ -134,7 +134,11 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
       file_name: {
         type: 'keyword',
         [EXTENSIONS_KEY]: {
-          [FAKER_KEY]: ['image1.jpg', 'image2.jpg', 'image3.jpg'],
+          [FAKER_KEY]: [
+            'https://object.cancercollaboratory.org:9080/swift/v1/hcmi-demo-images/Organoid%201.jpg',
+            'https://object.cancercollaboratory.org:9080/swift/v1/hcmi-demo-images/Organoid%202.jpg',
+            'https://object.cancercollaboratory.org:9080/swift/v1/hcmi-demo-images/Organoid%203.jpg',
+          ],
         },
       },
     },

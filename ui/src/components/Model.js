@@ -250,17 +250,16 @@ export default ({ modelName }) => (
                         color: #323232;
                         background: #fff;
                         border: solid 1px #cacbcf;
-                        align-items: center;
                       `}
                     >
-                      <div
+                      <img
+                        src={modelImages[0].file_name}
+                        alt={`File name: ${modelImages[0].file_name}`}
                         css={`
-                          width: 400px;
-                          height: 282px;
-                          margin: 20px;
-                          background-image: url(${modelImages[0].file_name});
-                          background-size: cover;
-                          background-position: center center;
+                          display: block;
+                          width: 100%;
+                          height: auto;
+                          padding: 20px;
                         `}
                       />
                       <div
