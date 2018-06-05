@@ -5,8 +5,8 @@ import '@arranger/components/public/themeStyles/beagle/beagle.css';
 import SplitPane from 'react-split-pane';
 import searchStyles from 'theme/searchStyles';
 import Quicksearch from 'components/Quicksearch';
-import PrimarySiteChart from 'components/PrimarySiteChart';
-import GrowthChart from 'components/GrowthChart';
+import PrimarySiteChart from 'components/charts/PrimarySiteChart';
+import GrowthChart from 'components/charts/GrowthChart';
 import TableEntity from 'components/TableEntity';
 import { Row, Col } from 'theme/system';
 import { SelectedModelsContext } from 'providers/SelectedModels';
@@ -92,7 +92,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
             {() => (
               <>
                 <PrimarySiteChart sqon={sqon} setSQON={setSQON} />
-                <GrowthChart sqon={sqon} />
+                <GrowthChart sqon={sqon} setSQON={setSQON} />
               </>
             )}
           </Component>
