@@ -6,6 +6,7 @@ import { get } from 'lodash';
 import { api } from '@arranger/components';
 import Spinner from 'react-spinkit';
 import globals from 'utils/globals';
+import modelImageProcessor from 'utils/modelImageProcessor';
 import ModelBar from 'components/ModelBar';
 import ModelFooterBar from 'components/ModelFooterBar';
 import { Row, Col } from 'theme/system';
@@ -56,6 +57,16 @@ const fetchData = async ({ setState, modelName }) => {
                     chemotherapeutic_drug_list_available
                     age_at_aquisition
                     disease_status
+                    files {
+                      hits{
+                        edges {
+                          node {
+                            file_name
+                            file_type
+                          }
+                        }
+                      }
+                    }
                     therapy
                     licensing_required
                     date_of_availability
@@ -96,7 +107,10 @@ export default ({ modelName }) => (
       state.loading !== nextState.loading || props.modelName !== nextProps.modelName
     }
   >
-    {({ state }) => (
+    {({
+      state,
+      modelImages = modelImageProcessor(state.model ? state.model.files.hits.edges : []),
+    }) => (
       <div css={styles}>
         <ModelBar name={modelName} id={(state.model || { id: '' }).id} />
         {state.model ? (
@@ -158,7 +172,7 @@ export default ({ modelName }) => (
               `}
             >
               <Row className="row">
-                <Col className={state.model.model_image ? 'three-col' : 'two-col'}>
+                <Col className={modelImages ? 'three-col' : 'two-col'}>
                   <h3>
                     <PatientIcon height={50} width={50} />
                     Patient Details
@@ -176,7 +190,7 @@ export default ({ modelName }) => (
                   />
                 </Col>
 
-                <Col className={state.model.model_image ? 'three-col' : 'two-col'}>
+                <Col className={modelImages ? 'three-col' : 'two-col'}>
                   <h3>
                     <AdminIcon
                       height={50}
@@ -219,7 +233,7 @@ export default ({ modelName }) => (
                     }}
                   />
                 </Col>
-                {state.model.model_image && (
+                {modelImages && (
                   <Col className="three-col">
                     <h3>
                       <CameraIcon
@@ -236,15 +250,16 @@ export default ({ modelName }) => (
                         color: #323232;
                         background: #fff;
                         border: solid 1px #cacbcf;
-                        align-items: center;
                       `}
                     >
-                      <div
+                      <img
+                        src={modelImages[0].file_name}
+                        alt={`File name: ${modelImages[0].file_name}`}
                         css={`
-                          width: 400px;
-                          height: 282px;
-                          background: #ddd;
-                          margin: 20px;
+                          display: block;
+                          width: 100%;
+                          height: auto;
+                          padding: 20px;
                         `}
                       />
                       <div

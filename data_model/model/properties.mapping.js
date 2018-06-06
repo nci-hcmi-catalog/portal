@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import clinical_sequencing_map from './clinical_sequencing_map';
+import clinical_sequencing_map, { weightedKeys } from './clinical_sequencing_map';
 
 export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) => ({
   age_at_diagnosis: {
@@ -128,13 +128,17 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
       file_type: {
         type: 'keyword',
         [EXTENSIONS_KEY]: {
-          [FAKER_KEY]: 'image',
+          [FAKER_KEY]: ['image/jpeg', 'image/jpeg', 'image/jpeg'],
         },
       },
       file_name: {
         type: 'keyword',
         [EXTENSIONS_KEY]: {
-          [FAKER_KEY]: 'imagefile',
+          [FAKER_KEY]: [
+            'https://object.cancercollaboratory.org:9080/swift/v1/hcmi-demo-images/Organoid%201.jpg',
+            'https://object.cancercollaboratory.org:9080/swift/v1/hcmi-demo-images/Organoid%202.jpg',
+            'https://object.cancercollaboratory.org:9080/swift/v1/hcmi-demo-images/Organoid%203.jpg',
+          ],
         },
       },
     },
@@ -283,7 +287,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
           [FAKER_KEY]: {
             min: 1,
             max: 2,
-            enum: Object.keys(clinical_sequencing_map),
+            enum: weightedKeys,
           },
         },
       },
