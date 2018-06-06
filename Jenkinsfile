@@ -31,38 +31,11 @@ pipeline {
         '''
       }
     }
-    stage('Test') {
-     steps {
-       echo "portal TESTING STARTED: (${env.BUILD_URL})"
-       sh '''
-       hcmi-ops/ci-scripts/test_stage/test.sh
-       '''
-       echo "portal TESTING COMPLETED: (${env.BUILD_URL})"
-     }
-     post {
-       failure {
-         echo "portal Test Failed: Branch '${env.BRANCH_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
-       }
-     }
-    }
     stage('Build') {
       steps {
         sh '''
         hcmi-ops/ci-scripts/build_stage/build.sh
         '''
-      }
-    }
-    stage('Publish') {
-      steps {
-        sh '''
-        hcmi-ops/ci-scripts/publish_stage/publish.sh
-        '''
-        echo "portal PUSHED IMAGE: (${env.BUILD_URL})"
-      }
-      post {
-        failure {
-          echo "portal Publish Failed: Branch '${env.BRANCH_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
-        }
       }
     }
     stage('Deploy Dev') {
@@ -73,9 +46,26 @@ pipeline {
       }
       steps {
         echo "DEPLOYING TO DEVELOPMENT: (${env.BUILD_URL})"
-        sh '''
-        hcmi-ops/ci-scripts/deploy_stage/deploy.sh dev
-        '''
+        sshPublisher(publishers: [
+          sshPublisherDesc(
+            configName: 'hcmi-dev', 
+            transfers: [
+              sshTransfer(
+                excludes: '', 
+                execCommand: './deploy.sh dev $BUILD_NUMBER', 
+                execTimeout: 120000, 
+                flatten: false, 
+                makeEmptyDirs: false, 
+                noDefaultExcludes: false, 
+                patternSeparator: '[, ]+', 
+                remoteDirectory: '/deploy/$BUILD_NUMBER', 
+                remoteDirectorySDF: false, 
+                removePrefix: '', 
+                sourceFiles: 'portal.tar, hcmi-ops/ci-scripts/deploy_stage/deploy.sh')], 
+              usePromotionTimestamp: false, 
+              useWorkspaceInPromotion: false, 
+              verbose: false)
+          ])
         echo "portal DEPLOYED TO DEVELOPMENT: (${env.BUILD_URL})"
       }
       post {
@@ -92,9 +82,27 @@ pipeline {
      }
      steps {
        echo "portal DEPLOYING TO QA: (${env.BUILD_URL})"
-       sh '''
-       hcmi-ops/ci-scripts/deploy_stage/deploy.sh qa
-       '''
+       sshPublisher(publishers: [
+          sshPublisherDesc(
+            configName: 'hcmi-qa', 
+            transfers: [
+              sshTransfer(
+                excludes: '', 
+                execCommand: './deploy.sh qa $BUILD_NUMBER', 
+                execTimeout: 120000, 
+                flatten: false, 
+                makeEmptyDirs: false, 
+                noDefaultExcludes: false, 
+                patternSeparator: '[, ]+', 
+                remoteDirectory: '/deploy/$BUILD_NUMBER', 
+                remoteDirectorySDF: false, 
+                removePrefix: '', 
+                sourceFiles: 'portal.tar, hcmi-ops/ci-scripts/deploy_stage/deploy.sh')],  
+              usePromotionTimestamp: false, 
+              useWorkspaceInPromotion: false, 
+              verbose: false)
+          ])
+        
        echo "portal DEPLOYED TO QA: (${env.BUILD_URL})"
      }
      post {
@@ -132,44 +140,27 @@ pipeline {
      }
      steps {
        echo "portal DEPLOYING TO PRD: (${env.BUILD_URL})"
-       sh '''
-       hcmi-ops/ci-scripts/deploy_stage/deploy.sh prd
-       '''
-       echo "portal DEPLOYED TO PRD: (${env.BUILD_URL})"
-     }
-    }
-    stage("Rollback to previous version of the application with DB Rollback") {
-      when {
-             expression {
-               return env.BRANCH_NAME == 'master';
-             }
-             expression {
-               return tag != '';
-             }
-           }
-      steps {
-             script {
-                     env.ROLLBACK_PRD = input message: 'User input required',
-                                     submitter: 'vermar',
-                                     parameters: [choice(name: 'portal: Rollback PRD to Previous Version?', choices: 'no\nyes', description: 'Choose "yes" if you want to rollback the PRD deployment to previous stable release')]
-             }
-     }
-    }
-    stage('Rollback PRD') {
-      when {
-       environment name: 'ROLLBACK_PRD', value: 'yes'
-       expression {
-           return env.BRANCH_NAME == 'master';
-       }
-       expression {
-         return tag != '';
-       }
-     }
-     steps {
-       echo "portal DEPLOYING TO PRD: (${env.BUILD_URL})"
-       sh '''
-       hcmi-ops/ci-scripts/rollback/rollback.sh
-       '''
+       sshPublisher(publishers: [
+          sshPublisherDesc(
+            configName: 'hcmi-prd', 
+            transfers: [
+              sshTransfer(
+                excludes: '', 
+                execCommand: './deploy.sh prd $BUILD_NUMBER', 
+                execTimeout: 120000, 
+                flatten: false, 
+                makeEmptyDirs: false, 
+                noDefaultExcludes: false, 
+                patternSeparator: '[, ]+', 
+                remoteDirectory: '/deploy/$BUILD_NUMBER', 
+                remoteDirectorySDF: false, 
+                removePrefix: '', 
+                sourceFiles: 'portal.tar, hcmi-ops/ci-scripts/deploy_stage/deploy.sh')], 
+              usePromotionTimestamp: false, 
+              useWorkspaceInPromotion: false, 
+              verbose: false)
+          ])
+        
        echo "portal DEPLOYED TO PRD: (${env.BUILD_URL})"
      }
     }
