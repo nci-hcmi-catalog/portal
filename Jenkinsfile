@@ -3,6 +3,7 @@ properties([
     pollSCM('H/15 * * * *')
 ])
 pipeline {
+  agent any
   stages{
     stage('Get Code') {
       steps {
