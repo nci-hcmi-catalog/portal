@@ -7,6 +7,7 @@ import { api } from '@arranger/components';
 import Spinner from 'react-spinkit';
 import globals from 'utils/globals';
 import modelImageProcessor from 'utils/modelImageProcessor';
+import apiDataProcessor from 'utils/apiDataProcessor';
 import ModelBar from 'components/ModelBar';
 import ModelFooterBar from 'components/ModelFooterBar';
 import { Row, Col } from 'theme/system';
@@ -131,9 +132,12 @@ export default ({ modelName }) => (
                   <HorizontalTable
                     data={{
                       name: state.model.name,
-                      'model type': state.model.type,
-                      'split ratio': state.model.split_ratio,
-                      growth_rate: `${state.model.growth_rate.toLocaleString()} days`,
+                      'model type': apiDataProcessor(state.model.type),
+                      'split ratio': apiDataProcessor(state.model.split_ratio),
+                      growth_rate: apiDataProcessor(
+                        state.model.growth_rate,
+                        `${state.model.growth_rate.toLocaleString()} days`,
+                      ),
                     }}
                   />
                 </Col>
@@ -141,24 +145,35 @@ export default ({ modelName }) => (
                 <Col className="three-col">
                   <HorizontalTable
                     data={{
-                      'primary site': state.model.primary_site,
-                      'neoadjuvant therapy': state.model.neoadjuvant_therapy,
-                      'pathological tnm stage': state.model.tnm_stage,
-                      'molecular characterization': state.model.molecular_characterizations,
-                      'chemotherapeutic drugs': { Y: 'Yes', N: 'No' }[
-                        state.model.clinical_diagnosis.aquisition_site
-                      ],
+                      'primary site': apiDataProcessor(state.model.primary_site),
+                      'neoadjuvant therapy': apiDataProcessor(state.model.neoadjuvant_therapy),
+                      'pathological tnm stage': apiDataProcessor(state.model.tnm_stage),
+                      'molecular characterization': apiDataProcessor(
+                        state.model.molecular_characterizations,
+                      ),
+                      'chemotherapeutic drugs': apiDataProcessor(
+                        state.model.chemotherapeutic_drug_list_available,
+                        state.model.chemotherapeutic_drug_list_available ? 'Yes' : 'No',
+                      ),
                     }}
                   />
                 </Col>
                 <Col className="three-col">
                   <HorizontalTable
                     data={{
-                      'clinical tumor diagnosis': 'TBD',
-                      'sample acquisition site': state.model.clinical_diagnosis.aquisition_site,
-                      'histological type': state.model.clinical_diagnosis.histological_type,
-                      'histological grade': state.model.clinical_diagnosis.tumor_histological_grade,
-                      'clinical stage': state.model.clinical_diagnosis.clinical_stage_grouping,
+                      'clinical tumor diagnosis': apiDataProcessor(''),
+                      'sample acquisition site': apiDataProcessor(
+                        state.model.clinical_diagnosis.aquisition_site,
+                      ),
+                      'histological type': apiDataProcessor(
+                        state.model.clinical_diagnosis.histological_type,
+                      ),
+                      'histological grade': apiDataProcessor(
+                        state.model.clinical_diagnosis.tumor_histological_grade,
+                      ),
+                      'clinical stage': apiDataProcessor(
+                        state.model.clinical_diagnosis.clinical_stage_grouping,
+                      ),
                     }}
                   />
                 </Col>
@@ -179,13 +194,19 @@ export default ({ modelName }) => (
                   </h3>
                   <HorizontalTable
                     data={{
-                      'age at diagnosis': `${state.model.age_at_diagnosis} years`,
-                      'age of sample aquisition': `${state.model.age_at_aquisition} years`,
-                      'vital status': state.model.vital_status,
-                      'disease status': state.model.disease_status,
-                      gender: state.model.gender,
-                      race: state.model.race,
-                      therapy: state.model.therapy,
+                      'age at diagnosis': apiDataProcessor(
+                        state.model.age_at_diagnosis,
+                        `${state.model.age_at_diagnosis} years`,
+                      ),
+                      'age of sample aquisition': apiDataProcessor(
+                        state.model.age_at_aquisition,
+                        `${state.model.age_at_aquisition} years`,
+                      ),
+                      'vital status': apiDataProcessor(state.model.vital_status),
+                      'disease status': apiDataProcessor(state.model.disease_status),
+                      gender: apiDataProcessor(state.model.gender),
+                      race: apiDataProcessor(state.model.race),
+                      therapy: apiDataProcessor(state.model.therapy),
                     }}
                   />
                 </Col>
@@ -203,13 +224,17 @@ export default ({ modelName }) => (
                   </h3>
                   <HorizontalTable
                     data={{
-                      'date availabile': moment(state.model.date_of_availability).format(
-                        'DD/MM/YYYY',
+                      'date availabile': apiDataProcessor(
+                        state.model.date_of_availability,
+                        moment(state.model.date_of_availability).format('DD/MM/YYYY'),
                       ),
-                      created: 'TBD',
-                      updated: 'TBD',
-                      'licensing requirement': state.model.licensing_required,
-                      gender: state.model.gender,
+                      created: apiDataProcessor(''),
+                      updated: apiDataProcessor(''),
+                      'licensing requirement': apiDataProcessor(
+                        state.model.licensing_required,
+                        state.model.licensing_required ? 'Yes' : 'No',
+                      ),
+                      gender: apiDataProcessor(state.model.gender),
                     }}
                   />
                   <div
