@@ -7,6 +7,7 @@ import searchStyles from 'theme/searchStyles';
 import Quicksearch from 'components/Quicksearch';
 import PrimarySiteChart from 'components/charts/PrimarySiteChart';
 import GrowthChart from 'components/charts/GrowthChart';
+import TopVariantsChart from 'components/charts/TopVariantsChart';
 import TableEntity from 'components/TableEntity';
 import { Row, Col } from 'theme/system';
 import { SelectedModelsContext } from 'providers/SelectedModels';
@@ -92,6 +93,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
             {() => (
               <>
                 <PrimarySiteChart sqon={sqon} setSQON={setSQON} />
+                <TopVariantsChart sqon={sqon} setSQON={setSQON} />
                 <GrowthChart sqon={sqon} setSQON={setSQON} />
               </>
             )}

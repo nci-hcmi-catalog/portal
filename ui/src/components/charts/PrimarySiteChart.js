@@ -60,13 +60,15 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
                 bottom: 12,
                 left: 12,
               }}
-              data={state.buckets.map(x => ({
+              data={state.buckets.map((x, i) => ({
                 id: x.key,
                 label: x.key,
                 value: x.doc_count,
+                color: theme.palette[i % theme.palette.length],
               }))}
               tooltip={({ value, label }) => ChartTooltip({value, label})}
               colors={theme.palette}
+              colorBy={({color}) => color}
               theme={theme.chart}
               innerRadius={0.7}
               enableRadialLabels={false}
