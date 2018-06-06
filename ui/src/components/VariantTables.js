@@ -30,11 +30,16 @@ const VariantTable = ({ category, modelName, columns }) => (
       pageSize: 10,
     }}
     category={category}
+    modelName={modelName}
     didMount={async ({ props: { fetchData }, setState }) => {
       await fetchData({ setState });
     }}
     shouldUpdate={({ props, nextProps, state, nextState }) => {
-      return props.category !== nextProps.category || !isEqual(state, nextState);
+      return (
+        props.category !== nextProps.category ||
+        props.modelName !== nextProps.modelName ||
+        !isEqual(state, nextState)
+      );
     }}
     didUpdate={async ({
       props: { category, fetchData },
@@ -43,7 +48,7 @@ const VariantTable = ({ category, modelName, columns }) => (
       prevState,
       state,
     }) => {
-      if (category !== prevProps.category) {
+      if (category !== prevProps.category || modelName !== prevProps.modelName) {
         await fetchData({ setState });
       }
       if (state.filterValue !== prevState.filterValue) {
