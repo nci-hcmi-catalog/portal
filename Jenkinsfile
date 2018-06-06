@@ -61,7 +61,7 @@ pipeline {
                 remoteDirectory: '/deploy/$BUILD_NUMBER', 
                 remoteDirectorySDF: false, 
                 removePrefix: '', 
-                sourceFiles: 'portal.tar, hcmi-ops/ci-scripts/deploy_stage/deploy.sh')], 
+                sourceFiles: 'portal.tar, deploy.sh')], 
               usePromotionTimestamp: false, 
               useWorkspaceInPromotion: false, 
               verbose: false)
@@ -155,7 +155,7 @@ pipeline {
                 remoteDirectory: '/deploy/$BUILD_NUMBER', 
                 remoteDirectorySDF: false, 
                 removePrefix: '', 
-                sourceFiles: 'portal.tar, hcmi-ops/ci-scripts/deploy_stage/deploy.sh')], 
+                sourceFiles: 'portal.tar, deploy.sh')], 
               usePromotionTimestamp: false, 
               useWorkspaceInPromotion: false, 
               verbose: false)
