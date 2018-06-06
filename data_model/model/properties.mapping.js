@@ -5,13 +5,13 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
   age_at_diagnosis: {
     type: 'long',
     [EXTENSIONS_KEY]: {
-      [FAKER_KEY]: { min: 10, max: 10950 },
+      [FAKER_KEY]: { min: 10, max: 90},
     },
   },
   age_at_aquisition: {
     type: 'long',
     [EXTENSIONS_KEY]: {
-      [FAKER_KEY]: { min: 10, max: 10950 },
+      [FAKER_KEY]: { min: 10, max: 90 },
     },
   },
   date_of_availability: {
@@ -186,10 +186,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
     },
   },
   neoadjuvant_therapy: {
-    type: 'keyword',
-    [EXTENSIONS_KEY]: {
-      [FAKER_KEY]: ['Y', 'N'],
-    },
+    type: 'boolean',
   },
   tnm_stage: {
     type: 'keyword',
@@ -229,7 +226,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
         'Testis',
         'Thymus',
         'Thyroid',
-        'Uter',
+        'Uterus',
       ],
     },
   },
@@ -276,7 +273,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
     type: 'nested',
     [EXTENSIONS_KEY]: {
       [FAKER_KEY]: {
-        min: 1,
+        min: 15,
         max: 25,
       },
     },
@@ -309,7 +306,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
       type: {
         type: `keyword`,
         [EXTENSIONS_KEY]: {
-          [FAKER_KEY]: ['SNV', 'Indel', 'transolocation'],
+          [FAKER_KEY]: ['SNV'],
         },
       },
       assessment_type: {
