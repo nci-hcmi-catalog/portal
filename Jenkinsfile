@@ -1,6 +1,8 @@
 #!groovy
 properties([
-    pollSCM('H/15 * * * *')
+    pipelineTriggers([
+        pollSCM('H/5 * * * *')
+    ])
 ])
 pipeline {
   agent any
