@@ -34,7 +34,7 @@ pipeline {
     stage('Build') {
       steps {
         sh '''
-        hcmi-ops/ci-scripts/build_stage/build.sh
+        hcmi-ops/ci-scripts/build_stage/build.sh hcmi-ops
         '''
       }
     }
