@@ -25,16 +25,16 @@ pipeline {
     }
     stage('GetOpsScripts') {
       steps {
-        echo "portal GETTING SCRIPTS"
+        echo "GETTING SCRIPTS"
         sh '''
-        git clone git@github.com:ra-ver/hcmi-ops.git
+        git clone git@github.com:nci-hcmi-catalog/portal-ci.git
         '''
       }
     }
     stage('Build') {
       steps {
         sh '''
-        hcmi-ops/ci-scripts/build_stage/build.sh hcmi-ops
+        portal-ci/build_stage/build.sh portal-ci
         '''
       }
     }
@@ -61,16 +61,16 @@ pipeline {
                 remoteDirectory: '/deploy/$BUILD_NUMBER', 
                 remoteDirectorySDF: false, 
                 removePrefix: '', 
-                sourceFiles: 'portal.tar, hcmi-ops/ci-scripts/deploy_stage/deploy.sh')], 
+                sourceFiles: 'portal.tar, portal-ci/deploy_stage/deploy.sh')], 
               usePromotionTimestamp: false, 
               useWorkspaceInPromotion: false, 
               verbose: false)
           ])
-        echo "portal DEPLOYED TO DEVELOPMENT: (${env.BUILD_URL})"
+        echo "DEPLOYED TO DEVELOPMENT: (${env.BUILD_URL})"
       }
       post {
         failure {
-          echo "portal Deploy Failed: Branch '${env.BRANCH_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
+          echo "Deploy Failed: Branch '${env.BRANCH_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
         }
       }
     }
@@ -81,7 +81,7 @@ pipeline {
        }
      }
      steps {
-       echo "portal DEPLOYING TO QA: (${env.BUILD_URL})"
+       echo "DEPLOYING TO QA: (${env.BUILD_URL})"
        sshPublisher(publishers: [
           sshPublisherDesc(
             configName: 'hcmi-qa', 
@@ -97,17 +97,17 @@ pipeline {
                 remoteDirectory: '/deploy/$BUILD_NUMBER', 
                 remoteDirectorySDF: false, 
                 removePrefix: '', 
-                sourceFiles: 'portal.tar, hcmi-ops/ci-scripts/deploy_stage/deploy.sh')], 
+                sourceFiles: 'portal.tar, portal-ci/deploy_stage/deploy.sh')], 
               usePromotionTimestamp: false, 
               useWorkspaceInPromotion: false, 
               verbose: false)
           ])
         
-       echo "portal DEPLOYED TO QA: (${env.BUILD_URL})"
+       echo "DEPLOYED TO QA: (${env.BUILD_URL})"
      }
      post {
        failure {
-         echo "portal Deploy Failed: Branch '${env.BRANCH_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
+         echo "Deploy Failed: Branch '${env.BRANCH_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
        }
      }
     }
@@ -139,7 +139,7 @@ pipeline {
        }
      }
      steps {
-       echo "portal DEPLOYING TO PRD: (${env.BUILD_URL})"
+       echo "DEPLOYING TO PRD: (${env.BUILD_URL})"
        sshPublisher(publishers: [
           sshPublisherDesc(
             configName: 'hcmi-prd', 
@@ -155,13 +155,13 @@ pipeline {
                 remoteDirectory: '/deploy/$BUILD_NUMBER', 
                 remoteDirectorySDF: false, 
                 removePrefix: '', 
-                sourceFiles: 'portal.tar, hcmi-ops/ci-scripts/deploy_stage/deploy.sh')], 
+                sourceFiles: 'portal.tar, portal-ci/deploy_stage/deploy.sh')], 
               usePromotionTimestamp: false, 
               useWorkspaceInPromotion: false, 
               verbose: false)
           ])
         
-       echo "portal DEPLOYED TO PRD: (${env.BUILD_URL})"
+       echo "DEPLOYED TO PRD: (${env.BUILD_URL})"
      }
     }
   }
