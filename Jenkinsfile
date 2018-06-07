@@ -52,15 +52,15 @@ pipeline {
             transfers: [
               sshTransfer(
                 excludes: '', 
-                execCommand: './deploy.sh dev $BUILD_NUMBER', 
+                execCommand: 'bash deploy/$BUILD_NUMBER/deploy.sh dev $BUILD_NUMBER', 
                 execTimeout: 120000, 
-                flatten: false, 
+                flatten: true, 
                 makeEmptyDirs: false, 
                 noDefaultExcludes: false, 
                 patternSeparator: '[, ]+', 
                 remoteDirectory: '/deploy/$BUILD_NUMBER', 
                 remoteDirectorySDF: false, 
-                removePrefix: 'hcmi-ops/ci-scripts/deploy_stage/', 
+                removePrefix: '', 
                 sourceFiles: 'portal.tar, hcmi-ops/ci-scripts/deploy_stage/deploy.sh')], 
               usePromotionTimestamp: false, 
               useWorkspaceInPromotion: false, 
@@ -88,16 +88,16 @@ pipeline {
             transfers: [
               sshTransfer(
                 excludes: '', 
-                execCommand: './deploy.sh qa $BUILD_NUMBER', 
+                execCommand: 'bash deploy/$BUILD_NUMBER/deploy.sh qa $BUILD_NUMBER', 
                 execTimeout: 120000, 
-                flatten: false, 
+                flatten: true, 
                 makeEmptyDirs: false, 
                 noDefaultExcludes: false, 
                 patternSeparator: '[, ]+', 
                 remoteDirectory: '/deploy/$BUILD_NUMBER', 
                 remoteDirectorySDF: false, 
                 removePrefix: '', 
-                sourceFiles: 'portal.tar, deploy.sh')],  
+                sourceFiles: 'portal.tar, hcmi-ops/ci-scripts/deploy_stage/deploy.sh')], 
               usePromotionTimestamp: false, 
               useWorkspaceInPromotion: false, 
               verbose: false)
@@ -146,16 +146,16 @@ pipeline {
             transfers: [
               sshTransfer(
                 excludes: '', 
-                execCommand: './deploy.sh prd $BUILD_NUMBER', 
+                execCommand: 'bash deploy/$BUILD_NUMBER/deploy.sh prd $BUILD_NUMBER', 
                 execTimeout: 120000, 
-                flatten: false, 
+                flatten: true, 
                 makeEmptyDirs: false, 
                 noDefaultExcludes: false, 
                 patternSeparator: '[, ]+', 
                 remoteDirectory: '/deploy/$BUILD_NUMBER', 
                 remoteDirectorySDF: false, 
                 removePrefix: '', 
-                sourceFiles: 'portal.tar, deploy.sh')], 
+                sourceFiles: 'portal.tar, hcmi-ops/ci-scripts/deploy_stage/deploy.sh')], 
               usePromotionTimestamp: false, 
               useWorkspaceInPromotion: false, 
               verbose: false)
