@@ -4,6 +4,9 @@ properties([
         pollSCM('H/5 * * * *')
     ])
 ])
+node {
+    load "${JENKINS_HOME}/hcmi_env" 
+}
 pipeline {
   agent any
   stages{
@@ -52,7 +55,7 @@ pipeline {
             transfers: [
               sshTransfer(
                 excludes: '', 
-                execCommand: 'cd hcmi && bash deploy/$BUILD_NUMBER/deploy.sh dev $BUILD_NUMBER REACT_APP_ARRANGER_API=http://142.1.177.239:5050/ REACT_APP_ES_HOST=http://es.hcmi.cancercollaboratory.org:9200 REACT_APP_VERSION=june05 SKIP_PREFLIGHT_CHECK=true', 
+                execCommand: "cd hcmi && bash deploy/$BUILD_NUMBER/deploy.sh dev $BUILD_NUMBER REACT_APP_ARRANGER_API=http://${DEV_SERVER}:5050/ REACT_APP_ES_HOST=http://es.hcmi.cancercollaboratory.org:9200 REACT_APP_VERSION=june05 SKIP_PREFLIGHT_CHECK=true", 
                 execTimeout: 120000, 
                 flatten: true, 
                 makeEmptyDirs: false, 
@@ -88,7 +91,7 @@ pipeline {
             transfers: [
               sshTransfer(
                 excludes: '', 
-                execCommand: 'bash deploy/$BUILD_NUMBER/deploy.sh qa $BUILD_NUMBER REACT_APP_ARRANGER_API=http://142.1.177.239:5050/ REACT_APP_ES_HOST=http://es.hcmi.cancercollaboratory.org:9200 REACT_APP_VERSION=june05 SKIP_PREFLIGHT_CHECK=true', 
+                execCommand: "cd hcmi && bash deploy/$BUILD_NUMBER/deploy.sh qa $BUILD_NUMBER REACT_APP_ARRANGER_API=http://${QA_SERVER}:5050/ REACT_APP_ES_HOST=http://es.hcmi.cancercollaboratory.org:9200 REACT_APP_VERSION=june05 SKIP_PREFLIGHT_CHECK=true",
                 execTimeout: 120000, 
                 flatten: true, 
                 makeEmptyDirs: false, 
@@ -146,7 +149,7 @@ pipeline {
             transfers: [
               sshTransfer(
                 excludes: '', 
-                execCommand: 'bash deploy/$BUILD_NUMBER/deploy.sh prd $BUILD_NUMBER REACT_APP_ARRANGER_API=http://142.1.177.239:5050/ REACT_APP_ES_HOST=http://es.hcmi.cancercollaboratory.org:9200 REACT_APP_VERSION=june05 SKIP_PREFLIGHT_CHECK=true', 
+                execCommand: "cd hcmi && bash deploy/$BUILD_NUMBER/deploy.sh prd $BUILD_NUMBER REACT_APP_ARRANGER_API=http://${PRD_SERVER}:5050/ REACT_APP_ES_HOST=http://es.hcmi.cancercollaboratory.org:9200 REACT_APP_VERSION=june05 SKIP_PREFLIGHT_CHECK=true",
                 execTimeout: 120000, 
                 flatten: true, 
                 makeEmptyDirs: false, 
