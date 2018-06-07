@@ -52,7 +52,7 @@ pipeline {
             transfers: [
               sshTransfer(
                 excludes: '', 
-                execCommand: 'bash deploy/$BUILD_NUMBER/deploy.sh dev $BUILD_NUMBER', 
+                execCommand: 'cd hcmi && bash deploy/$BUILD_NUMBER/deploy.sh dev $BUILD_NUMBER', 
                 execTimeout: 120000, 
                 flatten: true, 
                 makeEmptyDirs: false, 
