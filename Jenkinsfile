@@ -42,11 +42,6 @@ pipeline {
       }
     }
     stage('Deploy Dev') {
-      when {
-        expression {
-          return env.BRANCH_NAME != 'master';
-        }
-      }
       steps {
         echo "DEPLOYING TO DEVELOPMENT: (${env.BUILD_URL})"
         sshPublisher(publishers: [
