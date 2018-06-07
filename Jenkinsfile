@@ -60,8 +60,8 @@ pipeline {
                 patternSeparator: '[, ]+', 
                 remoteDirectory: '/deploy/$BUILD_NUMBER', 
                 remoteDirectorySDF: false, 
-                removePrefix: '', 
-                sourceFiles: 'portal.tar, deploy.sh')], 
+                removePrefix: 'hcmi-ops/ci-scripts/deploy_stage/', 
+                sourceFiles: 'portal.tar, hcmi-ops/ci-scripts/deploy_stage/deploy.sh')], 
               usePromotionTimestamp: false, 
               useWorkspaceInPromotion: false, 
               verbose: false)
