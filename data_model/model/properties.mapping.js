@@ -2,6 +2,25 @@ import { get } from 'lodash';
 import clinical_sequencing_map, { weightedKeys, typeMap } from './clinical_sequencing_map';
 
 export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) => ({
+  autocomplete: {
+    fields: {
+      analyzed: {
+        analyzer: 'autocomplete_analyzed',
+        search_analyzer: 'lowercase_keyword',
+        type: 'text',
+      },
+      lowercase: {
+        analyzer: 'lowercase_keyword',
+        type: 'text',
+      },
+      prefix: {
+        analyzer: 'autocomplete_prefix',
+        search_analyzer: 'lowercase_keyword',
+        type: 'text',
+      },
+    },
+    type: 'text',
+  },
   age_at_diagnosis: {
     type: 'long',
     [EXTENSIONS_KEY]: {
@@ -190,6 +209,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
     [EXTENSIONS_KEY]: {
       [FAKER_KEY]: /[A-Z]{4}-[a-z]{4}/,
     },
+    copy_to: 'autocomplete',
   },
   neoadjuvant_therapy: {
     type: 'boolean',
@@ -296,6 +316,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
             enum: weightedKeys,
           },
         },
+        copy_to: 'autocomplete',
       },
       name: {
         type: `keyword`,
@@ -305,6 +326,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
             return clinical_sequencing_map[genes[0]] || 'Unknown';
           },
         },
+        copy_to: 'autocomplete',
       },
       category: {
         type: `keyword`,
