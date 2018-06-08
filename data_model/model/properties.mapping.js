@@ -1,17 +1,23 @@
 import { get } from 'lodash';
-import clinical_sequencing_map, { weightedKeys } from './clinical_sequencing_map';
+import clinical_sequencing_map, { weightedKeys, typeMap } from './clinical_sequencing_map';
 
 export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) => ({
   age_at_diagnosis: {
     type: 'long',
     [EXTENSIONS_KEY]: {
-      [FAKER_KEY]: { min: 10, max: 90},
+      [FAKER_KEY]: {
+        min: 10,
+        max: 90,
+      },
     },
   },
   age_at_aquisition: {
     type: 'long',
     [EXTENSIONS_KEY]: {
-      [FAKER_KEY]: { min: 10, max: 90 },
+      [FAKER_KEY]: {
+        min: 10,
+        max: 90,
+      },
     },
   },
   date_of_availability: {
@@ -135,9 +141,9 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
         type: 'keyword',
         [EXTENSIONS_KEY]: {
           [FAKER_KEY]: [
-            'https://object.cancercollaboratory.org:9080/swift/v1/hcmi-demo-images/Organoid%201.jpg',
-            'https://object.cancercollaboratory.org:9080/swift/v1/hcmi-demo-images/Organoid%202.jpg',
-            'https://object.cancercollaboratory.org:9080/swift/v1/hcmi-demo-images/Organoid%203.jpg',
+            'https://i.imgur.com/NzednGv.jpg',
+            'https://i.imgur.com/xBKpZD1.jpg',
+            'https://i.imgur.com/s1bMwZw.jpg',
           ],
         },
       },
@@ -260,7 +266,10 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
     type: 'keyword',
     [EXTENSIONS_KEY]: {
       [FAKER_KEY]:
-        'https://portal.gdc.cancer.gov/repository?facetTab=cases&filters=%7B%22op%22%3A%22and%22%2C%22content%22%3A%5B%7B%22op%22%3A%22in%22%2C%22content%22%3A%7B%22field%22%3A%22cases.case_id%22%2C%22value%22%3A%5B%2230bc72d5-07b5-48d2-b025-bba9bcf2f09f%22%5D%7D%7D%5D%7D',
+        'https://portal.gdc.cancer.gov/repository?facetTab=cases&filters=%7B%22op%22%3A%2' +
+        '2and%22%2C%22content%22%3A%5B%7B%22op%22%3A%22in%22%2C%22content%22%3A%7B%22fiel' +
+        'd%22%3A%22cases.case_id%22%2C%22value%22%3A%5B%2230bc72d5-07b5-48d2-b025-bba9bcf' +
+        '2f09f%22%5D%7D%7D%5D%7D',
     },
   },
   split_ratio: {
@@ -306,7 +315,10 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
       type: {
         type: `keyword`,
         [EXTENSIONS_KEY]: {
-          [FAKER_KEY]: ['SNV'],
+          [FAKER_KEY]: ({ path, context }) => {
+            let { genes } = get(context, path);
+            return [typeMap[genes[0]]] || 'Unknown';
+          },
         },
       },
       assessment_type: {

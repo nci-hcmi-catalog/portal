@@ -120,3 +120,24 @@ export const weightedKeys = [
   'EML4',
   'EWSR1',
 ];
+
+export const typeMap = {
+  ALK: 'SNV',
+  BRAF: 'SNV',
+  CDKN2A: 'SNV',
+  EGFR: 'SNV',
+  GNAS: 'SNV',
+  IDH1: 'SNV',
+  IDH2: 'SNV',
+  KRAS: 'SNV',
+  MET: 'SNV',
+  RNF43: 'SNV',
+  TP53: 'SNV',
+  H3: 'indel',
+  PIK3CA: 'indel',
+  PTEN: 'translocation',
+  BCOR: 'translocation',
+  CIC: 'translocation',
+  EML4: 'translocation',
+  EWSR1: 'translocation',
+};
