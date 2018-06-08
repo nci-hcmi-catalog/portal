@@ -22,7 +22,15 @@ export default ({ sqon, setSQON }) => (
       {({ state: aggState }) => {
         return (
           <Component
-            top10={(aggState.buckets || []).sort((a, b) => b.doc_count - a.doc_count).slice(0, 10)}
+            top10={(aggState.buckets || [])
+              .sort((a, b) => {
+                if (b.doc_count === a.doc_count) {
+                  return b.key > a.key;
+                } else {
+                  return b.doc_count - a.doc_count;
+                }
+              })
+              .slice(0, 10)}
             initialState={{ coloredTop10: [] }}
             loading={aggState.loading}
             shouldUpdate={({ props, nextProps, state, nextState }) => {

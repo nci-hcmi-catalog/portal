@@ -272,12 +272,12 @@ export default ({ modelName }) => (
                     data={{
                       model: (
                         <ExternalLink href={state.model.source_model_url}>
-                          Link to GDC/EGA
+                          Link to Source
                         </ExternalLink>
                       ),
                       'original sequencing files': (
                         <ExternalLink href={state.model.source_sequence_url}>
-                          Link to GDC/EGA
+                          Link to Source
                         </ExternalLink>
                       ),
                     }}
