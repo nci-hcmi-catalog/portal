@@ -248,7 +248,6 @@ export default ({ modelName }) => (
                         moment(state.model.date_updated).format('DD/MM/YYYY'),
                       ),
                       'licensing requirement': apiDataProcessor(
-                        state.model.licensing_required,
                         state.model.licensing_required ? 'Yes' : 'No',
                       ),
                       gender: apiDataProcessor(state.model.gender),
