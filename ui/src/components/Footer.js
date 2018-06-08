@@ -1,23 +1,23 @@
 import React from 'react';
 
-import { Col } from 'theme/system';
-import ExternalLink from 'components/ExternalLink';
+import { Row } from 'theme/system';
+import nihPath from 'assets/logo-NIH-NCI.svg';
+import sangerPath from 'assets/logo-welcome-sanger-institute.png';
+import hubPath from 'assets/logo-hubrecht-organoid-technology.png';
+import cancerResearchUKPath from 'assets/logo-cancer-research-uk.png';
 
 const Footer = () => (
   <footer
     css={`
-      height: 114px;
-      background-color: #323232;
-      box-shadow: 0 0 4.9px 0.1px #bbbbbb;
+      height: 70px;
+      background-color: #ffffff;
+      box-shadow: 0 0 5.9px 0.1px rgba(160, 160, 163, 0.93);
       margin-top: 6px;
-      display: flex;
-      flex-direction: column;
-      flex: none;
-      justify-content: center;
-      align-items: center;
       color: #fff;
       font-family: 'Open Sans';
       font-size: 14px;
+      display: flex;
+      justify-content: center;
 
       a:link,
       a:visited {
@@ -36,27 +36,36 @@ const Footer = () => (
       }
     `}
   >
-    <Col alignItems="center">
-      <span>
-        <ExternalLink href="https://ocg.cancer.gov/">NCI Office of Cancer Genomics</ExternalLink> /{' '}
-        <ExternalLink href="https://www.cancer.gov/policies/privacy-security">Policy</ExternalLink>{' '}
-        /{' '}
-        <ExternalLink href="http://www.cancer.gov/global/web/policies/page3">
-          Accessibility
-        </ExternalLink>{' '}
-        / <ExternalLink href="http://cancer.gov/global/viewing-files">Viewing Files</ExternalLink> /{' '}
-        <ExternalLink href="http://www.cancer.gov/global/web/policies/page6">FOIA</ExternalLink>
-      </span>
-      <span>
-        <ExternalLink href="http://www.hhs.gov/">
-          U.S. Department of Health and Human Services
-        </ExternalLink>{' '}
-        / <ExternalLink href="http://www.nih.gov/">National Institutes of Health</ExternalLink> /{' '}
-        <ExternalLink href="http://www.cancer.gov/"> National Cancer Institute</ExternalLink> /{' '}
-        <ExternalLink href="http://usa.gov/">USA.gov</ExternalLink>
-      </span>
-      <span className="tagline">NIH ... Turning Discovery Into Health®</span>
-    </Col>
+    <Row alignItems="center" justifyContent="space-between" minWidth={147} width="50%">
+      <img
+        src={nihPath}
+        alt="NIH"
+        css={`
+          height: 24px;
+        `}
+      />
+      <img
+        src={sangerPath}
+        alt="Wellcome Sanger Institue"
+        css={`
+          height: 41px;
+        `}
+      />
+      <img
+        src={hubPath}
+        alt="Hubrecht Organoid Technology"
+        css={`
+          height: 41px;
+        `}
+      />
+      <img
+        src={cancerResearchUKPath}
+        alt="Cancer Research UK"
+        css={`
+          height: 41px;
+        `}
+      />
+    </Row>
   </footer>
 );
 
