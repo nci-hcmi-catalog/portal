@@ -1,6 +1,5 @@
 import React from 'react';
 import bannerPath from 'assets/hcmi-dna-banner.jpg';
-import logoPath from 'assets/logo-NIH-HCMI-Catalog.svg';
 import { Link } from 'react-router-dom';
 
 let Gradient = p => (
@@ -10,6 +9,7 @@ let Gradient = p => (
       position: absolute;
       width: 100%;
       ${p.xcss};
+      z-index: 0;
     `}
   />
 );
@@ -42,14 +42,17 @@ export default () => (
         text-decoration: none;
       `}
     >
-      <img
-        src={logoPath}
-        alt="HCMI Catalog logo"
+      <div
         css={`
-          height: 51px;
+          font-family: 'Libre Franklin';
+          font-weight: bold;
+          font-size: 30px;
+          color: #900000;
           z-index: 1;
         `}
-      />
+      >
+        Human Cancer Models Initiative
+      </div>
       <div
         css={`
           font-family: 'Libre Franklin';

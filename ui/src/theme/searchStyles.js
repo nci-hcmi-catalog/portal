@@ -117,6 +117,7 @@ export default css`
     /* important to override react-split-pane inline style */
     height: calc(100vh - ${headerHeight}) !important;
     overflow-y: auto;
+    position: relative !important;
   }
 
   .aggregations-wrapper .arrow {
@@ -335,7 +336,7 @@ export default css`
 
   .tableToolbar .dropDownButtonContent {
     font-family: ${libreFranklin};
-  } 
+  }
 
   .tableToolbar .dropDownButton svg {
     stroke: ${linkColor};

@@ -19,6 +19,7 @@ import PatientIcon from 'icons/PatientIcon';
 import CameraIcon from 'icons/CameraIcon';
 import VariantsIcon from 'icons/VariantsIcon';
 import VariantTables from 'components/VariantTables';
+import Footer from 'components/Footer';
 
 const HorizontalTable = ({ data, css }) => (
   <table className="entity-horizontal-table" css={css}>

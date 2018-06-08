@@ -13,6 +13,7 @@ import Model from 'components/Model';
 import AdminNav from 'components/AdminNav';
 import { Row, Col } from 'theme/system';
 import Header from 'components/Header';
+import Footer from 'components/Footer';
 import theme from 'theme';
 import Modal from 'components/modals/Modal';
 
@@ -87,6 +88,7 @@ const ProvidedRoutes = () => (
                 render={({ match }) => <Model modelName={match.params.modelName} />}
               />
             </Switch>
+            <Footer />
           </>
         )}
       </Component>
