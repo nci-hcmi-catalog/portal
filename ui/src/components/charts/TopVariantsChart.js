@@ -22,7 +22,15 @@ export default ({ sqon, setSQON }) => (
       {({ state: aggState }) => {
         return (
           <Component
-            top10={(aggState.buckets || []).sort((a, b) => b.doc_count - a.doc_count).slice(0, 10)}
+            top10={(aggState.buckets || [])
+              .sort((a, b) => {
+                if (b.doc_count === a.doc_count) {
+                  return b.key > a.key;
+                } else {
+                  return b.doc_count - a.doc_count;
+                }
+              })
+              .slice(0, 10)}
             initialState={{ coloredTop10: [] }}
             loading={aggState.loading}
             shouldUpdate={({ props, nextProps, state, nextState }) => {
@@ -93,7 +101,7 @@ export default ({ sqon, setSQON }) => (
                       top: 25,
                       right: 15,
                       bottom: 38,
-                      left: 50,
+                      left: 60,
                     }}
                     data={coloredTop10}
                     enableLabel={false}
@@ -116,7 +124,7 @@ export default ({ sqon, setSQON }) => (
                       tickPadding: 5,
                       tickRotation: 0,
                       legendPosition: 'center',
-                      legendOffset: -45,
+                      legendOffset: -40,
                       legend: '# Models',
                       tickValues: yGridValues,
                     }}

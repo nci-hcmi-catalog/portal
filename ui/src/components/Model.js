@@ -19,7 +19,7 @@ import PatientIcon from 'icons/PatientIcon';
 import CameraIcon from 'icons/CameraIcon';
 import VariantsIcon from 'icons/VariantsIcon';
 import VariantTables from 'components/VariantTables';
-import Footer from 'components/Footer';
+import ExternalLink from 'components/ExternalLink';
 
 const HorizontalTable = ({ data, css }) => (
   <table className="entity-horizontal-table" css={css}>
@@ -44,6 +44,8 @@ const fetchData = async ({ setState, modelName }) => {
                 edges {
                   node {
                     id
+                    source_model_url
+                    source_sequence_url
                     name
                     type
                     split_ratio
@@ -72,7 +74,10 @@ const fetchData = async ({ setState, modelName }) => {
                     therapy
                     licensing_required
                     date_of_availability
+                    date_created
+                    date_updated
                     clinical_diagnosis {
+                      clinical_tumor_diagnosis
                       aquisition_site
                       histological_type
                       histologcal_grade
@@ -147,22 +152,26 @@ export default ({ modelName }) => (
                   <HorizontalTable
                     data={{
                       'primary site': apiDataProcessor(state.model.primary_site),
-                      'neoadjuvant therapy': apiDataProcessor(state.model.neoadjuvant_therapy),
+                      'neoadjuvant therapy': apiDataProcessor(
+                        state.model.neoadjuvant_therapy ? 'True' : 'False',
+                      ),
                       'pathological tnm stage': apiDataProcessor(state.model.tnm_stage),
                       'molecular characterization': apiDataProcessor(
                         state.model.molecular_characterizations,
                       ),
                       'chemotherapeutic drugs': apiDataProcessor(
-                        state.model.chemotherapeutic_drug_list_available,
                         state.model.chemotherapeutic_drug_list_available ? 'Yes' : 'No',
                       ),
                     }}
                   />
                 </Col>
                 <Col className="three-col">
+                  {console.log(state.model.clinical_diagnosis)}
                   <HorizontalTable
                     data={{
-                      'clinical tumor diagnosis': apiDataProcessor(''),
+                      'clinical tumor diagnosis': apiDataProcessor(
+                        state.model.clinical_diagnosis.clinical_tumor_diagnosis,
+                      ),
                       'sample acquisition site': apiDataProcessor(
                         state.model.clinical_diagnosis.aquisition_site,
                       ),
@@ -170,7 +179,7 @@ export default ({ modelName }) => (
                         state.model.clinical_diagnosis.histological_type,
                       ),
                       'histological grade': apiDataProcessor(
-                        state.model.clinical_diagnosis.tumor_histological_grade,
+                        state.model.clinical_diagnosis.histologcal_grade,
                       ),
                       'clinical stage': apiDataProcessor(
                         state.model.clinical_diagnosis.clinical_stage_grouping,
@@ -223,16 +232,22 @@ export default ({ modelName }) => (
                     />{' '}
                     Model Administration
                   </h3>
+                  {console.log(state.model)}
                   <HorizontalTable
                     data={{
                       'date availabile': apiDataProcessor(
                         state.model.date_of_availability,
                         moment(state.model.date_of_availability).format('DD/MM/YYYY'),
                       ),
-                      created: apiDataProcessor(''),
-                      updated: apiDataProcessor(''),
+                      created: apiDataProcessor(
+                        state.model.date_created,
+                        moment(state.model.date_created).format('DD/MM/YYYY'),
+                      ),
+                      updated: apiDataProcessor(
+                        state.model.date_updated,
+                        moment(state.model.date_updated).format('DD/MM/YYYY'),
+                      ),
                       'licensing requirement': apiDataProcessor(
-                        state.model.licensing_required,
                         state.model.licensing_required ? 'Yes' : 'No',
                       ),
                       gender: apiDataProcessor(state.model.gender),
@@ -254,8 +269,16 @@ export default ({ modelName }) => (
                   </div>
                   <HorizontalTable
                     data={{
-                      model: 'link to GDC/EGA',
-                      'original sequencing files': 'link to GDC/EGA',
+                      model: (
+                        <ExternalLink href={state.model.source_model_url}>
+                          Link to Source
+                        </ExternalLink>
+                      ),
+                      'original sequencing files': (
+                        <ExternalLink href={state.model.source_sequence_url}>
+                          Link to Source
+                        </ExternalLink>
+                      ),
                     }}
                   />
                 </Col>
