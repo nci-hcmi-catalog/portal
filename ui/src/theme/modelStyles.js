@@ -283,4 +283,8 @@ export default css`
   .ReactTable a {
     color: #900000;
   }
+
+  a.external-link {
+    color: #900000;
+  }
 `;

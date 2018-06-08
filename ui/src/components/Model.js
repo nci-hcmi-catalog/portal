@@ -19,7 +19,7 @@ import PatientIcon from 'icons/PatientIcon';
 import CameraIcon from 'icons/CameraIcon';
 import VariantsIcon from 'icons/VariantsIcon';
 import VariantTables from 'components/VariantTables';
-import Footer from 'components/Footer';
+import ExternalLink from 'components/ExternalLink';
 
 const HorizontalTable = ({ data, css }) => (
   <table className="entity-horizontal-table" css={css}>
@@ -44,6 +44,8 @@ const fetchData = async ({ setState, modelName }) => {
                 edges {
                   node {
                     id
+                    source_model_url
+                    source_sequence_url
                     name
                     type
                     split_ratio
@@ -73,6 +75,7 @@ const fetchData = async ({ setState, modelName }) => {
                     licensing_required
                     date_of_availability
                     clinical_diagnosis {
+                      clinical_tumor_diagnosis
                       aquisition_site
                       histological_type
                       histologcal_grade
@@ -162,7 +165,9 @@ export default ({ modelName }) => (
                 <Col className="three-col">
                   <HorizontalTable
                     data={{
-                      'clinical tumor diagnosis': apiDataProcessor(''),
+                      'clinical tumor diagnosis': apiDataProcessor(
+                        state.model.clinical_diagnosis.clinical_tumor_diagnosis,
+                      ),
                       'sample acquisition site': apiDataProcessor(
                         state.model.clinical_diagnosis.aquisition_site,
                       ),
@@ -254,8 +259,16 @@ export default ({ modelName }) => (
                   </div>
                   <HorizontalTable
                     data={{
-                      model: 'link to GDC/EGA',
-                      'original sequencing files': 'link to GDC/EGA',
+                      model: (
+                        <ExternalLink href={state.model.source_model_url}>
+                          Link to GDC/EGA
+                        </ExternalLink>
+                      ),
+                      'original sequencing files': (
+                        <ExternalLink href={state.model.source_sequence_url}>
+                          Link to GDC/EGA
+                        </ExternalLink>
+                      ),
                     }}
                   />
                 </Col>
