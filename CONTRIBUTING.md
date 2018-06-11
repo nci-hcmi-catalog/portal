@@ -26,6 +26,7 @@ git push origin --tags
 * [Hotfix](#hotfix) should be branched off of the tag which is currently deployed, and rebased back into master when completed.
 
 ```
+git checkout <tag>
 git checkout -b hotfix/<branch_name> <version>
 # example: git checkout -b hotfix/12-chart-null-check 0.2.0
 ```
