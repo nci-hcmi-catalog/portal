@@ -53,7 +53,7 @@ const HorizontalTable = ({
 
 const fetchData = async ({ setState, modelName }) => {
   const { data } = await api({
-    endpoint: `${globals.VERSION}/graphql`,
+    endpoint: `${globals.VERSION}/graphql/ModelDataQuery`,
     body: {
       query: `query ModelDataQuery($filters: JSON) {
             models {
