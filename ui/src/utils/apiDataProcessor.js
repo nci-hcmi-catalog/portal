@@ -1,26 +1,21 @@
+import moment from 'moment';
+import { isEmpty } from 'lodash';
+
+const processors = {
+  date: value => moment(value).format('DD/MM/YYYY'),
+  boolean: value => (value ? 'Yes' : 'No'),
+  keyword: value => `${value}`,
+  long: value => value.toLocaleString(),
+  short: value => value.toLocaleString(),
+};
+
 /**
- * If there is data just return it, otherwise return
+ * If there is data process it, otherwise return
  * the characters "--" - our convention for no-data
  * @param {*} data - Any object, string, array, we are checking for content
- * @param {*} implicitReturn - Returns this instead of data if provided
- * data from api response
+ * @param String displayType - date, boolean, keyword, long
  */
-export default function(data, implicitReturn = false) {
-  return !data || data.length === 0 || isEmptyObject(data)
+export default ({ data, type, unit }) =>
+  (type !== 'boolean' && !data) || data.length === 0 || isEmpty(data)
     ? '--'
-    : implicitReturn
-      ? implicitReturn
-      : data;
-}
-
-function isEmptyObject(obj) {
-  if (typeof obj !== 'object') {
-    return false;
-  }
-
-  for (let key in obj) {
-    if (obj.hasOwnProperty(key)) return false;
-  }
-
-  return true;
-}
+    : `${processors[type || 'keyword'](data)}${unit ? ` ${unit}` : ''}`;

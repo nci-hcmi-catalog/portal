@@ -1,6 +1,5 @@
 import React from 'react';
 import Component from 'react-component-component';
-import moment from 'moment';
 import { get } from 'lodash';
 
 import { api } from '@arranger/components';
@@ -21,7 +20,25 @@ import VariantsIcon from 'icons/VariantsIcon';
 import VariantTables from 'components/VariantTables';
 import ExternalLink from 'components/ExternalLink';
 
-const HorizontalTable = ({ data, css }) => (
+const HorizontalTable = ({
+  fieldNames,
+  rawData,
+  extended,
+  css,
+  data = (extended || [])
+    .slice()
+    .sort((a, b) => (fieldNames || []).indexOf(a) - (fieldNames || []).indexOf(b))
+    .reduce(
+      (acc, { field, type, displayName, unit }) =>
+        fieldNames.includes(field)
+          ? {
+              ...acc,
+              [displayName]: apiDataProcessor({ data: get(rawData, field), type, unit }),
+            }
+          : acc,
+      {},
+    ),
+}) => (
   <table className="entity-horizontal-table" css={css}>
     <tbody>
       {Object.keys(data).map(key => (
@@ -36,10 +53,11 @@ const HorizontalTable = ({ data, css }) => (
 
 const fetchData = async ({ setState, modelName }) => {
   const { data } = await api({
-    endpoint: `${globals.VERSION}/graphql`,
+    endpoint: `${globals.VERSION}/graphql/ModelDataQuery`,
     body: {
-      query: `query($filters: JSON) {
+      query: `query ModelDataQuery($filters: JSON) {
             models {
+              extended
               hits(first: 1 filters: $filters) {
                 edges {
                   node {
@@ -93,14 +111,17 @@ const fetchData = async ({ setState, modelName }) => {
       },
     },
   });
-
-  setState({ model: get(data, `models.hits.edges[0].node`, {}), loading: false });
+  setState({
+    model: get(data, `models.hits.edges[0].node`, {}),
+    extended: get(data, `models.extended`),
+    loading: false,
+  });
 };
 
 export default ({ modelName }) => (
   <Component
     modelName={modelName}
-    initialState={{ model: null, loading: true }}
+    initialState={{ model: null, loading: true, extended: [] }}
     didMount={async ({ setState, props }) => {
       await fetchData({ setState, modelName: props.modelName });
     }}
@@ -136,55 +157,37 @@ export default ({ modelName }) => (
               <Row className="row">
                 <Col className="three-col">
                   <HorizontalTable
-                    data={{
-                      name: state.model.name,
-                      'model type': apiDataProcessor(state.model.type),
-                      'split ratio': apiDataProcessor(state.model.split_ratio),
-                      growth_rate: apiDataProcessor(
-                        state.model.growth_rate,
-                        `${state.model.growth_rate.toLocaleString()} days`,
-                      ),
-                    }}
+                    rawData={state.model}
+                    extended={state.extended}
+                    fieldNames={['name', 'type', 'split_ratio', 'growth_rate']}
                   />
                 </Col>
 
                 <Col className="three-col">
                   <HorizontalTable
-                    data={{
-                      'primary site': apiDataProcessor(state.model.primary_site),
-                      'neoadjuvant therapy': apiDataProcessor(
-                        state.model.neoadjuvant_therapy ? 'True' : 'False',
-                      ),
-                      'pathological tnm stage': apiDataProcessor(state.model.tnm_stage),
-                      'molecular characterization': apiDataProcessor(
-                        state.model.molecular_characterizations,
-                      ),
-                      'chemotherapeutic drugs': apiDataProcessor(
-                        state.model.chemotherapeutic_drug_list_available ? 'Yes' : 'No',
-                      ),
-                    }}
+                    rawData={state.model}
+                    extended={state.extended}
+                    fieldNames={[
+                      'primary_site',
+                      'neoadjuvant_therapy',
+                      'tnm_stage',
+                      'molecular_characterizations',
+                      'chemotherapeutic_drug_list_available',
+                    ]}
                   />
                 </Col>
                 <Col className="three-col">
                   {console.log(state.model.clinical_diagnosis)}
                   <HorizontalTable
-                    data={{
-                      'clinical tumor diagnosis': apiDataProcessor(
-                        state.model.clinical_diagnosis.clinical_tumor_diagnosis,
-                      ),
-                      'sample acquisition site': apiDataProcessor(
-                        state.model.clinical_diagnosis.aquisition_site,
-                      ),
-                      'histological type': apiDataProcessor(
-                        state.model.clinical_diagnosis.histological_type,
-                      ),
-                      'histological grade': apiDataProcessor(
-                        state.model.clinical_diagnosis.histologcal_grade,
-                      ),
-                      'clinical stage': apiDataProcessor(
-                        state.model.clinical_diagnosis.clinical_stage_grouping,
-                      ),
-                    }}
+                    rawData={state.model}
+                    extended={state.extended}
+                    fieldNames={[
+                      'clinical_diagnosis.clinical_tumor_diagnosis',
+                      'clinical_diagnosis.aquisition_site',
+                      'clinical_diagnosis.histological_type',
+                      'clinical_diagnosis.histologcal_grade',
+                      'clinical_diagnosis.clinical_stage_grouping',
+                    ]}
                   />
                 </Col>
               </Row>
@@ -203,21 +206,17 @@ export default ({ modelName }) => (
                     Patient Details
                   </h3>
                   <HorizontalTable
-                    data={{
-                      'age at diagnosis': apiDataProcessor(
-                        state.model.age_at_diagnosis,
-                        `${state.model.age_at_diagnosis} years`,
-                      ),
-                      'age of sample aquisition': apiDataProcessor(
-                        state.model.age_at_aquisition,
-                        `${state.model.age_at_aquisition} years`,
-                      ),
-                      'vital status': apiDataProcessor(state.model.vital_status),
-                      'disease status': apiDataProcessor(state.model.disease_status),
-                      gender: apiDataProcessor(state.model.gender),
-                      race: apiDataProcessor(state.model.race),
-                      therapy: apiDataProcessor(state.model.therapy),
-                    }}
+                    rawData={state.model}
+                    extended={state.extended}
+                    fieldNames={[
+                      'age_at_diagnosis',
+                      'state.model.age_at_aquisition',
+                      'vital_status',
+                      'disease_status',
+                      'gender',
+                      'race',
+                      'therapy',
+                    ]}
                   />
                 </Col>
 
@@ -232,26 +231,16 @@ export default ({ modelName }) => (
                     />{' '}
                     Model Administration
                   </h3>
-                  {console.log(state.model)}
                   <HorizontalTable
-                    data={{
-                      'date availabile': apiDataProcessor(
-                        state.model.date_of_availability,
-                        moment(state.model.date_of_availability).format('DD/MM/YYYY'),
-                      ),
-                      created: apiDataProcessor(
-                        state.model.date_created,
-                        moment(state.model.date_created).format('DD/MM/YYYY'),
-                      ),
-                      updated: apiDataProcessor(
-                        state.model.date_updated,
-                        moment(state.model.date_updated).format('DD/MM/YYYY'),
-                      ),
-                      'licensing requirement': apiDataProcessor(
-                        state.model.licensing_required ? 'Yes' : 'No',
-                      ),
-                      gender: apiDataProcessor(state.model.gender),
-                    }}
+                    rawData={state.model}
+                    extended={state.extended}
+                    fieldNames={[
+                      'date_of_availability',
+                      'date_created',
+                      'date_updated',
+                      'licensing_required',
+                      'gender',
+                    ]}
                   />
                   <div
                     css={`
