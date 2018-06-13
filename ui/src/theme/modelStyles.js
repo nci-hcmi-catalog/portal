@@ -1,4 +1,6 @@
 import { css } from 'emotion';
+import plusWhite from 'assets/icon-plus-white.svg';
+import selectedModel from 'assets/icon-selected-model.svg';
 
 export default css`
   .model-bar {
@@ -106,6 +108,24 @@ export default css`
 
   .model-section .model-details-header h3 {
     margin: 0;
+  }
+
+  .model-details-header .select-model {
+    color: #fff;
+    background: url(${plusWhite}) no-repeat;
+    background-size: 16px 16px;
+    background-position: 23px center;
+    padding: 0 24px 0 46px;
+    background-color: #d3494d;
+    border: solid 1px #cacbcf;
+  }
+
+  .model-details-header .select-model.selected {
+    background: url(${selectedModel}) no-repeat;
+    background-size: 12px 12px;
+    background-position: 15px center;
+    padding: 0 15px 0 34px;
+    background-color: #45b3c3;
   }
 
   .image-caption {

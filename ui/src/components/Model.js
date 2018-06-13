@@ -169,19 +169,18 @@ export default ({ modelName }) => (
                     quote={`HCMI Model ${state.model.name}`}
                   />
                   <SelectedModelsContext.Consumer>
-                    {selected => (
-                      <div
-                        className="pill"
-                        onClick={() => selected.toggleModel(state.model.id)}
-                        style={{ marginLeft: '10px' }}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={selected.state.models.includes(state.model.id)}
-                        />
-                        Select for Download
-                      </div>
-                    )}
+                    {selected => {
+                      const isSelected = selected.state.models.includes(state.model.id);
+                      return (
+                        <div
+                          onClick={() => selected.toggleModel(state.model.id)}
+                          className={`pill select-model ${isSelected ? 'selected' : ''}`}
+                          style={{ marginLeft: '10px' }}
+                        >
+                          {isSelected ? 'Selected for download' : 'Add model to my list'}
+                        </div>
+                      );
+                    }}
                   </SelectedModelsContext.Consumer>
                 </Row>
               </Row>
