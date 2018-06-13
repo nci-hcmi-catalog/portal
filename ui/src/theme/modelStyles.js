@@ -98,6 +98,16 @@ export default css`
     min-width: 440px;
   }
 
+  .model-section .model-details-header {
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .model-section .model-details-header h3 {
+    margin: 0;
+  }
+
   .image-caption {
     font-family: 'Open Sans';
     font-size: 14px;

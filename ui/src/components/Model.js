@@ -19,6 +19,8 @@ import CameraIcon from 'icons/CameraIcon';
 import VariantsIcon from 'icons/VariantsIcon';
 import VariantTables from 'components/VariantTables';
 import ExternalLink from 'components/ExternalLink';
+import ShareButton from 'components/ShareButton';
+import { SelectedModelsContext } from 'providers/SelectedModels';
 
 const HorizontalTable = ({
   fieldNames,
@@ -150,10 +152,39 @@ export default ({ modelName }) => (
                 background-color: #f3f6f7;
               `}
             >
-              <h3>
-                <ModelIcon height={50} width={50} />
-                Model Details
-              </h3>
+              <Row className="model-details-header">
+                <h3>
+                  <ModelIcon height={50} width={50} />
+                  Model Details
+                </h3>
+                <Row
+                  className="model-actions"
+                  css={`
+                    width: 30%;
+                    justify-content: flex-end;
+                  `}
+                >
+                  <ShareButton
+                    link={`${window.location.origin}/model/${state.model.name}`}
+                    quote={`HCMI Model ${state.model.name}`}
+                  />
+                  <SelectedModelsContext.Consumer>
+                    {selected => (
+                      <div
+                        className="pill"
+                        onClick={() => selected.toggleModel(state.model.id)}
+                        style={{ marginLeft: '10px' }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selected.state.models.includes(state.model.id)}
+                        />
+                        Select for Download
+                      </div>
+                    )}
+                  </SelectedModelsContext.Consumer>
+                </Row>
+              </Row>
               <Row className="row">
                 <Col className="three-col">
                   <HorizontalTable
