@@ -5,11 +5,13 @@ import selectedModel from 'assets/icon-selected-model.svg';
 export default css`
   .model-bar {
     background-color: rgb(144, 0, 0, 0.7);
+    border-top: 6px solid #fff;
     color: #ffffff;
     align-items: center;
     justify-content: space-between;
     padding: 0 35px;
   }
+
   .model-bar h2 {
     font-family: 'Libre Franklin';
     font-size: 23px;
@@ -34,6 +36,12 @@ export default css`
     line-height: 1.67;
     letter-spacing: normal;
     text-align: left;
+  }
+
+  .model-bar .model-bar-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
   .pagination {
