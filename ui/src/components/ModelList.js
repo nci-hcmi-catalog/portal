@@ -16,7 +16,7 @@ const ModalListIcon = ({ className, selected }) => (
             className={`model-list-icon ${hasSelected ? 'not-empty' : ''} ${className}`}
             onClick={() =>
               modalState.setModal({
-                component: <ModelListModal modalState={modalState} selected={selected} />,
+                component: <ModelListModal modalState={modalState} />,
                 styles: modelListModalStyles,
               })
             }

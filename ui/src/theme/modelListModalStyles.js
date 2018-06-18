@@ -14,6 +14,28 @@ export default css`
   font-stretch: normal;
   letter-spacing: normal;
 
+  .model-list-drawer-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: rgb(144, 0, 0, 0.7);
+  }
+
+  .model-list-drawer-header h2 {
+    font-size: 20px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.2;
+    letter-spacing: normal;
+    color: #ffffff;
+  }
+
+  .model-list-drawer-header .clear {
+  }
+
   button {
     border-radius: 10px;
     background-color: #900000;
