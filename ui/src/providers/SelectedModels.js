@@ -1,5 +1,5 @@
 import React from 'react';
-import { xor } from 'lodash';
+import { xorWith, isEqual } from 'lodash';
 
 export const SelectedModelsContext = React.createContext();
 
@@ -13,7 +13,8 @@ class SelectedModelsProvider extends React.Component {
         value={{
           state: this.state,
           setModels: ({ models }) => this.setState({ models }),
-          toggleModel: modelId => this.setState({ models: xor(this.state.models, [modelId]) }),
+          toggleModel: model => this.setState({ models: xorWith(this.state.models, [model], isEqual) }),
+          clearModels: () => this.setState({ ...this.state, models: [] }),
         }}
         {...this.props}
       />
