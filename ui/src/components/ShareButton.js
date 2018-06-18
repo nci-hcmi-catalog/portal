@@ -57,7 +57,7 @@ export default ({ link, error, quote }) => (
                 css={`
                   width: 210px;
                   position: absolute;
-                  right: 10px;
+                  right: 138px;
                   background: white;
                   color: black;
                 `}

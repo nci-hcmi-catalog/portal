@@ -12,7 +12,7 @@ export default () => (
       <Modal
         isOpen={!!modalState.state.component}
         appElement={document.getElementById('root')}
-        css={styles}
+        css={modalState.state.styles || styles}
         overlayClassName={css`
           position: fixed;
           top: 0px;

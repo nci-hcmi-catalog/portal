@@ -7,7 +7,7 @@ import Url from 'components/Url';
 import BackToSearch from 'components/links/BackToSearch';
 import ModelList from 'components/ModelList';
 
-export default ({ name, id }) => (
+export default ({ name }) => (
   <Url
     render={({ sqon, history }) => (
       <Row

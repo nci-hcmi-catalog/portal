@@ -207,7 +207,6 @@ export default ({ modelName }) => (
                   />
                 </Col>
                 <Col className="three-col">
-                  {console.log(state.model.clinical_diagnosis)}
                   <HorizontalTable
                     rawData={state.model}
                     extended={state.extended}
