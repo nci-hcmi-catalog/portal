@@ -13,7 +13,8 @@ class SelectedModelsProvider extends React.Component {
         value={{
           state: this.state,
           setModels: ({ models }) => this.setState({ models }),
-          toggleModel: model => this.setState({ models: xorWith(this.state.models, [model], isEqual) }),
+          toggleModel: model =>
+            this.setState({ models: xorWith(this.state.models, [model], isEqual) }),
           clearModels: () => this.setState({ ...this.state, models: [] }),
         }}
         {...this.props}

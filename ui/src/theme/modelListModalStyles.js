@@ -1,5 +1,11 @@
 import { css } from 'emotion';
+import base from 'theme';
 import doubleArrowRightWhite from 'assets/icon-doublearrow-right-white.svg';
+import iconDownloadWhite from 'assets/icon-download-white.svg';
+
+const {
+  fonts: { libreFranklin, openSans },
+} = base;
 
 export default css`
   top: 0;
@@ -9,7 +15,7 @@ export default css`
   width: 314px;
   height: 100vh;
   box-sizing: border-box;
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: ${libreFranklin};
   font-size: 16px;
   font-weight: normal;
   font-style: normal;
@@ -47,7 +53,7 @@ export default css`
     bottom: 6px;
     width: 20px;
     height: 20px;
-    font-family: OpenSans;
+    font-family: ${openSans};
     font-weight: 500;
     font-size: 11px;
     line-height: 20px;
@@ -96,21 +102,99 @@ export default css`
     text-decoration: none;
   }
 
-  button {
-    border-radius: 10px;
-    background-color: #900000;
-    border: solid 1px #cacbcf;
-    padding: 5px 10px;
-    font-size: 14px;
-    text-transform: uppercase;
+  .model-list-scroll-container {
+    max-height: calc(100vh - 132px);
+    overflow-y: auto;
+  }
+
+  .model-list-models {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .model-list-model {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 10px 12px;
+    border-bottom: solid 1px #cacbcf;
+  }
+
+  .model-list-model:last-of-type {
+    border-bottom: none;
+  }
+
+  .model-image,
+  .model-placeholder-image {
+    margin-right: 8px;
+  }
+
+  .model-placeholder-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 74px;
+    background-color: #ebf1f3;
+  }
+
+  .model-list-model-content {
+    width: 162px;
+  }
+
+  .model-list-model-content h3 {
+    font-family: ${libreFranklin};
+    font-size: 16px;
+    line-height: 1.38;
+    color: #900000;
+    margin: 0 0 0.5em;
+  }
+
+  .model-list-model-content p {
+    margin: 0;
+  }
+
+  .model-list-model-content .available-label {
+    font-size: 12px;
     font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.67;
-    letter-spacing: normal;
+    line-height: 1.83;
+    color: #64666a;
+    text-transform: uppercase;
+  }
+
+  .model-list-model-content .available-date {
+    font-family: Helvetica;
+    font-size: 14px;
+    line-height: 1.57;
+    color: #323232;
+  }
+
+  .download-tsv {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #f3f6f7;
+    border-top: solid 1px #cacbcf;
+    border-bottom: solid 1px #cacbcf;
+    padding: 14px 10px;
+  }
+
+  .download-tsv-btn {
+    width: 100%;
+    line-height: 42px;
+    border-radius: 10px;
+    background-color: #45b3c3;
+    border: solid 1px #cacbcf;
+    color: #fff;
+    font-size: 15.5px;
+    font-weight: 500;
     text-align: center;
-    color: #ffffff;
-    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  .download-tsv-btn:disabled {
+    opacity: 0.4;
   }
 
   .close {

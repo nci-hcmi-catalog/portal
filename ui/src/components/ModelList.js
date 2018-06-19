@@ -18,6 +18,7 @@ const ModalListIcon = ({ className, selected }) => (
               modalState.setModal({
                 component: <ModelListModal modalState={modalState} />,
                 styles: modelListModalStyles,
+                shouldCloseOnOverlayClick: true,
               })
             }
           >

@@ -11,6 +11,7 @@ export default css`
     margin-left: 32px;
     background: url(${modelListDefaultWhite}) no-repeat;
     background-size: 22px auto;
+    cursor: pointer;
   }
   .model-list-icon.not-empty {
     background: url(${modelListNotEmptyWhite}) no-repeat;
