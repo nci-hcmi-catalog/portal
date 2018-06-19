@@ -6,6 +6,7 @@
     "test": "cd data_model && yarn test",
     "netlify": "cd ui && yarn && yarn build",
     "api": "cd api && yarn start",
+    "cms": "cd cms && yarn start",
     "ui": "cd ui && yarn start",
     "mapping": "cd data_model && node bin/index --script mapping",
     "fake": "cd data_model && node bin/index --script fake"
