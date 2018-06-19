@@ -1,6 +1,14 @@
 import React from 'react';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 
+const EmptyList = () => (
+  <div className="empty-list">
+    <img src="addtolist.svg" alt="Add to list icon" />
+    <p>You don’t have any models selected.</p>
+    <a href="/">Browse models »</a>
+  </div>
+);
+
 export default ({ modalState }) => (
   <SelectedModelsContext.Consumer>
     {selected => {
@@ -10,9 +18,13 @@ export default ({ modalState }) => (
         <>
           <div className="model-list-drawer-header">
             <h2>
-              My Model List <span className="count">{selectedCount}</span>
+              My Model List{hasSelected ? <span className="count">{selectedCount}</span> : null}
             </h2>
-            <button onClick={() => selected.clearModels()} className="clear">
+            <button
+              disabled={!hasSelected}
+              onClick={() => selected.clearModels()}
+              className="clear"
+            >
               Clear
             </button>
           </div>
@@ -33,7 +45,9 @@ export default ({ modalState }) => (
                 </div>
               ))}
             </div>
-          ) : null}
+          ) : (
+            <EmptyList />
+          )}
           <button
             onClick={() => {
               modalState.setModal({ component: null });
