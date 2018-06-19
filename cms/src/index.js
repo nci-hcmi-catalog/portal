@@ -1,20 +1,17 @@
 import 'babel-polyfill';
 import express from 'express';
-import socketIO from 'socket.io';
 import { Server } from 'http';
-import { rainbow } from 'chalk-animation';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import Model, { ModelSchema } from './schemas/model';
+import Model, { ModelSchema } from './data/schemas/model';
 
-import { getSheetData, typeToParser, getAuthClient } from './import/SheetsToMongo';
+import { getSheetData, typeToParser, getAuthClient } from './data/import/SheetsToMongo';
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/test');
 
 const port = process.env.PORT || 8080;
 const app = express();
 const http = Server(app);
-const io = socketIO(http);
 app.use(cors());
 
 app.get('/sheets-data', async (req, res) => {
@@ -66,5 +63,5 @@ app.get('/sync-mongo', async (req, res) => {
 });
 
 http.listen(port, async () => {
-  rainbow(`⚡️ Listening on port ${port} ⚡️`);
+  console.log(`⚡️ Listening on port ${port} ⚡️`);
 });

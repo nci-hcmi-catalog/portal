@@ -8,6 +8,7 @@
     "api": "cd api && yarn start",
     "cms": "cd cms && yarn start",
     "ui": "cd ui && yarn start",
+    "launch": "yarn api & yarn cms & yarn ui",
     "mapping": "cd data_model && node bin/index --script mapping",
     "fake": "cd data_model && node bin/index --script fake"
   },
