@@ -226,6 +226,10 @@ export default css`
     text-transform: uppercase;
   }
 
+  .model-actions {
+    position: relative;
+  }
+
   .pill {
     padding: 0 15px;
     height: 30px;

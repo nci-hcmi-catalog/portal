@@ -1,6 +1,8 @@
 import { css } from 'emotion';
 import modelListDefaultWhite from 'assets/icon-modellist-empty-white.svg';
 import modelListNotEmptyWhite from 'assets/icon-modellist-full-white.svg';
+import modelListDefaultRed from 'assets/icon-modellist-empty-red.svg';
+import modelListNotEmptyRed from 'assets/icon-modellist-full-red.svg';
 
 export default css`
   .model-list-icon {
@@ -26,5 +28,15 @@ export default css`
     text-align: center;
     bottom: 0px;
     right: 0px;
+  }
+  .search-header-model-list.model-list-icon {
+    background: url(${modelListDefaultRed}) no-repeat;
+    width: 32px;
+    height: 36px;
+    background-size: 24px auto;
+    margin-left: 20px;
+  }
+  .search-header-model-list.model-list-icon.not-empty {
+    background: url(${modelListNotEmptyRed}) no-repeat;
   }
 `;

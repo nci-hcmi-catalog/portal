@@ -109,6 +109,37 @@ export default css`
     color: #323232;
   }
 
+  .search-header-actions {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    height: 36px;
+    padding: 0 20px;
+    border-left: 1px solid #d4d6dd;
+  }
+
+  .search-header-actions .pill {
+    padding: 0 15px;
+    height: 36px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    border: solid 1px #cacbcf;
+    font-family: 'Libre Franklin';
+    font-size: 12px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.67;
+    letter-spacing: normal;
+    text-align: center;
+    color: #734d32;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
   .search-results-wrapper {
     background-color: ${grey};
   }
