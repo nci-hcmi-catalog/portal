@@ -28,6 +28,7 @@ export default css`
     text-align: center;
     bottom: 0px;
     right: 0px;
+    color: #fff;
   }
   .search-header-model-list.model-list-icon {
     background: url(${modelListDefaultRed}) no-repeat;
