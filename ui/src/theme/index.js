@@ -1,4 +1,8 @@
 export default {
+  fonts: {
+    openSans: '"Open Sans", sans-serif',
+    libreFranklin: '"Libre Franklin", sans-seif',
+  },
   palette: [
     '#790c2a',
     '#900000',

@@ -1,13 +1,15 @@
 import { css } from 'emotion';
 import facetarrow from 'assets/icon-facetarrow.svg';
+import base from 'theme';
+
+const {
+  fonts: { libreFranklin, openSans },
+} = base;
 
 const headerHeight = '88px';
 const grey = '#f4f5f7';
 const primaryColor = '#900';
 const linkColor = '#774928';
-
-const openSans = '"Open Sans", sans-serif';
-const libreFranklin = '"Libre Franklin", sans-seif';
 
 export default css`
   .ReactTable {
