@@ -1,5 +1,4 @@
 import { css } from 'emotion';
-// import modelListEmptyRedPlus from 'assets/icon-modellist-empty-red.svg';
 import doubleArrowRightWhite from 'assets/icon-doublearrow-right-white.svg';
 
 export default css`
@@ -76,6 +75,27 @@ export default css`
     opacity: 0.5;
   }
 
+  .empty-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 36px 16px;
+    font-family: Helvetica;
+    font-size: 15px;
+    line-height: 1.73;
+    text-align: center;
+    color: #64666a;
+  }
+
+  .empty-list p {
+    margin: 24px 0 1em;
+  }
+
+  .empty-list a {
+    color: #900000;
+    text-decoration: none;
+  }
+
   button {
     border-radius: 10px;
     background-color: #900000;
@@ -91,5 +111,12 @@ export default css`
     text-align: center;
     color: #ffffff;
     cursor: pointer;
+  }
+
+  .close {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 `;

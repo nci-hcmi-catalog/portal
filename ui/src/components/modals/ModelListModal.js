@@ -1,9 +1,10 @@
 import React from 'react';
 import { SelectedModelsContext } from 'providers/SelectedModels';
+import modelListEmptyRedPlus from 'assets/icon-modellist-empty-red.svg';
 
 const EmptyList = () => (
   <div className="empty-list">
-    <img src="addtolist.svg" alt="Add to list icon" />
+    <img src={modelListEmptyRedPlus} alt="Add to list icon" width="26" height="30" />
     <p>You don’t have any models selected.</p>
     <a href="/">Browse models »</a>
   </div>
@@ -49,6 +50,7 @@ export default ({ modalState }) => (
             <EmptyList />
           )}
           <button
+            className="close"
             onClick={() => {
               modalState.setModal({ component: null });
             }}
