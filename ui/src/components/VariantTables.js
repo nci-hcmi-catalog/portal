@@ -2,7 +2,6 @@ import React from 'react';
 import { get, isEqual, uniqBy } from 'lodash';
 import ReactTable from 'react-table';
 import Component from 'react-component-component';
-import { saveAs } from 'filesaver.js';
 import { Link } from 'react-router-dom';
 import { stringify } from 'query-string';
 
@@ -13,6 +12,7 @@ import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPa
 
 import searchStyles from 'theme/searchStyles';
 import globals from 'utils/globals';
+import tsvDownloader from 'utils/tsvDownloader';
 import { Row, Col } from 'theme/system';
 
 import FilterIcon from 'icons/FilterIcon';
@@ -234,21 +234,9 @@ const VariantTable = ({ category, modelName, columns }) => (
               disabled={state.filteredData.length === 0}
               style={{ marginLeft: '10px' }}
               onClick={() =>
-                saveAs(
-                  new Blob(
-                    [
-                      [
-                        Object.keys(state.filteredData[0]).join('\t'),
-                        ...state.filteredData.map(d =>
-                          Object.values(d)
-                            .map(value => (typeof value === 'string' ? value : value.export))
-                            .join('\t'),
-                        ),
-                      ].join('\n'),
-                    ],
-                    { TSV: 'text/tab-separated-values' },
-                  ),
-                  `${modelName}-${category}.tsv`,
+                tsvDownloader(
+                  `${modelName}-${category}`,
+                  state.filteredData,
                 )
               }
             >
