@@ -171,10 +171,10 @@ export default ({ modelName }) => (
                   />
                   <SelectedModelsContext.Consumer>
                     {selected => {
-                      const isSelected = selected.state.models.includes(state.model);
+                      const isSelected = selected.state.modelIds.includes(state.model.id);
                       return (
                         <div
-                          onClick={() => selected.toggleModel(state.model)}
+                          onClick={() => selected.toggleModel(state.model.id)}
                           className={`pill select-model ${isSelected ? 'selected' : ''}`}
                           style={{ marginLeft: '10px' }}
                         >

@@ -121,9 +121,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
                   return (
                     <Table
                       {...props}
-                      setSelectedTableRows={selectedRows =>
-                        selected.setModels({ models: selectedRows })
-                      }
+                      setSelectedTableRows={selectedRows => selected.setModels(selectedRows)}
                       keepSelectedOnPageChange={true}
                       initalSelectedTableRows={selected.state.models}
                       loading={savedSetsContext.state.loading || props.loading}
