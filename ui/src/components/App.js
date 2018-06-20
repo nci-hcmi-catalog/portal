@@ -34,7 +34,7 @@ const ProvidedRoutes = () => (
         }}
         didMount={() => {
           if (!localStorage.getItem(globals.SEEN_WARNING_KEY)) {
-            modalState.setModal({ component: <WarningModal modalState={modalState} /> });
+            modalState.setModalState({ component: <WarningModal modalState={modalState} /> });
           }
         }}
       >

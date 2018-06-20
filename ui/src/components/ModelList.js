@@ -17,7 +17,7 @@ export default ({ className }) => (
               <div
                 className={`model-list-icon ${hasSelected ? 'not-empty' : ''} ${className}`}
                 onClick={() =>
-                  modalState.setModal({
+                  modalState.setModalState({
                     component: <ModelListModal />,
                     styles: modelListModalStyles,
                     shouldCloseOnOverlayClick: true,

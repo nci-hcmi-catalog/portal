@@ -40,7 +40,7 @@ export default ({ modalState }) => (
     <div className="modal-footer">
       <button
         onClick={() => {
-          modalState.setModal({ component: null });
+          modalState.setModalState({ component: null });
           localStorage.setItem(globals.SEEN_WARNING_KEY, true);
         }}
       >

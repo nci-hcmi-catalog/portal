@@ -1,7 +1,6 @@
 import { css } from 'emotion';
 import base from 'theme';
 import doubleArrowRightWhite from 'assets/icon-doublearrow-right-white.svg';
-import iconDownloadWhite from 'assets/icon-download-white.svg';
 
 const {
   fonts: { libreFranklin, openSans },
@@ -9,7 +8,8 @@ const {
 
 export default css`
   top: 0;
-  right: 0;
+  right: -314px;
+  transition: right 0.8s ease;
   position: absolute;
   background: rgb(255, 255, 255);
   width: 314px;

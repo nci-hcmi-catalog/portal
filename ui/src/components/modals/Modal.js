@@ -13,7 +13,8 @@ export default () => (
         isOpen={!!modalState.state.component}
         appElement={document.getElementById('root')}
         css={modalState.state.styles || styles}
-        onRequestClose={() => modalState.setModal({ component: null })}
+        onRequestClose={() => modalState.setModalState({ component: null })}
+        contentRef={node => modalState.setModalState({ contentRef: node })}
         overlayClassName={css`
           position: fixed;
           top: 0px;
