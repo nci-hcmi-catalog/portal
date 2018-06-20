@@ -2,7 +2,7 @@ import React from 'react';
 import Component from 'react-component-component';
 import Spinner from 'react-spinkit';
 import moment from 'moment';
-import { get } from 'lodash';
+import { get, omit } from 'lodash';
 
 import { api } from '@arranger/components';
 import globals from 'utils/globals';
@@ -196,7 +196,7 @@ export default () => (
                   onClick={() =>
                     tsvDownloader(
                       `models-list-${moment(Date.now()).format('MM-DD-YYYY')}`,
-                      state.models,
+                      state.models.map(model => omit(model, ['files'])),
                     )
                   }
                 >
