@@ -123,7 +123,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
                       {...props}
                       setSelectedTableRows={selectedRows => selected.setModels(selectedRows)}
                       keepSelectedOnPageChange={true}
-                      initalSelectedTableRows={selected.state.models}
+                      initalSelectedTableRows={selected.state.modelIds}
                       loading={savedSetsContext.state.loading || props.loading}
                       sqon={sqon}
                       setSQON={setSQON}
