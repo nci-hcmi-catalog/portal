@@ -1,18 +1,20 @@
 import React from 'react';
 import Component from 'react-component-component';
+import Spinner from 'react-spinkit';
 import moment from 'moment';
 import { get } from 'lodash';
 
 import { api } from '@arranger/components';
-import Spinner from 'react-spinkit';
 import globals from 'utils/globals';
+import tsvDownloader from 'utils/tsvDownloader';
+import modelImageProcessor from 'utils/modelImageProcessor';
+import { Row } from 'theme/system';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
 import ModelPlaceholderIcon from 'icons/ModelPlaceholderIcon';
 import TrashIcon from 'icons/TrashIcon';
 import DownloadIconWhite from 'icons/DownloadIconWhite';
 import modelListEmptyRedPlus from 'assets/icon-modellist-empty-red.svg';
-import modelImageProcessor from 'utils/modelImageProcessor';
 
 const EmptyList = () => (
   <div className="empty-list">
@@ -20,6 +22,19 @@ const EmptyList = () => (
     <p>You don’t have any models selected.</p>
     <a href="/">Browse models »</a>
   </div>
+);
+
+const Loading = () => (
+  <Row justifyContent="center">
+    <Spinner
+      fadeIn="full"
+      name="ball-pulse-sync"
+      style={{
+        margin: 45,
+        width: 90,
+      }}
+    />
+  </Row>
 );
 
 const fetchData = async ({ setState, modelIds }) => {
@@ -126,8 +141,8 @@ export default () => (
                   Clear
                 </button>
               </div>
-
-              {hasSelected ? (
+              {hasSelected && state.loading ? <Loading /> : null}
+              {hasSelected && !state.loading ? (
                 <div className="model-list-scroll-container">
                   <div className="model-list-models">
                     {state.models.map((model, idx) => {
@@ -178,9 +193,12 @@ export default () => (
                 <button
                   className="download-tsv-btn"
                   disabled={!hasSelected}
-                  onClick={() => {
-                    console.log('stuff');
-                  }}
+                  onClick={() =>
+                    tsvDownloader(
+                      `models-list-${moment(Date.now()).format('MM-DD-YYYY')}`,
+                      state.models,
+                    )
+                  }
                 >
                   <DownloadIconWhite
                     width={12}
