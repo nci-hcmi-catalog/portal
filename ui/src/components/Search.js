@@ -143,6 +143,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
                       index={props.index}
                       graphqlField={props.index}
                       columnDropdownText="Columns"
+                      exportTSVText="Export All"
                       fieldTypesForFilter={['text', 'keyword', 'id']}
                     />
                   );
