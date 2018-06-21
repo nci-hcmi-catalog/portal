@@ -5,7 +5,7 @@ properties([
     ])
 ])
 node {
-    load "${JENKINS_HOME}/hcmi_env" 
+    load "${WORKSPACE}/hcmi_env" 
 }
 pipeline {
   agent any
