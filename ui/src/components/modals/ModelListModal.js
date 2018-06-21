@@ -12,6 +12,7 @@ import { SelectedModelsContext } from 'providers/SelectedModels';
 import { ModalStateContext } from 'providers/ModalState';
 
 import { Row } from 'theme/system';
+import DoubleArrowRightIcon from 'icons/DoubleArrowRightIcon';
 import ModelPlaceholderIcon from 'icons/ModelPlaceholderIcon';
 import TrashIcon from 'icons/TrashIcon';
 import DownloadIconWhite from 'icons/DownloadIconWhite';
@@ -140,6 +141,7 @@ export default () => (
                 <>
                   <div className="model-list-drawer-header">
                     <h2>
+                      <DoubleArrowRightIcon width={18} height={15} />
                       My Model List{hasSelected ? (
                         <span className="count">{selectedCount}</span>
                       ) : null}

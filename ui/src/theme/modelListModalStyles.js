@@ -1,6 +1,5 @@
 import { css } from 'emotion';
 import base from 'theme';
-import doubleArrowRightWhite from 'assets/icon-doublearrow-right-white.svg';
 
 const {
   fonts: { libreFranklin, openSans },
@@ -41,10 +40,6 @@ export default css`
     line-height: 1.2;
     letter-spacing: normal;
     color: #ffffff;
-    background: url(${doubleArrowRightWhite}) no-repeat;
-    background-position: left center;
-    background-size: 18px 15px;
-    padding-left: 31px;
   }
 
   .model-list-drawer-header .count {
