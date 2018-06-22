@@ -2,7 +2,7 @@
 import React from 'react';
 import { groupBy, sumBy } from 'lodash';
 import { ResponsivePie } from '@nivo/pie';
-import AggregationQuery from 'components/Queries/AggregationQuery';
+import AggregationQuery from 'components/queries/AggregationQuery';
 import TwoDIcon from 'assets/icon-2dimensions.svg';
 import ThreeDIcon from 'assets/icon-3dimensions.svg';
 import { Col } from 'theme/system';
