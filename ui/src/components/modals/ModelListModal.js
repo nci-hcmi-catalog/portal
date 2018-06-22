@@ -142,9 +142,7 @@ export default () => (
                   <div className="model-list-drawer-header">
                     <h2>
                       <DoubleArrowRightIcon width={18} height={15} />
-                      My Model List{hasSelected ? (
-                        <span className="count">{selectedCount}</span>
-                      ) : null}
+                      My Model List{hasSelected && <span className="count">{selectedCount}</span>}
                     </h2>
                     <button
                       disabled={!hasSelected}
@@ -154,7 +152,7 @@ export default () => (
                       Clear
                     </button>
                   </div>
-                  {hasSelected && state.loading ? <Loading /> : null}
+                  {hasSelected && state.loading && <Loading />}
                   {hasSelected && !state.loading ? (
                     <div className="model-list-scroll-container">
                       <div className="model-list-models">

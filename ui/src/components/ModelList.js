@@ -24,7 +24,7 @@ export default ({ className }) => (
                   })
                 }
               >
-                {hasSelected ? <span className="count">{selectedCount}</span> : null}
+                {hasSelected && <span className="count">{selectedCount}</span>}
               </div>
             </div>
           );
