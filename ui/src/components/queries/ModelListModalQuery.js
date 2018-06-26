@@ -45,8 +45,6 @@ const fetchData = async ({ setState, modelIds }) => {
                     therapy
                     licensing_required
                     date_of_availability
-                    date_created
-                    date_updated
                     clinical_diagnosis {
                       clinical_tumor_diagnosis
                       aquisition_site

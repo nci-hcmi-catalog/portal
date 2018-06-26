@@ -2,10 +2,10 @@ import React from 'react';
 import Component from 'react-component-component';
 import Spinner from 'react-spinkit';
 import moment from 'moment';
-import { omit } from 'lodash';
 
 import ModelListModalQuery from 'components/queries/ModelListModalQuery';
 import tsvDownloader from 'utils/tsvDownloader';
+import modelExportProcessor from 'utils/modelExportProcessor';
 import modelImageProcessor from 'utils/modelImageProcessor';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 import { ModalStateContext } from 'providers/ModalState';
@@ -132,8 +132,8 @@ export default () => (
                           disabled={!hasSelected}
                           onClick={() =>
                             tsvDownloader(
-                              `models-list-${moment(Date.now()).format('MM-DD-YYYY')}`,
-                              models.map(model => omit(model, ['files'])),
+                              `models-list-${moment(Date.now()).format('YYY-MM-DD-THH-mm-ss')}`,
+                              models.map(modelExportProcessor),
                             )
                           }
                         >
