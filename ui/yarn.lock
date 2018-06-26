@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@arranger/components@0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-0.4.1.tgz#6b7ba5354a9c481ae427c7fd81a477892fce695d"
+"@arranger/components@0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-0.4.2.tgz#70aedd3379da3383c7651b69dde13fb3fed57818"
   dependencies:
-    "@arranger/mapping-utils" "^0.4.1"
+    "@arranger/mapping-utils" "^0.4.2"
     ajv "^6.1.1"
     babel-polyfill "^6.26.0"
     classnames "^2.2.5"
@@ -42,11 +42,11 @@
     url-parse "^1.2.0"
     uuid "^3.2.1"
 
-"@arranger/mapping-utils@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.4.1.tgz#9cda5465311c096209fbfe09b529598e40e9e78e"
+"@arranger/mapping-utils@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.4.2.tgz#6029603d714760f9aa7ea0877c981cb93aafbf64"
   dependencies:
-    "@arranger/middleware" "^0.4.1"
+    "@arranger/middleware" "^0.4.2"
     babel-polyfill "^6.26.0"
     elasticsearch "^14.0.0"
     graphql-fields "^1.0.2"
@@ -54,9 +54,9 @@
     node-fetch "^2.0.0"
     uuid "^3.2.1"
 
-"@arranger/middleware@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.4.1.tgz#dec2680656f49a2231555a861cb83b4fdbcac4e8"
+"@arranger/middleware@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.4.2.tgz#7c801ac77e21f51c12e07fcf372de27bf438584b"
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"

@@ -20,6 +20,7 @@ export default (
         <QuickSearch
           {...rest}
           placeholder="Enter Identifiers"
+          searchTextDelimiters={[',']}
           LoadingIcon={
             <Spinner
               fadeIn="none"
