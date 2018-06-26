@@ -3,7 +3,7 @@
   "version": "0.0.1-0.0.10.0",
   "private": true,
   "dependencies": {
-    "@arranger/components": "0.3.62",
+    "@arranger/components": "0.4.2",
     "@nivo/bar": "^0.42.1",
     "@nivo/pie": "^0.40.0",
     "babel-polyfill": "^6.26.0",
