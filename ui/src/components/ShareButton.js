@@ -43,7 +43,7 @@ const ItemRow = ({ xcss = '', ...props }) => (
   />
 );
 
-export default ({ link, error, quote }) => (
+export default ({ link, error, quote, leftOffset = 0 }) => (
   <Component initialState={{ copied: false }}>
     {({ state, setState }) => (
       <Downshift
@@ -57,9 +57,10 @@ export default ({ link, error, quote }) => (
                 css={`
                   width: 210px;
                   position: absolute;
-                  right: 10px;
-                  background: white;
+                  left: ${leftOffset};
+                  background: #fff;
                   color: black;
+                  z-index: 99;
                 `}
               >
                 {!link ? (

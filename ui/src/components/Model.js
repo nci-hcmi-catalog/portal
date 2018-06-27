@@ -1,10 +1,8 @@
 import React from 'react';
-import Component from 'react-component-component';
 import { get } from 'lodash';
-
-import { api } from '@arranger/components';
 import Spinner from 'react-spinkit';
-import globals from 'utils/globals';
+
+import ModelQuery from 'components/queries/ModelQuery';
 import modelImageProcessor from 'utils/modelImageProcessor';
 import apiDataProcessor from 'utils/apiDataProcessor';
 import ModelBar from 'components/ModelBar';
@@ -19,6 +17,8 @@ import CameraIcon from 'icons/CameraIcon';
 import VariantsIcon from 'icons/VariantsIcon';
 import VariantTables from 'components/VariantTables';
 import ExternalLink from 'components/ExternalLink';
+import ShareButton from 'components/ShareButton';
+import { SelectedModelsContext } from 'providers/SelectedModels';
 
 const HorizontalTable = ({
   fieldNames,
@@ -51,97 +51,15 @@ const HorizontalTable = ({
   </table>
 );
 
-const fetchData = async ({ setState, modelName }) => {
-  const { data } = await api({
-    endpoint: `${globals.VERSION}/graphql/ModelDataQuery`,
-    body: {
-      query: `query ModelDataQuery($filters: JSON) {
-            models {
-              extended
-              hits(first: 1 filters: $filters) {
-                edges {
-                  node {
-                    id
-                    source_model_url
-                    source_sequence_url
-                    name
-                    type
-                    split_ratio
-                    growth_rate
-                    primary_site
-                    neoadjuvant_therapy
-                    tnm_stage
-                    molecular_characterizations
-                    age_at_diagnosis
-                    vital_status
-                    gender
-                    race
-                    chemotherapeutic_drug_list_available
-                    age_at_aquisition
-                    disease_status
-                    files {
-                      hits{
-                        edges {
-                          node {
-                            file_name
-                            file_type
-                          }
-                        }
-                      }
-                    }
-                    therapy
-                    licensing_required
-                    date_of_availability
-                    date_created
-                    date_updated
-                    clinical_diagnosis {
-                      clinical_tumor_diagnosis
-                      aquisition_site
-                      histological_type
-                      histologcal_grade
-                      clinical_stage_grouping
-                    }
-                  }
-                }
-              }
-            }
-          }`,
-      variables: {
-        filters: { op: 'in', content: { field: 'name', value: [modelName] } },
-      },
-    },
-  });
-  setState({
-    model: get(data, `models.hits.edges[0].node`, {}),
-    extended: get(data, `models.extended`),
-    loading: false,
-  });
-};
-
 export default ({ modelName }) => (
-  <Component
-    modelName={modelName}
-    initialState={{ model: null, loading: true, extended: [] }}
-    didMount={async ({ setState, props }) => {
-      await fetchData({ setState, modelName: props.modelName });
-    }}
-    didUpdate={async ({ setState, props, prevProps, state }) => {
-      if (props.modelName !== prevProps.modelName && !state.loading) {
-        setState({ loading: true });
-        await fetchData({ setState, modelName: props.modelName });
-      }
-    }}
-    shouldUpdate={({ state, props, nextProps, nextState }) =>
-      state.loading !== nextState.loading || props.modelName !== nextProps.modelName
-    }
-  >
+  <ModelQuery modelName={modelName}>
     {({
-      state,
-      modelImages = modelImageProcessor(state.model ? state.model.files.hits.edges : []),
+      state: queryState,
+      modelImages = modelImageProcessor(queryState.model ? queryState.model.files.hits.edges : []),
     }) => (
       <div css={styles}>
-        <ModelBar name={modelName} id={(state.model || { id: '' }).id} />
-        {state.model ? (
+        <ModelBar name={modelName} id={(queryState.model || { id: '' }).id} />
+        {queryState.model ? (
           [
             <section
               key="model-details"
@@ -150,23 +68,52 @@ export default ({ modelName }) => (
                 background-color: #f3f6f7;
               `}
             >
-              <h3>
-                <ModelIcon height={50} width={50} />
-                Model Details
-              </h3>
+              <Row className="model-details-header">
+                <h3>
+                  <ModelIcon height={50} width={50} />
+                  Model Details
+                </h3>
+                <Row
+                  className="model-actions"
+                  css={`
+                    width: 30%;
+                    justify-content: flex-end;
+                  `}
+                >
+                  <ShareButton
+                    link={`${window.location.origin}/model/${queryState.model.name}`}
+                    quote={`HCMI Model ${queryState.model.name}`}
+                    leftOffset="44px"
+                  />
+                  <SelectedModelsContext.Consumer>
+                    {selected => {
+                      const isSelected = selected.state.modelIds.includes(queryState.model.id);
+                      return (
+                        <div
+                          onClick={() => selected.toggleModel(queryState.model.id)}
+                          className={`pill select-model ${isSelected ? 'selected' : ''}`}
+                          style={{ marginLeft: '10px' }}
+                        >
+                          {isSelected ? 'Selected for download' : 'Add model to my list'}
+                        </div>
+                      );
+                    }}
+                  </SelectedModelsContext.Consumer>
+                </Row>
+              </Row>
               <Row className="row">
                 <Col className="three-col">
                   <HorizontalTable
-                    rawData={state.model}
-                    extended={state.extended}
+                    rawData={queryState.model}
+                    extended={queryState.extended}
                     fieldNames={['name', 'type', 'split_ratio', 'growth_rate']}
                   />
                 </Col>
 
                 <Col className="three-col">
                   <HorizontalTable
-                    rawData={state.model}
-                    extended={state.extended}
+                    rawData={queryState.model}
+                    extended={queryState.extended}
                     fieldNames={[
                       'primary_site',
                       'neoadjuvant_therapy',
@@ -177,10 +124,9 @@ export default ({ modelName }) => (
                   />
                 </Col>
                 <Col className="three-col">
-                  {console.log(state.model.clinical_diagnosis)}
                   <HorizontalTable
-                    rawData={state.model}
-                    extended={state.extended}
+                    rawData={queryState.model}
+                    extended={queryState.extended}
                     fieldNames={[
                       'clinical_diagnosis.clinical_tumor_diagnosis',
                       'clinical_diagnosis.aquisition_site',
@@ -206,11 +152,11 @@ export default ({ modelName }) => (
                     Patient Details
                   </h3>
                   <HorizontalTable
-                    rawData={state.model}
-                    extended={state.extended}
+                    rawData={queryState.model}
+                    extended={queryState.extended}
                     fieldNames={[
                       'age_at_diagnosis',
-                      'state.model.age_at_aquisition',
+                      'queryState.model.age_at_aquisition',
                       'vital_status',
                       'disease_status',
                       'gender',
@@ -232,8 +178,8 @@ export default ({ modelName }) => (
                     Model Administration
                   </h3>
                   <HorizontalTable
-                    rawData={state.model}
-                    extended={state.extended}
+                    rawData={queryState.model}
+                    extended={queryState.extended}
                     fieldNames={[
                       'date_of_availability',
                       'date_created',
@@ -259,12 +205,12 @@ export default ({ modelName }) => (
                   <HorizontalTable
                     data={{
                       model: (
-                        <ExternalLink href={state.model.source_model_url}>
+                        <ExternalLink href={queryState.model.source_model_url}>
                           Link to Source
                         </ExternalLink>
                       ),
                       'original sequencing files': (
-                        <ExternalLink href={state.model.source_sequence_url}>
+                        <ExternalLink href={queryState.model.source_sequence_url}>
                           Link to Source
                         </ExternalLink>
                       ),
@@ -347,5 +293,5 @@ export default ({ modelName }) => (
         <ModelFooterBar name={modelName} />
       </div>
     )}
-  </Component>
+  </ModelQuery>
 );

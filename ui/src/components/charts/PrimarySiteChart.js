@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import { toggleSQON } from '@arranger/components/dist/SQONView/utils';
-import AggregationQuery from 'components/Queries/AggregationQuery';
+import AggregationQuery from 'components/queries/AggregationQuery';
 import { Col } from 'theme/system';
 import theme from 'theme';
 import { ResponsivePie } from '@nivo/pie';

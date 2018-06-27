@@ -1,7 +1,7 @@
 import React from 'react';
 import { range, isEqual } from 'lodash';
 import { ResponsiveBar } from '@nivo/bar';
-import AggregationQuery from 'components/Queries/AggregationQuery';
+import AggregationQuery from 'components/queries/AggregationQuery';
 import { Col } from 'theme/system';
 import theme from 'theme';
 import { toggleSQON } from '@arranger/components/dist/SQONView/utils';

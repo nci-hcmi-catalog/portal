@@ -12,8 +12,8 @@ class ModalStateProvider extends React.Component {
       <ModalStateContext.Provider
         value={{
           state: this.state,
-          setModal: ({ component }) => {
-            this.setState({ component });
+          setModalState: newState => {
+            this.setState({ ...this.state, ...newState });
           },
         }}
         {...this.props}

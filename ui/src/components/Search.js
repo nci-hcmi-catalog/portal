@@ -9,6 +9,8 @@ import PrimarySiteChart from 'components/charts/PrimarySiteChart';
 import GrowthChart from 'components/charts/GrowthChart';
 import TopVariantsChart from 'components/charts/TopVariantsChart';
 import TableEntity from 'components/TableEntity';
+import ShareButton from 'components/ShareButton';
+import ModelList from 'components/ModelList';
 import { Row, Col } from 'theme/system';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 
@@ -55,13 +57,17 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
             width: calc(100vw - ${state.panelSize}px);
           `}
         >
-          <Row>
+          <Row
+            css={`
+              background-color: #fff;
+              align-items: center;
+            `}
+          >
             {!sqon && (
               <Row
                 css={`
                   line-height: 50px;
                   padding: 0 14px;
-                  background-color: white;
                   flex: 1;
                 `}
               >
@@ -82,6 +88,14 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
               index={props.index}
               graphqlField={props.index}
             />
+            <div className="search-header-actions">
+              <ShareButton
+                link={`${window.location.origin}/`}
+                quote={`HCMI Search`}
+                leftOffset="18px"
+              />
+              <ModelList className="search-header-model-list" />
+            </div>
           </Row>
           <Row
             bg="white"
@@ -107,11 +121,9 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
                   return (
                     <Table
                       {...props}
-                      setSelectedTableRows={selectedRows =>
-                        selected.setModels({ models: selectedRows })
-                      }
+                      setSelectedTableRows={selectedRows => selected.setModels(selectedRows)}
                       keepSelectedOnPageChange={true}
-                      initalSelectedTableRows={selected.state.models}
+                      selectedTableRows={selected.state.modelIds}
                       loading={savedSetsContext.state.loading || props.loading}
                       sqon={sqon}
                       setSQON={setSQON}
@@ -131,6 +143,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
                       index={props.index}
                       graphqlField={props.index}
                       columnDropdownText="Columns"
+                      exportTSVText="Export All"
                       fieldTypesForFilter={['text', 'keyword', 'id']}
                     />
                   );
