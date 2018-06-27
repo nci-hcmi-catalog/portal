@@ -1,4 +1,4 @@
-import { camelCase } from 'lodash';
+// import { camelCase } from 'lodash';
 
 /**
  * Creates a flat object from a nested object
@@ -11,8 +11,8 @@ import { camelCase } from 'lodash';
  */
 export default function deepFlattenObjNaive(object) {
   return Object.keys(object).reduce((acc, curr) => {
-    if (typeof object[curr] == 'object') {
-      return Object.assign(deepFlattenObj(object[curr]), acc);
+    if (typeof object[curr] === 'object') {
+      return Object.assign(deepFlattenObjNaive(object[curr]), acc);
     } else {
       acc[curr] = object[curr];
       return acc;
@@ -27,13 +27,13 @@ export default function deepFlattenObjNaive(object) {
  * @param {Object} object - object to flatten
  * @param {String} prefix - prefix to add to flat key (comes from nesting key)
  */
-function deepFlattenObj(object, prefix = '') {
-  return Object.keys(object).reduce((acc, curr) => {
-    if (typeof object[curr] == 'object') {
-      return Object.assign(deepFlattenObj(object[curr], curr), acc);
-    } else {
-      acc[camelCase(`${prefix} ${curr}`)] = object[curr];
-      return acc;
-    }
-  }, {});
-}
+// function deepFlattenObj(object, prefix = '') {
+//   return Object.keys(object).reduce((acc, curr) => {
+//     if (typeof object[curr] === 'object') {
+//       return Object.assign(deepFlattenObj(object[curr], curr), acc);
+//     } else {
+//       acc[camelCase(`${prefix} ${curr}`)] = object[curr];
+//       return acc;
+//     }
+//   }, {});
+// }
