@@ -87,6 +87,7 @@ const VariantTable = ({ category, modelName, columns }) => (
                                       assessment_type
                                       type
                                       expression_level
+                                      genes
                                     }
                                   }
                                 }
@@ -152,6 +153,7 @@ const VariantTable = ({ category, modelName, columns }) => (
       );
       const dataWithFreqs = data.map(d => ({
         ...d,
+        genes: (d.genes || '').join(', '),
         frequency: {
           display: (
             <span>
@@ -301,6 +303,16 @@ export default ({ modelName }) => (
                 type: 'keyword',
                 sortable: true,
                 canChangeShow: true,
+                field: 'genes',
+                id: 'genes',
+                accessor: 'genes',
+                Header: 'Gene(s)',
+              },
+              {
+                show: true,
+                type: 'keyword',
+                sortable: true,
+                canChangeShow: true,
                 field: 'type',
                 id: 'type',
                 accessor: 'type',
@@ -338,6 +350,16 @@ export default ({ modelName }) => (
                 id: 'variantName',
                 accessor: 'name',
                 Header: 'Name',
+              },
+              {
+                show: true,
+                type: 'keyword',
+                sortable: true,
+                canChangeShow: true,
+                field: 'genes',
+                id: 'genes',
+                accessor: 'genes',
+                Header: 'Gene(s)',
               },
               {
                 show: true,
@@ -390,6 +412,16 @@ export default ({ modelName }) => (
                 id: 'variantName',
                 accessor: 'name',
                 Header: 'Name',
+              },
+              {
+                show: true,
+                type: 'keyword',
+                sortable: true,
+                canChangeShow: true,
+                field: 'genes',
+                id: 'genes',
+                accessor: 'genes',
+                Header: 'Gene(s)',
               },
               {
                 show: true,
