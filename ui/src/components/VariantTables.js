@@ -154,8 +154,9 @@ const VariantTable = ({ category, modelName, columns }) => (
         ...d,
         frequency: {
           display: (
-            <span>
+            <>
               <Link
+                style={{ display: 'inline-block', width: '23px' }}
                 to={{
                   pathname: '/',
                   search: stringify({
@@ -181,13 +182,14 @@ const VariantTable = ({ category, modelName, columns }) => (
                 2,
               )}
               %
-            </span>
+            </>
           ),
           export: `${(
             get(freqs, d.name, 0) /
             get(freqsData, 'data.models.all.total', 0) *
             100
           ).toFixed(2)}%`,
+          raw: get(freqs, d.name, 0),
         },
       }));
       setState({
@@ -197,7 +199,7 @@ const VariantTable = ({ category, modelName, columns }) => (
         pageSize: dataWithFreqs.length > 10 ? 10 : dataWithFreqs.length,
         page: 0,
       });
-      return data;
+      return dataWithFreqs;
     }}
   >
     {({
@@ -206,15 +208,14 @@ const VariantTable = ({ category, modelName, columns }) => (
       props: { category },
       from = state.page * state.pageSize + 1,
       to = state.page * state.pageSize + state.pageSize,
+      sortedData = state.filteredData.slice().sort((a, b) => b.frequency.raw - a.frequency.raw),
     }) => (
       <Col>
         <Row className="toolbar" justifyContent="space-between">
           <div>
             {!state.loading &&
-              `Showing ${from} - ${
-                to <= state.filteredData.length ? to : state.filteredData.length
-              } of
-            ${state.filteredData.length} Variants`}
+              `Showing ${from} - ${to <= sortedData.length ? to : sortedData.length} of
+            ${sortedData.length} Variants`}
           </div>
           <Row justifyContent="flex-end">
             <TextInput
@@ -231,14 +232,9 @@ const VariantTable = ({ category, modelName, columns }) => (
             />
             <div
               className="pill"
-              disabled={state.filteredData.length === 0}
+              disabled={sortedData.length === 0}
               style={{ marginLeft: '10px' }}
-              onClick={() =>
-                tsvDownloader(
-                  `${modelName}-${category}`,
-                  state.filteredData,
-                )
-              }
+              onClick={() => tsvDownloader(`${modelName}-${category}`, state.filteredData)}
             >
               <ExportIcon height={10} width={10} />
               TSV
@@ -249,9 +245,9 @@ const VariantTable = ({ category, modelName, columns }) => (
           <ReactTable
             className="-striped"
             columns={columns}
-            data={state.filteredData}
+            data={sortedData}
             loading={state.loading}
-            showPagination={state.filteredData.length > 10}
+            showPagination={sortedData.length > 10}
             defaultPageSize={state.pageSize}
             minRows={state.pageSize}
             page={state.page}
