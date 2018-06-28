@@ -244,8 +244,8 @@ const VariantTable = ({ category, modelName, columns }) => (
         <div css={searchStyles}>
           <ReactTable
             className="-striped"
-            columns={columns}
             data={sortedData}
+            columns={columns}
             loading={state.loading}
             showPagination={sortedData.length > 10}
             defaultPageSize={state.pageSize}
