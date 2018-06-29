@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import Model, { ModelSchema } from './data/schemas/model';
 import { isEqual } from 'lodash';
 
-import { getSheetData, typeToParser, getAuthClient } from './data/import/SheetsToMongo';
+import { getSheetData, typeToParser, NAtoNull, getAuthClient } from './data/import/SheetsToMongo';
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/test');
 
@@ -38,7 +38,7 @@ app.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
           Object.keys(d).reduce(
             (acc, key) => ({
               ...acc,
-              [key]: typeToParser[ModelSchema.paths[key].instance](d[key]),
+              [key]: typeToParser[ModelSchema.paths[key].instance](NAtoNull(d[key])),
             }),
             {},
           ),
@@ -55,6 +55,7 @@ app.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
             return Model.findOneAndUpdate({ model_name: p.model_name }, p, {
               upsert: true,
               new: true,
+              runValidators: true,
             });
           }
           return new Promise(resolve => resolve({})); //no fields modified, do nothing
