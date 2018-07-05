@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from 'react';
-import { toggleSQON } from '@arranger/components/dist/SQONView/utils';
+import { addInSQON } from '@arranger/components/dist/SQONView/utils';
 import AggregationQuery from 'components/queries/AggregationQuery';
 import { Col } from 'theme/system';
 import theme from 'theme';
@@ -13,7 +13,8 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
     css={`
       position: relative;
       width: 25%;
-      min-width: 382px;
+      height: 185px;
+      padding: 16px 0 16px 0;
     `}
   >
     <span
@@ -77,7 +78,7 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
               animate={false}
               onClick={data =>
                 setSQON(
-                  toggleSQON(
+                  addInSQON(
                     {
                       op: 'and',
                       content: [
