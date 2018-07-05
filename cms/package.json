@@ -6,20 +6,22 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "getToken": "node bin/getToken.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "cors": "^2.8.4",
     "dotenv": "^5.0.1",
     "elasticsearch": "^14.0.0",
+    "express": "^4.16.3",
     "express-inspector": "^0.3.1",
     "fs": "^0.0.1-security",
     "googleapis": "27",
-    "mongoose": "^5.1.3",
-    "express": "^4.16.3",
-    "cors": "^2.8.4"
+    "lodash": "^4.17.10",
+    "mongoose": "^5.1.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.35",

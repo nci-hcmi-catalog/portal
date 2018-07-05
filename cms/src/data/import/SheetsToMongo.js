@@ -15,20 +15,20 @@ export const getAuthClient = () => {
   return oAuth2Client;
 };
 
-export const getSheetData = authClient => {
+export const getSheetData = ({ authClient, sheetId, tabName }) => {
   const sheets = google.sheets({ version: 'v4', auth: authClient });
   return new Promise((resolve, reject) => {
     sheets.spreadsheets.values.get(
       {
-        spreadsheetId: process.env.SHEET_ID,
-        range: 'Real Data Collection!A1:AC',
+        spreadsheetId: sheetId,
+        range: `${tabName}!A1:AC`,
       },
       (err, resp) => {
         if (err) {
           reject(err);
           return;
         }
-        const { data  }= resp;
+        const { data } = resp;
         const rows = data.values;
         const asObjects = rows.slice(1).map(r =>
           rows[0].reduce(
@@ -48,9 +48,10 @@ export const getSheetData = authClient => {
   });
 };
 
+export const NAtoNull = data => ((data || '').toLowerCase() === 'n/a' ? null : data);
 export const typeToParser = {
   String: data => (data ? `${data}` : null),
-  Number: data => (isNaN(Number(data)) ? null : Number(data)),
+  Number: data => (isNaN(Number(data)) ? data : Number(data)), //dont return null if wrong type so validators are still triggered
   Date: data => {
     const parsed = Date.parse(data);
     return isNaN(parsed) ? null : parsed;
