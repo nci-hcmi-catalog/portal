@@ -3,6 +3,7 @@ import Component from 'react-component-component';
 import { Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
 import SplitPane from 'react-split-pane';
+
 import searchStyles from 'theme/searchStyles';
 import Quicksearch from 'components/Quicksearch';
 import PrimarySiteChart from 'components/charts/PrimarySiteChart';
@@ -100,8 +101,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
           <Row
             bg="white"
             css={`
-              height: 185px;
-              padding: 16px;
+              padding: 0 16px 0 16px;
             `}
           >
             <Component shouldUpdate={() => stable}>

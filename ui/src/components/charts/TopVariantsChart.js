@@ -1,13 +1,14 @@
 import React from 'react';
 import { range, isEqual } from 'lodash';
 import { ResponsiveBar } from '@nivo/bar';
-import AggregationQuery from 'components/queries/AggregationQuery';
-import { Col } from 'theme/system';
-import theme from 'theme';
-import { toggleSQON } from '@arranger/components/dist/SQONView/utils';
-import { ChartTooltip } from './';
 import Component from 'react-component-component';
 
+import { Col } from 'theme/system';
+import theme from 'theme';
+import AggregationQuery from 'components/queries/AggregationQuery';
+import { addInSQON } from '@arranger/components/dist/SQONView/utils';
+
+import { ChartTooltip } from './';
 const yGridSizes = [10, 100, 1000];
 
 export default ({ sqon, setSQON }) => (
@@ -16,6 +17,8 @@ export default ({ sqon, setSQON }) => (
     css={`
       position: relative;
       width: 50%;
+      height: 185px;
+      padding: 16px 0 16px 0;
     `}
   >
     <AggregationQuery sqon={sqon} field="variants__name">
@@ -25,7 +28,13 @@ export default ({ sqon, setSQON }) => (
             top10={(aggState.buckets || [])
               .sort((a, b) => {
                 if (b.doc_count === a.doc_count) {
-                  return b.key > a.key;
+                  if (a.key > b.key) {
+                    return 1;
+                  }
+                  if (a.key < b.key) {
+                    return -1;
+                  }
+                  return 0;
                 } else {
                   return b.doc_count - a.doc_count;
                 }
@@ -135,7 +144,7 @@ export default ({ sqon, setSQON }) => (
                     isInteractive={true}
                     onClick={data =>
                       setSQON(
-                        toggleSQON(
+                        addInSQON(
                           {
                             op: 'and',
                             content: [
