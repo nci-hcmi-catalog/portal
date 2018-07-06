@@ -8,7 +8,7 @@ const fetchData = async ({ setState, modelIds }) => {
   const { data } = await api({
     endpoint: `${globals.VERSION}/graphql/ModelDataQuery`,
     body: {
-      query: `query ModelDataQuery($filters: JSON) {
+      query: `query ModelListModal($filters: JSON) {
             models {
               extended
               hits(first: ${modelIds.length} filters: $filters) {

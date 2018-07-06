@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { isEmpty } from 'lodash';
 
 const processors = {
   date: value => moment(value).format('DD/MM/YYYY'),
@@ -9,13 +8,23 @@ const processors = {
   short: value => value.toLocaleString(),
 };
 
+const isNullOrUndefined = value => value === null || typeof value === 'undefined';
+const isEmptyByType = {
+  date: value => isNullOrUndefined(value) || !value.length,
+  boolean: isNullOrUndefined,
+  keyword: value => isNullOrUndefined(value) || !value.length,
+  long: isNullOrUndefined,
+  short: isNullOrUndefined,
+};
+
 /**
  * If there is data process it, otherwise return
  * the characters "--" - our convention for no-data
- * @param {*} data - Any object, string, array, we are checking for content
- * @param String displayType - date, boolean, keyword, long
+ * @param {*} data - any of the below types
+ * @param String type - date, boolean, keyword, long, short
  */
-export default ({ data, type, unit }) =>
-  (type !== 'boolean' && !data) || data.length === 0 || isEmpty(data)
+export default ({ data, type, unit }) => {
+  return isEmptyByType[type || 'keyword'](data)
     ? '--'
     : `${processors[type || 'keyword'](data)}${unit ? ` ${unit}` : ''}`;
+};
