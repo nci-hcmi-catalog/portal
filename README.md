@@ -21,6 +21,9 @@ yarn mapping <data_model> --name model
 # Create and populate elasticsearch index from mapping
 # --host defaults to localhost:9200
 yarn fake <data_model> --length 10000 --index model --type model --host <es_uri>
+
+# Run a MOCK CMS Server
+yarn mock-cms-server
 ```
 
 #### Specs
