@@ -8,6 +8,7 @@ import { isEqual } from 'lodash';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import restify from 'express-restify-mongoose';
+import morgan from 'morgan';
 
 import { getSheetData, typeToParser, NAtoNull, getAuthClient } from './data/import/SheetsToMongo';
 
@@ -19,6 +20,8 @@ const router = express.Router();
 
 app.use(bodyParser.json());
 app.use(methodOverride());
+app.use(morgan('combined'));
+
 restify.serve(router, Model);
 
 app.use(router);
