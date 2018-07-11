@@ -1,6 +1,8 @@
 import express from 'express';
-import Model, { ModelSchema } from '../schemas/model';
 import { isEqual } from 'lodash';
+
+import { toExcelHeaders, toExcelRowNumber } from '../schemas/constants';
+import Model, { ModelSchema, yupSchema } from '../schemas/model';
 
 import {
   getSheetData,
@@ -27,7 +29,7 @@ data_sync_router.get('/sheets-data/:sheetId/:tabName', async (req, res) => {
     );
 });
 
-data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
+data_sync_router.get('/wrangle-cde/:sheetId/:tabName', async (req, res) => {
   const authClient = getAuthClient();
   const { sheetId, tabName } = req.params;
   getSheetData({
@@ -36,42 +38,88 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
     tabName,
   })
     .then(data => {
+      const transformed = Object.entries(toExcelRowNumber).reduce((acc, [type, rowNumber]) => {
+        return {
+          ...acc,
+          [type]: Object.entries(toExcelHeaders).reduce((acc, [diagnosis, excelHeader]) => {
+            const valueRaw = data[rowNumber][excelHeader] || '';
+            const values = valueRaw.includes('\n') ? valueRaw.split('\n') : valueRaw.split(', ');
+            return {
+              ...acc,
+              [diagnosis]: values.filter(Boolean),
+            };
+          }, {}),
+        };
+      }, {});
+      return res.json(transformed);
+    })
+    .catch(error =>
+      res.json({
+        error: `error reading or wrangling sheet ID ${sheetId}, ${error}`,
+      }),
+    );
+});
+
+const removeNullKeys = data =>
+  Object.entries(data).reduce(
+    (acc, [key, value]) => ({
+      ...acc,
+      ...(value !== null ? { [key]: value } : {}),
+    }),
+    {},
+  );
+
+data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
+  const authClient = getAuthClient();
+  const { sheetId, tabName } = req.params;
+  getSheetData({ authClient, sheetId, tabName })
+    .then(data => {
       const parsed = data
         .filter(({ model_name }) => model_name)
         .map(d =>
-          Object.keys(d).reduce(
-            (acc, key) => ({
-              ...acc,
-              [key]: typeToParser[ModelSchema.paths[key].instance](NAtoNull(d[key])),
-            }),
-            {},
-          ),
+          Object.keys(d)
+            .filter(key => ModelSchema.paths[key])
+            .reduce(
+              (acc, key) => ({
+                ...acc,
+                [key]: typeToParser[ModelSchema.paths[key].instance](NAtoNull(d[key])),
+              }),
+              {},
+            ),
         )
-        .filter(Boolean);
+        .filter(Boolean)
+        .map(d => removeNullKeys(d));
+      return parsed;
+    })
+    .then(parsed => {
+      const validatePromises = parsed.map(p =>
+        yupSchema.validate(p, { abortEarly: false }).catch(Error => Error),
+      );
 
+      return Promise.all(validatePromises).then(results => {
+        const failed = results.filter(result => result instanceof Error);
+        if (failed.length > 0) {
+          const errors = {
+            validationErrors: failed.map(({ value, errors }) => ({ errors, value })),
+          };
+          throw errors;
+        }
+        return parsed;
+      });
+    })
+    .then(parsed => {
       const savePromises = parsed.map(async p => {
         const prevModel = await Model.findOne(
-          {
-            model_name: p.model_name,
-          },
-          {
-            _id: false,
-            __v: false,
-          }, //omit mongoose generated fields
+          { model_name: p.model_name },
+          { _id: false, __v: false }, //omit mongoose generated fields
         );
         if (prevModel) {
           if (!isEqual(prevModel._doc, p)) {
-            return Model.findOneAndUpdate(
-              {
-                model_name: p.model_name,
-              },
-              p,
-              {
-                upsert: true,
-                new: true,
-                runValidators: true,
-              },
-            );
+            return Model.findOneAndUpdate({ model_name: p.model_name }, p, {
+              upsert: true,
+              new: true,
+              runValidators: true,
+            });
           }
           return new Promise(resolve => resolve({})); //no fields modified, do nothing
         } else {
@@ -80,21 +128,15 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
         }
       });
 
-      Promise.all(savePromises)
-        .then(docs =>
-          res.json({
-            docs: docs.filter(d => !!Object.keys(d).length),
-          }),
-        )
-        .catch(error =>
-          res.json({
-            error,
-          }),
-        );
+      return Promise.all(savePromises).then(docs =>
+        res.json({
+          docs: docs.filter(d => !!Object.keys(d).length),
+        }),
+      );
     })
     .catch(error =>
       res.json({
-        error: `error reading sheet, ${error}`,
+        error,
       }),
     );
 });
