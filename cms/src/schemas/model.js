@@ -38,7 +38,7 @@ export const ModelSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    collection: 'hcmi-models',
+    collection: process.env.MONGO_COLLECTION,
   },
 );
 

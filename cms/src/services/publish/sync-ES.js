@@ -1,21 +1,24 @@
 import { ModelES } from './es/schemas/model';
 
 export const indexOneToES = filter => {
-  ModelES.findOne(filter, (err, doc) => {
-    doc.esIndex((err, res) => {
-      err
-        ? console.log(`Indexing failed with error: ${err}`)
-        : console.log(`Indexing successful with status: ${res.result}`);
+  return new Promise((resolve, reject) => {
+    ModelES.findOne(filter, (err, doc) => {
+      doc.esIndex((err, res) => {
+        err
+          ? reject(err)
+          : resolve({
+              status: `Indexing successful with status: ${res.result}`,
+            });
+      });
     });
   });
 };
 
 export const indexUpdatesToES = () => {
   let currentDate = new Date();
-  let dateSearch = currentDate.toISOString().replace(/[\T].*[\Z]/g, 'T00:00:00.000Z');
+  let dateSearch = currentDate.toISOString().replace(/[T].*[Z]/g, 'T00:00:00.000Z');
   var inputDate = new Date(dateSearch);
-
-  indexModelsToES({
+  return indexModelsToES({
     updatedAt: {
       $gte: inputDate,
     },
@@ -23,21 +26,26 @@ export const indexUpdatesToES = () => {
 };
 
 export const indexAllToES = () => {
-  indexModelsToES();
+  return indexModelsToES();
 };
 
 const indexModelsToES = filter => {
-  let count = 1;
+  return new Promise((resolve, reject) => {
+    let output = [];
 
-  ModelES.on('es-bulk-data', function(doc) {
-    console.log(`Indexing document # ${count++} with name: ${doc.name}`);
-  });
+    ModelES.on('es-bulk-data', function(doc) {
+      output.push(doc.model_name);
+    });
 
-  ModelES.on('es-bulk-error', function(err) {
-    console.error(err);
-  });
+    ModelES.on('es-bulk-error', function(err) {
+      reject(err);
+    });
 
-  ModelES.esSynchronize(filter || {}).then(result => {
-    console.log('Indexing Complete.');
+    ModelES.esSynchronize(filter || {}).then(result => {
+      resolve({
+        status: 'Indexing complete.',
+        models_indexed: output,
+      });
+    });
   });
 };

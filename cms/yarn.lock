@@ -2012,6 +2012,10 @@ mongoose-detective@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/mongoose-detective/-/mongoose-detective-1.0.0.tgz#076a34e1355a57fa8d24ea5bcabbd3b49a5f21b7"
 
+mongoose-elasticsearch-xp@^5.4.1:
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/mongoose-elasticsearch-xp/-/mongoose-elasticsearch-xp-5.4.1.tgz#48a99537380cb16b4a4eeced9506663ce1d34dbb"
+
 mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
