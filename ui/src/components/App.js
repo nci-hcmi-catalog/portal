@@ -10,7 +10,13 @@ import { Dashboard as ArrangerDashboard } from '@arranger/components';
 
 import Search from 'components/SearchWrapper';
 import Model from 'components/Model';
-import AdminNav from 'components/AdminNav';
+import {
+  AdminNav,
+  ModelsManage,
+  ModelUploadBulk,
+  ModelUploadSingle,
+  UsersManage,
+} from 'components/admin';
 import { Row, Col } from 'theme/system';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -66,19 +72,13 @@ const ProvidedRoutes = () => (
                     </Row>
                     <Row>
                       <AdminNav />
-                      <Route path="/admin/manage_users" render={() => <Row p={15}>Users</Row>} />
+                      <Route path="/admin/manage_users" render={() => <UsersManage />} />
                       <Route
                         path="/admin/single_model_upload"
-                        render={() => <Row p={15}>single model upload</Row>}
+                        render={() => <ModelUploadSingle />}
                       />
-                      <Route
-                        path="/admin/bulk_model_upload"
-                        render={() => <Row p={15}>bulk model upload</Row>}
-                      />
-                      <Route
-                        path="/admin/manage_models"
-                        render={() => <Row p={15}>manage models</Row>}
-                      />
+                      <Route path="/admin/bulk_model_upload" render={() => <ModelUploadBulk />} />
+                      <Route path="/admin/manage_models" render={() => <ModelsManage />} />
                     </Row>
                   </Col>
                 )}
