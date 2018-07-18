@@ -4,7 +4,7 @@ import { Col, Row } from 'theme/system';
 
 export default () => (
   <Col p={15}>
-    <Link to="/admin/manage_users">
+    <Link to="/admin/manage-users">
       <Row>
         <Row p={10}>icon</Row>
         <Col p={10}>
@@ -12,23 +12,7 @@ export default () => (
         </Col>
       </Row>
     </Link>
-    <Link to="/admin/single_model_upload">
-      <Row>
-        <Row p={10}>icon</Row>
-        <Col p={10}>
-          <Row>Single Model Upload</Row>
-        </Col>
-      </Row>
-    </Link>
-    <Link to="/admin/bulk_model_upload">
-      <Row>
-        <Row p={10}>icon</Row>
-        <Col p={10}>
-          <Row>Bulk Model Upload</Row>
-        </Col>
-      </Row>
-    </Link>
-    <Link to="/admin/manage_models">
+    <Link to="/admin/manage-models">
       <Row>
         <Row p={10}>icon</Row>
         <Col p={10}>

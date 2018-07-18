@@ -21,10 +21,9 @@ export default () => (
     </Row>
     <Row>
       <AdminNav />
-      <Route path="/admin/manage_users" render={() => <UsersManage />} />
-      <Route path="/admin/single_model_upload" render={() => <ModelUploadSingle />} />
-      <Route path="/admin/bulk_model_upload" render={() => <ModelUploadBulk />} />
-      <Route path="/admin/manage_models" render={() => <ModelsManage />} />
+      <Route path="/admin/manage-users" render={() => <UsersManage />} />
+      <Route path="/admin/manage-models" render={() => <ModelsManage />} />
+      <Route path="/admin/single-model-upload" render={() => <ModelUploadSingle />} />
     </Row>
   </Col>
 );
