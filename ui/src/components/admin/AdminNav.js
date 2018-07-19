@@ -1,24 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Col, Row } from 'theme/system';
+import { Row } from 'theme/system';
 
 export default () => (
-  <Col p={15}>
-    <Link to="/admin/manage-users">
-      <Row>
-        <Row p={10}>icon</Row>
-        <Col p={10}>
-          <Row>Manage Users</Row>
-        </Col>
-      </Row>
-    </Link>
-    <Link to="/admin/manage-models">
-      <Row>
-        <Row p={10}>icon</Row>
-        <Col p={10}>
-          <Row>Manage Models</Row>
-        </Col>
-      </Row>
-    </Link>
-  </Col>
+  <Row className="admin-nav">
+    <div className="nav">
+      <Link to="/admin/manage-users">Model Management</Link>
+      <Link to="/admin/manage-models">User Management</Link>
+    </div>
+    <div className="account">
+      <div className="user">rosi.bajari@oicr.on.ca</div>
+      <button className="button">Link Google Account</button>
+      <button className="button">Logout</button>
+    </div>
+  </Row>
 );

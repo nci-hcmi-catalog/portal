@@ -4,7 +4,6 @@ import { Route, Link } from 'react-router-dom';
 
 import AdminNav from './AdminNav';
 import ModelsManage from './ModelsManage';
-import ModelUploadBulk from './ModelUploadBulk';
 import ModelUploadSingle from './ModelUploadSingle';
 import UsersManage from './UsersManage';
 
@@ -19,9 +18,7 @@ export default () => (
       </Row>
       <Row p={15}>Logout</Row>
     </Row>
-    <Row>
-      <AdminNav />
-    </Row>
+    <AdminNav />
     <Row>
       <Route path="/admin/manage-users" render={() => <UsersManage />} />
       <Route path="/admin/manage-models" render={() => <ModelsManage />} />
