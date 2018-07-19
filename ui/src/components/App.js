@@ -10,7 +10,7 @@ import { Dashboard as ArrangerDashboard } from '@arranger/components';
 
 import Search from 'components/SearchWrapper';
 import Model from 'components/Model';
-import AdminNav from 'components/AdminNav';
+import Admin from 'components/admin';
 import { Row, Col } from 'theme/system';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -51,38 +51,7 @@ const ProvidedRoutes = () => (
                 path="/arranger"
                 render={({ match }) => <ArrangerDashboard basename={match.url} />}
               />
-              <Route
-                path="/admin"
-                render={() => (
-                  <Col>
-                    <Row>
-                      <Row p={15}>
-                        <Link to="/">« Back to List View</Link>
-                      </Row>
-                      <Row flex={1} p={15}>
-                        HCMI Searchable Catalog Administration
-                      </Row>
-                      <Row p={15}>Logout</Row>
-                    </Row>
-                    <Row>
-                      <AdminNav />
-                      <Route path="/admin/manage_users" render={() => <Row p={15}>Users</Row>} />
-                      <Route
-                        path="/admin/single_model_upload"
-                        render={() => <Row p={15}>single model upload</Row>}
-                      />
-                      <Route
-                        path="/admin/bulk_model_upload"
-                        render={() => <Row p={15}>bulk model upload</Row>}
-                      />
-                      <Route
-                        path="/admin/manage_models"
-                        render={() => <Row p={15}>manage models</Row>}
-                      />
-                    </Row>
-                  </Col>
-                )}
-              />
+              <Route path="/admin" render={() => <Admin />} />
               <Route
                 path="/model/:modelName"
                 render={({ match }) => <Model modelName={match.params.modelName} />}
