@@ -12,8 +12,8 @@ const { base, manageUsersUrl, manageModelsUrl } = {
 
 // Nav paths to handle "nested pages"
 const { modelsNavPaths, usersNavPaths } = {
-  models: [base, manageUsersUrl],
-  users: [manageModelsUrl],
+  modelsNavPaths: [base, manageUsersUrl],
+  usersNavPaths: [manageModelsUrl],
 };
 
 // Nav active state func
