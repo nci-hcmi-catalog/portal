@@ -15,7 +15,9 @@ export default {
     '#fdab40',
     '#f8bb4a',
     '#fae8ca',
+    '#d3494d',
   ],
+  transparency: ['rgb(144,0,0,0.7)'],
   buttons: {
     primary: {
       backgroundColor: 'rgb(144,0,0,0.7)',
