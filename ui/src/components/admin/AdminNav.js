@@ -21,10 +21,10 @@ const navLinkClassname = (currentPath, navPaths) =>
 export default ({ location: { pathname } }) => (
   <Row className="admin-nav" css={styles}>
     <div className="nav">
-      <Link className={navLinkClassname(pathname, modelsNavPaths)} to={manageUsersUrl}>
+      <Link className={navLinkClassname(pathname, modelsNavPaths)} to={manageModelsUrl}>
         Model Management
       </Link>
-      <Link className={navLinkClassname(pathname, usersNavPaths)} to={manageModelsUrl}>
+      <Link className={navLinkClassname(pathname, usersNavPaths)} to={manageUsersUrl}>
         User Management
       </Link>
     </div>
