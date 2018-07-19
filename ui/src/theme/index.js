@@ -1,7 +1,11 @@
+import { css } from 'emotion';
+
+const [openSans, libreFranklin] = ['"Open Sans", sans-serif', '"Libre Franklin", sans-seif'];
+
 export default {
   fonts: {
-    openSans: '"Open Sans", sans-serif',
-    libreFranklin: '"Libre Franklin", sans-seif',
+    openSans: openSans,
+    libreFranklin: libreFranklin,
   },
   palette: [
     '#790c2a',
@@ -23,6 +27,26 @@ export default {
       backgroundColor: 'rgb(144,0,0,0.7)',
       color: 'white',
     },
+    pillBase: css`
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: ${libreFranklin};
+      background-color: #ffffff;
+      color: #734d32;
+      font-size: 12px;
+      font-weight: 500;
+      font-style: normal;
+      font-stretch: normal;
+      letter-spacing: normal;
+      text-align: center;
+      text-transform: uppercase;
+      line-height: 30px;
+      padding: 0 15px;
+      border-radius: 10px;
+      border: solid 1px #cacbcf;
+    `,
   },
   chart: {
     tooltip: {

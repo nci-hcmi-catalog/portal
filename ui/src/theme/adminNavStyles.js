@@ -2,13 +2,15 @@ import { css } from 'emotion';
 import base from 'theme';
 
 const {
-  fonts: { libreFranklin },
+  fonts: { libreFranklin, openSans },
   transparency,
   palette,
+  buttons: { pillBase },
 } = base;
 
 const navBackgroundColour = transparency[0];
 const navOnState = palette[11];
+const brandPrimary = palette[1];
 
 export default css`
   font-family: ${libreFranklin};
@@ -51,6 +53,36 @@ export default css`
           border-right: 7px solid transparent;
           border-bottom: 7px solid white;
         }
+      }
+    }
+  }
+
+  .account {
+    display: flex;
+    flex-direction: row;
+    min-height: 50px;
+    align-items: center;
+
+    .user {
+      font-family: ${openSans};
+      font-size: 13px;
+      font-weight: 600;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 2;
+      letter-spacing: normal;
+      text-align: left;
+      color: #ffffff;
+      margin-right: 20px;
+    }
+
+    .pill {
+      ${pillBase};
+      line-height: 27px;
+      color: ${brandPrimary};
+
+      &:first-of-type {
+        margin-right: 20px;
       }
     }
   }
