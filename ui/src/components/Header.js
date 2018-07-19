@@ -2,6 +2,8 @@ import React from 'react';
 import bannerPath from 'assets/hcmi-dna-banner.jpg';
 import { Link } from 'react-router-dom';
 
+// todo: props to pass in text displayed on right side
+
 let Gradient = p => (
   <div
     css={`
