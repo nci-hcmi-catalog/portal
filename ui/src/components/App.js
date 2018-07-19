@@ -5,7 +5,7 @@ import Component from 'react-component-component';
 import globals from 'utils/globals';
 
 import { ThemeProvider } from 'emotion-theming';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Dashboard as ArrangerDashboard } from '@arranger/components';
 
 import Search from 'components/SearchWrapper';
@@ -51,7 +51,7 @@ const ProvidedRoutes = () => (
                 path="/arranger"
                 render={({ match }) => <ArrangerDashboard basename={match.url} />}
               />
-              <Route path="/admin" render={() => <Admin />} />
+              <Route path="/admin" render={({ location }) => <Admin location={location} />} />
               <Route
                 path="/model/:modelName"
                 render={({ match }) => <Model modelName={match.params.modelName} />}
