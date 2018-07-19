@@ -19,7 +19,7 @@ const isNavLinkActive = (currentPath, navPaths) =>
 export default ({ location: { pathname } }) => (
   <AdminNav>
     <div>
-      <NavLink className='test' active={isNavLinkActive(pathname, modelsNavPaths)} to={manageModelsUrl}>
+      <NavLink active={isNavLinkActive(pathname, modelsNavPaths)} to={manageModelsUrl}>
         Model Management
       </NavLink>
       <NavLink active={isNavLinkActive(pathname, usersNavPaths)} to={manageUsersUrl}>
