@@ -64,7 +64,7 @@ export default () => (
                   return (
                     <>
                       <div className="model-list-drawer-header">
-                        <h2>
+                        <h2 onClick={() => modalState.setModalState({ component: null })}>
                           <DoubleArrowRightIcon width={18} height={15} />
                           My Model List{hasSelected && (
                             <span className="count">{selectedCount}</span>

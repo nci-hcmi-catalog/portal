@@ -40,6 +40,7 @@ export default css`
     line-height: 1.2;
     letter-spacing: normal;
     color: #ffffff;
+    cursor: pointer;
   }
 
   .model-list-drawer-header .count {
