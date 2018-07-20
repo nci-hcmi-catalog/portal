@@ -82,7 +82,7 @@ export default css`
     flex-direction: column;
     align-items: center;
     padding: 36px 16px;
-    font-family: Helvetica;
+    font-family: ${openSans};
     font-size: 15px;
     line-height: 1.73;
     text-align: center;
@@ -160,7 +160,7 @@ export default css`
   }
 
   .model-list-model-content .available-date {
-    font-family: Helvetica;
+    font-family: ${openSans};
     font-size: 14px;
     line-height: 1.57;
     color: #323232;
