@@ -13,7 +13,7 @@ export default ({ location }) => (
     <Row>
       <Route path="/admin/manage-users" render={() => <UsersManage />} />
       <Route path="/admin/manage-models" render={() => <ModelsManage />} />
-      <Route path="/admin/single-model-upload" render={() => <ModelUploadSingle />} />
+      <Route path="/admin/model-upload-single" render={() => <ModelUploadSingle />} />
     </Row>
   </Col>
 );
