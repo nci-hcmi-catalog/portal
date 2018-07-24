@@ -1,7 +1,6 @@
 import React from 'react';
-import { Field } from 'formik';
-import { startCase } from 'lodash';
 import { FormBlock, FormFieldDesc } from 'theme/adminModelFormStyles';
+import { CheckBoxes } from 'theme/formComponentsStyles';
 
 export const FormComponent = ({
   children,
@@ -19,10 +18,24 @@ export const FormComponent = ({
 );
 
 export const FormSelect = ({ field, form: { touched, errors }, ...props }) => (
-  <div>
+  <>
     <select type="select" {...field}>
-      {props.options.map(option => <option value={option}>{startCase(option)}</option>)}
+      {props.options.map(option => <option value={option}>{option}</option>)}
     </select>
     {touched[field.name] && errors[field.name] && <div className="error">{errors[field.name]}</div>}
-  </div>
+  </>
+);
+
+export const FormMultiCheckbox = ({ field, form: { touched, errors }, ...props }) => (
+  <>
+    <CheckBoxes>
+      {props.options.map(option => (
+        <label>
+          <input type="checkbox" {...field} value={option} />
+          {option}
+        </label>
+      ))}
+    </CheckBoxes>
+    {touched[field.name] && errors[field.name] && <div className="error">{errors[field.name]}</div>}
+  </>
 );

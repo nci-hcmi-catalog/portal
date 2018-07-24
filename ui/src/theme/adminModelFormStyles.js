@@ -52,3 +52,8 @@ export const FormFieldDesc = styled('div')`
   font-style: italic;
   color: #64666a;
 `;
+
+export const CheckBoxes = styled('div')`
+  display: flex;
+  flex-direction: column;
+`;

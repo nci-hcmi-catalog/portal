@@ -1,10 +1,21 @@
 import React from 'react';
 import { withFormik, Field, Form } from 'formik';
-import { FormComponent, FormSelect } from 'components/FormComponents';
+import { FormComponent, FormSelect, FormMultiCheckbox } from 'components/FormComponents';
 import { Col } from 'theme/system';
 import { FormHeader, FormBody } from 'theme/adminModelFormStyles';
 import modelValidation from '@hcmi-portal/cms/src/validation/model';
-import { molecularCharacterizations } from '@hcmi-portal/cms/src/schemas/constants';
+import {
+  modelType,
+  molecularCharacterizations,
+  splitRatio,
+  gender,
+  race,
+  sequenceSource,
+  neoadjuvantTherapy,
+  diseaseStatus,
+  vitalStatus,
+  therapy,
+} from '@hcmi-portal/cms/src/schemas/constants';
 
 const modelFormTemplate = ({
   values,
@@ -27,14 +38,14 @@ const modelFormTemplate = ({
           <Field name="model_name" />
         </FormComponent>
         <FormComponent labelText="Model Type">
-          <Field name="model_type" />
+          <Field name="model_type" component={FormSelect} options={modelType} />
         </FormComponent>
       </Col>
       <Col>
         <FormComponent labelText="Molecular Characterization">
           <Field
             name="molecular_characterizations"
-            component={FormSelect}
+            component={FormMultiCheckbox}
             options={molecularCharacterizations}
           />
         </FormComponent>
