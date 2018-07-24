@@ -101,7 +101,10 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
         const failed = results.filter(result => result instanceof Error);
         if (failed.length > 0) {
           const errors = {
-            validationErrors: failed.map(({ value, errors }) => ({ errors, value })),
+            validationErrors: failed.map(({ value, inner }) => ({
+              errors: inner.reduce((acc, { path, message }) => ({ ...acc, [path]: message }), {}),
+              value,
+            })),
           };
           throw errors;
         }
