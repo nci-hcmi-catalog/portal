@@ -2,7 +2,8 @@ import express from 'express';
 import { isEqual } from 'lodash';
 
 import { toExcelHeaders, toExcelRowNumber } from '../schemas/constants';
-import Model, { ModelSchema, yupSchema } from '../schemas/model';
+import Model, { ModelSchema } from '../schemas/model';
+import modelValidation from '../validation/model';
 
 import {
   getSheetData,
@@ -93,7 +94,7 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
     })
     .then(parsed => {
       const validatePromises = parsed.map(p =>
-        yupSchema.validate(p, { abortEarly: false }).catch(Error => Error),
+        modelValidation.validate(p, { abortEarly: false }).catch(Error => Error),
       );
 
       return Promise.all(validatePromises).then(results => {
