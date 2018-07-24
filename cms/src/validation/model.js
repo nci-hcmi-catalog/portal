@@ -3,7 +3,16 @@ import {
   primarySites,
   clinicalTumorDiagnosis,
   clinicalTumorDiagnosisDependent,
+  modelType,
   molecularCharacterizations,
+  splitRatio,
+  gender,
+  race,
+  sequenceSource,
+  neoadjuvantTherapy,
+  diseaseStatus,
+  vitalStatus,
+  therapy,
 } from '../schemas/constants';
 
 const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis, schema, fieldName) =>
@@ -25,13 +34,7 @@ export default yup.object().shape({
     .string()
     .required()
     .lowercase()
-    .oneOf([
-      '3-d: organoid',
-      '3-d: other (neurosphere)',
-      '2-d: conditionally reprogrammed cells',
-      '2-d: adherent',
-      '2-d: suspension',
-    ]),
+    .oneOf(modelType),
   growth_rate: yup
     .number()
     .required()
@@ -41,26 +44,18 @@ export default yup.object().shape({
   split_ratio: yup
     .string()
     .required()
-    .oneOf(['1:2', '1:4', '1:8']),
+    .oneOf(splitRatio),
   gender: yup
     .string()
     .required()
     .lowercase()
-    .oneOf(['female', 'male', 'unspecified', 'unknown']),
+    .oneOf(gender),
   race: yup
     .string()
     .required()
     .nullable()
     .lowercase()
-    .oneOf([
-      'american indian or alaskan native',
-      'asian',
-      'black or african american',
-      'native hawaiian or other pacific islander',
-      'white',
-      'not reported',
-      'unknown',
-    ]),
+    .oneOf(race),
   age_at_diagnosis: yup
     .number()
     .integer()
@@ -70,7 +65,7 @@ export default yup.object().shape({
     .integer()
     .positive(),
   date_of_availability: yup.date(),
-  sequence_source: yup.mixed().oneOf(['GDC', 'EGA']),
+  sequence_source: yup.mixed().oneOf(sequenceSource),
   licensing_required: yup.boolean(),
   primary_site: yup
     .string()
@@ -84,37 +79,20 @@ export default yup.object().shape({
   neoadjuvant_therapy: yup
     .string()
     .lowercase()
-    .oneOf([
-      'no',
-      'yes, pharmaceutical treatment',
-      'yes, radiation',
-      'yes, both radiation and pharmaceutical treatment',
-    ]),
+    .oneOf(neoadjuvantTherapy),
   chemotherapeutic_drugs: yup.boolean(),
   disease_status: yup
     .string()
     .lowercase()
-    .oneOf([
-      'disease free',
-      'progression (no response to treatment)',
-      'relapse (patient responded to treatment)',
-      'unknown / lost to followup',
-    ]),
+    .oneOf(diseaseStatus),
   vital_status: yup
     .string()
     .lowercase()
-    .oneOf(['alive', 'dead', 'unknown/lost to followup']),
+    .oneOf(vitalStatus),
   therapy: yup
     .string()
     .lowercase()
-    .oneOf([
-      'targeted therapy (small molecule inhibitors and targeted antibodies)',
-      'immunotherapy (cellular and immune checkpoint)',
-      'hormonal therapy',
-      'radiation therapy',
-      'other',
-      'none',
-    ]),
+    .oneOf(therapy),
   molecular_characterizations: yup
     .string()
     .lowercase()
