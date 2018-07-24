@@ -864,3 +864,17 @@ export const clinicalTumorDiagnosisDependent = {
     'wilms tumor': [],
   },
 };
+
+export const molecularCharacterizations = [
+  'whole genome sequencing (wgs) of "parent" tumor',
+  'wgs of normal',
+  'wgs of model',
+  'whole exome sequencing (wxs) of parent tumor',
+  'wxs of normal',
+  'wxs of model',
+  'targeted sequencing of parent tumor',
+  'targeted sequencing of normal',
+  'targeted sequencing of model',
+  'rna-seq of parent tumor',
+  'rna-seq of model',
+];

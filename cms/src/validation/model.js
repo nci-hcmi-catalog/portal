@@ -1,5 +1,10 @@
 import * as yup from 'yup';
-import { primarySites, clinicalTumorDiagnosis, clinicalTumorDiagnosisDependent } from '../schemas/constants';
+import {
+  primarySites,
+  clinicalTumorDiagnosis,
+  clinicalTumorDiagnosisDependent,
+  molecularCharacterizations,
+} from '../schemas/constants';
 
 const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis, schema, fieldName) =>
   yup
@@ -113,19 +118,7 @@ export default yup.object().shape({
   molecular_characterizations: yup
     .string()
     .lowercase()
-    .oneOf([
-      'whole genome sequencing (wgs) of "parent" tumor',
-      'wgs of normal',
-      'wgs of model',
-      'whole exome sequencing (wxs) of parent tumor',
-      'wxs of normal',
-      'wxs of model',
-      'targeted sequencing of parent tumor',
-      'targeted sequencing of normal',
-      'targeted sequencing of model',
-      'rna-seq of parent tumor',
-      'rna-seq of model',
-    ]),
+    .oneOf(molecularCharacterizations),
   clinical_tumor_diagnosis: yup
     .string()
     .lowercase()
