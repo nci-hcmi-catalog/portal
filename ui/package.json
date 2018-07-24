@@ -1,9 +1,10 @@
 {
-  "name": "hcmi-portal-ui",
-  "version": "0.0.1-0.0.10.0",
+  "name": "@hcmi-portal/ui",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "@arranger/components": "0.4.2",
+    "@hcmi-portal/cms": "0.0.1",
     "@nivo/bar": "^0.42.1",
     "@nivo/pie": "^0.40.0",
     "babel-polyfill": "^6.26.0",

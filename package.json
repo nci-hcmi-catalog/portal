@@ -1,6 +1,8 @@
 {
   "name": "hcmi-portal",
-  "version": "0.1.0",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": ["api", "cms", "ui", "data_model"],
   "description": "HCMI Portal",
   "scripts": {
     "test": "cd data_model && yarn test",

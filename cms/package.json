@@ -1,5 +1,5 @@
 {
-  "name": "hcmi-portal-cms",
+  "name": "@hcmi-portal/cms",
   "version": "0.0.1",
   "description": "Content Management services for HCMI Portal`",
   "private": true,
