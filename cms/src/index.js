@@ -8,7 +8,7 @@ import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import restify from 'express-restify-mongoose';
 import morgan from 'morgan';
-import { data_sync_router } from './routes/sync-data';
+import { data_sync_router, runYupValidators } from './routes/sync-data';
 import { publish_router } from './routes/publish';
 
 const port = process.env.PORT || 8080;
@@ -26,8 +26,21 @@ app.use(cors());
 // configure logging
 app.use(morgan('combined'));
 
+const validateYup = (req, res, next) => {
+  runYupValidators([req.body])
+    .then(() => next())
+    .catch(error => {
+      res.status(400).json({
+        error,
+      });
+    });
+};
 // configure endpoints
-restify.serve(router, Model);
+restify.serve(router, Model, {
+  preCreate: validateYup,
+  preUpdate: validateYup,
+});
+
 app.use('/', data_sync_router);
 app.use('/publish', publish_router);
 app.use(router);
