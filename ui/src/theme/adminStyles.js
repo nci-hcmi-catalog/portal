@@ -2,10 +2,14 @@ import styled from 'react-emotion';
 import base from 'theme';
 import { Row } from 'theme/system';
 
-const { palette } = base;
+const {
+  fonts: { libreFranklin, openSans },
+  palette,
+} = base;
 
+const brandPrimary = palette[1];
 const bkgColour = palette[12];
-const borderColour = '#e1e5e7';
+const borderColour = palette[13];
 const white = '#fff';
 
 export const AdminWrapper = styled(Row)`
@@ -21,6 +25,19 @@ export const AdminPage = styled('div')`
 
 export const AdminHeader = styled(Row)`
   width: 100%;
+  padding: 36px 0 28px;
+  justify-content: space-between;
+
+  h1 {
+    font-family: ${libreFranklin};
+    line-height: 1;
+    color: ${brandPrimary};
+    font-size: 28px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    margin: 0;
+  }
 `;
 
 export const AdminContent = styled(Row)`

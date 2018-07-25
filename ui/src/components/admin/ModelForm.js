@@ -1,13 +1,12 @@
 import React from 'react';
-import { withFormik, Field, Form } from 'formik';
+import { withFormik, Field } from 'formik';
 import {
   FormComponent,
   FormSelect,
   FormRadioSelect,
   FormMultiCheckbox,
 } from 'components/FormComponents';
-import { Col } from 'theme/system';
-import { FormHeader, FormSection } from 'theme/adminModelFormStyles';
+import { ModelForm, FormHeader, FormSection, FormCol } from 'theme/adminModelFormStyles';
 import modelValidation from '@hcmi-portal/cms/src/validation/model';
 import {
   clinicalTumorDiagnosis,
@@ -42,12 +41,12 @@ const modelFormTemplate = ({
   handleSubmit,
   handleReset,
 }) => (
-  <Form>
+  <ModelForm>
     <FormHeader>
       <h2>Model Details</h2>
     </FormHeader>
     <FormSection>
-      <Col>
+      <FormCol>
         <FormComponent labelText="Name" description="Optional description of form field.">
           <Field name="model_name" />
         </FormComponent>
@@ -82,9 +81,9 @@ const modelFormTemplate = ({
         <FormComponent labelText="TMN Stage (NEEDS CUSTOM COMPONENT)">
           <Field name="tmn_stage" />
         </FormComponent>
-      </Col>
+      </FormCol>
 
-      <Col>
+      <FormCol>
         <FormComponent labelText="Molecular Characterization">
           <Field
             name="molecular_characterizations"
@@ -156,14 +155,14 @@ const modelFormTemplate = ({
             )}
           />
         </FormComponent>
-      </Col>
+      </FormCol>
     </FormSection>
 
     <FormHeader>
       <h2>Patient Details</h2>
     </FormHeader>
     <FormSection>
-      <Col>
+      <FormCol>
         <FormComponent labelText="Age at Diagnosis">
           <Field name="age_at_diagnosis" />
         </FormComponent>
@@ -179,9 +178,9 @@ const modelFormTemplate = ({
         <FormComponent labelText="Disease Status">
           <Field name="disease_status" component={FormRadioSelect} options={diseaseStatus} />
         </FormComponent>
-      </Col>
+      </FormCol>
 
-      <Col>
+      <FormCol>
         <FormComponent labelText="Gender">
           <Field name="gender" component={FormRadioSelect} options={gender} />
         </FormComponent>
@@ -193,14 +192,14 @@ const modelFormTemplate = ({
         <FormComponent labelText="Therapy">
           <Field name="therapy" component={FormMultiCheckbox} options={therapy} />
         </FormComponent>
-      </Col>
+      </FormCol>
     </FormSection>
 
     <FormHeader>
       <h2>Model Administration</h2>
     </FormHeader>
     <FormSection>
-      <Col>
+      <FormCol>
         <FormComponent labelText="Date Available (NEEDS CUSTOM COMPONENT)">
           <Field name="date_of_availability" type="date" />
         </FormComponent>
@@ -208,14 +207,14 @@ const modelFormTemplate = ({
         <FormComponent labelText="Licensing Requirements">
           <Field name="licensing_required" component={FormRadioSelect} options={booleanChoice} />
         </FormComponent>
-      </Col>
+      </FormCol>
 
-      <Col>
+      <FormCol>
         <label>External Resources</label>
         TWO URLS CURRENTLY NOT IN YUP SCHEMA
-      </Col>
+      </FormCol>
     </FormSection>
-  </Form>
+  </ModelForm>
 );
 
 export default withFormik({

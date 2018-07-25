@@ -21,6 +21,7 @@ export default {
     '#fae8ca',
     '#d3494d',
     '#f3f6f7',
+    '#e1e5e7',
   ],
   transparency: ['rgb(144,0,0,0.7)'],
   buttons: {

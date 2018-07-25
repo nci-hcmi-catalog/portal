@@ -6,7 +6,11 @@ import ModelForm from './ModelForm';
 
 export default () => (
   <AdminPage>
-    <AdminHeader>Header Content</AdminHeader>
+    <AdminHeader>
+      <div>
+        <h1>Header Content</h1>
+      </div>
+    </AdminHeader>
     <Row>
       <AdminModelNav>
         <NavItem>Edit</NavItem>
