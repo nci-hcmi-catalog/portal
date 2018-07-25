@@ -10,11 +10,11 @@ import { AdminWrapper } from 'theme/adminStyles';
 
 export default ({ location }) => (
   <Col>
-    <AdminNav location={location} />
+    <AdminNav location={location} />{' '}
     <Row>
-      <Route path="/admin/manage-users" render={() => <UsersManage />} />
-      <Route path="/admin/manage-models" render={() => <ModelsManager />} />
-      <Route path="/admin/model-upload-single" render={() => <ModelUploadSingle />} />
-    </Row>
+      <Route path="/admin/manage-users" render={() => <UsersManage />} />{' '}
+      <Route path="/admin/manage-models" render={() => <ModelsManager />} />{' '}
+      <Route path="/admin/model-upload-single" render={() => <ModelUploadSingle />} />{' '}
+    </Row>{' '}
   </Col>
 );
