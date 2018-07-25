@@ -29,7 +29,7 @@ export const FormHeader = styled(Row)`
   }
 `;
 
-export const FormBody = styled(Row)`
+export const FormSection = styled(Row)`
   padding: 20px;
 `;
 
