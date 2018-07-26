@@ -1,6 +1,6 @@
 import styled from 'react-emotion';
 import base from 'theme';
-import { Row } from 'theme/system';
+import { Row, Col } from 'theme/system';
 
 const {
   fonts: { libreFranklin, openSans },
@@ -12,21 +12,25 @@ const bkgColour = palette[12];
 const borderColour = palette[13];
 const white = '#fff';
 
-export const AdminWrapper = styled(Row)`
+export const AdminMain = styled(Row)`
   background: ${bkgColour};
+  label: admin-main;
 `;
 
-export const AdminPage = styled('div')`
+export const AdminContainer = styled(Col)`
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 20px;
+  label: admin-container;
 `;
 
 export const AdminHeader = styled(Row)`
   width: 100%;
   padding: 36px 0 28px;
   justify-content: space-between;
+  align-items: center;
+  label: admin-header;
 
   h1 {
     font-family: ${libreFranklin};

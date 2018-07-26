@@ -1,11 +1,11 @@
 import React from 'react';
-import { AdminPage, AdminHeader } from 'theme/adminStyles';
-import { AdminModelNav, NavItem, AdminModelContent } from 'theme/adminModelStyles';
-import { Row } from 'theme/system';
+import {AdminContainer, AdminHeader} from 'theme/adminStyles';
+import {AdminModelNav, NavItem, AdminModelContent} from 'theme/adminModelStyles';
+import {Row} from 'theme/system';
 import ModelForm from './ModelForm';
 
-export default () => (
-  <AdminPage>
+export default() => (
+  <AdminContainer>
     <AdminHeader>
       <div>
         <h1>Header Content</h1>
@@ -18,8 +18,8 @@ export default () => (
         <NavItem>Variants</NavItem>
       </AdminModelNav>
       <AdminModelContent>
-        <ModelForm />
+        <ModelForm/>
       </AdminModelContent>
     </Row>
-  </AdminPage>
+  </AdminContainer>
 );
