@@ -1,3 +1,4 @@
+import { css } from 'emotion';
 import styled from 'react-emotion';
 import base from 'theme';
 import { Col } from 'theme/system';
@@ -5,12 +6,16 @@ import { AdminContent } from 'theme/adminStyles';
 
 const {
   fonts: { libreFranklin },
-  keyedPalette: { brandPrimary },
+  keyedPalette: { brandPrimary, white },
 } = base;
 
 export const AdminModelNav = styled(Col)`
   width: 164px;
   label: admin-model-nav;
+`;
+
+const activeNavItem = css`
+  background: ${white};
 `;
 
 export const NavItem = styled('div')`
@@ -25,6 +30,7 @@ export const NavItem = styled('div')`
   text-align: left;
   color: ${brandPrimary};
   text-transform: uppercase;
+  ${props => props.active && activeNavItem};
   label: admin-model-nav-item;
 `;
 
