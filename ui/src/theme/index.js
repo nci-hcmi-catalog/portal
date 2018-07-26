@@ -40,8 +40,11 @@ export default {
     valencia: palette[11],
     lightPorcelain: palette[12],
     porcelain: palette[13],
+    white: '#fff',
   },
-  transparency: ['rgb(144,0,0,0.7)'],
+  transparency: {
+    brandPrimary70: 'rgb(144,0,0,0.7)',
+  },
   buttons: {
     primary: {
       backgroundColor: 'rgb(144,0,0,0.7)',
