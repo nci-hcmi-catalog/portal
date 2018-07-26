@@ -2,7 +2,8 @@ import express from 'express';
 import { isEqual } from 'lodash';
 
 import { toExcelHeaders, toExcelRowNumber } from '../schemas/constants';
-import Model, { ModelSchema, yupSchema } from '../schemas/model';
+import Model, { ModelSchema } from '../schemas/model';
+import modelValidation from '../validation/model';
 
 import {
   getSheetData,

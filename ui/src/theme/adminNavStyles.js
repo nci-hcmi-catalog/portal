@@ -15,7 +15,7 @@ const navBackgroundColour = transparency[0];
 const navOnState = palette[11];
 const brandPrimary = palette[1];
 
-const AdminNav = styled(Row)`
+export const AdminNav = styled(Row)`
   font-family: ${libreFranklin};
   background-color: ${navBackgroundColour};
   color: white;
@@ -43,7 +43,7 @@ const activeNavLink = css`
   }
 `;
 
-const NavLink = styled(Link)`
+export const NavLink = styled(Link)`
   display: inline-block;
   position: relative;
   color: white;
@@ -60,14 +60,14 @@ const NavLink = styled(Link)`
   ${props => props.active && activeNavLink};
 `;
 
-const Account = styled('div')`
+export const Account = styled('div')`
   display: flex;
   flex-direction: row;
   min-height: 50px;
   align-items: center;
 `;
 
-const User = styled('div')`
+export const User = styled('div')`
   font-family: ${openSans};
   font-size: 13px;
   font-weight: 600;
@@ -80,11 +80,9 @@ const User = styled('div')`
   margin-right: 20px;
 `;
 
-const Pill = styled('div')`
+export const Pill = styled('div')`
   ${pillBase};
   line-height: 27px;
   color: ${brandPrimary};
   margin-left: ${props => props.last && '20px'};
 `;
-
-export { AdminNav, NavLink, Account, User, Pill };

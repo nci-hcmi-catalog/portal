@@ -7,6 +7,7 @@ const [base, manageUsersUrl, manageModelsUrl] = [
   '/admin',
   '/admin/manage-users',
   '/admin/manage-models',
+  '/admin/model-upload-single',
 ];
 
 // Nav paths to handle "nested pages"

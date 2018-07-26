@@ -864,3 +864,67 @@ export const clinicalTumorDiagnosisDependent = {
     'wilms tumor': [],
   },
 };
+
+// One of options for Yup and front-end components
+
+export const modelType = [
+  '3-d: organoid',
+  '3-d: other (neurosphere)',
+  '2-d: conditionally reprogrammed cells',
+  '2-d: adherent',
+  '2-d: suspension',
+];
+
+export const molecularCharacterizations = [
+  'whole genome sequencing (wgs) of "parent" tumor',
+  'wgs of normal',
+  'wgs of model',
+  'whole exome sequencing (wxs) of parent tumor',
+  'wxs of normal',
+  'wxs of model',
+  'targeted sequencing of parent tumor',
+  'targeted sequencing of normal',
+  'targeted sequencing of model',
+  'rna-seq of parent tumor',
+  'rna-seq of model',
+];
+
+export const splitRatio = ['1:2', '1:4', '1:8'];
+
+export const gender = ['female', 'male', 'unspecified', 'unknown'];
+
+export const race = [
+  'american indian or alaskan native',
+  'asian',
+  'black or african american',
+  'native hawaiian or other pacific islander',
+  'white',
+  'not reported',
+  'unknown',
+];
+
+export const sequenceSource = ['GDC', 'EGA'];
+
+export const neoadjuvantTherapy = [
+  'no',
+  'yes, pharmaceutical treatment',
+  'yes, radiation',
+  'yes, both radiation and pharmaceutical treatment',
+];
+export const diseaseStatus = [
+  'disease free',
+  'progression (no response to treatment)',
+  'relapse (patient responded to treatment)',
+  'unknown / lost to followup',
+];
+
+export const vitalStatus = ['alive', 'dead', 'unknown/lost to followup'];
+
+export const therapy = [
+  'targeted therapy (small molecule inhibitors and targeted antibodies)',
+  'immunotherapy (cellular and immune checkpoint)',
+  'hormonal therapy',
+  'radiation therapy',
+  'other',
+  'none',
+];
