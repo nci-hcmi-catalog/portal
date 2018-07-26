@@ -7,7 +7,6 @@ import { Row, Col } from 'theme/system';
 const {
   fonts: { libreFranklin, openSans },
   palette,
-  buttons: { pillBase },
 } = base;
 
 const brandPrimary = palette[1];

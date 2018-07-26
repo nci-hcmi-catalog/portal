@@ -11,7 +11,6 @@ import { Dashboard as ArrangerDashboard } from '@arranger/components';
 import Search from 'components/SearchWrapper';
 import Model from 'components/Model';
 import Admin from 'components/admin';
-import { Row, Col } from 'theme/system';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import theme from 'theme';
