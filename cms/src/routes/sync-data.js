@@ -70,6 +70,26 @@ const removeNullKeys = data =>
     {},
   );
 
+export const runYupValidators = parsed => {
+  const validatePromises = parsed.map(p =>
+    yupSchema.validate(p, { abortEarly: false }).catch(Error => Error),
+  );
+
+  return Promise.all(validatePromises).then(results => {
+    const failed = results.filter(result => result instanceof Error);
+    if (failed.length > 0) {
+      const errors = {
+        validationErrors: failed.map(({ value, inner }) => ({
+          errors: inner.reduce((acc, { path, message }) => ({ ...acc, [path]: message }), {}),
+          value,
+        })),
+      };
+      throw errors;
+    }
+    return parsed;
+  });
+};
+
 data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
   const authClient = getAuthClient();
   const { sheetId, tabName } = req.params;
@@ -92,25 +112,7 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
         .map(d => removeNullKeys(d));
       return parsed;
     })
-    .then(parsed => {
-      const validatePromises = parsed.map(p =>
-        modelValidation.validate(p, { abortEarly: false }).catch(Error => Error),
-      );
-
-      return Promise.all(validatePromises).then(results => {
-        const failed = results.filter(result => result instanceof Error);
-        if (failed.length > 0) {
-          const errors = {
-            validationErrors: failed.map(({ value, inner }) => ({
-              errors: inner.reduce((acc, { path, message }) => ({ ...acc, [path]: message }), {}),
-              value,
-            })),
-          };
-          throw errors;
-        }
-        return parsed;
-      });
-    })
+    .then(runYupValidators)
     .then(parsed => {
       const savePromises = parsed.map(async p => {
         const prevModel = await Model.findOne(
