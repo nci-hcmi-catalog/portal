@@ -72,7 +72,7 @@ const removeNullKeys = data =>
 
 export const runYupValidators = parsed => {
   const validatePromises = parsed.map(p =>
-    yupSchema.validate(p, { abortEarly: false }).catch(Error => Error),
+    modelValidation.validate(p, { abortEarly: false }).catch(Error => Error),
   );
 
   return Promise.all(validatePromises).then(results => {
