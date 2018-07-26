@@ -3,7 +3,7 @@ import base from 'theme';
 import { Row } from 'theme/system';
 
 const {
-  fonts: { libreFranklin, openSans },
+  fonts: { libreFranklin },
   palette,
 } = base;
 

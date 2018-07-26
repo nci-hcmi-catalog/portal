@@ -16,7 +16,6 @@ import {
   splitRatio,
   gender,
   race,
-  sequenceSource,
   neoadjuvantTherapy,
   diseaseStatus,
   vitalStatus,
@@ -32,14 +31,14 @@ const makeClinicalTumorDiagnosisDependentOptions = (clinical_tumor_diagnosis, fi
 
 const modelFormTemplate = ({
   values,
-  touched,
-  errors,
-  dirty,
-  isSubmitting,
-  handleChange,
-  handleBlur,
-  handleSubmit,
-  handleReset,
+  //touched,
+  //errors,
+  //dirty,
+  //isSubmitting,
+  //handleChange,
+  //handleBlur,
+  //handleSubmit,
+  //handleReset,
 }) => (
   <ModelForm>
     <FormHeader>
