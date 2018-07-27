@@ -6,12 +6,11 @@ import { Row, Col } from 'theme/system';
 
 const {
   fonts: { libreFranklin, openSans },
-  palette,
+  keyedPalette: { brandPrimary, lightPorcelain, porcelain },
 } = base;
 
-const brandPrimary = palette[1];
-const bkgColour = palette[12];
-const borderColour = palette[13];
+const bkgColour = lightPorcelain;
+const borderColour = porcelain;
 const black = '#000';
 
 const baseText = css`

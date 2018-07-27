@@ -3,7 +3,7 @@ import { AdminNav, NavLink, Account, User, Pill } from 'theme/adminNavStyles';
 import UserIcon from 'icons/UserIcon';
 
 // Urls used in navigation
-const [base, manageUsersUrl, manageModelsUrl] = [
+const [base, manageUsersUrl, manageModelsUrl, modelUploadSingle] = [
   '/admin',
   '/admin/manage-users',
   '/admin/manage-models',
@@ -11,7 +11,10 @@ const [base, manageUsersUrl, manageModelsUrl] = [
 ];
 
 // Nav paths to handle "nested pages"
-const [modelsNavPaths, usersNavPaths] = [[base, manageModelsUrl], [manageUsersUrl]];
+const [modelsNavPaths, usersNavPaths] = [
+  [base, manageModelsUrl, modelUploadSingle],
+  [manageUsersUrl],
+];
 
 // Nav active state func
 const isNavLinkActive = (currentPath, navPaths) =>

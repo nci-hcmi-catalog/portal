@@ -4,13 +4,11 @@ import { Row, Col } from 'theme/system';
 
 const {
   fonts: { libreFranklin },
-  palette,
+  keyedPalette: { brandPrimary, lightPorcelain, porcelain, white },
 } = base;
 
-const brandPrimary = palette[1];
-const bkgColour = palette[12];
-const borderColour = palette[13];
-const white = '#fff';
+const bkgColour = lightPorcelain;
+const borderColour = porcelain;
 
 export const AdminMain = styled(Row)`
   background: ${bkgColour};
