@@ -15,7 +15,7 @@ import {
   therapy,
 } from '../schemas/constants';
 
-const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis, schema, fieldName) =>
+const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis, fieldName) =>
   yup
     .string()
     .lowercase()
@@ -103,37 +103,30 @@ export default yup.object().shape({
     .oneOf(clinicalTumorDiagnosis),
   histological_type: yup
     .string()
-    .when('clinical_tumor_diagnosis', (clinical_tumor_diagnosis, schema) =>
-      makeClinicalTumorDiagnosisDependentSchema(
-        clinical_tumor_diagnosis,
-        schema,
-        'histological type',
-      ),
+    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+      makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'histological type'),
     ),
   clinical_stage_grouping: yup
     .string()
-    .when('clinical_tumor_diagnosis', (clinical_tumor_diagnosis, schema) =>
+    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
       makeClinicalTumorDiagnosisDependentSchema(
         clinical_tumor_diagnosis,
-        schema,
         'clinical stage grouping',
       ),
     ),
   site_of_sample_acquisition: yup
     .string()
-    .when('clinical_tumor_diagnosis', (clinical_tumor_diagnosis, schema) =>
+    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
       makeClinicalTumorDiagnosisDependentSchema(
         clinical_tumor_diagnosis,
-        schema,
         'site of sample acquisition',
       ),
     ),
   tumor_histological_grade: yup
     .string()
-    .when('clinical_tumor_diagnosis', (clinical_tumor_diagnosis, schema) =>
+    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
       makeClinicalTumorDiagnosisDependentSchema(
         clinical_tumor_diagnosis,
-        schema,
         'tumor histological grade',
       ),
     ),

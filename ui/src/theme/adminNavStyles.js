@@ -6,14 +6,13 @@ import { Row } from 'theme/system';
 
 const {
   fonts: { libreFranklin, openSans },
-  transparency,
-  palette,
+  transparency: { brandPrimary70 },
+  keyedPalette: { brandPrimary, valencia },
   buttons: { pillBase },
 } = base;
 
-const navBackgroundColour = transparency[0];
-const navOnState = palette[11];
-const brandPrimary = palette[1];
+const navBackgroundColour = brandPrimary70;
+const navOnState = valencia;
 
 export const AdminNav = styled(Row)`
   font-family: ${libreFranklin};
