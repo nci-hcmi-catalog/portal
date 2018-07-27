@@ -4,7 +4,6 @@ import {
   AdminModelNav,
   NavItem,
   navItemIcon,
-  navItemIconActive,
   brandPrimary,
   activeNavItemIconColor,
 } from 'theme/adminModelStyles';
