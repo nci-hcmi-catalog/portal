@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import AdminProvider from 'providers/AdminProvider';
 import AdminNav from './AdminNav';
 import ModelsManager from './ModelsManager';
-import ModelUploadSingle from './ModelUploadSingle';
+import { ModelUploadSingle } from './ModelUpload';
 import UsersManage from './UsersManage';
 import { Col } from 'theme/system';
 import { AdminMain } from 'theme/adminStyles';

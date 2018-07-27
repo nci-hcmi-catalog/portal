@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'react-emotion';
-import { Row, Col } from 'theme/system';
 import ModelIcon from '../../../icons/ModelIcon';
-import ReactTable from 'react-table';
-import { AdminContainer, AdminContent, AdminHeader } from 'theme/adminStyles';
+import { AdminContainer, AdminHeader } from 'theme/adminStyles';
 import { ControlPill } from '../AdminControls';
+import { Table, TableHeader, TableFooter } from 'theme/adminTableStyles';
 
 const Title = styled('div')`
   min-height: 50px;
@@ -22,29 +21,6 @@ const Controls = styled('div')`
   label: models-manager-controls;
 `;
 
-const Table = styled(Col)`
-  min-height: 50px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  border-top: 6px solid white;
-  border-bottom: 6px solid white;
-  label: models-manager-table;
-`;
-
-const TableHeaderToolbar = styled(Row)`
-  min-height: 50px;
-  align-items: center;
-  label: models-manager-table-header;
-`;
-
-const TableFooterToolbar = styled(Row)`
-  min-height: 50px;
-  align-items: center;
-  padding: 20px;
-  label: models-manager-table-footer-bar;
-`;
-
 const content = () => {
   return (
     <AdminContainer>
@@ -58,8 +34,8 @@ const content = () => {
         </Controls>
       </AdminHeader>
       <Table>
-        <TableHeaderToolbar />
-        <TableFooterToolbar />
+        <TableHeader />
+        <TableFooter />
       </Table>
     </AdminContainer>
   );
