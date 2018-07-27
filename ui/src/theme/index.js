@@ -41,6 +41,7 @@ export default {
     lightPorcelain: palette[12],
     porcelain: palette[13],
     white: '#fff',
+    mineShaft: '#343434',
   },
   transparency: {
     brandPrimary70: 'rgb(144,0,0,0.7)',
