@@ -6,26 +6,26 @@ export default () => (
   <AdminContext.Consumer>
     {({
       state: {
-        modelUploadSingle: { activeTab },
+        ModelSingle: { activeTab },
       },
-      setModelUploadSingleActiveTab,
+      setModelSingleActiveTab,
     }) => (
       <AdminModelNav>
         <NavItem
           active={activeTab === 'edit'}
-          onClick={() => setModelUploadSingleActiveTab('edit')}
+          onClick={() => setModelSingleActiveTab('edit')}
         >
           Edit
         </NavItem>
         <NavItem
           active={activeTab === 'images'}
-          onClick={() => setModelUploadSingleActiveTab('images')}
+          onClick={() => setModelSingleActiveTab('images')}
         >
           Images
         </NavItem>
         <NavItem
           active={activeTab === 'variants'}
-          onClick={() => setModelUploadSingleActiveTab('variants')}
+          onClick={() => setModelSingleActiveTab('variants')}
         >
           Variants
         </NavItem>

@@ -28,7 +28,7 @@ export default () => (
   <AdminContext.Consumer>
     {({
       state: {
-        modelUploadSingle: { activeTab },
+        ModelSingle: { activeTab },
       },
     }) => (
       <AdminContainer>
