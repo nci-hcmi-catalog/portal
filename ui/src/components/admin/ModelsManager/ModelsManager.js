@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'react-emotion';
 import ModelIcon from '../../../icons/ModelIcon';
 import { AdminContainer, AdminHeader } from 'theme/adminStyles';
-import { ControlPill } from '../AdminControls';
+import { ControlPill } from 'theme/AdminControlsStlyes';
 import { Table, TableHeader, TableFooter } from 'theme/adminTableStyles';
 
 const Title = styled('div')`
@@ -35,7 +35,6 @@ const content = () => {
       </AdminHeader>
       <Table>
         <TableHeader />
-
         <TableFooter />
       </Table>
     </AdminContainer>

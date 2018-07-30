@@ -4,7 +4,7 @@ export const AdminContext = React.createContext();
 
 class AdminProvider extends React.Component {
   state = {
-    modelUploadSingle: {
+    ModelSingle: {
       activeTab: 'edit',
     },
   };
@@ -13,11 +13,11 @@ class AdminProvider extends React.Component {
       <AdminContext.Provider
         value={{
           state: this.state,
-          setModelUploadSingleActiveTab: tabName => {
+          setModelSingleActiveTab: tabName => {
             this.setState({
               ...this.state,
-              modelUploadSingle: {
-                ...this.state.modelUploadSingle,
+              ModelSingle: {
+                ...this.state.ModelSingle,
                 activeTab: tabName,
               },
             });

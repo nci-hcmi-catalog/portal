@@ -6,10 +6,13 @@ import { AdminContent } from 'theme/adminStyles';
 
 const {
   fonts: { libreFranklin },
-  keyedPalette: { brandPrimary, porcelain, white },
+  keyedPalette: { brandPrimary, porcelain, white, mineShaft },
 } = base;
 
 const borderColour = porcelain;
+const activeNavItemIconColor = mineShaft;
+
+export { brandPrimary, activeNavItemIconColor };
 
 export const AdminModelNav = styled(Col)`
   width: 164px;
@@ -17,6 +20,7 @@ export const AdminModelNav = styled(Col)`
 `;
 
 const activeNavItem = css`
+  color: ${activeNavItemIconColor};
   background: ${white};
   border: solid 1px ${borderColour};
   border-right-color: ${white};
@@ -30,6 +34,9 @@ const activeNavItem = css`
 `;
 
 export const NavItem = styled('div')`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   padding: 19px 15px;
   font-family: ${libreFranklin};
   font-size: 14px;
@@ -44,6 +51,20 @@ export const NavItem = styled('div')`
   cursor: pointer;
   label: admin-model-nav-item;
   ${props => props.active && activeNavItem};
+`;
+
+export const navItemIcon = css`
+  width: 30px;
+  height: 30px;
+  margin-right: 9px;
+  fill: ${brandPrimary};
+  label: admin-model-nav-item-icon;
+`;
+
+export const navItemIconActive = css`
+  ${navItemIcon};
+  fill: ${activeNavItemIconColor};
+  label: admin-model-nav-item-icon-active;
 `;
 
 export const AdminModelContent = styled(AdminContent)`
