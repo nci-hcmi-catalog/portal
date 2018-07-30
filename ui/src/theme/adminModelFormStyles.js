@@ -24,7 +24,7 @@ export const ModelForm = styled(Form)`
 export const FormHeader = styled(Row)`
   width: 100%;
   background-color: ${bkgColour};
-  padding: 20px 42px;
+  padding: 18px 42px;
 
   h2 {
     font-family: ${libreFranklin};
