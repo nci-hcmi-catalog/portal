@@ -22,6 +22,13 @@ export const FormComponent = ({
   </FormBlock>
 );
 
+export const FormTextInput = ({ field, form: { touched, errors }, ...props }) => (
+  <>
+    <input type="text" {...field} {...props} />
+    {touched[field.name] && errors[field.name] && <div className="error">{errors[field.name]}</div>}
+  </>
+);
+
 export const FormSelect = ({ field, form: { touched, errors }, ...props }) => (
   <>
     <select type="select" {...field}>
