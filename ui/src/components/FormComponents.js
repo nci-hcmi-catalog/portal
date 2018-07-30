@@ -1,6 +1,11 @@
 import React from 'react';
-import { FormBlock, FormFieldDesc } from 'theme/adminModelFormStyles';
-import { CheckBoxes, RadioSelect } from 'theme/formComponentsStyles';
+import {
+  FormBlock,
+  FormBlockLabel,
+  FormFieldDesc,
+  CheckBoxes,
+  RadioSelect,
+} from 'theme/formComponentsStyles';
 
 export const FormComponent = ({
   children,
@@ -11,7 +16,7 @@ export const FormComponent = ({
   description,
 }) => (
   <FormBlock>
-    <label htmlFor={name}>{labelText || name}:</label>
+    <FormBlockLabel htmlFor={name}>{labelText || name}:</FormBlockLabel>
     {description && <FormFieldDesc>{description}</FormFieldDesc>}
     {children}
   </FormBlock>
@@ -35,8 +40,9 @@ export const FormRadioSelect = ({ field, form: { touched, errors }, ...props }) 
     <RadioSelect>
       {props.options.map((option, idx) => (
         <label key={idx}>
-          <input type="radio" {...field} value={option} />
           {option}
+          <input type="radio" {...field} value={option} />
+          <span />
         </label>
       ))}
     </RadioSelect>
@@ -49,8 +55,9 @@ export const FormMultiCheckbox = ({ field, form: { touched, errors }, ...props }
     <CheckBoxes>
       {props.options.map((option, idx) => (
         <label key={idx}>
-          <input type="checkbox" {...field} value={option} />
           {option}
+          <input type="checkbox" {...field} value={option} />
+          <span />
         </label>
       ))}
     </CheckBoxes>

@@ -26,6 +26,7 @@ export default {
   },
   palette: palette,
   keyedPalette: {
+    // Colour names from http://chir.ag/projects/name-that-color/
     cherry: palette[0],
     brandPrimary: palette[1],
     crimson: palette[2],
@@ -40,8 +41,14 @@ export default {
     valencia: palette[11],
     lightPorcelain: palette[12],
     porcelain: palette[13],
-    white: '#fff',
+    black: '#000000',
+    white: '#ffffff',
     mineShaft: '#343434',
+    shuttleGrey: '#64666a',
+    silver: '#c0c0c0',
+    frenchGrey: '#CACBCF',
+    dodgerBlue: '#3B99FC',
+    keppel: '#39BA87',
   },
   transparency: {
     brandPrimary70: 'rgb(144,0,0,0.7)',

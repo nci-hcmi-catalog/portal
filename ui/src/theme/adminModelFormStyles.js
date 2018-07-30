@@ -1,25 +1,15 @@
-import { css } from 'emotion';
 import styled from 'react-emotion';
 import { Form } from 'formik';
 import base from 'theme';
 import { Row, Col } from 'theme/system';
 
 const {
-  fonts: { libreFranklin, openSans },
+  fonts: { libreFranklin },
   keyedPalette: { brandPrimary, lightPorcelain, porcelain },
 } = base;
 
 const bkgColour = lightPorcelain;
 const borderColour = porcelain;
-const black = '#000';
-
-const baseText = css`
-  font-size: 13px;
-  line-height: 2;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: normal;
-`;
 
 export const ModelForm = styled(Form)`
   width: 100%;
@@ -62,34 +52,4 @@ export const FormCol = styled(Col)`
     border-left: 1px solid ${borderColour};
     padding: 8px 24px 8px 48px;
   }
-`;
-
-export const FormBlock = styled('div')`
-  display: flex;
-  flex-direction: column;
-  font-family: ${libreFranklin};
-  margin-bottom: 24px;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-
-  label {
-    ${baseText};
-    color: ${black};
-    font-weight: 500;
-    text-transform: uppercase;
-  }
-`;
-
-export const FormFieldDesc = styled('div')`
-  ${baseText};
-  font-family: ${openSans};
-  font-style: italic;
-  color: #64666a;
-`;
-
-export const CheckBoxes = styled('div')`
-  display: flex;
-  flex-direction: column;
 `;
