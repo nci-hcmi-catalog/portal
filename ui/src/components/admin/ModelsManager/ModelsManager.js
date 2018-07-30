@@ -35,6 +35,7 @@ const content = () => {
       </AdminHeader>
       <Table>
         <TableHeader />
+
         <TableFooter />
       </Table>
     </AdminContainer>
