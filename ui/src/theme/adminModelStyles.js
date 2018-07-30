@@ -70,5 +70,6 @@ export const navItemIconActive = css`
 export const AdminModelContent = styled(AdminContent)`
   width: calc(100% - 164px);
   z-index: 1;
+  padding: 7px 8px;
   label: admin-model-content;
 `;
