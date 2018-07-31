@@ -4,6 +4,7 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import { get, intersection, isEmpty, xor, noop } from 'lodash';
 import jsonpath from 'jsonpath/jsonpath.min';
+import Component from 'react-component-component';
 
 export default props => {
   const { scrollbarSize, onPaginationChange, propsData, config } = props;
