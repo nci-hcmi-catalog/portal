@@ -4,7 +4,18 @@ import base from 'theme';
 
 const {
   fonts: { libreFranklin, openSans },
-  keyedPalette: { black, white, mineShaft, silver, shuttleGrey, frenchGrey, dodgerBlue, keppel },
+  keyedPalette: {
+    black,
+    white,
+    mineShaft,
+    lightPorcelain,
+    silver,
+    shuttleGrey,
+    frenchGrey,
+    dodgerBlue,
+    keppel,
+    silverChalice,
+  },
 } = base;
 
 const inputPrimaryColour = mineShaft;
@@ -13,6 +24,8 @@ const checkBoxRadioBorderColour = silver;
 const checkboxBlue = dodgerBlue;
 const radioColour = keppel;
 const fieldDescColour = shuttleGrey;
+const disabledBkgColour = lightPorcelain;
+const disabledTextColour = silverChalice;
 
 const baseText = css`
   font-size: 13px;
@@ -51,6 +64,11 @@ export const FormBlock = styled('div')`
 
     &:focus {
       border-radius: 0;
+    }
+
+    &:disabled {
+      background: ${disabledBkgColour};
+      color: ${disabledTextColour};
     }
   }
 `;

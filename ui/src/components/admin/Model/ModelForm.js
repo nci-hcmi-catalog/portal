@@ -30,6 +30,9 @@ const makeClinicalTumorDiagnosisDependentOptions = (clinical_tumor_diagnosis, fi
     v.toLowerCase(),
   );
 
+const isClinicalTumorDiagnosisSelected = values =>
+  !values.clinical_tumor_diagnosis || values.clinical_tumor_diagnosis === '0';
+
 const modelFormTemplate = ({
   values,
   //touched,
@@ -112,7 +115,7 @@ const modelFormTemplate = ({
           <Field
             name="site_of_sample_acquisition"
             component={FormSelect}
-            disabled={!values.clinical_tumor_diagnosis}
+            disabled={isClinicalTumorDiagnosisSelected(values)}
             options={makeClinicalTumorDiagnosisDependentOptions(
               values.clinical_tumor_diagnosis,
               'site of sample acquisition',
@@ -124,7 +127,7 @@ const modelFormTemplate = ({
           <Field
             name="histological_type"
             component={FormSelect}
-            disabled={!values.clinical_tumor_diagnosis}
+            disabled={isClinicalTumorDiagnosisSelected(values)}
             options={makeClinicalTumorDiagnosisDependentOptions(
               values.clinical_tumor_diagnosis,
               'histological type',
@@ -136,7 +139,7 @@ const modelFormTemplate = ({
           <Field
             name="tumor_histological_grade"
             component={FormSelect}
-            disabled={!values.clinical_tumor_diagnosis}
+            disabled={isClinicalTumorDiagnosisSelected(values)}
             options={makeClinicalTumorDiagnosisDependentOptions(
               values.clinical_tumor_diagnosis,
               'tumor histological grade',
@@ -148,7 +151,7 @@ const modelFormTemplate = ({
           <Field
             name="clinical_stage_grouping"
             component={FormSelect}
-            disabled={!values.clinical_tumor_diagnosis}
+            disabled={isClinicalTumorDiagnosisSelected(values)}
             options={makeClinicalTumorDiagnosisDependentOptions(
               values.clinical_tumor_diagnosis,
               'clinical stage grouping',

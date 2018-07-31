@@ -31,7 +31,8 @@ export const FormTextInput = ({ field, form: { touched, errors }, ...props }) =>
 
 export const FormSelect = ({ field, form: { touched, errors }, ...props }) => (
   <>
-    <select type="select" {...field}>
+    <select type="select" {...field} {...props}>
+      <option value="0">-- Select an Option --</option>
       {props.options.map((option, idx) => (
         <option key={idx} value={option}>
           {option}
@@ -44,7 +45,7 @@ export const FormSelect = ({ field, form: { touched, errors }, ...props }) => (
 
 export const FormRadioSelect = ({ field, form: { touched, errors }, ...props }) => (
   <>
-    <RadioSelect>
+    <RadioSelect {...props}>
       {props.options.map((option, idx) => (
         <label key={idx}>
           {option}
@@ -59,7 +60,7 @@ export const FormRadioSelect = ({ field, form: { touched, errors }, ...props }) 
 
 export const FormMultiCheckbox = ({ field, form: { touched, errors }, ...props }) => (
   <>
-    <CheckBoxes>
+    <CheckBoxes {...props}>
       {props.options.map((option, idx) => (
         <label key={idx}>
           {option}
