@@ -50,6 +50,7 @@ export default {
     dodgerBlue: '#3B99FC',
     keppel: '#39BA87',
     silverChalice: '#A8A8A8',
+    dawnPink: '#F3E4E4',
   },
   transparency: {
     brandPrimary70: 'rgb(144,0,0,0.7)',

@@ -5,6 +5,7 @@ import {
   FormFieldDesc,
   CheckBoxes,
   RadioSelect,
+  FormFieldError,
 } from 'theme/formComponentsStyles';
 
 export const FormComponent = ({
@@ -24,13 +25,14 @@ export const FormComponent = ({
 
 export const FormTextInput = ({ field, form: { touched, errors }, ...props }) => (
   <>
+    {touched[field.name] && errors[field.name] && <FormFieldError>{errors[field.name]}</FormFieldError>}
     <input type="text" {...field} {...props} />
-    {touched[field.name] && errors[field.name] && <div className="error">{errors[field.name]}</div>}
   </>
 );
 
 export const FormSelect = ({ field, form: { touched, errors }, ...props }) => (
   <>
+    {touched[field.name] && errors[field.name] && <FormFieldError>{errors[field.name]}</FormFieldError>}
     <select type="select" {...field} {...props}>
       <option value="0">-- Select an Option --</option>
       {props.options.map((option, idx) => (
@@ -39,12 +41,12 @@ export const FormSelect = ({ field, form: { touched, errors }, ...props }) => (
         </option>
       ))}
     </select>
-    {touched[field.name] && errors[field.name] && <div className="error">{errors[field.name]}</div>}
   </>
 );
 
 export const FormRadioSelect = ({ field, form: { touched, errors }, ...props }) => (
   <>
+    {touched[field.name] && errors[field.name] && <FormFieldError>{errors[field.name]}</FormFieldError>}
     <RadioSelect {...props}>
       {props.options.map((option, idx) => (
         <label key={idx}>
@@ -54,12 +56,12 @@ export const FormRadioSelect = ({ field, form: { touched, errors }, ...props }) 
         </label>
       ))}
     </RadioSelect>
-    {touched[field.name] && errors[field.name] && <div className="error">{errors[field.name]}</div>}
   </>
 );
 
 export const FormMultiCheckbox = ({ field, form: { touched, errors }, ...props }) => (
   <>
+    {touched[field.name] && errors[field.name] && <FormFieldError>{errors[field.name]}</FormFieldError>}
     <CheckBoxes {...props}>
       {props.options.map((option, idx) => (
         <label key={idx}>
@@ -69,6 +71,5 @@ export const FormMultiCheckbox = ({ field, form: { touched, errors }, ...props }
         </label>
       ))}
     </CheckBoxes>
-    {touched[field.name] && errors[field.name] && <div className="error">{errors[field.name]}</div>}
   </>
 );

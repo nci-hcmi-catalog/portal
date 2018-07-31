@@ -5,6 +5,7 @@ import base from 'theme';
 const {
   fonts: { libreFranklin, openSans },
   keyedPalette: {
+    brandPrimary,
     black,
     white,
     mineShaft,
@@ -15,6 +16,7 @@ const {
     dodgerBlue,
     keppel,
     silverChalice,
+    dawnPink,
   },
 } = base;
 
@@ -26,6 +28,7 @@ const radioColour = keppel;
 const fieldDescColour = shuttleGrey;
 const disabledBkgColour = lightPorcelain;
 const disabledTextColour = silverChalice;
+const errorBkgColour = dawnPink;
 
 const baseText = css`
   font-size: 13px;
@@ -38,6 +41,7 @@ const baseText = css`
 export const FormBlock = styled('div')`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   font-family: ${libreFranklin};
   margin-bottom: 16px;
 
@@ -47,6 +51,7 @@ export const FormBlock = styled('div')`
 
   input,
   select {
+    width: ${props => props.width || '100%'};
     height: 36px;
     padding: 0 12px;
     border-radius: 10px;
@@ -190,5 +195,31 @@ export const RadioSelect = styled('fieldset')`
       border-radius: 50%;
       background-color: ${radioColour};
     }
+  }
+`;
+
+export const FormFieldError = styled('div')`
+  position: relative;
+  font-family: ${openSans};
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1.5;
+  padding: 2px 6px;
+  color: ${brandPrimary};
+  border-radius: 5px;
+  background-color: ${errorBkgColour};
+  margin-bottom: 6px;
+
+  &::after {
+    display: block;
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: -5px;
+    left: 9px;
+    border-style: solid;
+    border-width: 5px 3px 0 3px;
+    border-color: ${errorBkgColour} transparent transparent transparent;
   }
 `;
