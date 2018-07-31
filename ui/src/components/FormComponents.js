@@ -8,7 +8,12 @@ import {
   CheckBoxes,
   RadioSelect,
   FormFieldError,
+  inputSelectErrorIcon,
+  checkboxRadioErrorIcon,
 } from 'theme/formComponentsStyles';
+import FormFieldErrorIcon from 'icons/FormFieldErrorIcon';
+
+const hasErrors = (errors, touched, fieldName) => touched[fieldName] && errors[fieldName];
 
 export const FormComponent = ({
   children,
@@ -27,17 +32,20 @@ export const FormComponent = ({
 
 export const FormTextInput = ({ field, form: { touched, errors }, ...props }) => (
   <>
-    {touched[field.name] &&
-      errors[field.name] && <FormFieldError>{errors[field.name]}</FormFieldError>}
-    <Input type="text" {...field} {...props} errors={touched[field.name] && errors[field.name]} />
+    {hasErrors(errors, touched, field.name) && (
+      <FormFieldError>{errors[field.name]}</FormFieldError>
+    )}
+    <Input type="text" {...field} {...props} errors={hasErrors(errors, touched, field.name)} />
+    {hasErrors(errors, touched, field.name) && <FormFieldErrorIcon css={inputSelectErrorIcon} />}
   </>
 );
 
 export const FormSelect = ({ field, form: { touched, errors }, ...props }) => (
   <>
-    {touched[field.name] &&
-      errors[field.name] && <FormFieldError>{errors[field.name]}</FormFieldError>}
-    <Select {...field} {...props} errors={touched[field.name] && errors[field.name]}>
+    {hasErrors(errors, touched, field.name) && (
+      <FormFieldError>{errors[field.name]}</FormFieldError>
+    )}
+    <Select {...field} {...props} errors={hasErrors(errors, touched, field.name)}>
       <option value="0">-- Select an Option --</option>
       {props.options.map((option, idx) => (
         <option key={idx} value={option}>
@@ -45,13 +53,18 @@ export const FormSelect = ({ field, form: { touched, errors }, ...props }) => (
         </option>
       ))}
     </Select>
+    {hasErrors(errors, touched, field.name) && <FormFieldErrorIcon css={inputSelectErrorIcon} />}
   </>
 );
 
 export const FormRadioSelect = ({ field, form: { touched, errors }, ...props }) => (
   <>
-    {touched[field.name] &&
-      errors[field.name] && <FormFieldError>{errors[field.name]}</FormFieldError>}
+    {hasErrors(errors, touched, field.name) && (
+      <FormFieldError>
+        {errors[field.name]}
+        <FormFieldErrorIcon css={checkboxRadioErrorIcon} />
+      </FormFieldError>
+    )}
     <RadioSelect {...props}>
       {props.options.map((option, idx) => (
         <label key={idx}>
@@ -66,8 +79,12 @@ export const FormRadioSelect = ({ field, form: { touched, errors }, ...props }) 
 
 export const FormMultiCheckbox = ({ field, form: { touched, errors }, ...props }) => (
   <>
-    {touched[field.name] &&
-      errors[field.name] && <FormFieldError>{errors[field.name]}</FormFieldError>}
+    {hasErrors(errors, touched, field.name) && (
+      <FormFieldError>
+        {errors[field.name]}
+        <FormFieldErrorIcon css={checkboxRadioErrorIcon} />
+      </FormFieldError>
+    )}
     <CheckBoxes {...props}>
       {props.options.map((option, idx) => (
         <label key={idx}>

@@ -39,6 +39,7 @@ const baseText = css`
 `;
 
 export const FormBlock = styled('div')`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -236,4 +237,24 @@ export const FormFieldError = styled('div')`
     border-width: 5px 3px 0 3px;
     border-color: ${errorBkgColour} transparent transparent transparent;
   }
+`;
+
+const errorIconBase = css`
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  margin: 0;
+  right: -31px;
+`;
+
+export const inputSelectErrorIcon = css`
+  ${errorIconBase};
+  bottom: 5px;
+`;
+
+export const checkboxRadioErrorIcon = css`
+  ${errorIconBase};
+  right: -31px;
+  top: 50%;
+  transform: translateY(-50%);
 `;
