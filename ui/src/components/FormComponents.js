@@ -3,6 +3,8 @@ import {
   FormBlock,
   FormBlockLabel,
   FormFieldDesc,
+  Input,
+  Select,
   CheckBoxes,
   RadioSelect,
   FormFieldError,
@@ -25,28 +27,31 @@ export const FormComponent = ({
 
 export const FormTextInput = ({ field, form: { touched, errors }, ...props }) => (
   <>
-    {touched[field.name] && errors[field.name] && <FormFieldError>{errors[field.name]}</FormFieldError>}
-    <input type="text" {...field} {...props} />
+    {touched[field.name] &&
+      errors[field.name] && <FormFieldError>{errors[field.name]}</FormFieldError>}
+    <Input type="text" {...field} {...props} errors={touched[field.name] && errors[field.name]} />
   </>
 );
 
 export const FormSelect = ({ field, form: { touched, errors }, ...props }) => (
   <>
-    {touched[field.name] && errors[field.name] && <FormFieldError>{errors[field.name]}</FormFieldError>}
-    <select type="select" {...field} {...props}>
+    {touched[field.name] &&
+      errors[field.name] && <FormFieldError>{errors[field.name]}</FormFieldError>}
+    <Select {...field} {...props} errors={touched[field.name] && errors[field.name]}>
       <option value="0">-- Select an Option --</option>
       {props.options.map((option, idx) => (
         <option key={idx} value={option}>
           {option}
         </option>
       ))}
-    </select>
+    </Select>
   </>
 );
 
 export const FormRadioSelect = ({ field, form: { touched, errors }, ...props }) => (
   <>
-    {touched[field.name] && errors[field.name] && <FormFieldError>{errors[field.name]}</FormFieldError>}
+    {touched[field.name] &&
+      errors[field.name] && <FormFieldError>{errors[field.name]}</FormFieldError>}
     <RadioSelect {...props}>
       {props.options.map((option, idx) => (
         <label key={idx}>
@@ -61,7 +66,8 @@ export const FormRadioSelect = ({ field, form: { touched, errors }, ...props }) 
 
 export const FormMultiCheckbox = ({ field, form: { touched, errors }, ...props }) => (
   <>
-    {touched[field.name] && errors[field.name] && <FormFieldError>{errors[field.name]}</FormFieldError>}
+    {touched[field.name] &&
+      errors[field.name] && <FormFieldError>{errors[field.name]}</FormFieldError>}
     <CheckBoxes {...props}>
       {props.options.map((option, idx) => (
         <label key={idx}>

@@ -48,34 +48,6 @@ export const FormBlock = styled('div')`
   &:last-child {
     margin-bottom: 0;
   }
-
-  input,
-  select {
-    width: ${props => props.width || '100%'};
-    height: 36px;
-    padding: 0 12px;
-    border-radius: 10px;
-    background-color: ${white};
-    border: solid 1px ${inputBorderColour};
-    font-family: ${openSans};
-    font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 36px;
-    letter-spacing: normal;
-    text-align: left;
-    color: ${inputPrimaryColour};
-
-    &:focus {
-      border-radius: 0;
-    }
-
-    &:disabled {
-      background: ${disabledBkgColour};
-      color: ${disabledTextColour};
-    }
-  }
 `;
 
 export const FormBlockLabel = styled('label')`
@@ -90,6 +62,48 @@ export const FormFieldDesc = styled('div')`
   font-family: ${openSans};
   font-style: italic;
   color: ${fieldDescColour};
+`;
+
+const fieldErrorStyles = css`
+  border-color: ${brandPrimary};
+`;
+
+const inputSelectSharedStyles = css`
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  background-color: ${white};
+  border: solid 1px ${inputBorderColour};
+  font-family: ${openSans};
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 36px;
+  letter-spacing: normal;
+  text-align: left;
+  color: ${inputPrimaryColour};
+
+  &:focus {
+    border-radius: 0;
+  }
+
+  &:disabled {
+    background: ${disabledBkgColour};
+    color: ${disabledTextColour};
+  }
+`;
+
+export const Input = styled('input')`
+  ${inputSelectSharedStyles};
+  width: ${props => props.width || '100%'};
+  ${props => !!props.errors && fieldErrorStyles};
+`;
+
+export const Select = styled('select')`
+  ${inputSelectSharedStyles};
+  width: ${props => props.width || '100%'};
+  ${props => !!props.errors && fieldErrorStyles};
 `;
 
 const checkboxRadioSharedStyles = css`
@@ -127,7 +141,7 @@ const checkboxRadioSharedStyles = css`
     width: 0;
     height: 0;
 
-    &:checked ~ span:after {
+    &:checked ~ span::after {
       display: block;
     }
   }
@@ -141,7 +155,7 @@ const checkboxRadioSharedStyles = css`
     background-color: ${white};
     border: solid 1px ${checkBoxRadioBorderColour};
 
-    &:after {
+    &::after {
       content: '';
       position: absolute;
       display: none;
@@ -161,7 +175,7 @@ export const CheckBoxes = styled('fieldset')`
   span {
     border-radius: 3px;
 
-    &:after {
+    &::after {
       left: 4px;
       top: 1px;
       width: 2px;
@@ -187,7 +201,7 @@ export const RadioSelect = styled('fieldset')`
   span {
     border-radius: 50%;
 
-    &:after {
+    &::after {
       left: 2px;
       top: 2px;
       width: 8px;
