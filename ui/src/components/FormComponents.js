@@ -1,4 +1,5 @@
 import React from 'react';
+import { FieldArray } from 'formik';
 import {
   FormBlock,
   FormBlockLabel,
@@ -78,21 +79,40 @@ export const FormRadioSelect = ({ field, form: { touched, errors }, ...props }) 
 );
 
 export const FormMultiCheckbox = ({ field, form: { touched, errors }, ...props }) => (
-  <>
-    {hasErrors(errors, touched, field.name) && (
-      <FormFieldError>
-        {errors[field.name]}
-        <FormFieldErrorIcon css={checkboxRadioErrorIcon} />
-      </FormFieldError>
+  <FieldArray
+    name={field.name}
+    render={arrayHelpers => (
+      <>
+        {hasErrors(errors, touched, field.name) && (
+          <FormFieldError>
+            {errors[field.name]}
+            <FormFieldErrorIcon css={checkboxRadioErrorIcon} />
+          </FormFieldError>
+        )}
+        <CheckBoxes {...props}>
+          {props.options.map((option, idx) => (
+            <label key={idx}>
+              {option}
+              <input
+                type="checkbox"
+                value={option}
+                checked={(props.values[field.name] || []).includes(option)}
+                name={field.name}
+                onChange={e => {
+                  if (e.target.checked) {
+                    arrayHelpers.push(option);
+                  } else {
+                    props.values[field.name] = props.values[field.name].filter(
+                      selectedOption => selectedOption !== option,
+                    );
+                  }
+                }}
+              />
+              <span />
+            </label>
+          ))}
+        </CheckBoxes>
+      </>
     )}
-    <CheckBoxes {...props}>
-      {props.options.map((option, idx) => (
-        <label key={idx}>
-          {option}
-          <input type="checkbox" {...field} value={option} />
-          <span />
-        </label>
-      ))}
-    </CheckBoxes>
-  </>
+  />
 );

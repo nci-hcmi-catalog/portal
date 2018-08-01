@@ -127,6 +127,7 @@ const modelFormTemplate = ({
             name={molecular_characterizations.accessor}
             component={FormMultiCheckbox}
             options={molecularCharacterizationsOptions}
+            values={values}
           />
         </FormComponent>
 
@@ -236,7 +237,12 @@ const modelFormTemplate = ({
         </FormComponent>
 
         <FormComponent labelText={therapy.displayName}>
-          <Field name={therapy.accessor} component={FormMultiCheckbox} options={therapyOptions} />
+          <Field
+            name={therapy.accessor}
+            component={FormMultiCheckbox}
+            options={genderOptions}
+            values={values}
+          />
         </FormComponent>
       </FormCol>
     </FormSection>
