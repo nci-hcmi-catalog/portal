@@ -7,8 +7,6 @@ export const Table = styled(Col)`
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  border-top: 6px solid white;
-  border-bottom: 6px solid white;
   label: admin-table;
 `;
 

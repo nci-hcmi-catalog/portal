@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'react-emotion';
 import ModelIcon from '../../../icons/ModelIcon';
-import { AdminContainer, AdminHeader } from 'theme/adminStyles';
+import { AdminContainer, AdminHeader, AdminContent } from 'theme/adminStyles';
 import { ControlPill } from 'theme/AdminControlsStlyes';
 import { Table, TableHeader, TableFooter } from 'theme/adminTableStyles';
 import ModelManagerTable from './ModelManagerTable';
+import { Row, Col } from 'theme/system';
 
 const Title = styled('div')`
   min-height: 50px;
@@ -34,11 +35,11 @@ const content = () => {
           <ControlPill last>Add A Model</ControlPill>
         </Controls>
       </AdminHeader>
-      <Table>
-        <TableHeader />
-        <ModelManagerTable />
-        <TableFooter />
-      </Table>
+      <AdminContent>
+        <Table>
+          <ModelManagerTable />
+        </Table>
+      </AdminContent>
     </AdminContainer>
   );
 };
