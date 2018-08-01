@@ -10,7 +10,16 @@ export default props => (
   <Fetcher url={'http://localhost:8080/api/v1/Model'} data={''} method="get">
     {fetcherProps => {
       const { data } = fetcherProps;
-      return <ReactTable columns={columns} data={data} />;
+      const scrollbarSize = {
+        scrollbarWidth: 10,
+      };
+      return (
+        <ReactTable
+          columns={columns}
+          data={data}
+          className={`-striped -highlight ${ReactTableStyle({ scrollbarSize })}`}
+        />
+      );
     }}
   </Fetcher>
 );
