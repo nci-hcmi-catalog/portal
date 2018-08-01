@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Component from 'react-component-component';
 import axios from 'axios';
 
@@ -14,11 +15,11 @@ export const post = async ({ url, data }) => {
   return await fetchData({ url, data, method: 'post' });
 };
 
-export const Fetcher = ({ url, data, method, children }) => (
+export const Fetcher = ({ url, data, method, children, ...props }) => (
   <Component
     initialState={{
       isLoading: true,
-      data: null,
+      data: [],
       error: null,
     }}
     didMount={async ({ setState }) => {
@@ -26,10 +27,19 @@ export const Fetcher = ({ url, data, method, children }) => (
         const response = await fetchData({ url, data, method });
         setState(() => ({ isLoading: false, data: response.data, error: null }));
       } catch (err) {
-        setState(() => ({ isLoading: false, data: null, error: err }));
+        setState(() => ({ isLoading: false, data: [], error: err }));
       }
     }}
   >
-    {({ state }) => children(state)}
+    {({ state }) =>
+      children({
+        ...state,
+        ...props,
+      })
+    }
   </Component>
 );
+
+Fetcher.propTypes = {
+  children: PropTypes.func.isRequired,
+};

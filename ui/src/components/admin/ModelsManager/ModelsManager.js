@@ -4,6 +4,7 @@ import ModelIcon from '../../../icons/ModelIcon';
 import { AdminContainer, AdminHeader } from 'theme/adminStyles';
 import { ControlPill } from 'theme/AdminControlsStlyes';
 import { Table, TableHeader, TableFooter } from 'theme/adminTableStyles';
+import ModelManagerTable from './ModelManagerTable';
 
 const Title = styled('div')`
   min-height: 50px;
@@ -35,6 +36,7 @@ const content = () => {
       </AdminHeader>
       <Table>
         <TableHeader />
+        <ModelManagerTable />
         <TableFooter />
       </Table>
     </AdminContainer>
