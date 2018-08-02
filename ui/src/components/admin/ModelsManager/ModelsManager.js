@@ -3,14 +3,12 @@ import styled from 'react-emotion';
 import ModelIcon from '../../../icons/ModelIcon';
 import { AdminContainer, AdminHeader, AdminContent } from 'theme/adminStyles';
 import { ControlPill } from 'theme/AdminControlsStlyes';
-import { Table, TableHeader, TableFooter } from 'theme/adminTableStyles';
+import { Table } from 'theme/adminTableStyles';
 import ModelManagerTable from './ModelManagerTable';
-import { Row, Col } from 'theme/system';
 
 const Title = styled('div')`
   min-height: 50px;
   align-items: center;
-  padding: 0 50px;
   display: inherit;
   label: models-manager-title;
 `;
@@ -18,7 +16,6 @@ const Title = styled('div')`
 const Controls = styled('div')`
   min-height: 50px;
   align-items: center;
-  padding: 0 50px;
   display: inherit;
   label: models-manager-controls;
 `;
@@ -35,11 +32,9 @@ const content = () => {
           <ControlPill last>Add A Model</ControlPill>
         </Controls>
       </AdminHeader>
-      <AdminContent>
-        <Table>
-          <ModelManagerTable />
-        </Table>
-      </AdminContent>
+      <Table>
+        <ModelManagerTable />
+      </Table>
     </AdminContainer>
   );
 };

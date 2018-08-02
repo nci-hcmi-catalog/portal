@@ -27,9 +27,7 @@ export default props => (
                 columns={columns}
                 data={data}
                 showPagination={data.length > 10}
-                className={`-striped -highlight ${ReactTableStyle({
-                  ...state,
-                })}`}
+                className={`-striped`}
                 defaultPageSize={state.defaultPageSize}
                 page={state.page}
                 PaginationComponent={props => (
