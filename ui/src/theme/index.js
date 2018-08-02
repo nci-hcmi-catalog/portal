@@ -42,6 +42,9 @@ export default {
     porcelain: palette[13],
     white: '#fff',
     mineShaft: '#343434',
+    sienna: '#d57046',
+    pelorousapprox: '#45b3c3',
+    dustyGray: '#969696',
   },
   transparency: {
     brandPrimary70: 'rgb(144,0,0,0.7)',

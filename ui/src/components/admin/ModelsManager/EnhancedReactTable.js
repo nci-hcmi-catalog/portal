@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import { columns } from './ModelColumns';
+import { ModelTableColumns } from './ModelColumns';
 import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
 import searchStyles from 'theme/searchStyles';
 import checkboxHOC from 'react-table/lib/hoc/selectTable';
@@ -18,7 +18,7 @@ export default props => (
           <EnhancedReactTable
             minRows={pageSize}
             loading={isLoading}
-            columns={columns}
+            columns={ModelTableColumns}
             data={data}
             showPagination={rowCount > 10}
             className={`-striped -highlight`}

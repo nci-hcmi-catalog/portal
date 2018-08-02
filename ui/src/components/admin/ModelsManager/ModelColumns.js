@@ -1,10 +1,21 @@
-export const columns = [
+import React from 'react';
+import {
+  UnpublishedChangesModel,
+  PublishedModel,
+  UnpublishedModel,
+} from '../../../theme/adminTableStyles';
+
+const columns = [
   {
-    Header: 'Model Name',
+    Header: 'id',
+    accessor: '_id',
+  },
+  {
+    Header: 'Name',
     accessor: 'model_name',
   },
   {
-    Header: 'Model Type',
+    Header: 'Type',
     accessor: 'model_type',
   },
   {
@@ -80,3 +91,24 @@ export const columns = [
     accessor: 'updatedAt',
   },
 ];
+
+const modelManagetSpecificColumns = [
+  {
+    Header: 'Status',
+    accessor: 'status',
+    Cell: row => {
+      let statusValue = (row.value || 'Unpublished').toLowerCase();
+      if (statusValue === 'unpublishedchanges') {
+        return <UnpublishedChangesModel>Unpublished Changes</UnpublishedChangesModel>;
+      } else if (statusValue === 'published') {
+        return <PublishedModel>Published</PublishedModel>;
+      } else {
+        return <UnpublishedModel>Unpublished</UnpublishedModel>;
+      }
+    },
+  },
+];
+
+export const ModelTableColumns = columns
+  .filter(col => ['_id', 'model_name', 'updatedAt', 'model_type'].includes(col.accessor))
+  .concat(modelManagetSpecificColumns);

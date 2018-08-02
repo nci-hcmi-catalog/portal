@@ -2,7 +2,7 @@ import styled from 'react-emotion';
 import { css } from 'emotion';
 import base from 'theme';
 const {
-  keyedPalette: { porcelain, white },
+  keyedPalette: { porcelain, white, sienna, dustyGray, pelorousapprox },
 } = base;
 
 const borderColour = porcelain;
@@ -16,9 +16,44 @@ export const Table = styled('div')`
   label: models-table-main;
 `;
 
-export const tableCheckbox = css`
-  &.ReactTable .rt-thead.-header {
-    padding-right: 10px;
-  }
-  label: models-table-checkbox;
+const tableStatusBase = css`
+  font-family: LibreFranklin;
+  font-size: 10px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 2.6;
+  letter-spacing: 0.2px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  color: ${white};
+`;
+
+export const UnpublishedModel = styled('span')`
+  width: 95px;
+  height: 22px;
+  border-radius: 11px;
+  background-color: ${dustyGray};
+  ${tableStatusBase} label: models-status-unpublished;
+`;
+
+export const UnpublishedChangesModel = styled('span')`
+  width: 149px;
+  height: 22px;
+  border-radius: 11px;
+  background-color: ${sienna};
+  ${tableStatusBase};
+  label: models-status-unpublished-changes;
+`;
+
+export const PublishedModel = styled('span')`
+  width: 80px;
+  height: 22px;
+  border-radius: 11px;
+  background-color: ${pelorousapprox};
+  ${tableStatusBase};
+  label: models-status-published;
 `;
