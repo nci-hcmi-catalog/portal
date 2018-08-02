@@ -9,7 +9,8 @@ export const ModelSchema = new mongoose.Schema(
           return /HCM-\w{4}-\d{4}.\w\d{2}/.test(v);
         },
         message:
-          '{VALUE} is not a valid HCMI model name (HCM-[4-letter Center code]-[4 number model code].[ICD10])',
+          '{VALUE} is not a valid HCMI model name (HCM-[4-letter Center code]-[4 number mod' +
+          'el code].[ICD10])',
       },
       required: [true, 'Model name is required'],
     },
@@ -39,6 +40,11 @@ export const ModelSchema = new mongoose.Schema(
     tumor_histological_grade: String,
     licensing_required: Boolean,
     tmn_stage: String,
+    status: {
+      type: String,
+      default: 'Unpublished',
+    },
+    updatedBy: String,
   },
   {
     timestamps: true,
