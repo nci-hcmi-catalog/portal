@@ -6,6 +6,10 @@ export const ModelsTableContext = React.createContext();
 const paginatedUrl = ({ baseUrl, page, pageSize }) =>
   baseUrl + `?skip=${page * pageSize}&limit=${pageSize}`;
 
+const getPageData = ({ baseUrl, page, pageSize }) => {
+  let url = paginatedUrl({ baseUrl, page, pageSize });
+  return fetchData({ url, data: '', method: 'get' });
+};
 export const ModelsTableProvider = ({ baseUrl, children, ...props }) => (
   <Component
     initialState={{
@@ -15,7 +19,6 @@ export const ModelsTableProvider = ({ baseUrl, children, ...props }) => (
       scrollbarSize: {
         scrollbarWidth: 10,
       },
-      defaultPageSize: 5,
       filterValue: '',
       selection: [],
       selectAll: false,
@@ -26,11 +29,10 @@ export const ModelsTableProvider = ({ baseUrl, children, ...props }) => (
     }}
     didMount={async ({ state, setState }) => {
       try {
-        const url = paginatedUrl({
+        const getData = getPageData({
           baseUrl,
           ...state,
         });
-        const getData = fetchData({ url, data: '', method: 'get' });
         const getCount = fetchData({
           url: baseUrl + `/count`,
           data: '',
@@ -47,6 +49,15 @@ export const ModelsTableProvider = ({ baseUrl, children, ...props }) => (
         setState(() => ({ isLoading: false, data: [], error: err }));
       }
     }}
+    didUpdate={async ({ state, setState, prevState }) => {
+      if (state.pageSize !== prevState.pageSize) {
+        const newPageData = await getPageData({
+          baseUrl,
+          ...state,
+        });
+        setState({ isLoading: false, data: newPageData.data });
+      }
+    }}
   >
     {({ state, setState }) => (
       <ModelsTableContext.Provider
@@ -54,6 +65,7 @@ export const ModelsTableProvider = ({ baseUrl, children, ...props }) => (
           state,
           onPageChange: newPage => setState({ page: newPage }),
           onFilterValueChange: newValue => setState({ filterValue: newValue }),
+          onPageSizeChange: newValue => setState({ pageSize: newValue, isLoading: true }),
         }}
         {...props}
       >

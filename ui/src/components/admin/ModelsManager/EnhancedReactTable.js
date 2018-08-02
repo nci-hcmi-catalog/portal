@@ -11,30 +11,33 @@ const EnhancedReactTable = checkboxHOC(ReactTable);
 
 export default props => (
   <ModelsTableContext.Consumer>
-    {({ state, onPageChange }) => {
-      const { isLoading, page, pageSize, data, rowCount, defaultPageSize } = state;
+    {({ state, onPageChange, onPageSizeChange }) => {
+      const { isLoading, page, pageSize, data, rowCount } = state;
       return (
         <div css={searchStyles}>
           <EnhancedReactTable
-            minRows={0}
+            minRows={pageSize}
             loading={isLoading}
             columns={columns}
             data={data}
             showPagination={rowCount > 10}
             className={`-striped -highlight`}
-            defaultPageSize={defaultPageSize}
+            defaultPageSize={pageSize}
+            pageSize={pageSize}
             page={page}
             PaginationComponent={props => (
               <CustomPagination
                 {...state}
                 {...{
                   pages: rowCount / pageSize,
-                  showPageSizeOptions: false,
+                  showPageSizeOptions: true,
+                  pageSizeOptions: [5, 20, 50, 100],
                   showPageJump: true,
                   canPrevious: true,
                   canNext: true,
                   maxPagesOptions: 10,
                   onPageChange: onPageChange,
+                  onPageSizeChange: onPageSizeChange,
                 }}
               />
             )}
