@@ -4,7 +4,7 @@ import { fetchData } from '../services/Fetcher';
 export const ModelsTableContext = React.createContext();
 
 const paginatedUrl = ({ baseUrl, page, pageSize }) =>
-  baseUrl + `?skip=${page * pageSize}&limit=${pageSize}`;
+  baseUrl + `?skip=${0}&limit=${page * pageSize + pageSize}`;
 
 const getPageData = ({ baseUrl, page, pageSize }) => {
   let url = paginatedUrl({ baseUrl, page, pageSize });
@@ -50,7 +50,7 @@ export const ModelsTableProvider = ({ baseUrl, children, ...props }) => (
       }
     }}
     didUpdate={async ({ state, setState, prevState }) => {
-      if (state.pageSize !== prevState.pageSize) {
+      if (state.pageSize !== prevState.pageSize || state.page !== prevState.page) {
         const newPageData = await getPageData({
           baseUrl,
           ...state,
@@ -63,9 +63,9 @@ export const ModelsTableProvider = ({ baseUrl, children, ...props }) => (
       <ModelsTableContext.Provider
         value={{
           state,
-          onPageChange: newPage => setState({ page: newPage }),
+          onPageChange: newPage => setState({ page: newPage, isLoading: true }),
           onFilterValueChange: newValue => setState({ filterValue: newValue }),
-          onPageSizeChange: newValue => setState({ pageSize: newValue, isLoading: true }),
+          onPageSizeChange: newValue => setState({ page: 0, pageSize: newValue, isLoading: true }),
         }}
         {...props}
       >

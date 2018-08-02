@@ -32,7 +32,7 @@ export default props => (
                   pages: rowCount / pageSize,
                   showPageSizeOptions: true,
                   pageSizeOptions: [5, 20, 50, 100],
-                  showPageJump: true,
+                  showPageJump: rowCount > pageSize,
                   canPrevious: true,
                   canNext: true,
                   maxPagesOptions: 10,
