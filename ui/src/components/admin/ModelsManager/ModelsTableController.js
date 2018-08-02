@@ -13,6 +13,8 @@ export const TableController = ({ children }) => (
       },
       defaultPageSize: 5,
       filterValue: '',
+      selection: [],
+      selectAll: false,
     }}
   >
     {({ state, setState }) =>

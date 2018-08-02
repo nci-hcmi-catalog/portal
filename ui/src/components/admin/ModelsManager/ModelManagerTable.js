@@ -9,6 +9,9 @@ import { TableController } from './ModelsTableController';
 import { Col } from 'theme/system';
 import ModelsToolbar from './ModelsToolbar';
 import searchStyles from 'theme/searchStyles';
+import checkboxHOC from 'react-table/lib/hoc/selectTable';
+
+const EnhancedReactTable = checkboxHOC(ReactTable);
 
 export default props => (
   <Fetcher url={'http://localhost:8080/api/v1/Model'} data={''} method="get">
@@ -21,13 +24,13 @@ export default props => (
               {...{ setState, ...state, rowCount: data.length }}
             />
             <div css={searchStyles}>
-              <ReactTable
+              <EnhancedReactTable
                 minRows={0}
                 loading={state.isLoading}
                 columns={columns}
                 data={data}
                 showPagination={data.length > 10}
-                className={`-striped`}
+                className={`-striped -highlight`}
                 defaultPageSize={state.defaultPageSize}
                 page={state.page}
                 PaginationComponent={props => (
@@ -45,6 +48,7 @@ export default props => (
                   />
                 )}
                 onPageChange={onPageChange}
+                {...{ selectAll: state.selectAll, selectType: 'checkbox' }}
               />
             </div>
           </Col>

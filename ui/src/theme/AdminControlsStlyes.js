@@ -12,6 +12,6 @@ export const ControlPill = styled('div')`
   color: #ffffff;
   margin-left: auto;
   margin-left: ${props => props.last && '20px'};
-  justify-content: space-between;
+  justify-content: flex-end;
   label: admin-control-pill;
 `;

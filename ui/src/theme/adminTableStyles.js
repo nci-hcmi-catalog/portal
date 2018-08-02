@@ -1,6 +1,5 @@
 import styled from 'react-emotion';
-import { Row } from 'theme/system';
-
+import { css } from 'emotion';
 import base from 'theme';
 const {
   keyedPalette: { porcelain, white },
@@ -15,4 +14,11 @@ export const Table = styled('div')`
   background: ${white};
   border: solid 1px ${borderColour};
   label: models-table-main;
+`;
+
+export const tableCheckbox = css`
+  &.ReactTable .rt-thead.-header {
+    padding-right: 10px;
+  }
+  label: models-table-checkbox;
 `;
