@@ -1,59 +1,15 @@
 import React from 'react';
-import { ReactTableStyle } from 'theme/adminTableStyles';
-import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import { Fetcher } from '../services/Fetcher';
-import { columns } from './ModelColumns';
-import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
-import { TableController } from './ModelsTableController';
+import { ModelsTableProvider } from './ModelsTableController';
 import { Col } from 'theme/system';
 import ModelsToolbar from './ModelsToolbar';
-import searchStyles from 'theme/searchStyles';
-import checkboxHOC from 'react-table/lib/hoc/selectTable';
-
-const EnhancedReactTable = checkboxHOC(ReactTable);
+import EnhancedReactTable from './EnhancedReactTable';
 
 export default props => (
-  <Fetcher url={'http://localhost:8080/api/v1/Model'} data={''} method="get">
-    {({ isLoading, data, ...fetcherProps }) => (
-      <TableController>
-        {({ setState, state, onPageChange }) => (
-          <Col>
-            <ModelsToolbar
-              rowCount={data.length}
-              {...{ setState, ...state, rowCount: data.length }}
-            />
-            <div css={searchStyles}>
-              <EnhancedReactTable
-                minRows={0}
-                loading={state.isLoading}
-                columns={columns}
-                data={data}
-                showPagination={data.length > 10}
-                className={`-striped -highlight`}
-                defaultPageSize={state.defaultPageSize}
-                page={state.page}
-                PaginationComponent={props => (
-                  <CustomPagination
-                    {...state}
-                    {...{
-                      pages: data.length / state.pageSize,
-                      showPageSizeOptions: false,
-                      showPageJump: true,
-                      canPrevious: true,
-                      canNext: true,
-                      maxPagesOptions: 10,
-                      onPageChange: onPageChange,
-                    }}
-                  />
-                )}
-                onPageChange={onPageChange}
-                {...{ selectAll: state.selectAll, selectType: 'checkbox' }}
-              />
-            </div>
-          </Col>
-        )}
-      </TableController>
-    )}
-  </Fetcher>
+  <ModelsTableProvider baseUrl={'http://localhost:8080/api/v1/Model'}>
+    <Col>
+      <ModelsToolbar />
+      <EnhancedReactTable />
+    </Col>
+  </ModelsTableProvider>
 );
