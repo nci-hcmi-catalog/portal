@@ -2,6 +2,7 @@ import React from 'react';
 import { withFormik, Field } from 'formik';
 import {
   FormComponent,
+  FormTextInput,
   FormSelect,
   FormRadioSelect,
   FormMultiCheckbox,
@@ -47,7 +48,7 @@ const modelFormTemplate = ({
     <FormSection>
       <FormCol>
         <FormComponent labelText="Name" description="Optional description of form field.">
-          <Field name="model_name" />
+          <Field name="model_name" component={FormTextInput} />
         </FormComponent>
 
         <FormComponent labelText="Model Type">
@@ -62,11 +63,11 @@ const modelFormTemplate = ({
           labelText="Model Growth Rate"
           description="This must be a number between 5 and 90"
         >
-          <Field name="growth_rate" />
+          <Field name="growth_rate" component={FormTextInput} />
         </FormComponent>
 
         <FormComponent labelText="Primary Site">
-          <Field name="primary_site" />
+          <Field name="primary_site" component={FormTextInput} />
         </FormComponent>
 
         <FormComponent labelText="Neoadjuvant Therapy">
@@ -78,7 +79,7 @@ const modelFormTemplate = ({
         </FormComponent>
 
         <FormComponent labelText="TMN Stage (NEEDS CUSTOM COMPONENT)">
-          <Field name="tmn_stage" />
+          <Field name="tmn_stage" component={FormTextInput} />
         </FormComponent>
       </FormCol>
 
@@ -163,11 +164,11 @@ const modelFormTemplate = ({
     <FormSection>
       <FormCol>
         <FormComponent labelText="Age at Diagnosis">
-          <Field name="age_at_diagnosis" />
+          <Field name="age_at_diagnosis" component={FormTextInput} />
         </FormComponent>
 
         <FormComponent labelText="Age at Sample Acquisition">
-          <Field name="age_at_sample_acquisition" />
+          <Field name="age_at_sample_acquisition" component={FormTextInput} />
         </FormComponent>
 
         <FormComponent labelText="Vital Status">
