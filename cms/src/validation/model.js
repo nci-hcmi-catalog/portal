@@ -26,8 +26,8 @@ const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis, fie
       ),
     );
 
-const arrItemIsOneOf = options => value => {
-  return value.reduce((acc, curr) => {
+const arrItemIsOneOf = options => values => {
+  return values.reduce((acc, curr) => {
     if (acc === false) {
       return false;
     } else {
@@ -92,6 +92,7 @@ export default object().shape({
     .oneOf(therapy),
   molecular_characterizations: array()
     .of(string().lowercase())
+    .ensure()
     .test(
       'is-one-of',
       `Molecular Characterizations can only be one of: ${molecularCharacterizations.join(', ')}`,
