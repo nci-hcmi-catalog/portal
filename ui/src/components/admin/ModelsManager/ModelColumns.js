@@ -116,7 +116,7 @@ const modelManagetSpecificColumns = [
     Cell: row => {
       return (
         <Actions>
-          <ActionPill>
+          <ActionPill onClick={row => console.log(row)}>
             <PencilIcon
               css={`
                 width: 20px;
@@ -125,7 +125,7 @@ const modelManagetSpecificColumns = [
             />{' '}
             Edit{' '}
           </ActionPill>
-          <ActionPill>...</ActionPill>
+          <ActionPill onClick={row => console.log('... clicked')}>...</ActionPill>
         </Actions>
       );
     },

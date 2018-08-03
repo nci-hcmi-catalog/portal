@@ -66,6 +66,11 @@ export const ActionPill = styled('span')`
   background-color: ${white};
   color: ${brandPrimary};
   justify-content: space-between;
+  cursor: pointer;
+  :active {
+    background-color: ${brandPrimary};
+    color: ${white};
+  }
   label: model-action-pill;
 `;
 
