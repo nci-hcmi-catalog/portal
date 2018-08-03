@@ -29,6 +29,8 @@ export const ModelSchema = new mongoose.Schema(
     tumor_histological_grade: String,
     licensing_required: Boolean,
     tmn_stage: String,
+    source_model_url: String,
+    source_sequence_url: String,
   },
   {
     timestamps: true,

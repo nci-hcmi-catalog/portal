@@ -116,4 +116,6 @@ export default object().shape({
   tumor_histological_grade: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
     makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'tumor histological grade'),
   ),
+  source_model_url: string().url(),
+  source_sequence_url: string().url(),
 });

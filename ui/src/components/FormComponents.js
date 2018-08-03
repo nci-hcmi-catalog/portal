@@ -1,5 +1,4 @@
 import React from 'react';
-import { FieldArray } from 'formik';
 import {
   FormBlock,
   FormBlockLabel,

@@ -107,6 +107,14 @@ export const schemaArr = [
     displayName: 'UpdatedAt',
     accessor: 'updatedAt',
   },
+  {
+    displayName: 'Model URL',
+    accessor: 'source_model_url',
+  },
+  {
+    displayName: 'Sequence URL',
+    accessor: 'source_sequence_url',
+  },
 ];
 
 export const schemaObj = schemaArr.reduce((acc, curr) => {

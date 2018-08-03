@@ -59,6 +59,8 @@ const {
   therapy,
   date_of_availability,
   licensing_required,
+  source_model_url,
+  source_sequence_url,
 } = schemaObj;
 
 const modelFormTemplate = ({
@@ -267,7 +269,14 @@ const modelFormTemplate = ({
 
       <FormCol>
         <label>External Resources</label>
-        TWO URLS CURRENTLY NOT IN YUP SCHEMA
+
+        <FormComponent labelText={source_model_url.displayName}>
+          <Field name={source_model_url.accessor} component={FormTextInput} />
+        </FormComponent>
+
+        <FormComponent labelText={source_sequence_url.displayName}>
+          <Field name={source_sequence_url.accessor} component={FormTextInput} />
+        </FormComponent>
       </FormCol>
     </FormSection>
   </ModelForm>
