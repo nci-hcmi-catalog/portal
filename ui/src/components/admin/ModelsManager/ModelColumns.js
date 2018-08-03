@@ -5,8 +5,11 @@ import {
   UnpublishedModel,
   ActionPill,
   Actions,
+  ActionsMenu,
+  ActionsMenuItem,
 } from '../../../theme/adminTableStyles';
 import PencilIcon from 'react-icons/lib/fa/pencil';
+import Popup from 'reactjs-popup';
 
 const columns = [
   {
@@ -125,7 +128,26 @@ const modelManagetSpecificColumns = [
             />{' '}
             Edit{' '}
           </ActionPill>
-          <ActionPill onClick={row => console.log('... clicked')}>...</ActionPill>
+          <Popup
+            trigger={<ActionPill onClick={row => console.log('... clicked')}> ...</ActionPill>}
+            position="left"
+            offset={0}
+            on="click"
+            closeOnDocumentClick
+            mouseLeaveDelay={300}
+            mouseEnterDelay={0}
+            contentStyle={{
+              padding: '0px',
+              border: 'none',
+              width: 'max-content',
+            }}
+            arrow={false}
+          >
+            <ActionsMenu>
+              <ActionsMenuItem>Publish</ActionsMenuItem>
+              <ActionsMenuItem>Delete</ActionsMenuItem>
+            </ActionsMenu>
+          </Popup>
         </Actions>
       );
     },

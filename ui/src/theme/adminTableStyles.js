@@ -2,8 +2,21 @@ import styled from 'react-emotion';
 import { css } from 'emotion';
 import base from 'theme';
 const {
-  keyedPalette: { porcelain, white, sienna, dustyGray, pelorousapprox, brandPrimary },
+  keyedPalette: {
+    porcelain,
+    white,
+    sienna,
+    dustyGray,
+    pelorousapprox,
+    brandPrimary,
+    iron,
+    mystic,
+    black,
+    lightBlack,
+    darkBlack,
+  },
   buttons: { pillBase },
+  fonts: { openSans, libreFranklin },
 } = base;
 
 const borderColour = porcelain;
@@ -18,7 +31,7 @@ export const Table = styled('div')`
 `;
 
 const tableStatusBase = css`
-  font-family: LibreFranklin;
+  font-family: ${libreFranklin};
   font-size: 10px;
   font-weight: normal;
   font-style: normal;
@@ -38,7 +51,8 @@ export const UnpublishedModel = styled('span')`
   height: 22px;
   border-radius: 11px;
   background-color: ${dustyGray};
-  ${tableStatusBase} label: models-status-unpublished;
+  ${tableStatusBase};
+  label: models-status-unpublished;
 `;
 
 export const UnpublishedChangesModel = styled('span')`
@@ -78,4 +92,33 @@ export const Actions = styled('div')`
   align-items: center;
   display: inline-block;
   label: model-actions;
+`;
+
+export const ActionsMenu = styled('div')`
+  width: max-content;
+  height: 72px;
+  box-shadow: 1px 1.7px 4px 0 ${lightBlack};
+  background-color: ${white};
+  border: solid 1px ${iron};
+  display: flex;
+  flex-direction: column;
+  label: actions-menu;
+`;
+
+export const ActionsMenuItem = styled('div')`
+  cursor: pointer;
+  padding: 5px;
+  height: 28px;
+  background-color: ${white};
+  :active {
+    background-color: ${lightBlack};
+  }
+  :hover {
+    background-color: ${mystic};
+  }
+  ${tableStatusBase};
+  font-family: ${openSans};
+  color: ${black};
+  text-shadow: 0px 4px 8px ${darkBlack};
+  label: actions-menu-item;
 `;

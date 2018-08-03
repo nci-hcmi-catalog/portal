@@ -45,6 +45,11 @@ export default {
     sienna: '#d57046',
     pelorousapprox: '#45b3c3',
     dustyGray: '#969696',
+    iron: '#cdd4d9',
+    mystic: '#ebf1f3',
+    black: '#000000',
+    lightBlack: 'rgba(0, 0, 0, 0.23)',
+    darkBlack: 'rgba(0, 0, 0, 0.35)',
   },
   transparency: {
     brandPrimary70: 'rgb(144,0,0,0.7)',
