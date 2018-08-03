@@ -166,6 +166,34 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
           ],
         },
       },
+      scale_bar_length: {
+        type: 'long',
+        [EXTENSIONS_KEY]: {
+          [FAKER_KEY]: {
+            min: 100,
+            max: 500,
+          },
+        },
+      },
+      magnification: {
+        type: 'keyword',
+        [EXTENSIONS_KEY]: {
+          [FAKER_KEY]: [
+            '100x',
+            '500x',
+            '1000x',
+          ],
+        },
+      },
+      passage_number: {
+        type: 'long',
+      [EXTENSIONS_KEY]: {
+        [FAKER_KEY]: {
+          min: 2,
+          max: 10,
+          },
+        },
+      },
     },
   },
   gender: {
