@@ -49,8 +49,8 @@ export const FormSelect = ({ field, form: { touched, errors }, ...props }) => (
     <Select {...field} {...props} errors={hasErrors(errors, touched, field.name)}>
       <option value="0">-- Select an Option --</option>
       {props.options.map((option, idx) => (
-        <option key={idx} value={option}>
-          {option}
+        <option key={idx} value={option.value || option}>
+          {option.name || option}
         </option>
       ))}
     </Select>
@@ -69,8 +69,8 @@ export const FormRadioSelect = ({ field, form: { touched, errors }, ...props }) 
     <RadioSelect {...props}>
       {props.options.map((option, idx) => (
         <label key={idx}>
-          {option}
-          <input type="radio" {...field} value={option} />
+          {option.name || option}
+          <input type="radio" {...field} value={option.value || option} />
           <span />
         </label>
       ))}
@@ -84,7 +84,7 @@ export const FormMultiCheckbox = ({
   ...props
 }) => {
   const fieldName = field.name;
-  const values = props.values[fieldName] || [];
+  const options = props.values[fieldName] || [];
   return (
     <>
       {hasErrors(errors, touched, fieldName) && (
@@ -94,25 +94,29 @@ export const FormMultiCheckbox = ({
         </FormFieldError>
       )}
       <CheckBoxes {...props}>
-        {props.options.map((option, idx) => (
-          <label key={idx}>
-            {option}
-            <input
-              type="checkbox"
-              value={option}
-              checked={values.includes(option)}
-              name={fieldName}
-              onChange={e => {
-                const newSelects = e.target.checked
-                  ? values.concat([option])
-                  : values.filter(value => value !== option);
-                setFieldValue(fieldName, newSelects);
-                setFieldTouched(fieldName);
-              }}
-            />
-            <span />
-          </label>
-        ))}
+        {props.options.map((option, idx) => {
+          const name = option.name || option;
+          const value = option.value || option;
+          return (
+            <label key={idx}>
+              {name}
+              <input
+                type="checkbox"
+                value={value}
+                checked={options.includes(value)}
+                name={fieldName}
+                onChange={e => {
+                  const newSelects = e.target.checked
+                    ? options.concat([value])
+                    : options.filter(option => option !== value);
+                  setFieldValue(fieldName, newSelects);
+                  setFieldTouched(fieldName);
+                }}
+              />
+              <span />
+            </label>
+          );
+        })}
       </CheckBoxes>
     </>
   );
