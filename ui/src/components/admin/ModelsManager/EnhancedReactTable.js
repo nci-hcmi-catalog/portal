@@ -31,7 +31,7 @@ export default props => (
                 {...{
                   pages: rowCount / pageSize,
                   showPageSizeOptions: true,
-                  pageSizeOptions: [5, 20, 50, 100],
+                  pageSizeOptions: [10, 20, 50, 100],
                   showPageJump: rowCount > pageSize,
                   canPrevious: true,
                   canNext: true,

@@ -50,6 +50,7 @@ export default {
     black: '#000000',
     lightBlack: 'rgba(0, 0, 0, 0.23)',
     darkBlack: 'rgba(0, 0, 0, 0.35)',
+    shuttleGray: '#64666a',
   },
   transparency: {
     brandPrimary70: 'rgb(144,0,0,0.7)',
