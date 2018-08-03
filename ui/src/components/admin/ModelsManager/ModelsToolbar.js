@@ -42,7 +42,7 @@ export default props => (
                 align-items: center;
                 padding-right: 5px;
                 display: 'inherit';
-                width: 100%;
+                width: max-content;
               `}
             >
               {' '}
@@ -81,6 +81,7 @@ export default props => (
                         color: #64666a;
                         alignitems: center;
                         align-items: center;
+                        text-transform: none;
                       `}
                       onClick={() => console.log('Bulk Actions clicked')}
                     >
@@ -88,7 +89,7 @@ export default props => (
                     </ActionPill>
                   </div>
                 )}
-                position="bottom left"
+                position="bottom right"
                 offset={0}
                 on="click"
                 closeOnDocumentClick
