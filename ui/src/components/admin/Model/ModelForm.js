@@ -6,6 +6,7 @@ import {
   FormSelect,
   FormRadioSelect,
   FormMultiCheckbox,
+  FromLabelHeader,
 } from 'components/FormComponents';
 import { ModelForm, FormHeader, FormSection, FormCol } from 'theme/adminModelFormStyles';
 import modelValidation from '@hcmi-portal/cms/src/validation/model';
@@ -268,7 +269,10 @@ const modelFormTemplate = ({
       </FormCol>
 
       <FormCol>
-        <label>External Resources</label>
+        <FromLabelHeader
+          labelText="External Resources"
+          description="Please provide urls to GDC or EGA"
+        />
 
         <FormComponent labelText={source_model_url.displayName}>
           <Field name={source_model_url.accessor} component={FormTextInput} />

@@ -120,3 +120,10 @@ export const FormMultiCheckbox = ({
     </>
   );
 };
+
+export const FromLabelHeader = ({ labelText, description }) => (
+  <FormBlock>
+    <FormBlockLabel>{labelText}:</FormBlockLabel>
+    {description && <FormFieldDesc>{description}</FormFieldDesc>}
+  </FormBlock>
+);
