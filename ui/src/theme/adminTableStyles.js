@@ -2,7 +2,8 @@ import styled from 'react-emotion';
 import { css } from 'emotion';
 import base from 'theme';
 const {
-  keyedPalette: { porcelain, white, sienna, dustyGray, pelorousapprox },
+  keyedPalette: { porcelain, white, sienna, dustyGray, pelorousapprox, brandPrimary },
+  buttons: { pillBase },
 } = base;
 
 const borderColour = porcelain;
@@ -56,4 +57,20 @@ export const PublishedModel = styled('span')`
   background-color: ${pelorousapprox};
   ${tableStatusBase};
   label: models-status-published;
+`;
+
+export const ActionPill = styled('span')`
+  ${pillBase};
+  display: inline-block;
+  width: max-content;
+  background-color: ${white};
+  color: ${brandPrimary};
+  justify-content: space-between;
+  label: model-action-pill;
+`;
+
+export const Actions = styled('div')`
+  align-items: center;
+  display: inline-block;
+  label: model-actions;
 `;

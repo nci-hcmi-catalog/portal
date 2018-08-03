@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'react-emotion';
 import ModelIcon from '../../../icons/ModelIcon';
 import { AdminContainer, AdminHeader, AdminContent } from 'theme/adminStyles';
-import { ControlPill } from 'theme/AdminControlsStlyes';
+import { ControlPill, Controls } from 'theme/AdminControlsStlyes';
 import { Table } from 'theme/adminTableStyles';
 import ModelManagerTable from './ModelManagerTable';
 
@@ -11,13 +11,6 @@ const Title = styled('div')`
   align-items: center;
   display: inherit;
   label: models-manager-title;
-`;
-
-const Controls = styled('div')`
-  min-height: 50px;
-  align-items: center;
-  display: inherit;
-  label: models-manager-controls;
 `;
 
 const content = () => {

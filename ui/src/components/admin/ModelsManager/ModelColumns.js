@@ -3,7 +3,10 @@ import {
   UnpublishedChangesModel,
   PublishedModel,
   UnpublishedModel,
+  ActionPill,
+  Actions,
 } from '../../../theme/adminTableStyles';
+import PencilIcon from 'react-icons/lib/fa/pencil';
 
 const columns = [
   {
@@ -107,8 +110,28 @@ const modelManagetSpecificColumns = [
       }
     },
   },
+  {
+    Header: 'Actions',
+    accessor: 'actions',
+    Cell: row => {
+      return (
+        <Actions>
+          <ActionPill>
+            <PencilIcon
+              css={`
+                width: 20px;
+                padding-right: 5px;
+              `}
+            />{' '}
+            Edit{' '}
+          </ActionPill>
+          <ActionPill>...</ActionPill>
+        </Actions>
+      );
+    },
+  },
 ];
 
 export const ModelTableColumns = columns
-  .filter(col => ['_id', 'model_name', 'updatedAt', 'model_type'].includes(col.accessor))
+  .filter(col => ['model_name', 'updatedAt', 'model_type'].includes(col.accessor))
   .concat(modelManagetSpecificColumns);
