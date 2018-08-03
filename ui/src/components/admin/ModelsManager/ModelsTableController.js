@@ -15,7 +15,7 @@ export const ModelsTableProvider = ({ baseUrl, children, ...props }) => (
     initialState={{
       minRows: 0,
       page: 0,
-      pageSize: 5,
+      pageSize: 10,
       scrollbarSize: {
         scrollbarWidth: 10,
       },

@@ -10,6 +10,7 @@ import {
 } from '../../../theme/adminTableStyles';
 import PencilIcon from 'react-icons/lib/fa/pencil';
 import Popup from 'reactjs-popup';
+import { modelEditUrlBase } from '../AdminNav';
 
 const columns = [
   {
@@ -115,11 +116,12 @@ const modelManagetSpecificColumns = [
   },
   {
     Header: 'Actions',
-    accessor: 'actions',
+    accessor: 'model_name',
     Cell: row => {
+      const data = row;
       return (
         <Actions>
-          <ActionPill onClick={row => console.log(row)}>
+          <ActionPill to={modelEditUrlBase + '/' + data.value}>
             <PencilIcon
               css={`
                 width: 20px;
@@ -129,7 +131,7 @@ const modelManagetSpecificColumns = [
             Edit{' '}
           </ActionPill>
           <Popup
-            trigger={<ActionPill onClick={row => console.log('... clicked')}> ...</ActionPill>}
+            trigger={<ActionPill to={row => console.log('... clicked')}> ...</ActionPill>}
             position="left"
             offset={0}
             on="click"

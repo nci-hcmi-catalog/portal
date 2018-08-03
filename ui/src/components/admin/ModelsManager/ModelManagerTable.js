@@ -1,5 +1,4 @@
 import React from 'react';
-import 'react-table/react-table.css';
 import { ModelsTableProvider } from './ModelsTableController';
 import { Col } from 'theme/system';
 import ModelsToolbar from './ModelsToolbar';

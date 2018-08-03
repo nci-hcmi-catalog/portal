@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactTable from 'react-table';
-import 'react-table/react-table.css';
 import { ModelTableColumns } from './ModelColumns';
 import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
 import searchStyles from 'theme/searchStyles';

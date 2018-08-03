@@ -24,6 +24,9 @@ export default css`
     font-weight: 500;
   }
 
+  .ReactTable a {
+    color: ${linkColor};
+  }
   .ReactTable.-striped .rt-th {
     background-color: #fef7eb;
   }
