@@ -26,6 +26,16 @@ const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis, fie
       ),
     );
 
+const arrItemIsOneOf = options => value => {
+  return value.reduce((acc, curr) => {
+    if (acc === false) {
+      return false;
+    } else {
+      return options.includes(curr);
+    }
+  }, true);
+};
+
 export default object().shape({
   model_name: string()
     .required()
@@ -80,11 +90,13 @@ export default object().shape({
   therapy: string()
     .lowercase()
     .oneOf(therapy),
-  molecular_characterizations: array().of(
-    string()
-      .lowercase()
-      .oneOf(molecularCharacterizations),
-  ),
+  molecular_characterizations: array()
+    .of(string().lowercase())
+    .test(
+      'is-one-of',
+      `Molecular Characterizations can only be one of: ${molecularCharacterizations.join(', ')}`,
+      arrItemIsOneOf(molecularCharacterizations),
+    ),
   clinical_tumor_diagnosis: string()
     .lowercase()
     .oneOf(clinicalTumorDiagnosis),
