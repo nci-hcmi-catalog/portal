@@ -3,20 +3,20 @@ import { css } from 'emotion';
 const [openSans, libreFranklin] = ['"Open Sans", sans-serif', '"Libre Franklin", sans-seif'];
 
 const palette = [
-  '#790c2a',
-  '#900000',
-  '#e82e2a',
-  '#f84d52',
-  '#fa7477',
-  '#f25e46',
-  '#fd7746',
-  '#ef904b',
-  '#fdab40',
-  '#f8bb4a',
-  '#fae8ca',
-  '#d3494d',
-  '#f3f6f7',
-  '#e1e5e7',
+  '#790c2a', // 0   - cherry
+  '#900000', // 1   - brandPrimary
+  '#e82e2a', // 2   - crimson
+  '#f84d52', // 3   - carnation
+  '#fa7477', // 4   - froly
+  '#f25e46', // 5   - flamingo
+  '#fd7746', // 6   - coral
+  '#ef904b', // 7   - jaffa
+  '#fdab40', // 8   - yellowOrange
+  '#f8bb4a', // 9   - casablanca
+  '#fae8ca', // 10  - champagne
+  '#d3494d', // 11  - valencia
+  '#f3f6f7', // 12  - lightPorcelain
+  '#e1e5e7', // 13  - porcelain
 ];
 
 export default {
@@ -58,6 +58,8 @@ export default {
     frenchGrey: '#CACBCF',
     dodgerBlue: '#3B99FC',
     keppel: '#39BA87',
+    silverChalice: '#A8A8A8',
+    dawnPink: '#F3E4E4',
   },
   transparency: {
     brandPrimary70: 'rgb(144,0,0,0.7)',

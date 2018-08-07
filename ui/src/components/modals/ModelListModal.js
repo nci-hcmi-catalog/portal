@@ -21,7 +21,6 @@ const EmptyList = () => (
   <div className="empty-list">
     <img src={modelListEmptyRedPlus} alt="Add to list icon" width="26" height="30" />
     <p>You don’t have any models selected.</p>
-    <a href="/">Browse models »</a>
   </div>
 );
 

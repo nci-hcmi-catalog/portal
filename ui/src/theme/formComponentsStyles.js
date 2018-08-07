@@ -4,7 +4,20 @@ import base from 'theme';
 
 const {
   fonts: { libreFranklin, openSans },
-  keyedPalette: { black, white, mineShaft, silver, shuttleGrey, frenchGrey, dodgerBlue, keppel },
+  keyedPalette: {
+    brandPrimary,
+    black,
+    white,
+    mineShaft,
+    lightPorcelain,
+    silver,
+    shuttleGrey,
+    frenchGrey,
+    dodgerBlue,
+    keppel,
+    silverChalice,
+    dawnPink,
+  },
 } = base;
 
 const inputPrimaryColour = mineShaft;
@@ -13,6 +26,9 @@ const checkBoxRadioBorderColour = silver;
 const checkboxBlue = dodgerBlue;
 const radioColour = keppel;
 const fieldDescColour = shuttleGrey;
+const disabledBkgColour = lightPorcelain;
+const disabledTextColour = silverChalice;
+const errorBkgColour = dawnPink;
 
 const baseText = css`
   font-size: 13px;
@@ -23,35 +39,15 @@ const baseText = css`
 `;
 
 export const FormBlock = styled('div')`
+  position: relative;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   font-family: ${libreFranklin};
   margin-bottom: 16px;
 
   &:last-child {
     margin-bottom: 0;
-  }
-
-  input,
-  select {
-    height: 36px;
-    padding: 0 12px;
-    border-radius: 10px;
-    background-color: ${white};
-    border: solid 1px ${inputBorderColour};
-    font-family: ${openSans};
-    font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 36px;
-    letter-spacing: normal;
-    text-align: left;
-    color: ${inputPrimaryColour};
-
-    &:focus {
-      border-radius: 0;
-    }
   }
 `;
 
@@ -67,6 +63,48 @@ export const FormFieldDesc = styled('div')`
   font-family: ${openSans};
   font-style: italic;
   color: ${fieldDescColour};
+`;
+
+const fieldErrorStyles = css`
+  border-color: ${brandPrimary};
+`;
+
+const inputSelectSharedStyles = css`
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 10px;
+  background-color: ${white};
+  border: solid 1px ${inputBorderColour};
+  font-family: ${openSans};
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 36px;
+  letter-spacing: normal;
+  text-align: left;
+  color: ${inputPrimaryColour};
+
+  &:focus {
+    border-radius: 0;
+  }
+
+  &:disabled {
+    background: ${disabledBkgColour};
+    color: ${disabledTextColour};
+  }
+`;
+
+export const Input = styled('input')`
+  ${inputSelectSharedStyles};
+  width: ${props => props.width || '100%'};
+  ${props => !!props.errors && fieldErrorStyles};
+`;
+
+export const Select = styled('select')`
+  ${inputSelectSharedStyles};
+  width: ${props => props.width || '100%'};
+  ${props => !!props.errors && fieldErrorStyles};
 `;
 
 const checkboxRadioSharedStyles = css`
@@ -104,7 +142,7 @@ const checkboxRadioSharedStyles = css`
     width: 0;
     height: 0;
 
-    &:checked ~ span:after {
+    &:checked ~ span::after {
       display: block;
     }
   }
@@ -118,7 +156,7 @@ const checkboxRadioSharedStyles = css`
     background-color: ${white};
     border: solid 1px ${checkBoxRadioBorderColour};
 
-    &:after {
+    &::after {
       content: '';
       position: absolute;
       display: none;
@@ -138,7 +176,7 @@ export const CheckBoxes = styled('fieldset')`
   span {
     border-radius: 3px;
 
-    &:after {
+    &::after {
       left: 4px;
       top: 1px;
       width: 2px;
@@ -164,7 +202,7 @@ export const RadioSelect = styled('fieldset')`
   span {
     border-radius: 50%;
 
-    &:after {
+    &::after {
       left: 2px;
       top: 2px;
       width: 8px;
@@ -173,4 +211,50 @@ export const RadioSelect = styled('fieldset')`
       background-color: ${radioColour};
     }
   }
+`;
+
+export const FormFieldError = styled('div')`
+  position: relative;
+  font-family: ${openSans};
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1.5;
+  padding: 2px 6px;
+  color: ${brandPrimary};
+  border-radius: 5px;
+  background-color: ${errorBkgColour};
+  margin-bottom: 6px;
+
+  &::after {
+    display: block;
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: -5px;
+    left: 9px;
+    border-style: solid;
+    border-width: 5px 3px 0 3px;
+    border-color: ${errorBkgColour} transparent transparent transparent;
+  }
+`;
+
+const errorIconBase = css`
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  margin: 0;
+  right: -31px;
+`;
+
+export const inputSelectErrorIcon = css`
+  ${errorIconBase};
+  bottom: 5px;
+`;
+
+export const checkboxRadioErrorIcon = css`
+  ${errorIconBase};
+  right: -31px;
+  top: 50%;
+  transform: translateY(-50%);
 `;
