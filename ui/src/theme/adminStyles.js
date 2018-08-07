@@ -29,17 +29,25 @@ export const AdminHeader = styled(Row)`
   justify-content: space-between;
   align-items: center;
   label: admin-header;
+`;
 
-  h1 {
-    font-family: ${libreFranklin};
-    line-height: 1;
-    color: ${brandPrimary};
-    font-size: 28px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    margin: 0;
-  }
+export const AdminHeaderH1 = styled('h1')`
+  font-family: ${libreFranklin};
+  line-height: 1;
+  color: ${brandPrimary};
+  font-size: 28px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  margin: 0;
+  label: admin-header-h1;
+`;
+
+export const AdminHeaderBlock = styled('div')`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  label: admin-header-block;
 `;
 
 export const AdminContent = styled(Row)`
@@ -47,4 +55,5 @@ export const AdminContent = styled(Row)`
   padding: 8px;
   background: ${white};
   border: solid 1px ${borderColour};
+  label: admin-content;
 `;
