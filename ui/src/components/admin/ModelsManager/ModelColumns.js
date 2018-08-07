@@ -1,4 +1,17 @@
+import React from 'react';
 import { schemaArr } from '../schema/model';
+import {
+  UnpublishedChangesModel,
+  PublishedModel,
+  UnpublishedModel,
+  ActionPill,
+  Actions,
+  ActionsMenu,
+  ActionsMenuItem,
+} from '../../../theme/adminTableStyles';
+import PencilIcon from 'react-icons/lib/fa/pencil';
+import Popup from 'reactjs-popup';
+import { modelEditUrlBase } from '../AdminNav';
 
 const selectedColumns = [
   'model_name',
@@ -30,7 +43,7 @@ export const columns = schemaArr
     return field;
   });
 
-const modelManagetSpecificColumns = [
+const modelManagerCustomColumns = [
   {
     Header: 'Status',
     accessor: 'status',
@@ -89,4 +102,4 @@ const modelManagetSpecificColumns = [
 
 export const ModelTableColumns = columns
   .filter(col => ['model_name', 'updatedAt', 'model_type'].includes(col.accessor))
-  .concat(modelManagetSpecificColumns);
+  .concat(modelManagerCustomColumns);

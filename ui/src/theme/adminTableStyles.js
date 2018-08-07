@@ -1,8 +1,8 @@
 import styled from 'react-emotion';
-import {css} from 'emotion';
+import { css } from 'emotion';
 import base from 'theme';
-import {Row} from 'theme/system';
-import {Link} from 'react-router-dom';
+import { Row } from 'theme/system';
+import { Link } from 'react-router-dom';
 
 const {
   keyedPalette: {
@@ -18,15 +18,10 @@ const {
     lightBlack,
     darkBlack,
     mineShaft,
-    shuttleGray
+    shuttleGray,
   },
-  buttons: {
-    pillBase
-  },
-  fonts: {
-    openSans,
-    libreFranklin
-  }
+  buttons: { pillBase },
+  fonts: { openSans, libreFranklin },
 } = base;
 
 const borderColour = porcelain;
@@ -40,7 +35,7 @@ export const Table = styled('div')`
   label: models-table-main;
 `;
 
-const tableStatusBase = css `
+const tableStatusBase = css`
   font-family: ${libreFranklin};
   font-size: 10px;
   font-weight: normal;
