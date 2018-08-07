@@ -2,17 +2,7 @@ import mongoose from 'mongoose';
 
 export const ModelSchema = new mongoose.Schema(
   {
-    model_name: {
-      type: String,
-      validate: {
-        validator: function(v) {
-          return /HCM-\w{4}-\d{4}.\w\d{2}/.test(v);
-        },
-        message:
-          '{VALUE} is not a valid HCMI model name (HCM-[4-letter Center code]-[4 number model code].[ICD10])',
-      },
-      required: [true, 'Model name is required'],
-    },
+    model_name: String,
     model_type: String,
     growth_rate: Number,
     split_ratio: String,
@@ -31,7 +21,7 @@ export const ModelSchema = new mongoose.Schema(
     disease_status: String,
     vital_status: String,
     therapy: String,
-    molecular_characterizations: String,
+    molecular_characterizations: [String],
     clinical_tumor_diagnosis: String,
     histological_type: String,
     clinical_stage_grouping: String,
@@ -39,6 +29,8 @@ export const ModelSchema = new mongoose.Schema(
     tumor_histological_grade: String,
     licensing_required: Boolean,
     tmn_stage: String,
+    source_model_url: String,
+    source_sequence_url: String,
   },
   {
     timestamps: true,
