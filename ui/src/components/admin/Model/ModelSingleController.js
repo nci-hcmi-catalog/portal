@@ -48,7 +48,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             data: {
               ...state.data,
               isLoading: false,
-              response: err,
+              error: err,
             },
           }));
         }

@@ -3,12 +3,13 @@ import React from 'react';
 import ModelSingleProvider, { ModelSingleContext } from './ModelSingleController';
 import config from '../config';
 
+import ModelSingleHeader from './ModelSingleHeader';
 import AdminModelNav from './AdminModelNav';
 import ModelForm from './ModelForm';
 import ModelImages from './ModelImages';
 import ModelVariants from './ModelVariants';
 
-import { AdminContainer, AdminHeader } from 'theme/adminStyles';
+import { AdminContainer } from 'theme/adminStyles';
 import { AdminModelContent } from 'theme/adminModelStyles';
 import { Row } from 'theme/system';
 
@@ -25,26 +26,29 @@ const renderTab = tab => {
   }
 };
 
+const Loading = () => <div>Loading ...</div>;
+
 export default ({ match }) => (
   <ModelSingleProvider baseUrl={config.urls.modelBase} modelName={match.params.name}>
     <ModelSingleContext.Consumer>
       {({
         state: {
           ui: { activeTab },
+          data: { isLoading },
         },
-      }) => (
-        <AdminContainer>
-          <AdminHeader>
-            <div>
-              <h1>Header Content</h1>
-            </div>
-          </AdminHeader>
-          <Row>
-            <AdminModelNav />
-            <AdminModelContent>{renderTab(activeTab)}</AdminModelContent>
-          </Row>
-        </AdminContainer>
-      )}
+      }) =>
+        isLoading ? (
+          <Loading />
+        ) : (
+          <AdminContainer>
+            <ModelSingleHeader modelName={match.params.name} />
+            <Row>
+              <AdminModelNav />
+              <AdminModelContent>{renderTab(activeTab)}</AdminModelContent>
+            </Row>
+          </AdminContainer>
+        )
+      }
     </ModelSingleContext.Consumer>
   </ModelSingleProvider>
 );
