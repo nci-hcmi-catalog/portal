@@ -1,4 +1,17 @@
+import React from 'react';
 import { schemaArr } from '../schema/model';
+import {
+  UnpublishedChangesModel,
+  PublishedModel,
+  UnpublishedModel,
+  ActionPill,
+  Actions,
+  ActionsMenu,
+  ActionsMenuItem,
+} from '../../../theme/adminTableStyles';
+import PencilIcon from 'react-icons/lib/fa/pencil';
+import Popup from 'reactjs-popup';
+import { modelEditUrlBase } from '../AdminNav';
 
 const selectedColumns = [
   'model_name',
@@ -29,3 +42,64 @@ export const columns = schemaArr
     field.Header = field.displayName;
     return field;
   });
+
+const modelManagerCustomColumns = [
+  {
+    Header: 'Status',
+    accessor: 'status',
+    Cell: row => {
+      let statusValue = (row.value || 'Unpublished').toLowerCase();
+      if (statusValue === 'unpublishedchanges') {
+        return <UnpublishedChangesModel>Unpublished Changes</UnpublishedChangesModel>;
+      } else if (statusValue === 'published') {
+        return <PublishedModel>Published</PublishedModel>;
+      } else {
+        return <UnpublishedModel>Unpublished</UnpublishedModel>;
+      }
+    },
+  },
+  {
+    Header: 'Actions',
+    accessor: 'model_name',
+    Cell: row => {
+      const data = row;
+      return (
+        <Actions>
+          <ActionPill to={modelEditUrlBase + '/' + data.value}>
+            <PencilIcon
+              css={`
+                width: 20px;
+                padding-right: 5px;
+              `}
+            />{' '}
+            Edit{' '}
+          </ActionPill>
+          <Popup
+            trigger={<ActionPill to={row => console.log('... clicked')}> ...</ActionPill>}
+            position="left"
+            offset={0}
+            on="click"
+            closeOnDocumentClick
+            mouseLeaveDelay={300}
+            mouseEnterDelay={0}
+            contentStyle={{
+              padding: '0px',
+              border: 'none',
+              width: 'max-content',
+            }}
+            arrow={false}
+          >
+            <ActionsMenu>
+              <ActionsMenuItem>Publish</ActionsMenuItem>
+              <ActionsMenuItem>Delete</ActionsMenuItem>
+            </ActionsMenu>
+          </Popup>
+        </Actions>
+      );
+    },
+  },
+];
+
+export const ModelTableColumns = columns
+  .filter(col => ['model_name', 'updatedAt', 'model_type'].includes(col.accessor))
+  .concat(modelManagerCustomColumns);

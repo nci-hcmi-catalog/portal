@@ -10,6 +10,7 @@ const [base, manageUsersUrl, manageModelsUrl, modelUploadSingle] = [
   '/admin/model',
 ];
 
+export const modelEditUrlBase = modelUploadSingle;
 // Nav paths to handle "nested pages"
 const [modelsNavPaths, usersNavPaths] = [
   [base, manageModelsUrl, modelUploadSingle],

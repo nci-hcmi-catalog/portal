@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Component from 'react-component-component';
 import axios from 'axios';
 
-const fetchData = async ({ url, data, method }) => {
+export const fetchData = async ({ url, data, method }) => {
   return await axios({ url, data, method });
 };
 
@@ -15,7 +15,7 @@ export const post = async ({ url, data }) => {
   return await fetchData({ url, data, method: 'post' });
 };
 
-export const Fetcher = ({ url, data, method, children, ...props }) => (
+export const Fetcher = ({ url, data, method, children }) => (
   <Component
     initialState={{
       isLoading: true,
@@ -34,7 +34,6 @@ export const Fetcher = ({ url, data, method, children, ...props }) => (
     {({ state }) =>
       children({
         ...state,
-        ...props,
       })
     }
   </Component>

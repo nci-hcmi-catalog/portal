@@ -31,6 +31,11 @@ export const ModelSchema = new mongoose.Schema(
     tmn_stage: String,
     source_model_url: String,
     source_sequence_url: String,
+    status: {
+      type: String,
+      default: 'Unpublished',
+    },
+    updatedBy: String,
   },
   {
     timestamps: true,
