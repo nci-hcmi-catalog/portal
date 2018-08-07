@@ -1,6 +1,7 @@
 import React from 'react';
 
-import SingleModelProvider, { SingleModelContext } from './ModelSingleController';
+import ModelSingleProvider, { ModelSingleContext } from './ModelSingleController';
+import config from '../config';
 
 import AdminModelNav from './AdminModelNav';
 import ModelForm from './ModelForm';
@@ -24,13 +25,12 @@ const renderTab = tab => {
   }
 };
 
-export default () => (
-  <SingleModelProvider>
-    <SingleModelContext.Consumer>
+export default ({ match }) => (
+  <ModelSingleProvider baseUrl={config.urls.modelBase} modelName={match.params.name}>
+    <ModelSingleContext.Consumer>
       {({
-        match,
         state: {
-          ModelSingle: { activeTab },
+          ui: { activeTab },
         },
       }) => (
         <AdminContainer>
@@ -45,6 +45,6 @@ export default () => (
           </Row>
         </AdminContainer>
       )}
-    </SingleModelContext.Consumer>
-  </SingleModelProvider>
+    </ModelSingleContext.Consumer>
+  </ModelSingleProvider>
 );

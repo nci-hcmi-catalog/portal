@@ -1,5 +1,5 @@
 import React from 'react';
-import { SingleModelContext } from './ModelSingleController';
+import { ModelSingleContext } from './ModelSingleController';
 import {
   AdminModelNav,
   NavItem,
@@ -12,22 +12,22 @@ import AdminModelImageIcon from 'icons/AdminModelImageIcon';
 import AdminModelVariantsIcon from 'icons/AdminModelVariantsIcon';
 
 export default () => (
-  <SingleModelContext.Consumer>
+  <ModelSingleContext.Consumer>
     {({
       state: {
-        ModelSingle: { activeTab },
+        ui: { activeTab },
       },
-      setModelSingleActiveTab,
+      setUIActiveTab,
     }) => (
       <AdminModelNav>
-        <NavItem active={activeTab === 'edit'} onClick={() => setModelSingleActiveTab('edit')}>
+        <NavItem active={activeTab === 'edit'} onClick={() => setUIActiveTab('edit')}>
           <AdminModelEditIcon
             fill={activeTab === 'edit' ? activeNavItemIconColor : brandPrimary}
             css={navItemIcon}
           />Edit
         </NavItem>
 
-        <NavItem active={activeTab === 'images'} onClick={() => setModelSingleActiveTab('images')}>
+        <NavItem active={activeTab === 'images'} onClick={() => setUIActiveTab('images')}>
           <AdminModelImageIcon
             fill={activeTab === 'images' ? activeNavItemIconColor : brandPrimary}
             css={navItemIcon}
@@ -36,7 +36,7 @@ export default () => (
 
         <NavItem
           active={activeTab === 'variants'}
-          onClick={() => setModelSingleActiveTab('variants')}
+          onClick={() => setUIActiveTab('variants')}
         >
           <AdminModelVariantsIcon
             fill={activeTab === 'variants' ? activeNavItemIconColor : brandPrimary}
@@ -45,5 +45,5 @@ export default () => (
         </NavItem>
       </AdminModelNav>
     )}
-  </SingleModelContext.Consumer>
+  </ModelSingleContext.Consumer>
 );

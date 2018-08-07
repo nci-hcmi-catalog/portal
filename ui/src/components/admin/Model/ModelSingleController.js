@@ -1,32 +1,80 @@
 import React from 'react';
+import Component from 'react-component-component';
+import { fetchData } from '../services/Fetcher';
 
-export const SingleModelContext = React.createContext();
+export const ModelSingleContext = React.createContext();
 
-class SingleModelProvider extends React.Component {
-  state = {
-    ModelSingle: {
-      activeTab: 'edit',
-    },
-  };
-  render() {
-    return (
-      <SingleModelContext.Provider
+export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) => (
+  <Component
+    initialState={{
+      ui: {
+        activeTab: 'edit',
+      },
+      data: {
+        isLoading: false,
+        response: [],
+        error: null,
+      },
+    }}
+    didMount={async ({ state, setState }) => {
+      if (modelName) {
+        // Set loading true
+        setState(() => ({
+          ...state,
+          data: {
+            ...state.data,
+            isLoading: true,
+          },
+        }));
+
+        try {
+          const modelDataResponse = await fetchData({
+            url: `${baseUrl}/${modelName}`,
+            data: '',
+            method: 'get',
+          });
+
+          setState(() => ({
+            ...state,
+            data: {
+              ...state.data,
+              isLoading: false,
+              response: modelDataResponse.data,
+            },
+          }));
+        } catch (err) {
+          setState(() => ({
+            ...state,
+            data: {
+              ...state.data,
+              isLoading: false,
+              response: err,
+            },
+          }));
+        }
+      }
+    }}
+  >
+    {({ state, setState }) => (
+      <ModelSingleContext.Provider
         value={{
-          state: this.state,
-          setModelSingleActiveTab: tabName => {
-            this.setState({
-              ...this.state,
-              ModelSingle: {
-                ...this.state.ModelSingle,
+          state: state,
+          setUIActiveTab: tabName => {
+            setState({
+              ...state,
+              ui: {
+                ...state.ModelSingle,
                 activeTab: tabName,
               },
             });
           },
         }}
-        {...this.props}
-      />
-    );
-  }
-}
+        {...props}
+      >
+        {children}
+      </ModelSingleContext.Provider>
+    )}
+  </Component>
+);
 
-export default SingleModelProvider;
+export default ModelSingleProvider;
