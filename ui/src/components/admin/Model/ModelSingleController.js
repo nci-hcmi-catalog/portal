@@ -29,7 +29,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
         try {
           const modelDataResponse = await fetchData({
-            url: `${baseUrl}/${modelName}`,
+            url: `${baseUrl}/model/${modelName}`,
             data: '',
             method: 'get',
           });
