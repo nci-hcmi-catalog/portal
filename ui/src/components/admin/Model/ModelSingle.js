@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AdminContext } from 'providers/AdminProvider';
+import SingleModelProvider, { SingleModelContext } from './ModelSingleController';
 
 import AdminModelNav from './AdminModelNav';
 import ModelForm from './ModelForm';
@@ -25,23 +25,26 @@ const renderTab = tab => {
 };
 
 export default () => (
-  <AdminContext.Consumer>
-    {({
-      state: {
-        ModelSingle: { activeTab },
-      },
-    }) => (
-      <AdminContainer>
-        <AdminHeader>
-          <div>
-            <h1>Header Content</h1>
-          </div>
-        </AdminHeader>
-        <Row>
-          <AdminModelNav />
-          <AdminModelContent>{renderTab(activeTab)}</AdminModelContent>
-        </Row>
-      </AdminContainer>
-    )}
-  </AdminContext.Consumer>
+  <SingleModelProvider>
+    <SingleModelContext.Consumer>
+      {({
+        match,
+        state: {
+          ModelSingle: { activeTab },
+        },
+      }) => (
+        <AdminContainer>
+          <AdminHeader>
+            <div>
+              <h1>Header Content</h1>
+            </div>
+          </AdminHeader>
+          <Row>
+            <AdminModelNav />
+            <AdminModelContent>{renderTab(activeTab)}</AdminModelContent>
+          </Row>
+        </AdminContainer>
+      )}
+    </SingleModelContext.Consumer>
+  </SingleModelProvider>
 );

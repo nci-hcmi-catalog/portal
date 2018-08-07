@@ -1,5 +1,5 @@
 import React from 'react';
-import { AdminContext } from 'providers/AdminProvider';
+import { SingleModelContext } from './ModelSingleController';
 import {
   AdminModelNav,
   NavItem,
@@ -12,7 +12,7 @@ import AdminModelImageIcon from 'icons/AdminModelImageIcon';
 import AdminModelVariantsIcon from 'icons/AdminModelVariantsIcon';
 
 export default () => (
-  <AdminContext.Consumer>
+  <SingleModelContext.Consumer>
     {({
       state: {
         ModelSingle: { activeTab },
@@ -45,5 +45,5 @@ export default () => (
         </NavItem>
       </AdminModelNav>
     )}
-  </AdminContext.Consumer>
+  </SingleModelContext.Consumer>
 );

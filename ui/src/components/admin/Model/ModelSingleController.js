@@ -1,8 +1,8 @@
 import React from 'react';
 
-export const AdminContext = React.createContext();
+export const SingleModelContext = React.createContext();
 
-class AdminProvider extends React.Component {
+class SingleModelProvider extends React.Component {
   state = {
     ModelSingle: {
       activeTab: 'edit',
@@ -10,7 +10,7 @@ class AdminProvider extends React.Component {
   };
   render() {
     return (
-      <AdminContext.Provider
+      <SingleModelContext.Provider
         value={{
           state: this.state,
           setModelSingleActiveTab: tabName => {
@@ -29,4 +29,4 @@ class AdminProvider extends React.Component {
   }
 }
 
-export default AdminProvider;
+export default SingleModelProvider;
