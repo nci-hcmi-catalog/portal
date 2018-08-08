@@ -49,7 +49,6 @@ export default {
     dustyGray: '#969696',
     iron: '#cdd4d9',
     mystic: '#ebf1f3',
-    black: '#000000',
     lightBlack: 'rgba(0, 0, 0, 0.23)',
     darkBlack: 'rgba(0, 0, 0, 0.35)',
     shuttleGray: '#64666a',
