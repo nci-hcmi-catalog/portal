@@ -13,16 +13,16 @@ import { AdminContainer } from 'theme/adminStyles';
 import { AdminModelContent } from 'theme/adminModelStyles';
 import { Row } from 'theme/system';
 
-const renderTab = tab => {
+const renderTab = (tab, data) => {
   switch (tab) {
     case 'edit':
-      return <ModelForm />;
+      return <ModelForm data={data} />;
     case 'images':
       return <ModelImages />;
     case 'variants':
       return <ModelVariants />;
     default:
-      return <ModelForm />;
+      return <ModelForm data={data} />;
   }
 };
 
@@ -34,7 +34,7 @@ export default ({ match }) => (
       {({
         state: {
           ui: { activeTab },
-          data: { isLoading },
+          data: { isLoading, response },
         },
       }) =>
         isLoading ? (
@@ -44,7 +44,7 @@ export default ({ match }) => (
             <ModelSingleHeader modelName={match.params.name} />
             <Row>
               <AdminModelNav />
-              <AdminModelContent>{renderTab(activeTab)}</AdminModelContent>
+              <AdminModelContent>{renderTab(activeTab, response)}</AdminModelContent>
             </Row>
           </AdminContainer>
         )

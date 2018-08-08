@@ -15,16 +15,16 @@ const headerText = (modelName = null, error = null) => {
   if (error) {
     switch (error.response.status) {
       case '404':
-        text = <h1>Model {modelName} not found</h1>;
+        text = 'Model {modelName} not found';
         break;
       default:
-        text = <h1>Error loading {modelName}</h1>;
+        text = 'Error loading {modelName}';
     }
   }
 
   // If a model name is provided, and no error is present ...
   if (modelName) {
-    text = { modelName };
+    text = modelName;
   }
 
   return <ModelHeaderH1>{text}</ModelHeaderH1>;

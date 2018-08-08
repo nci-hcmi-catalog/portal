@@ -12,7 +12,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
       },
       data: {
         isLoading: false,
-        response: [],
+        response: {},
         error: null,
       },
     }}
