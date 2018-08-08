@@ -84,7 +84,7 @@ export const schemaArr = [
     accessor: 'histological_type',
   },
   {
-    displayName: 'Clinical Tumor Diagnosise',
+    displayName: 'Clinical Tumor Diagnosis',
     accessor: 'clinical_tumor_diagnosis',
   },
   {
