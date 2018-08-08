@@ -121,4 +121,6 @@ export default object().shape({
   ),
   source_model_url: string().url(),
   source_sequence_url: string().url(),
+  updatedBy: string(),
+  status: string(),
 });
