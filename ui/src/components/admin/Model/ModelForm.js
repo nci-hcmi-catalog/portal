@@ -44,7 +44,7 @@ const {
   growth_rate,
   primary_site,
   neoadjuvant_therapy,
-  tmn_stage,
+  tnm_stage,
   molecular_characterizations,
   chemotherapeutic_drugs,
   clinical_tumor_diagnosis,
@@ -132,8 +132,8 @@ const modelFormTemplate = ({
             />
           </FormComponent>
 
-          <FormComponent labelText={tmn_stage.displayName}>
-            <Field name={tmn_stage.accessor} component={FormTextInput} />
+          <FormComponent labelText={tnm_stage.displayName}>
+            <Field name={tnm_stage.accessor} component={FormTextInput} />
           </FormComponent>
         </FormCol>
 

@@ -74,7 +74,7 @@ export default object().shape({
     .required()
     .lowercase()
     .oneOf(primarySites),
-  tmn_stage: string()
+  tnm_stage: string()
     .required()
     .matches(
       /T[0-2]M[0-2]N[0-4]/,

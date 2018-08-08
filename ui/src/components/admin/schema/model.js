@@ -48,8 +48,8 @@ export const schemaArr = [
     accessor: 'primary_site',
   },
   {
-    displayName: 'TMN Stage',
-    accessor: 'tmn_stage',
+    displayName: 'TNM Stage',
+    accessor: 'tnm_stage',
   },
   {
     displayName: 'Neoadjuvant Therapy',
