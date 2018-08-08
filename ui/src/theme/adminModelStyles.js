@@ -68,6 +68,8 @@ export const navItemIconActive = css`
 `;
 
 export const AdminModelContent = styled(AdminContent)`
+  display: flex;
+  flex-direction: column;
   width: calc(100% - 164px);
   z-index: 1;
   padding: 7px 8px;
