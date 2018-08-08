@@ -4,6 +4,7 @@ import ModelSingleProvider, { ModelSingleContext } from './ModelSingleController
 import config from '../config';
 
 import ModelSingleHeader from './ModelSingleHeader';
+import ModelSingleFooter from './ModelSingleFooter';
 import AdminModelNav from './AdminModelNav';
 import ModelForm from './ModelForm';
 import ModelImages from './ModelImages';
@@ -46,6 +47,7 @@ export default ({ match }) => (
               <AdminModelNav />
               <AdminModelContent>{renderTab(activeTab, response)}</AdminModelContent>
             </Row>
+            <ModelSingleFooter />
           </AdminContainer>
         )
       }

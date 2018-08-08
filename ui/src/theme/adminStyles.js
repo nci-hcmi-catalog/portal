@@ -31,6 +31,13 @@ export const AdminHeader = styled(Row)`
   label: admin-header;
 `;
 
+export const AdminFooter = styled(AdminHeader)`
+  width: calc(100% - 164px);
+  align-self: flex-end;
+  padding: 30px 0 52px;
+  label: admin-footer;
+`;
+
 export const AdminHeaderH1 = styled('h1')`
   font-family: ${libreFranklin};
   line-height: 1;
@@ -48,6 +55,10 @@ export const AdminHeaderBlock = styled('div')`
   flex-direction: row;
   align-items: center;
   label: admin-header-block;
+`;
+
+export const AdminFooterBlock = styled(AdminHeaderBlock)`
+  label: admin-footer-block;
 `;
 
 export const AdminContent = styled(Row)`

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ModelSingleContext } from './ModelSingleController';
+import { manageModelsUrlBase } from '../AdminNav';
 
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 
@@ -51,13 +52,13 @@ export default ({ modelName }) => (
           {modelStatus(response.data || null)}
         </AdminHeaderBlock>
         <AdminHeaderBlock>
-          <ModelHeaderBackLink href="">
+          <ModelHeaderBackLink href={manageModelsUrlBase}>
             <ArrowLeftIcon height={9} width={5} /> Back to List
           </ModelHeaderBackLink>
-          <Pill marginLeft="21px" marginRight="10px">
+          <Pill disabled marginLeft="21px" marginRight="10px">
             Publish
           </Pill>
-          <Pill primary marginRight="10px">
+          <Pill primary disabled marginRight="10px">
             Save
           </Pill>
         </AdminHeaderBlock>

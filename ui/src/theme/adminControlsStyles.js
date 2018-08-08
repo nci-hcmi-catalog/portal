@@ -3,12 +3,15 @@ import base from 'theme';
 
 const {
   fonts: { libreFranklin },
-  keyedPalette: { pelorousapprox, valencia, sienna, white },
+  keyedPalette: { brandPrimary, pelorousapprox, valencia, sienna, white, frenchGrey },
 } = base;
 
 const pillBlue = pelorousapprox;
 const pillRed = valencia;
+const pillBlueDisabled = '#AADBE3';
+const pillRedDisabled = '#E8AFB2';
 const pillOrange = sienna;
+const pillBorderColour = frenchGrey;
 
 const PillBase = styled('div')`
   font-family: ${libreFranklin};
@@ -17,8 +20,27 @@ const PillBase = styled('div')`
   font-style: normal;
   font-stretch: normal;
   text-align: center;
-  color: ${white};
-  background: ${props => (props.primary ? pillRed : props.warning ? pillOrange : pillBlue)};
+  color: ${({ secondary }) => (secondary ? brandPrimary : white)};
+  border: solid 1px ${pillBorderColour};
+  background: ${({ primary, warning, secondary, disabled }) => {
+    if (primary && disabled) {
+      return pillRedDisabled;
+    } else if (primary) {
+      return pillRed;
+    } else if (warning && disabled) {
+      return pillOrange;
+    } else if (warning) {
+      return pillOrange;
+    } else if (secondary && disabled) {
+      return white;
+    } else if (secondary) {
+      return white;
+    } else if (disabled) {
+      return pillBlueDisabled;
+    } else {
+      return pillBlue;
+    }
+  }};
   margin-left: ${props => (props.marginLeft ? props.marginLeft : '0')};
   margin-right: ${props => (props.marginRight ? props.marginRight : '0')};
 `;
