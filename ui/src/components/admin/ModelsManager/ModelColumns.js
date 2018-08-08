@@ -8,6 +8,7 @@ import {
   Actions,
   ActionsMenu,
   ActionsMenuItem,
+  ToolbarText,
 } from '../../../theme/adminTableStyles';
 import PencilIcon from 'react-icons/lib/fa/pencil';
 import Popup from 'reactjs-popup';
@@ -48,7 +49,29 @@ const modelManagerCustomColumns = [
   {
     Header: 'Updated',
     accessor: 'updatedAt',
-    Cell: row => <Moment fromNow>{row.value}</Moment>,
+    Cell: row => {
+      const data = row;
+      return (
+        <Popup
+          trigger={<Moment fromNow>{data.value}</Moment>}
+          position="top"
+          offset={0}
+          on="hover"
+          mouseLeaveDelay={30}
+          mouseEnterDelay={10}
+          contentStyle={{
+            padding: '0px',
+            border: 'none',
+            width: 'max-content',
+          }}
+          arrow={true}
+        >
+          <ToolbarText>
+            <Moment parse="YYYY-MM-DD HH:mm">{data.value}</Moment>
+          </ToolbarText>
+        </Popup>
+      );
+    },
   },
   {
     Header: 'Status',
