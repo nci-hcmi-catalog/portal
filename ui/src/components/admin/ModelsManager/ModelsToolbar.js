@@ -50,7 +50,7 @@ export default props => (
                   </ToolbarControl>
                 </div>
               )}
-              position="bottom"
+              position="bottom right"
               offset={0}
               on="click"
               closeOnDocumentClick
@@ -59,17 +59,15 @@ export default props => (
               contentStyle={{
                 padding: '0px',
                 border: 'none',
+                borderRadius: '10px',
                 width: 'max-content',
               }}
               arrow={false}
             >
-              <ActionsMenu
-                css={`
-                  width: 100px;
-                `}
-              >
-                <ActionsMenuItem>Publish All</ActionsMenuItem>
-                <ActionsMenuItem>Delete All</ActionsMenuItem>
+              <ActionsMenu>
+                <ActionsMenuItem>Publish</ActionsMenuItem>
+                <ActionsMenuItem>Unpublish</ActionsMenuItem>
+                <ActionsMenuItem>Delete</ActionsMenuItem>
               </ActionsMenu>
             </Popup>
           </ToolbarSection>
