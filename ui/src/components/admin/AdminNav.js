@@ -2,32 +2,33 @@ import React from 'react';
 import { AdminNav, NavLink, Account, User, Pill } from 'theme/adminNavStyles';
 import UserIcon from 'icons/UserIcon';
 
-// Urls used in navigation
-const [base, manageUsersUrl, manageModelsUrl, modelUploadSingle] = [
-  '/admin',
-  '/admin/manage-users',
-  '/admin/manage-models',
-  '/admin/model',
+// Regex for URLs used in navigation
+const [base, manageUsers, manageModels, modelUploadSingle] = [
+  /\/admin\/?$/,
+  /\/admin\/manage-users\/?$/,
+  /\/admin\/manage-models\/?$/,
+  /\/admin\/model(\/.+)?\/?$/,
 ];
 
-export const modelEditUrlBase = modelUploadSingle;
 // Nav paths to handle "nested pages"
-const [modelsNavPaths, usersNavPaths] = [
-  [base, manageModelsUrl, modelUploadSingle],
-  [manageUsersUrl],
-];
+const [modelsNavPaths, usersNavPaths] = [[base, manageModels, modelUploadSingle], [manageUsers]];
 
 // Nav active state func
 const isNavLinkActive = (currentPath, navPaths) =>
-  navPaths.indexOf(currentPath.replace(/\/$/, '')) !== -1;
+  navPaths.filter(path => currentPath.match(path)).length > 0;
+
+// Exported URLs to be used as needed
+export const manageModelsUrlBase = '/admin/manage-models';
+export const manageUsersUrlBase = '/admin/manage-users';
+export const modelEditUrlBase = '/admin/model';
 
 export default ({ location: { pathname } }) => (
   <AdminNav>
     <div>
-      <NavLink active={isNavLinkActive(pathname, modelsNavPaths)} to={manageModelsUrl}>
+      <NavLink active={isNavLinkActive(pathname, modelsNavPaths)} to={manageModelsUrlBase}>
         Model Management
       </NavLink>
-      <NavLink active={isNavLinkActive(pathname, usersNavPaths)} to={manageUsersUrl}>
+      <NavLink active={isNavLinkActive(pathname, usersNavPaths)} to={manageUsersUrlBase}>
         User Management
       </NavLink>
     </div>
