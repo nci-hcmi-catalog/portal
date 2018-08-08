@@ -101,14 +101,13 @@ export const Actions = styled('div')`
 `;
 
 export const ActionsMenu = styled('div')`
-  width: max-content;
-  height: 72px;
+  width: 125px;
+  height: 104px;
   box-shadow: 1px 1.7px 4px 0 ${lightBlack};
-  background-color: ${white};
   border: solid 1px ${iron};
   display: flex;
+  border-radius: 10px;
   flex-direction: column;
-  position: absolute;
   label: actions-menu;
 `;
 
@@ -134,6 +133,7 @@ export const ToolbarMain = styled(Row)`
   width: 100%;
   justify-content: space-between;
   align-items: center;
+  padding: 5px;
   label: toolbar-main;
 `;
 
