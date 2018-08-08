@@ -10,7 +10,7 @@ const EnhancedReactTable = checkboxHOC(ReactTable);
 
 export default props => (
   <ModelsTableContext.Consumer>
-    {({ state, onPageChange, onPageSizeChange }) => {
+    {({ state, onPageChange, onPageSizeChange, onFilterValueChange }) => {
       const { isLoading, page, pageSize, data, rowCount } = state;
       return (
         <div css={searchStyles}>

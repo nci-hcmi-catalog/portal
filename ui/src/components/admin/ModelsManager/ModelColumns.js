@@ -12,6 +12,7 @@ import {
 import PencilIcon from 'react-icons/lib/fa/pencil';
 import Popup from 'reactjs-popup';
 import { modelEditUrlBase } from '../AdminNav';
+import Moment from 'react-moment';
 
 const selectedColumns = [
   'model_name',
@@ -44,6 +45,11 @@ export const columns = schemaArr
   });
 
 const modelManagerCustomColumns = [
+  {
+    Header: 'Updated',
+    accessor: 'updatedAt',
+    Cell: row => <Moment fromNow>{row.value}</Moment>,
+  },
   {
     Header: 'Status',
     accessor: 'status',
@@ -101,5 +107,5 @@ const modelManagerCustomColumns = [
 ];
 
 export const ModelTableColumns = columns
-  .filter(col => ['model_name', 'updatedAt', 'model_type'].includes(col.accessor))
+  .filter(col => ['model_name', 'model_type'].includes(col.accessor))
   .concat(modelManagerCustomColumns);
