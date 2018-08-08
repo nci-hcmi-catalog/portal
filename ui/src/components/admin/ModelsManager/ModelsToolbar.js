@@ -45,7 +45,7 @@ export default props => (
                   `}
                 >
                   <ToolbarText>Bulk Actions :</ToolbarText>{' '}
-                  <ToolbarControl onClick={() => console.log('Bulk Actions clicked')}>
+                  <ToolbarControl onClick={() => ''}>
                     --Select An Action-- {ArrowIcon({ isOpen: open })}
                   </ToolbarControl>
                 </div>
