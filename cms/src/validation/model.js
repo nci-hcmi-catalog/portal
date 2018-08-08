@@ -76,7 +76,10 @@ export default object().shape({
     .oneOf(primarySites),
   tmn_stage: string()
     .required()
-    .matches(/T[0-2]M[0-2]N[0-4]/),
+    .matches(
+      /T[0-2]M[0-2]N[0-4]/,
+      'Field must follow TNM classification format: T0-T2, N0-N4, and M0-M2 ex. T0N1M2',
+    ),
   neoadjuvant_therapy: string()
     .lowercase()
     .oneOf(neoadjuvantTherapy),

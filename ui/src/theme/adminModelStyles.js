@@ -2,7 +2,7 @@ import { css } from 'emotion';
 import styled from 'react-emotion';
 import base from 'theme';
 import { Col } from 'theme/system';
-import { AdminContent } from 'theme/adminStyles';
+import { AdminContent, AdminHeaderH1 } from 'theme/adminStyles';
 
 const {
   fonts: { libreFranklin },
@@ -72,4 +72,24 @@ export const AdminModelContent = styled(AdminContent)`
   z-index: 1;
   padding: 7px 8px;
   label: admin-model-content;
+`;
+
+export const ModelHeaderH1 = styled(AdminHeaderH1)`
+  margin-right: 18px;
+  label: admin-model-header-h1;
+`;
+
+export const ModelHeaderBackLink = styled('a')`
+  color: ${brandPrimary};
+  font-family: ${libreFranklin};
+  font-size: 12px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: left;
+  text-decoration: none;
+  text-transform: uppercase;
+  label: admin-model-header-back-link;
 `;
