@@ -10,7 +10,7 @@ import {
   ActionsMenuItem,
   ToolbarText,
 } from '../../../theme/adminTableStyles';
-import PencilIcon from 'react-icons/lib/fa/pencil';
+import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
 import Popup from 'reactjs-popup';
 import { modelEditUrlBase } from '../AdminNav';
 import Moment from 'react-moment';
@@ -95,7 +95,7 @@ const modelManagerCustomColumns = [
       return (
         <Actions>
           <ActionPill to={modelEditUrlBase + '/' + data.value}>
-            <PencilIcon
+            <AdminEditPencilIcon
               css={`
                 width: 12px;
                 height: 12px;
@@ -160,7 +160,6 @@ const modelManagerCustomColumns = [
           >
             <ActionsMenu
               css={`
-                height: 60px;
                 width: 70px;
               `}
             >
