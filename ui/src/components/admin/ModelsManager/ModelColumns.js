@@ -8,10 +8,12 @@ import {
   Actions,
   ActionsMenu,
   ActionsMenuItem,
+  ToolbarText,
 } from '../../../theme/adminTableStyles';
 import PencilIcon from 'react-icons/lib/fa/pencil';
 import Popup from 'reactjs-popup';
 import { modelEditUrlBase } from '../AdminNav';
+import Moment from 'react-moment';
 
 const selectedColumns = [
   'model_name',
@@ -44,6 +46,33 @@ export const columns = schemaArr
   });
 
 const modelManagerCustomColumns = [
+  {
+    Header: 'Updated',
+    accessor: 'updatedAt',
+    Cell: row => {
+      const data = row;
+      return (
+        <Popup
+          trigger={<Moment fromNow>{data.value}</Moment>}
+          position="top"
+          offset={0}
+          on="hover"
+          mouseLeaveDelay={30}
+          mouseEnterDelay={10}
+          contentStyle={{
+            padding: '0px',
+            border: 'none',
+            width: 'max-content',
+          }}
+          arrow={true}
+        >
+          <ToolbarText>
+            <Moment parse="YYYY-MM-DD HH:mm">{data.value}</Moment>
+          </ToolbarText>
+        </Popup>
+      );
+    },
+  },
   {
     Header: 'Status',
     accessor: 'status',
@@ -101,5 +130,5 @@ const modelManagerCustomColumns = [
 ];
 
 export const ModelTableColumns = columns
-  .filter(col => ['model_name', 'updatedAt', 'model_type'].includes(col.accessor))
+  .filter(col => ['model_name', 'model_type'].includes(col.accessor))
   .concat(modelManagerCustomColumns);
