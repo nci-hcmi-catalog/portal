@@ -116,7 +116,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
           ],
         },
       },
-      histologcal_grade: {
+      histological_grade: {
         type: 'keyword',
         [EXTENSIONS_KEY]: {
           [FAKER_KEY]: ['1', '2', '3', '4'],

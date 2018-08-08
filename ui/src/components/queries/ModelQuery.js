@@ -51,7 +51,7 @@ const fetchData = async ({ setState, modelName }) => {
                         clinical_tumor_diagnosis
                         aquisition_site
                         histological_type
-                        histologcal_grade
+                        histological_grade
                         clinical_stage_grouping
                       }
                     }
