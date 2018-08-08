@@ -61,7 +61,6 @@ const removeNullKeys = data =>
   );
 
 export const runYupValidators = parsed => {
-  console.log(`Going to run validations.`);
   const validatePromises = parsed.map(p =>
     modelValidation.validate(p, { abortEarly: false }).catch(Error => Error),
   );
@@ -69,8 +68,6 @@ export const runYupValidators = parsed => {
   return Promise.all(validatePromises).then(results => {
     const failed = results.filter(result => result instanceof Error);
     if (failed.length > 0) {
-      console.log(`Validation failed for some models.`);
-      console.log(failed);
       const errors = {
         validationErrors: failed.map(({ value, inner }) => ({
           errors: inner.reduce(
@@ -109,8 +106,6 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
         )
         .filter(Boolean)
         .map(d => removeNullKeys(d));
-      console.log(`Data fetch complete.`);
-      console.log(parsed);
       return parsed;
     })
     //.then(runYupValidators)
@@ -125,7 +120,6 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
             __v: false,
           }, //omit mongoose generated fields
         );
-        console.log(prevModel);
         if (prevModel) {
           if (!isEqual(prevModel._doc, p)) {
             return Model.findOneAndUpdate(
