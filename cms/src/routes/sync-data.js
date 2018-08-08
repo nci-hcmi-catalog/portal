@@ -17,27 +17,15 @@ export const data_sync_router = express.Router();
 data_sync_router.get('/sheets-data/:sheetId/:tabName', async (req, res) => {
   const authClient = getAuthClient();
   const { sheetId, tabName } = req.params;
-  getSheetData({
-    authClient,
-    sheetId,
-    tabName,
-  })
+  getSheetData({ authClient, sheetId, tabName })
     .then(data => res.json(data))
-    .catch(error =>
-      res.json({
-        error: `error reading sheet ID ${sheetId}, ${error}`,
-      }),
-    );
+    .catch(error => res.json({ error: `error reading sheet ID ${sheetId}, ${error}` }));
 });
 
 data_sync_router.get('/wrangle-cde/:sheetId/:tabName', async (req, res) => {
   const authClient = getAuthClient();
   const { sheetId, tabName } = req.params;
-  getSheetData({
-    authClient,
-    sheetId,
-    tabName,
-  })
+  getSheetData({ authClient, sheetId, tabName })
     .then(data => {
       const transformed = Object.entries(toExcelRowNumber).reduce((acc, [type, rowNumber]) => {
         return {
@@ -55,9 +43,7 @@ data_sync_router.get('/wrangle-cde/:sheetId/:tabName', async (req, res) => {
       return res.json(transformed);
     })
     .catch(error =>
-      res.json({
-        error: `error reading or wrangling sheet ID ${sheetId}, ${error}`,
-      }),
+      res.json({ error: `error reading or wrangling sheet ID ${sheetId}, ${error}` }),
     );
 });
 
@@ -65,12 +51,17 @@ const removeNullKeys = data =>
   Object.entries(data).reduce(
     (acc, [key, value]) => ({
       ...acc,
-      ...(value !== null ? { [key]: value } : {}),
+      ...(value !== null
+        ? {
+            [key]: value,
+          }
+        : {}),
     }),
     {},
   );
 
 export const runYupValidators = parsed => {
+  console.log(`Going to run validations.`);
   const validatePromises = parsed.map(p =>
     modelValidation.validate(p, { abortEarly: false }).catch(Error => Error),
   );
@@ -78,9 +69,17 @@ export const runYupValidators = parsed => {
   return Promise.all(validatePromises).then(results => {
     const failed = results.filter(result => result instanceof Error);
     if (failed.length > 0) {
+      console.log(`Validation failed for some models.`);
+      console.log(failed);
       const errors = {
         validationErrors: failed.map(({ value, inner }) => ({
-          errors: inner.reduce((acc, { path, message }) => ({ ...acc, [path]: message }), {}),
+          errors: inner.reduce(
+            (acc, { path, message }) => ({
+              ...acc,
+              [path]: message,
+            }),
+            {},
+          ),
           value,
         })),
       };
@@ -110,22 +109,36 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
         )
         .filter(Boolean)
         .map(d => removeNullKeys(d));
+      console.log(`Data fetch complete.`);
+      console.log(parsed);
       return parsed;
     })
-    .then(runYupValidators)
+    //.then(runYupValidators)
     .then(parsed => {
       const savePromises = parsed.map(async p => {
         const prevModel = await Model.findOne(
-          { model_name: p.model_name },
-          { _id: false, __v: false }, //omit mongoose generated fields
+          {
+            model_name: p.model_name,
+          },
+          {
+            _id: false,
+            __v: false,
+          }, //omit mongoose generated fields
         );
+        console.log(prevModel);
         if (prevModel) {
           if (!isEqual(prevModel._doc, p)) {
-            return Model.findOneAndUpdate({ model_name: p.model_name }, p, {
-              upsert: true,
-              new: true,
-              runValidators: true,
-            });
+            return Model.findOneAndUpdate(
+              {
+                model_name: p.model_name,
+              },
+              p,
+              {
+                upsert: true,
+                new: true,
+                runValidators: true,
+              },
+            );
           }
           return new Promise(resolve => resolve({})); //no fields modified, do nothing
         } else {
@@ -140,9 +153,7 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
         }),
       );
     })
-    .catch(error =>
-      res.json({
-        error,
-      }),
-    );
+    .catch(error => {
+      res.json({ error });
+    });
 });

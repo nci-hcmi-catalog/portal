@@ -53,13 +53,9 @@ export const NAtoNull = data =>
 export const typeToParser = {
   String: data => (data ? `${data}` : null),
   Number: data => (isNaN(Number(data)) ? data : Number(data)), //dont return null if wrong type so validators are still triggered
+  Array: data => (data ? data : []),
   Date: data => data,
   Boolean: data => {
-    return {
-      yes: true,
-      no: false,
-      true: true,
-      false: false,
-    }[(data || '').toLowerCase()];
+    return { yes: true, no: false, true: true, false: false }[(data || '').toLowerCase()];
   },
 };
