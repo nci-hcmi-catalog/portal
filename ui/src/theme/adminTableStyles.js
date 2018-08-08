@@ -82,11 +82,15 @@ export const ActionPill = styled(Link)`
   ${pillBase};
   text-decoration: none;
   display: inline-block;
-  width: max-content;
+  width: 68px;
+  height: 26px;
   background-color: ${white};
   color: ${brandPrimary};
   justify-content: space-between;
+  align-items: center;
   cursor: pointer;
+  line-height: 2.17;
+  padding: 1px 2px;
   :active {
     background-color: ${brandPrimary};
     color: ${white};
@@ -102,7 +106,6 @@ export const Actions = styled('div')`
 
 export const ActionsMenu = styled('div')`
   width: 125px;
-  height: 104px;
   box-shadow: 1px 1.7px 4px 0 ${lightBlack};
   border: solid 1px ${iron};
   display: flex;
@@ -113,8 +116,8 @@ export const ActionsMenu = styled('div')`
 
 export const ActionsMenuItem = styled('div')`
   cursor: pointer;
-  padding: 5px;
-  height: 28px;
+  padding: 0 3px;
+  line-height: 22px;
   background-color: ${white};
   :active {
     background-color: ${lightBlack};
@@ -125,8 +128,15 @@ export const ActionsMenuItem = styled('div')`
   ${tableStatusBase};
   font-family: ${openSans};
   color: ${black};
-  text-shadow: 0px 4px 8px ${darkBlack};
+  font-size: 13px;
+  text-align: left;
+  text-transform: none;
   label: actions-menu-item;
+
+  &:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
 `;
 
 export const ToolbarMain = styled(Row)`

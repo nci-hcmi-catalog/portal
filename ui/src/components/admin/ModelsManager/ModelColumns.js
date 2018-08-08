@@ -10,7 +10,7 @@ import {
   ActionsMenuItem,
   ToolbarText,
 } from '../../../theme/adminTableStyles';
-import PencilIcon from 'react-icons/lib/fa/pencil';
+import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
 import Popup from 'reactjs-popup';
 import { modelEditUrlBase } from '../AdminNav';
 import Moment from 'react-moment';
@@ -50,10 +50,10 @@ const modelManagerCustomColumns = [
     Header: 'Updated',
     accessor: 'updatedAt',
     Cell: row => {
-      const data = row;
+      const value = row.value;
       return (
         <Popup
-          trigger={<Moment fromNow>{data.value}</Moment>}
+          trigger={() => <Moment fromNow>{value}</Moment>}
           position="top"
           offset={0}
           on="hover"
@@ -67,7 +67,7 @@ const modelManagerCustomColumns = [
           arrow={true}
         >
           <ToolbarText>
-            <Moment parse="YYYY-MM-DD HH:mm">{data.value}</Moment>
+            <Moment parse="YYYY-MM-DD HH:mm">{value}</Moment>
           </ToolbarText>
         </Popup>
       );
@@ -95,16 +95,55 @@ const modelManagerCustomColumns = [
       return (
         <Actions>
           <ActionPill to={modelEditUrlBase + '/' + data.value}>
-            <PencilIcon
+            <AdminEditPencilIcon
               css={`
-                width: 20px;
-                padding-right: 5px;
+                width: 12px;
+                height: 12px;
               `}
-            />{' '}
-            Edit{' '}
+            />
+            <span
+              css={`
+                width: 27px;
+                height: 10px;
+                font-size: 12px;
+                font-weight: 500;
+                font-style: normal;
+                font-stretch: normal;
+                line-height: 2.17;
+                letter-spacing: normal;
+                text-align: center;
+              `}
+            >
+              Edit
+            </span>
           </ActionPill>
           <Popup
-            trigger={<ActionPill to={row => console.log('... clicked')}> ...</ActionPill>}
+            trigger={
+              <ActionPill
+                css={`
+                  width: 42px;
+                `}
+                to={() => ''}
+              >
+                {' '}
+                <span
+                  css={`
+                    width: 27px;
+                    height: 3px;
+                    font-size: 12px;
+                    font-weight: 500;
+                    font-style: normal;
+                    font-stretch: normal;
+                    line-height: 2.17;
+                    letter-spacing: normal;
+                    text-align: center;
+                  `}
+                >
+                  {' '}
+                  ...
+                </span>{' '}
+              </ActionPill>
+            }
             position="left"
             offset={0}
             on="click"
@@ -114,11 +153,16 @@ const modelManagerCustomColumns = [
             contentStyle={{
               padding: '0px',
               border: 'none',
+              borderRadius: '10px',
               width: 'max-content',
             }}
             arrow={false}
           >
-            <ActionsMenu>
+            <ActionsMenu
+              css={`
+                width: 70px;
+              `}
+            >
               <ActionsMenuItem>Publish</ActionsMenuItem>
               <ActionsMenuItem>Delete</ActionsMenuItem>
             </ActionsMenu>
