@@ -20,8 +20,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
         error: null,
       },
       form: {
-        isFormReadyToSave: false,
-        isFormReadyToPublish: false,
+        isReadyToSave: false,
+        isReadyToPublish: false,
         dirty: false,
         touched: {},
         errors: {},
@@ -85,10 +85,10 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               form: {
                 ...state.form,
                 ...formState,
-                isFormReadyToSave: formState.errors
+                isReadyToSave: formState.errors
                   ? isFormReady(formState.errors)
                   : isFormReady(state.form.errors),
-                isFormReadyToPublish: formState.errors
+                isReadyToPublish: formState.errors
                   ? isFormReady(formState.errors)
                   : isFormReady(state.form.errors),
               },

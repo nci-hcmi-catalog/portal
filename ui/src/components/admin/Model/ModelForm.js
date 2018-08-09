@@ -85,7 +85,6 @@ const ModelFormTemplate = ({
         didMount={() => {
           // Initiate all fields as touched if the form is loading values
           if (Object.keys(values).length > 0) {
-            // touch all fields with error
             const touchedKeys = Object.keys(schemaObj) || [];
             const touchedValues = touchedKeys.reduce((acc, curr) => {
               acc[curr] = true;
@@ -98,6 +97,7 @@ const ModelFormTemplate = ({
         dirty={dirty}
         errors={errors}
         didUpdate={({ props, prevProps }) => {
+          // Sync form state on changes to errors (validation)
           if (Object.keys(props.errors).length !== Object.keys(prevProps.errors).length) {
             syncFormState({
               touched,

@@ -39,12 +39,14 @@ const modelStatus = (data = null) => {
   // Additional statuses here
 };
 
+const isFormReady = errors => Object.keys(errors).length === 0;
+
 export default ({ modelName }) => (
   <ModelSingleContext.Consumer>
     {({
       state: {
         data: { response, error },
-        form: { errors, isReadyToSave, isReadyToSubmit },
+        form: { isReadyToSave, isReadyToPublish },
       },
     }) => (
       <AdminHeader>
@@ -56,10 +58,10 @@ export default ({ modelName }) => (
           <ModelHeaderBackLink href={manageModelsUrlBase}>
             <ArrowLeftIcon height={9} width={5} /> Back to List
           </ModelHeaderBackLink>
-          <Pill errors={errors} disabled={!isReadyToSubmit} marginLeft="21px" marginRight="10px">
+          <Pill disabled={!isReadyToPublish} marginLeft="21px" marginRight="10px">
             Publish
           </Pill>
-          <Pill errors={errors} primary disabled={!isReadyToSave} marginRight="10px">
+          <Pill primary disabled={!isReadyToSave} marginRight="10px">
             Save
           </Pill>
         </AdminHeaderBlock>

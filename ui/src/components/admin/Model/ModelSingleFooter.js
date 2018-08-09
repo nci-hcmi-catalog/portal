@@ -8,7 +8,7 @@ export default () => (
   <ModelSingleContext.Consumer>
     {({
       state: {
-        data: { response, error },
+        form: { isReadyToSave, isReadyToPublish },
       },
     }) => (
       <AdminFooter>
@@ -16,10 +16,10 @@ export default () => (
           <Pill secondary>Cancel</Pill>
         </AdminFooterBlock>
         <AdminFooterBlock>
-          <Pill marginRight="10px" disabled>
+          <Pill marginRight="10px" disabled={!isReadyToPublish}>
             Publish
           </Pill>
-          <Pill primary disabled>
+          <Pill primary disabled={!isReadyToSave}>
             Save
           </Pill>
         </AdminFooterBlock>
