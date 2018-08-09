@@ -44,6 +44,7 @@ export default ({ modelName }) => (
     {({
       state: {
         data: { response, error },
+        form: { errors, isReadyToSave, isReadyToSubmit },
       },
     }) => (
       <AdminHeader>
@@ -55,10 +56,10 @@ export default ({ modelName }) => (
           <ModelHeaderBackLink href={manageModelsUrlBase}>
             <ArrowLeftIcon height={9} width={5} /> Back to List
           </ModelHeaderBackLink>
-          <Pill disabled marginLeft="21px" marginRight="10px">
+          <Pill errors={errors} disabled={!isReadyToSubmit} marginLeft="21px" marginRight="10px">
             Publish
           </Pill>
-          <Pill primary disabled marginRight="10px">
+          <Pill errors={errors} primary disabled={!isReadyToSave} marginRight="10px">
             Save
           </Pill>
         </AdminHeaderBlock>

@@ -4,6 +4,10 @@ import { fetchData } from '../services/Fetcher';
 
 export const ModelSingleContext = React.createContext();
 
+// Helper functions
+const isFormReady = errors => Object.keys(errors).length === 0;
+
+// Provider
 export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) => (
   <Component
     initialState={{
@@ -14,6 +18,13 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
         isLoading: false,
         response: {},
         error: null,
+      },
+      form: {
+        isFormReadyToSave: false,
+        isFormReadyToPublish: false,
+        dirty: false,
+        touched: {},
+        errors: {},
       },
     }}
     didMount={async ({ state, setState }) => {
@@ -65,6 +76,21 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               ui: {
                 ...state.ModelSingle,
                 activeTab: tabName,
+              },
+            });
+          },
+          syncFormState: formState => {
+            setState({
+              ...state,
+              form: {
+                ...state.form,
+                ...formState,
+                isFormReadyToSave: formState.errors
+                  ? isFormReady(formState.errors)
+                  : isFormReady(state.form.errors),
+                isFormReadyToPublish: formState.errors
+                  ? isFormReady(formState.errors)
+                  : isFormReady(state.form.errors),
               },
             });
           },
