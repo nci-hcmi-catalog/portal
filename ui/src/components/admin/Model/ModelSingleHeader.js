@@ -3,6 +3,8 @@ import { ModelSingleContext } from './ModelSingleController';
 import { manageModelsUrlBase } from '../AdminNav';
 
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
+import AdminModelPublishIcon from 'icons/AdminModelPublishIcon';
+import AdminModelSaveIcon from 'icons/AdminModelSaveIcon';
 
 import { AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
 import { ModelHeaderH1, ModelHeaderBackLink } from 'theme/adminModelStyles';
@@ -55,14 +57,14 @@ export default ({ modelName }) => (
           {modelStatus(response.data || null)}
         </AdminHeaderBlock>
         <AdminHeaderBlock>
-          <ModelHeaderBackLink href={manageModelsUrlBase}>
+          <ModelHeaderBackLink to={manageModelsUrlBase}>
             <ArrowLeftIcon height={9} width={5} /> Back to List
           </ModelHeaderBackLink>
           <Pill disabled={!isReadyToPublish} marginLeft="21px" marginRight="10px">
-            Publish
+            <AdminModelPublishIcon css={'margin-right: 10px;'} height={16} width={15} />Publish
           </Pill>
           <Pill primary disabled={!isReadyToSave} marginRight="10px">
-            Save
+            <AdminModelSaveIcon css={'margin-right: 8px;'} height={14} width={14} />Save
           </Pill>
         </AdminHeaderBlock>
       </AdminHeader>

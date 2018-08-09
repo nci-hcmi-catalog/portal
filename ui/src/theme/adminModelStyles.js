@@ -1,5 +1,7 @@
 import { css } from 'emotion';
 import styled from 'react-emotion';
+import { Link } from 'react-router-dom';
+
 import base from 'theme';
 import { Col } from 'theme/system';
 import { AdminContent, AdminHeaderH1 } from 'theme/adminStyles';
@@ -81,7 +83,7 @@ export const ModelHeaderH1 = styled(AdminHeaderH1)`
   label: admin-model-header-h1;
 `;
 
-export const ModelHeaderBackLink = styled('a')`
+export const ModelHeaderBackLink = styled(Link)`
   color: ${brandPrimary};
   font-family: ${libreFranklin};
   font-size: 12px;
