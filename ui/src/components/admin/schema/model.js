@@ -48,8 +48,8 @@ export const schemaArr = [
     accessor: 'primary_site',
   },
   {
-    displayName: 'TMN Stage',
-    accessor: 'tmn_stage',
+    displayName: 'TNM Stage',
+    accessor: 'tnm_stage',
   },
   {
     displayName: 'Neoadjuvant Therapy',
@@ -84,7 +84,7 @@ export const schemaArr = [
     accessor: 'histological_type',
   },
   {
-    displayName: 'Clinical Tumor Diagnosise',
+    displayName: 'Clinical Tumor Diagnosis',
     accessor: 'clinical_tumor_diagnosis',
   },
   {

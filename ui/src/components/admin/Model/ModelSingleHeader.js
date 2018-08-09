@@ -3,6 +3,8 @@ import { ModelSingleContext } from './ModelSingleController';
 import { manageModelsUrlBase } from '../AdminNav';
 
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
+import AdminModelPublishIcon from 'icons/AdminModelPublishIcon';
+import AdminModelSaveIcon from 'icons/AdminModelSaveIcon';
 
 import { AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
 import { ModelHeaderH1, ModelHeaderBackLink } from 'theme/adminModelStyles';
@@ -39,11 +41,14 @@ const modelStatus = (data = null) => {
   // Additional statuses here
 };
 
+const isFormReady = errors => Object.keys(errors).length === 0;
+
 export default ({ modelName }) => (
   <ModelSingleContext.Consumer>
     {({
       state: {
         data: { response, error },
+        form: { isReadyToSave, isReadyToPublish },
       },
     }) => (
       <AdminHeader>
@@ -52,14 +57,14 @@ export default ({ modelName }) => (
           {modelStatus(response.data || null)}
         </AdminHeaderBlock>
         <AdminHeaderBlock>
-          <ModelHeaderBackLink href={manageModelsUrlBase}>
+          <ModelHeaderBackLink to={manageModelsUrlBase}>
             <ArrowLeftIcon height={9} width={5} /> Back to List
           </ModelHeaderBackLink>
-          <Pill disabled marginLeft="21px" marginRight="10px">
-            Publish
+          <Pill disabled={!isReadyToPublish} marginLeft="21px" marginRight="10px">
+            <AdminModelPublishIcon css={'margin-right: 10px;'} height={16} width={15} />Publish
           </Pill>
-          <Pill primary disabled marginRight="10px">
-            Save
+          <Pill primary disabled={!isReadyToSave} marginRight="10px">
+            <AdminModelSaveIcon css={'margin-right: 8px;'} height={14} width={14} />Save
           </Pill>
         </AdminHeaderBlock>
       </AdminHeader>

@@ -131,7 +131,7 @@ export default ({ modelName }) => (
                       'clinical_diagnosis.clinical_tumor_diagnosis',
                       'clinical_diagnosis.aquisition_site',
                       'clinical_diagnosis.histological_type',
-                      'clinical_diagnosis.histologcal_grade',
+                      'clinical_diagnosis.histological_grade',
                       'clinical_diagnosis.clinical_stage_grouping',
                     ]}
                   />

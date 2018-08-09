@@ -1,4 +1,5 @@
 import styled from 'react-emotion';
+import { Link } from 'react-router-dom';
 import base from 'theme';
 
 const {
@@ -14,12 +15,17 @@ const pillOrange = sienna;
 const pillBorderColour = frenchGrey;
 
 const PillBase = styled('div')`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   font-family: ${libreFranklin};
   text-transform: uppercase;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
   text-align: center;
+  cursor: pointer;
+  text-decoration: none;
   color: ${({ secondary }) => (secondary ? brandPrimary : white)};
   border: solid 1px ${pillBorderColour};
   background: ${({ primary, warning, secondary, disabled }) => {
@@ -61,3 +67,5 @@ export const Pill = styled(PillBase)`
   padding: 0 18px;
   label: admin-pill;
 `;
+
+export const LinkPill = Pill.withComponent(Link);

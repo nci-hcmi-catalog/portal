@@ -74,10 +74,10 @@ export default object().shape({
     .required()
     .lowercase()
     .oneOf(primarySites),
-  tmn_stage: string()
+  tnm_stage: string()
     .required()
     .matches(
-      /T[0-2]M[0-2]N[0-4]/,
+      /T[0-2]N[0-4]M[0-2]/,
       'Field must follow TNM classification format: T0-T2, N0-N4, and M0-M2 ex. T0N1M2',
     ),
   neoadjuvant_therapy: string()
@@ -90,9 +90,14 @@ export default object().shape({
   vital_status: string()
     .lowercase()
     .oneOf(vitalStatus),
-  therapy: string()
-    .lowercase()
-    .oneOf(therapy),
+  therapy: array()
+    .of(string().lowercase())
+    .ensure()
+    .test(
+      'is-one-of',
+      `Therapy can only be one of: ${therapy.join(', ')}`,
+      arrItemIsOneOf(therapy),
+    ),
   molecular_characterizations: array()
     .of(string().lowercase())
     .ensure()

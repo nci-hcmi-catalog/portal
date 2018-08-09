@@ -55,7 +55,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
           clinical_stage_grouping: {
             type: 'keyword',
           },
-          histologcal_grade: {
+          histological_grade: {
             type: 'keyword',
           },
           histological_type: {
