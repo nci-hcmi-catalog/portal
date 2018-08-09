@@ -20,7 +20,7 @@ export const ModelSchema = new mongoose.Schema(
     chemotherapeutic_drugs: Boolean,
     disease_status: String,
     vital_status: String,
-    therapy: String,
+    therapy: [String],
     molecular_characterizations: [String],
     clinical_tumor_diagnosis: String,
     histological_type: String,

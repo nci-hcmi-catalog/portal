@@ -90,9 +90,14 @@ export default object().shape({
   vital_status: string()
     .lowercase()
     .oneOf(vitalStatus),
-  therapy: string()
-    .lowercase()
-    .oneOf(therapy),
+  therapy: array()
+    .of(string().lowercase())
+    .ensure()
+    .test(
+      'is-one-of',
+      `Therapy can only be one of: ${therapy.join(', ')}`,
+      arrItemIsOneOf(therapy),
+    ),
   molecular_characterizations: array()
     .of(string().lowercase())
     .ensure()
