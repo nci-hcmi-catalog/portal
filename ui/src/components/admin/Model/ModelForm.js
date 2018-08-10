@@ -28,7 +28,7 @@ import {
   therapy as therapyOptions,
 } from '@hcmi-portal/cms/src/schemas/constants';
 
-const booleanChoice = [{ name: 'Yes', value: true }, { name: 'No', value: false }];
+const booleanChoice = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
 
 const makeClinicalTumorDiagnosisDependentOptions = (clinical_tumor_diagnosis, fieldName) =>
   (clinicalTumorDiagnosisDependent[fieldName][clinical_tumor_diagnosis] || []).map(v =>

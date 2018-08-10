@@ -15,6 +15,15 @@ import FormFieldErrorIcon from 'icons/FormFieldErrorIcon';
 
 const hasErrors = (errors, touched, fieldName) => touched[fieldName] && errors[fieldName];
 
+// Map simple string/number options to keyed objects
+const processOptions = options =>
+  options.map(
+    option =>
+      typeof option === 'object' && option.constructor === Object
+        ? option
+        : { label: option, value: option },
+  );
+
 export const FormComponent = ({
   children,
   children: {
@@ -47,9 +56,9 @@ export const FormSelect = ({ field, form: { touched, errors }, ...props }) => (
     )}
     <Select {...field} {...props} errors={hasErrors(errors, touched, field.name)}>
       <option value="0">-- Select an Option --</option>
-      {props.options.map((option, idx) => (
-        <option key={idx} value={option.value || option}>
-          {option.name || option}
+      {processOptions(props.options).map((option, idx) => (
+        <option key={idx} value={option.value}>
+          {option.label}
         </option>
       ))}
     </Select>
@@ -66,10 +75,10 @@ export const FormRadioSelect = ({ field, form: { touched, errors }, ...props }) 
       </FormFieldError>
     )}
     <RadioSelect {...props}>
-      {props.options.map((option, idx) => (
+      {processOptions(props.options).map((option, idx) => (
         <label key={idx}>
-          {option.name || option}
-          <input type="radio" {...field} value={option.value || option} />
+          {option.label}
+          <input type="radio" {...field} value={option.value} />
           <span />
         </label>
       ))}
@@ -93,9 +102,9 @@ export const FormMultiCheckbox = ({
         </FormFieldError>
       )}
       <CheckBoxes {...props}>
-        {props.options.map((option, idx) => {
-          const name = option.name || option;
-          const value = option.value || option;
+        {processOptions(props.options).map((option, idx) => {
+          const name = option.label;
+          const value = option.value;
           return (
             <label key={idx}>
               {name}
