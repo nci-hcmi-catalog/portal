@@ -1,6 +1,7 @@
 import { css } from 'emotion';
 import styled from 'react-emotion';
 import base from 'theme';
+import CalendarIcon from 'assets/icon-calendar.svg';
 
 const {
   fonts: { libreFranklin, openSans },
@@ -104,6 +105,28 @@ export const Select = styled('select')`
   ${inputSelectSharedStyles};
   width: ${props => props.width || '100%'};
   ${props => !!props.errors && fieldErrorStyles};
+`;
+
+export const DatePicker = styled('input')`
+  ${inputSelectSharedStyles};
+  background: ${white} url(${CalendarIcon}) no-repeat;
+  background-position: right 11px center;
+  background-size: 19px 19px;
+  padding-right: 44px;
+  cursor: pointer;
+  label: model-form-datepicker;
+
+  &::-webkit-inner-spin-button {
+    display: none;
+  }
+  &::-webkit-calendar-picker-indicator {
+    position: relative;
+    right: -44px;
+    width: 44px;
+    height: 36px;
+    opacity: 0;
+    cursor: pointer;
+  }
 `;
 
 const checkboxRadioSharedStyles = css`

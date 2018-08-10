@@ -6,6 +6,7 @@ import { ModelSingleContext } from './ModelSingleController';
 import {
   FormComponent,
   FormTextInput,
+  FormDateInput,
   FormSelect,
   FormRadioSelect,
   FormMultiCheckbox,
@@ -290,7 +291,7 @@ const ModelFormTemplate = ({
           <FormSection>
             <FormCol>
               <FormComponent labelText={date_of_availability.displayName}>
-                <Field name={date_of_availability.accessor} type="date" />
+                <Field name={date_of_availability.accessor} component={FormDateInput} />
               </FormComponent>
 
               <FormComponent labelText={licensing_required.displayName}>
