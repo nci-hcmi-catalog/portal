@@ -49,12 +49,19 @@ export const FormTextInput = ({ field, form: { touched, errors }, ...props }) =>
   </>
 );
 
-export const FormSelect = ({ field, form: { touched, errors }, ...props }) => (
+export const FormSelect = ({ field, form: { touched, errors }, disabled, ...props }) => (
   <>
     {hasErrors(errors, touched, field.name) && (
       <FormFieldError>{errors[field.name]}</FormFieldError>
     )}
-    <Select {...field} {...props} errors={hasErrors(errors, touched, field.name)}>
+    {/* Select fields will be disabled if they have no options, as is possible when selecting
+        tumor diagnosis based options  */}
+    <Select
+      disabled={disabled || props.options.length === 0}
+      {...field}
+      {...props}
+      errors={hasErrors(errors, touched, field.name)}
+    >
       <option value="0">-- Select an Option --</option>
       {processOptions(props.options).map((option, idx) => (
         <option key={idx} value={option.value}>
@@ -70,7 +77,9 @@ export const FormRadioSelect = ({ field, form: { touched, errors }, ...props }) 
   <>
     {hasErrors(errors, touched, field.name) && (
       <FormFieldError>
-        {errors[field.name]}
+        {/* Radio Select will only ever error when they are required so we
+            will simplify the messaging for the front-end */}
+        {[field.name]} is a required field
         <FormFieldErrorIcon css={checkboxRadioErrorIcon} />
       </FormFieldError>
     )}
