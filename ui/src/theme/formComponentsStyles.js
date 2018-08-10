@@ -14,7 +14,6 @@ const {
     shuttleGrey,
     frenchGrey,
     dodgerBlue,
-    keppel,
     silverChalice,
     dawnPink,
   },
@@ -24,7 +23,7 @@ const inputPrimaryColour = mineShaft;
 const inputBorderColour = frenchGrey;
 const checkBoxRadioBorderColour = silver;
 const checkboxBlue = dodgerBlue;
-const radioColour = keppel;
+const radioColour = dodgerBlue;
 const fieldDescColour = shuttleGrey;
 const disabledBkgColour = lightPorcelain;
 const disabledTextColour = silverChalice;
