@@ -177,13 +177,14 @@ export const FomAutoComplete = ({
   field,
   form: { values, touched, errors, setFieldValue, setFieldTouched },
   options,
+  errorText,
   ...props
 }) => {
   const fieldName = field.name;
   return (
     <AutoCompleteWrapper>
       {hasErrors(errors, touched, fieldName) && (
-        <FormFieldError>{fieldName} must be one of the autocomplete options</FormFieldError>
+        <FormFieldError>{errorText || errors[fieldName]}</FormFieldError>
       )}
       <ReactAutocomplete
         items={processOptions(options)}

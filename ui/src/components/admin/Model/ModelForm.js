@@ -151,6 +151,7 @@ const ModelFormTemplate = ({
                   name={primary_site.accessor}
                   component={FomAutoComplete}
                   options={primarySitesOptions}
+                  errorText="Values must match a predefined primary site"
                 />
               </FormComponent>
 
