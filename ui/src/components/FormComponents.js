@@ -1,11 +1,15 @@
 import React from 'react';
 import Component from 'react-component-component';
+import ReactAutocomplete from 'react-autocomplete';
 import {
   FormBlock,
   FormBlockLabel,
   FormFieldDesc,
   Input,
   Select,
+  AutoCompleteWrapper,
+  AutoCompleteMenu,
+  AutoCompleteOption,
   DatePicker,
   CheckBoxes,
   RadioSelect,
@@ -131,7 +135,7 @@ export const FormMultiCheckbox = ({
   ...props
 }) => {
   const fieldName = field.name;
-  const options = values[fieldName] || [];
+  const fieldValues = values[fieldName] || [];
   return (
     <>
       {hasErrors(errors, touched, fieldName) && (
@@ -150,12 +154,12 @@ export const FormMultiCheckbox = ({
               <input
                 type="checkbox"
                 value={value}
-                checked={options.includes(value)}
+                checked={fieldValues.includes(value)}
                 name={fieldName}
                 onChange={e => {
                   const newSelects = e.target.checked
-                    ? options.concat([value])
-                    : options.filter(option => option !== value);
+                    ? fieldValues.concat([value])
+                    : fieldValues.filter(option => option !== value);
                   setFieldValue(fieldName, newSelects);
                   setFieldTouched(fieldName);
                 }}
@@ -169,7 +173,42 @@ export const FormMultiCheckbox = ({
   );
 };
 
-export const FromLabelHeader = ({ labelText, description }) => (
+export const FomAutoComplete = ({
+  field,
+  form: { values, touched, errors, setFieldValue, setFieldTouched },
+  options,
+  ...props
+}) => {
+  const fieldName = field.name;
+  return (
+    <AutoCompleteWrapper>
+      {hasErrors(errors, touched, fieldName) && (
+        <FormFieldError>{fieldName} must be one of the autocomplete options</FormFieldError>
+      )}
+      <ReactAutocomplete
+        items={processOptions(options)}
+        shouldItemRender={(item, value) =>
+          item.label.toLowerCase().indexOf(value.toLowerCase()) > -1
+        }
+        getItemValue={item => item.label}
+        renderMenu={items => <AutoCompleteMenu children={items} />}
+        renderItem={(item, highlighted) => (
+          <AutoCompleteOption key={item.value} highlighted={highlighted}>
+            {item.label}
+          </AutoCompleteOption>
+        )}
+        value={values[fieldName]}
+        onChange={e => {
+          setFieldValue(fieldName, e.target.value);
+          setFieldTouched(fieldName);
+        }}
+        onSelect={value => setFieldValue(fieldName, value)}
+      />
+    </AutoCompleteWrapper>
+  );
+};
+
+export const FormLabelHeader = ({ labelText, description }) => (
   <FormBlock>
     <FormBlockLabel>{labelText}:</FormBlockLabel>
     {description && <FormFieldDesc>{description}</FormFieldDesc>}

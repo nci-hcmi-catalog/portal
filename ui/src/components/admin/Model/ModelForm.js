@@ -10,7 +10,8 @@ import {
   FormSelect,
   FormRadioSelect,
   FormMultiCheckbox,
-  FromLabelHeader,
+  FomAutoComplete,
+  FormLabelHeader,
 } from 'components/FormComponents';
 import { ModelForm, FormHeader, FormSection, FormCol } from 'theme/adminModelFormStyles';
 import modelValidation from '@hcmi-portal/cms/src/validation/model';
@@ -27,6 +28,7 @@ import {
   diseaseStatus as diseaseStatusOptions,
   vitalStatus as vitalStatusOptions,
   therapy as therapyOptions,
+  primarySites as primarySitesOptions,
 } from '@hcmi-portal/cms/src/schemas/constants';
 
 const booleanChoice = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
@@ -114,10 +116,7 @@ const ModelFormTemplate = ({
           </FormHeader>
           <FormSection>
             <FormCol>
-              <FormComponent
-                labelText={model_name.displayName}
-                description="Optional description of form field."
-              >
+              <FormComponent labelText={model_name.displayName}>
                 <Field name={model_name.accessor} component={FormTextInput} />
               </FormComponent>
 
@@ -144,8 +143,15 @@ const ModelFormTemplate = ({
                 <Field name={growth_rate.accessor} component={FormTextInput} />
               </FormComponent>
 
-              <FormComponent labelText={primary_site.displayName}>
-                <Field name={primary_site.accessor} component={FormTextInput} />
+              <FormComponent
+                labelText={primary_site.displayName}
+                description="Start typing for valid options"
+              >
+                <Field
+                  name={primary_site.accessor}
+                  component={FomAutoComplete}
+                  options={primarySitesOptions}
+                />
               </FormComponent>
 
               <FormComponent labelText={neoadjuvant_therapy.displayName}>
@@ -304,7 +310,7 @@ const ModelFormTemplate = ({
             </FormCol>
 
             <FormCol>
-              <FromLabelHeader
+              <FormLabelHeader
                 labelText="External Resources"
                 description="Please provide urls to GDC or EGA"
               />

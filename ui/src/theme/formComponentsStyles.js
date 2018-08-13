@@ -107,6 +107,45 @@ export const Select = styled('select')`
   ${props => !!props.errors && fieldErrorStyles};
 `;
 
+export const AutoCompleteWrapper = styled('div')`
+  width: ${props => props.width || '100%'};
+
+  > div {
+    width: ${props => props.width || '100%'};
+  }
+
+  input {
+    ${inputSelectSharedStyles};
+    width: ${props => props.width || '100%'};
+    ${props => !!props.errors && fieldErrorStyles};
+  }
+`;
+
+export const AutoCompleteMenu = styled('div')`
+  position: absolute;
+  z-index: 3;
+  width: 100%;
+  background: ${white};
+  font-family: ${openSans};
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  color: ${inputPrimaryColour};
+  max-height: 120px;
+  overflow-y: auto;
+  border: solid 1px ${inputBorderColour};
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+`;
+
+export const AutoCompleteOption = styled('div')`
+  line-height: 28px;
+  padding: 0 12px;
+  background: ${({ highlighted }) => (highlighted ? disabledBkgColour : 'none')};
+  cursor: pointer;
+`;
+
 export const DatePicker = styled('input')`
   ${inputSelectSharedStyles};
   background: ${white} url(${CalendarIcon}) no-repeat;
