@@ -99,6 +99,15 @@ export const Input = styled('input')`
   ${inputSelectSharedStyles};
   width: ${props => props.width || '100%'};
   ${props => !!props.errors && fieldErrorStyles};
+
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
 `;
 
 export const Select = styled('select')`

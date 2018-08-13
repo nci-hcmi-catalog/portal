@@ -45,12 +45,12 @@ export const FormComponent = ({
   </FormBlock>
 );
 
-export const FormTextInput = ({ field, form: { touched, errors }, ...props }) => (
+export const FormInput = ({ field, form: { touched, errors }, type = 'text', ...props }) => (
   <>
     {hasErrors(errors, touched, field.name) && (
       <FormFieldError>{errors[field.name]}</FormFieldError>
     )}
-    <Input type="text" {...field} {...props} errors={hasErrors(errors, touched, field.name)} />
+    <Input type={type} {...field} {...props} errors={hasErrors(errors, touched, field.name)} />
     {hasErrors(errors, touched, field.name) && <FormFieldErrorIcon css={inputSelectErrorIcon} />}
   </>
 );

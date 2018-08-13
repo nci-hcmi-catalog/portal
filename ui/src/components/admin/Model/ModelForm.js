@@ -5,7 +5,7 @@ import { ModelSingleContext } from './ModelSingleController';
 
 import {
   FormComponent,
-  FormTextInput,
+  FormInput,
   FormDateInput,
   FormSelect,
   FormRadioSelect,
@@ -117,7 +117,7 @@ const ModelFormTemplate = ({
           <FormSection>
             <FormCol>
               <FormComponent labelText={model_name.displayName}>
-                <Field name={model_name.accessor} component={FormTextInput} />
+                <Field name={model_name.accessor} component={FormInput} />
               </FormComponent>
 
               <FormComponent labelText={model_type.displayName}>
@@ -140,7 +140,7 @@ const ModelFormTemplate = ({
                 labelText={growth_rate.displayName}
                 description="This must be a number between 5 and 90"
               >
-                <Field name={growth_rate.accessor} component={FormTextInput} />
+                <Field name={growth_rate.accessor} component={FormInput} type="number" step={1} />
               </FormComponent>
 
               <FormComponent
@@ -164,7 +164,7 @@ const ModelFormTemplate = ({
               </FormComponent>
 
               <FormComponent labelText={tnm_stage.displayName}>
-                <Field name={tnm_stage.accessor} component={FormTextInput} />
+                <Field name={tnm_stage.accessor} component={FormInput} />
               </FormComponent>
             </FormCol>
 
@@ -249,11 +249,21 @@ const ModelFormTemplate = ({
           <FormSection>
             <FormCol>
               <FormComponent labelText={age_at_diagnosis.displayName}>
-                <Field name={age_at_diagnosis.accessor} component={FormTextInput} />
+                <Field
+                  name={age_at_diagnosis.accessor}
+                  component={FormInput}
+                  type="number"
+                  step={1}
+                />
               </FormComponent>
 
               <FormComponent labelText={age_at_sample_acquisition.displayName}>
-                <Field name={age_at_sample_acquisition.accessor} component={FormTextInput} />
+                <Field
+                  name={age_at_sample_acquisition.accessor}
+                  component={FormInput}
+                  type="number"
+                  step={1}
+                />
               </FormComponent>
 
               <FormComponent labelText={vital_status.displayName}>
@@ -317,11 +327,11 @@ const ModelFormTemplate = ({
               />
 
               <FormComponent labelText={source_model_url.displayName}>
-                <Field name={source_model_url.accessor} component={FormTextInput} />
+                <Field name={source_model_url.accessor} component={FormInput} />
               </FormComponent>
 
               <FormComponent labelText={source_sequence_url.displayName}>
-                <Field name={source_sequence_url.accessor} component={FormTextInput} />
+                <Field name={source_sequence_url.accessor} component={FormInput} />
               </FormComponent>
             </FormCol>
           </FormSection>
