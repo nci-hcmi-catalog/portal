@@ -11,11 +11,19 @@ const googleSDK = () => {
     const gapi = global.gapi;
     gapi.load('auth2', () => {
       gapi.auth2
-        .init({ client_id: googleAppId })
+        .init({
+          client_id: googleAppId,
+          scope: 'profile email https://www.googleapis.com/auth/spreadsheets.readonly',
+        })
         .then(x => resolve(x))
         .catch(err => reject(err));
     });
   });
+};
+
+const attachGoogleSignIn = (elementId, googleAuth, onSuccess, onFailure) => {
+  const element = document.getElementById('googleSignin');
+  googleAuth.attachClickHandler(element, {}, onSuccess, onFailure);
 };
 
 const handleAuthError = err => ({ googleAuthError: true, authErrorMessage: err });
@@ -26,23 +34,28 @@ export const LoginWithGoogle = ({ children, ...props }) => (
       googleAuthError: false,
       authErrorMessage: '',
       loggedIn: false,
+      googleUser: null,
     }}
     didMount={async ({ state, setState }) => {
       try {
-        await googleSDK();
-        global.gapi.signin2.render('googleSignin', {
-          scope: 'profile email https://www.googleapis.com/auth/spreadsheets.readonly',
-          width: 240,
-          height: 40,
-          longtitle: true,
-          theme: 'light',
-          onsuccess: googleUser => {
-            const { id_token } = googleUser.getAuthResponse();
-            setState({ loggedIn: true });
-            console.log(googleUser.getAuthResponse());
-          },
-          onfailure: err => setState(handleAuthError(err)),
-        });
+        const googleAuth = await googleSDK();
+        if (!googleAuth.isSignedIn.get()) {
+          attachGoogleSignIn(
+            'googleSignin',
+            googleAuth,
+            successResponse =>
+              setState({
+                loggedIn: true,
+                googleUser: successResponse.getAuthResponse(),
+              }),
+            err => setState(handleAuthError(err)),
+          );
+        } else {
+          setState({
+            loggedIn: true,
+            googleUser: googleAuth.currentUser.get(),
+          });
+        }
       } catch (err) {
         setState(handleAuthError(err));
       }
@@ -68,7 +81,9 @@ export const LoginWithGoogle = ({ children, ...props }) => (
               />Google Linked
             </Pill>
           ) : (
-            <div key="google" id="googleSignin" />
+            <Pill key="google" id="googleSignin">
+              Link With Google
+            </Pill>
           )}
           {children}{' '}
         </>
