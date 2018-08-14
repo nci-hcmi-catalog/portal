@@ -1,10 +1,25 @@
 import React from 'react';
-import Component from 'react-component-component';
+import {
+  BulkUploadMain,
+  BulkUploadHeader,
+  CloseModal,
+  BulkUploadTitle,
+  BulkUploadContent,
+} from 'theme/adminBulkUploadStyles';
+import { HeaderSeparator } from '../../../theme/adminBulkUploadStyles';
+import SequentialTabs from './SequentialTabs';
 
-const UploadModal = ({ type, children, ...props }) => {
-  return (
-    <Component>{({ state, setState, ...props }) => <span>Bulk {type} Upload</span>}</Component>
-  );
-};
+const UploadModal = ({ type, ...props }) => (
+  <BulkUploadMain>
+    <BulkUploadHeader>
+      <BulkUploadTitle>{`Bulk ${type} Upload`}</BulkUploadTitle>
+      <CloseModal />
+    </BulkUploadHeader>
+    <HeaderSeparator />
+    <BulkUploadContent>
+      <SequentialTabs type={type} {...props} />
+    </BulkUploadContent>
+  </BulkUploadMain>
+);
 
 export default UploadModal;
