@@ -1,7 +1,7 @@
 import React from 'react';
 import { AdminNav, NavLink, Account, User, Pill } from 'theme/adminNavStyles';
 import UserIcon from 'icons/UserIcon';
-import { LoginWithGoogle } from './services/LoginWithGoogle';
+import { LoginWithGoogle } from './services/GoogleLink';
 
 // Regex for URLs used in navigation
 const [base, manageUsers, manageModels, modelUploadSingle] = [
