@@ -1,15 +1,23 @@
 import { ModelES } from './es/schemas/model';
+import publishValidation from '../../validation/model';
 
 export const indexOneToES = filter => {
   return new Promise((resolve, reject) => {
     ModelES.findOne(filter, (err, doc) => {
-      doc.esIndex((err, res) => {
-        err
-          ? reject(err)
-          : resolve({
-              status: `Indexing successful with status: ${res.result}`,
-            });
-      });
+      // Validate doc against publish schema
+      // for "on-demand" publishing
+      publishValidation
+        .validate(doc)
+        .then(
+          doc.esIndex((err, res) => {
+            err
+              ? reject(err)
+              : resolve({
+                  status: `Indexing successful with status: ${res.result}`,
+                });
+          }),
+        )
+        .catch(err => reject(err));
     });
   });
 };
@@ -41,6 +49,8 @@ const indexModelsToES = filter => {
       reject(err);
     });
 
+    // Index is being "synchronize filtered" as ModelEs
+    // definition, only valid models will be published
     ModelES.esSynchronize(filter || {}).then(result => {
       resolve({
         status: 'Indexing complete.',
