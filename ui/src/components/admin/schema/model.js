@@ -36,14 +36,6 @@ export const schemaArr = [
     accessor: 'date_of_availability',
   },
   {
-    displayName: 'Sequence Source',
-    accessor: 'sequence_source',
-  },
-  {
-    displayName: 'Licensing Requirements',
-    accessor: 'licensing_required',
-  },
-  {
     displayName: 'Primary Site',
     accessor: 'primary_site',
   },
@@ -84,8 +76,8 @@ export const schemaArr = [
     accessor: 'histological_type',
   },
   {
-    displayName: 'Clinical Tumor Diagnosis',
-    accessor: 'clinical_tumor_diagnosis',
+    displayName: 'Clinical Stage Grouping',
+    accessor: 'clinical_stage_grouping',
   },
   {
     displayName: 'Site Of Sample Acquisition',
@@ -96,16 +88,8 @@ export const schemaArr = [
     accessor: 'tumor_histological_grade',
   },
   {
-    displayName: 'Clinical Stage Grouping',
-    accessor: 'clinical_stage_grouping',
-  },
-  {
-    displayName: 'CreatedAt',
-    accessor: 'createdAt',
-  },
-  {
-    displayName: 'UpdatedAt',
-    accessor: 'updatedAt',
+    displayName: 'Licensing Requirements',
+    accessor: 'licensing_required',
   },
   {
     displayName: 'Model URL',
@@ -115,6 +99,18 @@ export const schemaArr = [
     displayName: 'Sequence URL',
     accessor: 'source_sequence_url',
   },
+  {
+    displayName: 'UpdatedBy',
+    accessor: 'updatedBy',
+  },
+  {
+    displayName: 'CreatedAt',
+    accessor: 'createdAt',
+  },
+  {
+    displayName: 'UpdatedAt',
+    accessor: 'updatedAt',
+  }
 ];
 
 export const schemaObj = schemaArr.reduce((acc, curr) => {
