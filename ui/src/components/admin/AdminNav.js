@@ -1,6 +1,7 @@
 import React from 'react';
 import { AdminNav, NavLink, Account, User, Pill } from 'theme/adminNavStyles';
 import UserIcon from 'icons/UserIcon';
+import { LoginWithGoogle } from './services/LoginWithGoogle';
 
 // Regex for URLs used in navigation
 const [base, manageUsers, manageModels, modelUploadSingle] = [
@@ -45,7 +46,7 @@ export default ({ location: { pathname } }) => (
         />
         lorem.ipsum@todo.on.ca
       </User>
-      <Pill>Link Google Account</Pill>
+      <LoginWithGoogle />
       <Pill last>Logout</Pill>
     </Account>
   </AdminNav>
