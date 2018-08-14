@@ -3,22 +3,21 @@ import { AdminNav, NavLink, Account, User, Pill } from 'theme/adminNavStyles';
 import UserIcon from 'icons/UserIcon';
 
 // Regex for URLs used in navigation
-const [base, manageUsers, manageModels, modelUploadSingle] = [
+const [base, manageUsers, modelUploadSingle] = [
   /\/admin\/?$/,
   /\/admin\/manage-users\/?$/,
-  /\/admin\/manage-models\/?$/,
   /\/admin\/model(\/.+)?\/?$/,
 ];
 
 // Nav paths to handle "nested pages"
-const [modelsNavPaths, usersNavPaths] = [[base, manageModels, modelUploadSingle], [manageUsers]];
+const [modelsNavPaths, usersNavPaths] = [[base, modelUploadSingle], [manageUsers]];
 
 // Nav active state func
 const isNavLinkActive = (currentPath, navPaths) =>
   navPaths.filter(path => currentPath.match(path)).length > 0;
 
 // Exported URLs to be used as needed
-export const manageModelsUrlBase = '/admin/manage-models';
+export const manageModelsUrlBase = '/admin';
 export const manageUsersUrlBase = '/admin/manage-users';
 export const modelEditUrlBase = '/admin/model';
 

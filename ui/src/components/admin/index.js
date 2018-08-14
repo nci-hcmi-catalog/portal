@@ -13,9 +13,9 @@ export default ({ location }) => (
   <Col>
     <AdminNav location={location} />
     <AdminMain>
-      <Route path="/admin/manage-users" component={UsersManager} />
-      <Route path="/admin/manage-models" component={ModelsManager} />
-      <Route path="/admin/model/:name?" component={ModelSingle} />
+      <Route exact path="/admin" component={ModelsManager} />
+      <Route exact path="/admin/model/:name?" component={ModelSingle} />
+      <Route exact path="/admin/manage-users" component={UsersManager} />
     </AdminMain>
   </Col>
 );
