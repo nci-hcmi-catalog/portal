@@ -1,6 +1,7 @@
 import React from 'react';
 import Component from 'react-component-component';
 import ReactAutocomplete from 'react-autocomplete';
+import { isEqual } from 'lodash';
 import {
   FormBlock,
   FormBlockLabel,
@@ -73,37 +74,44 @@ export const FormSelect = ({
   ...props
 }) => (
   <Component
-    options={options}
+    processedOptions={processOptions(options)}
     didUpdate={({ props, prevProps }) => {
-      // If a select has dynamic options, reset the selection
-      // field if the options change (no value and touched === false)
-      if (props.options.length !== prevProps.options.length) {
-        const newValues = Object.assign({}, values);
-        delete newValues[field.name];
-        setValues(newValues);
+      /* If a select has dynamic options, reset the selection
+         field if the options change (no value and touched === false) */
+      if (!isEqual(props.processedOptions, prevProps.processedOptions)) {
+        /* Formik does not have a "remove" or "unset" and their reset function
+           is too heavy handed for what we are trying to do here so ... direct
+           mutation of the values ... forgive me */
+        delete values[field.name];
         setFieldTouched(field.name, false);
       }
     }}
   >
-    {hasErrors(errors, touched, field.name) && (
-      <FormFieldError>{errors[field.name]}</FormFieldError>
+    {({ props: { processedOptions } }) => (
+      <>
+        {hasErrors(errors, touched, field.name) && (
+          <FormFieldError>{errors[field.name]}</FormFieldError>
+        )}
+        {/* Select fields will be disabled if they have no options, as is possible when selecting
+        tumor diagnosis based options */}
+        <Select
+          disabled={disabled || Object.keys(processedOptions).length === 0}
+          {...field}
+          {...props}
+          errors={hasErrors(errors, touched, field.name)}
+        >
+          <option value="">-- Select an Option --</option>
+          {processedOptions.map((option, idx) => (
+            <option key={idx} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </Select>
+        {hasErrors(errors, touched, field.name) && (
+          <FormFieldErrorIcon css={inputSelectErrorIcon} />
+        )}
+      </>
     )}
-    {/* Select fields will be disabled if they have no options, as is possible when selecting
-        tumor diagnosis based options  */}
-    <Select
-      disabled={disabled || options.length === 0}
-      {...field}
-      {...props}
-      errors={hasErrors(errors, touched, field.name)}
-    >
-      <option value="0">-- Select an Option --</option>
-      {processOptions(options).map((option, idx) => (
-        <option key={idx} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </Select>
-    {hasErrors(errors, touched, field.name) && <FormFieldErrorIcon css={inputSelectErrorIcon} />}
   </Component>
 );
 
