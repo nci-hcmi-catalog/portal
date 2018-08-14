@@ -8,7 +8,6 @@ import {
   splitRatio,
   gender,
   race,
-  sequenceSource,
   neoadjuvantTherapy,
   diseaseStatus,
   vitalStatus,
@@ -36,6 +35,7 @@ const arrItemIsOneOf = options => values => {
   }, true);
 };
 
+// In order to save a model, this validation must be satisfied
 export default object().shape({
   model_name: string()
     .required()
@@ -62,8 +62,6 @@ export default object().shape({
     .integer()
     .positive(),
   date_of_availability: date(),
-  sequence_source: mixed().oneOf(sequenceSource),
-  licensing_required: boolean(),
   primary_site: string()
     .lowercase()
     .oneOf(primarySites),
@@ -115,8 +113,41 @@ export default object().shape({
   tumor_histological_grade: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
     makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'tumor histological grade'),
   ),
+  licensing_required: boolean(),
   source_model_url: string().url(),
   source_sequence_url: string().url(),
   updatedBy: string(),
   status: string(),
+});
+
+// In order to publish to ES, we need only to validate required fields since
+// the create/update validation is already handled in the default export
+export const publishValidation = object().shape({
+  model_name: string().required(),
+  model_type: string().required(),
+  growth_rate: number().required(),
+  split_ratio: string().required(),
+  gender: string().required(),
+  race: string().required(),
+  age_at_diagnosis: number().required(),
+  age_at_sample_acquisition: number().required(),
+  date_of_availability: date().required(),
+  primary_site: string().required(),
+  tnm_stage: string(),
+  neoadjuvant_therapy: string(),
+  chemotherapeutic_drugs: boolean(),
+  disease_status: string().required(),
+  vital_status: string().required(),
+  therapy: array(),
+  molecular_characterizations: array(),
+  clinical_tumor_diagnosis: string().required(),
+  histological_type: string(),
+  clinical_stage_grouping: string(),
+  site_of_sample_acquisition: string(),
+  tumor_histological_grade: string(),
+  licensing_required: boolean().required(),
+  source_model_url: string(),
+  source_sequence_url: string(),
+  updatedBy: string().required(),
+  status: string().required(),
 });
