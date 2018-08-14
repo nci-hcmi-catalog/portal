@@ -14,7 +14,7 @@ import {
   FormLabelHeader,
 } from 'components/FormComponents';
 import { ModelForm, FormHeader, FormSection, FormCol } from 'theme/adminModelFormStyles';
-import modelValidation from '@hcmi-portal/cms/src/validation/model';
+import publishValidation from '@hcmi-portal/cms/src/validation/model';
 import { schemaObj } from '../schema/model';
 import {
   clinicalTumorDiagnosisDependent,
@@ -96,11 +96,19 @@ const ModelFormTemplate = ({
             setTouched(touchedValues);
           }
         }}
+        values={values}
         touched={touched}
         dirty={dirty}
         errors={errors}
         didUpdate={({ props, prevProps }) => {
-          // Sync form state on changes to errors (validation)
+          // Sync form values on change
+          if (props.values !== prevProps.values) {
+            syncFormState({
+              values,
+            });
+          }
+
+          // Sync form touched/dirty/error state on changes to errors (validation)
           if (Object.keys(props.errors).length !== Object.keys(prevProps.errors).length) {
             syncFormState({
               touched,
@@ -345,7 +353,7 @@ export default withFormik({
   mapPropsToValues: ({ data }) => data || {},
   validate: values => {
     try {
-      modelValidation.validateSync(values, { abortEarly: false });
+      publishValidation.validateSync(values, { abortEarly: false });
     } catch (error) {
       return error.inner.reduce((acc, inner) => ({ ...acc, [inner.path]: inner.message }), {});
     }
