@@ -1,6 +1,7 @@
 import { css } from 'emotion';
 import styled from 'react-emotion';
 import base from 'theme';
+import CalendarIcon from 'assets/icon-calendar.svg';
 
 const {
   fonts: { libreFranklin, openSans },
@@ -14,7 +15,6 @@ const {
     shuttleGrey,
     frenchGrey,
     dodgerBlue,
-    keppel,
     silverChalice,
     dawnPink,
   },
@@ -24,7 +24,7 @@ const inputPrimaryColour = mineShaft;
 const inputBorderColour = frenchGrey;
 const checkBoxRadioBorderColour = silver;
 const checkboxBlue = dodgerBlue;
-const radioColour = keppel;
+const radioColour = dodgerBlue;
 const fieldDescColour = shuttleGrey;
 const disabledBkgColour = lightPorcelain;
 const disabledTextColour = silverChalice;
@@ -99,12 +99,82 @@ export const Input = styled('input')`
   ${inputSelectSharedStyles};
   width: ${props => props.width || '100%'};
   ${props => !!props.errors && fieldErrorStyles};
+
+  &[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
 `;
 
 export const Select = styled('select')`
   ${inputSelectSharedStyles};
   width: ${props => props.width || '100%'};
   ${props => !!props.errors && fieldErrorStyles};
+`;
+
+export const AutoCompleteWrapper = styled('div')`
+  width: ${props => props.width || '100%'};
+
+  > div {
+    width: ${props => props.width || '100%'};
+  }
+
+  input {
+    ${inputSelectSharedStyles};
+    width: ${props => props.width || '100%'};
+    ${props => !!props.errors && fieldErrorStyles};
+  }
+`;
+
+export const AutoCompleteMenu = styled('div')`
+  position: absolute;
+  z-index: 3;
+  width: 100%;
+  background: ${white};
+  font-family: ${openSans};
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  color: ${inputPrimaryColour};
+  max-height: 120px;
+  overflow-y: auto;
+  border: solid 1px ${inputBorderColour};
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+`;
+
+export const AutoCompleteOption = styled('div')`
+  line-height: 28px;
+  padding: 0 12px;
+  background: ${({ highlighted }) => (highlighted ? disabledBkgColour : 'none')};
+  cursor: pointer;
+`;
+
+export const DatePicker = styled('input')`
+  ${inputSelectSharedStyles};
+  background: ${white} url(${CalendarIcon}) no-repeat;
+  background-position: right 11px center;
+  background-size: 19px 19px;
+  padding-right: 44px;
+  cursor: pointer;
+  label: model-form-datepicker;
+
+  &::-webkit-inner-spin-button {
+    display: none;
+  }
+  &::-webkit-calendar-picker-indicator {
+    position: relative;
+    right: -44px;
+    width: 44px;
+    height: 36px;
+    opacity: 0;
+    cursor: pointer;
+  }
 `;
 
 const checkboxRadioSharedStyles = css`

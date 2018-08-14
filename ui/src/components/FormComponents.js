@@ -1,10 +1,16 @@
 import React from 'react';
+import Component from 'react-component-component';
+import ReactAutocomplete from 'react-autocomplete';
 import {
   FormBlock,
   FormBlockLabel,
   FormFieldDesc,
   Input,
   Select,
+  AutoCompleteWrapper,
+  AutoCompleteMenu,
+  AutoCompleteOption,
+  DatePicker,
   CheckBoxes,
   RadioSelect,
   FormFieldError,
@@ -14,6 +20,15 @@ import {
 import FormFieldErrorIcon from 'icons/FormFieldErrorIcon';
 
 const hasErrors = (errors, touched, fieldName) => touched[fieldName] && errors[fieldName];
+
+// Map simple string/number options to keyed objects
+const processOptions = options =>
+  options.map(
+    option =>
+      typeof option === 'object' && option.constructor === Object
+        ? option
+        : { label: option, value: option },
+  );
 
 export const FormComponent = ({
   children,
@@ -30,46 +45,83 @@ export const FormComponent = ({
   </FormBlock>
 );
 
-export const FormTextInput = ({ field, form: { touched, errors }, ...props }) => (
+export const FormInput = ({ field, form: { touched, errors }, type = 'text', ...props }) => (
   <>
     {hasErrors(errors, touched, field.name) && (
       <FormFieldError>{errors[field.name]}</FormFieldError>
     )}
-    <Input type="text" {...field} {...props} errors={hasErrors(errors, touched, field.name)} />
+    <Input type={type} {...field} {...props} errors={hasErrors(errors, touched, field.name)} />
     {hasErrors(errors, touched, field.name) && <FormFieldErrorIcon css={inputSelectErrorIcon} />}
   </>
 );
 
-export const FormSelect = ({ field, form: { touched, errors }, ...props }) => (
+export const FormDateInput = ({ field, form: { touched, errors }, ...props }) => (
   <>
     {hasErrors(errors, touched, field.name) && (
       <FormFieldError>{errors[field.name]}</FormFieldError>
     )}
-    <Select {...field} {...props} errors={hasErrors(errors, touched, field.name)}>
+    <DatePicker type="date" {...field} {...props} errors={hasErrors(errors, touched, field.name)} />
+    {hasErrors(errors, touched, field.name) && <FormFieldErrorIcon css={inputSelectErrorIcon} />}
+  </>
+);
+
+export const FormSelect = ({
+  field,
+  form: { setValues, values, setFieldTouched, touched, errors },
+  options = [],
+  disabled,
+  ...props
+}) => (
+  <Component
+    options={options}
+    didUpdate={({ props, prevProps }) => {
+      // If a select has dynamic options, reset the selection
+      // field if the options change (no value and touched === false)
+      if (props.options.length !== prevProps.options.length) {
+        const newValues = Object.assign({}, values);
+        delete newValues[field.name];
+        setValues(newValues);
+        setFieldTouched(field.name, false);
+      }
+    }}
+  >
+    {hasErrors(errors, touched, field.name) && (
+      <FormFieldError>{errors[field.name]}</FormFieldError>
+    )}
+    {/* Select fields will be disabled if they have no options, as is possible when selecting
+        tumor diagnosis based options  */}
+    <Select
+      disabled={disabled || options.length === 0}
+      {...field}
+      {...props}
+      errors={hasErrors(errors, touched, field.name)}
+    >
       <option value="0">-- Select an Option --</option>
-      {props.options.map((option, idx) => (
-        <option key={idx} value={option.value || option}>
-          {option.name || option}
+      {processOptions(options).map((option, idx) => (
+        <option key={idx} value={option.value}>
+          {option.label}
         </option>
       ))}
     </Select>
     {hasErrors(errors, touched, field.name) && <FormFieldErrorIcon css={inputSelectErrorIcon} />}
-  </>
+  </Component>
 );
 
-export const FormRadioSelect = ({ field, form: { touched, errors }, ...props }) => (
+export const FormRadioSelect = ({ field, form: { touched, errors }, options, ...props }) => (
   <>
     {hasErrors(errors, touched, field.name) && (
       <FormFieldError>
-        {errors[field.name]}
+        {/* Radio Select will only ever error when they are required so we
+            will simplify the messaging for the front-end */}
+        {[field.name]} is a required field
         <FormFieldErrorIcon css={checkboxRadioErrorIcon} />
       </FormFieldError>
     )}
     <RadioSelect {...props}>
-      {props.options.map((option, idx) => (
+      {processOptions(options).map((option, idx) => (
         <label key={idx}>
-          {option.name || option}
-          <input type="radio" {...field} value={option.value || option} />
+          {option.label}
+          <input type="radio" {...field} value={option.value} />
           <span />
         </label>
       ))}
@@ -79,11 +131,11 @@ export const FormRadioSelect = ({ field, form: { touched, errors }, ...props }) 
 
 export const FormMultiCheckbox = ({
   field,
-  form: { touched, errors, setFieldValue, setFieldTouched },
+  form: { values, touched, errors, setFieldValue, setFieldTouched },
   ...props
 }) => {
   const fieldName = field.name;
-  const options = props.values[fieldName] || [];
+  const fieldValues = values[fieldName] || [];
   return (
     <>
       {hasErrors(errors, touched, fieldName) && (
@@ -93,21 +145,21 @@ export const FormMultiCheckbox = ({
         </FormFieldError>
       )}
       <CheckBoxes {...props}>
-        {props.options.map((option, idx) => {
-          const name = option.name || option;
-          const value = option.value || option;
+        {processOptions(props.options).map((option, idx) => {
+          const name = option.label;
+          const value = option.value;
           return (
             <label key={idx}>
               {name}
               <input
                 type="checkbox"
                 value={value}
-                checked={options.includes(value)}
+                checked={fieldValues.includes(value)}
                 name={fieldName}
                 onChange={e => {
                   const newSelects = e.target.checked
-                    ? options.concat([value])
-                    : options.filter(option => option !== value);
+                    ? fieldValues.concat([value])
+                    : fieldValues.filter(option => option !== value);
                   setFieldValue(fieldName, newSelects);
                   setFieldTouched(fieldName);
                 }}
@@ -121,7 +173,43 @@ export const FormMultiCheckbox = ({
   );
 };
 
-export const FromLabelHeader = ({ labelText, description }) => (
+export const FomAutoComplete = ({
+  field,
+  form: { values, touched, errors, setFieldValue, setFieldTouched },
+  options,
+  errorText,
+  ...props
+}) => {
+  const fieldName = field.name;
+  return (
+    <AutoCompleteWrapper>
+      {hasErrors(errors, touched, fieldName) && (
+        <FormFieldError>{errorText || errors[fieldName]}</FormFieldError>
+      )}
+      <ReactAutocomplete
+        items={processOptions(options)}
+        shouldItemRender={(item, value) =>
+          item.label.toLowerCase().indexOf(value.toLowerCase()) > -1
+        }
+        getItemValue={item => item.label}
+        renderMenu={items => <AutoCompleteMenu children={items} />}
+        renderItem={(item, highlighted) => (
+          <AutoCompleteOption key={item.value} highlighted={highlighted}>
+            {item.label}
+          </AutoCompleteOption>
+        )}
+        value={values[fieldName]}
+        onChange={e => {
+          setFieldValue(fieldName, e.target.value);
+          setFieldTouched(fieldName);
+        }}
+        onSelect={value => setFieldValue(fieldName, value)}
+      />
+    </AutoCompleteWrapper>
+  );
+};
+
+export const FormLabelHeader = ({ labelText, description }) => (
   <FormBlock>
     <FormBlockLabel>{labelText}:</FormBlockLabel>
     {description && <FormFieldDesc>{description}</FormFieldDesc>}

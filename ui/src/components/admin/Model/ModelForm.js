@@ -5,11 +5,13 @@ import { ModelSingleContext } from './ModelSingleController';
 
 import {
   FormComponent,
-  FormTextInput,
+  FormInput,
+  FormDateInput,
   FormSelect,
   FormRadioSelect,
   FormMultiCheckbox,
-  FromLabelHeader,
+  FomAutoComplete,
+  FormLabelHeader,
 } from 'components/FormComponents';
 import { ModelForm, FormHeader, FormSection, FormCol } from 'theme/adminModelFormStyles';
 import modelValidation from '@hcmi-portal/cms/src/validation/model';
@@ -26,9 +28,10 @@ import {
   diseaseStatus as diseaseStatusOptions,
   vitalStatus as vitalStatusOptions,
   therapy as therapyOptions,
+  primarySites as primarySitesOptions,
 } from '@hcmi-portal/cms/src/schemas/constants';
 
-const booleanChoice = [{ name: 'Yes', value: true }, { name: 'No', value: false }];
+const booleanChoice = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
 
 const makeClinicalTumorDiagnosisDependentOptions = (clinical_tumor_diagnosis, fieldName) =>
   (clinicalTumorDiagnosisDependent[fieldName][clinical_tumor_diagnosis] || []).map(v =>
@@ -113,11 +116,8 @@ const ModelFormTemplate = ({
           </FormHeader>
           <FormSection>
             <FormCol>
-              <FormComponent
-                labelText={model_name.displayName}
-                description="Optional description of form field."
-              >
-                <Field name={model_name.accessor} component={FormTextInput} />
+              <FormComponent labelText={model_name.displayName}>
+                <Field name={model_name.accessor} component={FormInput} />
               </FormComponent>
 
               <FormComponent labelText={model_type.displayName}>
@@ -140,11 +140,19 @@ const ModelFormTemplate = ({
                 labelText={growth_rate.displayName}
                 description="This must be a number between 5 and 90"
               >
-                <Field name={growth_rate.accessor} component={FormTextInput} />
+                <Field name={growth_rate.accessor} component={FormInput} type="number" step={1} />
               </FormComponent>
 
-              <FormComponent labelText={primary_site.displayName}>
-                <Field name={primary_site.accessor} component={FormTextInput} />
+              <FormComponent
+                labelText={primary_site.displayName}
+                description="Start typing for valid options"
+              >
+                <Field
+                  name={primary_site.accessor}
+                  component={FomAutoComplete}
+                  options={primarySitesOptions}
+                  errorText="Values must match a predefined primary site"
+                />
               </FormComponent>
 
               <FormComponent labelText={neoadjuvant_therapy.displayName}>
@@ -156,7 +164,7 @@ const ModelFormTemplate = ({
               </FormComponent>
 
               <FormComponent labelText={tnm_stage.displayName}>
-                <Field name={tnm_stage.accessor} component={FormTextInput} />
+                <Field name={tnm_stage.accessor} component={FormInput} />
               </FormComponent>
             </FormCol>
 
@@ -166,7 +174,6 @@ const ModelFormTemplate = ({
                   name={molecular_characterizations.accessor}
                   component={FormMultiCheckbox}
                   options={molecularCharacterizationsOptions}
-                  values={values}
                 />
               </FormComponent>
 
@@ -242,11 +249,21 @@ const ModelFormTemplate = ({
           <FormSection>
             <FormCol>
               <FormComponent labelText={age_at_diagnosis.displayName}>
-                <Field name={age_at_diagnosis.accessor} component={FormTextInput} />
+                <Field
+                  name={age_at_diagnosis.accessor}
+                  component={FormInput}
+                  type="number"
+                  step={1}
+                />
               </FormComponent>
 
               <FormComponent labelText={age_at_sample_acquisition.displayName}>
-                <Field name={age_at_sample_acquisition.accessor} component={FormTextInput} />
+                <Field
+                  name={age_at_sample_acquisition.accessor}
+                  component={FormInput}
+                  type="number"
+                  step={1}
+                />
               </FormComponent>
 
               <FormComponent labelText={vital_status.displayName}>
@@ -280,7 +297,6 @@ const ModelFormTemplate = ({
                   name={therapy.accessor}
                   component={FormMultiCheckbox}
                   options={therapyOptions}
-                  values={values}
                 />
               </FormComponent>
             </FormCol>
@@ -292,7 +308,7 @@ const ModelFormTemplate = ({
           <FormSection>
             <FormCol>
               <FormComponent labelText={date_of_availability.displayName}>
-                <Field name={date_of_availability.accessor} type="date" />
+                <Field name={date_of_availability.accessor} component={FormDateInput} />
               </FormComponent>
 
               <FormComponent labelText={licensing_required.displayName}>
@@ -305,17 +321,17 @@ const ModelFormTemplate = ({
             </FormCol>
 
             <FormCol>
-              <FromLabelHeader
+              <FormLabelHeader
                 labelText="External Resources"
                 description="Please provide urls to GDC or EGA"
               />
 
               <FormComponent labelText={source_model_url.displayName}>
-                <Field name={source_model_url.accessor} component={FormTextInput} />
+                <Field name={source_model_url.accessor} component={FormInput} />
               </FormComponent>
 
               <FormComponent labelText={source_sequence_url.displayName}>
-                <Field name={source_sequence_url.accessor} component={FormTextInput} />
+                <Field name={source_sequence_url.accessor} component={FormInput} />
               </FormComponent>
             </FormCol>
           </FormSection>

@@ -41,23 +41,17 @@ export default object().shape({
     .required()
     .matches(/HCM-\w{4}-\d{4}.\w\d{2}/),
   model_type: string()
-    .required()
     .lowercase()
     .oneOf(modelType),
   growth_rate: number()
-    .required()
     .integer()
     .min(5)
     .max(90),
-  split_ratio: string()
-    .required()
-    .oneOf(splitRatio),
+  split_ratio: string().oneOf(splitRatio),
   gender: string()
-    .required()
     .lowercase()
     .oneOf(gender),
   race: string()
-    .required()
     .nullable()
     .lowercase()
     .oneOf(race),
@@ -71,15 +65,12 @@ export default object().shape({
   sequence_source: mixed().oneOf(sequenceSource),
   licensing_required: boolean(),
   primary_site: string()
-    .required()
     .lowercase()
     .oneOf(primarySites),
-  tnm_stage: string()
-    .required()
-    .matches(
-      /T[0-2]N[0-4]M[0-2]/,
-      'Field must follow TNM classification format: T0-T2, N0-N4, and M0-M2 ex. T0N1M2',
-    ),
+  tnm_stage: string().matches(
+    /T[0-2]N[0-4]M[0-2]/,
+    'Field must follow TNM classification format: T0-T2, N0-N4, and M0-M2 ex. T0N1M2',
+  ),
   neoadjuvant_therapy: string()
     .lowercase()
     .oneOf(neoadjuvantTherapy),
