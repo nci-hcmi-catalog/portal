@@ -24,6 +24,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
       form: {
         isReadyToSave: false,
         isReadyToPublish: false,
+        values: {},
         dirty: false,
         touched: {},
         errors: {},
@@ -95,6 +96,14 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   : await isFormReadyToPublish(state.form.errors),
               },
             });
+          },
+          saveForm: async values => {
+            const modelDataResponse = await fetchData({
+              url: `${baseUrl}/model`,
+              data: values,
+              method: 'post',
+            });
+            console.log(modelDataResponse);
           },
         }}
         {...props}

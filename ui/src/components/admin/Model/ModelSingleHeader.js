@@ -4,9 +4,9 @@ import Popup from 'reactjs-popup';
 import { ModelSingleContext } from './ModelSingleController';
 import { manageModelsUrlBase } from '../AdminNav';
 
+import { SaveModel, PublishModel } from './actions';
+
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
-import AdminModelPublishIcon from 'icons/AdminModelPublishIcon';
-import AdminModelSaveIcon from 'icons/AdminModelSaveIcon';
 import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
 
 import { AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
@@ -70,7 +70,7 @@ const modelMoreOptions = (data = null) =>
       arrow={false}
     >
       <ActionsMenu>
-        <ActionsMenuItem>Publish</ActionsMenuItem>
+        <ActionsMenuItem>Unpublish</ActionsMenuItem>
         <ActionsMenuItem>Delete</ActionsMenuItem>
       </ActionsMenu>
     </Popup>
@@ -83,7 +83,6 @@ export default ({ modelName }) => (
     {({
       state: {
         data: { response, error },
-        form: { isReadyToSave, isReadyToPublish },
       },
     }) => (
       <AdminHeader>
@@ -95,12 +94,8 @@ export default ({ modelName }) => (
           <ModelHeaderBackLink to={manageModelsUrlBase}>
             <ArrowLeftIcon height={9} width={5} /> Back to List
           </ModelHeaderBackLink>
-          <Pill disabled={!isReadyToPublish} marginLeft="21px" marginRight="10px">
-            <AdminModelPublishIcon css={'margin-right: 10px;'} height={16} width={15} />Publish
-          </Pill>
-          <Pill primary disabled={!isReadyToSave}>
-            <AdminModelSaveIcon css={'margin-right: 8px;'} height={14} width={14} />Save
-          </Pill>
+          <PublishModel marginLeft="21px" marginRight="10px" />
+          <SaveModel />
           {modelMoreOptions(response || null)}
         </AdminHeaderBlock>
       </AdminHeader>
