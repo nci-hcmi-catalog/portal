@@ -5,9 +5,10 @@ import {
   CloseModal,
   BulkUploadTitle,
   BulkUploadContent,
+  HeaderDivider,
 } from 'theme/adminBulkUploadStyles';
-import { HeaderSeparator } from '../../../theme/adminBulkUploadStyles';
 import SequentialTabs from './SequentialTabs';
+import SequentialTab from './SequentialTab';
 
 const UploadModal = ({ type, ...props }) => (
   <BulkUploadMain>
@@ -15,9 +16,18 @@ const UploadModal = ({ type, ...props }) => (
       <BulkUploadTitle>{`Bulk ${type} Upload`}</BulkUploadTitle>
       <CloseModal />
     </BulkUploadHeader>
-    <HeaderSeparator />
+    <HeaderDivider />
     <BulkUploadContent>
-      <SequentialTabs type={type} {...props} />
+      <SequentialTabs {...props} selectedTab={0}>
+        <SequentialTab
+          title={`Step 1:Submit ${type} list`}
+          component={<span> This is step 1 </span>}
+        />
+        <SequentialTab
+          title={`Step 2:Validate and finalize`}
+          component={<span> This is step 2 </span>}
+        />
+      </SequentialTabs>
     </BulkUploadContent>
   </BulkUploadMain>
 );
