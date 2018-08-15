@@ -7,10 +7,18 @@ export default props => (
   <ModelSingleContext.Consumer>
     {({
       state: {
-        form: { isReadyToPublish, values },
+        form: {
+          isReadyToPublish,
+          values: { _id = 0 },
+        },
       },
+      publishForm,
     }) => (
-      <Pill disabled={!isReadyToPublish} {...props}>
+      <Pill
+        disabled={!isReadyToPublish}
+        onClick={() => isReadyToPublish && publishForm(_id)}
+        {...props}
+      >
         <AdminModelPublishIcon css={'margin-right: 10px;'} height={16} width={15} />Publish
       </Pill>
     )}

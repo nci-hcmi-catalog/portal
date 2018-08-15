@@ -7,7 +7,8 @@ export const ModelSingleContext = React.createContext();
 // Helper functions
 const isFormReadyToSave = (dirty, errors) => dirty && !('model_name' in errors);
 
-const isFormReadyToPublish = errors => Object.keys(errors).length === 0;
+const isFormReadyToPublish = (values, errors) =>
+  '_id' in values && Object.keys(errors).length === 0;
 
 // Provider
 export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) => (
@@ -93,24 +94,28 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   ? isFormReadyToSave(formState.dirty, formState.errors)
                   : isFormReadyToSave(state.form.dirty, state.form.errors),
                 isReadyToPublish: formState.errors
-                  ? await isFormReadyToPublish(formState.errors)
-                  : await isFormReadyToPublish(state.form.errors),
+                  ? await isFormReadyToPublish(formState.values, formState.errors)
+                  : await isFormReadyToPublish(state.form.values, state.form.errors),
               },
             });
           },
           saveForm: async values => {
             const {
-              form: {
-                isUpdate,
-                values: { model_name },
-              },
+              form: { isUpdate },
             } = state;
+
+            const { model_name } = values;
+
             const url = isUpdate ? `${baseUrl}/model/${model_name}` : `${baseUrl}/model`;
+
             const modelDataResponse = await fetchData({
               url,
               data: values,
               method: isUpdate ? 'patch' : 'post',
             });
+
+            // TODO: Do something with response?
+            console.log(modelDataResponse);
 
             // Set form to unsavable status (will release on next form interaction)
             setState({
@@ -118,6 +123,28 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               form: {
                 ...state.form,
                 isReadyToSave: false,
+              },
+            });
+          },
+          publishForm: async id => {
+            // TODO: Only publish if new update?
+            const url = `${baseUrl}/publish/model/${id}`;
+
+            const modelDataResponse = await fetchData({
+              url,
+              data: '',
+              method: 'post',
+            });
+
+            // TODO: Do something with response?
+            console.log(modelDataResponse);
+
+            // TODO: Set form to pubished status (will release on next save?)
+            setState({
+              ...state,
+              form: {
+                ...state.form,
+                isReadyToPublish: false,
               },
             });
           },
