@@ -68,7 +68,7 @@ export const FormDateInput = ({ field, form: { touched, errors }, ...props }) =>
 
 export const FormSelect = ({
   field,
-  form: { setValues, values, setFieldTouched, touched, errors },
+  form: { values, setFieldTouched, touched, errors },
   options = [],
   disabled,
   ...props
@@ -115,13 +115,18 @@ export const FormSelect = ({
   </Component>
 );
 
-export const FormRadioSelect = ({ field, form: { touched, errors }, options, ...props }) => (
+export const FormRadioSelect = ({
+  field: { name, value },
+  form: { touched, errors },
+  options,
+  ...props
+}) => (
   <>
-    {hasErrors(errors, touched, field.name) && (
+    {hasErrors(errors, touched, name) && (
       <FormFieldError>
         {/* Radio Select will only ever error when they are required so we
             will simplify the messaging for the front-end */}
-        {[field.name]} is a required field
+        {name} is a required field
         <FormFieldErrorIcon css={checkboxRadioErrorIcon} />
       </FormFieldError>
     )}
@@ -129,7 +134,7 @@ export const FormRadioSelect = ({ field, form: { touched, errors }, options, ...
       {processOptions(options).map((option, idx) => (
         <label key={idx}>
           {option.label}
-          <input type="radio" {...field} value={option.value} />
+          <input type="radio" value={option.value} checked={value === option.value} />
           <span />
         </label>
       ))}
@@ -139,11 +144,11 @@ export const FormRadioSelect = ({ field, form: { touched, errors }, options, ...
 
 export const FormMultiCheckbox = ({
   field,
-  form: { values, touched, errors, setFieldValue, setFieldTouched },
+  form: { touched, errors, setFieldValue, setFieldTouched },
   ...props
 }) => {
   const fieldName = field.name;
-  const fieldValues = values[fieldName] || [];
+  const fieldValues = field.value || [];
   return (
     <>
       {hasErrors(errors, touched, fieldName) && (
@@ -182,40 +187,35 @@ export const FormMultiCheckbox = ({
 };
 
 export const FomAutoComplete = ({
-  field,
-  form: { values, touched, errors, setFieldValue, setFieldTouched },
+  field: { value, name },
+  form: { touched, errors, setFieldValue, setFieldTouched },
   options,
   errorText,
   ...props
-}) => {
-  const fieldName = field.name;
-  return (
-    <AutoCompleteWrapper>
-      {hasErrors(errors, touched, fieldName) && (
-        <FormFieldError>{errorText || errors[fieldName]}</FormFieldError>
+}) => (
+  <AutoCompleteWrapper>
+    {hasErrors(errors, touched, name) && (
+      <FormFieldError>{errorText || errors[name]}</FormFieldError>
+    )}
+    <ReactAutocomplete
+      items={processOptions(options)}
+      shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
+      getItemValue={item => item.label}
+      renderMenu={items => <AutoCompleteMenu children={items} />}
+      renderItem={(item, highlighted) => (
+        <AutoCompleteOption key={item.value} highlighted={highlighted}>
+          {item.label}
+        </AutoCompleteOption>
       )}
-      <ReactAutocomplete
-        items={processOptions(options)}
-        shouldItemRender={(item, value) =>
-          item.label.toLowerCase().indexOf(value.toLowerCase()) > -1
-        }
-        getItemValue={item => item.label}
-        renderMenu={items => <AutoCompleteMenu children={items} />}
-        renderItem={(item, highlighted) => (
-          <AutoCompleteOption key={item.value} highlighted={highlighted}>
-            {item.label}
-          </AutoCompleteOption>
-        )}
-        value={values[fieldName]}
-        onChange={e => {
-          setFieldValue(fieldName, e.target.value);
-          setFieldTouched(fieldName);
-        }}
-        onSelect={value => setFieldValue(fieldName, value)}
-      />
-    </AutoCompleteWrapper>
-  );
-};
+      value={value}
+      onChange={e => {
+        setFieldValue(name, e.target.value);
+        setFieldTouched(name);
+      }}
+      onSelect={value => setFieldValue(name, value)}
+    />
+  </AutoCompleteWrapper>
+);
 
 export const FormLabelHeader = ({ labelText, description }) => (
   <FormBlock>
