@@ -9,8 +9,14 @@ export default props => (
       state: {
         form: { isReadyToSave, values },
       },
+      saveForm,
     }) => (
-      <Pill primary disabled={!isReadyToSave} {...props}>
+      <Pill
+        primary
+        disabled={!isReadyToSave}
+        onClick={() => isReadyToSave && saveForm(values)}
+        {...props}
+      >
         <AdminModelSaveIcon css={'margin-right: 8px;'} height={14} width={14} />Save
       </Pill>
     )}

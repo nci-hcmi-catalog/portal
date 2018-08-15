@@ -86,14 +86,23 @@ const ModelFormTemplate = ({
     {({ syncFormState }) => (
       <Component
         didMount={() => {
-          // Initiate all fields as touched if the form is loading values
           if (Object.keys(values).length > 0) {
+            // Initiate all fields as touched if the form is loading values
             const touchedKeys = Object.keys(schemaObj) || [];
             const touchedValues = touchedKeys.reduce((acc, curr) => {
               acc[curr] = true;
               return acc;
             }, {});
             setTouched(touchedValues);
+
+            // Sync form values and set form save into edit mode
+            syncFormState({
+              values,
+              touched,
+              dirty,
+              errors,
+              isUpdate: true,
+            });
           }
         }}
         values={values}
@@ -105,6 +114,9 @@ const ModelFormTemplate = ({
           if (props.values !== prevProps.values) {
             syncFormState({
               values,
+              touched,
+              dirty,
+              errors,
             });
           }
 
