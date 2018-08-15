@@ -116,6 +116,7 @@ export const FormSelect = ({
 );
 
 export const FormRadioSelect = ({
+  field,
   field: { name, value },
   form: { touched, errors },
   options,
@@ -134,7 +135,7 @@ export const FormRadioSelect = ({
       {processOptions(options).map((option, idx) => (
         <label key={idx}>
           {option.label}
-          <input type="radio" value={option.value} checked={value === option.value} />
+          <input type="radio" {...field} value={option.value} checked={value === option.value} />
           <span />
         </label>
       ))}
