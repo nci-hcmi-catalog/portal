@@ -1,0 +1,16 @@
+# For a quick mongo/elasticSearch local enviornment
+
+version: '3'
+services:
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./docker/mongo/data:/data/db
+  es:
+    image: "elasticsearch"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
