@@ -7,7 +7,7 @@ import { Table } from 'theme/adminTableStyles';
 import ModelManagerTable from './ModelManagerTable';
 import { ModalStateContext } from 'providers/ModalState';
 import BulkUploader from '../BulkUpload';
-import modelListModalStyles from 'theme/modelListModalStyles';
+import { BulkUploadModalStyle } from '../../../theme/adminBulkUploadStyles';
 
 const Title = styled('div')`
   min-height: 50px;
@@ -31,6 +31,7 @@ const content = () => {
                   modalState.setModalState({
                     component: <BulkUploader type={'model'} />,
                     shouldCloseOnOverlayClick: true,
+                    styles: BulkUploadModalStyle,
                   })
                 }
               >

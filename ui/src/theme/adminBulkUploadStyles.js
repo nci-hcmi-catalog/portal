@@ -7,7 +7,17 @@ import base from 'theme';
 
 const {
   fonts: { libreFranklin, openSans },
-  keyedPalette: { brandPrimary, lightPorcelain, porcelain, white, frenchGrey, black, dustyGray },
+  keyedPalette: {
+    brandPrimary,
+    lightPorcelain,
+    porcelain,
+    white,
+    frenchGrey,
+    black,
+    dustyGray,
+    valencia,
+  },
+  buttons: { pillBase },
 } = base;
 
 export const BulkUploadMain = styled(Col)`
@@ -40,7 +50,7 @@ const bulkUploadContentCommon = css`
   width: 98%;
 `;
 
-export const HeaderDivider = styled('div')`
+export const SectionDivider = styled('div')`
   ${bulkUploadContentCommon};
   display: inline-block;
   width: 98%;
@@ -58,7 +68,7 @@ export const SequentialTabsHeader = styled(Row)`
   ${bulkUploadContentCommon};
   margin-top: 20px;
   margin-bottom: 20px;
-  background-color: ${frenchGrey};
+  background-color: ${lightPorcelain};
   border: solid 1px ${porcelain};
   label: tabs-header-main;
 `;
@@ -121,3 +131,31 @@ export const SequentialTabTitle = ({ text, ...p }) => (
     <TabTitleText {...p}>{text}</TabTitleText>
   </TabTitleMain>
 );
+
+export const BulkUploadModalStyle = css`
+  top: 25%;
+  left: 25%;
+  right: auto;
+  bottom: auto;
+  width: 95%;
+  max-width: 824px;
+  padding-top: 10px;
+  padding-left: 15px;
+  padding-right: 10px;
+  border-radius: 5px;
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  background-color: ${white};
+  label: bulk-upload-modal-main;
+`;
+
+export const BulkUploadControlPill = styled('div')`
+  ${pillBase};
+  background-color: ${valencia};
+  color: #ffffff;
+  margin-left: auto;
+  margin-left: ${props => props.last && '20px'};
+  justify-content: flex-end;
+  label: bulk-upload-control-pill;
+`;

@@ -5,31 +5,64 @@ import {
   CloseModal,
   BulkUploadTitle,
   BulkUploadContent,
-  HeaderDivider,
+  SectionDivider,
 } from 'theme/adminBulkUploadStyles';
 import SequentialTabs from './SequentialTabs';
 import SequentialTab from './SequentialTab';
+import BulkUploadResult from './BulkUploadResult';
+import BulkUploadInput from './BulkUploadInput';
+import Component from 'react-component-component';
+import BulkUploadControls from './BulkUploadControls';
 
 const UploadModal = ({ type, ...props }) => (
-  <BulkUploadMain>
-    <BulkUploadHeader>
-      <BulkUploadTitle>{`Bulk ${type} Upload`}</BulkUploadTitle>
-      <CloseModal />
-    </BulkUploadHeader>
-    <HeaderDivider />
-    <BulkUploadContent>
-      <SequentialTabs {...props} selectedTab={0}>
-        <SequentialTab
-          title={`Step 1:Submit ${type} list`}
-          component={<span> This is step 1 </span>}
-        />
-        <SequentialTab
-          title={`Step 2:Validate and finalize`}
-          component={<span> This is step 2 </span>}
-        />
-      </SequentialTabs>
-    </BulkUploadContent>
-  </BulkUploadMain>
+  <Component
+    initialState={{
+      selectedTab: 0,
+    }}
+  >
+    {({ state: { selectedTab }, setState }) => {
+      return (
+        <BulkUploadMain>
+          <BulkUploadHeader>
+            <BulkUploadTitle>{`Bulk ${type} Upload`}</BulkUploadTitle>
+            <CloseModal />
+          </BulkUploadHeader>
+          <SectionDivider />
+          <BulkUploadContent>
+            <SequentialTabs
+              {...props}
+              selectedTab={selectedTab}
+              onSelectionChanged={index => setState({ selectedTab: index })}
+            >
+              <SequentialTab
+                title={`Step 1:Submit ${type} list`}
+                component={
+                  <BulkUploadInput
+                    {...props}
+                    {...{
+                      type,
+                    }}
+                  />
+                }
+              />
+              <SequentialTab
+                title={`Step 2:Validate and finalize`}
+                component={
+                  <BulkUploadResult
+                    {...props}
+                    {...{
+                      type,
+                    }}
+                  />
+                }
+              />
+            </SequentialTabs>
+            <BulkUploadControls controlSet={selectedTab} />
+          </BulkUploadContent>
+        </BulkUploadMain>
+      );
+    }}
+  </Component>
 );
 
 export default UploadModal;

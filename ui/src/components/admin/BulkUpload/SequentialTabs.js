@@ -1,15 +1,24 @@
 import React from 'react';
 import Component from 'react-component-component';
-import { SequentialTabsHeader } from 'theme/adminBulkUploadStyles';
-import { SequentialTabTitle, SequentialTabsContent } from 'theme/adminBulkUploadStyles';
+import {
+  SequentialTabsHeader,
+  SequentialTabTitle,
+  SequentialTabsContent,
+} from 'theme/adminBulkUploadStyles';
 
-const SequentialTabs = ({ children, selectedTab, ...props }) => (
+const SequentialTabs = ({ children, selectedTab, onSelectionChanged, ...props }) => (
   <Component
     initialState={{
-      selectedTab: selectedTab || 0,
+      selected: selectedTab || 0,
     }}
+    key={selectedTab} // create new instance of this component whenever a parent component changes this prop
   >
-    {({ state: { selectedTab }, setState }) => {
+    {({ state: { selected }, setState }) => {
+      const handleSelectionChange = newIdx => {
+        typeof onSelectionChanged === 'function'
+          ? onSelectionChanged(newIdx) // change state only if this prop is not provided
+          : setState({ selected: newIdx });
+      };
       return (
         <>
           {' '}
@@ -17,23 +26,24 @@ const SequentialTabs = ({ children, selectedTab, ...props }) => (
             {' '}
             {(children || []).map(
               (child, index) =>
-                index === selectedTab ? (
+                index === selected ? (
                   <SequentialTabTitle
                     active={true}
-                    onClick={child.props.disableClick ? {} : () => setState({ selectedTab: index })}
+                    onClick={child.props.disableClick ? {} : () => handleSelectionChange(index)}
                     text={child.props.title || ''}
                   />
                 ) : (
                   <SequentialTabTitle
                     text={child.props.title || ''}
-                    onClick={child.props.disableClick ? {} : () => setState({ selectedTab: index })}
+                    onClick={child.props.disableClick ? {} : () => handleSelectionChange(index)}
                   />
                 ),
             )}{' '}
-          </SequentialTabsHeader>
+          </SequentialTabsHeader>{' '}
           <SequentialTabsContent>
-            {(children || []).length > selectedTab ? (
-              children[selectedTab]
+            {' '}
+            {(children || []).length > selected ? (
+              children[selected]
             ) : (
               <div
                 css={`
