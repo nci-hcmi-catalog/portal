@@ -70,18 +70,7 @@ const {
   source_sequence_url,
 } = schemaObj;
 
-const ModelFormTemplate = ({
-  values,
-  touched,
-  dirty,
-  errors,
-  setTouched,
-  //isSubmitting,
-  //handleChange,
-  //handleBlur,
-  //handleSubmit,
-  //handleReset,
-}) => (
+const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
   <ModelSingleContext.Consumer>
     {({ syncFormState }) => (
       <Component
@@ -370,12 +359,6 @@ export default withFormik({
     } catch (error) {
       return error.inner.reduce((acc, inner) => ({ ...acc, [inner.path]: inner.message }), {});
     }
-  },
-  handleSubmit: (values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 1000);
   },
   displayName: 'ModelForm',
 })(ModelFormTemplate);

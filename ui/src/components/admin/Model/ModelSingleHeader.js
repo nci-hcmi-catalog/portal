@@ -38,13 +38,19 @@ const headerText = (modelName = null, error = null) => {
 
 const modelStatus = (data = null) => {
   if (!data) {
-    return <SmallPill warning>Unsaved Changes</SmallPill>;
+    return <SmallPill primary>ERROR</SmallPill>;
   }
 
-  // Additional statuses here
-
-  // Temp
-  return <SmallPill warning>Unsaved Changes</SmallPill>;
+  switch (data.status) {
+    case 'published':
+      return <SmallPill>{data.status}</SmallPill>;
+    case 'unpublished changes':
+      return <SmallPill warning>{data.status}</SmallPill>;
+    case 'unpublished':
+      return <SmallPill info>{data.status}</SmallPill>;
+    default:
+      return <SmallPill primary>{data.status}</SmallPill>;
+  }
 };
 
 const modelMoreOptions = (data = null) =>

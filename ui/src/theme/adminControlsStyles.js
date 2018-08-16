@@ -15,6 +15,7 @@ const {
     iron,
     mystic,
     black,
+    dustyGray,
   },
 } = base;
 
@@ -23,6 +24,7 @@ const pillRed = valencia;
 const pillBlueDisabled = '#AADBE3';
 const pillRedDisabled = '#E8AFB2';
 const pillOrange = sienna;
+const pillGrey = dustyGray;
 const pillBorderColour = frenchGrey;
 
 const actionsMenuHighlight = lightBlack;
@@ -42,7 +44,7 @@ const PillBase = styled('div')`
   text-decoration: none;
   color: ${({ secondary }) => (secondary ? brandPrimary : white)};
   border: solid 1px ${pillBorderColour};
-  background: ${({ primary, warning, secondary, disabled }) => {
+  background: ${({ primary, warning, secondary, disabled, info }) => {
     if (primary && disabled) {
       return pillRedDisabled;
     } else if (primary) {
@@ -55,6 +57,8 @@ const PillBase = styled('div')`
       return white;
     } else if (secondary) {
       return white;
+    } else if (info) {
+      return pillGrey;
     } else if (disabled) {
       return pillBlueDisabled;
     } else {
