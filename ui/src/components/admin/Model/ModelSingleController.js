@@ -51,7 +51,7 @@ const computeModelStatus = (currentStatus, action) => {
 
   const statusKey = Object.keys(status).find(key => status[key] === currentStatus);
 
-  return statusMatrix[statusKey][action];
+  return currentStatus ? statusMatrix[statusKey][action] : status.unpublished;
 };
 
 // async abstractions

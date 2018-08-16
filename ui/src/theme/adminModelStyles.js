@@ -9,6 +9,7 @@ import { AdminContent, AdminHeaderH1 } from 'theme/adminStyles';
 const {
   fonts: { libreFranklin },
   keyedPalette: { brandPrimary, porcelain, white, mineShaft },
+  transparency: { white70 },
 } = base;
 
 const borderColour = porcelain;
@@ -96,4 +97,14 @@ export const ModelHeaderBackLink = styled(Link)`
   text-decoration: none;
   text-transform: uppercase;
   label: admin-model-header-back-link;
+`;
+
+export const Loading = styled('div')`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: ${white70};
+  z-index: 9999;
 `;

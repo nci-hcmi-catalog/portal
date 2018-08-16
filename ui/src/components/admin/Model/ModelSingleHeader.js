@@ -19,12 +19,16 @@ const headerText = (modelName = null, error = null) => {
 
   // Error text
   if (error) {
-    switch (error.response.status) {
-      case '404':
-        text = 'Model {modelName} not found';
-        break;
-      default:
-        text = 'Error loading {modelName}';
+    if (error.response.status) {
+      switch (error.response.status) {
+        case '404':
+          text = 'Model {modelName} not found';
+          break;
+        default:
+          text = 'Error loading {modelName}';
+      }
+    } else {
+      text = 'Unkown error has occured';
     }
   }
 
@@ -37,10 +41,6 @@ const headerText = (modelName = null, error = null) => {
 };
 
 const modelStatus = (data = null) => {
-  if (!data) {
-    return <SmallPill primary>ERROR</SmallPill>;
-  }
-
   switch (data.status) {
     case 'published':
       return <SmallPill>{data.status}</SmallPill>;
@@ -94,7 +94,7 @@ export default ({ modelName }) => (
       <AdminHeader>
         <AdminHeaderBlock>
           {headerText(modelName, error)}
-          {modelStatus(response || null)}
+          {response.status && modelStatus(response)}
         </AdminHeaderBlock>
         <AdminHeaderBlock>
           <ModelHeaderBackLink to={manageModelsUrlBase}>

@@ -11,23 +11,21 @@ import ModelImages from './ModelImages';
 import ModelVariants from './ModelVariants';
 
 import { AdminContainer } from 'theme/adminStyles';
-import { AdminModelContent } from 'theme/adminModelStyles';
+import { AdminModelContent, Loading } from 'theme/adminModelStyles';
 import { Row } from 'theme/system';
 
 const renderTab = (tab, data) => {
   switch (tab) {
     case 'edit':
-      return <ModelForm data={data} />;
+      return <ModelForm key={data._id} data={data} />;
     case 'images':
       return <ModelImages />;
     case 'variants':
       return <ModelVariants />;
     default:
-      return <ModelForm data={data} />;
+      return <ModelForm key={data._id} data={data} />;
   }
 };
-
-const Loading = () => <div>Loading ...</div>;
 
 export default ({ match }) => (
   <ModelSingleProvider baseUrl={config.urls.modelBase} modelName={match.params.name}>
@@ -37,20 +35,17 @@ export default ({ match }) => (
           ui: { activeTab },
           data: { isLoading, response },
         },
-      }) =>
-        isLoading ? (
-          <Loading />
-        ) : (
-          <AdminContainer>
-            <ModelSingleHeader modelName={match.params.name} />
-            <Row>
-              <AdminModelNav />
-              <AdminModelContent>{renderTab(activeTab, response)}</AdminModelContent>
-            </Row>
-            <ModelSingleFooter />
-          </AdminContainer>
-        )
-      }
+      }) => (
+        <AdminContainer>
+          {isLoading && <Loading />}
+          <ModelSingleHeader modelName={match.params.name} />
+          <Row>
+            <AdminModelNav />
+            <AdminModelContent>{renderTab(activeTab, response)}</AdminModelContent>
+          </Row>
+          <ModelSingleFooter />
+        </AdminContainer>
+      )}
     </ModelSingleContext.Consumer>
   </ModelSingleProvider>
 );
