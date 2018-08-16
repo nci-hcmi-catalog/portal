@@ -14,7 +14,7 @@ import {
   FormLabelHeader,
 } from 'components/FormComponents';
 import { ModelForm, FormHeader, FormSection, FormCol } from 'theme/adminModelFormStyles';
-import modelValidation from '@hcmi-portal/cms/src/validation/model';
+import publishValidation from '@hcmi-portal/cms/src/validation/model';
 import { schemaObj } from '../schema/model';
 import {
   clinicalTumorDiagnosisDependent,
@@ -70,39 +70,49 @@ const {
   source_sequence_url,
 } = schemaObj;
 
-const ModelFormTemplate = ({
-  values,
-  touched,
-  dirty,
-  errors,
-  setTouched,
-  //isSubmitting,
-  //handleChange,
-  //handleBlur,
-  //handleSubmit,
-  //handleReset,
-}) => (
+const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
   <ModelSingleContext.Consumer>
     {({ syncFormState }) => (
       <Component
         didMount={() => {
-          // Initiate all fields as touched if the form is loading values
           if (Object.keys(values).length > 0) {
+            // Initiate all fields as touched if the form is loading values
             const touchedKeys = Object.keys(schemaObj) || [];
             const touchedValues = touchedKeys.reduce((acc, curr) => {
               acc[curr] = true;
               return acc;
             }, {});
             setTouched(touchedValues);
+
+            // Sync form values and set form save into edit mode
+            syncFormState({
+              values,
+              touched,
+              dirty,
+              errors,
+              isUpdate: true,
+            });
           }
         }}
+        values={values}
         touched={touched}
         dirty={dirty}
         errors={errors}
         didUpdate={({ props, prevProps }) => {
-          // Sync form state on changes to errors (validation)
+          // Sync form values on change
+          if (props.values !== prevProps.values) {
+            syncFormState({
+              values,
+              touched,
+              dirty,
+              errors,
+            });
+          }
+
+          // Sync form touched/dirty/error state on changes to errors (validation)
           if (Object.keys(props.errors).length !== Object.keys(prevProps.errors).length) {
             syncFormState({
+              values,
               touched,
               dirty,
               errors,
@@ -345,16 +355,10 @@ export default withFormik({
   mapPropsToValues: ({ data }) => data || {},
   validate: values => {
     try {
-      modelValidation.validateSync(values, { abortEarly: false });
+      publishValidation.validateSync(values, { abortEarly: false });
     } catch (error) {
       return error.inner.reduce((acc, inner) => ({ ...acc, [inner.path]: inner.message }), {});
     }
-  },
-  handleSubmit: (values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 1000);
   },
   displayName: 'ModelForm',
 })(ModelFormTemplate);

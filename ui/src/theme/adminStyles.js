@@ -16,6 +16,7 @@ export const AdminMain = styled(Row)`
 `;
 
 export const AdminContainer = styled(Col)`
+  position: relative;
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;

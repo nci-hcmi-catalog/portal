@@ -61,6 +61,7 @@ export default {
   },
   transparency: {
     brandPrimary70: 'rgb(144,0,0,0.7)',
+    white70: 'rgba(255,255,255, 0.7)',
   },
   buttons: {
     primary: {

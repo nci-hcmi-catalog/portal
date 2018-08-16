@@ -903,8 +903,6 @@ export const race = [
   'unknown',
 ];
 
-export const sequenceSource = ['GDC', 'EGA'];
-
 export const neoadjuvantTherapy = [
   'no',
   'yes, pharmaceutical treatment',
