@@ -1,6 +1,7 @@
 import React from 'react';
 import Component from 'react-component-component';
 import ReactAutocomplete from 'react-autocomplete';
+import moment from 'moment';
 import { isEqual } from 'lodash';
 import {
   FormBlock,
@@ -22,13 +23,15 @@ import FormFieldErrorIcon from 'icons/FormFieldErrorIcon';
 
 const hasErrors = (errors, touched, fieldName) => touched[fieldName] && errors[fieldName];
 
+const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
+
 // Map simple string/number options to keyed objects
 const processOptions = options =>
   options.map(
     option =>
       typeof option === 'object' && option.constructor === Object
         ? option
-        : { label: option, value: option },
+        : { label: option, value: normalizeOption(option) },
   );
 
 export const FormComponent = ({
@@ -61,7 +64,13 @@ export const FormDateInput = ({ field, form: { touched, errors }, ...props }) =>
     {hasErrors(errors, touched, field.name) && (
       <FormFieldError>{errors[field.name]}</FormFieldError>
     )}
-    <DatePicker type="date" {...field} {...props} errors={hasErrors(errors, touched, field.name)} />
+    <DatePicker
+      {...field}
+      type="date"
+      value={moment(field.value).format('YYYY-MM-DD')}
+      {...props}
+      errors={hasErrors(errors, touched, field.name)}
+    />
     {hasErrors(errors, touched, field.name) && <FormFieldErrorIcon css={inputSelectErrorIcon} />}
   </>
 );
@@ -132,13 +141,22 @@ export const FormRadioSelect = ({
       </FormFieldError>
     )}
     <RadioSelect {...props}>
-      {processOptions(options).map((option, idx) => (
-        <label key={idx}>
-          {option.label}
-          <input type="radio" {...field} value={option.value} checked={value === option.value} />
-          <span />
-        </label>
-      ))}
+      {processOptions(options).map((option, idx) => {
+        const formValue = normalizeOption(value);
+        const optionValue = normalizeOption(option.value);
+        return (
+          <label key={idx}>
+            {option.label}
+            <input
+              type="radio"
+              {...field}
+              value={optionValue}
+              checked={formValue === optionValue}
+            />
+            <span />
+          </label>
+        );
+      })}
     </RadioSelect>
   </>
 );
