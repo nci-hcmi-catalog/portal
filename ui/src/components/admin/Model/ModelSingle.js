@@ -15,15 +15,17 @@ import { AdminModelContent, Loading } from 'theme/adminModelStyles';
 import { Row } from 'theme/system';
 
 const renderTab = (tab, data) => {
+  const dataKey = JSON.stringify(data);
+
   switch (tab) {
     case 'edit':
-      return <ModelForm key={data._id} data={data} />;
+      return <ModelForm key={dataKey} data={data} />;
     case 'images':
       return <ModelImages />;
     case 'variants':
       return <ModelVariants />;
     default:
-      return <ModelForm key={data._id} data={data} />;
+      return <ModelForm key={dataKey} data={data} />;
   }
 };
 
