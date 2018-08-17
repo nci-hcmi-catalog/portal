@@ -16,7 +16,7 @@ import { modelEditUrlBase } from '../AdminNav';
 import Moment from 'react-moment';
 
 const selectedColumns = [
-  'model_name',
+  'name',
   'model_type',
   'growth_rate',
   'split_ratio',
@@ -89,7 +89,7 @@ const modelManagerCustomColumns = [
   },
   {
     Header: 'Actions',
-    accessor: 'model_name',
+    accessor: 'name',
     Cell: row => {
       const data = row;
       return (
@@ -172,5 +172,5 @@ const modelManagerCustomColumns = [
 ];
 
 export const ModelTableColumns = columns
-  .filter(col => ['model_name', 'model_type'].includes(col.accessor))
+  .filter(col => ['name', 'model_type'].includes(col.accessor))
   .concat(modelManagerCustomColumns);

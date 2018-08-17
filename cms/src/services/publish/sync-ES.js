@@ -42,7 +42,7 @@ const indexModelsToES = filter => {
     let output = [];
 
     ModelES.on('es-bulk-data', function(doc) {
-      output.push(doc.model_name);
+      output.push(doc.name);
     });
 
     ModelES.on('es-bulk-error', function(err) {

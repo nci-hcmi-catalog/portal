@@ -39,7 +39,7 @@ const validateYup = (req, res, next) => {
 restify.serve(router, Model, {
   preCreate: validateYup,
   preUpdate: validateYup,
-  idProperty: 'model_name',
+  idProperty: 'name',
 });
 
 app.use('/api/v1', data_sync_router);

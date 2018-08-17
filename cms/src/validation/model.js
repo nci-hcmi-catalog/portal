@@ -40,7 +40,7 @@ const nameValidation = /HCM-\w{4}-\d{4}.\w\d{2}/;
 // In order to publish a model, this validation
 // must be satisfied, including all required fields
 export default object().shape({
-  model_name: string()
+  name: string()
     .required()
     .matches(nameValidation),
   model_type: string()
@@ -138,7 +138,7 @@ export default object().shape({
 // In order to save to ES, we do a minimal validation,
 // enforcing only the minimal set of conditions
 export const saveValidation = object().shape({
-  model_name: string()
+  name: string()
     .required()
     .matches(nameValidation),
   model_type: string()

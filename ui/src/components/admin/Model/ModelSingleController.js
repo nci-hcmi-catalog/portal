@@ -5,7 +5,7 @@ import { fetchData } from '../services/Fetcher';
 export const ModelSingleContext = React.createContext();
 
 // Helper functions
-const isFormReadyToSave = (dirty, errors) => dirty && !('model_name' in errors);
+const isFormReadyToSave = (dirty, errors) => dirty && !('name' in errors);
 
 const isFormReadyToPublish = (values, dirty, errors) =>
   (values.status !== 'published' || dirty) && Object.keys(errors).length === 0;
@@ -63,9 +63,9 @@ const getModel = async (baseUrl, modelName) =>
   });
 
 const saveModel = async (values, isUpdate, baseUrl) => {
-  const { model_name } = values;
+  const { name } = values;
 
-  const url = isUpdate ? `${baseUrl}/model/${model_name}` : `${baseUrl}/model`;
+  const url = isUpdate ? `${baseUrl}/model/${name}` : `${baseUrl}/model`;
 
   return fetchData({
     url,
@@ -244,7 +244,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
               // If successful get fresh model data (with new status and any
               // other transformations may take place when publishing)
-              const modelDataResponse = await getModel(baseUrl, values.model_name);
+              const modelDataResponse = await getModel(baseUrl, values.name);
 
               setState({
                 ...state,
