@@ -3,7 +3,7 @@ import { isEqual } from 'lodash';
 
 import { toExcelHeaders, toExcelRowNumber } from '../schemas/constants';
 import Model, { ModelSchema } from '../schemas/model';
-import modelValidation from '../validation/model';
+import { saveValidation } from '../validation/model';
 
 import {
   getSheetData,
@@ -66,7 +66,7 @@ const removeNullKeys = data =>
 
 export const runYupValidators = parsed => {
   const validatePromises = parsed.map(p =>
-    modelValidation.validate(p, { abortEarly: false }).catch(Error => Error),
+    saveValidation.validate(p, { abortEarly: false }).catch(Error => Error),
   );
 
   return Promise.all(validatePromises).then(results => {
@@ -116,7 +116,7 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
         .map(d => removeNullKeys(d));
       return parsed;
     })
-    //.then(runYupValidators)
+    .then(runYupValidators)
     .then(parsed => {
       const savePromises = parsed.map(async p => {
         const prevModel = await Model.findOne(

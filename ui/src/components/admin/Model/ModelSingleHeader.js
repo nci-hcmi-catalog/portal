@@ -4,9 +4,9 @@ import Popup from 'reactjs-popup';
 import { ModelSingleContext } from './ModelSingleController';
 import { manageModelsUrlBase } from '../AdminNav';
 
+import { SaveModel, PublishModel } from './actions';
+
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
-import AdminModelPublishIcon from 'icons/AdminModelPublishIcon';
-import AdminModelSaveIcon from 'icons/AdminModelSaveIcon';
 import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
 
 import { AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
@@ -19,12 +19,16 @@ const headerText = (modelName = null, error = null) => {
 
   // Error text
   if (error) {
-    switch (error.response.status) {
-      case '404':
-        text = 'Model {modelName} not found';
-        break;
-      default:
-        text = 'Error loading {modelName}';
+    if (error.response.status) {
+      switch (error.response.status) {
+        case '404':
+          text = 'Model {modelName} not found';
+          break;
+        default:
+          text = 'Error loading {modelName}';
+      }
+    } else {
+      text = 'Unkown error has occured';
     }
   }
 
@@ -37,14 +41,16 @@ const headerText = (modelName = null, error = null) => {
 };
 
 const modelStatus = (data = null) => {
-  if (!data) {
-    return <SmallPill warning>Unsaved Changes</SmallPill>;
+  switch (data.status) {
+    case 'published':
+      return <SmallPill>{data.status}</SmallPill>;
+    case 'unpublished changes':
+      return <SmallPill warning>{data.status}</SmallPill>;
+    case 'unpublished':
+      return <SmallPill info>{data.status}</SmallPill>;
+    default:
+      return <SmallPill primary>{data.status}</SmallPill>;
   }
-
-  // Additional statuses here
-
-  // Temp
-  return <SmallPill warning>Unsaved Changes</SmallPill>;
 };
 
 const modelMoreOptions = (data = null) =>
@@ -70,7 +76,7 @@ const modelMoreOptions = (data = null) =>
       arrow={false}
     >
       <ActionsMenu>
-        <ActionsMenuItem>Publish</ActionsMenuItem>
+        <ActionsMenuItem>Unpublish</ActionsMenuItem>
         <ActionsMenuItem>Delete</ActionsMenuItem>
       </ActionsMenu>
     </Popup>
@@ -83,24 +89,19 @@ export default ({ modelName }) => (
     {({
       state: {
         data: { response, error },
-        form: { isReadyToSave, isReadyToPublish },
       },
     }) => (
       <AdminHeader>
         <AdminHeaderBlock>
           {headerText(modelName, error)}
-          {modelStatus(response || null)}
+          {response.status && modelStatus(response)}
         </AdminHeaderBlock>
         <AdminHeaderBlock>
           <ModelHeaderBackLink to={manageModelsUrlBase}>
             <ArrowLeftIcon height={9} width={5} /> Back to List
           </ModelHeaderBackLink>
-          <Pill disabled={!isReadyToPublish} marginLeft="21px" marginRight="10px">
-            <AdminModelPublishIcon css={'margin-right: 10px;'} height={16} width={15} />Publish
-          </Pill>
-          <Pill primary disabled={!isReadyToSave}>
-            <AdminModelSaveIcon css={'margin-right: 8px;'} height={14} width={14} />Save
-          </Pill>
+          <PublishModel marginLeft="21px" marginRight="10px" />
+          <SaveModel />
           {modelMoreOptions(response || null)}
         </AdminHeaderBlock>
       </AdminHeader>

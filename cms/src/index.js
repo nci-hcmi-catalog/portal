@@ -42,8 +42,8 @@ restify.serve(router, Model, {
   idProperty: 'model_name',
 });
 
-app.use('/', data_sync_router);
-app.use('/publish', publish_router);
+app.use('/api/v1', data_sync_router);
+app.use('/api/v1/publish', publish_router);
 app.use(router);
 
 // start app
