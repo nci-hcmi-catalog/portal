@@ -44,7 +44,7 @@ const isClinicalTumorDiagnosisSelected = values =>
 // All labels/keys from model schema
 const {
   name,
-  model_type,
+  type,
   split_ratio,
   growth_rate,
   primary_site,
@@ -130,12 +130,8 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
                 <Field name={name.accessor} component={FormInput} />
               </FormComponent>
 
-              <FormComponent labelText={model_type.displayName}>
-                <Field
-                  name={model_type.accessor}
-                  component={FormSelect}
-                  options={modelTypeOptions}
-                />
+              <FormComponent labelText={type.displayName}>
+                <Field name={type.accessor} component={FormSelect} options={modelTypeOptions} />
               </FormComponent>
 
               <FormComponent labelText={split_ratio.displayName}>

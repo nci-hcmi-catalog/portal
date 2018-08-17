@@ -43,7 +43,7 @@ export default object().shape({
   name: string()
     .required()
     .matches(nameValidation),
-  model_type: string()
+  type: string()
     .required()
     .lowercase()
     .oneOf(modelType),
@@ -141,7 +141,7 @@ export const saveValidation = object().shape({
   name: string()
     .required()
     .matches(nameValidation),
-  model_type: string()
+  type: string()
     .lowercase()
     .oneOf(modelType),
   growth_rate: number(),

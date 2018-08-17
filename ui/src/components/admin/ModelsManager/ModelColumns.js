@@ -17,7 +17,7 @@ import Moment from 'react-moment';
 
 const selectedColumns = [
   'name',
-  'model_type',
+  'type',
   'growth_rate',
   'split_ratio',
   'gender',
@@ -172,5 +172,5 @@ const modelManagerCustomColumns = [
 ];
 
 export const ModelTableColumns = columns
-  .filter(col => ['name', 'model_type'].includes(col.accessor))
+  .filter(col => ['name', 'type'].includes(col.accessor))
   .concat(modelManagerCustomColumns);
