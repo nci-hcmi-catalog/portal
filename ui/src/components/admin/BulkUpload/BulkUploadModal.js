@@ -40,6 +40,7 @@ const uploadGoogleSheet = async (type, sheetURL) => {
   });
 };
 
+//TODO: uploading animation and stream based upload response
 const UploadModal = ({ type, ...props }) => (
   <Component
     initialState={{

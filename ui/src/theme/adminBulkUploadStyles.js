@@ -46,6 +46,22 @@ export const BulkUploadTitle = styled('span')`
   label: bulk-upload-title;
 `;
 
+export const BulkUploadSubTitle = styled('div')`
+  display: inherit;
+  text-transform: capitalize;
+  font-family: ${libreFranklin};
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: left;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: ${brandPrimary};
+  label: bulk-upload-title;
+`;
+
 const bulkUploadContentCommon = css`
   width: 98%;
 `;
