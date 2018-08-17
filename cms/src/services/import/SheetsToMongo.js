@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { google } from 'googleapis';
 
-export const getAuthClient = () => {
+export const getAuthClient = userToken => {
   const OAuth2Client = google.auth.OAuth2;
   const TOKEN_PATH = 'token.json';
 
@@ -10,7 +10,8 @@ export const getAuthClient = () => {
   const redirect_uris = process.env.REDIRECT_URIS;
   const oAuth2Client = new OAuth2Client(client_id, client_secret, redirect_uris[0]);
 
-  const token = fs.readFileSync(TOKEN_PATH, 'utf8');
+  const token = userToken || fs.readFileSync(TOKEN_PATH, 'utf8');
+  // TODO: validate token with google before proceeding
   oAuth2Client.setCredentials(JSON.parse(token));
   return oAuth2Client;
 };

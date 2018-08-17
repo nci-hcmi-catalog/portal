@@ -6,7 +6,7 @@ import googleSheetsLogo from 'assets/logo-googlesheets.png';
 import TextInput from '@arranger/components/dist/Input';
 import { SectionDivider } from 'theme/adminBulkUploadStyles';
 
-export default ({ type, ...props }) => (
+export default ({ type, onSheetsURLChange, sheetsURL, ...props }) => (
   <>
     {' '}
     <Row alignItems="center" justifyContent="space-between">
@@ -60,8 +60,8 @@ export default ({ type, ...props }) => (
           `}
           type="text"
           placeholder="Google Sheets URL"
-          value={''}
-          onChange={({ target: { value } }) => console.log(value)}
+          value={sheetsURL}
+          onChange={({ target: { value } }) => onSheetsURLChange(value)}
         />{' '}
       </Col>
     </Row>{' '}

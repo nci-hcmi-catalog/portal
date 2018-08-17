@@ -6,8 +6,7 @@ import base from 'theme';
 import { BulkUploadControlPill } from 'theme/adminBulkUploadStyles';
 
 const {
-  fonts: { libreFranklin, openSans },
-  keyedPalette: { brandPrimary, lightPorcelain, porcelain, white, frenchGrey, black, dustyGray },
+  keyedPalette: { lightPorcelain },
 } = base;
 
 const commonControlStyles = css`
@@ -16,7 +15,7 @@ const commonControlStyles = css`
   justify-content: space-between;
   padding: 4px;
 `;
-const UploadInputControls = props => (
+const UploadInputControls = ({ onUploadClick }) => (
   <Row alignItems="center" justifyContent="space-between" css={commonControlStyles}>
     <Pill
       css={`
@@ -35,6 +34,7 @@ const UploadInputControls = props => (
         width: min-content;
         max-width: 90px;
       `}
+      onClick={onUploadClick}
     >
       Upload
     </BulkUploadControlPill>
