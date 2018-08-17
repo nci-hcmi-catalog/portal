@@ -59,6 +59,7 @@ export const FormInput = ({ field, form: { touched, errors }, type = 'text', ...
   </>
 );
 
+// ES date format === yyyy-MM-dd HH:mm:ss.SSSSSS||yyyy-MM-dd HH:mm:ss
 export const FormDateInput = ({ field, form: { touched, errors }, ...props }) => (
   <>
     {hasErrors(errors, touched, field.name) && (

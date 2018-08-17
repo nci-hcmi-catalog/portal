@@ -6,11 +6,17 @@ services:
     image: mongo
     restart: always
     ports:
-      - "27017:27017"
+      - '27017:27017'
     volumes:
       - ./docker/mongo/data:/data/db
-  es:
-    image: "elasticsearch"
+  elasticsearch:
+    image: 'elasticsearch'
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - '9200:9200'
+      - '9300:9300'
+    volumes:
+      - ./docker/elasticsearch/data:/usr/share/elasticsearch/data
+  kibana:
+    image: kibana
+    ports:
+      - 5601:5601

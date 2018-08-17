@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 
 export const ModelSchema = new mongoose.Schema(
   {
-    model_name: String,
-    model_type: String,
+    name: String,
+    type: String,
     growth_rate: Number,
     split_ratio: String,
     gender: String,

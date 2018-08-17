@@ -37,12 +37,13 @@ const arrItemIsOneOf = options => values => {
 
 const nameValidation = /HCM-\w{4}-\d{4}.\w\d{2}/;
 
-// In order to save a model, this validation must be satisfied
+// In order to publish a model, this validation
+// must be satisfied, including all required fields
 export default object().shape({
-  model_name: string()
+  name: string()
     .required()
     .matches(nameValidation),
-  model_type: string()
+  type: string()
     .required()
     .lowercase()
     .oneOf(modelType),
@@ -134,33 +135,73 @@ export default object().shape({
   status: string(),
 });
 
-// In order to publish to ES, we need only to validate required fields since
-// the create/update validation is already handled in the default export
+// In order to save to ES, we do a minimal validation,
+// enforcing only the minimal set of conditions
 export const saveValidation = object().shape({
-  model_name: string()
+  name: string()
     .required()
     .matches(nameValidation),
-  model_type: string(),
+  type: string()
+    .lowercase()
+    .oneOf(modelType),
   growth_rate: number(),
-  split_ratio: string(),
-  gender: string(),
-  race: string(),
+  split_ratio: string().oneOf(splitRatio),
+  gender: string().oneOf(gender),
+  race: string()
+    .nullable()
+    .lowercase()
+    .oneOf(race),
   age_at_diagnosis: number(),
   age_at_sample_acquisition: number(),
   date_of_availability: date(),
-  primary_site: string(),
+  primary_site: string()
+    .lowercase()
+    .oneOf(primarySites),
   tnm_stage: string(),
-  neoadjuvant_therapy: string(),
+  neoadjuvant_therapy: string()
+    .lowercase()
+    .oneOf(neoadjuvantTherapy),
   chemotherapeutic_drugs: boolean(),
-  disease_status: string(),
-  vital_status: string(),
-  therapy: array(),
-  molecular_characterizations: array(),
-  clinical_tumor_diagnosis: string(),
-  histological_type: string(),
-  clinical_stage_grouping: string(),
-  site_of_sample_acquisition: string(),
-  tumor_histological_grade: string(),
+  disease_status: string()
+    .lowercase()
+    .oneOf(diseaseStatus),
+  vital_status: string()
+    .lowercase()
+    .oneOf(vitalStatus),
+  therapy: array()
+    .of(string().lowercase())
+    .ensure()
+    .test(
+      'is-one-of',
+      `Therapy can only be one of: ${therapy.join(', ')}`,
+      arrItemIsOneOf(therapy),
+    ),
+  molecular_characterizations: array()
+    .of(string().lowercase())
+    .ensure()
+    .test(
+      'is-one-of',
+      `Molecular Characterizations can only be one of: ${molecularCharacterizations.join(', ')}`,
+      arrItemIsOneOf(molecularCharacterizations),
+    ),
+  clinical_tumor_diagnosis: string()
+    .lowercase()
+    .oneOf(clinicalTumorDiagnosis),
+  histological_type: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+    makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'histological type'),
+  ),
+  clinical_stage_grouping: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+    makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'clinical stage grouping'),
+  ),
+  site_of_sample_acquisition: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+    makeClinicalTumorDiagnosisDependentSchema(
+      clinical_tumor_diagnosis,
+      'site of sample acquisition',
+    ),
+  ),
+  tumor_histological_grade: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+    makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'tumor histological grade'),
+  ),
   licensing_required: boolean(),
   source_model_url: string(),
   source_sequence_url: string(),

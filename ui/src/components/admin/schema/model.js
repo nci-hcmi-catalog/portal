@@ -1,11 +1,11 @@
 export const schemaArr = [
   {
     displayName: 'Name',
-    accessor: 'model_name',
+    accessor: 'name',
   },
   {
     displayName: 'Type',
-    accessor: 'model_type',
+    accessor: 'type',
   },
   {
     displayName: 'Growth Rate',

@@ -100,7 +100,7 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
   getSheetData({ authClient, sheetId, tabName })
     .then(data => {
       const parsed = data
-        .filter(({ model_name }) => model_name)
+        .filter(({ name }) => name)
         .map(d =>
           Object.keys(d)
             .filter(key => ModelSchema.paths[key])
@@ -121,7 +121,7 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
       const savePromises = parsed.map(async p => {
         const prevModel = await Model.findOne(
           {
-            model_name: p.model_name,
+            name: p.name,
           },
           {
             _id: false,
@@ -132,7 +132,7 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
           if (!isEqual(prevModel._doc, p)) {
             return Model.findOneAndUpdate(
               {
-                model_name: p.model_name,
+                name: p.name,
               },
               p,
               {
