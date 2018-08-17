@@ -174,7 +174,7 @@ export default ({ modelName }) => (
                       css={`
                         fill: #900000;
                       `}
-                    />{' '}
+                    />
                     Model Administration
                   </h3>
                   <HorizontalTable
@@ -226,7 +226,7 @@ export default ({ modelName }) => (
                         css={`
                           fill: #900000;
                         `}
-                      />{' '}
+                      />
                       Model Image
                     </h3>
                     <Col

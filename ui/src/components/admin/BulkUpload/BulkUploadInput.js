@@ -8,37 +8,32 @@ import { SectionDivider } from 'theme/adminBulkUploadStyles';
 
 export default ({ type, onSheetsURLChange, sheetsURL, ...props }) => (
   <>
-    {' '}
     <Row alignItems="center" justifyContent="space-between">
-      {' '}
       <div
         css={`
           flex-grow: 1;
           width: fit-content;
         `}
       >
-        {' '}
-        {`Submit your ${type} data by uploading a google sheet or a CSV file`}{' '}
-      </div>{' '}
+        {`Submit your ${type} data by uploading a google sheet or a CSV file`}
+      </div>
       <Pill
         css={`
           flex-grow: 1;
           width: min-content;
         `}
       >
-        {' '}
-        <AdminDownloadIconRed width={10} height={12} /> Download Template{' '}
+        <AdminDownloadIconRed width={10} height={12} /> Download Template
       </Pill>
-    </Row>{' '}
+    </Row>
     <SectionDivider
       css={`
         padding-top: 3px;
         padding-bottom: 3px;
         border: none;
       `}
-    />{' '}
+    />
     <Row alignItems="center" justifyContent="left">
-      {' '}
       <img
         src={googleSheetsLogo}
         alt="google sheets url"
@@ -46,14 +41,13 @@ export default ({ type, onSheetsURLChange, sheetsURL, ...props }) => (
           height: 90px;
           flex-grow: 0;
         `}
-      />{' '}
+      />
       <Col
         css={`
           flex-grow: 1;
         `}
       >
-        {' '}
-        <div> Google Sheets URL : </div>{' '}
+        <div> Google Sheets URL : </div>
         <TextInput
           css={`
             width: 100%;
@@ -62,15 +56,15 @@ export default ({ type, onSheetsURLChange, sheetsURL, ...props }) => (
           placeholder="Google Sheets URL"
           value={sheetsURL}
           onChange={({ target: { value } }) => onSheetsURLChange(value)}
-        />{' '}
+        />
       </Col>
-    </Row>{' '}
+    </Row>
     <SectionDivider
       css={`
         padding-top: 3px;
         padding-bottom: 3px;
         border: none;
       `}
-    />{' '}
+    />
   </>
 );

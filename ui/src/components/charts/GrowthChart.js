@@ -70,7 +70,7 @@ export default ({ sqon, setSQON }) => (
                         color: ${theme.palette[6]};
                       `}
                     >
-                      2D:{' '}
+                      2D:
                       {Math.round(
                         (Object.entries(groupBy(state.buckets, x => x.key.slice(0, 3)))
                           .map(([k, v]) => ({
@@ -79,7 +79,7 @@ export default ({ sqon, setSQON }) => (
                           }))
                           .find(x => x.key === '2-D')?.total || 0) /
                           state.total *
-                    100, //eslint-disable-line
+                          100, //eslint-disable-line
                       )}%
                     </span>
                   </Col>
@@ -113,7 +113,7 @@ export default ({ sqon, setSQON }) => (
                               op: 'in',
                               content: {
                                 field: 'type',
-                                value: ( data.keys || [] ).sort(),
+                                value: (data.keys || []).sort(),
                               },
                             },
                           ],
@@ -145,7 +145,7 @@ export default ({ sqon, setSQON }) => (
                         color: ${theme.palette[2]};
                       `}
                     >
-                      3D:{' '}
+                      3D:
                       {Math.round(
                         (Object.entries(groupBy(state.buckets, x => x.key.slice(0, 3)))
                           .map(([k, v]) => ({

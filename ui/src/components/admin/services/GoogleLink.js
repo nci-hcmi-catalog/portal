@@ -64,7 +64,6 @@ export const LoginWithGoogle = ({ children, ...props }) => (
     {({ state: { loggedIn }, setState, children, ...props }) => {
       return (
         <>
-          {' '}
           {loggedIn ? (
             <Pill
               css={`
@@ -85,7 +84,7 @@ export const LoginWithGoogle = ({ children, ...props }) => (
               Link With Google
             </Pill>
           )}
-          {children}{' '}
+          {children}
         </>
       );
     }}

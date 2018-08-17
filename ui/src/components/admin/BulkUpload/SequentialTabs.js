@@ -21,9 +21,7 @@ const SequentialTabs = ({ children, selectedTab, onSelectionChanged, ...props })
       };
       return (
         <>
-          {' '}
           <SequentialTabsHeader>
-            {' '}
             {(children || []).map(
               (child, index) =>
                 index === selected ? (
@@ -38,10 +36,9 @@ const SequentialTabs = ({ children, selectedTab, onSelectionChanged, ...props })
                     onClick={child.props.disableClick ? {} : () => handleSelectionChange(index)}
                   />
                 ),
-            )}{' '}
-          </SequentialTabsHeader>{' '}
+            )}
+          </SequentialTabsHeader>
           <SequentialTabsContent>
-            {' '}
             {(children || []).length > selected ? (
               children[selected]
             ) : (
@@ -50,7 +47,7 @@ const SequentialTabs = ({ children, selectedTab, onSelectionChanged, ...props })
                   display: none;
                 `}
               />
-            )}{' '}
+            )}
           </SequentialTabsContent>
         </>
       );

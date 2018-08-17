@@ -14,36 +14,32 @@ export default ({ type, uploadResults, ...props }) => {
 
   return (
     <>
-      {' '}
       <Row alignItems="center" justifyContent="space-between">
-        {' '}
         <div
           css={`
             flex-grow: 1;
             width: fit-content;
           `}
         >
-          {' '}
-          {`Your ${type}s have been checked for required fields and all submitted fields were validated against permissible values.`}{' '}
+          {`Your ${type}s have been checked for required fields and all submitted fields were validated against permissible values.`}
         </div>
-      </Row>{' '}
+      </Row>
       <SectionDivider
         css={`
           padding-top: 3px;
           padding-bottom: 3px;
           border: none;
         `}
-      />{' '}
-      <BulkUploadSubTitle> Upload Summary </BulkUploadSubTitle>{' '}
+      />
+      <BulkUploadSubTitle> Upload Summary </BulkUploadSubTitle>
       <SectionDivider
         css={`
           padding-top: 3px;
           padding-bottom: 3px;
           border: none;
         `}
-      />{' '}
+      />
       <Col>
-        {' '}
         {docs ? (
           <div
             css={`
@@ -67,8 +63,8 @@ export default ({ type, uploadResults, ...props }) => {
           </div>
         ) : (
           ''
-        )}{' '}
-      </Col>{' '}
+        )}
+      </Col>
     </>
   );
 };
