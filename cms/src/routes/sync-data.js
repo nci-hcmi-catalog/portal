@@ -116,7 +116,7 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
         .map(d => removeNullKeys(d));
       return parsed;
     })
-    .then(runYupValidators)
+    //.then(runYupValidators)
     .then(parsed => {
       const savePromises = parsed.map(async p => {
         const prevModel = await Model.findOne(
