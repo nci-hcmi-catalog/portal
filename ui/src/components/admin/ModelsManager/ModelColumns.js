@@ -125,7 +125,6 @@ const modelManagerCustomColumns = [
                 `}
                 to={() => ''}
               >
-                {' '}
                 <span
                   css={`
                     width: 27px;
@@ -139,9 +138,8 @@ const modelManagerCustomColumns = [
                     text-align: center;
                   `}
                 >
-                  {' '}
                   ...
-                </span>{' '}
+                </span>
               </ActionPill>
             }
             position="left"

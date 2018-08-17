@@ -15,7 +15,11 @@ import {
 export const data_sync_router = express.Router();
 
 data_sync_router.get('/sheets-data/:sheetId/:tabName', async (req, res) => {
-  const authClient = getAuthClient();
+  const {
+    headers: { authorization },
+  } = req;
+  //TODO: error handling if auth is not passed
+  const authClient = getAuthClient(authorization);
   const { sheetId, tabName } = req.params;
   getSheetData({ authClient, sheetId, tabName })
     .then(data => res.json(data))
@@ -87,7 +91,11 @@ export const runYupValidators = parsed => {
 };
 
 data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
-  const authClient = getAuthClient();
+  const {
+    headers: { authorization },
+  } = req;
+  //TODO: error handling if auth is not passed
+  const authClient = getAuthClient(authorization);
   const { sheetId, tabName } = req.params;
   getSheetData({ authClient, sheetId, tabName })
     .then(data => {
@@ -108,7 +116,7 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
         .map(d => removeNullKeys(d));
       return parsed;
     })
-    .then(runYupValidators)
+    //.then(runYupValidators)
     .then(parsed => {
       const savePromises = parsed.map(async p => {
         const prevModel = await Model.findOne(

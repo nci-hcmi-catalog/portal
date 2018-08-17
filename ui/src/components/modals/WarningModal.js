@@ -13,7 +13,7 @@ export default ({ modalState }) => (
       <li>this computer network,</li>
       <li>all computers connected to this network, and</li>
       <li>
-        all devices and storage media attached to this network or to a computer on this network.{' '}
+        all devices and storage media attached to this network or to a computer on this network.
       </li>
     </ul>
     <p>

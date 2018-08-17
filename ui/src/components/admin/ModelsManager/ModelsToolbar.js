@@ -44,7 +44,7 @@ export default props => (
                     postion: relative;
                   `}
                 >
-                  <ToolbarText>Bulk Actions :</ToolbarText>{' '}
+                  <ToolbarText>Bulk Actions :</ToolbarText>
                   <ToolbarControl onClick={() => ''}>
                     --Select An Action-- {ArrowIcon({ isOpen: open })}
                   </ToolbarControl>
@@ -85,7 +85,7 @@ export default props => (
               `}
             >
               {!isLoading &&
-                `Showing ${from} - ${to <= rowCount ? to : rowCount} of ${rowCount} Models`}{' '}
+                `Showing ${from} - ${to <= rowCount ? to : rowCount} of ${rowCount} Models`}
             </ToolbarText>
           </ToolbarSection>
         </ToolbarMain>

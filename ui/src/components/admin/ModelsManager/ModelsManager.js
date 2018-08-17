@@ -5,6 +5,9 @@ import { AdminContainer, AdminHeader, AdminContent } from 'theme/adminStyles';
 import { ControlPill, Controls } from 'theme/duplicateAdminControlsStlyes';
 import { Table } from 'theme/adminTableStyles';
 import ModelManagerTable from './ModelManagerTable';
+import { ModalStateContext } from 'providers/ModalState';
+import BulkUploader from '../BulkUpload';
+import { BulkUploadModalStyle } from '../../../theme/adminBulkUploadStyles';
 
 const Title = styled('div')`
   min-height: 50px;
@@ -21,7 +24,21 @@ const content = () => {
           <ModelIcon height={30} width={30} />Model Management
         </Title>
         <Controls>
-          <ControlPill>Add Bulk</ControlPill>
+          <ModalStateContext.Consumer>
+            {modalState => (
+              <ControlPill
+                onClick={() =>
+                  modalState.setModalState({
+                    component: <BulkUploader type={'model'} />,
+                    shouldCloseOnOverlayClick: true,
+                    styles: BulkUploadModalStyle,
+                  })
+                }
+              >
+                Add Bulk
+              </ControlPill>
+            )}
+          </ModalStateContext.Consumer>
           <ControlPill last>Add A Model</ControlPill>
         </Controls>
       </AdminHeader>

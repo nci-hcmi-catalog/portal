@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import Component from 'react-component-component';
 import axios from 'axios';
 
-export const fetchData = async ({ url, data, method }) => {
-  return await axios({ url, data, method });
+export const fetchData = async ({ url, data, method, headers }) => {
+  return await axios({ url, data, method, headers });
 };
 
-export const get = async ({ url, params }) => {
-  return await fetchData({ url, params, method: 'get' });
+export const get = async ({ url, params, headers }) => {
+  return await fetchData({ url, params, method: 'get', headers });
 };
 
-export const post = async ({ url, data }) => {
-  return await fetchData({ url, data, method: 'post' });
+export const post = async ({ url, data, headers }) => {
+  return await fetchData({ url, data, method: 'post', headers });
 };
 
 export const Fetcher = ({ url, data, method, children }) => (
