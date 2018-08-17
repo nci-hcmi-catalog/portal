@@ -9,11 +9,13 @@ services:
       - '27017:27017'
     volumes:
       - ./docker/mongo/data:/data/db
-  es:
+  elasticsearch:
     image: 'elasticsearch'
     ports:
       - '9200:9200'
       - '9300:9300'
+    volumes:
+      - ./docker/elasticsearch/data:/usr/share/elasticsearch/data
   kibana:
     image: kibana
     ports:
