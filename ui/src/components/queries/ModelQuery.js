@@ -25,12 +25,12 @@ const fetchData = async ({ setState, modelName }) => {
                       neoadjuvant_therapy
                       tnm_stage
                       molecular_characterizations
-                      age_at_diagnosis
+                      age_at_sample_acquisition
                       vital_status
                       gender
                       race
-                      chemotherapeutic_drug_list_available
-                      age_at_aquisition
+                      chemotherapeutic_drugs
+                      age_at_sample_acquisition
                       disease_status
                       files {
                         hits{
@@ -49,9 +49,9 @@ const fetchData = async ({ setState, modelName }) => {
                       updatedAt
                       clinical_diagnosis {
                         clinical_tumor_diagnosis
-                        aquisition_site
+                        site_of_sample_acquisition
                         histological_type
-                        histological_grade
+                        tumor_histological_grade
                         clinical_stage_grouping
                       }
                     }
