@@ -55,7 +55,11 @@ export default ({ modelName }) => (
   <ModelQuery modelName={modelName}>
     {({
       state: queryState,
-      modelImages = modelImageProcessor(queryState.model ? queryState.model.files.hits.edges : []),
+      modelImages = modelImageProcessor(
+        queryState.model && queryState.model.files && queryState.model.files.hits
+          ? queryState.model.files.hits.edges
+          : [],
+      ),
     }) => (
       <div css={styles}>
         <ModelBar name={modelName} id={(queryState.model || { id: '' }).id} />
@@ -182,8 +186,8 @@ export default ({ modelName }) => (
                     extended={queryState.extended}
                     fieldNames={[
                       'date_of_availability',
-                      'date_created',
-                      'date_updated',
+                      'createdAt',
+                      'updatedAt',
                       'licensing_required',
                       'gender',
                     ]}

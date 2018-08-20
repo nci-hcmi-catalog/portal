@@ -46,7 +46,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
       [FAKER_KEY]: ['2018-06-06 10:00:00'],
     },
   },
-  date_created: {
+  createdAt: {
     type: 'date',
     format: 'yyyy-MM-dd HH:mm:ss.SSSSSS||yyyy-MM-dd HH:mm:ss',
     [EXTENSIONS_KEY]: {
@@ -62,7 +62,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
       ],
     },
   },
-  date_updated: {
+  updatedAt: {
     type: 'date',
     format: 'yyyy-MM-dd HH:mm:ss.SSSSSS||yyyy-MM-dd HH:mm:ss',
     [EXTENSIONS_KEY]: {
