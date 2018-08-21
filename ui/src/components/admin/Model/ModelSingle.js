@@ -30,7 +30,7 @@ const renderTab = (tab, data) => {
 };
 
 export default ({ match }) => (
-  <ModelSingleProvider baseUrl={config.urls.modelBase} modelName={match.params.name}>
+  <ModelSingleProvider baseUrl={config.urls.cmsBase} modelName={match.params.name}>
     <ModelSingleContext.Consumer>
       {({
         state: {

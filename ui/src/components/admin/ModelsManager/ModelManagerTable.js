@@ -6,7 +6,7 @@ import EnhancedReactTable from './EnhancedReactTable';
 import config from '../config';
 
 export default props => (
-  <ModelsTableProvider baseUrl={`${config.urls.modelBase}/Model`}>
+  <ModelsTableProvider baseUrl={`${config.urls.cmsBase}/Model`}>
     <Col>
       <ModelsToolbar />
       <EnhancedReactTable />

@@ -26,7 +26,7 @@ const getSheetId = sheetURL => {
 };
 const uploadGoogleSheet = async (type, sheetURL) => {
   const sheetID = getSheetId(sheetURL);
-  const uploadURL = config.urls.cmsBase + `sync-mongo/${sheetID}/Real Data Collection`;
+  const uploadURL = config.urls.cmsBase + `/sync-mongo/${sheetID}/Real Data Collection`;
   const gapi = global.gapi;
   // TODO: this assumes user is already logged in - create a prompt to let user
   // know to login if not already logged in
