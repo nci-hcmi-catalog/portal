@@ -287,7 +287,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     type: 'success',
                     message: 'Publish Successful!',
                     details: 'Model has been succesfully published. View it live here: ',
-                    link: `/model/${modelDataResponse.data.name}`
+                    link: `/model/${modelDataResponse.data.name}`,
+                    linkText: modelDataResponse.data.name,
                   }),
                 ],
               });
