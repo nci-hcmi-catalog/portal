@@ -146,7 +146,9 @@ export const saveValidation = object().shape({
     .oneOf(modelType),
   growth_rate: number(),
   split_ratio: string().oneOf(splitRatio),
-  gender: string().oneOf(gender),
+  gender: string()
+    .lowercase()
+    .oneOf(gender),
   race: string()
     .nullable()
     .lowercase()
