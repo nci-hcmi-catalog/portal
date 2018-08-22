@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'react-emotion';
+import { modelEditUrlBase } from '../AdminNav';
 import ModelIcon from '../../../icons/ModelIcon';
 import { AdminContainer, AdminHeader } from 'theme/adminStyles';
-import { ControlPill, Controls } from 'theme/duplicateAdminControlsStlyes';
+import { ControlPill, ControlPillLink, Controls } from 'theme/duplicateAdminControlsStlyes';
 import { Table } from 'theme/adminTableStyles';
 import ModelManagerTable from './ModelManagerTable';
 import { ModalStateContext } from 'providers/ModalState';
@@ -39,7 +40,9 @@ const content = () => {
               </ControlPill>
             )}
           </ModalStateContext.Consumer>
-          <ControlPill last>Add A Model</ControlPill>
+          <ControlPillLink to={modelEditUrlBase} last>
+            Add A Model
+          </ControlPillLink>
         </Controls>
       </AdminHeader>
       <Table>

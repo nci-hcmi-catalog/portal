@@ -1,4 +1,6 @@
 import styled from 'react-emotion';
+import { Link } from 'react-router-dom';
+
 import base from 'theme';
 
 const {
@@ -13,8 +15,11 @@ export const ControlPill = styled('span')`
   margin-left: auto;
   margin-left: ${props => props.last && '20px'};
   justify-content: flex-end;
+  text-decoration: none;
   label: admin-control-pill;
 `;
+
+export const ControlPillLink = ControlPill.withComponent(Link);
 
 export const Controls = styled('div')`
   min-height: 50px;
