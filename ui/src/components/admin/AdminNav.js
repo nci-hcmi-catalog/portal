@@ -43,7 +43,7 @@ export default ({ location: { pathname } }) => (
             margin-right: 5px;
           `}
         />
-        lorem.ipsum@todo.on.ca
+        rosi.bajari@example.nih.gov
       </User>
       <LoginWithGoogle />
       <Pill last>Logout</Pill>
