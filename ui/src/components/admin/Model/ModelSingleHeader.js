@@ -82,8 +82,6 @@ const modelMoreOptions = (data = null) =>
     </Popup>
   );
 
-const isFormReady = errors => Object.keys(errors).length === 0;
-
 export default ({ modelName }) => (
   <ModelSingleContext.Consumer>
     {({

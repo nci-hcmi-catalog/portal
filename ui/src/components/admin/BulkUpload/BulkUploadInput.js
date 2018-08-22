@@ -6,7 +6,7 @@ import googleSheetsLogo from 'assets/logo-googlesheets.png';
 import TextInput from '@arranger/components/dist/Input';
 import { SectionDivider } from 'theme/adminBulkUploadStyles';
 
-export default ({ type, onSheetsURLChange, sheetsURL, ...props }) => (
+export default ({ type, onSheetsURLChange, sheetsURL }) => (
   <>
     <Row alignItems="center" justifyContent="space-between">
       <div

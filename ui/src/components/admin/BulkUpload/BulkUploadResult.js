@@ -2,9 +2,7 @@ import React from 'react';
 import { Row, Col } from 'theme/system';
 import { SectionDivider, BulkUploadSubTitle } from 'theme/adminBulkUploadStyles';
 
-const getSuccessCounts = results => results;
-
-export default ({ type, uploadResults, ...props }) => {
+export default ({ type, uploadResults }) => {
   //TODO: handle other error types
   const {
     data: { docs, error },

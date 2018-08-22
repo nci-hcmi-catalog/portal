@@ -9,6 +9,7 @@ import AdminModelNav from './AdminModelNav';
 import ModelForm from './ModelForm';
 import ModelImages from './ModelImages';
 import ModelVariants from './ModelVariants';
+import { NotificationToaster } from '../Notifications';
 
 import { AdminContainer } from 'theme/adminStyles';
 import { AdminModelContent, Loading } from 'theme/adminModelStyles';
@@ -36,10 +37,18 @@ export default ({ match }) => (
         state: {
           ui: { activeTab },
           data: { isLoading, response },
+          notifications,
         },
+        clearNotification,
       }) => (
         <AdminContainer>
           {isLoading && <Loading />}
+          {notifications.length > 0 && (
+            <NotificationToaster
+              notifications={notifications}
+              clearNotification={clearNotification}
+            />
+          )}
           <ModelSingleHeader modelName={match.params.name} />
           <Row>
             <AdminModelNav />

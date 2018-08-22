@@ -40,7 +40,7 @@ const UploadInputControls = ({ onUploadClick }) => (
     </BulkUploadControlPill>
   </Row>
 );
-const UploadPublishControls = props => (
+const UploadPublishControls = () => (
   <Row alignItems="center" justifyContent="space-between" css={commonControlStyles}>
     <Pill
       css={`
