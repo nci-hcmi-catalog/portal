@@ -6,7 +6,7 @@ import {
   SequentialTabsContent,
 } from 'theme/adminBulkUploadStyles';
 
-const SequentialTabs = ({ children, selectedTab, onSelectionChanged, ...props }) => (
+export default ({ children, selectedTab, onSelectionChanged }) => (
   <Component
     initialState={{
       selected: selectedTab || 0,
@@ -54,5 +54,3 @@ const SequentialTabs = ({ children, selectedTab, onSelectionChanged, ...props })
     }}
   </Component>
 );
-
-export default SequentialTabs;

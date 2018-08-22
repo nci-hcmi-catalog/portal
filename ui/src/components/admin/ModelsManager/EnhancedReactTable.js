@@ -8,9 +8,9 @@ import { ModelsTableContext } from './ModelsTableController';
 
 const EnhancedReactTable = checkboxHOC(ReactTable);
 
-export default props => (
+export default () => (
   <ModelsTableContext.Consumer>
-    {({ state, onPageChange, onPageSizeChange, onFilterValueChange }) => {
+    {({ state, onPageChange, onPageSizeChange }) => {
       const { isLoading, page, pageSize, data, rowCount } = state;
       return (
         <div css={searchStyles}>
@@ -24,7 +24,7 @@ export default props => (
             defaultPageSize={pageSize}
             pageSize={pageSize}
             page={page}
-            PaginationComponent={props => (
+            PaginationComponent={() => (
               <CustomPagination
                 {...state}
                 {...{

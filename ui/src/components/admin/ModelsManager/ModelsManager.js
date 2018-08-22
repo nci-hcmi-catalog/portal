@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'react-emotion';
 import ModelIcon from '../../../icons/ModelIcon';
-import { AdminContainer, AdminHeader, AdminContent } from 'theme/adminStyles';
+import { AdminContainer, AdminHeader } from 'theme/adminStyles';
 import { ControlPill, Controls } from 'theme/duplicateAdminControlsStlyes';
 import { Table } from 'theme/adminTableStyles';
 import ModelManagerTable from './ModelManagerTable';

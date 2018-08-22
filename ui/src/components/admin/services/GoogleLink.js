@@ -22,13 +22,13 @@ export const googleSDK = () => {
 };
 
 const attachGoogleSignIn = (elementId, googleAuth, onSuccess, onFailure) => {
-  const element = document.getElementById('googleSignin');
+  const element = document.getElementById(elementId);
   googleAuth.attachClickHandler(element, {}, onSuccess, onFailure);
 };
 
 const handleAuthError = err => ({ googleAuthError: true, authErrorMessage: err });
 
-export const LoginWithGoogle = ({ children, ...props }) => (
+export const LoginWithGoogle = () => (
   <Component
     initialState={{
       googleAuthError: false,
@@ -36,7 +36,7 @@ export const LoginWithGoogle = ({ children, ...props }) => (
       loggedIn: false,
       googleUser: null,
     }}
-    didMount={async ({ state, setState }) => {
+    didMount={async ({ setState }) => {
       try {
         const googleAuth = await googleSDK();
         if (!googleAuth.isSignedIn.get()) {
@@ -61,7 +61,7 @@ export const LoginWithGoogle = ({ children, ...props }) => (
       }
     }}
   >
-    {({ state: { loggedIn }, setState, children, ...props }) => {
+    {({ state: { loggedIn }, children }) => {
       return (
         <>
           {loggedIn ? (

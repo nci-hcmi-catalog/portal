@@ -211,7 +211,6 @@ export const FomAutoComplete = ({
   form: { touched, errors, setFieldValue, setFieldTouched },
   options,
   errorText,
-  ...props
 }) => (
   <AutoCompleteWrapper>
     {hasErrors(errors, touched, name) && (

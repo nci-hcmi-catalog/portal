@@ -16,7 +16,6 @@ const {
     mystic,
     black,
     lightBlack,
-    darkBlack,
     mineShaft,
     shuttleGray,
   },

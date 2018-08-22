@@ -28,7 +28,7 @@ const ArrowIcon = ({ isOpen }) => {
   );
 };
 
-export default props => (
+export default () => (
   <ModelsTableContext.Consumer>
     {({ state: { isLoading, page, pageSize, filterValue, rowCount }, onFilterValueChange }) => {
       const [from, to] = [page * pageSize + 1, page * pageSize + pageSize];

@@ -24,7 +24,7 @@ const getSheetId = sheetURL => {
   // use replace because javascript doesnt have positive lookahead ?<=
   return sheetUrlParts.length > 0 ? sheetUrlParts[0].replace('/d/', '').replace('/', '') : '';
 };
-const uploadGoogleSheet = async (type, sheetURL) => {
+const uploadGoogleSheet = async sheetURL => {
   const sheetID = getSheetId(sheetURL);
   const uploadURL = config.urls.cmsBase + `/sync-mongo/${sheetID}/Real Data Collection`;
   const gapi = global.gapi;
@@ -52,7 +52,7 @@ const UploadModal = ({ type, ...props }) => (
     didUpdate={async ({ state, setState }) => {
       try {
         if (state.uploadingGoogleSheet) {
-          const uploadSheetResult = await uploadGoogleSheet(type, state.sheetsURL);
+          const uploadSheetResult = await uploadGoogleSheet(state.sheetsURL);
           setState({
             uploadingGoogleSheet: false,
             selectedTab: 1,
