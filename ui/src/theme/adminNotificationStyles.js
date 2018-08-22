@@ -1,6 +1,7 @@
 import styled, { keyframes } from 'react-emotion';
 import { css } from 'emotion';
 import { Link } from 'react-router-dom';
+import { Element } from 'react-scroll';
 
 import base from 'theme';
 
@@ -16,7 +17,7 @@ const errorBkgColour = brandPrimary20;
 const errorColour = brandPrimary;
 const textColour = mineShaft;
 
-export const NotificationsToaster = styled('div')`
+export const NotificationsToaster = styled(Element)`
   width: 100%;
   display: flex;
   flex-direction: column;
