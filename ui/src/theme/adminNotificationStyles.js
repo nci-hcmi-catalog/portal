@@ -23,6 +23,7 @@ export const NotificationsToaster = styled(Element)`
   flex-direction: column;
   font-family: ${openSans};
   margin: 15px 0 0;
+  label: notifications-toaster;
 `;
 
 const NotificationAnim = keyframes`
@@ -61,19 +62,23 @@ export const Notification = styled('div')`
   text-align: left;
   color: ${textColour};
   animation: ${NotificationAnim} 1s ease;
+  label: notification;
 
   &:last-child {
     margin-bottom: 0;
+    label: last-notification;
   }
 `;
 
 export const Message = styled('span')`
   font-weight: bold;
   margin-right: 6px;
+  label: notification-message;
 `;
 
 export const Details = styled('span')`
   margin-right: 6px;
+  label: notification-details;
 `;
 
 export const MessageLink = styled(Link)`
@@ -86,6 +91,7 @@ export const MessageLink = styled(Link)`
       return successColour;
     }
   }};
+  label: notification-message-link;
 `;
 
 export const closeIcon = css`
