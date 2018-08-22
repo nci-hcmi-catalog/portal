@@ -1,16 +1,27 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-import { NotificationsToaster, Notification } from 'theme/adminNotificationStyles';
+import {
+  NotificationsToaster,
+  Notification,
+  Message,
+  Details,
+  MessageLink,
+  closeIcon
+} from 'theme/adminNotificationStyles';
+import AdminCloseIcon from 'icons/AdminCloseIcon';
 
 export default ({ notifications, clearNotification }) => (
   <NotificationsToaster>
     {notifications.map(notification => (
-      <Notification key={notification.id}>
-        {notification.message}
-        {notification.details && <div>notification.details</div>}
-        {notification.link && <Link to={notification.link}>{notification.linkText || 'Link'}</Link>}
-        <div onClick={() => clearNotification(notification.id)}>Clear</div>
+      <Notification key={notification.id} type={notification.type}>
+        <Message>{notification.message}</Message>
+        {notification.details && <Details>{notification.details}</Details>}
+        {notification.link && (
+          <MessageLink to={notification.link} type={notification.type}>
+            {notification.linkText || 'Link'}
+          </MessageLink>
+        )}
+        <AdminCloseIcon style={closeIcon} onClick={() => clearNotification(notification.id)} />
       </Notification>
     ))}
   </NotificationsToaster>

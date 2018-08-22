@@ -190,7 +190,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 baseUrl,
               );
 
-              setState(() => ({
+              await setState(() => ({
                 ...state,
                 // Set form to unsavable status (will release on next form interaction)
                 form: {
