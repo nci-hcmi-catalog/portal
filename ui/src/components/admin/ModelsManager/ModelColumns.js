@@ -78,7 +78,7 @@ const modelManagerCustomColumns = [
     accessor: 'status',
     Cell: row => {
       let statusValue = (row.value || 'Unpublished').toLowerCase();
-      if (statusValue === 'unpublishedchanges') {
+      if (statusValue === 'unpublished changes') {
         return <UnpublishedChangesModel>Unpublished Changes</UnpublishedChangesModel>;
       } else if (statusValue === 'published') {
         return <PublishedModel>Published</PublishedModel>;
