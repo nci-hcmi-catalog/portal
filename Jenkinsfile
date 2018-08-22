@@ -4,11 +4,14 @@ properties([
         pollSCM('H/5 * * * *')
     ])
 ])
-node {
-    load "${WORKSPACE}/hcmi_env" 
+node ('default-lower') {
+    configFileProvider([configFile(fileId: '9b23762f-2845-4626-9cf2-4236ce3c9965', variable: 'FILE')]) {
+        echo "FILE=$FILE"
+        load "$FILE"
+    }
 }
 pipeline {
-  agent any
+  agent { label 'default-lower' }
   stages{
     stage('Get Code') {
       steps {
@@ -44,26 +47,10 @@ pipeline {
     stage('Deploy Dev') {
       steps {
         echo "DEPLOYING TO DEVELOPMENT: (${env.BUILD_URL})"
-        sshPublisher(publishers: [
-          sshPublisherDesc(
-            configName: 'hcmi-dev', 
-            transfers: [
-              sshTransfer(
-                excludes: '', 
-                execCommand: "cd hcmi && bash deploy/$BUILD_NUMBER/deploy.sh dev $BUILD_NUMBER REACT_APP_ARRANGER_API=http://${DEV_SERVER}:5050/ REACT_APP_ES_HOST=http://es.hcmi.cancercollaboratory.org:9200 REACT_APP_VERSION=june07 SKIP_PREFLIGHT_CHECK=true", 
-                execTimeout: 120000, 
-                flatten: true, 
-                makeEmptyDirs: false, 
-                noDefaultExcludes: false, 
-                patternSeparator: '[, ]+', 
-                remoteDirectory: '/deploy/$BUILD_NUMBER', 
-                remoteDirectorySDF: false, 
-                removePrefix: '', 
-                sourceFiles: 'portal.tar, portal-ci/deploy_stage/deploy.sh')], 
-              usePromotionTimestamp: false, 
-              useWorkspaceInPromotion: false, 
-              verbose: false)
-          ])
+        sshagent (credentials: ["$DEV_CREDS"]) {
+          sh (returnStdout: false, script: "ssh -o StrictHostKeyChecking=no $DEV_SERVER \"set -x; if [ ! -d $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ ]; then mkdir -p $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ || exit \$?; fi\" && scp portal.tar portal-ci/deploy_stage/deploy.sh $DEV_SERVER:$REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ && ssh -o StrictHostKeyChecking=no $DEV_SERVER \"set -x; cd $REMOTE_DIR/hcmi && bash deploy/$BUILD_NUMBER/deploy.sh dev $BUILD_NUMBER REACT_APP_ARRANGER_API=http://${DEV_SERVER}:5050/ REACT_APP_ES_HOST=http://es.hcmi.cancercollaboratory.org:9200 REACT_APP_VERSION=june07 SKIP_PREFLIGHT_CHECK=true\""
+          )
+        }
         echo "DEPLOYED TO DEVELOPMENT: (${env.BUILD_URL})"
       }
       post {
@@ -78,28 +65,12 @@ pipeline {
            return env.BRANCH_NAME == 'master';
        }
      }
-     steps {
-       echo "DEPLOYING TO QA: (${env.BUILD_URL})"
-       sshPublisher(publishers: [
-          sshPublisherDesc(
-            configName: 'hcmi-qa', 
-            transfers: [
-              sshTransfer(
-                excludes: '', 
-                execCommand: "cd hcmi && bash deploy/$BUILD_NUMBER/deploy.sh qa $BUILD_NUMBER REACT_APP_ARRANGER_API=http://${QA_SERVER}:5050/ REACT_APP_ES_HOST=http://es.hcmi.cancercollaboratory.org:9200 REACT_APP_VERSION=june07 SKIP_PREFLIGHT_CHECK=true",
-                execTimeout: 120000, 
-                flatten: true, 
-                makeEmptyDirs: false, 
-                noDefaultExcludes: false, 
-                patternSeparator: '[, ]+', 
-                remoteDirectory: '/deploy/$BUILD_NUMBER', 
-                remoteDirectorySDF: false, 
-                removePrefix: '', 
-                sourceFiles: 'portal.tar, portal-ci/deploy_stage/deploy.sh')], 
-              usePromotionTimestamp: false, 
-              useWorkspaceInPromotion: false, 
-              verbose: false)
-          ])
+      steps {
+     echo "DEPLOYING TO QA: (${env.BUILD_URL})"
+        sshagent (credentials: ["$QA_CREDS"]) {
+          sh (returnStdout: false, script: "ssh -o StrictHostKeyChecking=no $QA_SERVER \"set -x; if [ ! -d $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ ]; then mkdir -p $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ || exit \$?; fi\" && scp portal.tar portal-ci/deploy_stage/deploy.sh $QA_SERVER:$REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ && ssh -o StrictHostKeyChecking=no $QA_SERVER \"set -x; cd $REMOTE_DIR/hcmi && bash deploy/$BUILD_NUMBER/deploy.sh qa $BUILD_NUMBER REACT_APP_ARRANGER_API=http://${QA_SERVER}:5050/ REACT_APP_ES_HOST=http://es.hcmi.cancercollaboratory.org:9200 REACT_APP_VERSION=june07 SKIP_PREFLIGHT_CHECK=true\""
+          )
+        }
         
        echo "DEPLOYED TO QA: (${env.BUILD_URL})"
      }
@@ -109,58 +80,6 @@ pipeline {
        }
      }
     }
-    stage("Promotion portal to PRD") {
-      when {
-             expression {
-               return env.BRANCH_NAME == 'master';
-             }
-             expression {
-               return tag != '';
-             }
-           }
-      steps {
-             script {
-                     env.DEPLOY_TO_PRD = input message: 'User input required',
-                                     submitter: 'vermar',
-                                     parameters: [choice(name: 'portal: Deploy to PRD Environment', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy the PRD server')]
-             }
-     }
-    }
-    stage('Deploy PRD') {
-      when {
-       environment name: 'DEPLOY_TO_PRD', value: 'yes'
-       expression {
-           return env.BRANCH_NAME == 'master';
-       }
-       expression {
-         return tag != '';
-       }
-     }
-     steps {
-       echo "DEPLOYING TO PRD: (${env.BUILD_URL})"
-       sshPublisher(publishers: [
-          sshPublisherDesc(
-            configName: 'hcmi-prd', 
-            transfers: [
-              sshTransfer(
-                excludes: '', 
-                execCommand: "cd hcmi && bash deploy/$BUILD_NUMBER/deploy.sh prd $BUILD_NUMBER REACT_APP_ARRANGER_API=http://${PRD_SERVER}:5050/ REACT_APP_ES_HOST=http://es.hcmi.cancercollaboratory.org:9200 REACT_APP_VERSION=june07 SKIP_PREFLIGHT_CHECK=true",
-                execTimeout: 120000, 
-                flatten: true, 
-                makeEmptyDirs: false, 
-                noDefaultExcludes: false, 
-                patternSeparator: '[, ]+', 
-                remoteDirectory: '/deploy/$BUILD_NUMBER', 
-                remoteDirectorySDF: false, 
-                removePrefix: '', 
-                sourceFiles: 'portal.tar, portal-ci/deploy_stage/deploy.sh')], 
-              usePromotionTimestamp: false, 
-              useWorkspaceInPromotion: false, 
-              verbose: false)
-          ])
-        
-       echo "DEPLOYED TO PRD: (${env.BUILD_URL})"
-     }
-    }
   }
 }
+
