@@ -10,7 +10,7 @@ pipeline {
   stages{
     stage('Get Code') {
       steps {
-        echo $WORKSPACE
+        echo '$WORKSPACE'
           deleteDir()
           checkout ([
               $class: 'GitSCM',
