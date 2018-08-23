@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import multer from 'multer';
 import { Readable } from 'stream';
+import sharp from 'sharp';
 
 export const imagesRouter = express.Router();
 
@@ -49,13 +50,16 @@ imagesRouter.get('/:id', async (req, res) => {
 
     res.set('accept-ranges', 'bytes');
 
+    const width = parseInt(req.query.w, 10) || undefined;
+    const height = parseInt(req.query.h, 10) || undefined;
+    const resizer = sharp().resize(width, height);
+
     bucket
       .openDownloadStream(imageId)
+      .on('error', () => res.status(400).json({ error: `file with ${req.params.id} not found` }))
+      .pipe(resizer)
       .on('data', chunk => {
         res.write(chunk);
-      })
-      .on('error', () => {
-        res.status(404).json({ error: `cant delete, file with id ${req.params.id} not found` });
       })
       .on('end', () => {
         res.end();
