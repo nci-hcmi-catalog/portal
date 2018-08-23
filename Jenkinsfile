@@ -4,17 +4,18 @@ properties([
         pollSCM('H/5 * * * *')
     ])
 ])
-node ('default-lower') {
+node ('default-lower||master') {
     configFileProvider([configFile(fileId: '9b23762f-2845-4626-9cf2-4236ce3c9965', variable: 'FILE')]) {
         echo "FILE=$FILE"
         load "$FILE"
     }
 }
 pipeline {
-  agent { label 'default-lower' }
+  agent { label 'default-lower||master' }
   stages{
     stage('Get Code') {
       steps {
+        echo $WORKSPACE
           deleteDir()
           checkout ([
               $class: 'GitSCM',
