@@ -1,7 +1,7 @@
 #!groovy
 void failSafeBuild(cmsConfigId, apiConfigId, uiConfigId){
     try {
-        echo 'BUILD_STEP_SUCCESS=no'
+        env.BUILD_STEP_SUCCESS = 'no'
         configFileProvider([configFile(fileId: cmsConfigId, targetLocation: './cms/pm2.config.js'),
                             configFile(fileId: apiConfigId, targetLocation: './api/pm2.config.js'),
                             configFile(fileId: uiConfigId, targetLocation: './ui/.env')]){
@@ -10,10 +10,10 @@ void failSafeBuild(cmsConfigId, apiConfigId, uiConfigId){
         sh '''
         portal-ci/build_stage/build.sh portal-ci
         '''
-        echo 'BUILD_STEP_SUCCESS=yes'
+        env.BUILD_STEP_SUCCESS = 'yes'
         }
     } catch (err) {
-       echo 'BUILD_STEP_SUCCESS=no'
+       env.BUILD_STEP_SUCCESS = 'no'
     }
 }
 
@@ -83,7 +83,10 @@ pipeline {
           )
         }
         echo "DEPLOYED TO DEVELOPMENT: (${env.BUILD_URL})"
-        echo "DEV_DEPLOYMENT_STATUS=SUCCESS"
+        script {
+            env.DEV_DEPLOYMENT_STATUS = 'SUCCESS'
+        }
+        
       }
       post {
         failure {
@@ -111,7 +114,10 @@ pipeline {
         }
         
        echo "DEPLOYED TO QA: (${env.BUILD_URL})"
-       echo "QA_DEPLOYMENT_STATUS=SUCCESS"
+       script {
+            env.QA_DEPLOYMENT_STATUS = 'SUCCESS'
+        }
+        
      }
      post {
        failure {
@@ -142,7 +148,10 @@ pipeline {
         }
         
        echo "DEPLOYED TO PRD: (${env.BUILD_URL})"
-       echo "PRD_DEPLOYMENT_STATUS=SUCCESS"
+       script {
+            env.PRD_DEPLOYMENT_STATUS = 'SUCCESS'
+        }
+        
      }
      post {
        failure {
