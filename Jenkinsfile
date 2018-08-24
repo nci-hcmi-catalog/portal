@@ -1,4 +1,22 @@
 #!groovy
+void failSafeBuild(cmsConfigId, apiConfigId, uiConfigId){
+    try {
+        echo 'BUILD_STEP_SUCCESS=no'
+        configFileProvider([configFile(fileId: cmsConfigId, targetLocation: './cms/pm2.config.js'),
+                            configFile(fileId: apiConfigId, targetLocation: './api/pm2.config.js'),
+                            configFile(fileId: uiConfigId, targetLocation: './ui/.env')]){
+                                
+                            
+        sh '''
+        portal-ci/build_stage/build.sh portal-ci
+        '''
+        echo 'BUILD_STEP_SUCCESS=yes'
+        }
+    } catch (err) {
+       echo 'BUILD_STEP_SUCCESS=no'
+    }
+}
+
 properties([
     pipelineTriggers([
         pollSCM('H/5 * * * *')
@@ -38,15 +56,17 @@ pipeline {
         '''
       }
     }
-    stage('Build') {
+    stage('Build Dev') {
       steps {
-        sh '''
-        portal-ci/build_stage/build.sh portal-ci
-        '''
+        failSafeBuild('hcmi-cms-dev-config','hcmi-api-dev-config','hcmi-ui-dev-config')
       }
     }
     stage('Deploy Dev') {
+      when{
+        environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
+      }
       steps {
+        echo "$BUILD_STEP_SUCCESS"
         echo "DEPLOYING TO DEVELOPMENT: (${env.BUILD_URL})"
         sshagent (credentials: ["$DEV_CREDS"]) {
           sh (returnStdout: false, script: "ssh -o StrictHostKeyChecking=no $APP_USER@$DEV_SERVER \"set -x; if [ ! -d $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ ]; then mkdir -p $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ || exit \$?; fi\" && scp portal.tar portal-ci/deploy_stage/deploy.sh $APP_USER@$DEV_SERVER:$REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ && ssh -o StrictHostKeyChecking=no $APP_USER@$DEV_SERVER \"set -x; cd $REMOTE_DIR/hcmi && bash deploy/$BUILD_NUMBER/deploy.sh dev $BUILD_NUMBER REACT_APP_ARRANGER_API=https://hcmi-searchable-catalog-dev.nci.nih.gov/api/ REACT_APP_ES_HOST=http://ncias-d2019-v:9200 REACT_APP_VERSION=rb-02 SKIP_PREFLIGHT_CHECK=true\""
