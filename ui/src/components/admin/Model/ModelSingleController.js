@@ -54,6 +54,12 @@ const computeModelStatus = (currentStatus, action) => {
   return currentStatus ? statusMatrix[statusKey][action] : status.unpublished;
 };
 
+// Add an id to notifications (ISO Datetime)
+const generateNotification = notification => ({
+  ...notification,
+  id: new Date().valueOf(),
+});
+
 // async abstractions
 const getModel = async (baseUrl, modelName) =>
   fetchData({
@@ -95,6 +101,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
         touched: {},
         errors: {},
       },
+      notifications: [],
     }}
     didMount={async ({ state, setState }) => {
       if (modelName) {
@@ -183,7 +190,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 baseUrl,
               );
 
-              setState(() => ({
+              await setState(() => ({
                 ...state,
                 // Set form to unsavable status (will release on next form interaction)
                 form: {
@@ -196,6 +203,14 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   isLoading: false,
                   response: modelDataResponse.data,
                 },
+                notifications: [
+                  ...state.notifications,
+                  generateNotification({
+                    type: 'success',
+                    message: 'Save Successful!',
+                    details: 'Model has been succesfully saved, however not yet published.',
+                  }),
+                ],
               }));
             } catch (err) {
               setState(() => ({
@@ -205,6 +220,14 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   isLoading: false,
                   error: err,
                 },
+                notifications: [
+                  ...state.notifications,
+                  generateNotification({
+                    type: 'error',
+                    message: 'Save Error.',
+                    details: err.msg || 'Unknown error has occured.',
+                  }),
+                ],
               }));
             }
           },
@@ -258,6 +281,16 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   isLoading: false,
                   response: modelDataResponse.data,
                 },
+                notifications: [
+                  ...state.notifications,
+                  generateNotification({
+                    type: 'success',
+                    message: 'Publish Successful!',
+                    details: 'Model has been succesfully published. View it live here: ',
+                    link: `/model/${modelDataResponse.data.name}`,
+                    linkText: modelDataResponse.data.name,
+                  }),
+                ],
               });
             } catch (err) {
               setState(() => ({
@@ -267,9 +300,31 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   isLoading: false,
                   error: err,
                 },
+                notifications: [
+                  ...state.notifications,
+                  generateNotification({
+                    type: 'error',
+                    message: 'Publish Error.',
+                    details: err.msg || 'Unknown error has occured.',
+                  }),
+                ],
               }));
             }
           },
+          clearNotification: id => {
+            const notifications = state.notifications.filter(
+              notification => notification.id !== id,
+            );
+            setState({
+              ...state,
+              notifications,
+            });
+          },
+          clearAllNotifications: () =>
+            setState({
+              ...state,
+              notifications: [],
+            }),
         }}
         {...props}
       >

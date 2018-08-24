@@ -1,3 +1,1 @@
-import React from 'react';
-
-export default ({ component, ...props }) => component;
+export default ({ component }) => component;

@@ -2,39 +2,40 @@ import React from 'react';
 import TextInput from '@arranger/components/dist/Input';
 import FilterIcon from 'icons/FilterIcon';
 import { ModelsTableContext } from './ModelsTableController';
-import Popup from 'reactjs-popup';
+// import Popup from 'reactjs-popup';
 import {
-  ActionsMenu,
-  ActionsMenuItem,
+  // ActionsMenu,
+  // ActionsMenuItem,
+  // ToolbarControl,
   ToolbarMain,
   ToolbarSection,
   ToolbarText,
-  ToolbarControl,
 } from '../../../theme/adminTableStyles';
 
-const ArrowIcon = ({ isOpen }) => {
-  return (
-    <svg
-      viewBox="0 0 20 20"
-      preserveAspectRatio="none"
-      width={10}
-      fill="transparent"
-      stroke="#979797"
-      strokeWidth="0.75px"
-      transform={isOpen ? 'rotate(180)' : null}
-    >
-      <path d="M1,6 L10,15 L19,6" />
-    </svg>
-  );
-};
+// const ArrowIcon = ({ isOpen }) => {
+//   return (
+//     <svg
+//       viewBox="0 0 20 20"
+//       preserveAspectRatio="none"
+//       width={10}
+//       fill="transparent"
+//       stroke="#979797"
+//       strokeWidth="0.75px"
+//       transform={isOpen ? 'rotate(180)' : null}
+//     >
+//       <path d="M1,6 L10,15 L19,6" />
+//     </svg>
+//   );
+// };
 
-export default props => (
+export default () => (
   <ModelsTableContext.Consumer>
     {({ state: { isLoading, page, pageSize, filterValue, rowCount }, onFilterValueChange }) => {
       const [from, to] = [page * pageSize + 1, page * pageSize + pageSize];
       return (
         <ToolbarMain>
-          <ToolbarSection>
+          <div />
+          {/* <ToolbarSection>
             <Popup
               trigger={open => (
                 <div
@@ -70,7 +71,7 @@ export default props => (
                 <ActionsMenuItem>Delete</ActionsMenuItem>
               </ActionsMenu>
             </Popup>
-          </ToolbarSection>
+          </ToolbarSection> */}
           <ToolbarSection>
             <TextInput
               icon={<FilterIcon height={10} width={10} fill={'#704A2C'} />}
