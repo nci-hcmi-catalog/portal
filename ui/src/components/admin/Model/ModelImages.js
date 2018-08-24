@@ -1,7 +1,7 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
-import Component from 'react-component-component';
 
+import { ModelSingleContext } from './ModelSingleController';
 import { Pill } from 'theme/adminNavStyles';
 import base from 'theme';
 import { Row, Col } from 'theme/system';
@@ -42,7 +42,7 @@ const ImageGallery = ({ acceptedFiles }) => (
   </>
 );
 
-const ImageDropper = ({ state, setState }) => (
+const ImageDropper = ({ imageFiles, setImageFiles }) => (
   <Dropzone
     css={`
       border: 2px dashed ${frenchGrey};
@@ -52,12 +52,11 @@ const ImageDropper = ({ state, setState }) => (
       padding: 5px;
     `}
     accept="image/jpg, image/jpeg, image/tiff, image/png, image/svg"
-    onDrop={(acceptedFiles, rejectedFiles) =>
-      setState({
-        acceptedFiles: [...state.acceptedFiles, ...acceptedFiles],
-        rejectedFiles: [...state.rejectedFiles, ...rejectedFiles],
-      })
-    }
+    onDrop={(acceptedFiles, rejectedFiles) => {
+      console.log('todo notify rejectedFiles');
+      console.log(rejectedFiles);
+      setImageFiles([...imageFiles, ...acceptedFiles]);
+    }}
   >
     <Col
       css={`
@@ -96,21 +95,20 @@ export default () => (
     <FormHeader>
       <h2>Model Images</h2>
     </FormHeader>
-    <Component initialState={{ acceptedFiles: [], rejectedFiles: [] }}>
-      {({ state, setState }) => (
+    <ModelSingleContext.Consumer>
+      {({ state: { imageFiles }, setImageFiles }) => (
         <>
           <Row p={18}>
             Upload images in jpeg, tiff, png or svg formats.
-            {!!state.acceptedFiles.length &&
-              ' Drag and drop images to reorder them within the gallery.'}
+            {!!imageFiles.length && ' Drag and drop images to reorder them within the gallery.'}
           </Row>
           <Row p={18}>
-            {!!state.acceptedFiles.length && <ImageGallery acceptedFiles={state.acceptedFiles} />}
-            {console.log(state.acceptedFiles)}
-            {!state.acceptedFiles.length && <ImageDropper {...{ state, setState }} />}
+            {!!imageFiles.length && <ImageGallery acceptedFiles={imageFiles} />}
+            {console.log(imageFiles)}
+            {!imageFiles.length && <ImageDropper {...{ imageFiles, setImageFiles }} />}
           </Row>
         </>
       )}
-    </Component>
+    </ModelSingleContext.Consumer>
   </>
 );

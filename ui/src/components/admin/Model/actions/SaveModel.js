@@ -7,14 +7,30 @@ export default props => (
   <ModelSingleContext.Consumer>
     {({
       state: {
-        form: { isReadyToSave, values },
+        form: { isReadyToSave },
+        ui: { activeTab },
       },
       saveForm,
+      uploadImages,
     }) => (
       <Pill
         primary
         disabled={!isReadyToSave}
-        onClick={() => isReadyToSave && saveForm(values)}
+        onClick={() => {
+          if (isReadyToSave) {
+            switch (activeTab) {
+              case 'edit':
+                saveForm();
+                break;
+              case 'images':
+                uploadImages();
+                saveForm();
+                break;
+              default:
+                break;
+            }
+          }
+        }}
         {...props}
       >
         <AdminModelSaveIcon css={'margin-right: 8px;'} height={14} width={14} />Save
