@@ -19,11 +19,10 @@ void failSafeBuild(cmsConfigId, apiConfigId, uiConfigId){
 
 void getPipelineResult (){
     script {
-        if(env.BUILD_STEP_SUCCESS == 'yes') {
-            echo 'Build Step succeeded'
-            currentBuild.result = 'SUCCESS'
-        } else {
-            echo 'Build Step failed'
+        // fail the build if all deployment stages were skipped
+        if(env.DEV_DEPLOYMENT_STATUS == null && env.QA_DEPLOYMENT_STATUS == null && env.PRD_DEPLOYMENT_STATUS == null) {
+            echo 'Build failed because application was not deployed to any environment.'
+            echo 'Please make sure Jenkins has all required configuration files and variables.'
             currentBuild.result = 'FAILURE'
         }
     }
@@ -84,6 +83,7 @@ pipeline {
           )
         }
         echo "DEPLOYED TO DEVELOPMENT: (${env.BUILD_URL})"
+        echo "DEV_DEPLOYMENT_STATUS=SUCCESS"
       }
       post {
         failure {
@@ -111,6 +111,7 @@ pipeline {
         }
         
        echo "DEPLOYED TO QA: (${env.BUILD_URL})"
+       echo "QA_DEPLOYMENT_STATUS=SUCCESS"
      }
      post {
        failure {
@@ -141,6 +142,7 @@ pipeline {
         }
         
        echo "DEPLOYED TO PRD: (${env.BUILD_URL})"
+       echo "PRD_DEPLOYMENT_STATUS=SUCCESS"
      }
      post {
        failure {
