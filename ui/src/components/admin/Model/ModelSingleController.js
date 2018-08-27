@@ -114,6 +114,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
       },
       data: {
         isLoading: false,
+        didLoad: false,
         response: {},
         error: null,
       },
@@ -147,6 +148,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             data: {
               ...state.data,
               isLoading: false,
+              didLoad: true,
               response: modelDataResponse.data,
             },
           }));
@@ -226,6 +228,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 data: {
                   ...state.data,
                   isLoading: false,
+                  didLoad: true,
                   response: modelDataResponse.data,
                 },
                 notifications: [

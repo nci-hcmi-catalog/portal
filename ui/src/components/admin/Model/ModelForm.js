@@ -72,7 +72,12 @@ const {
 
 const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
   <ModelSingleContext.Consumer>
-    {({ syncFormState }) => (
+    {({
+      state: {
+        data: { didLoad },
+      },
+      syncFormState,
+    }) => (
       <Component
         didMount={() => {
           if (Object.keys(values).length > 0) {
@@ -127,7 +132,7 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
           <FormSection>
             <FormCol>
               <FormComponent labelText={name.displayName}>
-                <Field name={name.accessor} component={FormInput} />
+                <Field name={name.accessor} disabled={didLoad} component={FormInput} />
               </FormComponent>
 
               <FormComponent labelText={type.displayName}>
