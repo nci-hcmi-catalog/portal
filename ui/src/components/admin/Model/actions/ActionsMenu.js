@@ -4,7 +4,15 @@ import { ModelSingleContext } from '../ModelSingleController';
 import { ActionsMenu, ActionsMenuItem } from 'theme/adminControlsStyles';
 import { manageModelsUrlBase } from '../../AdminNav';
 
-export default () => (
+const makeDoActionThenClose = (action, close) => () => {
+  // Do the thing
+  action();
+
+  // Close the modal
+  close();
+};
+
+export default ({ close }) => (
   <Route>
     {({ history }) => (
       <ModelSingleContext.Consumer>
@@ -17,10 +25,15 @@ export default () => (
         }) => (
           <ActionsMenu>
             {values.status === 'published' && (
-              <ActionsMenuItem onClick={() => unpublishModel(values)}>Unpublish</ActionsMenuItem>
+              <ActionsMenuItem onClick={makeDoActionThenClose(() => unpublishModel(values), close)}>
+                Unpublish
+              </ActionsMenuItem>
             )}
             <ActionsMenuItem
-              onClick={() => deleteModel(values.name, () => history.push(manageModelsUrlBase))}
+              onClick={makeDoActionThenClose(
+                () => deleteModel(values.name, () => history.push(manageModelsUrlBase)),
+                close,
+              )}
             >
               Delete
             </ActionsMenuItem>

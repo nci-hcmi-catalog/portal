@@ -75,7 +75,9 @@ const modelMoreOptions = (data = null) =>
       }}
       arrow={false}
     >
-      <ActionsMenu />
+      {close => {
+        return <ActionsMenu close={close} />;
+      }}
     </Popup>
   );
 
