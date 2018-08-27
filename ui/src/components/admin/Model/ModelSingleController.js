@@ -4,6 +4,14 @@ import { fetchData } from '../services/Fetcher';
 
 export const ModelSingleContext = React.createContext();
 
+// Constants
+const status = {
+  unpublished: 'unpublished',
+  unpublishedChanges: 'unpublished changes',
+  other: 'other',
+  published: 'published',
+};
+
 // Helper functions
 const isFormReadyToSave = (dirty, errors) => dirty && !('name' in errors);
 
@@ -22,13 +30,6 @@ const computeModelStatus = (currentStatus, action) => {
   * published   | unpub. chgs |   published   |
   * -------------------------------------------
 */
-
-  const status = {
-    unpublished: 'unpublished',
-    unpublishedChanges: 'unpublished changes',
-    other: 'other',
-    published: 'published',
-  };
 
   const statusMatrix = {
     unpublished: {
@@ -68,7 +69,7 @@ const getModel = async (baseUrl, modelName) =>
     method: 'get',
   });
 
-const saveModel = async (values, isUpdate, baseUrl) => {
+const saveModel = async (baseUrl, values, isUpdate) => {
   const { name } = values;
 
   const url = isUpdate ? `${baseUrl}/model/${name}` : `${baseUrl}/model`;
@@ -79,6 +80,23 @@ const saveModel = async (values, isUpdate, baseUrl) => {
     method: isUpdate ? 'patch' : 'post',
   });
 };
+
+const publishModel = async (baseUrl, id) => {
+  const url = `${baseUrl}/publish/model/${id}`;
+
+  await fetchData({
+    url,
+    data: '',
+    method: 'post',
+  });
+};
+
+const unpublishModel = async (baseUrl, id) =>
+  fetchData({
+    url: `${baseUrl}/unpublish/model/${id}`,
+    data: '',
+    method: 'post',
+  });
 
 // Provider
 export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) => (
@@ -182,12 +200,12 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               } = state;
 
               const modelDataResponse = await saveModel(
+                baseUrl,
                 {
                   ...values,
                   status: computeModelStatus(values.status, 'save'),
                 },
                 isUpdate,
-                baseUrl,
               );
 
               await setState(() => ({
@@ -248,22 +266,16 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               } = state;
 
               await saveModel(
+                baseUrl,
                 {
                   ...values,
                   status: computeModelStatus(values.status, 'publish'),
                 },
                 isUpdate,
-                baseUrl,
               );
 
               // Then after successful save we publish
-              const url = `${baseUrl}/publish/model/${values._id}`;
-
-              await fetchData({
-                url,
-                data: '',
-                method: 'post',
-              });
+              await publishModel(baseUrl, values._id);
 
               // If successful get fresh model data (with new status and any
               // other transformations may take place when publishing)
@@ -305,6 +317,69 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   generateNotification({
                     type: 'error',
                     message: 'Publish Error.',
+                    details: err.msg || 'Unknown error has occured.',
+                  }),
+                ],
+              }));
+            }
+          },
+          unpublishModel: async values => {
+            const { _id, name } = values;
+
+            // Set loading true (lock UI)
+            await setState(() => ({
+              ...state,
+              data: {
+                ...state.data,
+                isLoading: true,
+              },
+            }));
+
+            try {
+              // First save the model with the "unpublished state"
+
+              await saveModel(baseUrl, { ...values, status: status.unpublished }, true);
+
+              // Then after successful save we publish
+              await unpublishModel(baseUrl, _id);
+
+              // If successful get fresh model data (with new status)
+              const modelDataResponse = await getModel(baseUrl, name);
+
+              setState({
+                ...state,
+                form: {
+                  ...state.form,
+                  isReadyToPublish: false,
+                  isReadyToSave: false,
+                },
+                data: {
+                  ...state.data,
+                  isLoading: false,
+                  response: modelDataResponse.data,
+                },
+                notifications: [
+                  ...state.notifications,
+                  generateNotification({
+                    type: 'success',
+                    message: 'Unpublish Successful!',
+                    details: `${name} has been succesfully unpublished and will no longer appear on the public portal`,
+                  }),
+                ],
+              });
+            } catch (err) {
+              setState(() => ({
+                ...state,
+                data: {
+                  ...state.data,
+                  isLoading: false,
+                  error: err,
+                },
+                notifications: [
+                  ...state.notifications,
+                  generateNotification({
+                    type: 'error',
+                    message: 'Unpublish Error.',
                     details: err.msg || 'Unknown error has occured.',
                   }),
                 ],

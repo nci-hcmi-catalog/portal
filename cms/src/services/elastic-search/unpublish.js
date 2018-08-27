@@ -1,8 +1,14 @@
 import elasticClient from './common/client';
 
-export const unpublishOneFromES = (id, index) => {
+const index = process.env.ES_INDEX;
+
+export const unpublishOneFromES = id => {
   return elasticClient.deleteByQuery({
     index,
-    q: id,
+    body: {
+      query: {
+        term: { _id: id },
+      },
+    },
   });
 };
