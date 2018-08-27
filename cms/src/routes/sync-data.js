@@ -15,15 +15,24 @@ import {
 export const data_sync_router = express.Router();
 
 data_sync_router.get('/sheets-data/:sheetId/:tabName', async (req, res) => {
-  const {
-    headers: { authorization },
-  } = req;
-  //TODO: error handling if auth is not passed
-  const authClient = getAuthClient(authorization);
   const { sheetId, tabName } = req.params;
-  getSheetData({ authClient, sheetId, tabName })
-    .then(data => res.json(data))
-    .catch(error => res.json({ error: `error reading sheet ID ${sheetId}, ${error}` }));
+  try {
+    const {
+      headers: { authorization },
+    } = req;
+    //TODO: error handling if auth is not passed
+    const authClient = getAuthClient(authorization);
+
+    getSheetData({ authClient, sheetId, tabName })
+      .then(data => res.json(data))
+      .catch(error => {
+        throw error;
+      });
+  } catch (error) {
+    res.status(500).json({
+      message: `An unexpected error occurred while trying to read Google Sheet ID: ${sheetId}, ${error}`,
+    });
+  }
 });
 
 data_sync_router.get('/wrangle-cde/:sheetId/:tabName', async (req, res) => {
@@ -91,71 +100,76 @@ export const runYupValidators = parsed => {
 };
 
 data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
-  const {
-    headers: { authorization },
-  } = req;
-  //TODO: error handling if auth is not passed
-  const authClient = getAuthClient(authorization);
-  const { sheetId, tabName } = req.params;
-  getSheetData({ authClient, sheetId, tabName })
-    .then(data => {
-      const parsed = data
-        .filter(({ name }) => name)
-        .map(d =>
-          Object.keys(d)
-            .filter(key => ModelSchema.paths[key])
-            .reduce(
-              (acc, key) => ({
-                ...acc,
-                [key]: typeToParser[ModelSchema.paths[key].instance](NAtoNull(d[key])),
-              }),
-              {},
-            ),
-        )
-        .filter(Boolean)
-        .map(d => removeNullKeys(d));
-      return parsed;
-    })
-    .then(runYupValidators)
-    .then(parsed => {
-      const savePromises = parsed.map(async p => {
-        const prevModel = await Model.findOne(
-          {
-            name: p.name,
-          },
-          {
-            _id: false,
-            __v: false,
-          }, //omit mongoose generated fields
-        );
-        if (prevModel) {
-          if (!isEqual(prevModel._doc, p)) {
-            return Model.findOneAndUpdate(
-              {
-                name: p.name,
-              },
-              p,
-              {
-                upsert: true,
-                new: true,
-                runValidators: true,
-              },
-            );
+  try {
+    const {
+      headers: { authorization },
+    } = req;
+    //TODO: error handling if auth is not passed
+    const authClient = getAuthClient(authorization);
+    const { sheetId, tabName } = req.params;
+    const { overwrite } = req.query;
+    getSheetData({ authClient, sheetId, tabName, overwrite: overwrite || false })
+      .then(data => {
+        const parsed = data
+          .filter(({ name }) => name)
+          .map(d =>
+            Object.keys(d)
+              .filter(key => ModelSchema.paths[key])
+              .reduce(
+                (acc, key) => ({
+                  ...acc,
+                  [key]: typeToParser[ModelSchema.paths[key].instance](NAtoNull(d[key])),
+                }),
+                {},
+              ),
+          )
+          .filter(Boolean)
+          .map(d => removeNullKeys(d));
+        return parsed;
+      })
+      .then(runYupValidators)
+      .then(parsed => {
+        const savePromises = parsed.map(async p => {
+          const prevModel = await Model.findOne(
+            {
+              name: p.name,
+            },
+            {
+              _id: false,
+              __v: false,
+            }, //omit mongoose generated fields
+          );
+          if (prevModel) {
+            if (!isEqual(prevModel._doc, p)) {
+              return Model.findOneAndUpdate(
+                {
+                  name: p.name,
+                },
+                p,
+                {
+                  upsert: true,
+                  new: true,
+                  runValidators: true,
+                },
+              );
+            }
+            return new Promise(resolve => resolve({})); //no fields modified, do nothing
+          } else {
+            const newModel = new Model(p);
+            return newModel.save();
           }
-          return new Promise(resolve => resolve({})); //no fields modified, do nothing
-        } else {
-          const newModel = new Model(p);
-          return newModel.save();
-        }
-      });
+        });
 
-      return Promise.all(savePromises).then(docs =>
-        res.json({
-          docs: docs.filter(d => !!Object.keys(d).length),
-        }),
-      );
-    })
-    .catch(error => {
-      res.json({ error });
-    });
+        return Promise.all(savePromises).then(docs =>
+          res.json({
+            docs: docs.filter(d => !!Object.keys(d).length),
+          }),
+        );
+      })
+      .catch(error => {
+        throw error;
+      });
+  } catch (error) {
+    res.status(500).json({ message: `An unexpected error occurred: ${error}` });
+  }
 });
