@@ -41,8 +41,6 @@ const validateYup = (req, res, next) => {
 };
 
 const preModelDelete = (req, res, next) => {
-  console.log(req, res);
-
   unpublishOneFromES(req.params.id)
     .then(() => next())
     .catch(error => {
