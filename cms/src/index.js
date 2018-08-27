@@ -9,8 +9,7 @@ import restify from 'express-restify-mongoose';
 import morgan from 'morgan';
 
 import { data_sync_router, runYupValidators } from './routes/sync-data';
-import { publish_router } from './routes/publish';
-import { imagesRouter } from './routes/images';
+import { publishRouter, imagesRouter, unpublishRouter } from './routes';
 import Model from './schemas/model';
 
 const port = process.env.PORT || 8080;
@@ -47,7 +46,8 @@ restify.serve(router, Model, {
 });
 
 app.use('/api/v1', data_sync_router);
-app.use('/api/v1/publish', publish_router);
+app.use('/api/v1/publish', publishRouter);
+app.use('/api/v1/unpublish', unpublishRouter);
 app.use('/api/v1/images', imagesRouter);
 app.use(router);
 

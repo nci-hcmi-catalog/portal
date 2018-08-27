@@ -4,7 +4,7 @@ import multer from 'multer';
 import { Readable } from 'stream';
 import sharp from 'sharp';
 
-export const imagesRouter = express.Router();
+const imagesRouter = express.Router();
 
 const conn = mongoose.createConnection(
   process.env.MONGODB_URI || 'mongodb://localhost:27017/test',
@@ -87,3 +87,5 @@ imagesRouter.delete('/:id', async (req, res) => {
     return res.status(400).json({ error: `image with id ${id} not found` });
   }
 });
+
+export default imagesRouter;
