@@ -81,8 +81,8 @@ const saveModel = async (baseUrl, values, isUpdate) => {
   });
 };
 
-const publishModel = async (baseUrl, id) => {
-  const url = `${baseUrl}/publish/model/${id}`;
+const publishModel = async (baseUrl, name) => {
+  const url = `${baseUrl}/publish/model/${name}`;
 
   await fetchData({
     url,
@@ -91,11 +91,18 @@ const publishModel = async (baseUrl, id) => {
   });
 };
 
-const unpublishModel = async (baseUrl, id) =>
+const unpublishModel = async (baseUrl, name) =>
   fetchData({
-    url: `${baseUrl}/unpublish/model/${id}`,
+    url: `${baseUrl}/unpublish/model/${name}`,
     data: '',
     method: 'post',
+  });
+
+const deleteModel = async (baseUrl, modelName) =>
+  fetchData({
+    url: `${baseUrl}/model/${modelName}`,
+    data: '',
+    method: 'delete',
   });
 
 // Provider
@@ -265,6 +272,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 form: { isUpdate },
               } = state;
 
+              const { name } = values;
+
               await saveModel(
                 baseUrl,
                 {
@@ -275,11 +284,11 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               );
 
               // Then after successful save we publish
-              await publishModel(baseUrl, values._id);
+              await publishModel(baseUrl, name);
 
               // If successful get fresh model data (with new status and any
               // other transformations may take place when publishing)
-              const modelDataResponse = await getModel(baseUrl, values.name);
+              const modelDataResponse = await getModel(baseUrl, name);
 
               setState({
                 ...state,
@@ -298,7 +307,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   generateNotification({
                     type: 'success',
                     message: 'Publish Successful!',
-                    details: 'Model has been succesfully published. View it live here: ',
+                    details: `${name} has been succesfully published. View it live here: `,
                     link: `/model/${modelDataResponse.data.name}`,
                     linkText: modelDataResponse.data.name,
                   }),
@@ -324,7 +333,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             }
           },
           unpublishModel: async values => {
-            const { _id, name } = values;
+            const { name } = values;
 
             // Set loading true (lock UI)
             await setState(() => ({
@@ -341,7 +350,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               await saveModel(baseUrl, { ...values, status: status.unpublished }, true);
 
               // Then after successful save we publish
-              await unpublishModel(baseUrl, _id);
+              await unpublishModel(baseUrl, name);
 
               // If successful get fresh model data (with new status)
               const modelDataResponse = await getModel(baseUrl, name);
@@ -380,6 +389,38 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   generateNotification({
                     type: 'error',
                     message: 'Unpublish Error.',
+                    details: err.msg || 'Unknown error has occured.',
+                  }),
+                ],
+              }));
+            }
+          },
+          deleteModel: async (name, next = () => null) => {
+            // Set loading true (lock UI)
+            await setState(() => ({
+              ...state,
+              data: {
+                ...state.data,
+                isLoading: true,
+              },
+            }));
+
+            try {
+              await deleteModel(baseUrl, name);
+              next();
+            } catch (err) {
+              setState(() => ({
+                ...state,
+                data: {
+                  ...state.data,
+                  isLoading: false,
+                  error: err,
+                },
+                notifications: [
+                  ...state.notifications,
+                  generateNotification({
+                    type: 'error',
+                    message: 'Delete Error.',
                     details: err.msg || 'Unknown error has occured.',
                   }),
                 ],

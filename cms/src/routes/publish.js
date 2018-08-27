@@ -3,10 +3,10 @@ import { indexOneToES, indexUpdatesToES, indexAllToES } from '../services/elasti
 
 const publishRouter = express.Router();
 
-publishRouter.post('/model/:modelId', async (req, res) => {
-  const { modelId } = req.params;
+publishRouter.post('/model/:modelName', async (req, res) => {
+  const { modelName } = req.params;
   indexOneToES({
-    _id: modelId,
+    name: modelName,
   })
     .then(data => res.json(data))
     .catch(error =>

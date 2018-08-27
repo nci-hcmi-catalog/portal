@@ -11,6 +11,7 @@ import morgan from 'morgan';
 import { data_sync_router, runYupValidators } from './routes/sync-data';
 import { publishRouter, imagesRouter, unpublishRouter } from './routes';
 import Model from './schemas/model';
+import { unpublishOneFromES } from './services/elastic-search/unpublish';
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -38,10 +39,24 @@ const validateYup = (req, res, next) => {
       });
     });
 };
+
+const preModelDelete = (req, res, next) => {
+  console.log(req, res);
+
+  unpublishOneFromES(req.params.id)
+    .then(() => next())
+    .catch(error => {
+      res.status(400).json({
+        error,
+      });
+    });
+};
+
 // configure endpoints
 restify.serve(router, Model, {
   preCreate: validateYup,
   preUpdate: validateYup,
+  preDelete: preModelDelete,
   idProperty: 'name',
 });
 
