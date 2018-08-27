@@ -1,13 +1,11 @@
 import express from 'express';
-import { indexOneToES } from '../services/elastic-search/sync-ES';
+import { unpublishOneFromES } from '../services/elastic-search/unpublish';
 
 const unPublishRouter = express.Router();
 
 unPublishRouter.post('/model/:modelId', async (req, res) => {
   const { modelId } = req.params;
-  indexOneToES({
-    _id: modelId,
-  })
+  unpublishOneFromES(modelId, 'model')
     .then(data => res.json(data))
     .catch(error =>
       res.json({

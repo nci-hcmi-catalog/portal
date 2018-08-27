@@ -1,5 +1,5 @@
 import express from 'express';
-import { indexOneToES, indexUpdatesToES, indexAllToES } from '../services/elastic-search/sync-ES';
+import { indexOneToES, indexUpdatesToES, indexAllToES } from '../services/elastic-search/publish';
 
 const publishRouter = express.Router();
 
