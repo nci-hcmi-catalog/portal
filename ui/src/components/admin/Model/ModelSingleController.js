@@ -111,7 +111,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
         errors: {},
       },
       imageFiles: [],
-      savedImageFiles: [],
+      savedImageFiles: {},
       notifications: [],
     }}
     didMount={async ({ state, setState }) => {
@@ -182,12 +182,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               },
             });
           },
-          saveForm: async () => {
+          saveForm: async ({ values, uploadedImages = {} }) => {
             // Set loading true (lock UI)
-            const {
-              form: { values },
-              savedImageFiles,
-            } = state;
             await setState(() => ({
               ...state,
               data: {
@@ -203,9 +199,9 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
               const data = {
                 ...values,
-                files: Object.entries(savedImageFiles).map(([id, info]) => ({
-                  file_name: id,
-                  file_type: info.type,
+                files: Object.entries(uploadedImages).map(([id, info]) => ({
+                  file_id: id,
+                  ...info,
                 })),
                 status: computeModelStatus(values.status, 'save'),
               };
@@ -440,7 +436,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             }),
           setImageFiles: imageFiles => setState({ ...state, imageFiles }),
           uploadImages: async () => {
-            state.imageFiles.forEach(async file => {
+            return state.imageFiles.reduce(async (acc, file) => {
               let formData = new FormData();
               formData.append('filename', file.name);
               formData.append('image', file);
@@ -454,15 +450,12 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               });
               console.log(response);
               if (response.status >= 200 && response.status < 300) {
-                setState({
-                  ...state,
-                  savedImageFiles: {
-                    ...state.savedImageFiles,
-                    [response.data.id]: { filename: response.data.filename, type: file.type },
-                  },
-                });
+                return {
+                  ...acc,
+                  [response.data.id]: { file_name: file.name, file_type: file.type },
+                };
               }
-            });
+            }, {});
           },
         }}
         {...props}

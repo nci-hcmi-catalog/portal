@@ -7,7 +7,7 @@ export default props => (
   <ModelSingleContext.Consumer>
     {({
       state: {
-        form: { isReadyToSave },
+        form: { values, isReadyToSave },
         ui: { activeTab },
       },
       saveForm,
@@ -16,15 +16,16 @@ export default props => (
       <Pill
         primary
         disabled={!isReadyToSave}
-        onClick={() => {
+        onClick={async () => {
           if (isReadyToSave) {
             switch (activeTab) {
               case 'edit':
-                saveForm();
+                saveForm({ values });
                 break;
               case 'images':
-                uploadImages();
-                saveForm();
+                const uploadedImages = await uploadImages();
+                console.log('save button');
+                saveForm({ values, uploadedImages });
                 break;
               default:
                 break;

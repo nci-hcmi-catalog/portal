@@ -55,6 +55,8 @@ const ImageDropper = ({ imageFiles, setImageFiles }) => (
     onDrop={(acceptedFiles, rejectedFiles) => {
       console.log('todo notify rejectedFiles');
       console.log(rejectedFiles);
+      console.log('acceptedFiles');
+      console.log(acceptedFiles);
       setImageFiles([...imageFiles, ...acceptedFiles]);
     }}
   >
@@ -104,7 +106,6 @@ export default () => (
           </Row>
           <Row p={18}>
             {!!imageFiles.length && <ImageGallery acceptedFiles={imageFiles} />}
-            {console.log(imageFiles)}
             {!imageFiles.length && <ImageDropper {...{ imageFiles, setImageFiles }} />}
           </Row>
         </>
