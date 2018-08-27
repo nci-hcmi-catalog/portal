@@ -2,9 +2,8 @@ import mongoose from 'mongoose';
 import { modelStatus } from './constants';
 
 const FilesSchema = new mongoose.Schema({
-  file_name: { type: String },
-  file_id: { type: String },
-  file_type: { type: String },
+  name: { type: String },
+  type: { type: String },
 });
 
 export const ModelSchema = new mongoose.Schema(

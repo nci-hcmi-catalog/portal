@@ -8,6 +8,7 @@ export default props => (
     {({
       state: {
         form: { values, isReadyToSave },
+        data = { response: { files: [] } },
         ui: { activeTab },
       },
       saveForm,
@@ -24,8 +25,16 @@ export default props => (
                 break;
               case 'images':
                 const uploadedImages = await uploadImages();
-                console.log('save button');
-                saveForm({ values, uploadedImages });
+                saveForm({
+                  values,
+                  uploadedImages: {
+                    ...data.response.files.reduce(
+                      (acc, file) => ({ ...acc, [file._id]: { name: file.name, type: file.type } }),
+                      {},
+                    ),
+                    ...uploadedImages,
+                  },
+                });
                 break;
               default:
                 break;

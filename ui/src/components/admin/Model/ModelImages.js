@@ -2,18 +2,21 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 
 import { ModelSingleContext } from './ModelSingleController';
-import { Pill } from 'theme/adminNavStyles';
+import { Pill as NavPill } from 'theme/adminNavStyles';
+import { Pill } from 'theme/adminControlsStyles';
 import base from 'theme';
 import { Row, Col } from 'theme/system';
 import { FormHeader } from 'theme/adminModelFormStyles';
 import DragNDropIcon from 'icons/DragNDrop';
+import PlusIcon from 'icons/PlusIcon';
+import config from '../config';
 
 const {
   keyedPalette: { frenchGrey, lightPorcelain, mineShaft, porcelain },
   fonts: { libreFranklin, openSans },
 } = base;
 
-const ImagePreview = ({ name, preview }) => (
+const ImagePreview = ({ file_id, name, preview }) => (
   <Col
     css={`
       font: ${openSans};
@@ -25,7 +28,12 @@ const ImagePreview = ({ name, preview }) => (
       margin-right: 15px;
     `}
   >
-    <img src={preview} alt={`File: ${name}`} height="155" width="250" />
+    <img
+      src={preview ? preview : `${config.urls.cmsBase}/images/${file_id}`}
+      alt={`File: ${name}`}
+      height="155"
+      width="250"
+    />`
     <b
       css={`
         align-self: start;
@@ -38,13 +46,20 @@ const ImagePreview = ({ name, preview }) => (
 
 const ImageGallery = ({ acceptedFiles }) => (
   <>
-    {acceptedFiles.map(({ name, preview }) => <ImagePreview key={name} {...{ name, preview }} />)}
+    {acceptedFiles.map(({ _id, name, preview }) => (
+      <ImagePreview key={_id} {...{ file_id: _id, name, preview }} />
+    ))}
   </>
 );
 
-const ImageDropper = ({ imageFiles, setImageFiles }) => (
+let dropzoneRef;
+const ImageDropper = ({ enqueueImages, display }) => (
   <Dropzone
+    ref={node => {
+      dropzoneRef = node;
+    }}
     css={`
+      display: ${display ? 'block' : 'none'};
       border: 2px dashed ${frenchGrey};
       border-radius: 3px;
       width: 100%;
@@ -55,9 +70,7 @@ const ImageDropper = ({ imageFiles, setImageFiles }) => (
     onDrop={(acceptedFiles, rejectedFiles) => {
       console.log('todo notify rejectedFiles');
       console.log(rejectedFiles);
-      console.log('acceptedFiles');
-      console.log(acceptedFiles);
-      setImageFiles([...imageFiles, ...acceptedFiles]);
+      enqueueImages(acceptedFiles);
     }}
   >
     <Col
@@ -87,7 +100,7 @@ const ImageDropper = ({ imageFiles, setImageFiles }) => (
       >
         or
       </span>
-      <Pill>Browse Your Files</Pill>
+      <NavPill>Browse Your Files</NavPill>
     </Col>
   </Dropzone>
 );
@@ -98,15 +111,48 @@ export default () => (
       <h2>Model Images</h2>
     </FormHeader>
     <ModelSingleContext.Consumer>
-      {({ state: { imageFiles }, setImageFiles }) => (
+      {({
+        state: {
+          imageUploadQueue,
+          data: {
+            response: { files = [] },
+          },
+        },
+        enqueueImages,
+        imageFiles = [...imageUploadQueue, ...files],
+      }) => (
         <>
-          <Row p={18}>
-            Upload images in jpeg, tiff, png or svg formats.
-            {!!imageFiles.length && ' Drag and drop images to reorder them within the gallery.'}
+          <Row
+            p={18}
+            css={`
+              justify-content: space-between;
+            `}
+          >
+            <div>
+              Upload images in jpeg, tiff, png or svg formats.
+              {!!imageFiles.length && ' Drag and drop images to reorder them within the gallery.'}
+            </div>
+            {!!imageFiles.length && (
+              <Pill
+                css={`
+                  align-self: right;
+                `}
+                primary
+                onClick={() => {
+                  dropzoneRef.open();
+                }}
+              >
+                <PlusIcon
+                  css={`
+                    height: 16px;
+                  `}
+                />Add Images
+              </Pill>
+            )}
           </Row>
           <Row p={18}>
             {!!imageFiles.length && <ImageGallery acceptedFiles={imageFiles} />}
-            {!imageFiles.length && <ImageDropper {...{ imageFiles, setImageFiles }} />}
+            <ImageDropper {...{ display: !imageFiles.length, imageFiles, enqueueImages }} />
           </Row>
         </>
       )}

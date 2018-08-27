@@ -110,8 +110,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
         touched: {},
         errors: {},
       },
-      imageFiles: [],
-      savedImageFiles: {},
+      imageUploadQueue: [],
       notifications: [],
     }}
     didMount={async ({ state, setState }) => {
@@ -127,7 +126,6 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
         try {
           const modelDataResponse = await getModel(baseUrl, modelName);
-
           setState(() => ({
             ...state,
             data: {
@@ -163,7 +161,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               },
               form: {
                 ...state.form,
-                isReadyToSave: tabName === 'images' ? true : state.form.isReadyToSave,
+                isReadyToSave:
+                  tabName === 'images' ? !!state.imageUploadQueue.length : state.form.isReadyToSave,
               },
             });
           },
@@ -200,7 +199,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               const data = {
                 ...values,
                 files: Object.entries(uploadedImages).map(([id, info]) => ({
-                  file_id: id,
+                  _id: id,
                   ...info,
                 })),
                 status: computeModelStatus(values.status, 'save'),
@@ -217,6 +216,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
               await setState(() => ({
                 ...state,
+                imageUploadQueue: [],
                 // Set form to unsavable status (will release on next form interaction)
                 form: {
                   ...state.form,
@@ -434,9 +434,20 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               ...state,
               notifications: [],
             }),
-          setImageFiles: imageFiles => setState({ ...state, imageFiles }),
+          enqueueImages: (newFiles = {}) => {
+            const newQueue = [...state.imageUploadQueue, ...newFiles];
+            setState({
+              ...state,
+              imageUploadQueue: newQueue,
+              form: {
+                ...state.form,
+                isReadyToSave: newQueue.length,
+              },
+            });
+          },
           uploadImages: async () => {
-            return state.imageFiles.reduce(async (acc, file) => {
+            const uploaded = await state.imageUploadQueue.reduce(async (accPromise, file) => {
+              let acc = await accPromise;
               let formData = new FormData();
               formData.append('filename', file.name);
               formData.append('image', file);
@@ -448,14 +459,16 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   'Content-Type': 'multipart/form-data',
                 },
               });
-              console.log(response);
               if (response.status >= 200 && response.status < 300) {
+                window.URL.revokeObjectURL(file.preview);
                 return {
                   ...acc,
-                  [response.data.id]: { file_name: file.name, file_type: file.type },
+                  [response.data.id]: { name: file.name, type: file.type },
                 };
               }
-            }, {});
+              return acc;
+            }, Promise.resolve({}));
+            return uploaded;
           },
         }}
         {...props}
