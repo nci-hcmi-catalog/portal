@@ -81,23 +81,6 @@ const saveModel = async (baseUrl, values, isUpdate) => {
   });
 };
 
-const publishModel = async (baseUrl, name) => {
-  const url = `${baseUrl}/publish/model/${name}`;
-
-  await fetchData({
-    url,
-    data: '',
-    method: 'post',
-  });
-};
-
-const unpublishModel = async (baseUrl, name) =>
-  fetchData({
-    url: `${baseUrl}/unpublish/model/${name}`,
-    data: '',
-    method: 'post',
-  });
-
 const deleteModel = async (baseUrl, modelName) =>
   fetchData({
     url: `${baseUrl}/model/${modelName}`,
@@ -208,14 +191,19 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 form: { isUpdate },
               } = state;
 
-              const modelDataResponse = await saveModel(
-                baseUrl,
-                {
-                  ...values,
-                  status: computeModelStatus(values.status, 'save'),
-                },
-                isUpdate,
-              );
+              const data = {
+                ...values,
+                status: computeModelStatus(values.status, 'save'),
+              };
+
+              // When saving, the only time we pass status is when we need to
+              // update to 'unpublished' status - otherwise we don't pass status
+              // key in response as that would trigger an ES update
+              if (data.status && data.status !== status.unpublishedChanges) {
+                delete data.status;
+              }
+
+              const modelDataResponse = await saveModel(baseUrl, data, isUpdate);
 
               await setState(() => ({
                 ...state,
@@ -270,14 +258,15 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             }));
 
             try {
-              // First save the model
               const {
                 form: { isUpdate },
               } = state;
 
               const { name } = values;
 
-              await saveModel(
+              // Publishing will always trigger an update
+              // so we pass status in with our save
+              const modelDataResponse = await saveModel(
                 baseUrl,
                 {
                   ...values,
@@ -285,13 +274,6 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 },
                 isUpdate,
               );
-
-              // Then after successful save we publish
-              await publishModel(baseUrl, name);
-
-              // If successful get fresh model data (with new status and any
-              // other transformations may take place when publishing)
-              const modelDataResponse = await getModel(baseUrl, name);
 
               setState({
                 ...state,
@@ -348,15 +330,13 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             }));
 
             try {
-              // First save the model with the "unpublished state"
-
-              await saveModel(baseUrl, { ...values, status: status.unpublished }, true);
-
-              // Then after successful save we publish
-              await unpublishModel(baseUrl, name);
-
-              // If successful get fresh model data (with new status)
-              const modelDataResponse = await getModel(baseUrl, name);
+              // Unpublishing will always trigger an update
+              // so we pass status in with our save
+              const modelDataResponse = await saveModel(
+                baseUrl,
+                { ...values, status: status.unpublished },
+                true,
+              );
 
               setState({
                 ...state,
