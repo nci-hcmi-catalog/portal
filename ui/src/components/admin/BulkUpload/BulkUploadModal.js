@@ -1,20 +1,16 @@
 import React from 'react';
-import {
-  BulkUploadMain,
-  BulkUploadHeader,
-  CloseModal,
-  BulkUploadTitle,
-  BulkUploadContent,
-  SectionDivider,
-} from 'theme/adminBulkUploadStyles';
+import Component from 'react-component-component';
+
+import config from '../config';
+import { get } from '../services/Fetcher';
+
 import SequentialTabs from './SequentialTabs';
 import SequentialTab from './SequentialTab';
 import BulkUploadResult from './BulkUploadResult';
 import BulkUploadInput from './BulkUploadInput';
-import Component from 'react-component-component';
 import BulkUploadControls from './BulkUploadControls';
-import config from '../config';
-import { get } from '../services/Fetcher';
+
+import { ModalWrapper, Header, Title, CloseModal, Content } from 'theme/adminUploadModalStyles';
 
 const getSheetId = sheetURL => {
   // example sheeturl:
@@ -68,13 +64,12 @@ const UploadModal = ({ type, ...props }) => (
       const onSheetsURLChange = newURL => setState({ sheetsURL: newURL });
       const onUploadClick = () => setState({ uploadingGoogleSheet: true });
       return (
-        <BulkUploadMain>
-          <BulkUploadHeader>
-            <BulkUploadTitle>{`Bulk ${type} Upload`}</BulkUploadTitle>
+        <ModalWrapper>
+          <Header>
+            <Title>{`Bulk ${type} Upload`}</Title>
             <CloseModal />
-          </BulkUploadHeader>
-          <SectionDivider />
-          <BulkUploadContent>
+          </Header>
+          <Content>
             <SequentialTabs
               {...props}
               selectedTab={selectedTab}
@@ -106,9 +101,9 @@ const UploadModal = ({ type, ...props }) => (
                 }
               />
             </SequentialTabs>
-            <BulkUploadControls {...props} controlSet={selectedTab} {...{ onUploadClick }} />
-          </BulkUploadContent>
-        </BulkUploadMain>
+          </Content>
+          <BulkUploadControls {...props} controlSet={selectedTab} {...{ onUploadClick }} />
+        </ModalWrapper>
       );
     }}
   </Component>

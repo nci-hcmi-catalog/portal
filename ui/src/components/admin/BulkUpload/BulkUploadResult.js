@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'theme/system';
-import { SectionDivider, BulkUploadSubTitle } from 'theme/adminBulkUploadStyles';
+import { BulkUploadSubTitle } from 'theme/adminBulkUploadStyles';
 
 export default ({ type, uploadResults }) => {
   //TODO: handle other error types
@@ -22,21 +22,7 @@ export default ({ type, uploadResults }) => {
           {`Your ${type}s have been checked for required fields and all submitted fields were validated against permissible values.`}
         </div>
       </Row>
-      <SectionDivider
-        css={`
-          padding-top: 3px;
-          padding-bottom: 3px;
-          border: none;
-        `}
-      />
       <BulkUploadSubTitle> Upload Summary </BulkUploadSubTitle>
-      <SectionDivider
-        css={`
-          padding-top: 3px;
-          padding-bottom: 3px;
-          border: none;
-        `}
-      />
       <Col>
         {docs ? (
           <div

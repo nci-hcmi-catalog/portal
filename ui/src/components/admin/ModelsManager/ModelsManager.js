@@ -11,7 +11,7 @@ import ModelIcon from '../../../icons/ModelIcon';
 import { AdminContainer, AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
 import { Pill, LinkPill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
-import { BulkUploadModalStyle } from '../../../theme/adminBulkUploadStyles';
+import { UploadModalStyle } from 'theme/adminUploadModalStyles';
 
 const Title = styled('div')`
   min-height: 50px;
@@ -37,7 +37,7 @@ const content = () => {
                   modalState.setModalState({
                     component: <BulkUploader type={'model'} />,
                     shouldCloseOnOverlayClick: true,
-                    styles: BulkUploadModalStyle,
+                    styles: UploadModalStyle,
                   })
                 }
               >
