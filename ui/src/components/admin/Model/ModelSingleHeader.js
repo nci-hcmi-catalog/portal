@@ -4,14 +4,14 @@ import Popup from 'reactjs-popup';
 import { ModelSingleContext } from './ModelSingleController';
 import { manageModelsUrlBase } from '../AdminNav';
 
-import { SaveModel, PublishModel } from './actions';
+import { SaveModel, PublishModel, ActionsMenu } from './actions';
 
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
 
 import { AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
 import { ModelHeaderH1, ModelHeaderBackLink } from 'theme/adminModelStyles';
-import { SmallPill, Pill, ActionsMenu, ActionsMenuItem } from 'theme/adminControlsStyles';
+import { SmallPill, Pill } from 'theme/adminControlsStyles';
 
 const headerText = (modelName = null, error = null) => {
   // Default is the create state text
@@ -75,10 +75,9 @@ const modelMoreOptions = (data = null) =>
       }}
       arrow={false}
     >
-      <ActionsMenu>
-        <ActionsMenuItem>Unpublish</ActionsMenuItem>
-        <ActionsMenuItem>Delete</ActionsMenuItem>
-      </ActionsMenu>
+      {close => {
+        return <ActionsMenu close={close} />;
+      }}
     </Popup>
   );
 

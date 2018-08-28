@@ -104,7 +104,6 @@ export const ActionsMenuItem = styled('div')`
   line-height: 22px;
   min-height: 22px;
   padding: 0 20px;
-  border-radius: 10px;
   background-color: ${white};
   font-family: ${openSans};
   color: ${black};
@@ -123,5 +122,15 @@ export const ActionsMenuItem = styled('div')`
 
   :hover {
     background-color: ${actionsMenuHover};
+  }
+
+  &:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
   }
 `;
