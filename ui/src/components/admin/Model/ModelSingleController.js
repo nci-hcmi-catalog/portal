@@ -355,7 +355,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   generateNotification({
                     type: 'success',
                     message: 'Unpublish Successful!',
-                    details: `${name} has been succesfully unpublished and will no longer appear on the public portal`,
+                    details: `${name} has been succesfully unpublished and will no longer appear on the public portal.`,
                   }),
                 ],
               });
