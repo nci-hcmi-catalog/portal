@@ -8,25 +8,24 @@ import BulkUploader from '../BulkUpload';
 
 import ModelIcon from '../../../icons/ModelIcon';
 
-import { AdminContainer, AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
+import { AdminContainer, AdminHeader, AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
 import { Pill, LinkPill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
-
-const Title = styled('div')`
-  min-height: 50px;
-  align-items: center;
-  display: inherit;
-  label: models-manager-title;
-`;
 
 const content = () => {
   return (
     <AdminContainer>
       <AdminHeader>
-        <Title>
-          <ModelIcon height={30} width={30} />Model Management
-        </Title>
+        <AdminHeaderH1>
+          <ModelIcon
+            height={35}
+            width={35}
+            css={`
+              margin-right: 13px;
+            `}
+          />Model Management
+        </AdminHeaderH1>
         <AdminHeaderBlock>
           <ModalStateContext.Consumer>
             {modalState => (

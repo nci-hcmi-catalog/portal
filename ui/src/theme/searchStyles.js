@@ -16,17 +16,31 @@ export default css`
     flex: 1;
   }
 
+  .ReactTable .rt-td {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 13px 5px;
+  }
+
+  .ReactTable .rt-resizable-header {
+    padding: 13px 5px;
+  }
+
   .ReactTable .rt-resizable-header-content {
     color: #353535;
     text-transform: uppercase;
     text-align: left;
     font-family: ${libreFranklin};
+    font-size: 13px;
+    line-height: 13px;
     font-weight: 500;
   }
 
   .ReactTable a {
     color: ${linkColor};
   }
+
   .ReactTable.-striped .rt-th {
     background-color: #fef7eb;
   }

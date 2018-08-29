@@ -1,19 +1,15 @@
 import React from 'react';
-import { schemaArr } from '../schema/model';
-import {
-  UnpublishedChangesModel,
-  PublishedModel,
-  UnpublishedModel,
-  ActionPill,
-  Actions,
-  ActionsMenu,
-  ActionsMenuItem,
-  ToolbarText,
-} from '../../../theme/adminTableStyles';
-import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
 import Popup from 'reactjs-popup';
-import { modelEditUrlBase } from '../AdminNav';
 import Moment from 'react-moment';
+
+import { modelEditUrlBase } from '../AdminNav';
+
+import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
+import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
+
+import { schemaArr } from '../schema/model';
+import { ActionPill, Actions, ToolbarText } from '../../../theme/adminTableStyles';
+import { SmallPill, ActionsMenu, ActionsMenuItem } from 'theme/adminControlsStyles';
 
 const selectedColumns = [
   'name',
@@ -79,11 +75,11 @@ const modelManagerCustomColumns = [
     Cell: row => {
       let statusValue = (row.value || 'Unpublished').toLowerCase();
       if (statusValue === 'unpublished changes') {
-        return <UnpublishedChangesModel>Unpublished Changes</UnpublishedChangesModel>;
+        return <SmallPill warning>Unpublished Changes</SmallPill>;
       } else if (statusValue === 'published') {
-        return <PublishedModel>Published</PublishedModel>;
+        return <SmallPill>Published</SmallPill>;
       } else {
-        return <UnpublishedModel>Unpublished</UnpublishedModel>;
+        return <SmallPill info>Unpublished</SmallPill>;
       }
     },
   },
@@ -94,55 +90,28 @@ const modelManagerCustomColumns = [
       const data = row;
       return (
         <Actions>
-          <ActionPill to={modelEditUrlBase + '/' + data.value}>
+          <ActionPill secondary marginRight="6px" to={modelEditUrlBase + '/' + data.value}>
             <AdminEditPencilIcon
               css={`
                 width: 12px;
                 height: 12px;
               `}
             />
-            <span
-              css={`
-                width: 27px;
-                height: 10px;
-                font-size: 12px;
-                font-weight: 500;
-                font-style: normal;
-                font-stretch: normal;
-                line-height: 2.17;
-                letter-spacing: normal;
-                text-align: center;
-              `}
-            >
-              Edit
-            </span>
+            Edit
           </ActionPill>
           <Popup
             trigger={
               <ActionPill
+                secondary
                 css={`
-                  width: 42px;
+                  height: 26px;
                 `}
                 to={() => ''}
               >
-                <span
-                  css={`
-                    width: 27px;
-                    height: 3px;
-                    font-size: 12px;
-                    font-weight: 500;
-                    font-style: normal;
-                    font-stretch: normal;
-                    line-height: 2.17;
-                    letter-spacing: normal;
-                    text-align: center;
-                  `}
-                >
-                  ...
-                </span>
+                <AdminModelMoreOptionsIcon css={'margin: 0;'} width={15} height={3} />
               </ActionPill>
             }
-            position="left"
+            position="bottom right"
             offset={0}
             on="click"
             closeOnDocumentClick
@@ -156,11 +125,7 @@ const modelManagerCustomColumns = [
             }}
             arrow={false}
           >
-            <ActionsMenu
-              css={`
-                width: 70px;
-              `}
-            >
+            <ActionsMenu>
               <ActionsMenuItem>Publish</ActionsMenuItem>
               <ActionsMenuItem>Delete</ActionsMenuItem>
             </ActionsMenu>
