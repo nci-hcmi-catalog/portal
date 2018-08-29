@@ -1,10 +1,11 @@
 import React from 'react';
-import { Row, Col } from 'theme/system';
-import { Pill } from 'theme/adminNavStyles';
+import TextInput from '@arranger/components/dist/Input';
+
 import AdminDownloadIconRed from 'icons/AdminDownloadIconRed';
 import googleSheetsLogo from 'assets/logo-googlesheets.png';
-import TextInput from '@arranger/components/dist/Input';
-import { SectionDivider } from 'theme/adminBulkUploadStyles';
+
+import { Row, Col } from 'theme/system';
+import { Pill } from 'theme/adminControlsStyles';
 
 export default ({ type, onSheetsURLChange, sheetsURL }) => (
   <>
@@ -17,22 +18,10 @@ export default ({ type, onSheetsURLChange, sheetsURL }) => (
       >
         {`Submit your ${type} data by uploading a google sheet or a CSV file`}
       </div>
-      <Pill
-        css={`
-          flex-grow: 1;
-          width: min-content;
-        `}
-      >
+      <Pill secondary>
         <AdminDownloadIconRed width={10} height={12} /> Download Template
       </Pill>
     </Row>
-    <SectionDivider
-      css={`
-        padding-top: 3px;
-        padding-bottom: 3px;
-        border: none;
-      `}
-    />
     <Row alignItems="center" justifyContent="left">
       <img
         src={googleSheetsLogo}
@@ -59,12 +48,5 @@ export default ({ type, onSheetsURLChange, sheetsURL }) => (
         />
       </Col>
     </Row>
-    <SectionDivider
-      css={`
-        padding-top: 3px;
-        padding-bottom: 3px;
-        border: none;
-      `}
-    />
   </>
 );

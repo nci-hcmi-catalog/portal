@@ -1,56 +1,19 @@
 import React from 'react';
-import { Row } from 'theme/system';
-import { Pill } from 'theme/adminNavStyles';
-import { css } from 'emotion';
-import base from 'theme';
-import { BulkUploadControlPill } from 'theme/adminBulkUploadStyles';
 
-const {
-  keyedPalette: { lightPorcelain },
-} = base;
+import { Pill } from 'theme/adminControlsStyles';
+import { Footer } from 'theme/adminModalStyles';
 
-const commonControlStyles = css`
-  background: ${lightPorcelain};
-  width: 100%;
-  justify-content: space-between;
-  padding: 4px;
-`;
 const UploadInputControls = ({ onUploadClick }) => (
-  <Row alignItems="center" justifyContent="space-between" css={commonControlStyles}>
-    <Pill
-      css={`
-        display: inherit;
-        flex-grow: 1;
-        width: min-content;
-        max-width: 90px;
-      `}
-    >
-      Cancel
-    </Pill>
-    <BulkUploadControlPill
-      css={`
-        display: inherit;
-        flex-grow: 1;
-        width: min-content;
-        max-width: 90px;
-      `}
-      onClick={onUploadClick}
-    >
+  <Footer>
+    <Pill secondary>Cancel</Pill>
+    <Pill primary onClick={onUploadClick}>
       Upload
-    </BulkUploadControlPill>
-  </Row>
+    </Pill>
+  </Footer>
 );
 const UploadPublishControls = () => (
-  <Row alignItems="center" justifyContent="space-between" css={commonControlStyles}>
-    <Pill
-      css={`
-        display: inherit;
-        width: min-content;
-        max-width: 90px;
-      `}
-    >
-      Back
-    </Pill>
+  <Footer>
+    <Pill secondary>Back</Pill>
     <div
       css={`
         justify-content: flex-end;
@@ -58,24 +21,10 @@ const UploadPublishControls = () => (
         display: inherit;
       `}
     >
-      <BulkUploadControlPill
-        css={`
-          display: inherit;
-          width: min-content;
-        `}
-      >
-        Save
-      </BulkUploadControlPill>
-      <BulkUploadControlPill
-        css={`
-          display: inherit;
-          width: max-content;
-        `}
-      >
-        Save and publish
-      </BulkUploadControlPill>
+      <Pill primary>Save</Pill>
+      <Pill>Save and publish</Pill>
     </div>
-  </Row>
+  </Footer>
 );
 
 export default ({ controlSet, ...props }) =>
