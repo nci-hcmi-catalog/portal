@@ -10,7 +10,7 @@ import BulkUploadResult from './BulkUploadResult';
 import BulkUploadInput from './BulkUploadInput';
 import BulkUploadControls from './BulkUploadControls';
 
-import { ModalWrapper, Header, Title, CloseModal, Content } from 'theme/adminUploadModalStyles';
+import { ModalWrapper, Header, Title, CloseModal, Content } from 'theme/adminModalStyles';
 
 const getSheetId = sheetURL => {
   // example sheeturl:

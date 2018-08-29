@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Pill } from 'theme/adminControlsStyles';
-import { Footer } from 'theme/adminUploadModalStyles';
+import { Footer } from 'theme/adminModalStyles';
 
 const UploadInputControls = ({ onUploadClick }) => (
   <Footer>

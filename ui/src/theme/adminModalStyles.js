@@ -12,7 +12,7 @@ const {
   keyedPalette: { brandPrimary, lightPorcelain, white, frenchGrey },
 } = base;
 
-export const UploadModalStyle = css`
+export const AdminModalStyle = css`
   display: flex;
   position: absolute;
   flex-direction: column;
@@ -45,7 +45,7 @@ export const Header = styled(Row)`
 
 export const Title = styled('h1')`
   width: 100%;
-  padding: 24px 0 18px;
+  padding: 24px 45px 18px 0;
   margin: 0;
   border-bottom: 1px solid ${frenchGrey};
   text-transform: capitalize;
