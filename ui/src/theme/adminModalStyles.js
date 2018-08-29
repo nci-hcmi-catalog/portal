@@ -24,7 +24,7 @@ export const AdminModalStyle = css`
   max-width: 824px;
   border-radius: 5px;
   background-color: ${white};
-  label: bulk-upload-modal-main;
+  label: admin-modal-main;
 `;
 
 export const ModalWrapper = styled('div')`
@@ -32,7 +32,7 @@ export const ModalWrapper = styled('div')`
   flex-direction: column;
   border-radius: 5px;
   overflow: hidden;
-  label: upload-modal-wrapper;
+  label: admin-modal-wrapper;
 `;
 
 export const Header = styled(Row)`
@@ -40,7 +40,7 @@ export const Header = styled(Row)`
   justify-content: space-between;
   align-items: center;
   padding: 0px 21px;
-  label: upload-modal-header;
+  label: admin-modal-header;
 `;
 
 export const Title = styled('h1')`
@@ -58,7 +58,7 @@ export const Title = styled('h1')`
   letter-spacing: normal;
   text-align: left;
   color: ${brandPrimary};
-  label: upload-modal-title;
+  label: admin-modal-title;
 `;
 
 const closeStyles = css`
@@ -76,12 +76,12 @@ export const Content = styled('div')`
   display: flex;
   flex-direction: column;
   padding: 30px 21px;
-  label: bulk-upload-content;
+  label: admin-modal-content;
 `;
 
 export const Footer = styled(Row)`
   justify-content: space-between;
   background: ${lightPorcelain};
   padding: 8px 21px;
-  label: upload-modal-footer;
+  label: admin-modal-footer;
 `;
