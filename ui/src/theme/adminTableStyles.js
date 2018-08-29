@@ -1,17 +1,15 @@
 import styled from 'react-emotion';
 import { css } from 'emotion';
+
 import base from 'theme';
 import { Row } from 'theme/system';
-import { Link } from 'react-router-dom';
+import { SmallLinkPill } from 'theme/adminControlsStyles';
 
 const {
   keyedPalette: {
     porcelain,
     white,
-    sienna,
     dustyGray,
-    pelorousapprox,
-    brandPrimary,
     iron,
     mystic,
     black,
@@ -19,7 +17,6 @@ const {
     mineShaft,
     shuttleGray,
   },
-  buttons: { pillBase },
   fonts: { openSans, libreFranklin },
 } = base;
 
@@ -28,6 +25,7 @@ const borderColour = porcelain;
 export const Table = styled('div')`
   width: 100%;
   padding: 8px;
+  margin-bottom: 52px;
   align-self: center;
   background: ${white};
   border: solid 1px ${borderColour};
@@ -50,56 +48,18 @@ const tableStatusBase = css`
   color: ${white};
 `;
 
-export const UnpublishedModel = styled('span')`
-  width: 95px;
-  height: 22px;
-  border-radius: 11px;
-  background-color: ${dustyGray};
-  ${tableStatusBase};
-  label: models-status-unpublished;
-`;
-
-export const UnpublishedChangesModel = styled('span')`
-  width: 149px;
-  height: 22px;
-  border-radius: 11px;
-  background-color: ${sienna};
-  ${tableStatusBase};
-  label: models-status-unpublished-changes;
-`;
-
-export const PublishedModel = styled('span')`
-  width: 80px;
-  height: 22px;
-  border-radius: 11px;
-  background-color: ${pelorousapprox};
-  ${tableStatusBase};
-  label: models-status-published;
-`;
-
-export const ActionPill = styled(Link)`
-  ${pillBase};
-  text-decoration: none;
-  display: inline-block;
-  width: 68px;
-  height: 26px;
-  background-color: ${white};
-  color: ${brandPrimary};
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  line-height: 2.17;
-  padding: 1px 2px;
-  :active {
-    background-color: ${brandPrimary};
-    color: ${white};
-  }
-  label: model-action-pill;
+export const ActionPill = styled(SmallLinkPill)`
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 26px;
+  padding: 0 13px;
+  label: model-table-action-pill;
 `;
 
 export const Actions = styled('div')`
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  display: inline-block;
   label: model-actions;
 `;
 
@@ -142,7 +102,7 @@ export const ToolbarMain = styled(Row)`
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  padding: 5px;
+  padding: 12px 22px 20px;
   label: toolbar-main;
 `;
 
@@ -159,8 +119,6 @@ export const ToolbarText = styled('span')`
   width: max-content;
   font-family: ${libreFranklin};
   font-size: 13px;
-  font-weight: 500;
-  font-style: bold;
   font-stretch: normal;
   line-height: 1.54;
   letter-spacing: normal;
@@ -190,7 +148,7 @@ export const ToolbarControl = styled('div')`
   cursor: pointer;
   border-radius: 10px;
   background-color: ${white};
-  border: solid 0.75px ${shuttleGray};
+  border: solid 1px ${shuttleGray};
   padding-right: 3px;
   label: toolbar-control;
 `;

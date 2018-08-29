@@ -90,6 +90,8 @@ export const Pill = styled(PillBase)`
 
 export const LinkPill = Pill.withComponent(Link);
 
+export const SmallLinkPill = SmallPill.withComponent(Link);
+
 export const ActionsMenu = styled('div')`
   display: flex;
   flex-direction: column;

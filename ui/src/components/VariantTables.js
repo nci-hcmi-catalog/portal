@@ -221,7 +221,7 @@ const VariantTable = ({ category, modelName, columns }) => (
           </div>
           <Row justifyContent="flex-end">
             <TextInput
-              icon={<FilterIcon height={10} width={10} fill={'#704A2C'} />}
+              icon={<FilterIcon height={10} width={10} css={'margin: 0 0 0 5px;'} />}
               type="text"
               placeholder="Filter"
               value={state.filterValue}

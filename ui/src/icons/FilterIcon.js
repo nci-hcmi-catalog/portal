@@ -1,7 +1,7 @@
 import { BaseSvg } from 'icons';
 
-export default ({ fill = '#900000', ...props }) =>
+export default ({ fill = '#64666a', ...props }) =>
   BaseSvg({
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><style>.cls-1{fill:${fill};}</style></defs><path class="cls-1" d="M488,0H24C2.71,0-8,25.87,7.06,41L192,225.94V432a24,24,0,0,0,10.24,19.66l80,56C298,518.69,320,507.49,320,488v-262L505,41C520,25.9,509.34,0,488,0Z" transform="translate(0)"/></svg>`,
+    svg: `<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><defs><style>.cls-1{fill:${fill};}</style></defs><title>icon-search-grey</title><path class="cls-1" d="M31.41,28.59l-7.92-7.94a13.06,13.06,0,1,0-2.83,2.83l7.92,7.93a2,2,0,0,0,2.83-2.82ZM4,13a9,9,0,1,1,9,9A9,9,0,0,1,4,13Z"/></svg>`,
     ...props,
   });
