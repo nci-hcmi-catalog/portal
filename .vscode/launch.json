@@ -12,13 +12,15 @@
       "name": "CMS",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/cms/index.js"
+      "program": "${workspaceFolder}/cms/index.js",
+      "envFile": "${workspaceFolder}/cms/.env"
     },
     {
       "name": "API",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/api/index.js"
+      "program": "${workspaceFolder}/api/index.js",
+      "envFile": "${workspaceFolder}/api/.env"
     }
   ]
 }

@@ -98,6 +98,7 @@ export const runYupValidators = parsed => {
     return parsed;
   });
 };
+const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
 data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
   try {
@@ -109,6 +110,7 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
     const { sheetId, tabName } = req.params;
     let { overwrite } = req.query;
     overwrite = overwrite || false;
+    overwrite = normalizeOption(overwrite);
     getSheetData({ authClient, sheetId, tabName })
       .then(data => {
         const parsed = data
