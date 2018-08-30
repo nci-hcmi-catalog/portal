@@ -1,4 +1,10 @@
 import mongoose from 'mongoose';
+import { modelStatus } from './constants';
+
+const FilesSchema = new mongoose.Schema({
+  name: { type: String },
+  type: { type: String },
+});
 
 export const ModelSchema = new mongoose.Schema(
   {
@@ -27,10 +33,16 @@ export const ModelSchema = new mongoose.Schema(
     licensing_required: { type: Boolean, es_indexed: true },
     source_model_url: { type: String, es_indexed: true },
     source_sequence_url: { type: String, es_indexed: true },
+    files: { type: [FilesSchema], es_indexed: true },
     status: {
       type: String,
-      enum: ['unpublished', 'published', 'unpublished changes', 'other'],
-      default: 'unpublished',
+      enum: [
+        modelStatus.unpublished,
+        modelStatus.published,
+        modelStatus.unpublishedChanges,
+        modelStatus.other,
+      ],
+      default: modelStatus.unpublished,
       es_indexed: true,
     },
     updatedBy: { type: String, es_indexed: true },

@@ -1,49 +1,53 @@
 import React from 'react';
-import styled from 'react-emotion';
-import { modelEditUrlBase } from '../AdminNav';
-import ModelIcon from '../../../icons/ModelIcon';
-import { AdminContainer, AdminHeader } from 'theme/adminStyles';
-import { ControlPill, ControlPillLink, Controls } from 'theme/duplicateAdminControlsStlyes';
-import { Table } from 'theme/adminTableStyles';
-import ModelManagerTable from './ModelManagerTable';
-import { ModalStateContext } from 'providers/ModalState';
-import BulkUploader from '../BulkUpload';
-import { BulkUploadModalStyle } from '../../../theme/adminBulkUploadStyles';
 
-const Title = styled('div')`
-  min-height: 50px;
-  align-items: center;
-  display: inherit;
-  label: models-manager-title;
-`;
+import { ModalStateContext } from 'providers/ModalState';
+import ModelManagerTable from './ModelManagerTable';
+import { modelEditUrlBase } from '../AdminNav';
+import BulkUploader from '../BulkUpload';
+
+import ModelIcon from '../../../icons/ModelIcon';
+import AdminPlusIcon from '../../../icons/AdminPlusIcon';
+
+import { AdminContainer, AdminHeader, AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
+import { Pill, LinkPill } from 'theme/adminControlsStyles';
+import { Table } from 'theme/adminTableStyles';
+import { AdminModalStyle } from 'theme/adminModalStyles';
 
 const content = () => {
   return (
     <AdminContainer>
       <AdminHeader>
-        <Title>
-          <ModelIcon height={30} width={30} />Model Management
-        </Title>
-        <Controls>
+        <AdminHeaderH1>
+          <ModelIcon
+            height={35}
+            width={35}
+            css={`
+              margin-right: 13px;
+            `}
+          />Model Management
+        </AdminHeaderH1>
+        <AdminHeaderBlock>
           <ModalStateContext.Consumer>
             {modalState => (
-              <ControlPill
+              <Pill
+                primary
+                marginRight="10px"
                 onClick={() =>
                   modalState.setModalState({
                     component: <BulkUploader type={'model'} />,
                     shouldCloseOnOverlayClick: true,
-                    styles: BulkUploadModalStyle,
+                    styles: AdminModalStyle,
                   })
                 }
               >
-                Add Bulk
-              </ControlPill>
+                <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add Bulk
+              </Pill>
             )}
           </ModalStateContext.Consumer>
-          <ControlPillLink to={modelEditUrlBase} last>
-            Add A Model
-          </ControlPillLink>
-        </Controls>
+          <LinkPill primary to={modelEditUrlBase}>
+            <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add A Model
+          </LinkPill>
+        </AdminHeaderBlock>
       </AdminHeader>
       <Table>
         <ModelManagerTable />

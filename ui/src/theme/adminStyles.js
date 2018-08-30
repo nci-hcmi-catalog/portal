@@ -40,6 +40,9 @@ export const AdminFooter = styled(AdminHeader)`
 `;
 
 export const AdminHeaderH1 = styled('h1')`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   font-family: ${libreFranklin};
   line-height: 1;
   color: ${brandPrimary};

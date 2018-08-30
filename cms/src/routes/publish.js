@@ -1,22 +1,11 @@
 import express from 'express';
-import { indexOneToES, indexUpdatesToES, indexAllToES } from '../services/publish/sync-ES';
+import { indexUpdatesToES, indexAllToES } from '../services/elastic-search/publish';
 
-export const publish_router = express.Router();
+const publishRouter = express.Router();
 
-publish_router.post('/model/:modelId', async (req, res) => {
-  const { modelId } = req.params;
-  indexOneToES({
-    _id: modelId,
-  })
-    .then(data => res.json(data))
-    .catch(error =>
-      res.json({
-        error: error,
-      }),
-    );
-});
-
-publish_router.post('/updated', async (req, res) => {
+// TODO - make sure these update status or rewrite
+// as a status updatethat triggers the publish
+publishRouter.post('/updated', async (req, res) => {
   indexUpdatesToES()
     .then(data => res.json(data))
     .catch(error =>
@@ -26,7 +15,7 @@ publish_router.post('/updated', async (req, res) => {
     );
 });
 
-publish_router.post('/all', async (req, res) => {
+publishRouter.post('/all', async (req, res) => {
   indexAllToES()
     .then(data => res.json(data))
     .catch(error =>
@@ -35,3 +24,5 @@ publish_router.post('/all', async (req, res) => {
       }),
     );
 });
+
+export default publishRouter;

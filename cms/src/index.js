@@ -8,9 +8,9 @@ import methodOverride from 'method-override';
 import restify from 'express-restify-mongoose';
 import morgan from 'morgan';
 
-import { data_sync_router, runYupValidators } from './routes/sync-data';
-import { publish_router } from './routes/publish';
-import { imagesRouter } from './routes/images';
+import { data_sync_router } from './routes/sync-data';
+import { imagesRouter } from './routes';
+import { validateYup, preModelDelete, postUpdate } from './hooks';
 import Model from './schemas/model';
 
 const port = process.env.PORT || 8080;
@@ -30,24 +30,17 @@ app.use(cors());
 // configure logging
 app.use(morgan('combined'));
 
-const validateYup = (req, res, next) => {
-  runYupValidators([req.body])
-    .then(() => next())
-    .catch(error => {
-      res.status(400).json({
-        error,
-      });
-    });
-};
 // configure endpoints
 restify.serve(router, Model, {
   preCreate: validateYup,
   preUpdate: validateYup,
+  postUpdate: postUpdate,
+  preDelete: preModelDelete,
   idProperty: 'name',
 });
 
 app.use('/api/v1', data_sync_router);
-app.use('/api/v1/publish', publish_router);
+// app.use('/api/v1/publish', publishRouter); // temp disabling these until we decide on final approach to bulk publishing
 app.use('/api/v1/images', imagesRouter);
 app.use(router);
 

@@ -1,4 +1,4 @@
-import { ModelES } from './es/schemas/model';
+import { ModelES } from './common/schemas/model';
 import publishValidation from '../../validation/model';
 
 export const indexOneToES = filter => {
