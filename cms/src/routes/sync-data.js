@@ -107,8 +107,9 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
     //TODO: error handling if auth is not passed
     const authClient = getAuthClient(authorization);
     const { sheetId, tabName } = req.params;
-    const { overwrite } = req.query;
-    getSheetData({ authClient, sheetId, tabName, overwrite: overwrite || false })
+    let { overwrite } = req.query;
+    overwrite = overwrite || false;
+    getSheetData({ authClient, sheetId, tabName })
       .then(data => {
         const parsed = data
           .filter(({ name }) => name)
@@ -140,31 +141,63 @@ data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
             }, //omit mongoose generated fields
           );
           if (prevModel) {
-            if (!isEqual(prevModel._doc, p)) {
-              return Model.findOneAndUpdate(
-                {
-                  name: p.name,
-                },
-                p,
-                {
-                  upsert: true,
-                  new: true,
-                  runValidators: true,
-                },
-              );
+            if (overwrite && !isEqual(prevModel._doc, p)) {
+              return new Promise((resolve, reject) => {
+                Model.findOneAndUpdate(
+                  {
+                    name: p.name,
+                  },
+                  p,
+                  {
+                    upsert: true,
+                    new: true,
+                    runValidators: true,
+                  },
+                )
+                  .then(() => resolve({ status: 'updated', doc: p.name }))
+                  .catch(error =>
+                    reject({
+                      message: `An unexpected error occurred while updating model: ${
+                        p.name
+                      }, Error:  ${error}`,
+                    }),
+                  );
+              });
             }
-            return new Promise(resolve => resolve({})); //no fields modified, do nothing
+            return new Promise(resolve => resolve({ status: 'ignored', doc: p.name })); //no fields modified, do nothing
           } else {
-            const newModel = new Model(p);
-            return newModel.save();
+            return new Promise((resolve, reject) => {
+              const newModel = new Model(p);
+              newModel
+                .save()
+                .then(() => resolve({ status: 'created', doc: p.name }))
+                .catch(error =>
+                  reject({
+                    message: `An unexpected error occurred while creating model: ${
+                      p.name
+                    }, Error:  ${error}`,
+                  }),
+                );
+            });
           }
         });
 
-        return Promise.all(savePromises).then(docs =>
-          res.json({
-            docs: docs.filter(d => !!Object.keys(d).length),
-          }),
-        );
+        return Promise.all(savePromises)
+          .then(saveResults =>
+            res.json({
+              result: saveResults.reduce(
+                (finalResponse, saveResult) => {
+                  const { status, doc } = saveResult;
+                  finalResponse[status].push(doc);
+                  return finalResponse;
+                },
+                { ignored: [], updated: [], created: [] },
+              ),
+            }),
+          )
+          .catch(error => {
+            throw error;
+          });
       })
       .catch(error => {
         throw error;
