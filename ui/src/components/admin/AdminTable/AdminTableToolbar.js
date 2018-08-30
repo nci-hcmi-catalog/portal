@@ -1,7 +1,7 @@
 import React from 'react';
 import TextInput from '@arranger/components/dist/Input';
 import FilterIcon from 'icons/FilterIcon';
-import { ModelsTableContext } from './ModelsTableController';
+import { AdminTableContext } from './AdminTableController';
 // import Popup from 'reactjs-popup';
 import {
   // ActionsMenu,
@@ -28,8 +28,8 @@ import {
 //   );
 // };
 
-export default () => (
-  <ModelsTableContext.Consumer>
+export default ({ type }) => (
+  <AdminTableContext.Consumer>
     {({ state: { isLoading, page, pageSize, filterValue, rowCount }, onFilterValueChange }) => {
       const [from, to] = [page * pageSize + 1, page * pageSize + pageSize];
       return (
@@ -86,11 +86,11 @@ export default () => (
               `}
             >
               {!isLoading &&
-                `Showing ${from} - ${to <= rowCount ? to : rowCount} of ${rowCount} Models`}
+                `Showing ${from} - ${to <= rowCount ? to : rowCount} of ${rowCount} ${type}`}
             </ToolbarText>
           </ToolbarSection>
         </ToolbarMain>
       );
     }}
-  </ModelsTableContext.Consumer>
+  </AdminTableContext.Consumer>
 );
