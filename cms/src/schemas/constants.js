@@ -916,6 +916,7 @@ export const neoadjuvantTherapy = [
   'yes, radiation',
   'yes, both radiation and pharmaceutical treatment',
 ];
+
 export const diseaseStatus = [
   'disease free',
   'progression (no response to treatment)',
@@ -933,3 +934,16 @@ export const therapy = [
   'other',
   'none',
 ];
+
+export const variantNames = ['testOne', 'testTwo', 'testThree'];
+
+export const variantCategories = ['categoryOne', 'categoryTwo', 'categoryThree'];
+
+export const variantAssessmentType = [
+  'IHC',
+  'CISH',
+  'FISH',
+  'Pyrosequencing/methylation-specific PCR',
+];
+
+export const variantExpressionLevel = ['Positive', 'Negative', 'Equivocal'];
