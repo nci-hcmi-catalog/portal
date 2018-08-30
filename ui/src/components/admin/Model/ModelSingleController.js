@@ -1,5 +1,6 @@
 import React from 'react';
 import Component from 'react-component-component';
+import { uniqBy, isEqual } from 'lodash';
 import { fetchData } from '../services/Fetcher';
 
 export const ModelSingleContext = React.createContext();
@@ -110,7 +111,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
         touched: {},
         errors: {},
       },
-      imageUploadQueue: [],
+      imagesToDelete: [],
       notifications: [],
     }}
     didMount={async ({ state, setState }) => {
@@ -161,8 +162,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               },
               form: {
                 ...state.form,
-                isReadyToSave:
-                  tabName === 'images' ? !!state.imageUploadQueue.length : state.form.isReadyToSave,
+                isReadyToSave: state.form.isReadyToSave,
               },
             });
           },
@@ -181,7 +181,15 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               },
             });
           },
-          saveForm: async ({ values, uploadedImages = {} }) => {
+          saveForm: async ({
+            values,
+            images = [],
+            successNotification = {
+              type: 'success',
+              message: 'Save Successful!',
+              details: 'Model has been succesfully saved, however not yet published.',
+            },
+          }) => {
             // Set loading true (lock UI)
             await setState(() => ({
               ...state,
@@ -198,10 +206,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
               const data = {
                 ...values,
-                files: Object.entries(uploadedImages).map(([id, info]) => ({
-                  _id: id,
-                  ...info,
-                })),
+                files: uniqBy(images, image => image._id),
                 status: computeModelStatus(values.status, 'save'),
               };
 
@@ -214,13 +219,20 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
               const modelDataResponse = await saveModel(baseUrl, data, isUpdate);
 
+              console.log(modelDataResponse);
+              console.log(state.data);
               await setState(() => ({
                 ...state,
-                imageUploadQueue: [],
                 // Set form to unsavable status (will release on next form interaction)
                 form: {
                   ...state.form,
                   isReadyToSave: false,
+                  // if files is different in new state
+                  isReadyToPublish:
+                    !isEqual(
+                      (modelDataResponse.data.response || {}).files || [],
+                      (state.data.response || {}).files || [],
+                    ) || state.form.isReadyToPublish,
                 },
                 // Put save response into data
                 data: {
@@ -231,11 +243,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 },
                 notifications: [
                   ...state.notifications,
-                  generateNotification({
-                    type: 'success',
-                    message: 'Save Successful!',
-                    details: 'Model has been succesfully saved, however not yet published.',
-                  }),
+                  ...(successNotification ? [generateNotification(successNotification)] : []),
                 ],
               }));
             } catch (err) {
@@ -276,6 +284,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
               // Publishing will always trigger an update
               // so we pass status in with our save
+              console.log(values);
               const modelDataResponse = await saveModel(
                 baseUrl,
                 {
@@ -434,19 +443,14 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               ...state,
               notifications: [],
             }),
-          enqueueImages: (newFiles = {}) => {
-            const newQueue = [...state.imageUploadQueue, ...newFiles];
+          setImagesToDelete: (newFilesToDelete = []) => {
             setState({
               ...state,
-              imageUploadQueue: newQueue,
-              form: {
-                ...state.form,
-                isReadyToSave: newQueue.length,
-              },
+              imagesToDelete: newFilesToDelete,
             });
           },
-          uploadImages: async () => {
-            const uploaded = await state.imageUploadQueue.reduce(async (accPromise, file) => {
+          uploadImages: async files => {
+            const uploaded = await files.reduce(async (accPromise, file) => {
               let acc = await accPromise;
               let formData = new FormData();
               formData.append('filename', file.name);
@@ -461,13 +465,10 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               });
               if (response.status >= 200 && response.status < 300) {
                 window.URL.revokeObjectURL(file.preview);
-                return {
-                  ...acc,
-                  [response.data.id]: { name: file.name, type: file.type },
-                };
+                return [...acc, { name: file.name, type: file.type, _id: response.data.id }];
               }
               return acc;
-            }, Promise.resolve({}));
+            }, Promise.resolve([]));
             return uploaded;
           },
         }}

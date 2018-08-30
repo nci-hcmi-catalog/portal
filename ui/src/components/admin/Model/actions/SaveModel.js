@@ -8,11 +8,9 @@ export default props => (
     {({
       state: {
         form: { values, isReadyToSave },
-        data = { response: { files: [] } },
         ui: { activeTab },
       },
       saveForm,
-      uploadImages,
     }) => (
       <Pill
         primary
@@ -24,17 +22,6 @@ export default props => (
                 saveForm({ values });
                 break;
               case 'images':
-                const uploadedImages = await uploadImages();
-                saveForm({
-                  values,
-                  uploadedImages: {
-                    ...data.response.files.reduce(
-                      (acc, file) => ({ ...acc, [file._id]: { name: file.name, type: file.type } }),
-                      {},
-                    ),
-                    ...uploadedImages,
-                  },
-                });
                 break;
               default:
                 break;
