@@ -6,6 +6,12 @@ const FilesSchema = new mongoose.Schema({
   type: { type: String },
 });
 
+const VariantExpression = new mongoose.Schema({
+  variant: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Variant' }],
+  assessment_type: { type: String },
+  expression_level: { type: String },
+});
+
 export const ModelSchema = new mongoose.Schema(
   {
     name: { type: String, es_indexed: true },
@@ -34,6 +40,7 @@ export const ModelSchema = new mongoose.Schema(
     source_model_url: { type: String, es_indexed: true },
     source_sequence_url: { type: String, es_indexed: true },
     files: { type: [FilesSchema], es_indexed: true },
+    variants: { type: [VariantExpression] },
     status: {
       type: String,
       enum: [
