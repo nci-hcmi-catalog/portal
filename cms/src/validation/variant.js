@@ -13,10 +13,10 @@ export const modelVariantSchema = object().shape({
   name: string()
     .oneOf(variantNames)
     .required(),
-  assessment_type: string()
+  assessmentType: string()
     .oneOf(variantAssessmentType)
     .required(),
-  expression_level: string()
+  expressionLevel: string()
     .oneOf(variantExpressionLevel)
     .required(),
 });
@@ -30,5 +30,4 @@ export default object().shape({
     .oneOf(variantCategories)
     .required(),
   genes: array().required(),
-  models: array().ensure(),
 });

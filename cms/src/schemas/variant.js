@@ -5,7 +5,6 @@ export const VariantSchema = new mongoose.Schema({
   type: { type: String },
   category: { type: String },
   genes: { type: [String] },
-  models: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Model' }],
 });
 
 export default mongoose.model('Variant', VariantSchema);

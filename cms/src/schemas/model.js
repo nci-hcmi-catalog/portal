@@ -7,9 +7,9 @@ const FilesSchema = new mongoose.Schema({
 });
 
 const VariantExpression = new mongoose.Schema({
-  variant: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Variant' }],
-  assessment_type: { type: String },
-  expression_level: { type: String },
+  variant: [{ type: String, ref: 'Variant' }],
+  assessmentType: { type: String },
+  expressionLevel: { type: String },
 });
 
 export const ModelSchema = new mongoose.Schema(
