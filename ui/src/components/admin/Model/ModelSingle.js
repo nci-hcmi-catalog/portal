@@ -24,7 +24,7 @@ const renderTab = (tab, data) => {
     case 'images':
       return <ModelImages />;
     case 'variants':
-      return <ModelVariants />;
+      return <ModelVariants data={data} />;
     default:
       return <ModelForm key={dataKey} data={data} />;
   }

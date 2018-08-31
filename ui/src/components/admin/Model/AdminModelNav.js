@@ -34,10 +34,7 @@ export default () => (
           />Images
         </NavItem>
 
-        <NavItem
-          active={activeTab === 'variants'}
-          onClick={() => setUIActiveTab('variants')}
-        >
+        <NavItem active={activeTab === 'variants'} onClick={() => setUIActiveTab('variants')}>
           <AdminModelVariantsIcon
             fill={activeTab === 'variants' ? activeNavItemIconColor : brandPrimary}
             css={navItemIcon}
