@@ -20,9 +20,10 @@ const getSheetId = sheetURL => {
   // use replace because javascript doesnt have positive lookahead ?<=
   return sheetUrlParts.length > 0 ? sheetUrlParts[0].replace('/d/', '').replace('/', '') : '';
 };
-const uploadGoogleSheet = async sheetURL => {
+const uploadGoogleSheet = async (sheetURL, overwrite) => {
   const sheetID = getSheetId(sheetURL);
-  const uploadURL = config.urls.cmsBase + `/sync-mongo/${sheetID}/Real Data Collection`;
+  const uploadURL =
+    config.urls.cmsBase + `/sync-mongo/${sheetID}/Real Data Collection?overwrite=${overwrite}`;
   const gapi = global.gapi;
   // TODO: this assumes user is already logged in - create a prompt to let user
   // know to login if not already logged in
@@ -44,11 +45,12 @@ const UploadModal = ({ type, ...props }) => (
       sheetsURL: '',
       uploadingGoogleSheet: false,
       uploadResults: {},
+      overwrite: false,
     }}
     didUpdate={async ({ state, setState }) => {
       try {
         if (state.uploadingGoogleSheet) {
-          const uploadSheetResult = await uploadGoogleSheet(state.sheetsURL);
+          const uploadSheetResult = await uploadGoogleSheet(state.sheetsURL, state.overwrite);
           setState({
             uploadingGoogleSheet: false,
             selectedTab: 1,
@@ -60,9 +62,10 @@ const UploadModal = ({ type, ...props }) => (
       }
     }}
   >
-    {({ state: { selectedTab, sheetsURL, uploadResults }, setState }) => {
+    {({ state: { selectedTab, sheetsURL, uploadResults, overwrite }, setState }) => {
       const onSheetsURLChange = newURL => setState({ sheetsURL: newURL });
       const onUploadClick = () => setState({ uploadingGoogleSheet: true });
+      const onOverwriteChange = value => setState({ overwrite: value });
       return (
         <ModalWrapper>
           <Header>
@@ -70,37 +73,16 @@ const UploadModal = ({ type, ...props }) => (
             <CloseModal />
           </Header>
           <Content>
-            <SequentialTabs
+            <BulkUploadInput
+              {...{
+                onSheetsURLChange,
+                sheetsURL,
+                type,
+                overwrite,
+                onOverwriteChange,
+              }}
               {...props}
-              selectedTab={selectedTab}
-              onSelectionChanged={index => setState({ selectedTab: index })}
-            >
-              <SequentialTab
-                title={`Step 1:Submit ${type} list`}
-                component={
-                  <BulkUploadInput
-                    {...{
-                      onSheetsURLChange,
-                      sheetsURL,
-                      type,
-                    }}
-                    {...props}
-                  />
-                }
-              />
-              <SequentialTab
-                title={`Step 2:Validate and finalize`}
-                component={
-                  <BulkUploadResult
-                    {...props}
-                    {...{
-                      type,
-                      uploadResults,
-                    }}
-                  />
-                }
-              />
-            </SequentialTabs>
+            />
           </Content>
           <BulkUploadControls {...props} controlSet={selectedTab} {...{ onUploadClick }} />
         </ModalWrapper>
