@@ -3,9 +3,9 @@ import React from 'react';
 import { Pill } from 'theme/adminControlsStyles';
 import { Footer } from 'theme/adminModalStyles';
 
-const UploadInputControls = ({ onUploadClick }) => (
+const UploadInputControls = ({ onUploadClick, modalState }) => (
   <Footer>
-    <Pill secondary>Cancel</Pill>
+    <Pill secondary onClick={() => modalState.setModalState({ component: null })}>Cancel</Pill>
     <Pill primary onClick={onUploadClick}>
       Upload
     </Pill>

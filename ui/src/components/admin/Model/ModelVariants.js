@@ -7,7 +7,6 @@ import Toolbar from '../AdminTable/data-driven/Toolbar';
 import DataTable from '../AdminTable/data-driven/DataTable';
 import { ModelVariantColumns as tableColumns } from './ModelVariantColumns';
 
-
 import AdminPlusIcon from '../../../icons/AdminPlusIcon';
 
 import { AdminContainer, AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';

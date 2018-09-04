@@ -43,7 +43,7 @@ export default {
     porcelain: palette[13],
     black: '#000000',
     white: '#ffffff',
-    mineShaft: '#343434',
+    mineShaft: '#323232',
     sienna: '#d57046',
     pelorousapprox: '#45b3c3',
     dustyGray: '#969696',
@@ -57,6 +57,7 @@ export default {
     dodgerBlue: '#3B99FC',
     silverChalice: '#A8A8A8',
     dawnPink: '#F3E4E4',
+    oldLace: '#FDF4E9',
   },
   transparency: {
     brandPrimary70: 'rgb(144,0,0,0.7)',
