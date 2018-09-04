@@ -16,7 +16,7 @@ const modelVariantCustomColumns = [
   {
     Header: 'Actions',
     accessor: 'name',
-    Cell: row => {
+    Cell: () => {
       return (
         <Actions>
           <ActionPill secondary marginRight="6px" to={''}>

@@ -85,7 +85,7 @@ export default ({ type, onSheetsURLChange, sheetsURL, overwrite, onOverwriteChan
               <ErrorIcon width={24} height={20} css={'margin-right: 10px;'} fill={'#f3ae4c'} />
               <div>
                 It is recommend that you{' '}
-                <a href="">
+                <a href="/admin">
                   <ExportIcon width={10} height={12} css={'margin: 0 5px 0 2px'} />download a backup
                 </a>{' '}
                 of the current models before overwriting data.
