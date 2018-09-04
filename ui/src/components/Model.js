@@ -25,19 +25,22 @@ const HorizontalTable = ({
   rawData,
   extended,
   css,
+  customUnits = {},
   data = (extended || [])
     .slice()
     .sort((a, b) => (fieldNames || []).indexOf(a) - (fieldNames || []).indexOf(b))
-    .reduce(
-      (acc, { field, type, displayName, unit }) =>
+    .reduce((acc, { field, type, displayName, unit }) => {
+      const fieldHelper = ({ field, type, displayName, unit }) =>
         fieldNames.includes(field)
           ? {
               ...acc,
               [displayName]: apiDataProcessor({ data: get(rawData, field), type, unit }),
             }
-          : acc,
-      {},
-    ),
+          : acc;
+      return !Object.keys(customUnits).includes(field)
+        ? fieldHelper({ field, type, displayName, unit })
+        : fieldHelper({ field: field, type, displayName, unit: customUnits[field] || unit });
+    }, {}),
 }) => (
   <table className="entity-horizontal-table" css={css}>
     <tbody>
@@ -111,6 +114,7 @@ export default ({ modelName }) => (
                     rawData={queryState.model}
                     extended={queryState.extended}
                     fieldNames={['name', 'type', 'split_ratio', 'growth_rate']}
+                    customUnits={{ split_ratio: 'days to split' }}
                   />
                 </Col>
 
