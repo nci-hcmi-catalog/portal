@@ -15,7 +15,7 @@ const {
     black,
     lightBlack,
     mineShaft,
-    shuttleGray,
+    shuttleGrey,
   },
   fonts: { openSans, libreFranklin },
 } = base;
@@ -148,7 +148,7 @@ export const ToolbarControl = styled('div')`
   cursor: pointer;
   border-radius: 10px;
   background-color: ${white};
-  border: solid 1px ${shuttleGray};
+  border: solid 1px ${shuttleGrey};
   padding-right: 3px;
   label: toolbar-control;
 `;

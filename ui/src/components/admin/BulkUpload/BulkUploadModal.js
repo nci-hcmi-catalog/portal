@@ -4,9 +4,6 @@ import Component from 'react-component-component';
 import config from '../config';
 import { get } from '../services/Fetcher';
 
-import SequentialTabs from './SequentialTabs';
-import SequentialTab from './SequentialTab';
-import BulkUploadResult from './BulkUploadResult';
 import BulkUploadInput from './BulkUploadInput';
 import BulkUploadControls from './BulkUploadControls';
 
@@ -58,11 +55,11 @@ const UploadModal = ({ type, ...props }) => (
           });
         }
       } catch (err) {
-        setState({ uploadingGoogleSheet: false, selectedTab: 1, uploadResults: err });
+        setState({ uploadingGoogleSheet: false, selectedTab: 1 });
       }
     }}
   >
-    {({ state: { selectedTab, sheetsURL, uploadResults, overwrite }, setState }) => {
+    {({ state: { selectedTab, sheetsURL, overwrite }, setState }) => {
       const onSheetsURLChange = newURL => setState({ sheetsURL: newURL });
       const onUploadClick = () => setState({ uploadingGoogleSheet: true });
       const onOverwriteChange = value => setState({ overwrite: value });

@@ -1,9 +1,9 @@
 import React from 'react';
 import TextInput from '@arranger/components/dist/Input';
 import googleSheetsLogo from 'assets/logo-googlesheets.png';
+
 import { Row, Col } from 'theme/system';
 import { RadioSelect } from 'theme/formComponentsStyles';
-import { FormSelect } from '../../FormComponents';
 
 const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
@@ -68,7 +68,7 @@ export default ({ type, onSheetsURLChange, sheetsURL, overwrite, onOverwriteChan
         `}
       >
         <bold
-        >{`Would you like to overwrite the system ${type}s with the data from this google sheet?`}</bold>
+        >{`Would you like to overwrite the existing ${type}s with the data from this google sheet?`}</bold>
         <RadioSelect>
           {processOptions(overwriteOptions(type)).map((option, idx) => {
             let formValue = normalizeOption(overwrite);

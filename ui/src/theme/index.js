@@ -51,7 +51,6 @@ export default {
     mystic: '#ebf1f3',
     lightBlack: 'rgba(0, 0, 0, 0.23)',
     darkBlack: 'rgba(0, 0, 0, 0.35)',
-    shuttleGray: '#64666a',
     shuttleGrey: '#64666a',
     silver: '#c0c0c0',
     frenchGrey: '#CACBCF',
