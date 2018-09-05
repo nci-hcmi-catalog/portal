@@ -210,3 +210,118 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
     res.status(500).json({ message: `An unexpected error occurred: ${error}` });
   }
 });
+
+
+data_sync_router.get('/attatch-variants/:spreadsheetId/:sheetId', async (req, res) => {
+  try {
+    const {
+      headers: { authorization },
+    } = req;
+    // TODO
+    // 1. Parse spreadsheet into list of lists (Models: [Variants])
+    // 2. For each Model-Variant list, validate
+    // 3. Attatch the sub-document(s) to the list parent model
+    // 4. Update status (get status processing method from front end code)
+    // 5. Return success message with total count of models updated and/or errors
+    const authClient = getAuthClient(authorization);
+    const { spreadsheetId, sheetId } = req.params;
+    let { overwrite } = req.query;
+    overwrite = overwrite || false;
+    overwrite = normalizeOption(overwrite);
+    getSheetData({ authClient, spreadsheetId, sheetId })
+      .then(data => {
+        const parsed = data
+          .filter(({ name }) => name)
+          .map(d =>
+            Object.keys(d)
+              .filter(key => ModelSchema.paths[key])
+              .reduce(
+                (acc, key) => ({
+                  ...acc,
+                  [key]: typeToParser[ModelSchema.paths[key].instance](NAtoNull(d[key])),
+                }),
+                {},
+              ),
+          )
+          .filter(Boolean)
+          .map(d => removeNullKeys(d));
+        return parsed;
+      })
+      .then(runYupValidators)
+      .then(parsed => {
+        const savePromises = parsed.map(async p => {
+          const prevModel = await Model.findOne(
+            {
+              name: p.name,
+            },
+            {
+              _id: false,
+              __v: false,
+            }, //omit mongoose generated fields
+          );
+          if (prevModel) {
+            if (overwrite && !isEqual(prevModel._doc, p)) {
+              return new Promise((resolve, reject) => {
+                Model.findOneAndUpdate(
+                  {
+                    name: p.name,
+                  },
+                  p,
+                  {
+                    upsert: true,
+                    new: true,
+                    runValidators: true,
+                  },
+                )
+                  .then(() => resolve({ status: 'updated', doc: p.name }))
+                  .catch(error =>
+                    reject({
+                      message: `An unexpected error occurred while updating model: ${
+                        p.name
+                      }, Error:  ${error}`,
+                    }),
+                  );
+              });
+            }
+            return new Promise(resolve => resolve({ status: 'ignored', doc: p.name })); //no fields modified, do nothing
+          } else {
+            return new Promise((resolve, reject) => {
+              const newModel = new Model(p);
+              newModel
+                .save()
+                .then(() => resolve({ status: 'created', doc: p.name }))
+                .catch(error =>
+                  reject({
+                    message: `An unexpected error occurred while creating model: ${
+                      p.name
+                    }, Error:  ${error}`,
+                  }),
+                );
+            });
+          }
+        });
+
+        return Promise.all(savePromises)
+          .then(saveResults =>
+            res.json({
+              result: saveResults.reduce(
+                (finalResponse, saveResult) => {
+                  const { status, doc } = saveResult;
+                  finalResponse[status].push(doc);
+                  return finalResponse;
+                },
+                { ignored: [], updated: [], created: [] },
+              ),
+            }),
+          )
+          .catch(error => {
+            throw error;
+          });
+      })
+      .catch(error => {
+        throw error;
+      });
+  } catch (error) {
+    res.status(500).json({ message: `An unexpected error occurred: ${error}` });
+  }
+}
