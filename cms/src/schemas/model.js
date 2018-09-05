@@ -2,8 +2,12 @@ import mongoose from 'mongoose';
 import { modelStatus } from './constants';
 
 const FilesSchema = new mongoose.Schema({
-  name: { type: String },
-  type: { type: String },
+  name: { type: String, es_indexed: true },
+  type: { type: String, es_indexed: true },
+  scale_bar_length: { type: String, es_indexed: true },
+  magnification: { type: Number, es_indexed: true },
+  passage_number: { type: Number, es_indexed: true },
+  marked_for_deletion: { type: Boolean, es_index: true, default: false },
 });
 
 const VariantExpression = new mongoose.Schema({

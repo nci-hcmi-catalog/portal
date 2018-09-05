@@ -10,7 +10,7 @@ import morgan from 'morgan';
 
 import { data_sync_router } from './routes/sync-data';
 import { imagesRouter } from './routes';
-import { validateYup, preModelDelete, postUpdate } from './hooks';
+import { preUpdate, validateYup, preModelDelete, postUpdate } from './hooks';
 import Model from './schemas/model';
 
 const port = process.env.PORT || 8080;
@@ -33,7 +33,7 @@ app.use(morgan('combined'));
 // configure endpoints
 restify.serve(router, Model, {
   preCreate: validateYup,
-  preUpdate: validateYup,
+  preUpdate,
   postUpdate: postUpdate,
   preDelete: preModelDelete,
   idProperty: 'name',

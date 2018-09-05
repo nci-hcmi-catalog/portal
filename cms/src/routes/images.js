@@ -69,23 +69,37 @@ imagesRouter.get('/:id', async (req, res) => {
   }
 });
 
+export const deleteImage = async id => {
+  try {
+    const ObjectId = mongoose.Types.ObjectId;
+    const imageId = new ObjectId(id);
+
+    try {
+      await bucket.delete(imageId);
+      return {
+        code: 200,
+        msg: `image with id ${id} deleted`,
+      };
+    } catch (e) {
+      return {
+        code: 500,
+        msg: `error removing image with id ${id}`,
+      };
+    }
+  } catch (err) {
+    return {
+      code: 400,
+      msg: `image with id ${id} not found`,
+    };
+  }
+};
+
 imagesRouter.delete('/:id', async (req, res) => {
   const {
     params: { id },
   } = req;
-  try {
-    const ObjectId = mongoose.Types.ObjectId;
-    const imageId = new ObjectId(req.params.id);
-
-    try {
-      await bucket.delete(imageId);
-      res.status(200).json({ success: `image with id ${id} deleted` });
-    } catch (e) {
-      res.status(500).json({ error: `error removing image with id ${id}` });
-    }
-  } catch (err) {
-    return res.status(400).json({ error: `image with id ${id} not found` });
-  }
+  const result = await deleteImage(id);
+  return res.status(result.code || 400).json({ message: result.msg });
 });
 
 export default imagesRouter;
