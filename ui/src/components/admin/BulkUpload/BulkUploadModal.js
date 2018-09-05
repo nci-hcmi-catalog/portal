@@ -1,8 +1,6 @@
 import React from 'react';
 import Component from 'react-component-component';
 
-import config from '../config';
-import { get } from '../services/Fetcher';
 import { ModalStateContext } from 'providers/ModalState';
 
 import BulkUploadInput from './BulkUploadInput';
@@ -10,33 +8,8 @@ import BulkUploadControls from './BulkUploadControls';
 
 import { ModalWrapper, Header, Title, CloseModal, Content } from 'theme/adminModalStyles';
 
-const getSheetId = sheetURL => {
-  // example sheeturl:
-  // https://docs.google.com/spreadsheets/d/18ZWXfsadfasdfP8NV5g_flmEhBkXgsKEJT6y9
-  // i Ht0X/edit#gid=0
-  let sheetUrlParts = `${sheetURL}/`.match(/(\/d\/)(.*?)(\/)/g) || [];
-  // use replace because javascript doesnt have positive lookahead ?<=
-  return sheetUrlParts.length > 0 ? sheetUrlParts[0].replace('/d/', '').replace('/', '') : '';
-};
-const uploadGoogleSheet = async (sheetURL, overwrite) => {
-  const sheetID = getSheetId(sheetURL);
-  const uploadURL =
-    config.urls.cmsBase + `/sync-mongo/${sheetID}/Real Data Collection?overwrite=${overwrite}`;
-  const gapi = global.gapi;
-  // TODO: this assumes user is already logged in - create a prompt to let user
-  // know to login if not already logged in
-  const currentUser = gapi.auth2.getAuthInstance().currentUser.get();
-  const googleAuthResponse = currentUser.getAuthResponse();
-  return get({
-    url: uploadURL,
-    headers: {
-      Authorization: JSON.stringify(googleAuthResponse),
-    },
-  });
-};
-
 //TODO: uploading animation and stream based upload response
-const UploadModal = ({ type, ...props }) => (
+const UploadModal = ({ type, onUpload, ...props }) => (
   <ModalStateContext.Consumer>
     {modalState => (
       <Component
@@ -50,7 +23,7 @@ const UploadModal = ({ type, ...props }) => (
         didUpdate={async ({ state, setState }) => {
           try {
             if (state.uploadingGoogleSheet) {
-              const uploadSheetResult = await uploadGoogleSheet(state.sheetsURL, state.overwrite);
+              const uploadSheetResult = await onUpload(state.sheetsURL, state.overwrite);
               setState({
                 uploadingGoogleSheet: false,
                 selectedTab: 1,
