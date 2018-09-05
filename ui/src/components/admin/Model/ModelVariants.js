@@ -1,7 +1,11 @@
 import React from 'react';
 import Component from 'react-component-component';
 
+import config from '../config';
+import { get } from '../services/Fetcher';
+import { getSheetObject } from '../helpers';
 import { ModalStateContext } from 'providers/ModalState';
+
 import BulkUploader from '../BulkUpload';
 import Toolbar from '../AdminTable/data-driven/Toolbar';
 import DataTable from '../AdminTable/data-driven/DataTable';
@@ -13,6 +17,27 @@ import { AdminContainer, AdminHeader, AdminHeaderBlock } from 'theme/adminStyles
 import { Pill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
+
+const getSheetData = async sheetURL => {
+  const { spreadsheetId, sheetId } = getSheetObject(sheetURL);
+  const uploadURL = config.urls.cmsBase + `/sheets-data/${spreadsheetId}/${sheetId}}`;
+  const gapi = global.gapi;
+  // TODO: this assumes user is already logged in - create a prompt to let user
+  // know to login if not already logged in
+  const currentUser = gapi.auth2.getAuthInstance().currentUser.get();
+  const googleAuthResponse = currentUser.getAuthResponse();
+
+  const response = await get({
+    url: uploadURL,
+    headers: {
+      Authorization: JSON.stringify(googleAuthResponse),
+    },
+  });
+
+  console.log(response);
+
+  return response;
+};
 
 export default ({ data: { variants } }) => {
   return (
@@ -46,7 +71,7 @@ export default ({ data: { variants } }) => {
                       marginRight="10px"
                       onClick={() =>
                         modalState.setModalState({
-                          component: <BulkUploader type={'variant'} />,
+                          component: <BulkUploader type={'variant'} onUpload={getSheetData} />,
                           shouldCloseOnOverlayClick: true,
                           styles: AdminModalStyle,
                         })

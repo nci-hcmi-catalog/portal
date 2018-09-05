@@ -3,7 +3,7 @@ require('dotenv').config();
 const readline = require('readline');
 const google = require('googleapis').google;
 const OAuth2Client = google.auth.OAuth2;
-const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
+const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 const TOKEN_PATH = 'token.json';
 
 authorize(() => console.log(`authorized`));

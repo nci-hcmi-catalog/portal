@@ -13,7 +13,7 @@ export const googleSDK = () => {
       gapi.auth2
         .init({
           client_id: googleAppId,
-          scope: 'profile email https://www.googleapis.com/auth/spreadsheets.readonly',
+          scope: 'profile email https://www.googleapis.com/auth/spreadsheets',
         })
         .then(x => resolve(x))
         .catch(err => reject(err));

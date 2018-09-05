@@ -14,8 +14,8 @@ import {
 
 export const data_sync_router = express.Router();
 
-data_sync_router.get('/sheets-data/:sheetId/:tabName', async (req, res) => {
-  const { sheetId, tabName } = req.params;
+data_sync_router.get('/sheets-data/:spreadsheetId/:sheetId', async (req, res) => {
+  const { spreadsheetId, sheetId } = req.params;
   try {
     const {
       headers: { authorization },
@@ -23,7 +23,7 @@ data_sync_router.get('/sheets-data/:sheetId/:tabName', async (req, res) => {
     //TODO: error handling if auth is not passed
     const authClient = getAuthClient(authorization);
 
-    getSheetData({ authClient, sheetId, tabName })
+    getSheetData({ authClient, spreadsheetId, sheetId })
       .then(data => res.json(data))
       .catch(error => {
         throw error;
@@ -35,10 +35,10 @@ data_sync_router.get('/sheets-data/:sheetId/:tabName', async (req, res) => {
   }
 });
 
-data_sync_router.get('/wrangle-cde/:sheetId/:tabName', async (req, res) => {
+data_sync_router.get('/wrangle-cde/:spreadsheetId/:sheetId', async (req, res) => {
   const authClient = getAuthClient();
-  const { sheetId, tabName } = req.params;
-  getSheetData({ authClient, sheetId, tabName })
+  const { spreadsheetId, sheetId } = req.params;
+  getSheetData({ authClient, spreadsheetId, sheetId })
     .then(data => {
       const transformed = Object.entries(toExcelRowNumber).reduce((acc, [type, rowNumber]) => {
         return {
@@ -56,7 +56,9 @@ data_sync_router.get('/wrangle-cde/:sheetId/:tabName', async (req, res) => {
       return res.json(transformed);
     })
     .catch(error =>
-      res.json({ error: `error reading or wrangling sheet ID ${sheetId}, ${error}` }),
+      res.json({
+        error: `error reading or wrangling spreadsheet ID ${spreadsheetId} with sheet ID ${sheetId}, ${error}`,
+      }),
     );
 });
 
@@ -100,18 +102,18 @@ export const runYupValidators = parsed => {
 };
 const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
-data_sync_router.get('/sync-mongo/:sheetId/:tabName', async (req, res) => {
+data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => {
   try {
     const {
       headers: { authorization },
     } = req;
     //TODO: error handling if auth is not passed
     const authClient = getAuthClient(authorization);
-    const { sheetId, tabName } = req.params;
+    const { spreadsheetId, sheetId } = req.params;
     let { overwrite } = req.query;
     overwrite = overwrite || false;
     overwrite = normalizeOption(overwrite);
-    getSheetData({ authClient, sheetId, tabName })
+    getSheetData({ authClient, spreadsheetId, sheetId })
       .then(data => {
         const parsed = data
           .filter(({ name }) => name)

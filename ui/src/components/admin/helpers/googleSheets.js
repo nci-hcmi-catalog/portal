@@ -8,7 +8,7 @@ export const getSheetObject = sheetURL => {
   const sheetUrlParts = regExp.exec(sheetURL);
   return {
     fullUrl: sheetUrlParts[0] || '',
-    id: sheetUrlParts[1] || '',
-    tabId: sheetUrlParts[2] || '',
+    spreadsheetId: sheetUrlParts[1] || '',
+    sheetId: sheetUrlParts[2] || '',
   };
 };

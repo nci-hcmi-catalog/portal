@@ -18,9 +18,9 @@ import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 
 const uploadModelsFromSheet = async (sheetURL, overwrite) => {
-  const sheet = getSheetObject(sheetURL);
+  const { spreadsheetId, sheetId } = getSheetObject(sheetURL);
   const uploadURL =
-    config.urls.cmsBase + `/sync-mongo/${sheet.id}/Real Data Collection?overwrite=${overwrite}`;
+    config.urls.cmsBase + `/sync-mongo/${spreadsheetId}/${sheetId}?overwrite=${overwrite}`;
   const gapi = global.gapi;
   // TODO: this assumes user is already logged in - create a prompt to let user
   // know to login if not already logged in

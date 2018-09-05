@@ -16,13 +16,21 @@ export const getAuthClient = userToken => {
   return oAuth2Client;
 };
 
-export const getSheetData = ({ authClient, sheetId, tabName }) => {
+export const getSheetData = ({ authClient, spreadsheetId, sheetId }) => {
   const sheets = google.sheets({ version: 'v4', auth: authClient });
   return new Promise((resolve, reject) => {
-    sheets.spreadsheets.values.get(
+    sheets.spreadsheets.values.batchGetByDataFilter(
       {
-        spreadsheetId: sheetId,
-        range: `${tabName}!A1:AC`,
+        spreadsheetId,
+        resource: {
+          dataFilters: [
+            {
+              gridRange: {
+                sheetId: parseInt(sheetId, 10) || 0,
+              },
+            },
+          ],
+        },
       },
       (err, resp) => {
         if (err) {
@@ -30,7 +38,7 @@ export const getSheetData = ({ authClient, sheetId, tabName }) => {
           return;
         }
         const { data } = resp;
-        const rows = data.values;
+        const rows = data.valueRanges[0].valueRange.values;
         const asObjects = rows.slice(1).map(r =>
           rows[0].reduce(
             (acc, heading, i) => ({
