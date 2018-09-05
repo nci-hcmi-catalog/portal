@@ -23,7 +23,48 @@ const {
   fonts: { libreFranklin, openSans },
 } = base;
 
-const ImagePreview = ({ file, queuedForDelete, onDelete }) => (
+const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) => (
+  <Formik
+    initialValues={{
+      name: file.name || '',
+      scale_bar_length: file.scale_bar_length || 0,
+      magnification: file.magnification || 0,
+      passage_number: file.passage_number || 0,
+    }}
+    onSubmit={values => {
+      onMetaDataSave({ fileId: file._id, metaData: values });
+      setPreviewState({ editing: !editing });
+    }}
+    render={({ handleSubmit }) => (
+      <ModelForm>
+        <ul>
+          <li>
+            {!editing ? <b>{file.name}</b> : <b>File name:</b>}
+            {editing && <Field name="name" component={FormInput} />}
+          </li>
+          <li>
+            Scale-bar length: {!editing && file.scale_bar_length}
+            {editing && (
+              <Field name="scale_bar_length" type="number" step={1} component={FormInput} />
+            )}
+          </li>
+          <li>
+            Magnification: {!editing && file.magnification}
+            {editing && <Field name="magnification" type="number" step={1} component={FormInput} />}
+          </li>
+          <li>
+            Passage Number: {!editing && file.passage_number}
+            {editing && (
+              <Field name="passage_number" type="number" step={1} component={FormInput} />
+            )}
+          </li>
+        </ul>
+        {editing && <NavPill onClick={handleSubmit}>Save</NavPill>}
+      </ModelForm>
+    )}
+  />
+);
+const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
   <Component initialState={{ editing: false }}>
     {({ state: { editing }, setState }) => (
       <Col
@@ -112,40 +153,11 @@ const ImagePreview = ({ file, queuedForDelete, onDelete }) => (
             }
           `}
         >
-          <Formik
-            initialValues={{ name: '', scale_bar_length: 1, magnification: 0, passage_number: 0 }}
-            onSubmit={(values, actions) => {
-              console.log(values);
-            }}
-            render={({ values }) => (
-              <ModelForm>
-                <ul>
-                  <li>
-                    <b>{file.name}</b>
-                    {editing && <Field name="name" component={FormInput} />}
-                  </li>
-                  <li>
-                    Scale-bar length:
-                    {editing && (
-                      <Field name="scale_bar_length" type="number" step={1} component={FormInput} />
-                    )}
-                    {file.scale_bar_length}
-                  </li>
-                  <li>
-                    Magnification: {file.magnification}
-                    {editing && (
-                      <Field name="magnification" type="number" step={1} component={FormInput} />
-                    )}
-                  </li>
-                  <li>
-                    Passage Number: {file.passage_number}
-                    {editing && (
-                      <Field name="passage_number" type="number" step={1} component={FormInput} />
-                    )}
-                  </li>
-                </ul>
-              </ModelForm>
-            )}
+          <ImageMetaDataForm
+            file={file}
+            editing={editing}
+            setPreviewState={setState}
+            onMetaDataSave={onMetaDataSave}
           />
           <div
             css={`
@@ -160,7 +172,7 @@ const ImagePreview = ({ file, queuedForDelete, onDelete }) => (
   </Component>
 );
 
-const ImageGallery = ({ acceptedFiles, toDeleteFiles, onDelete }) => (
+const ImageGallery = ({ acceptedFiles, toDeleteFiles, onDelete, onMetaDataSave }) => (
   <>
     {acceptedFiles.map(file => (
       <ImagePreview
@@ -168,6 +180,7 @@ const ImageGallery = ({ acceptedFiles, toDeleteFiles, onDelete }) => (
         key={file._id}
         file={file}
         onDelete={onDelete}
+        onMetaDataSave={onMetaDataSave}
       />
     ))}
   </>
@@ -277,6 +290,12 @@ export default () => (
               <ImageGallery
                 acceptedFiles={files}
                 toDeleteFiles={files.filter(file => file.marked_for_deletion)}
+                onMetaDataSave={({ fileId, metaData }) => {
+                  saveForm({
+                    values,
+                    images: files.map(f => (f._id === fileId ? { ...f, ...metaData } : f)),
+                  });
+                }}
                 onDelete={toDeleteFileId => {
                   const toDeleteFile = files.find(f => f._id === toDeleteFileId);
                   console.log(toDeleteFile);

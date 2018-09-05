@@ -111,7 +111,6 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
         touched: {},
         errors: {},
       },
-      imagesToDelete: [],
       notifications: [],
     }}
     didMount={async ({ state, setState }) => {
@@ -219,8 +218,6 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
               const modelDataResponse = await saveModel(baseUrl, data, isUpdate);
 
-              console.log(modelDataResponse);
-              console.log(state.data);
               await setState(() => ({
                 ...state,
                 // Set form to unsavable status (will release on next form interaction)
@@ -278,17 +275,20 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             try {
               const {
                 form: { isUpdate },
+                data: {
+                  response: { files = [] },
+                },
               } = state;
 
               const { name } = values;
 
               // Publishing will always trigger an update
               // so we pass status in with our save
-              console.log(values);
               const modelDataResponse = await saveModel(
                 baseUrl,
                 {
                   ...values,
+                  files,
                   status: computeModelStatus(values.status, 'publish'),
                 },
                 isUpdate,
@@ -443,12 +443,6 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               ...state,
               notifications: [],
             }),
-          setImagesToDelete: (newFilesToDelete = []) => {
-            setState({
-              ...state,
-              imagesToDelete: newFilesToDelete,
-            });
-          },
           uploadImages: async files => {
             const uploaded = await files.reduce(async (accPromise, file) => {
               let acc = await accPromise;
