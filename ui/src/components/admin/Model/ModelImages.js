@@ -26,21 +26,21 @@ const {
 const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) => (
   <Formik
     initialValues={{
-      name: file.name || '',
+      name: file.file_name || '',
       scale_bar_length: file.scale_bar_length || 0,
       magnification: file.magnification || 0,
       passage_number: file.passage_number || 0,
     }}
     onSubmit={values => {
-      onMetaDataSave({ fileId: file._id, metaData: values });
+      onMetaDataSave({ fileId: file.id, metaData: values });
       setPreviewState({ editing: !editing });
     }}
     render={({ handleSubmit }) => (
       <ModelForm>
         <ul>
           <li>
-            {!editing ? <b>{file.name}</b> : <b>File name:</b>}
-            {editing && <Field name="name" component={FormInput} />}
+            {!editing ? <b>{file.file_name}</b> : <b>File name:</b>}
+            {editing && <Field name="file_name" component={FormInput} />}
           </li>
           <li>
             Scale-bar length: {!editing && file.scale_bar_length}
@@ -82,8 +82,8 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
         `}
       >
         <img
-          src={file.preview ? file.preview : `${config.urls.cmsBase}/images/${file._id}`}
-          alt={`File: ${file.name}`}
+          src={file.preview ? file.preview : `${config.urls.cmsBase}/images/${file.id}`}
+          alt={`File: ${file.file_name}`}
           height="155"
           width="250"
         />
@@ -124,7 +124,7 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
               width: 32px;
               height: 32px;
             `}
-            onClick={() => onDelete(file._id)}
+            onClick={() => onDelete(file.id)}
           >
             {queuedForDelete ? (
               <PlusIcon
@@ -174,10 +174,11 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
 
 const ImageGallery = ({ acceptedFiles, toDeleteFiles, onDelete, onMetaDataSave }) => (
   <>
+    {console.log(acceptedFiles)}
     {acceptedFiles.map(file => (
       <ImagePreview
-        queuedForDelete={toDeleteFiles.map(({ _id }) => _id).includes(file._id)}
-        key={file._id}
+        queuedForDelete={toDeleteFiles.map(({ id }) => id).includes(file.id)}
+        key={file.id}
         file={file}
         onDelete={onDelete}
         onMetaDataSave={onMetaDataSave}
@@ -258,10 +259,7 @@ export default () => (
               justify-content: space-between;
             `}
           >
-            <div>
-              Upload images in jpeg, tiff, png or svg formats.
-              {!!files.length && ' Drag and drop images to reorder them within the gallery.'}
-            </div>
+            <div>Upload images in jpeg, tiff, png or svg formats.</div>
             {!!files.length && (
               <Pill
                 css={`
@@ -293,16 +291,16 @@ export default () => (
                 onMetaDataSave={({ fileId, metaData }) => {
                   saveForm({
                     values,
-                    images: files.map(f => (f._id === fileId ? { ...f, ...metaData } : f)),
+                    images: files.map(f => (f.id === fileId ? { ...f, ...metaData } : f)),
                   });
                 }}
                 onDelete={toDeleteFileId => {
-                  const toDeleteFile = files.find(f => f._id === toDeleteFileId);
+                  const toDeleteFile = files.find(f => f.id === toDeleteFileId);
                   console.log(toDeleteFile);
                   saveForm({
                     values,
                     images: [
-                      ...files.filter(f => f._id !== toDeleteFileId),
+                      ...files.filter(f => f.id !== toDeleteFileId),
                       {
                         ...toDeleteFile,
                         marked_for_deletion: !toDeleteFile.marked_for_deletion,
