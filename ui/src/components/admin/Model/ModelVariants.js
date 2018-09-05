@@ -29,9 +29,10 @@ export default ({ data: { variants } }) => {
       {({ state }) => {
         const type = 'Variants';
 
-        const onFilterValueChange = () => console.log('hiiii');
-        const onPageChange = () => console.log('byyeee');
-        const onPageSizeChange = () => console.log('ookkkiii');
+        // Need to add these (potentially in the imported component)
+        const onFilterValueChange = () => console.log('onFilterValueChange');
+        const onPageChange = () => console.log('onPageChange');
+        const onPageSizeChange = () => console.log('onPageSizeChange');
 
         return (
           <AdminContainer>
