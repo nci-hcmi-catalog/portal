@@ -1,10 +1,10 @@
 import express from 'express';
-import { isEqual } from 'lodash';
+import { unionWith, uniqWith, isEqual } from 'lodash';
 
 import { toExcelHeaders, toExcelRowNumber } from '../schemas/constants';
 import Model, { ModelSchema } from '../schemas/model';
-import Variant, { VariantSchema } from '../schemas/variant';
 import { saveValidation } from '../validation/model';
+import { modelVariantUploadSchema } from '../validation/variant';
 
 import {
   getSheetData,
@@ -213,7 +213,7 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
     .catch(error => res.status(500).json({ error }));
 });
 
-data_sync_router.get('/attatch-variants/:spreadsheetId/:sheetId', async (req, res) => {
+data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res) => {
   const { spreadsheetId, sheetId } = req.params;
 
   let { overwrite } = req.query;
@@ -222,81 +222,101 @@ data_sync_router.get('/attatch-variants/:spreadsheetId/:sheetId', async (req, re
 
   ensureAuth(req)
     .then(authClient => getSheetData({ authClient, spreadsheetId, sheetId }))
-    .then(data => {
-      const parsed = data
-        .filter(({ name }) => name)
-        .map(d =>
-          Object.keys(d)
-            .filter(key => ModelSchema.paths[key])
-            .reduce(
-              (acc, key) => ({
-                ...acc,
-                [key]: typeToParser[ModelSchema.paths[key].instance](NAtoNull(d[key])),
-              }),
-              {},
-            ),
-        )
-        .filter(Boolean)
-        .map(d => removeNullKeys(d));
-      return parsed;
-    })
-    .then(parsed => runYupValidators(saveValidation, parsed))
-    .then(parsed => {
-      // TODO
-      // 1. Further parse spreadsheet into list of lists (Models: [Variants])
-      // 2. Attatch the sub-document(s) to the list parent model
-      // 3. Update status (get status processing method from front end code)
-      // 4. Return success message with total count of models updated and/or errors
-      // Variant VariantSchema
-      const savePromises = parsed.map(async p => {
-        const prevModel = await Model.findOne(
+    .then(data =>
+      data.map(modelVariantUpload => {
+        // Remove all null / undefined / empty
+        Object.keys(modelVariantUpload).forEach(
+          key => !modelVariantUpload[key] && delete modelVariantUpload[key],
+        );
+        return modelVariantUpload;
+      }),
+    )
+    .then(data => runYupValidators(modelVariantUploadSchema, data))
+    .then(validatedData => {
+      // Sort the modelVariant relations by model_name
+      const mappedModelVariants = validatedData.reduce((acc, curr) => {
+        const transform = input => ({
+          variant: input.variant,
+          assessmentType: input.assessment_type || '',
+          expressionLevel: input.expression_level || '',
+        });
+
+        if (curr.model_name in acc) {
+          acc[curr.model_name].push(transform(curr));
+        } else {
+          acc[curr.model_name] = [transform(curr)];
+        }
+
+        return acc;
+      }, {});
+
+      const savePromises = Object.keys(mappedModelVariants).map(async modelName => {
+        // Upload set for the model we are operating on
+        const uploadedModelVariants = uniqWith(mappedModelVariants[modelName], isEqual);
+
+        // Get the existing model
+        const model = await Model.findOne(
           {
-            name: p.name,
+            name: modelName,
           },
           {
             _id: false,
             __v: false,
           }, //omit mongoose generated fields
         );
-        if (prevModel) {
-          if (overwrite && !isEqual(prevModel._doc, p)) {
-            return new Promise((resolve, reject) => {
-              Model.findOneAndUpdate(
-                {
-                  name: p.name,
-                },
-                p,
-                {
-                  upsert: true,
-                  new: true,
-                  runValidators: true,
-                },
-              )
-                .then(() => resolve({ status: 'updated', doc: p.name }))
-                .catch(error =>
-                  reject({
-                    message: `An unexpected error occurred while updating model: ${
-                      p.name
-                    }, Error:  ${error}`,
-                  }),
-                );
-            });
-          }
-          return new Promise(resolve => resolve({ status: 'ignored', doc: p.name })); //no fields modified, do nothing
-        } else {
+
+        // Get existing model variants (if they exists)
+        const existingModelVariants = model.variants.map(
+          ({ variant, assessmentType = '' }) => `${variant}-${assessmentType}`,
+        );
+
+        // See if any updated are allowed
+        const allowedUpdates = uploadedModelVariants.filter(
+          ({ variant, assessmentType = '' }) =>
+            overwrite || existingModelVariants.indexOf(`${variant}-${assessmentType}`) === -1,
+        );
+
+        if (allowedUpdates.length > 0) {
+          const variants = unionWith(
+            model.variants,
+            allowedUpdates,
+            (arrVal, othVal) =>
+              // Need better comparator (currently not working)
+              arrVal.variant !== othVal.variant && arrVal.assessmentType !== othVal.assessmentType,
+          );
+
+          console.log('variants: ', variants);
+
           return new Promise((resolve, reject) => {
-            const newModel = new Model(p);
-            newModel
-              .save()
-              .then(() => resolve({ status: 'created', doc: p.name }))
+            Model.findOneAndUpdate(
+              {
+                name: modelName,
+              },
+              {
+                $set: { variants },
+              },
+              {
+                upsert: true,
+                new: true,
+                runValidators: true,
+              },
+            )
+              .then(() =>
+                resolve({
+                  status: existingModelVariants.length > 0 ? 'updated' : 'created',
+                  doc: model.name,
+                }),
+              )
               .catch(error =>
                 reject({
-                  message: `An unexpected error occurred while creating model: ${
-                    p.name
+                  message: `An unexpected error occurred while updating model: ${
+                    model.name
                   }, Error:  ${error}`,
                 }),
               );
           });
+        } else {
+          return new Promise(resolve => resolve({ status: 'ignored', doc: model.name }));
         }
       });
 
@@ -314,6 +334,7 @@ data_sync_router.get('/attatch-variants/:spreadsheetId/:sheetId', async (req, re
           }),
         )
         .catch(error => {
+          console.log('ERROR', error);
           throw error;
         });
     })

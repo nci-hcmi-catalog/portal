@@ -11,7 +11,7 @@ const FilesSchema = new mongoose.Schema({
 });
 
 const VariantExpression = new mongoose.Schema({
-  variant: [{ type: String, ref: 'Variant' }],
+  variant: { type: String, ref: 'Variant' },
   assessmentType: { type: String },
   expressionLevel: { type: String },
 });

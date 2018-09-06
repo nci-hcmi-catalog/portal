@@ -1,7 +1,7 @@
 export const schemaArr = [
   {
-    displayName: 'Name',
-    accessor: 'name',
+    displayName: 'Variant',
+    accessor: 'variant',
   },
   {
     displayName: 'Assessment Type',

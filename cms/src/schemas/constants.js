@@ -935,7 +935,13 @@ export const therapy = [
   'none',
 ];
 
-export const variantNames = ['testOne', 'testTwo', 'testThree'];
+export const variantNames = [
+  'testOne',
+  'testTwo',
+  'testThree',
+  'CD99 Positive',
+  'EWSR/FLI1 fusion',
+];
 
 export const variantCategories = ['categoryOne', 'categoryTwo', 'categoryThree'];
 

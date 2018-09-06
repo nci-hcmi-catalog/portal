@@ -9,16 +9,21 @@ import {
 
 const { string, array, object } = yup;
 
-export const modelVariantSchema = object().shape({
-  name: string()
+export const modelVariantUploadSchema = object().shape({
+  model_name: string().required(),
+  variant: string()
     .oneOf(variantNames)
     .required(),
-  assessmentType: string()
-    .oneOf(variantAssessmentType)
+  assesment_type: string().oneOf(variantAssessmentType),
+  expression_level: string().oneOf(variantExpressionLevel),
+});
+
+export const modelVariantSchema = object().shape({
+  variant: string()
+    .oneOf(variantNames)
     .required(),
-  expressionLevel: string()
-    .oneOf(variantExpressionLevel)
-    .required(),
+  assessmentType: string().oneOf(variantAssessmentType),
+  expressionLevel: string().oneOf(variantExpressionLevel),
 });
 
 export default object().shape({

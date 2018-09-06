@@ -3,7 +3,7 @@ import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
 import { schemaArr } from '../schema/modelVariant';
 import { ActionPill, Actions } from '../../../theme/adminTableStyles';
 
-const selectedColumns = ['name', 'assessmentType', 'expressionLevel'];
+const selectedColumns = ['variant', 'assessmentType', 'expressionLevel'];
 
 export const columns = schemaArr
   .filter(field => selectedColumns.indexOf(field.accessor) !== -1)
@@ -15,7 +15,7 @@ export const columns = schemaArr
 const modelVariantCustomColumns = [
   {
     Header: 'Actions',
-    accessor: 'name',
+    accessor: 'actions',
     Cell: () => {
       return (
         <Actions>
@@ -35,5 +35,5 @@ const modelVariantCustomColumns = [
 ];
 
 export const ModelVariantColumns = columns
-  .filter(col => ['name', 'assessmentType', 'expressionLevel'].includes(col.accessor))
+  .filter(col => ['variant', 'assessmentType', 'expressionLevel'].includes(col.accessor))
   .concat(modelVariantCustomColumns);

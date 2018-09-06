@@ -18,9 +18,9 @@ import { Pill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 
-const getSheetData = async sheetURL => {
+const getSheetData = async (sheetURL, overwrite) => {
   const { spreadsheetId, sheetId } = getSheetObject(sheetURL);
-  const uploadURL = config.urls.cmsBase + `/sheets-data/${spreadsheetId}/${sheetId}}`;
+  const uploadURL = config.urls.cmsBase + `/attach-variants/${spreadsheetId}/${sheetId}}?overwrite=${overwrite}`;
   const gapi = global.gapi;
   // TODO: this assumes user is already logged in - create a prompt to let user
   // know to login if not already logged in
@@ -33,8 +33,6 @@ const getSheetData = async sheetURL => {
       Authorization: JSON.stringify(googleAuthResponse),
     },
   });
-
-  console.log(response);
 
   return response;
 };
