@@ -19,6 +19,7 @@ import VariantTables from 'components/VariantTables';
 import ExternalLink from 'components/ExternalLink';
 import ShareButton from 'components/ShareButton';
 import { SelectedModelsContext } from 'providers/SelectedModels';
+import config from 'components/admin/config';
 
 const HorizontalTable = ({
   fieldNames,
@@ -246,6 +247,7 @@ export default ({ modelName }) => (
                     >
                       <img
                         src={modelImages[0].file_name}
+                        src={`${config.urls.cmsBase}/images/${modelImages[0].id}`}
                         alt={`File name: ${modelImages[0].file_name}`}
                         css={`
                           display: block;
@@ -262,7 +264,7 @@ export default ({ modelName }) => (
                           padding: 20px;
                         `}
                       >
-                        <span className="image-caption">image description</span>
+                        <span className="image-caption">modelImages[0].file_type</span>
                       </div>
                     </Col>
                   </Col>

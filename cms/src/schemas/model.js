@@ -2,8 +2,9 @@ import mongoose from 'mongoose';
 import { modelStatus } from './constants';
 
 const FilesSchema = new mongoose.Schema({
-  name: { type: String, es_indexed: true },
-  type: { type: String, es_indexed: true },
+  id: { type: String, es_indexed: true },
+  file_name: { type: String, es_indexed: true },
+  file_type: { type: String, es_indexed: true },
   scale_bar_length: { type: String, es_indexed: true },
   magnification: { type: Number, es_indexed: true },
   passage_number: { type: Number, es_indexed: true },

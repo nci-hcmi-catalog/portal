@@ -226,7 +226,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
               const data = {
                 ...values,
-                files: uniqBy(images, image => image._id),
+                files: uniqBy(images, image => image.id),
                 status: computeModelStatus(values.status, 'save'),
               };
 
@@ -554,7 +554,10 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               });
               if (response.status >= 200 && response.status < 300) {
                 window.URL.revokeObjectURL(file.preview);
-                return [...acc, { name: file.name, type: file.type, _id: response.data.id }];
+                return [
+                  ...acc,
+                  { file_name: file.name, file_type: file.type, id: response.data.id },
+                ];
               }
               return acc;
             }, Promise.resolve([]));
