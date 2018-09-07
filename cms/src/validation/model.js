@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { arrItemIsOneOf } from './helpers';
 import {
   primarySites,
   clinicalTumorDiagnosis,
@@ -13,6 +14,7 @@ import {
   vitalStatus,
   therapy,
 } from '../schemas/constants';
+import { modelVariantSchema } from './variant';
 
 const { string, number, array, object, date, boolean } = yup;
 
@@ -24,16 +26,6 @@ const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis, fie
         v.toLowerCase(),
       ),
     );
-
-const arrItemIsOneOf = options => values => {
-  return values.reduce((acc, curr) => {
-    if (acc === false) {
-      return false;
-    } else {
-      return options.includes(curr);
-    }
-  }, true);
-};
 
 const nameValidation = /HCM-\w{4}-\d{4}.\w\d{2}/;
 
@@ -133,6 +125,9 @@ export default object().shape({
   source_sequence_url: string().url(),
   updatedBy: string(),
   status: string(),
+  variants: array()
+    .of(modelVariantSchema)
+    .ensure(),
 });
 
 // In order to save to ES, we do a minimal validation,
@@ -209,4 +204,7 @@ export const saveValidation = object().shape({
   source_sequence_url: string(),
   updatedBy: string(),
   status: string(),
+  variants: array()
+    .of(modelVariantSchema)
+    .ensure(),
 });

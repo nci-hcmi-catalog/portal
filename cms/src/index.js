@@ -17,6 +17,13 @@ const port = process.env.PORT || 8080;
 const app = express();
 const router = express.Router();
 
+// Handle "unhandled" promise rejections
+process.on('unhandledRejection', (reason, promise) => {
+  console.log('Unhandled Rejection at:', reason.stack || reason);
+  console.log('------------------------------------------------');
+  console.log('For promise:', promise);
+});
+
 // Connect to database
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/test', {
   useNewUrlParser: true,

@@ -1,9 +1,21 @@
 import React from 'react';
-import TextInput from '@arranger/components/dist/Input';
+
+import {
+  BulkUploadContent,
+  BulkUploadContentBlock,
+  BulkUploadTemplateLink,
+  GoogleSheetsUpload,
+  GoogleSheetsLogo,
+  UploadContentHeading,
+  UploadOverwrite,
+  OverwriteWarning,
+} from 'theme/adminBulkUploadStyles';
+import { Input, RadioSelect } from 'theme/formComponentsStyles';
+
+import ExternalLinkIcon from 'icons/ExternalLinkIcon';
+import ErrorIcon from 'icons/ErrorIcon';
+import ExportIcon from 'icons/ExportIcon';
 import googleSheetsLogo from 'assets/logo-googlesheets.png';
-import { Row, Col } from 'theme/system';
-import { RadioSelect } from 'theme/formComponentsStyles';
-import { FormSelect } from '../../FormComponents';
 
 const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
@@ -22,53 +34,30 @@ const overwriteOptions = type => [
 ];
 
 export default ({ type, onSheetsURLChange, sheetsURL, overwrite, onOverwriteChange }) => (
-  <>
-    <Row alignItems="center" justifyContent="space-between">
-      <div
-        css={`
-          flex-grow: 1;
-          width: fit-content;
-        `}
-      >
-        {`Submit your ${type} data by uploading a google sheet or a CSV file`}
-      </div>
-      <a href="https://sheets.google.com">SHEET TEMPLATE</a>
-    </Row>
-    <Row alignItems="center" justifyContent="left">
-      <img
-        src={googleSheetsLogo}
-        alt="google sheets url"
-        css={`
-          height: 90px;
-          flex-grow: 0;
-        `}
-      />
-      <Col
-        css={`
-          flex-grow: 1;
-        `}
-      >
-        <div> Google Sheets URL : </div>
-        <TextInput
-          css={`
-            width: 100%;
-          `}
+  <BulkUploadContent>
+    <BulkUploadContentBlock>
+      <div>{`Submit your ${type} data by uploading a google sheet or a CSV file`}</div>
+      <BulkUploadTemplateLink href="https://sheets.google.com">
+        <ExternalLinkIcon height={10} width={10} css={'margin-right: 8px;'} />Sheet Template
+      </BulkUploadTemplateLink>
+    </BulkUploadContentBlock>
+    <BulkUploadContentBlock>
+      <GoogleSheetsUpload>
+        <h3>Google Sheets URL :</h3>
+        <Input
           type="text"
           placeholder="Google Sheets URL"
           value={sheetsURL}
           onChange={({ target: { value } }) => onSheetsURLChange(value)}
         />
-      </Col>
-    </Row>
-    <Row alignItems="center" justifyContent="space-between">
-      <div
-        css={`
-          flex-grow: 1;
-          width: fit-content;
-        `}
-      >
-        <bold
-        >{`Would you like to overwrite the system ${type}s with the data from this google sheet?`}</bold>
+      </GoogleSheetsUpload>
+      <GoogleSheetsLogo src={googleSheetsLogo} alt="google sheets logo" />
+    </BulkUploadContentBlock>
+    <BulkUploadContentBlock>
+      <UploadOverwrite>
+        <UploadContentHeading>
+          {`Would you like to overwrite the existing ${type}s with the data from this google sheet?`}
+        </UploadContentHeading>
         <RadioSelect>
           {processOptions(overwriteOptions(type)).map((option, idx) => {
             let formValue = normalizeOption(overwrite);
@@ -83,7 +72,7 @@ export default ({ type, onSheetsURLChange, sheetsURL, overwrite, onOverwriteChan
                   onChange={e => {
                     onOverwriteChange(e.currentTarget.value);
                   }}
-                  onclick={e => {
+                  onClick={e => {
                     onOverwriteChange(e.currentTarget.value);
                   }}
                 />
@@ -91,8 +80,20 @@ export default ({ type, onSheetsURLChange, sheetsURL, overwrite, onOverwriteChan
               </label>
             );
           })}
+          {normalizeOption(overwrite) && (
+            <OverwriteWarning>
+              <ErrorIcon width={24} height={20} css={'margin-right: 10px;'} fill={'#f3ae4c'} />
+              <div>
+                It is recommend that you{' '}
+                <a href="/admin">
+                  <ExportIcon width={10} height={12} css={'margin: 0 5px 0 2px'} />download a backup
+                </a>{' '}
+                of the current models before overwriting data.
+              </div>
+            </OverwriteWarning>
+          )}
         </RadioSelect>
-      </div>
-    </Row>
-  </>
+      </UploadOverwrite>
+    </BulkUploadContentBlock>
+  </BulkUploadContent>
 );

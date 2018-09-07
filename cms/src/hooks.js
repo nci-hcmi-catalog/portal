@@ -2,11 +2,11 @@ import { runYupValidators } from './routes/sync-data';
 import { indexOneToES } from './services/elastic-search/publish';
 import { unpublishOneFromES } from './services/elastic-search/unpublish';
 import { modelStatus } from './schemas/constants';
-
 import { deleteImage } from './routes/images';
+import { saveValidation } from './validation/model';
 
 export const validateYup = (req, res, next) => {
-  runYupValidators([req.body])
+  runYupValidators(saveValidation, [req.body])
     .then(() => next())
     .catch(error => {
       res.status(400).json({
@@ -26,7 +26,7 @@ export const preModelDelete = (req, res, next) => {
 };
 
 export const preUpdate = (req, res, next) => {
-  runYupValidators([req.body])
+  runYupValidators(saveValidation, [req.body])
     .then(async () => {
       const {
         body,

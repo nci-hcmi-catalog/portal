@@ -11,7 +11,6 @@ export default () => (
     <Col>
       <AdminTableToolbar {...{ type: `Models` }} />
       <EnhancedReactTable {...{ tableColumns: ModelTableColumns }} />
-      )}
     </Col>
   </AdminTableProvider>
 );

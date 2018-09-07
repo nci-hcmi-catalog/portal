@@ -6,7 +6,17 @@ import base from 'theme';
 
 const {
   fonts: { libreFranklin, openSans },
-  keyedPalette: { brandPrimary, lightPorcelain, porcelain, white, black, dustyGray },
+  keyedPalette: {
+    brandPrimary,
+    lightPorcelain,
+    porcelain,
+    white,
+    black,
+    dustyGray,
+    mineShaft,
+    oldLace,
+    casablanca,
+  },
 } = base;
 
 export const BulkUploadSubTitle = styled('div')`
@@ -94,3 +104,118 @@ export const SequentialTabTitle = ({ text, ...p }) => (
     <TabTitleText {...p}>{text}</TabTitleText>
   </TabTitleMain>
 );
+
+export const BulkUploadContent = styled('div')`
+  display: flex;
+  flex-direction: column;
+  font-family: ${openSans};
+  font-size: 16px;
+  color: ${mineShaft};
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 2;
+  letter-spacing: normal;
+  text-align: left;
+  label: bulk-upload-content;
+`;
+
+export const BulkUploadContentBlock = styled('div')`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 36px;
+  label: bulk-upload-content-block;
+
+  &:last-child {
+    margin: 0;
+  }
+`;
+
+export const BulkUploadTemplateLink = styled('a')`
+  margin-left: auto;
+  font-family: ${libreFranklin};
+  font-size: 12px;
+  font-weight: 500;
+  color: ${brandPrimary};
+  text-decoration: none;
+  text-transform: uppercase;
+  label: bulk-upload-template-link;
+`;
+
+export const GoogleSheetsUpload = styled('div')`
+  display: flex;
+  flex-direction: column;
+  color: ${black};
+  width: calc(100% - 80px);
+  label: google-sheets-upload;
+
+  h3 {
+    font-family: ${libreFranklin};
+    font-size: 13px;
+    line-height: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin: 0 0 10px;
+  }
+
+  input {
+    font-family: ${openSans};
+    font-size: 14px;
+    font-weight: normal;
+  }
+`;
+
+export const GoogleSheetsLogo = styled('img')`
+  display: block;
+  height: 59px;
+  margin-left: auto;
+  label: google-sheets-logo;
+`;
+
+export const UploadContentHeading = styled('h3')`
+  font-family: ${openSans};
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 600;
+  line-height: 1.75;
+  letter-spacing: normal;
+  color: ${mineShaft};
+  margin: 0 0 16px;
+  label: bulk-upoad-content-heading;
+`;
+
+export const UploadOverwrite = styled('div')`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  fieldset {
+    border: 0;
+    padding: 0;
+  }
+`;
+
+export const OverwriteWarning = styled('div')`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 14px;
+  border-radius: 5px;
+  background-color: ${oldLace};
+  border: solid 2px ${casablanca};
+  color: ${mineShaft};
+  font-family: ${openSans};
+  font-size: 14px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.86;
+  letter-spacing: normal;
+  margin-top: 20px;
+
+  a {
+    color: ${brandPrimary};
+    font-weight: bold;
+  }
+`;

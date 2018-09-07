@@ -10,6 +10,12 @@ const FilesSchema = new mongoose.Schema({
   marked_for_deletion: { type: Boolean, es_index: true, default: false },
 });
 
+const VariantExpression = new mongoose.Schema({
+  variant: { type: String, ref: 'Variant' },
+  assessmentType: { type: String },
+  expressionLevel: { type: String },
+});
+
 export const ModelSchema = new mongoose.Schema(
   {
     name: { type: String, es_indexed: true },
@@ -38,6 +44,7 @@ export const ModelSchema = new mongoose.Schema(
     source_model_url: { type: String, es_indexed: true },
     source_sequence_url: { type: String, es_indexed: true },
     files: { type: [FilesSchema], es_indexed: true },
+    variants: { type: [VariantExpression] },
     status: {
       type: String,
       enum: [
