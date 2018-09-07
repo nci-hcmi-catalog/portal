@@ -175,13 +175,13 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
                 );
             });
           }
-          return new Promise(resolve => resolve({ status: 'ignored', doc: p.name })); //no fields modified, do nothing
+          return new Promise(resolve => resolve({ status: 'unchanged', doc: p.name })); //no fields modified, do nothing
         } else {
           return new Promise((resolve, reject) => {
             const newModel = new Model(p);
             newModel
               .save()
-              .then(() => resolve({ status: 'created', doc: p.name }))
+              .then(() => resolve({ status: 'new', doc: p.name }))
               .catch(error =>
                 reject({
                   message: `An unexpected error occurred while creating model: ${
@@ -202,7 +202,7 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
                 finalResponse[status].push(doc);
                 return finalResponse;
               },
-              { ignored: [], updated: [], created: [] },
+              { unchanged: [], updated: [], new: [] },
             ),
           }),
         )
@@ -301,7 +301,7 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
             )
               .then(() =>
                 resolve({
-                  status: existingModelVariants.length > 0 ? 'updated' : 'created',
+                  status: existingModelVariants.length > 0 ? 'updated' : 'new',
                   doc: model.name,
                   variants: allowedUpdates,
                 }),
@@ -316,7 +316,9 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
               );
           });
         } else {
-          return new Promise(resolve => resolve({ status: 'ignored', doc: model.name }));
+          return new Promise(resolve =>
+            resolve({ status: 'unchanged', doc: model.name, variants: uploadedModelVariants }),
+          );
         }
       });
 
@@ -329,7 +331,7 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
                 finalResponse[status].push({ model: doc, variants });
                 return finalResponse;
               },
-              { ignored: [], updated: [], created: [] },
+              { unchanged: [], updated: [], new: [] },
             ),
           }),
         )

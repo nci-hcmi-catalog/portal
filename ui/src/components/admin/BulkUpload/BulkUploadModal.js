@@ -8,13 +8,11 @@ import BulkUploadControls from './BulkUploadControls';
 
 import { ModalWrapper, Header, Title, CloseModal, Content } from 'theme/adminModalStyles';
 
-//TODO: uploading animation and stream based upload response
 const UploadModal = ({ type, onUpload, ...props }) => (
   <ModalStateContext.Consumer>
     {modalState => (
       <Component
         initialState={{
-          selectedTab: 0,
           sheetsURL: '',
           uploadingGoogleSheet: false,
           uploadResults: {},
@@ -24,18 +22,24 @@ const UploadModal = ({ type, onUpload, ...props }) => (
           try {
             if (state.uploadingGoogleSheet) {
               const uploadSheetResult = await onUpload(state.sheetsURL, state.overwrite);
-              setState({
+
+              await setState({
                 uploadingGoogleSheet: false,
-                selectedTab: 1,
                 uploadResults: uploadSheetResult,
               });
+
+              // Close modal
+              modalState.setModalState({ component: null });
             }
           } catch (err) {
-            setState({ uploadingGoogleSheet: false, selectedTab: 1 });
+            await setState({ uploadingGoogleSheet: false });
+
+            // Close modal
+            modalState.setModalState({ component: null });
           }
         }}
       >
-        {({ state: { selectedTab, sheetsURL, overwrite }, setState }) => {
+        {({ state: { sheetsURL, overwrite }, setState }) => {
           const onSheetsURLChange = newURL => setState({ sheetsURL: newURL });
           const onUploadClick = () => setState({ uploadingGoogleSheet: true });
           const onOverwriteChange = value => setState({ overwrite: value });
@@ -57,11 +61,7 @@ const UploadModal = ({ type, onUpload, ...props }) => (
                   {...props}
                 />
               </Content>
-              <BulkUploadControls
-                {...props}
-                controlSet={selectedTab}
-                {...{ onUploadClick, modalState }}
-              />
+              <BulkUploadControls {...props} {...{ onUploadClick, modalState }} />
             </ModalWrapper>
           );
         }}

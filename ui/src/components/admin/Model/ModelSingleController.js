@@ -1,7 +1,8 @@
 import React from 'react';
 import Component from 'react-component-component';
-import { uniqBy, isEqual } from 'lodash';
+import { uniqBy, isEqual, capitalize } from 'lodash';
 import { fetchData } from '../services/Fetcher';
+import { getSheetObject } from '../helpers';
 
 export const ModelSingleContext = React.createContext();
 
@@ -88,6 +89,26 @@ const deleteModel = async (baseUrl, modelName) =>
     data: '',
     method: 'delete',
   });
+
+const attachVariants = async (baseUrl, sheetURL, overwrite) => {
+  const { spreadsheetId, sheetId } = getSheetObject(sheetURL);
+  const uploadURL = `${baseUrl}/attach-variants/${spreadsheetId}/${sheetId}}?overwrite=${overwrite}`;
+  const gapi = global.gapi;
+
+  // TODO: this assumes user is already logged in - create a prompt to let user
+  // know to login if not already logged in
+  const currentUser = gapi.auth2.getAuthInstance().currentUser.get();
+  const googleAuthResponse = currentUser.getAuthResponse();
+
+  return fetchData({
+    url: uploadURL,
+    data: '',
+    method: 'get',
+    headers: {
+      Authorization: JSON.stringify(googleAuthResponse),
+    },
+  });
+};
 
 // Provider
 export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) => (
@@ -424,6 +445,80 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     type: 'error',
                     message: 'Delete Error.',
                     details: err.msg || 'Unknown error has occured.',
+                  }),
+                ],
+              }));
+            }
+          },
+          attachVariants: async (sheetURL, overwrite) => {
+            // Set loading true (lock UI)
+            await setState(() => ({
+              ...state,
+              data: {
+                ...state.data,
+                isLoading: true,
+              },
+            }));
+
+            try {
+              const {
+                data: { result },
+              } = await attachVariants(baseUrl, sheetURL, overwrite);
+
+              const customSortMatrix = {
+                new: 1,
+                updated: 2,
+                unchanged: 3,
+              };
+
+              const sortedKeys = Object.keys(result).sort(
+                (a, b) => customSortMatrix[a] - customSortMatrix[b],
+              );
+
+              const resultText = sortedKeys.reduce((acc, curr) => {
+                if (acc.length === 0 && result[curr].length === 0) {
+                  // First time, zero variant data in the key
+                  return `${capitalize(curr)}: 0`;
+                } else if (acc.length === 0 && result[curr].length > 0) {
+                  // First time if there is variant data in the key
+                  return `${capitalize(curr)}: ${result[curr][0]['variants'].length}`;
+                } else if (result[curr].length > 0) {
+                  // All subsequent if there is data in the key
+                  return `${acc} | ${capitalize(curr)}: ${result[curr][0]['variants'].length}`;
+                } else {
+                  // Else return zero result
+                  return `${acc} | ${capitalize(curr)}: 0`;
+                }
+              }, '');
+
+              setState({
+                ...state,
+                data: {
+                  ...state.data,
+                  isLoading: false,
+                },
+                notifications: [
+                  ...state.notifications,
+                  generateNotification({
+                    type: 'success',
+                    message: 'Variants Upload Complete',
+                    details: resultText,
+                  }),
+                ],
+              });
+            } catch (err) {
+              setState(() => ({
+                ...state,
+                data: {
+                  ...state.data,
+                  isLoading: false,
+                },
+                notifications: [
+                  ...state.notifications,
+                  generateNotification({
+                    type: 'error',
+                    message: 'Variants Upload Error.',
+                    details: { err } || 'Unknown error has occured.',
                   }),
                 ],
               }));
