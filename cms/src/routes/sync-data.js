@@ -278,14 +278,12 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
 
         if (allowedUpdates.length > 0) {
           const variants = unionWith(
-            model.variants,
-            allowedUpdates,
+            allowedUpdates, // this array is the "base" as it's allowd
+            model.variants, // items that fail the below test are merged
             (arrVal, othVal) =>
-              // Need better comparator (currently not working)
-              arrVal.variant !== othVal.variant && arrVal.assessmentType !== othVal.assessmentType,
+              // checks for uniqness of these two fields together
+              arrVal.variant === othVal.variant && arrVal.assessmentType === othVal.assessmentType,
           );
-
-          console.log('variants: ', variants);
 
           return new Promise((resolve, reject) => {
             Model.findOneAndUpdate(
@@ -305,6 +303,7 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
                 resolve({
                   status: existingModelVariants.length > 0 ? 'updated' : 'created',
                   doc: model.name,
+                  variants: allowedUpdates,
                 }),
               )
               .catch(error =>
@@ -312,6 +311,7 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
                   message: `An unexpected error occurred while updating model: ${
                     model.name
                   }, Error:  ${error}`,
+                  variants: allowedUpdates,
                 }),
               );
           });
@@ -325,8 +325,8 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
           res.json({
             result: saveResults.reduce(
               (finalResponse, saveResult) => {
-                const { status, doc } = saveResult;
-                finalResponse[status].push(doc);
+                const { status, doc, variants } = saveResult;
+                finalResponse[status].push({ model: doc, variants });
                 return finalResponse;
               },
               { ignored: [], updated: [], created: [] },
