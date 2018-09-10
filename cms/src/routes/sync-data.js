@@ -3,6 +3,7 @@ import { unionWith, uniqWith, isEqual } from 'lodash';
 
 import { toExcelHeaders, toExcelRowNumber } from '../schemas/constants';
 import Model, { ModelSchema } from '../schemas/model';
+import Variant from '../schemas/variant';
 import { saveValidation } from '../validation/model';
 import { modelVariantUploadSchema } from '../validation/variant';
 
@@ -232,48 +233,83 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
       }),
     )
     .then(data => runYupValidators(modelVariantUploadSchema, data))
-    .then(validatedData => {
-      // Sort the modelVariant relations by model_name
-      const mappedModelVariants = validatedData.reduce((acc, curr) => {
-        const transform = input => ({
-          variant: input.variant,
-          assessmentType: input.assessment_type || '',
-          expressionLevel: input.expression_level || '',
-        });
+    .then(validatedData =>
+      Promise.all(
+        validatedData.map(validatedVariant =>
+          Variant.findOne(
+            {
+              name: validatedVariant.variant_name,
+              type: validatedVariant.variant_type,
+            },
+            {
+              _id: false,
+              __v: false,
+            },
+          ).then(variant => {
+            if (!variant) {
+              const error = {
+                message: 'No variant found matching name and type supplied in database.',
+              };
+              throw error;
+            }
 
+            return {
+              _id: variant._id,
+              assessment_type: validatedVariant.assessment_type,
+              expression_level: validatedVariant.expression_level,
+            };
+          }),
+        ),
+      ),
+    )
+    .then(populatedVariants => {
+      // Sort the modelVariant relations by model_name
+      const mappedModelVariants = populatedVariants.reduce((acc, curr) => {
         if (curr.model_name in acc) {
-          acc[curr.model_name].push(transform(curr));
+          acc[curr.model_name].push(curr);
         } else {
-          acc[curr.model_name] = [transform(curr)];
+          acc[curr.model_name] = [curr];
         }
 
         return acc;
       }, {});
 
-      const savePromises = Object.keys(mappedModelVariants).map(async modelName => {
+      const savePromises = Object.keys(mappedModelVariants).map(async model_name => {
         // Upload set for the model we are operating on
-        const uploadedModelVariants = uniqWith(mappedModelVariants[modelName], isEqual);
+        const uploadedModelVariants = uniqWith(mappedModelVariants[model_name], isEqual);
 
-        // Get the existing model
+        // Get the existing model populated with variant data (omit mongoose generated fields)
         const model = await Model.findOne(
           {
-            name: modelName,
+            name: model_name,
           },
           {
             _id: false,
             __v: false,
-          }, //omit mongoose generated fields
-        );
+          },
+        ).populate({
+          path: 'variants',
+          populate: {
+            path: 'variant',
+            model: 'Variant',
+            select: '-_id -__v',
+          },
+        });
+
+        console.log(model);
 
         // Get existing model variants (if they exists)
         const existingModelVariants = model.variants.map(
-          ({ variant, assessmentType = '' }) => `${variant}-${assessmentType}`,
+          ({ variant: { name, type }, assessment_type = '' }) =>
+            `${name}-${type}-${assessment_type}`,
         );
 
         // See if any updated are allowed
         const allowedUpdates = uploadedModelVariants.filter(
-          ({ variant, assessmentType = '' }) =>
-            overwrite || existingModelVariants.indexOf(`${variant}-${assessmentType}`) === -1,
+          ({ variant_name, variant_type, assessment_type = '' }) =>
+            overwrite ||
+            existingModelVariants.indexOf(`${variant_name}-${variant_type}-${assessment_type}`) ===
+              -1,
         );
 
         if (allowedUpdates.length > 0) {
@@ -281,14 +317,16 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
             allowedUpdates, // this array is the "base" as it's allowd
             model.variants, // items that fail the below test are merged
             (arrVal, othVal) =>
-              // checks for uniqness of these two fields together
-              arrVal.variant === othVal.variant && arrVal.assessmentType === othVal.assessmentType,
+              // checks for uniqness of these three fields together
+              arrVal.variant_name === othVal.name &&
+              arrVal.variant_type === othVal.type &&
+              arrVal.assessment_type === othVal.assessment_type,
           );
 
           return new Promise((resolve, reject) => {
             Model.findOneAndUpdate(
               {
-                name: modelName,
+                name: model_name,
               },
               {
                 $set: { variants },

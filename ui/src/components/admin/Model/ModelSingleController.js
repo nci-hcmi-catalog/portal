@@ -460,69 +460,86 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               },
             }));
 
-            try {
-              const {
-                data: { result },
-              } = await attachVariants(baseUrl, sheetURL, overwrite);
+            attachVariants(baseUrl, sheetURL, overwrite)
+              .then(({ data: { result } }) => {
+                const customSortMatrix = {
+                  new: 1,
+                  updated: 2,
+                  unchanged: 3,
+                };
 
-              const customSortMatrix = {
-                new: 1,
-                updated: 2,
-                unchanged: 3,
-              };
+                const sortedKeys = Object.keys(result).sort(
+                  (a, b) => customSortMatrix[a] - customSortMatrix[b],
+                );
 
-              const sortedKeys = Object.keys(result).sort(
-                (a, b) => customSortMatrix[a] - customSortMatrix[b],
-              );
+                const resultText = sortedKeys.reduce((acc, curr) => {
+                  if (acc.length === 0 && result[curr].length === 0) {
+                    // First time, zero variant data in the key
+                    return `${capitalize(curr)}: 0`;
+                  } else if (acc.length === 0 && result[curr].length > 0) {
+                    // First time if there is variant data in the key
+                    return `${capitalize(curr)}: ${result[curr][0]['variants'].length}`;
+                  } else if (result[curr].length > 0) {
+                    // All subsequent if there is data in the key
+                    return `${acc} | ${capitalize(curr)}: ${result[curr][0]['variants'].length}`;
+                  } else {
+                    // Else return zero result
+                    return `${acc} | ${capitalize(curr)}: 0`;
+                  }
+                }, '');
 
-              const resultText = sortedKeys.reduce((acc, curr) => {
-                if (acc.length === 0 && result[curr].length === 0) {
-                  // First time, zero variant data in the key
-                  return `${capitalize(curr)}: 0`;
-                } else if (acc.length === 0 && result[curr].length > 0) {
-                  // First time if there is variant data in the key
-                  return `${capitalize(curr)}: ${result[curr][0]['variants'].length}`;
-                } else if (result[curr].length > 0) {
-                  // All subsequent if there is data in the key
-                  return `${acc} | ${capitalize(curr)}: ${result[curr][0]['variants'].length}`;
-                } else {
-                  // Else return zero result
-                  return `${acc} | ${capitalize(curr)}: 0`;
-                }
-              }, '');
+                setState({
+                  ...state,
+                  data: {
+                    ...state.data,
+                    isLoading: false,
+                  },
+                  notifications: [
+                    ...state.notifications,
+                    generateNotification({
+                      type: 'success',
+                      message: 'Variants Upload Complete',
+                      details: resultText,
+                    }),
+                  ],
+                });
+              })
+              .catch(err => {
+                const processValidationErrors = errors =>
+                  errors.reduce(
+                    (acc, curr) =>
+                      acc.length === 0
+                        ? Object.values(curr.errors).join('; ')
+                        : `${acc}, ${Object.values(curr.errors).join('; ')}`,
+                    '',
+                  );
 
-              setState({
-                ...state,
-                data: {
-                  ...state.data,
-                  isLoading: false,
-                },
-                notifications: [
-                  ...state.notifications,
-                  generateNotification({
-                    type: 'success',
-                    message: 'Variants Upload Complete',
-                    details: resultText,
-                  }),
-                ],
+                const errorText =
+                  err.response &&
+                  err.response.data &&
+                  err.response.data.error &&
+                  err.response.data.error.validationErrors
+                    ? `Validation Errors: ${processValidationErrors(
+                        err.response.data.error.validationErrors,
+                      )}`
+                    : 'Unknown error has occured.';
+
+                setState(() => ({
+                  ...state,
+                  data: {
+                    ...state.data,
+                    isLoading: false,
+                  },
+                  notifications: [
+                    ...state.notifications,
+                    generateNotification({
+                      type: 'error',
+                      message: 'Variants Upload Error.',
+                      details: errorText,
+                    }),
+                  ],
+                }));
               });
-            } catch (err) {
-              setState(() => ({
-                ...state,
-                data: {
-                  ...state.data,
-                  isLoading: false,
-                },
-                notifications: [
-                  ...state.notifications,
-                  generateNotification({
-                    type: 'error',
-                    message: 'Variants Upload Error.',
-                    details: { err } || 'Unknown error has occured.',
-                  }),
-                ],
-              }));
-            }
           },
           clearNotification: id => {
             const notifications = state.notifications.filter(

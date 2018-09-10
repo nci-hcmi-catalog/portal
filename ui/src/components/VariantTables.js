@@ -363,7 +363,7 @@ export default ({ modelName }) => (
                 sortable: true,
                 canChangeShow: true,
                 field: 'assessment_type',
-                id: 'assessmentType',
+                id: 'assessment_type',
                 accessor: 'assessment_type',
                 Header: 'Assessment Type',
               },
