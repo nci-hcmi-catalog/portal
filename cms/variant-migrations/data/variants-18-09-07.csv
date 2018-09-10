@@ -58,7 +58,6 @@ GNAS R201S,Clinical ,SNV,GNAS
 IDH1 R132C,Clinical ,SNV,IDH1
 IDH1 R132G,Clinical ,SNV,IDH1
 IDH1 R132H,Clinical ,SNV,IDH1
-IDH1 R132H,Clinical ,SNV,IDH1
 IDH1 R132L,Clinical ,SNV,IDH1
 IDH1 R132S,Clinical ,SNV,IDH1
 IDH2 R172K,Clinical ,SNV,IDH2 
@@ -113,19 +112,19 @@ MET Intron 14 mutation,Clinical ,Mutation,MET
 PIK3CA exon 20 mutation,Clinical ,Mutation,PIK3CA
 PIK3CA exon 9 mutation,Clinical ,Mutation,PIK3CA
 PTEN exon 1-9 mutation,Clinical ,Mutation,PIK3CA
-BRAF,Clinical ,Histopathological biomarker,BRAF
-CD99,Clinical ,Histopathological biomarker,CD99
-Estrogen receptor,Clinical ,Histopathological biomarker,
-H3 K27M,Clinical ,Histopathological biomarker,H3 
-HER2,Clinical ,Histopathological biomarker,HER2
-IDH1 R132H,Clinical ,Histopathological biomarker,IDH1
-MGMT promoter,Clinical ,Histopathological biomarker,MGMT 
-MLH1,Clinical ,Histopathological biomarker,MLH1
-MSH2,Clinical ,Histopathological biomarker,MSH2
-MSH6,Clinical ,Histopathological biomarker,MSH6
-MYCN,Clinical ,Histopathological biomarker,MYCN
-PD-L1,Clinical ,Histopathological biomarker,PD-L1
-PMS2,Clinical ,Histopathological biomarker,PMS2
-Progesterone receptor,Clinical ,Histopathological biomarker,
-PTEN,Clinical ,Histopathological biomarker,PTEN
-SMAD4,Clinical ,Histopathological biomarker,SMAD4
+BRAF,Histopathological Biomarker,Histopathological biomarker,BRAF
+CD99,Histopathological Biomarker,Histopathological biomarker,CD99
+Estrogen receptor,Histopathological Biomarker,Histopathological biomarker,
+H3 K27M,Histopathological Biomarker,Histopathological biomarker,H3 
+HER2,Histopathological Biomarker,Histopathological biomarker,HER2
+IDH1 R132H,Histopathological Biomarker,Histopathological biomarker,IDH1
+MGMT promoter,Histopathological Biomarker,Histopathological biomarker,MGMT 
+MLH1,Histopathological Biomarker,Histopathological biomarker,MLH1
+MSH2,Histopathological Biomarker,Histopathological biomarker,MSH2
+MSH6,Histopathological Biomarker,Histopathological biomarker,MSH6
+MYCN,Histopathological Biomarker,Histopathological biomarker,MYCN
+PD-L1,Histopathological Biomarker,Histopathological biomarker,PD-L1
+PMS2,Histopathological Biomarker,Histopathological biomarker,PMS2
+Progesterone receptor,Histopathological Biomarker,Histopathological biomarker,
+PTEN,Histopathological Biomarker,Histopathological biomarker,PTEN
+SMAD4,Histopathological Biomarker,Histopathological biomarker,SMAD4

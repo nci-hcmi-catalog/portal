@@ -1,6 +1,8 @@
 module.exports = {
   up(db) {
-    return db.createCollection('variants');
+    db
+      .createCollection('variants')
+      .then(() => db.collection('variants').createIndex({ name: 1, type: 1 }, { unique: true }));
   },
 
   down(db) {
