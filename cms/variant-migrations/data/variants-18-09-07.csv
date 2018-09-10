@@ -1,0 +1,130 @@
+name,type,category,genes
+BCOR-CCNB3,Clinical ,Translocation,"BCOR ,CCNB3"
+CIC-DUX4,Clinical ,Translocation,"CIC ,DUX4"
+EML4-ALK translocation variant 1,Clinical ,Translocation,"EML4 ,ALK "
+EML4-ALK translocation variant 2,Clinical ,Translocation,"EML4 ,ALK "
+EML4-ALK translocation variant 3,Clinical ,Translocation,"EML4 ,ALK"
+EML4-ALK translocation variant 4,Clinical ,Translocation,"EML4 ,ALK "
+EML4-ALK translocation variant 5,Clinical ,Translocation,"EML4 ,ALK "
+EWSR1-ATF1,Clinical ,Translocation,"EWSR1 ,ATF1"
+EWSR1-CREB1,Clinical ,Translocation,"EWSR1 ,CREB1"
+EWSR1-ETV1,Clinical ,Translocation,"EWSR1 ,ETV1"
+EWSR1-ETV4,Clinical ,Translocation,"EWSR1 ,ETV4"
+EWSR1-PBX1,Clinical ,Translocation,"EWSR1 ,PBX1"
+EWSR1-POU5F1,Clinical ,Translocation,"EWSR1 ,POU5F1"
+EWSR1-ZNF444,Clinical ,Translocation,"EWSR1 ,ZNF444"
+FOXO1 rearranged (FOXO1 with unknown partner),Clinical ,Translocation,FOXO1
+FUS-CREB3L2,Clinical ,Translocation,"FUS ,CREB3L2"
+PAX3 - FOXO1 ,Clinical ,Translocation,"PAX3  , FOXO1 "
+PAX7 - FOXO1,Clinical ,Translocation,"PAX7  , FOXO1"
+RET rearranged,Clinical ,Translocation,RET   
+ROS1 rearranged,Clinical ,Translocation,ROS1   
+ALK F1174C,Clinical ,SNV,ALK
+ALK F1174L,Clinical ,SNV,ALK
+ALK F1174V,Clinical ,SNV,ALK
+ALK F1245L,Clinical ,SNV,ALK
+ALK K1062M,Clinical ,SNV,ALK
+ALK R1275Q,Clinical ,SNV,ALK
+ALK T1087I,Clinical ,SNV,ALK
+BRAF K601E,Clinical ,SNV,BRAF
+BRAF V600D,Clinical ,SNV,BRAF
+BRAF V600E,Clinical ,SNV,BRAF
+BRAF V600K,Clinical ,SNV,BRAF
+BRAF V600R,Clinical ,SNV,BRAF
+CDKN2A A147T,Clinical ,SNV,CDKN2A
+CDKN2A A148T,Clinical ,SNV,CDKN2A
+CDKN2A A30V,Clinical ,SNV,CDKN2A
+CDKN2A D108H,Clinical ,SNV,CDKN2A
+CDKN2A D108Y,Clinical ,SNV,CDKN2A
+CDKN2A H83P,Clinical ,SNV,CDKN2A
+CDKN2A H83Y,Clinical ,SNV,CDKN2A
+CDKN2A L130Q,Clinical ,SNV,CDKN2A
+CDKN2A V51D,Clinical ,SNV,CDKN2A
+CDKN2A V51I,Clinical ,SNV,CDKN2A
+EGFR C797S,Clinical ,SNV,EGFR
+EGFR G719X,Clinical ,SNV,EGFR
+EGFR L858R,Clinical ,SNV,EGFR
+EGFR L861Q,Clinical ,SNV,EGFR
+EGFR T790M,Clinical ,SNV,EGFR
+GNAS Q125R,Clinical ,SNV,GNAS
+GNAS Q227E,Clinical ,SNV,GNAS
+GNAS Q227L,Clinical ,SNV,GNAS
+GNAS Q227P,Clinical ,SNV,GNAS
+GNAS Q227R,Clinical ,SNV,GNAS
+GNAS R160C,Clinical ,SNV,GNAS
+GNAS R201C,Clinical ,SNV,GNAS
+GNAS R201H,Clinical ,SNV,GNAS
+GNAS R201S,Clinical ,SNV,GNAS
+IDH1 R132C,Clinical ,SNV,IDH1
+IDH1 R132G,Clinical ,SNV,IDH1
+IDH1 R132H,Clinical ,SNV,IDH1
+IDH1 R132L,Clinical ,SNV,IDH1
+IDH1 R132S,Clinical ,SNV,IDH1
+IDH2 R172K,Clinical ,SNV,IDH2 
+IDH2 R172M,Clinical ,SNV,IDH2 
+IDH2 R172W,Clinical ,SNV,IDH2 
+KRAS A146T,Clinical ,SNV,KRAS
+KRAS G12A,Clinical ,SNV,KRAS
+KRAS G12C,Clinical ,SNV,KRAS
+KRAS G12D,Clinical ,SNV,KRAS
+KRAS G12R,Clinical ,SNV,KRAS
+KRAS G12S,Clinical ,SNV,KRAS
+KRAS G12V,Clinical ,SNV,KRAS
+KRAS G13A,Clinical ,SNV,KRAS
+KRAS G13C,Clinical ,SNV,KRAS
+KRAS G13D,Clinical ,SNV,KRAS
+KRAS G13R,Clinical ,SNV,KRAS
+KRAS G13V,Clinical ,SNV,KRAS
+KRAS Q61H,Clinical ,SNV,KRAS
+KRAS Q61L,Clinical ,SNV,KRAS
+MET D1010N,Clinical ,SNV,MET
+RNF43 A169T,Clinical ,SNV,RNF43
+RNF43 D140E,Clinical ,SNV,RNF43
+RNF43 E318D,Clinical ,SNV,RNF43
+RNF43 P154L,Clinical ,SNV,RNF43
+RNF43 R127P,Clinical ,SNV,RNF43
+TP53 C238Y,Clinical ,SNV,TP53
+TP53 G245D,Clinical ,SNV,TP53
+TP53 G245S,Clinical ,SNV,TP53
+TP53 G266E,Clinical ,SNV,TP53
+TP53 G266V,Clinical ,SNV,TP53
+TP53 R175H,Clinical ,SNV,TP53
+TP53 R213L,Clinical ,SNV,TP53
+TP53 R248Q,Clinical ,SNV,TP53
+TP53 R248W,Clinical ,SNV,TP53
+TP53 R273C,Clinical ,SNV,TP53
+TP53 R273H,Clinical ,SNV,TP53
+TP53 R273L,Clinical ,SNV,TP53
+TP53 R282G,Clinical ,SNV,TP53
+TP53 R282W,Clinical ,SNV,TP53
+TP53 V272M,Clinical ,SNV,TP53
+TP53 Y220C,Clinical ,SNV,TP53
+EGFR Exon 19 deletion,Clinical ,Deletion,EGFR
+EGFR Exon 20 insertion,Clinical ,Insertion,EFGR
+H3.1 mutation,Clinical ,Mutation,H3.1
+H3.3 mutation,Clinical ,Mutation,H3.3
+MET D1010 splice mutation,Clinical ,Mutation,MET
+MET D963 splice mutation,Clinical ,Mutation,MET
+MET Exon 14 deletion,Clinical ,Deletion,MET
+MET Exon 14 mutation,Clinical ,Mutation,MET
+MET Intron 13 mutation,Clinical ,Mutation,MET
+MET Intron 14 mutation,Clinical ,Mutation,MET
+PIK3CA exon 20 mutation,Clinical ,Mutation,PIK3CA
+PIK3CA exon 9 mutation,Clinical ,Mutation,PIK3CA
+PTEN exon 1-9 mutation,Clinical ,Mutation,PIK3CA
+BRAF,Histopathological Biomarker,Histopathological biomarker,BRAF
+CD99,Histopathological Biomarker,Histopathological biomarker,CD99
+Estrogen receptor,Histopathological Biomarker,Histopathological biomarker,
+H3 K27M,Histopathological Biomarker,Histopathological biomarker,H3 
+HER2,Histopathological Biomarker,Histopathological biomarker,HER2
+IDH1 R132H,Histopathological Biomarker,Histopathological biomarker,IDH1
+MGMT promoter,Histopathological Biomarker,Histopathological biomarker,MGMT 
+MLH1,Histopathological Biomarker,Histopathological biomarker,MLH1
+MSH2,Histopathological Biomarker,Histopathological biomarker,MSH2
+MSH6,Histopathological Biomarker,Histopathological biomarker,MSH6
+MYCN,Histopathological Biomarker,Histopathological biomarker,MYCN
+PD-L1,Histopathological Biomarker,Histopathological biomarker,PD-L1
+PMS2,Histopathological Biomarker,Histopathological biomarker,PMS2
+Progesterone receptor,Histopathological Biomarker,Histopathological biomarker,
+PTEN,Histopathological Biomarker,Histopathological biomarker,PTEN
+SMAD4,Histopathological Biomarker,Histopathological biomarker,SMAD4
