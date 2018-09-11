@@ -7,29 +7,15 @@ import { Row } from 'theme/system';
 import { SmallPill } from 'theme/adminControlsStyles';
 
 const {
-  keyedPalette: {
-    porcelain,
-    white,
-    dustyGray,
-    iron,
-    mystic,
-    black,
-    lightBlack,
-    mineShaft,
-    shuttleGrey,
-  },
+  keyedPalette: { white, dustyGray, iron, mystic, black, lightBlack, mineShaft, shuttleGrey },
   fonts: { openSans, libreFranklin },
 } = base;
 
-const borderColour = porcelain;
-
 export const Table = styled('div')`
   width: 100%;
-  padding: 8px;
   margin-bottom: 52px;
   align-self: center;
   background: ${white};
-  border: solid 1px ${borderColour};
   label: models-table-main;
 `;
 
@@ -105,7 +91,7 @@ export const ToolbarMain = styled(Row)`
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 22px 20px;
+  padding: 20px 22px 20px;
   label: toolbar-main;
 `;
 
