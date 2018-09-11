@@ -259,8 +259,6 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
         return acc;
       }, {});
 
-      console.log(mappedModelVariants);
-
       const savePromises = Object.keys(mappedModelVariants).map(async model_name => {
         // Upload set for the model we are operating on
         const uploadedModelVariants = uniqWith(mappedModelVariants[model_name], isEqual);
@@ -276,16 +274,18 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
           },
         );
 
-        console.log(model);
-
         // Get existing model variant ids (if they exists)
-        const existingModelVariants = model.variants.map(({ _id }) => _id);
+        const existingModelVariants = model.variants.map(({ _id }) => _id.toString());
 
         // See if any updated are allowed
-        const allowedUpdates = uploadedModelVariants.filter(
-          ({ _id }) => overwrite || existingModelVariants.indexOf(_id) === -1,
-        );
+        const allowedUpdates = uploadedModelVariants.filter(({ _id }) => {
+          console.log('overwrite', overwrite);
+          console.log('_id', _id);
+          console.log('existingModelVariants.indexOf(_id)', existingModelVariants.indexOf(_id));
+          return overwrite || existingModelVariants.indexOf(_id.toString()) === -1;
+        });
 
+        console.log('existingModelVariants: ', existingModelVariants);
         console.log('Allowed Updates: ', allowedUpdates);
 
         if (allowedUpdates.length > 0) {
@@ -294,7 +294,8 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
             model.variants, // items that fail the below test are merged
             (arrVal, othVal) =>
               // checks for uniqness of these fields together
-              arrVal._id === othVal._id && arrVal.assessment_type === othVal.assessment_type,
+              arrVal._id.toString() === othVal._id.toString() &&
+              arrVal.assessment_type === othVal.assessment_type,
           );
 
           console.log('Variants: ', variants);
