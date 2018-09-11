@@ -233,7 +233,7 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
 
             return {
               model_name: validatedVariant.model_name,
-              _id: variant._id,
+              variant: variant._id,
               assessment_type: validatedVariant.assessment_type,
               expression_level: validatedVariant.expression_level,
             };
@@ -275,18 +275,12 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
         );
 
         // Get existing model variant ids (if they exists)
-        const existingModelVariants = model.variants.map(({ _id }) => _id.toString());
+        const existingModelVariants = model.variants.map(({ variant }) => variant.toString());
 
         // See if any updated are allowed
-        const allowedUpdates = uploadedModelVariants.filter(({ _id }) => {
-          console.log('overwrite', overwrite);
-          console.log('_id', _id);
-          console.log('existingModelVariants.indexOf(_id)', existingModelVariants.indexOf(_id));
-          return overwrite || existingModelVariants.indexOf(_id.toString()) === -1;
+        const allowedUpdates = uploadedModelVariants.filter(({ variant }) => {
+          return overwrite || existingModelVariants.indexOf(variant.toString()) === -1;
         });
-
-        console.log('existingModelVariants: ', existingModelVariants);
-        console.log('Allowed Updates: ', allowedUpdates);
 
         if (allowedUpdates.length > 0) {
           const variants = unionWith(
@@ -294,11 +288,9 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
             model.variants, // items that fail the below test are merged
             (arrVal, othVal) =>
               // checks for uniqness of these fields together
-              arrVal._id.toString() === othVal._id.toString() &&
+              arrVal.variant.toString() === othVal.variant.toString() &&
               arrVal.assessment_type === othVal.assessment_type,
           );
-
-          console.log('Variants: ', variants);
 
           return new Promise((resolve, reject) => {
             Model.findOneAndUpdate(

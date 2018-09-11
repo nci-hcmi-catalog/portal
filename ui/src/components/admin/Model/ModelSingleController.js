@@ -66,7 +66,7 @@ const generateNotification = notification => ({
 // async abstractions
 const getModel = async (baseUrl, modelName) =>
   fetchData({
-    url: `${baseUrl}/model/${modelName}`,
+    url: `${baseUrl}/model/${modelName}?populate={"path": "variants.variant"}`,
     data: '',
     method: 'get',
   });
@@ -450,7 +450,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               }));
             }
           },
-          attachVariants: async (sheetURL, overwrite) => {
+          attachVariants: async (sheetURL, overwrite, modelName) => {
             // Set loading true (lock UI)
             await setState(() => ({
               ...state,
@@ -488,20 +488,25 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   }
                 }, '');
 
-                setState({
-                  ...state,
-                  data: {
-                    ...state.data,
-                    isLoading: false,
-                  },
-                  notifications: [
-                    ...state.notifications,
-                    generateNotification({
-                      type: 'success',
-                      message: 'Variants Upload Complete',
-                      details: resultText,
-                    }),
-                  ],
+                // Reload model data with new variants
+                return getModel(baseUrl, modelName).then(modelDataResponse => {
+                  setState({
+                    ...state,
+                    data: {
+                      ...state.data,
+                      isLoading: false,
+                      didLoad: true,
+                      response: modelDataResponse.data,
+                    },
+                    notifications: [
+                      ...state.notifications,
+                      generateNotification({
+                        type: 'success',
+                        message: 'Variants Upload Complete',
+                        details: resultText,
+                      }),
+                    ],
+                  });
                 });
               })
               .catch(err => {

@@ -16,11 +16,16 @@ import { Pill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 
-export default ({ data: { variants } }) => {
+export default ({ data: { name, variants } }) => {
   return (
     <Component
       initialState={{
-        data: variants,
+        data: variants.map(variant => ({
+          variant_name: variant.variant.name,
+          variant_type: variant.variant.type,
+          assessment_type: variant.assessment_type,
+          expression_level: variant.expression_level,
+        })),
         isLoading: false,
         page: 0,
         pageSize: 10,
@@ -51,7 +56,12 @@ export default ({ data: { variants } }) => {
                           onClick={() =>
                             modalState.setModalState({
                               component: (
-                                <BulkUploader type={'variant'} onUpload={attachVariants} />
+                                <BulkUploader
+                                  type={'variant'}
+                                  onUpload={(sheetsURL, overwrite) =>
+                                    attachVariants(sheetsURL, overwrite, name)
+                                  }
+                                />
                               ),
                               shouldCloseOnOverlayClick: true,
                               styles: AdminModalStyle,
