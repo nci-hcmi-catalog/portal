@@ -2,113 +2,20 @@ import React from 'react';
 import Component from 'react-component-component';
 import { get, uniqBy, isEqual, capitalize } from 'lodash';
 import { fetchData } from '../services/Fetcher';
-import { getSheetObject, objectValuesToString } from '../helpers';
+import {
+  modelStatus,
+  objectValuesToString,
+  isFormReadyToSave,
+  isFormReadyToPublish,
+  computeModelStatus,
+  generateNotification,
+  getModel,
+  saveModel,
+  deleteModel,
+  attachVariants,
+} from '../helpers';
 
 export const ModelSingleContext = React.createContext();
-
-// Constants
-const status = {
-  unpublished: 'unpublished',
-  unpublishedChanges: 'unpublished changes',
-  other: 'other',
-  published: 'published',
-};
-
-// Helper functions
-const isFormReadyToSave = (dirty, errors) => dirty && !('name' in errors);
-
-const isFormReadyToPublish = (values, dirty, errors) =>
-  (values.status !== 'published' || dirty) && Object.keys(errors).length === 0;
-
-const computeModelStatus = (currentStatus, action) => {
-  /*
-  *  Matrix
-  * -------------------------------------------
-  *             |    save     |    publish    |
-  * -------------------------------------------
-  * unpublished | unpublished |   published   |
-  * unpub. chgs | unpub. chgs |   published   |
-  * other       | unpublished |   published   |
-  * published   | unpub. chgs |   published   |
-  * -------------------------------------------
-*/
-
-  const statusMatrix = {
-    unpublished: {
-      save: status.unpublished,
-      publish: status.published,
-    },
-    unpublishedChanges: {
-      save: status.unpublishedChanges,
-      publish: status.published,
-    },
-    other: {
-      save: status.unpublished,
-      publish: status.published,
-    },
-    published: {
-      save: status.unpublishedChanges,
-      publish: status.published,
-    },
-  };
-
-  const statusKey = Object.keys(status).find(key => status[key] === currentStatus);
-
-  return currentStatus ? statusMatrix[statusKey][action] : status.unpublished;
-};
-
-// Add an id to notifications (ISO Datetime)
-const generateNotification = notification => ({
-  ...notification,
-  id: new Date().valueOf(),
-});
-
-// async abstractions
-const getModel = async (baseUrl, modelName) =>
-  fetchData({
-    url: `${baseUrl}/model/${modelName}?populate={"path": "variants.variant"}`,
-    data: '',
-    method: 'get',
-  });
-
-const saveModel = async (baseUrl, values, isUpdate) => {
-  const { name } = values;
-
-  const url = isUpdate ? `${baseUrl}/model/${name}` : `${baseUrl}/model`;
-
-  return fetchData({
-    url,
-    data: values,
-    method: isUpdate ? 'patch' : 'post',
-  });
-};
-
-const deleteModel = async (baseUrl, modelName) =>
-  fetchData({
-    url: `${baseUrl}/model/${modelName}`,
-    data: '',
-    method: 'delete',
-  });
-
-const attachVariants = async (baseUrl, sheetURL, overwrite) => {
-  const { spreadsheetId, sheetId } = getSheetObject(sheetURL);
-  const uploadURL = `${baseUrl}/attach-variants/${spreadsheetId}/${sheetId}}?overwrite=${overwrite}`;
-  const gapi = global.gapi;
-
-  // TODO: this assumes user is already logged in - create a prompt to let user
-  // know to login if not already logged in
-  const currentUser = gapi.auth2.getAuthInstance().currentUser.get();
-  const googleAuthResponse = currentUser.getAuthResponse();
-
-  return fetchData({
-    url: uploadURL,
-    data: '',
-    method: 'get',
-    headers: {
-      Authorization: JSON.stringify(googleAuthResponse),
-    },
-  });
-};
 
 // Provider
 export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) => (
@@ -224,7 +131,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 form: { isUpdate },
               } = state;
 
-              const data = {
+              let data = {
                 ...values,
                 files: uniqBy(images, image => image.id),
                 status: computeModelStatus(values.status, 'save'),
@@ -233,7 +140,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               // When saving, the only time we pass status is when we need to
               // update to 'unpublished' status - otherwise we don't pass status
               // key in response as that would trigger an ES update
-              if (data.status && data.status !== status.unpublishedChanges) {
+              if (data.status && data.status !== modelStatus.unpublishedChanges) {
                 delete data.status;
               }
 
@@ -374,7 +281,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               // so we pass status in with our save
               const modelDataResponse = await saveModel(
                 baseUrl,
-                { ...values, status: status.unpublished },
+                { ...values, status: modelStatus.unpublished },
                 true,
               );
 
@@ -535,6 +442,78 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   ],
                 }));
               });
+          },
+          deleteVariant: async id => {
+            // Set loading true (lock UI)
+            await setState(() => ({
+              ...state,
+              data: {
+                ...state.data,
+                isLoading: true,
+              },
+            }));
+
+            try {
+              const modelData = state.data.response;
+
+              let modelUpdate = {
+                ...modelData,
+                variants: modelData.variants.filter(({ _id }) => id !== _id),
+              };
+
+              if (modelUpdate.status && modelUpdate.status !== modelStatus.unpublishedChanges) {
+                delete modelUpdate.status;
+              }
+
+              const modelDataResponse = await saveModel(baseUrl, modelUpdate, true);
+
+              await setState(() => ({
+                ...state,
+                // Set form to unsavable status (will release on next form interaction)
+                form: {
+                  ...state.form,
+                  isReadyToSave: false,
+                  // if files is different in new state
+                  isReadyToPublish:
+                    !isEqual(
+                      (modelDataResponse.data.response || {}).files || [],
+                      (state.data.response || {}).files || [],
+                    ) || state.form.isReadyToPublish,
+                },
+                // Put save response into data
+                data: {
+                  ...state.data,
+                  isLoading: false,
+                  didLoad: true,
+                  response: modelDataResponse.data,
+                },
+                notifications: [
+                  ...state.notifications,
+                  generateNotification({
+                    type: 'success',
+                    message: 'Variant Deleted Successful!',
+                    details: 'Model variant relation has been successfully deleted.',
+                  }),
+                ],
+              }));
+            } catch (err) {
+              setState(() => ({
+                ...state,
+                data: {
+                  ...state.data,
+                  isLoading: false,
+                  error: err,
+                },
+                notifications: [
+                  ...state.notifications,
+                  generateNotification({
+                    type: 'error',
+                    message: 'Variant Delete Error.',
+                    details: err.msg || 'Unknown error has occured.',
+                  }),
+                ],
+              }));
+            }
           },
           clearNotification: id => {
             const notifications = state.notifications.filter(

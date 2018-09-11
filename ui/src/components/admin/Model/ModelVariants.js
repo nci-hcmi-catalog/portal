@@ -21,6 +21,7 @@ export default ({ data: { name, variants } }) => {
     <Component
       initialState={{
         data: variants.map(variant => ({
+          id: variant._id,
           variant_name: variant.variant.name,
           variant_type: variant.variant.type,
           assessment_type: variant.assessment_type,

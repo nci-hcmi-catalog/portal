@@ -1,4 +1,5 @@
 import React from 'react';
+import { ModelSingleContext } from './ModelSingleController';
 import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
 import { schemaArr } from '../schema/modelVariant';
 import { ActionPill, Actions } from '../../../theme/adminTableStyles';
@@ -16,19 +17,23 @@ const modelVariantCustomColumns = [
   {
     Header: 'Actions',
     accessor: 'actions',
-    Cell: () => {
+    Cell: ({ original: { id } }) => {
       return (
-        <Actions>
-          <ActionPill secondary marginRight="6px" to={''}>
-            <AdminEditPencilIcon
-              css={`
-                width: 12px;
-                height: 12px;
-              `}
-            />
-            Delete
-          </ActionPill>
-        </Actions>
+        <ModelSingleContext.Consumer>
+          {({ deleteVariant }) => (
+            <Actions>
+              <ActionPill secondary marginRight="6px" onClick={() => deleteVariant(id)}>
+                <AdminEditPencilIcon
+                  css={`
+                    width: 12px;
+                    height: 12px;
+                  `}
+                />
+                Delete
+              </ActionPill>
+            </Actions>
+          )}
+        </ModelSingleContext.Consumer>
       );
     },
   },

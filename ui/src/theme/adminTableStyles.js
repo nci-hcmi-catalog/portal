@@ -1,9 +1,10 @@
 import styled from 'react-emotion';
 import { css } from 'emotion';
+import { Link } from 'react-router-dom';
 
 import base from 'theme';
 import { Row } from 'theme/system';
-import { SmallLinkPill } from 'theme/adminControlsStyles';
+import { SmallPill } from 'theme/adminControlsStyles';
 
 const {
   keyedPalette: {
@@ -48,13 +49,15 @@ const tableStatusBase = css`
   color: ${white};
 `;
 
-export const ActionPill = styled(SmallLinkPill)`
+export const ActionPill = styled(SmallPill)`
   font-size: 12px;
   font-weight: bold;
   line-height: 26px;
   padding: 0 13px;
   label: model-table-action-pill;
 `;
+
+export const ActionLinkPill = ActionPill.withComponent(Link);
 
 export const Actions = styled('div')`
   display: flex;
