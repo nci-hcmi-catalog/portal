@@ -1,8 +1,8 @@
 import React from 'react';
 import Component from 'react-component-component';
-import { uniqBy, isEqual, capitalize } from 'lodash';
+import { get, uniqBy, isEqual, capitalize } from 'lodash';
 import { fetchData } from '../services/Fetcher';
-import { getSheetObject } from '../helpers';
+import { getSheetObject, objectValuesToString } from '../helpers';
 
 export const ModelSingleContext = React.createContext();
 
@@ -505,24 +505,14 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 });
               })
               .catch(err => {
-                const processValidationErrors = errors =>
-                  errors.reduce(
-                    (acc, curr) =>
-                      acc.length === 0
-                        ? Object.values(curr.errors).join('; ')
-                        : `${acc}, ${Object.values(curr.errors).join('; ')}`,
-                    '',
-                  );
-
-                const errorText =
-                  err.response &&
-                  err.response.data &&
-                  err.response.data.error &&
-                  err.response.data.error.validationErrors
-                    ? `Validation Errors: ${processValidationErrors(
-                        err.response.data.error.validationErrors,
-                      )}`
-                    : 'Unknown error has occured.';
+                const errorText = objectValuesToString(
+                  get(
+                    err,
+                    'response.data.error.validationErrors[0].errors',
+                    get(err, 'response.data.error', {}),
+                  ),
+                  '; ',
+                );
 
                 setState(() => ({
                   ...state,
@@ -535,7 +525,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     generateNotification({
                       type: 'error',
                       message: 'Variants Upload Error.',
-                      details: errorText,
+                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
                     }),
                   ],
                 }));

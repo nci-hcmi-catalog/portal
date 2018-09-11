@@ -14,7 +14,7 @@ import { preUpdate, validateYup, preModelDelete, postUpdate } from './hooks';
 import Model from './schemas/model';
 
 // Register variant schema
-require('./schemas/variant');
+// require('./schemas/variant');
 
 const port = process.env.PORT || 8080;
 const app = express();
