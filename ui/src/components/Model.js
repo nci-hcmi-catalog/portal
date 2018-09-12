@@ -1,6 +1,7 @@
 import React from 'react';
 import { get } from 'lodash';
 import Spinner from 'react-spinkit';
+import Slider from 'react-styled-carousel';
 
 import ModelQuery from 'components/queries/ModelQuery';
 import modelImageProcessor from 'utils/modelImageProcessor';
@@ -236,7 +237,7 @@ export default ({ modelName }) => (
                           fill: #900000;
                         `}
                       />
-                      Model Image
+                      Model Image{modelImages.length > 1 && 's'}
                     </h3>
                     <Col
                       css={`
@@ -245,27 +246,32 @@ export default ({ modelName }) => (
                         border: solid 1px #cacbcf;
                       `}
                     >
-                      <img
-                        // src={modelImages[0].file_name}
-                        src={`${config.urls.cmsBase}/images/${modelImages[0].id}`}
-                        alt={`File name: ${modelImages[0].file_name}`}
-                        css={`
-                          display: block;
-                          width: 100%;
-                          height: auto;
-                          padding: 20px;
-                        `}
-                      />
-                      <div
-                        css={`
-                          border-top: solid 1px #cacbcf;
-                          width: 100%;
-                          text-align: left;
-                          padding: 20px;
-                        `}
-                      >
-                        <span className="image-caption">modelImages[0].file_type</span>
-                      </div>
+                      <Slider autoSlide={5000} showArrows={false} cardsToShow={1}>
+                        {modelImages.map(image => (
+                          <>
+                            <img
+                              src={`${config.urls.cmsBase}/images/${image.id}`}
+                              alt={`File name: ${image.file_name}`}
+                              css={`
+                                display: block;
+                                width: 100%;
+                                height: auto;
+                                padding: 20px;
+                              `}
+                            />
+                            <div
+                              css={`
+                                border-top: solid 1px #cacbcf;
+                                width: 100%;
+                                text-align: left;
+                                padding: 20px;
+                              `}
+                            >
+                              <span className="image-caption">{image.file_name}</span>
+                            </div>
+                          </>
+                        ))}
+                      </Slider>
                     </Col>
                   </Col>
                 )}
