@@ -3,32 +3,15 @@ import { unionWith, uniqWith, isEqual } from 'lodash';
 
 import { toExcelHeaders, toExcelRowNumber } from '../schemas/constants';
 import Model, { ModelSchema } from '../schemas/model';
+import Variant from '../schemas/variant';
 import { saveValidation } from '../validation/model';
 import { modelVariantUploadSchema } from '../validation/variant';
 
-import {
-  getSheetData,
-  typeToParser,
-  NAtoNull,
-  getAuthClient,
-} from '../services/import/SheetsToMongo';
+import { ensureAuth } from '../helpers';
+
+import { getSheetData, typeToParser, NAtoNull } from '../services/import/SheetsToMongo';
 
 export const data_sync_router = express.Router();
-
-const ensureAuth = req =>
-  new Promise((resolve, reject) => {
-    const {
-      headers: { authorization },
-    } = req;
-
-    //TODO: error handling if auth is not passed or invalid
-    try {
-      const authClient = getAuthClient(authorization);
-      resolve(authClient);
-    } catch (error) {
-      reject(error);
-    }
-  });
 
 data_sync_router.get('/sheets-data/:spreadsheetId/:sheetId', async (req, res) => {
   const { spreadsheetId, sheetId } = req.params;
@@ -232,63 +215,87 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
       }),
     )
     .then(data => runYupValidators(modelVariantUploadSchema, data))
-    .then(validatedData => {
-      // Sort the modelVariant relations by model_name
-      const mappedModelVariants = validatedData.reduce((acc, curr) => {
-        const transform = input => ({
-          variant: input.variant,
-          assessmentType: input.assessment_type || '',
-          expressionLevel: input.expression_level || '',
-        });
+    .then(validatedData =>
+      Promise.all(
+        validatedData.map(validatedVariant =>
+          Variant.findOne({
+            name: validatedVariant.variant_name,
+            type: validatedVariant.variant_type,
+          }).then(variant => {
+            if (!variant) {
+              const error = {
+                message: `No variant found matching "${validatedVariant.variant_name}" and "${
+                  validatedVariant.variant_type
+                }" in database.`,
+              };
+              throw error;
+            }
 
-        if (curr.model_name in acc) {
-          acc[curr.model_name].push(transform(curr));
+            return {
+              model_name: validatedVariant.model_name,
+              variant: variant._id,
+              assessment_type: validatedVariant.assessment_type,
+              expression_level: validatedVariant.expression_level,
+            };
+          }),
+        ),
+      ),
+    )
+    .then(populatedVariants => {
+      // Sort the modelVariant relations by model_name
+      const mappedModelVariants = populatedVariants.reduce((acc, curr) => {
+        // Get model name
+        const model_name = curr.model_name;
+
+        // Delete model name from final variant object
+        delete curr.model_name;
+
+        if (model_name in acc) {
+          acc[model_name].push(curr);
         } else {
-          acc[curr.model_name] = [transform(curr)];
+          acc[model_name] = [curr];
         }
 
         return acc;
       }, {});
 
-      const savePromises = Object.keys(mappedModelVariants).map(async modelName => {
+      const savePromises = Object.keys(mappedModelVariants).map(async model_name => {
         // Upload set for the model we are operating on
-        const uploadedModelVariants = uniqWith(mappedModelVariants[modelName], isEqual);
+        const uploadedModelVariants = uniqWith(mappedModelVariants[model_name], isEqual);
 
-        // Get the existing model
+        // Get the existing model populated with variant data (omit mongoose generated fields)
         const model = await Model.findOne(
           {
-            name: modelName,
+            name: model_name,
           },
           {
             _id: false,
             __v: false,
-          }, //omit mongoose generated fields
+          },
         );
 
-        // Get existing model variants (if they exists)
-        const existingModelVariants = model.variants.map(
-          ({ variant, assessmentType = '' }) => `${variant}-${assessmentType}`,
-        );
+        // Get existing model variant ids (if they exists)
+        const existingModelVariants = model.variants.map(({ variant }) => variant.toString());
 
         // See if any updated are allowed
-        const allowedUpdates = uploadedModelVariants.filter(
-          ({ variant, assessmentType = '' }) =>
-            overwrite || existingModelVariants.indexOf(`${variant}-${assessmentType}`) === -1,
-        );
+        const allowedUpdates = uploadedModelVariants.filter(({ variant }) => {
+          return overwrite || existingModelVariants.indexOf(variant.toString()) === -1;
+        });
 
         if (allowedUpdates.length > 0) {
           const variants = unionWith(
             allowedUpdates, // this array is the "base" as it's allowd
             model.variants, // items that fail the below test are merged
             (arrVal, othVal) =>
-              // checks for uniqness of these two fields together
-              arrVal.variant === othVal.variant && arrVal.assessmentType === othVal.assessmentType,
+              // checks for uniqness of these fields together
+              arrVal.variant.toString() === othVal.variant.toString() &&
+              arrVal.assessment_type === othVal.assessment_type,
           );
 
           return new Promise((resolve, reject) => {
             Model.findOneAndUpdate(
               {
-                name: modelName,
+                name: model_name,
               },
               {
                 $set: { variants },
@@ -336,9 +343,11 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
           }),
         )
         .catch(error => {
-          console.log('ERROR', error);
           throw error;
         });
     })
-    .catch(error => res.status(500).json({ error }));
+    .catch(error => {
+      console.log(error);
+      return res.status(500).json({ error });
+    });
 });

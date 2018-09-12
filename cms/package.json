@@ -14,6 +14,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "cors": "^2.8.4",
+    "csvtojson": "^2.0.8",
     "dotenv": "^5.0.1",
     "elasticsearch": "^14.0.0",
     "express": "^4.16.3",

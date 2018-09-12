@@ -1,15 +1,19 @@
 export const schemaArr = [
   {
-    displayName: 'Variant',
-    accessor: 'variant',
+    displayName: 'Variant Name',
+    accessor: 'variant_name',
+  },
+  {
+    displayName: 'Variant Type',
+    accessor: 'variant_type',
   },
   {
     displayName: 'Assessment Type',
-    accessor: 'assessmentType',
+    accessor: 'assessment_type',
   },
   {
     displayName: 'Expression Level',
-    accessor: 'expressionLevel',
+    accessor: 'expression_level',
   },
 ];
 

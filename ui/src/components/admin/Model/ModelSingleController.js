@@ -1,114 +1,21 @@
 import React from 'react';
 import Component from 'react-component-component';
-import { uniqBy, isEqual, capitalize } from 'lodash';
+import { get, uniqBy, isEqual, capitalize } from 'lodash';
 import { fetchData } from '../services/Fetcher';
-import { getSheetObject } from '../helpers';
+import {
+  modelStatus,
+  objectValuesToString,
+  isFormReadyToSave,
+  isFormReadyToPublish,
+  computeModelStatus,
+  generateNotification,
+  getModel,
+  saveModel,
+  deleteModel,
+  attachVariants,
+} from '../helpers';
 
 export const ModelSingleContext = React.createContext();
-
-// Constants
-const status = {
-  unpublished: 'unpublished',
-  unpublishedChanges: 'unpublished changes',
-  other: 'other',
-  published: 'published',
-};
-
-// Helper functions
-const isFormReadyToSave = (dirty, errors) => dirty && !('name' in errors);
-
-const isFormReadyToPublish = (values, dirty, errors) =>
-  (values.status !== 'published' || dirty) && Object.keys(errors).length === 0;
-
-const computeModelStatus = (currentStatus, action) => {
-  /*
-  *  Matrix
-  * -------------------------------------------
-  *             |    save     |    publish    |
-  * -------------------------------------------
-  * unpublished | unpublished |   published   |
-  * unpub. chgs | unpub. chgs |   published   |
-  * other       | unpublished |   published   |
-  * published   | unpub. chgs |   published   |
-  * -------------------------------------------
-*/
-
-  const statusMatrix = {
-    unpublished: {
-      save: status.unpublished,
-      publish: status.published,
-    },
-    unpublishedChanges: {
-      save: status.unpublishedChanges,
-      publish: status.published,
-    },
-    other: {
-      save: status.unpublished,
-      publish: status.published,
-    },
-    published: {
-      save: status.unpublishedChanges,
-      publish: status.published,
-    },
-  };
-
-  const statusKey = Object.keys(status).find(key => status[key] === currentStatus);
-
-  return currentStatus ? statusMatrix[statusKey][action] : status.unpublished;
-};
-
-// Add an id to notifications (ISO Datetime)
-const generateNotification = notification => ({
-  ...notification,
-  id: new Date().valueOf(),
-});
-
-// async abstractions
-const getModel = async (baseUrl, modelName) =>
-  fetchData({
-    url: `${baseUrl}/model/${modelName}`,
-    data: '',
-    method: 'get',
-  });
-
-const saveModel = async (baseUrl, values, isUpdate) => {
-  const { name } = values;
-
-  const url = isUpdate ? `${baseUrl}/model/${name}` : `${baseUrl}/model`;
-
-  return fetchData({
-    url,
-    data: values,
-    method: isUpdate ? 'patch' : 'post',
-  });
-};
-
-const deleteModel = async (baseUrl, modelName) =>
-  fetchData({
-    url: `${baseUrl}/model/${modelName}`,
-    data: '',
-    method: 'delete',
-  });
-
-const attachVariants = async (baseUrl, sheetURL, overwrite) => {
-  const { spreadsheetId, sheetId } = getSheetObject(sheetURL);
-  const uploadURL = `${baseUrl}/attach-variants/${spreadsheetId}/${sheetId}}?overwrite=${overwrite}`;
-  const gapi = global.gapi;
-
-  // TODO: this assumes user is already logged in - create a prompt to let user
-  // know to login if not already logged in
-  const currentUser = gapi.auth2.getAuthInstance().currentUser.get();
-  const googleAuthResponse = currentUser.getAuthResponse();
-
-  return fetchData({
-    url: uploadURL,
-    data: '',
-    method: 'get',
-    headers: {
-      Authorization: JSON.stringify(googleAuthResponse),
-    },
-  });
-};
 
 // Provider
 export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) => (
@@ -224,7 +131,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 form: { isUpdate },
               } = state;
 
-              const data = {
+              let data = {
                 ...values,
                 files: uniqBy(images, image => image.id),
                 status: computeModelStatus(values.status, 'save'),
@@ -233,7 +140,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               // When saving, the only time we pass status is when we need to
               // update to 'unpublished' status - otherwise we don't pass status
               // key in response as that would trigger an ES update
-              if (data.status && data.status !== status.unpublishedChanges) {
+              if (data.status && data.status !== modelStatus.unpublishedChanges) {
                 delete data.status;
               }
 
@@ -374,7 +281,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               // so we pass status in with our save
               const modelDataResponse = await saveModel(
                 baseUrl,
-                { ...values, status: status.unpublished },
+                { ...values, status: modelStatus.unpublished },
                 true,
               );
 
@@ -450,7 +357,93 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               }));
             }
           },
-          attachVariants: async (sheetURL, overwrite) => {
+          attachVariants: async (sheetURL, overwrite, modelName) => {
+            // Set loading true (lock UI)
+            await setState(() => ({
+              ...state,
+              data: {
+                ...state.data,
+                isLoading: true,
+              },
+            }));
+
+            attachVariants(baseUrl, sheetURL, overwrite)
+              .then(({ data: { result } }) => {
+                const customSortMatrix = {
+                  new: 1,
+                  updated: 2,
+                  unchanged: 3,
+                };
+
+                const sortedKeys = Object.keys(result).sort(
+                  (a, b) => customSortMatrix[a] - customSortMatrix[b],
+                );
+
+                const resultText = sortedKeys.reduce((acc, curr) => {
+                  if (acc.length === 0 && result[curr].length === 0) {
+                    // First time, zero variant data in the key
+                    return `${capitalize(curr)}: 0`;
+                  } else if (acc.length === 0 && result[curr].length > 0) {
+                    // First time if there is variant data in the key
+                    return `${capitalize(curr)}: ${result[curr][0]['variants'].length}`;
+                  } else if (result[curr].length > 0) {
+                    // All subsequent if there is data in the key
+                    return `${acc} | ${capitalize(curr)}: ${result[curr][0]['variants'].length}`;
+                  } else {
+                    // Else return zero result
+                    return `${acc} | ${capitalize(curr)}: 0`;
+                  }
+                }, '');
+
+                // Reload model data with new variants
+                return getModel(baseUrl, modelName).then(modelDataResponse => {
+                  setState({
+                    ...state,
+                    data: {
+                      ...state.data,
+                      isLoading: false,
+                      didLoad: true,
+                      response: modelDataResponse.data,
+                    },
+                    notifications: [
+                      ...state.notifications,
+                      generateNotification({
+                        type: 'success',
+                        message: 'Variants Upload Complete',
+                        details: resultText,
+                      }),
+                    ],
+                  });
+                });
+              })
+              .catch(err => {
+                const errorText = objectValuesToString(
+                  get(
+                    err,
+                    'response.data.error.validationErrors[0].errors',
+                    get(err, 'response.data.error', {}),
+                  ),
+                  '; ',
+                );
+
+                setState(() => ({
+                  ...state,
+                  data: {
+                    ...state.data,
+                    isLoading: false,
+                  },
+                  notifications: [
+                    ...state.notifications,
+                    generateNotification({
+                      type: 'error',
+                      message: 'Variants Upload Error.',
+                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+                    }),
+                  ],
+                }));
+              });
+          },
+          deleteVariant: async id => {
             // Set loading true (lock UI)
             await setState(() => ({
               ...state,
@@ -461,64 +454,62 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             }));
 
             try {
-              const {
-                data: { result },
-              } = await attachVariants(baseUrl, sheetURL, overwrite);
+              const modelData = state.data.response;
 
-              const customSortMatrix = {
-                new: 1,
-                updated: 2,
-                unchanged: 3,
+              let modelUpdate = {
+                ...modelData,
+                variants: modelData.variants.filter(({ _id }) => id !== _id),
               };
 
-              const sortedKeys = Object.keys(result).sort(
-                (a, b) => customSortMatrix[a] - customSortMatrix[b],
-              );
+              if (modelUpdate.status && modelUpdate.status !== modelStatus.unpublishedChanges) {
+                delete modelUpdate.status;
+              }
 
-              const resultText = sortedKeys.reduce((acc, curr) => {
-                if (acc.length === 0 && result[curr].length === 0) {
-                  // First time, zero variant data in the key
-                  return `${capitalize(curr)}: 0`;
-                } else if (acc.length === 0 && result[curr].length > 0) {
-                  // First time if there is variant data in the key
-                  return `${capitalize(curr)}: ${result[curr][0]['variants'].length}`;
-                } else if (result[curr].length > 0) {
-                  // All subsequent if there is data in the key
-                  return `${acc} | ${capitalize(curr)}: ${result[curr][0]['variants'].length}`;
-                } else {
-                  // Else return zero result
-                  return `${acc} | ${capitalize(curr)}: 0`;
-                }
-              }, '');
+              const modelDataResponse = await saveModel(baseUrl, modelUpdate, true);
 
-              setState({
+              await setState(() => ({
                 ...state,
+                // Set form to unsavable status (will release on next form interaction)
+                form: {
+                  ...state.form,
+                  isReadyToSave: false,
+                  // if files is different in new state
+                  isReadyToPublish:
+                    !isEqual(
+                      (modelDataResponse.data.response || {}).files || [],
+                      (state.data.response || {}).files || [],
+                    ) || state.form.isReadyToPublish,
+                },
+                // Put save response into data
                 data: {
                   ...state.data,
                   isLoading: false,
+                  didLoad: true,
+                  response: modelDataResponse.data,
                 },
                 notifications: [
                   ...state.notifications,
                   generateNotification({
                     type: 'success',
-                    message: 'Variants Upload Complete',
-                    details: resultText,
+                    message: 'Variant Deleted Successful!',
+                    details: 'Model variant relation has been successfully deleted.',
                   }),
                 ],
-              });
+              }));
             } catch (err) {
               setState(() => ({
                 ...state,
                 data: {
                   ...state.data,
                   isLoading: false,
+                  error: err,
                 },
                 notifications: [
                   ...state.notifications,
                   generateNotification({
                     type: 'error',
-                    message: 'Variants Upload Error.',
-                    details: { err } || 'Unknown error has occured.',
+                    message: 'Variant Delete Error.',
+                    details: err.msg || 'Unknown error has occured.',
                   }),
                 ],
               }));
