@@ -9,19 +9,36 @@ void failSafeBuild(configId, packageType){
         def targetLocation = ''
         
         // set target location based on package type
-        if(packageType == 'cms'){
-          targetLocation =  './cms/pm2.config.js'
-        } else if (packageType == 'api'){
-          targetLocation = './api/pm2.config.js'
-        } else if (packageType == 'ui'){
-          targetLocation = './ui/.env'
+        if (packageType == 'cms'){
+            targetLocation =  './cms/pm2.config.js'
+
+            configFileProvider([
+                configFile(fileId: configId, targetLocation: targetLocation),
+                configFile(fileId: configId + '-migration', targetLocation: './cms/variant-migrations/config.js'),
+            ]) {
+                sh '''
+                    portal-ci/build_stage/build.sh portal-ci ''' + packageType + '''
+                '''
+                env.BUILD_STEP_SUCCESS = 'yes'
+            }
+            return
         }
-        configFileProvider([configFile(fileId: configId, targetLocation: targetLocation)]){
-        sh '''
-        portal-ci/build_stage/build.sh portal-ci '''+packageType+'''
-        '''
-        env.BUILD_STEP_SUCCESS = 'yes'
+
+        if (pacageType == 'api') {
+            targetLocation = './api/pm2.config.js'
+        } else if (pacageType == 'ui') {
+            targetLocation = './ui/.env'
         }
+
+        configFileProvider([
+            configFile(fileId: configId, targetLocation: targetLocation)
+        ]) {
+            sh '''
+            portal-ci/build_stage/build.sh portal-ci ''' + packageType + '''
+            '''
+            env.BUILD_STEP_SUCCESS = 'yes'
+        }
+
     } catch (err) {
        env.BUILD_STEP_SUCCESS = 'no'
        echo "Required configuration for $packageType not found. Skipping the build for $packageType."
@@ -82,9 +99,9 @@ pipeline {
     }
     stage('Build Dev') {
       steps {
-        failSafeBuild('hcmi-cms-dev-config',CMS_PACKAGE_TYPE)
-        failSafeBuild('hcmi-api-dev-config',API_PACKAGE_TYPE)
-        failSafeBuild('hcmi-ui-dev-config',UI_PACKAGE_TYPE)
+        failSafeBuild('hcmi-cms-dev-config', CMS_PACKAGE_TYPE)
+        failSafeBuild('hcmi-api-dev-config', API_PACKAGE_TYPE)
+        failSafeBuild('hcmi-ui-dev-config', UI_PACKAGE_TYPE)
       }
     }
     stage('Deploy Dev') {
