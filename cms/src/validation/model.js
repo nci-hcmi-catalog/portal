@@ -76,7 +76,7 @@ export default object().shape({
   neoadjuvant_therapy: string()
     .lowercase()
     .oneOf(neoadjuvantTherapy),
-  chemotherapeutic_drugs: boolean(),
+  chemotherapeutic_drugs: boolean().nullable(),
   disease_status: string()
     .required()
     .lowercase()
@@ -158,7 +158,7 @@ export const saveValidation = object().shape({
   neoadjuvant_therapy: string()
     .lowercase()
     .oneOf(neoadjuvantTherapy),
-  chemotherapeutic_drugs: boolean(),
+  chemotherapeutic_drugs: boolean().nullable(),
   disease_status: string()
     .lowercase()
     .oneOf(diseaseStatus),
@@ -199,7 +199,7 @@ export const saveValidation = object().shape({
   tumor_histological_grade: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
     makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'tumor histological grade'),
   ),
-  licensing_required: boolean(),
+  licensing_required: boolean().nullable(),
   source_model_url: string(),
   source_sequence_url: string(),
   updatedBy: string(),

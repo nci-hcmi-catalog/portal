@@ -8,7 +8,7 @@ import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
 import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
 
 import { schemaArr } from '../schema/model';
-import { ActionPill, Actions, ToolbarText } from '../../../theme/adminTableStyles';
+import { ActionLinkPill, Actions, ToolbarText } from '../../../theme/adminTableStyles';
 import { SmallPill, ActionsMenu, ActionsMenuItem } from 'theme/adminControlsStyles';
 
 const selectedColumns = [
@@ -90,7 +90,7 @@ const modelManagerCustomColumns = [
       const data = row;
       return (
         <Actions>
-          <ActionPill secondary marginRight="6px" to={modelEditUrlBase + '/' + data.value}>
+          <ActionLinkPill secondary marginRight="6px" to={modelEditUrlBase + '/' + data.value}>
             <AdminEditPencilIcon
               css={`
                 width: 12px;
@@ -98,10 +98,10 @@ const modelManagerCustomColumns = [
               `}
             />
             Edit
-          </ActionPill>
+          </ActionLinkPill>
           <Popup
             trigger={
-              <ActionPill
+              <ActionLinkPill
                 secondary
                 css={`
                   height: 26px;
@@ -109,7 +109,7 @@ const modelManagerCustomColumns = [
                 to={() => ''}
               >
                 <AdminModelMoreOptionsIcon css={'margin: 0;'} width={15} height={3} />
-              </ActionPill>
+              </ActionLinkPill>
             }
             position="bottom right"
             offset={0}

@@ -9,14 +9,19 @@ module.exports = {
   down(db, next) {
     loadDataFromCSV('variants-18-09-07.csv')
       .then(data => {
-        const idsToRemove = data.map(({ _id }) => _id);
+        return Promise.all(
+          data.map(({ name, type }) => db.collection('variants').findOne({ name, type })),
+        );
+      })
+      .then(docsToRemove => {
+        const idsToRemove = docsToRemove.map(({ _id }) => _id);
         return db
           .collection('variants')
           .deleteMany({ _id: { $in: idsToRemove } })
           .then(() => {
             db
               .collection('models')
-              .updateMany({}, { $pull: { variants: { name: { $in: idsToRemove } } } });
+              .updateMany({}, { $pull: { variants: { _id: { $in: idsToRemove } } } });
           });
       })
       .then(() => next())

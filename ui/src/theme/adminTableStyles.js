@@ -1,34 +1,21 @@
 import styled from 'react-emotion';
 import { css } from 'emotion';
+import { Link } from 'react-router-dom';
 
 import base from 'theme';
 import { Row } from 'theme/system';
-import { SmallLinkPill } from 'theme/adminControlsStyles';
+import { SmallPill } from 'theme/adminControlsStyles';
 
 const {
-  keyedPalette: {
-    porcelain,
-    white,
-    dustyGray,
-    iron,
-    mystic,
-    black,
-    lightBlack,
-    mineShaft,
-    shuttleGrey,
-  },
+  keyedPalette: { white, dustyGray, iron, mystic, black, lightBlack, mineShaft, shuttleGrey },
   fonts: { openSans, libreFranklin },
 } = base;
 
-const borderColour = porcelain;
-
 export const Table = styled('div')`
   width: 100%;
-  padding: 8px;
   margin-bottom: 52px;
   align-self: center;
   background: ${white};
-  border: solid 1px ${borderColour};
   label: models-table-main;
 `;
 
@@ -48,13 +35,15 @@ const tableStatusBase = css`
   color: ${white};
 `;
 
-export const ActionPill = styled(SmallLinkPill)`
+export const ActionPill = styled(SmallPill)`
   font-size: 12px;
   font-weight: bold;
   line-height: 26px;
   padding: 0 13px;
   label: model-table-action-pill;
 `;
+
+export const ActionLinkPill = ActionPill.withComponent(Link);
 
 export const Actions = styled('div')`
   display: flex;
@@ -102,7 +91,7 @@ export const ToolbarMain = styled(Row)`
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 22px 20px;
+  padding: 20px 22px 20px;
   label: toolbar-main;
 `;
 
