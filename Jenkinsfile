@@ -40,8 +40,9 @@ void failSafeBuild(configId, packageType){
         }
 
     } catch (err) {
-       env.BUILD_STEP_SUCCESS = 'no'
-       echo "Required configuration for $packageType not found. Skipping the build for $packageType."
+        echo err
+        env.BUILD_STEP_SUCCESS = 'no'
+        echo "Required configuration for $packageType not found. Skipping the build for $packageType."
     }
 }
 
