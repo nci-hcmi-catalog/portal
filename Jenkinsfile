@@ -24,9 +24,9 @@ void failSafeBuild(configId, packageType){
             return
         }
 
-        if (pacageType == 'api') {
+        if (packageType == 'api') {
             targetLocation = './api/pm2.config.js'
-        } else if (pacageType == 'ui') {
+        } else if (packageType == 'ui') {
             targetLocation = './ui/.env'
         }
 
@@ -40,7 +40,6 @@ void failSafeBuild(configId, packageType){
         }
 
     } catch (err) {
-        err.getMessage()
         env.BUILD_STEP_SUCCESS = 'no'
         echo "Required configuration for $packageType not found. Skipping the build for $packageType."
     }
