@@ -1,10 +1,3 @@
-export const modelStatus = {
-  unpublished: 'unpublished',
-  published: 'published',
-  unpublishedChnages: 'unpublished changes',
-  other: 'other',
-};
-
 export const primarySites = [
   'abdomen',
   'abdomen/pelvis',

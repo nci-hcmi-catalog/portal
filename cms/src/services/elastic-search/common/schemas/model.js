@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import mongooseElasticsearch from 'mongoose-elasticsearch-xp';
 import { ModelSchema } from '../../../../schemas/model';
-import { modelStatus } from '../../../../schemas/constants';
+import { modelStatus } from '../../../../helpers/modelStatus';
 import publishValidation from '../../../../validation/model';
 import elasticClient from '../client';
 

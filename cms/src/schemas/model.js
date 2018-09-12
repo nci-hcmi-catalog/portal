@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { modelStatus } from './constants';
+import { modelStatus } from '../helpers/modelStatus';
 
 const FilesSchema = new mongoose.Schema({
   id: { type: String, es_indexed: true },
@@ -45,7 +45,7 @@ export const ModelSchema = new mongoose.Schema(
     source_model_url: { type: String, es_indexed: true },
     source_sequence_url: { type: String, es_indexed: true },
     files: { type: [FilesSchema], es_indexed: true },
-    variants: { type: [VariantExpression] },
+    variants: { type: [VariantExpression], es_indexed: false },
     status: {
       type: String,
       enum: [
@@ -70,6 +70,18 @@ export const ModelSchema = new mongoose.Schema(
           site_of_sample_acquisition: doc.site_of_sample_acquisition,
           tumor_histological_grade: doc.tumor_histological_grade,
         }),
+      },
+      variants: {
+        es_type: 'nested',
+        es_value: doc =>
+          doc.variants.map(variant => ({
+            assessment_type: variant.assessment_type,
+            expression_level: variant.expression_level,
+            category: variant.variant.category,
+            genes: variant.variant.genes,
+            name: variant.variant.name,
+            type: variant.variant.type,
+          })),
       },
     },
     timestamps: true,

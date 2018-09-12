@@ -7,7 +7,7 @@ import Variant from '../schemas/variant';
 import { saveValidation } from '../validation/model';
 import { modelVariantUploadSchema } from '../validation/variant';
 
-import { ensureAuth } from '../helpers';
+import { ensureAuth, computeModelStatus } from '../helpers';
 
 import { getSheetData, typeToParser, NAtoNull } from '../services/import/SheetsToMongo';
 
@@ -298,7 +298,8 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
                 name: model_name,
               },
               {
-                $set: { variants },
+                status: computeModelStatus(model.status, 'save'),
+                variants,
               },
               {
                 upsert: true,

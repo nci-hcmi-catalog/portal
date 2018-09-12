@@ -1,7 +1,7 @@
 import { runYupValidators } from './routes/sync-data';
 import { indexOneToES } from './services/elastic-search/publish';
 import { unpublishOneFromES } from './services/elastic-search/unpublish';
-import { modelStatus } from './schemas/constants';
+import { modelStatus } from './helpers/modelStatus';
 import { deleteImage } from './routes/images';
 import { saveValidation } from './validation/model';
 
