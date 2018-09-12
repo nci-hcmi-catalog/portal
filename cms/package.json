@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "getToken": "node bin/getToken.js"
   },
-  "author": "",
+  "author": "OICR",
   "license": "ISC",
   "dependencies": {
     "babel-polyfill": "^6.26.0",

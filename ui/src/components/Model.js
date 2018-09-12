@@ -246,7 +246,7 @@ export default ({ modelName }) => (
                       `}
                     >
                       <img
-                        src={modelImages[0].file_name}
+                        // src={modelImages[0].file_name}
                         src={`${config.urls.cmsBase}/images/${modelImages[0].id}`}
                         alt={`File name: ${modelImages[0].file_name}`}
                         css={`

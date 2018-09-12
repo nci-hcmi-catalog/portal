@@ -19,7 +19,7 @@ import FilterIcon from 'icons/FilterIcon';
 import ExportIcon from 'icons/ExportIcon';
 import SparkMeter from 'components/SparkMeter';
 
-const VariantTable = ({ category, modelName, columns }) => (
+const VariantTable = ({ type, modelName, columns }) => (
   <Component
     initialState={{
       data: [],
@@ -29,26 +29,20 @@ const VariantTable = ({ category, modelName, columns }) => (
       page: 0,
       pageSize: 10,
     }}
-    category={category}
+    type={type}
     modelName={modelName}
     didMount={async ({ props: { fetchData }, setState }) => {
       await fetchData({ setState });
     }}
     shouldUpdate={({ props, nextProps, state, nextState }) => {
       return (
-        props.category !== nextProps.category ||
+        props.type !== nextProps.type ||
         props.modelName !== nextProps.modelName ||
         !isEqual(state, nextState)
       );
     }}
-    didUpdate={async ({
-      props: { category, fetchData },
-      setState,
-      prevProps,
-      prevState,
-      state,
-    }) => {
-      if (category !== prevProps.category || modelName !== prevProps.modelName) {
+    didUpdate={async ({ props: { type, fetchData }, setState, prevProps, prevState, state }) => {
+      if (type !== prevProps.type || modelName !== prevProps.modelName) {
         await fetchData({ setState });
       }
       if (state.filterValue !== prevState.filterValue) {
@@ -105,7 +99,7 @@ const VariantTable = ({ category, modelName, columns }) => (
       });
       const data = get(variantsData, `data.models.hits.edges[0].node.variants.hits.edges`, [])
         .map(({ node }) => node)
-        .filter(node => node.category === category);
+        .filter(node => node.type.toLowerCase() === type.toLowerCase());
 
       const variantNames = uniqBy(
         data.map(({ name }) => ({ name, safe: name.replace(/ |-|\.|\(|\)/g, '') })),
@@ -207,7 +201,7 @@ const VariantTable = ({ category, modelName, columns }) => (
     {({
       state,
       setState,
-      props: { category },
+      props: { type },
       from = state.page * state.pageSize + 1,
       to = state.page * state.pageSize + state.pageSize,
       sortedData = state.filteredData.slice().sort((a, b) => b.frequency.raw - a.frequency.raw),
@@ -236,7 +230,7 @@ const VariantTable = ({ category, modelName, columns }) => (
               className="pill"
               disabled={sortedData.length === 0}
               style={{ marginLeft: '10px' }}
-              onClick={() => tsvDownloader(`${modelName}-${category}`, state.filteredData)}
+              onClick={() => tsvDownloader(`${modelName}-${type}`, state.filteredData)}
             >
               <ExportIcon height={10} width={10} />
               TSV
@@ -325,7 +319,7 @@ export default ({ modelName }) => (
                 Header: 'Frequency',
               },
             ]}
-            category="clinical_sequencing"
+            type="clinical"
           />
         ),
       },
@@ -335,7 +329,7 @@ export default ({ modelName }) => (
         content: (
           <VariantTable
             modelName={modelName}
-            category="histopathological_biomarker"
+            type="histopathological biomarker"
             columns={[
               {
                 show: true,
@@ -397,7 +391,7 @@ export default ({ modelName }) => (
         content: (
           <VariantTable
             modelName={modelName}
-            category="genomic_sequencing"
+            type="genomic_sequencing"
             columns={[
               {
                 show: true,

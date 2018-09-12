@@ -3,17 +3,17 @@ import Component from 'react-component-component';
 import { get, uniqBy, isEqual, capitalize } from 'lodash';
 import { fetchData } from '../services/Fetcher';
 import {
-  modelStatus,
   objectValuesToString,
   isFormReadyToSave,
   isFormReadyToPublish,
-  computeModelStatus,
   generateNotification,
   getModel,
   saveModel,
   deleteModel,
   attachVariants,
 } from '../helpers';
+
+import { modelStatus, computeModelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
 
 export const ModelSingleContext = React.createContext();
 
@@ -399,6 +399,15 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 return getModel(baseUrl, modelName).then(modelDataResponse => {
                   setState({
                     ...state,
+                    form: {
+                      ...state.form,
+                      // recompute isFormReadyToPublish on attach
+                      isReadyToPublish: isFormReadyToPublish(
+                        modelDataResponse.data,
+                        state.form.dirty,
+                        state.form.errors,
+                      ),
+                    },
                     data: {
                       ...state.data,
                       isLoading: false,
