@@ -1,7 +1,10 @@
 import React from 'react';
 import Component from 'react-component-component';
-import { Pill } from 'theme/adminNavStyles';
+
+import { NotificationsContext } from '../Notifications';
 import config from '../config';
+
+import { Pill } from 'theme/adminNavStyles';
 import AdminGoogleLinked from 'icons/AdminGoogleLinked';
 
 const { googleAppId } = config;
@@ -26,67 +29,83 @@ const attachGoogleSignIn = (elementId, googleAuth, onSuccess, onFailure) => {
   googleAuth.attachClickHandler(element, {}, onSuccess, onFailure);
 };
 
-const handleAuthError = err => ({ googleAuthError: true, authErrorMessage: err });
-
 export const LoginWithGoogle = () => (
-  <Component
-    initialState={{
-      googleAuthError: false,
-      authErrorMessage: '',
-      loggedIn: false,
-      googleUser: null,
-    }}
-    didMount={async ({ setState }) => {
-      try {
-        const googleAuth = await googleSDK();
-        if (!googleAuth.isSignedIn.get()) {
-          attachGoogleSignIn(
-            'googleSignin',
-            googleAuth,
-            successResponse =>
+  <NotificationsContext>
+    {({ appendNotification }) => (
+      <Component
+        initialState={{
+          loggedIn: false,
+          googleUser: null,
+        }}
+        didMount={async ({ setState }) => {
+          try {
+            const googleAuth = await googleSDK();
+            if (!googleAuth.isSignedIn.get()) {
+              attachGoogleSignIn(
+                'googleSignin',
+                googleAuth,
+                async successResponse => {
+                  await setState({
+                    loggedIn: true,
+                    googleUser: successResponse.getAuthResponse(),
+                  });
+
+                  await appendNotification({
+                    type: 'success',
+                    message: 'Google Auth Success.',
+                    details: 'Account has been successfully linked.',
+                  });
+                },
+                err =>
+                  appendNotification({
+                    type: 'error',
+                    message: 'Google Auth Error.',
+                    details: err || 'Unknown error has occured.',
+                  }),
+              );
+            } else {
               setState({
                 loggedIn: true,
-                googleUser: successResponse.getAuthResponse(),
-              }),
-            err => setState(handleAuthError(err)),
+                googleUser: googleAuth.currentUser.get(),
+              });
+            }
+          } catch (err) {
+            appendNotification({
+              type: 'error',
+              message: 'Google Auth Error.',
+              details: err || 'Unknown error has occured.',
+            });
+          }
+        }}
+      >
+        {({ state: { loggedIn }, children }) => {
+          return (
+            <>
+              {loggedIn ? (
+                <Pill
+                  css={`
+                    width: 160px;
+                    height: 30px;
+                  `}
+                >
+                  <AdminGoogleLinked
+                    css={`
+                      paddingright: 3px;
+                      width: 18px;
+                      height: 18px;
+                    `}
+                  />Google Linked
+                </Pill>
+              ) : (
+                <Pill key="google" id="googleSignin">
+                  Link With Google
+                </Pill>
+              )}
+              {children}
+            </>
           );
-        } else {
-          setState({
-            loggedIn: true,
-            googleUser: googleAuth.currentUser.get(),
-          });
-        }
-      } catch (err) {
-        setState(handleAuthError(err));
-      }
-    }}
-  >
-    {({ state: { loggedIn }, children }) => {
-      return (
-        <>
-          {loggedIn ? (
-            <Pill
-              css={`
-                width: 160px;
-                height: 30px;
-              `}
-            >
-              <AdminGoogleLinked
-                css={`
-                  paddingright: 3px;
-                  width: 18px;
-                  height: 18px;
-                `}
-              />Google Linked
-            </Pill>
-          ) : (
-            <Pill key="google" id="googleSignin">
-              Link With Google
-            </Pill>
-          )}
-          {children}
-        </>
-      );
-    }}
-  </Component>
+        }}
+      </Component>
+    )}
+  </NotificationsContext>
 );
