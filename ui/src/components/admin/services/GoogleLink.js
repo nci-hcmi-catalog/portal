@@ -60,7 +60,7 @@ export const LoginWithGoogle = () => (
                   appendNotification({
                     type: 'error',
                     message: 'Google Auth Error.',
-                    details: err || 'Unknown error has occured.',
+                    details: err.details || 'Unknown error has occured.',
                   }),
               );
             } else {
@@ -73,7 +73,7 @@ export const LoginWithGoogle = () => (
             appendNotification({
               type: 'error',
               message: 'Google Auth Error.',
-              details: err || 'Unknown error has occured.',
+              details: err.details || 'Unknown error has occured.',
             });
           }
         }}
