@@ -5,6 +5,7 @@ import { get } from '../services/Fetcher';
 import { getSheetObject } from '../helpers';
 import { ModalStateContext } from 'providers/ModalState';
 
+import { NotificationToaster } from '../Notifications';
 import ModelManagerTable from './ModelManagerTable';
 import { modelEditUrlBase } from '../AdminNav';
 import BulkUploader from '../BulkUpload';
@@ -37,6 +38,7 @@ const uploadModelsFromSheet = async (sheetURL, overwrite) => {
 const content = () => {
   return (
     <AdminContainer>
+      <NotificationToaster />
       <AdminHeader>
         <AdminHeaderH1>
           <ModelIcon

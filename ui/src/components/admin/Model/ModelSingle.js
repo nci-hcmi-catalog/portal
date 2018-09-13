@@ -37,18 +37,11 @@ export default ({ match }) => (
         state: {
           ui: { activeTab },
           data: { isLoading, response },
-          notifications,
         },
-        clearNotification,
       }) => (
         <AdminContainer>
           {isLoading && <Loading />}
-          {notifications.length > 0 && (
-            <NotificationToaster
-              notifications={notifications}
-              clearNotification={clearNotification}
-            />
-          )}
+          <NotificationToaster />
           <ModelSingleHeader modelName={match.params.name} />
           <Row>
             <AdminModelNav />

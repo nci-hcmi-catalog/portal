@@ -348,7 +348,7 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
         });
     })
     .catch(error => {
-      console.log(error);
-      return res.status(500).json({ error });
+      console.log('Sync Data Error: ', error);
+      return res.status(500).json({ error: error instanceof Error ? error.message : error });
     });
 });
