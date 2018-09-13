@@ -134,9 +134,13 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
                   let data = {
                     ...values,
-                    files: uniqBy(images, image => image.id),
                     status: computeModelStatus(values.status, 'save'),
                   };
+
+                  // If we're doing something with images send the files key
+                  if (images.length > 0) {
+                    data.files = uniqBy(images, image => image.id);
+                  }
 
                   // When saving, the only time we pass status is when we need to
                   // update to 'unpublished' status - otherwise we don't pass status

@@ -37,21 +37,14 @@ export const preUpdate = (req, res, next) => {
           // mongoose document is not avaiable in the hook unless findOneAndUpdate is false
           // findOneAndUpdate is used elsewhere, so we need to manually find the doc
           const modelDoc = await model.findById(body._id);
-          const toDelete = modelDoc.files.filter(f => f.marked_for_deletion);
-          const deletedIds = await toDelete.reduce(async (accPromise, file) => {
-            let acc = await accPromise;
-            const result = await deleteImage(file._id);
-            if (result.code === 200) {
-              return [...acc, file._id];
-            }
-            return acc;
-          }, Promise.resolve([]));
-          if (deletedIds.length) {
-            const remainingFiles = modelDoc.files.filter(f => !deletedIds.includes(f._id));
+          const toDelete = modelDoc.files.filter(f => f.marked_for_deletion).map(f => f._id);
+
+          return Promise.all(toDelete.map(id => deleteImage(id))).then(() => {
+            const remainingFiles = modelDoc.files.filter(f => !toDelete.includes(f._id));
             // setting and saving the mongoose doc here returns correct state but
             // does not seem to commit it. Setting req body does.
             req.body.files = remainingFiles;
-          }
+          });
         }
       }
     })
