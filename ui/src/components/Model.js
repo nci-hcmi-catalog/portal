@@ -250,7 +250,7 @@ export default ({ modelName }) => (
                         {modelImages.map(image => (
                           <>
                             <img
-                              src={`${config.urls.cmsBase}/images/${image.id}`}
+                              src={`${config.urls.cmsBase}/images/${image.file_id}`}
                               alt={`File name: ${image.file_name}`}
                               css={`
                                 display: block;

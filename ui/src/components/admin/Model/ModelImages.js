@@ -32,7 +32,7 @@ const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) =
       passage_number: file.passage_number || 0,
     }}
     onSubmit={values => {
-      onMetaDataSave({ fileId: file.id, metaData: values });
+      onMetaDataSave({ fileId: file.file_id, metaData: values });
       setPreviewState({ editing: !editing });
     }}
     render={({ handleSubmit }) => (
@@ -82,7 +82,7 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
         `}
       >
         <img
-          src={file.preview ? file.preview : `${config.urls.cmsBase}/images/${file.id}`}
+          src={file.preview ? file.preview : `${config.urls.cmsBase}/images/${file.file_id}`}
           alt={`File: ${file.file_name}`}
           height="155"
           width="250"
@@ -124,7 +124,7 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
               width: 32px;
               height: 32px;
             `}
-            onClick={() => onDelete(file.id)}
+            onClick={() => onDelete(file.file_id)}
           >
             {queuedForDelete ? (
               <PlusIcon
@@ -174,11 +174,10 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
 
 const ImageGallery = ({ acceptedFiles, toDeleteFiles, onDelete, onMetaDataSave }) => (
   <>
-    {console.log(acceptedFiles)}
     {acceptedFiles.map(file => (
       <ImagePreview
-        queuedForDelete={toDeleteFiles.map(({ id }) => id).includes(file.id)}
-        key={file.id}
+        queuedForDelete={toDeleteFiles.map(({ id }) => id).includes(file.file_id)}
+        key={file.file_id}
         file={file}
         onDelete={onDelete}
         onMetaDataSave={onMetaDataSave}
@@ -296,7 +295,6 @@ export default () => (
                 }}
                 onDelete={toDeleteFileId => {
                   const toDeleteFile = files.find(f => f.id === toDeleteFileId);
-                  console.log(toDeleteFile);
                   saveForm({
                     values,
                     images: [

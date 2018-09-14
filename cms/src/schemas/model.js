@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { modelStatus } from '../helpers/modelStatus';
 
 const FilesSchema = new mongoose.Schema({
-  id: { type: String, es_indexed: true },
+  file_id: { type: String, es_indexed: true },
   file_name: { type: String, es_indexed: true },
   file_type: { type: String, es_indexed: true },
   scale_bar_length: { type: String, es_indexed: true },
