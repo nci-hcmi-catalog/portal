@@ -5,8 +5,7 @@ import { ModelSingleContext } from './ModelSingleController';
 import { ModalStateContext } from 'providers/ModalState';
 
 import BulkUploader from '../BulkUpload';
-import Toolbar from '../AdminTable/data-driven/Toolbar';
-import DataTable from '../AdminTable/data-driven/DataTable';
+import { Toolbar, DataTable } from '../AdminTable';
 import { ModelVariantColumns as tableColumns } from './ModelVariantColumns';
 
 import AdminPlusIcon from '../../../icons/AdminPlusIcon';
