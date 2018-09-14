@@ -139,7 +139,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
                   // If we're doing something with images send the files key
                   if (images.length > 0) {
-                    data.files = uniqBy(images, image => image.id);
+                    data.files = uniqBy(images, image => image.file_id);
                   }
 
                   // When saving, the only time we pass status is when we need to
@@ -526,7 +526,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     window.URL.revokeObjectURL(file.preview);
                     return [
                       ...acc,
-                      { file_name: file.name, file_type: file.type, id: response.data.id },
+                      { file_name: file.name, file_type: file.type, file_id: response.data.id },
                     ];
                   }
                   return acc;
