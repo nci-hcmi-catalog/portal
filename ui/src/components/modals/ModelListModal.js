@@ -17,6 +17,8 @@ import TrashIcon from 'icons/TrashIcon';
 import DownloadIconWhite from 'icons/DownloadIconWhite';
 import modelListEmptyRedPlus from 'assets/icon-modellist-empty-red.svg';
 
+import config from '../admin/config';
+
 const EmptyList = () => (
   <div className="empty-list">
     <img src={modelListEmptyRedPlus} alt="Add to list icon" width="26" height="30" />
@@ -89,7 +91,9 @@ export default () => (
                                 <div className="model-list-model" key={idx}>
                                   {modelImages.length > 0 ? (
                                     <img
-                                      src={modelImages[0].file_name}
+                                      src={`${config.urls.cmsBase}/images/${
+                                        modelImages[0].file_id
+                                      }`}
                                       alt="model representation"
                                       width="100"
                                       height="74"
