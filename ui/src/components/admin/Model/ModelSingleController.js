@@ -172,7 +172,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       response: modelDataResponse.data,
                     },
                   }));
-                  await appendNotification(successNotification || []);
+                  successNotification && (await appendNotification(successNotification));
                 } catch (err) {
                   await setState(() => ({
                     ...state,
