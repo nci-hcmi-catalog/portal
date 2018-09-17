@@ -246,7 +246,7 @@ export default ({ modelName }) => (
                         border: solid 1px #cacbcf;
                       `}
                     >
-                      <Slider autoSlide={5000} showArrows={false} cardsToShow={1}>
+                      <Slider autoSlide={false} showDots={false} cardsToShow={1}>
                         {modelImages.map(image => (
                           <>
                             <img
