@@ -1,8 +1,12 @@
 import React from 'react';
 import Component from 'react-component-component';
-import { generateNotification } from '../helpers';
 
 export const NotificationsContext = React.createContext();
+
+const generateNotification = notification => ({
+  ...notification,
+  id: new Date().valueOf(),
+});
 
 // Provider
 export const NotificationsProvider = ({ children, props }) => (

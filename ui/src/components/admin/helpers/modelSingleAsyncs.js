@@ -1,17 +1,6 @@
 import { fetchData } from '../services/Fetcher';
 import { getSheetObject } from '../helpers';
 
-export const isFormReadyToSave = (dirty, errors) => dirty && !('name' in errors);
-
-export const isFormReadyToPublish = (values, dirty, errors) =>
-  (values.status !== 'published' || dirty) && Object.keys(errors).length === 0;
-
-// Add an id to notifications (ISO Datetime)
-export const generateNotification = notification => ({
-  ...notification,
-  id: new Date().valueOf(),
-});
-
 // async abstractions
 export const getModel = async (baseUrl, modelName) =>
   fetchData({
