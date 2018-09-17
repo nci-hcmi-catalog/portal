@@ -1,7 +1,8 @@
 import React from 'react';
 import Component from 'react-component-component';
 import { fetchData } from '../services/Fetcher';
-export const AdminTableContext = React.createContext();
+
+export const ModelManagerContext = React.createContext();
 
 const paginatedUrl = ({ baseUrl, page, pageSize }) =>
   baseUrl + `?skip=${0}&limit=${page * pageSize + pageSize}`;
@@ -10,7 +11,8 @@ const getPageData = ({ baseUrl, page, pageSize }) => {
   let url = paginatedUrl({ baseUrl, page, pageSize });
   return fetchData({ url, data: '', method: 'get' });
 };
-export const AdminTableProvider = ({ baseUrl, children, ...props }) => (
+
+export default ({ baseUrl, children, ...props }) => (
   <Component
     initialState={{
       minRows: 0,
@@ -60,7 +62,7 @@ export const AdminTableProvider = ({ baseUrl, children, ...props }) => (
     }}
   >
     {({ state, setState }) => (
-      <AdminTableContext.Provider
+      <ModelManagerContext.Provider
         value={{
           state,
           onPageChange: newPage => setState({ page: newPage, isLoading: true }),
@@ -70,7 +72,7 @@ export const AdminTableProvider = ({ baseUrl, children, ...props }) => (
         {...props}
       >
         {children}
-      </AdminTableContext.Provider>
+      </ModelManagerContext.Provider>
     )}
   </Component>
 );

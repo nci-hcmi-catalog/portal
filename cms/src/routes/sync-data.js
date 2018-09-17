@@ -102,6 +102,10 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
   overwrite = overwrite || false;
   overwrite = normalizeOption(overwrite);
 
+  // TODO - Do not fail fast, instead do entire bulk operation and report
+  // https://nmaggioni.xyz/2016/10/13/Avoiding-Promise-all-fail-fast-behavior/
+  // (bottom solution)
+
   ensureAuth(req)
     .then(authClient => getSheetData({ authClient, spreadsheetId, sheetId }))
     .then(data => {
@@ -202,6 +206,10 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
   let { overwrite } = req.query;
   overwrite = overwrite || false;
   overwrite = normalizeOption(overwrite);
+  
+  // TODO - Do not fail fast, instead do entire bulk operation and report
+  // https://nmaggioni.xyz/2016/10/13/Avoiding-Promise-all-fail-fast-behavior/
+  // (bottom solution)
 
   ensureAuth(req)
     .then(authClient => getSheetData({ authClient, spreadsheetId, sheetId }))

@@ -176,7 +176,7 @@ const ImageGallery = ({ acceptedFiles, toDeleteFiles, onDelete, onMetaDataSave }
   <>
     {acceptedFiles.map(file => (
       <ImagePreview
-        queuedForDelete={toDeleteFiles.map(({ id }) => id).includes(file.file_id)}
+        queuedForDelete={toDeleteFiles.map(({ file_id }) => file_id).includes(file.file_id)}
         key={file.file_id}
         file={file}
         onDelete={onDelete}
@@ -290,15 +290,21 @@ export default () => (
                 onMetaDataSave={({ fileId, metaData }) => {
                   saveForm({
                     values,
-                    images: files.map(f => (f.id === fileId ? { ...f, ...metaData } : f)),
+                    images: files.map(f => (f.file_id === fileId ? { ...f, ...metaData } : f)),
+                    successNotification: {
+                      type: 'success',
+                      message: `Image Metadata Saved!`,
+                      details:
+                        'Image metadata has been succesfully saved, however not yet published.',
+                    },
                   });
                 }}
                 onDelete={toDeleteFileId => {
-                  const toDeleteFile = files.find(f => f.id === toDeleteFileId);
+                  const toDeleteFile = files.find(f => f.file_id === toDeleteFileId);
                   saveForm({
                     values,
                     images: [
-                      ...files.filter(f => f.id !== toDeleteFileId),
+                      ...files.filter(f => f.file_id !== toDeleteFileId),
                       {
                         ...toDeleteFile,
                         marked_for_deletion: !toDeleteFile.marked_for_deletion,

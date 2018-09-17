@@ -1,16 +1,25 @@
 import React from 'react';
-import { AdminTableProvider } from '../AdminTable/AdminTableController';
-import { Col } from 'theme/system';
-import AdminTableToolbar from '../AdminTable/AdminTableToolbar';
-import EnhancedReactTable from '../AdminTable/EnhancedReactTable';
+
+import ModelManagerProvider, { ModelManagerContext } from './ModelManagerController';
+import { Toolbar, DataTable } from '../AdminTable';
 import { ModelTableColumns } from './ModelColumns';
 import config from '../config';
 
+import { Col } from 'theme/system';
+
+const type = 'Models';
+
 export default () => (
-  <AdminTableProvider baseUrl={`${config.urls.cmsBase}/Model`}>
-    <Col>
-      <AdminTableToolbar {...{ type: `Models` }} />
-      <EnhancedReactTable {...{ tableColumns: ModelTableColumns }} />
-    </Col>
-  </AdminTableProvider>
+  <ModelManagerProvider baseUrl={`${config.urls.cmsBase}/Model`}>
+    <ModelManagerContext.Consumer>
+      {({ state, onPageChange, onPageSizeChange, onFilterValueChange }) => (
+        <Col>
+          <Toolbar {...{ state, type, onFilterValueChange }} />
+          <DataTable
+            {...{ state, tableColumns: ModelTableColumns, onPageChange, onPageSizeChange }}
+          />
+        </Col>
+      )}
+    </ModelManagerContext.Consumer>
+  </ModelManagerProvider>
 );
