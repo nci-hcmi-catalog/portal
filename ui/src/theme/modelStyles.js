@@ -138,14 +138,23 @@ export default css`
 
   .image-caption {
     font-family: 'Open Sans';
-    font-size: 14px;
+    font-size: 11px;
     font-weight: normal;
-    font-style: oblique;
     font-stretch: normal;
-    line-height: 2;
+    line-height: 13px;
+    height: 13px;
     letter-spacing: normal;
     text-align: left;
-    color: #64666a;
+    color: #323232;
+  }
+
+  .image-caption:not(:first-child) {
+    padding-left: 8px;
+  }
+
+  .image-caption:not(:last-child) {
+    border-right: 1px solid #323232;
+    padding-right: 8px;
   }
 
   .entity-horizontal-table {
