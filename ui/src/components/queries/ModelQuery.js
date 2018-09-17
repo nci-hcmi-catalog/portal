@@ -39,6 +39,9 @@ const fetchData = async ({ setState, modelName }) => {
                               file_id
                               file_name
                               file_type
+                              scale_bar_length
+                              magnification
+                              passage_number
                             }
                           }
                         }

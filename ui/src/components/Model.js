@@ -247,30 +247,54 @@ export default ({ modelName }) => (
                       `}
                     >
                       <Slider autoSlide={false} showDots={false} cardsToShow={1}>
-                        {modelImages.map(image => (
-                          <>
-                            <img
-                              src={`${config.urls.cmsBase}/images/${image.file_id}`}
-                              alt={`File name: ${image.file_name}`}
-                              css={`
-                                display: block;
-                                width: 100%;
-                                height: auto;
-                                padding: 20px;
-                              `}
-                            />
-                            <div
-                              css={`
-                                border-top: solid 1px #cacbcf;
-                                width: 100%;
-                                text-align: left;
-                                padding: 20px;
-                              `}
-                            >
-                              <span className="image-caption">{image.file_name}</span>
-                            </div>
-                          </>
-                        ))}
+                        {modelImages.map(
+                          ({
+                            file_id,
+                            file_name,
+                            scale_bar_length,
+                            magnification,
+                            passage_number,
+                          }) => (
+                            <>
+                              <img
+                                src={`${config.urls.cmsBase}/images/${file_id}`}
+                                alt={`File name: ${file_name}`}
+                                css={`
+                                  display: block;
+                                  width: 100%;
+                                  height: auto;
+                                  padding: 20px 0 16px;
+                                `}
+                              />
+                              {(scale_bar_length || magnification || passage_number) && (
+                                <div
+                                  css={`
+                                    border-top: solid 1px #cacbcf;
+                                    width: 100%;
+                                    text-align: left;
+                                    padding: 12px 0;
+                                  `}
+                                >
+                                  {scale_bar_length && (
+                                    <span className="image-caption">
+                                      Scale-bar length: {scale_bar_length} μm
+                                    </span>
+                                  )}
+                                  {magnification && (
+                                    <span className="image-caption">
+                                      Magnification: {magnification} x
+                                    </span>
+                                  )}
+                                  {passage_number && (
+                                    <span className="image-caption">
+                                      Passage Number: {passage_number}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+                            </>
+                          ),
+                        )}
                       </Slider>
                     </Col>
                   </Col>
