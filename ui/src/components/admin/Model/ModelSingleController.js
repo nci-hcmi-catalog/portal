@@ -1,16 +1,17 @@
 import React from 'react';
 import Component from 'react-component-component';
-import { get, uniqBy, isEqual, capitalize } from 'lodash';
+import { uniqBy, isEqual } from 'lodash';
 import { NotificationsContext } from '../Notifications';
 import { fetchData } from '../services/Fetcher';
 import {
-  objectValuesToString,
   isFormReadyToSave,
   isFormReadyToPublish,
   getModel,
   saveModel,
   deleteModel,
   attachVariants,
+  extractResultText,
+  extractErrorText,
 } from '../helpers';
 
 import { modelStatus, computeModelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
@@ -358,37 +359,9 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 }));
 
                 attachVariants(baseUrl, sheetURL, overwrite)
-                  .then(({ data: { result } }) => {
-                    const customSortMatrix = {
-                      new: 1,
-                      updated: 2,
-                      unchanged: 3,
-                    };
-
-                    const sortedKeys = Object.keys(result).sort(
-                      (a, b) => customSortMatrix[a] - customSortMatrix[b],
-                    );
-
-                    const resultText = sortedKeys.reduce((acc, curr) => {
-                      if (acc.length === 0 && result[curr].length === 0) {
-                        // First time, zero variant data in the key
-                        return `${capitalize(curr)}: 0`;
-                      } else if (acc.length === 0 && result[curr].length > 0) {
-                        // First time if there is variant data in the key
-                        return `${capitalize(curr)}: ${result[curr][0]['variants'].length}`;
-                      } else if (result[curr].length > 0) {
-                        // All subsequent if there is data in the key
-                        return `${acc} | ${capitalize(curr)}: ${
-                          result[curr][0]['variants'].length
-                        }`;
-                      } else {
-                        // Else return zero result
-                        return `${acc} | ${capitalize(curr)}: 0`;
-                      }
-                    }, '');
-
+                  .then(({ data: { result } }) =>
                     // Reload model data with new variants
-                    return getModel(baseUrl, modelName).then(async modelDataResponse => {
+                    getModel(baseUrl, modelName).then(async modelDataResponse => {
                       await setState({
                         ...state,
                         form: {
@@ -411,19 +384,12 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       await appendNotification({
                         type: 'success',
                         message: 'Variants Upload Complete',
-                        details: resultText,
+                        details: extractResultText(result, 'variant'),
                       });
-                    });
-                  })
+                    }),
+                  )
                   .catch(async err => {
-                    const errorText = objectValuesToString(
-                      get(
-                        err,
-                        'response.data.error.validationErrors[0].errors',
-                        get(err, 'response.data.error', {}),
-                      ),
-                      '; ',
-                    );
+                    const errorText = extractErrorText(err);
 
                     await setState(() => ({
                       ...state,
