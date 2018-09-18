@@ -11,6 +11,7 @@ import {
 } from '../helpers';
 
 import { NotificationsContext } from '../Notifications';
+import config from '../config';
 
 export const ModelManagerContext = React.createContext();
 
@@ -127,14 +128,18 @@ export default ({ baseUrl, children, ...props }) => (
                     });
                   });
               },
-              bulkPublish: async ids => {
+              bulkPublish: async () => {
+                if (state.selection.length === 0) {
+                  return console.error('Cannot publish a null selection');
+                }
+
                 // Set loading true (lock UI)
                 await setState(() => ({
                   ...state,
                   isLoading: true,
                 }));
 
-                bulkAction(`${baseUrl}/api/v1/publish`, 'post', ids)
+                bulkAction(`${config.urls.cmsBase}/publish`, 'post', state.selection)
                   .then(({ data: { result } }) =>
                     loadData(baseUrl, state).then(async ([dataResponse, countResponse]) => {
                       await setState(() => ({
@@ -147,7 +152,7 @@ export default ({ baseUrl, children, ...props }) => (
                       await appendNotification({
                         type: 'success',
                         message: 'Bulk Publish Complete',
-                        details: extractResultText(result),
+                        // details: extractResultText(result),
                       });
                     }),
                   )
@@ -162,7 +167,7 @@ export default ({ baseUrl, children, ...props }) => (
                     await appendNotification({
                       type: 'error',
                       message: 'Bulk Publish Error.',
-                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+                      // details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
                     });
                   });
               },
