@@ -1,9 +1,13 @@
 import React from 'react';
 import Component from 'react-component-component';
-import { xor } from 'lodash';
 
 import { fetchData } from '../services/Fetcher';
-import { uploadModelsFromSheet, extractResultText, extractErrorText } from '../helpers';
+import {
+  uploadModelsFromSheet,
+  extractResultText,
+  extractErrorText,
+  generateTableActions,
+} from '../helpers';
 
 import { NotificationsContext } from '../Notifications';
 
@@ -83,20 +87,6 @@ export default ({ baseUrl, children, ...props }) => (
           <ModelManagerContext.Provider
             value={{
               state,
-              onPageChange: newPage => setState({ page: newPage, isLoading: true }),
-              onFilterValueChange: newValue => setState({ filterValue: newValue }),
-              onPageSizeChange: newValue =>
-                setState({ page: 0, pageSize: newValue, isLoading: true }),
-              toggleSelection: id => setState({ ...state, selection: xor(state.selection, [id]) }),
-              toggleAll: () => {
-                const ids = state.data.map(({ _id }) => _id);
-
-                return setState({
-                  ...state,
-                  selection: state.selection.length === ids.length ? [] : ids,
-                  selectAll: !state.selectAll,
-                });
-              },
               uploadModelsFromSheet: async (sheetURL, overwrite) => {
                 // Set loading true (lock UI)
                 await setState(() => ({
@@ -137,6 +127,7 @@ export default ({ baseUrl, children, ...props }) => (
                     });
                   });
               },
+              ...generateTableActions(state, setState, state.data),
             }}
             {...props}
           >
