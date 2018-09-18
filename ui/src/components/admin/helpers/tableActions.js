@@ -1,3 +1,5 @@
+// @ts-check
+
 import { xor } from 'lodash';
 
 export const generateTableActions = (state, setState, data) => ({

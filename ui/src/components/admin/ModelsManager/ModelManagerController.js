@@ -7,6 +7,7 @@ import {
   extractResultText,
   extractErrorText,
   generateTableActions,
+  bulkAction,
 } from '../helpers';
 
 import { NotificationsContext } from '../Notifications';
@@ -14,7 +15,7 @@ import { NotificationsContext } from '../Notifications';
 export const ModelManagerContext = React.createContext();
 
 const paginatedUrl = ({ baseUrl, page, pageSize }) =>
-  baseUrl + `?skip=${0}&limit=${page * pageSize + pageSize}`;
+  `${baseUrl}?skip=${0}&limit=${page * pageSize + pageSize}`;
 
 const getPageData = ({ baseUrl, page, pageSize }) => {
   let url = paginatedUrl({ baseUrl, page, pageSize });
@@ -27,7 +28,7 @@ const loadData = async (baseUrl, state) => {
     ...state,
   });
   const getCount = fetchData({
-    url: baseUrl + `/count`,
+    url: `${baseUrl}/count`,
     data: '',
     method: 'get',
   });
@@ -113,7 +114,6 @@ export default ({ baseUrl, children, ...props }) => (
                   )
                   .catch(async err => {
                     const errorText = extractErrorText(err);
-                    debugger;
 
                     await setState(() => ({
                       ...state,
@@ -123,6 +123,45 @@ export default ({ baseUrl, children, ...props }) => (
                     await appendNotification({
                       type: 'error',
                       message: 'Model Upload Error.',
+                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+                    });
+                  });
+              },
+              bulkPublish: async ids => {
+                // Set loading true (lock UI)
+                await setState(() => ({
+                  ...state,
+                  isLoading: true,
+                }));
+
+                bulkAction(`${baseUrl}/api/v1/publish`, 'post', ids)
+                  .then(({ data: { result } }) =>
+                    loadData(baseUrl, state).then(async ([dataResponse, countResponse]) => {
+                      await setState(() => ({
+                        isLoading: false,
+                        data: dataResponse.data,
+                        error: null,
+                        rowCount: countResponse.data.count,
+                      }));
+
+                      await appendNotification({
+                        type: 'success',
+                        message: 'Bulk Publish Complete',
+                        details: extractResultText(result),
+                      });
+                    }),
+                  )
+                  .catch(async err => {
+                    const errorText = extractErrorText(err);
+
+                    await setState(() => ({
+                      ...state,
+                      isLoading: false,
+                    }));
+
+                    await appendNotification({
+                      type: 'error',
+                      message: 'Bulk Publish Error.',
                       details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
                     });
                   });
