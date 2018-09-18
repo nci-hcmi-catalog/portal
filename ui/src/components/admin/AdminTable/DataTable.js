@@ -4,14 +4,17 @@ import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPa
 
 import searchStyles from 'theme/searchStyles';
 import checkboxHOC from 'react-table/lib/hoc/selectTable';
+
 const EnhancedReactTable = checkboxHOC(ReactTable);
 
 export default ({
   state,
-  state: { isLoading, page, pageSize, data, rowCount },
+  state: { isLoading, page, pageSize, data, rowCount, selection },
   tableColumns,
   onPageChange,
   onPageSizeChange,
+  toggleSelection,
+  toggleAll,
 }) => {
   return (
     <div css={searchStyles}>
@@ -25,6 +28,9 @@ export default ({
         defaultPageSize={pageSize}
         pageSize={pageSize}
         page={page}
+        toggleSelection={toggleSelection}
+        toggleAll={toggleAll}
+        isSelected={id => selection.indexOf(id) !== -1}
         PaginationComponent={() => (
           <CustomPagination
             {...state}

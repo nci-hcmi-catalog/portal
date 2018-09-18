@@ -10,11 +10,25 @@ const type = 'Models';
 
 export default () => (
   <ModelManagerContext.Consumer>
-    {({ state, onPageChange, onPageSizeChange, onFilterValueChange }) => (
+    {({
+      state,
+      onPageChange,
+      onPageSizeChange,
+      onFilterValueChange,
+      toggleSelection,
+      toggleAll,
+    }) => (
       <Col>
         <Toolbar {...{ state, type, onFilterValueChange }} />
         <DataTable
-          {...{ state, tableColumns: ModelTableColumns, onPageChange, onPageSizeChange }}
+          {...{
+            state,
+            tableColumns: ModelTableColumns,
+            onPageChange,
+            onPageSizeChange,
+            toggleSelection,
+            toggleAll,
+          }}
         />
       </Col>
     )}

@@ -1,5 +1,6 @@
 import React from 'react';
 import Component from 'react-component-component';
+import { xor } from 'lodash';
 
 import { fetchData } from '../services/Fetcher';
 import { uploadModelsFromSheet, extractResultText, extractErrorText } from '../helpers';
@@ -86,6 +87,16 @@ export default ({ baseUrl, children, ...props }) => (
               onFilterValueChange: newValue => setState({ filterValue: newValue }),
               onPageSizeChange: newValue =>
                 setState({ page: 0, pageSize: newValue, isLoading: true }),
+              toggleSelection: id => setState({ ...state, selection: xor(state.selection, [id]) }),
+              toggleAll: () => {
+                const ids = state.data.map(({ _id }) => _id);
+
+                return setState({
+                  ...state,
+                  selection: state.selection.length === ids.length ? [] : ids,
+                  selectAll: !state.selectAll,
+                });
+              },
               uploadModelsFromSheet: async (sheetURL, overwrite) => {
                 // Set loading true (lock UI)
                 await setState(() => ({
