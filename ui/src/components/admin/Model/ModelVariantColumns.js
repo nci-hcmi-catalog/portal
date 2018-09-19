@@ -17,12 +17,12 @@ const modelVariantCustomColumns = [
   {
     Header: 'Actions',
     accessor: 'actions',
-    Cell: ({ original: { id } }) => {
+    Cell: ({ original: { _id } }) => {
       return (
         <ModelSingleContext.Consumer>
           {({ deleteVariant }) => (
             <Actions>
-              <ActionPill secondary marginRight="6px" onClick={() => deleteVariant(id)}>
+              <ActionPill secondary marginRight="6px" onClick={() => deleteVariant(_id)}>
                 <AdminEditPencilIcon
                   css={`
                     width: 12px;
