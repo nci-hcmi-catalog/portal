@@ -27,7 +27,7 @@ const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis, fie
       ),
     );
 
-const nameValidation = /HCM-\w{4}-\d{4}.\w\d{2}/;
+const nameValidation = /HCM-\w{4}-\d{4}\.\w\d{2}/;
 
 // In order to publish a model, this validation
 // must be satisfied, including all required fields

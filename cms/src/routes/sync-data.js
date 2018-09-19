@@ -7,7 +7,7 @@ import Variant from '../schemas/variant';
 import { saveValidation } from '../validation/model';
 import { modelVariantUploadSchema } from '../validation/variant';
 
-import { ensureAuth, computeModelStatus } from '../helpers';
+import { ensureAuth, computeModelStatus, runYupValidators } from '../helpers';
 
 import { getSheetData, typeToParser, NAtoNull } from '../services/import/SheetsToMongo';
 
@@ -66,32 +66,6 @@ const removeNullKeys = data =>
     }),
     {},
   );
-
-export const runYupValidators = (validator, data) => {
-  const validatePromises = data.map(p =>
-    validator.validate(p, { abortEarly: false }).catch(Error => Error),
-  );
-
-  return Promise.all(validatePromises).then(results => {
-    const failed = results.filter(result => result instanceof Error);
-    if (failed.length > 0) {
-      const errors = {
-        validationErrors: failed.map(({ value, inner }) => ({
-          errors: inner.reduce(
-            (acc, { path, message }) => ({
-              ...acc,
-              [path]: message,
-            }),
-            {},
-          ),
-          value,
-        })),
-      };
-      throw errors;
-    }
-    return data;
-  });
-};
 
 const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
@@ -206,7 +180,7 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
   let { overwrite } = req.query;
   overwrite = overwrite || false;
   overwrite = normalizeOption(overwrite);
-  
+
   // TODO - Do not fail fast, instead do entire bulk operation and report
   // https://nmaggioni.xyz/2016/10/13/Avoiding-Promise-all-fail-fast-behavior/
   // (bottom solution)

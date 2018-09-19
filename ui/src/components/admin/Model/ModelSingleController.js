@@ -12,6 +12,7 @@ import {
   attachVariants,
   extractResultText,
   extractErrorText,
+  generateTableActions,
 } from '../helpers';
 
 import { modelStatus, computeModelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
@@ -41,6 +42,15 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             dirty: false,
             touched: {},
             errors: {},
+          },
+          variantTable: {
+            selection: [],
+            selectAll: false,
+            minRows: 0,
+            rowCount: 0,
+            page: 0,
+            pageSize: 10,
+            isLoading: false,
           },
         }}
         didMount={async ({ state, setState }) => {
@@ -499,6 +509,15 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 }, Promise.resolve([]));
                 return uploaded;
               },
+              variantTableControlls: generateTableActions(
+                state.variantTable,
+                newvariantTableState =>
+                  setState({
+                    ...state,
+                    variantTable: { ...state.variantTable, ...newvariantTableState },
+                  }),
+                state.data.response.variants || [],
+              ),
             }}
             {...props}
           >

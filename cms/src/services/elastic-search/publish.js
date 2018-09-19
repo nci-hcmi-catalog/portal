@@ -1,5 +1,6 @@
 import { ModelES } from './common/schemas/model';
 import publishValidation from '../../validation/model';
+import { modelStatus } from '../../helpers/modelStatus';
 
 export const indexOneToES = filter => {
   return new Promise((resolve, reject) => {
@@ -42,27 +43,38 @@ export const indexAllToES = () => {
   return indexModelsToES();
 };
 
-const indexModelsToES = filter => {
+export const indexModelsToES = filter => {
+  // Need to validate models first
   return new Promise((resolve, reject) => {
-    let output = [];
+    let result = {
+      success: [],
+      error: [],
+    };
 
     ModelES.on('es-bulk-data', function(doc) {
-      output.push(doc.name);
+      ModelES.findOneAndUpdate(
+        {
+          name: doc.name,
+        },
+        { status: modelStatus.published },
+        {
+          upsert: true,
+          new: true,
+        },
+      ).then(() => result.success.push(doc.name));
     });
 
     ModelES.on('es-bulk-error', function(err) {
-      reject(err);
+      result.error.push(err);
     });
 
     // Populate Models with variants
     const query = ModelES.find(filter || {}).populate('variants.variant');
 
-    // Index is being "synchronize filtered" as ModelEs
-    // definition, only valid models will be published
-    ModelES.esSynchronize(query).then(result => {
+    ModelES.esSynchronize(query).then(() => {
       resolve({
         status: 'Indexing complete.',
-        models_indexed: output,
+        result,
       });
     });
   });

@@ -1,25 +1,28 @@
+// @ts-check
+
 import express from 'express';
-import { indexUpdatesToES, indexAllToES } from '../services/elastic-search/publish';
+import Model from '../schemas/model';
+import publishValidation from '../validation/model';
+import { runYupValidators } from '../helpers';
+import { indexModelsToES } from '../services/elastic-search/publish';
 
 const publishRouter = express.Router();
 
-// TODO - make sure these update status or rewrite
-// as a status updatethat triggers the publish
-publishRouter.post('/updated', async (req, res) => {
-  indexUpdatesToES()
+publishRouter.post('/', async (req, res) => {
+  // Validate models for publishing
+  Model.find({
+    _id: { $in: req.body },
+  })
+    .then(models => runYupValidators(publishValidation, models))
+    .then(validModels => {
+      const ids = validModels.map(({ _id }) => _id);
+      return indexModelsToES({
+        _id: { $in: ids },
+      });
+    })
     .then(data => res.json(data))
     .catch(error =>
-      res.json({
-        error: error,
-      }),
-    );
-});
-
-publishRouter.post('/all', async (req, res) => {
-  indexAllToES()
-    .then(data => res.json(data))
-    .catch(error =>
-      res.json({
+      res.status(500).json({
         error: error,
       }),
     );

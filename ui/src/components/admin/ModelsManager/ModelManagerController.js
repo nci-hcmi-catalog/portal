@@ -2,14 +2,21 @@ import React from 'react';
 import Component from 'react-component-component';
 
 import { fetchData } from '../services/Fetcher';
-import { uploadModelsFromSheet, extractResultText, extractErrorText } from '../helpers';
+import {
+  uploadModelsFromSheet,
+  extractResultText,
+  extractErrorText,
+  generateTableActions,
+  bulkAction,
+} from '../helpers';
 
 import { NotificationsContext } from '../Notifications';
+import config from '../config';
 
 export const ModelManagerContext = React.createContext();
 
 const paginatedUrl = ({ baseUrl, page, pageSize }) =>
-  baseUrl + `?skip=${0}&limit=${page * pageSize + pageSize}`;
+  `${baseUrl}?skip=${0}&limit=${page * pageSize + pageSize}`;
 
 const getPageData = ({ baseUrl, page, pageSize }) => {
   let url = paginatedUrl({ baseUrl, page, pageSize });
@@ -22,7 +29,7 @@ const loadData = async (baseUrl, state) => {
     ...state,
   });
   const getCount = fetchData({
-    url: baseUrl + `/count`,
+    url: `${baseUrl}/count`,
     data: '',
     method: 'get',
   });
@@ -82,10 +89,6 @@ export default ({ baseUrl, children, ...props }) => (
           <ModelManagerContext.Provider
             value={{
               state,
-              onPageChange: newPage => setState({ page: newPage, isLoading: true }),
-              onFilterValueChange: newValue => setState({ filterValue: newValue }),
-              onPageSizeChange: newValue =>
-                setState({ page: 0, pageSize: newValue, isLoading: true }),
               uploadModelsFromSheet: async (sheetURL, overwrite) => {
                 // Set loading true (lock UI)
                 await setState(() => ({
@@ -112,7 +115,6 @@ export default ({ baseUrl, children, ...props }) => (
                   )
                   .catch(async err => {
                     const errorText = extractErrorText(err);
-                    debugger;
 
                     await setState(() => ({
                       ...state,
@@ -126,6 +128,50 @@ export default ({ baseUrl, children, ...props }) => (
                     });
                   });
               },
+              bulkPublish: async () => {
+                if (state.selection.length === 0) {
+                  return console.error('Cannot publish a null selection');
+                }
+
+                // Set loading true (lock UI)
+                await setState(() => ({
+                  ...state,
+                  isLoading: true,
+                }));
+
+                bulkAction(`${config.urls.cmsBase}/publish`, 'post', state.selection)
+                  .then(({ data: { result } }) =>
+                    loadData(baseUrl, state).then(async ([dataResponse, countResponse]) => {
+                      await setState(() => ({
+                        isLoading: false,
+                        data: dataResponse.data,
+                        error: null,
+                        rowCount: countResponse.data.count,
+                      }));
+
+                      await appendNotification({
+                        type: 'success',
+                        message: 'Bulk Publish Complete',
+                        // details: extractResultText(result),
+                      });
+                    }),
+                  )
+                  .catch(async err => {
+                    const errorText = extractErrorText(err);
+
+                    await setState(() => ({
+                      ...state,
+                      isLoading: false,
+                    }));
+
+                    await appendNotification({
+                      type: 'error',
+                      message: 'Bulk Publish Error.',
+                      // details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+                    });
+                  });
+              },
+              ...generateTableActions(state, setState, state.data),
             }}
             {...props}
           >

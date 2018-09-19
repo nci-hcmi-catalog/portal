@@ -1,3 +1,5 @@
+// @ts-check
+
 import config from '../config';
 import { get } from '../services/Fetcher';
 import { getSheetObject } from '../helpers';
@@ -17,5 +19,6 @@ export const uploadModelsFromSheet = async (sheetURL, overwrite) => {
     headers: {
       Authorization: JSON.stringify(googleAuthResponse),
     },
+    params: '',
   });
 };

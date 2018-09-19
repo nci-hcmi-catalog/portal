@@ -8,3 +8,7 @@ export { getModel, saveModel, deleteModel, attachVariants } from './modelSingleA
 export { uploadModelsFromSheet } from './modelManagerAsyncs';
 
 export { extractResultText, extractErrorText } from './notifications';
+
+export { generateTableActions } from './tableActions';
+
+export { bulkAction } from './bulkActions';

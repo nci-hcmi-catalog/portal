@@ -1,3 +1,5 @@
+// @ts-check
+
 import { get, capitalize } from 'lodash';
 import objectValuesToString from './objectValuesToString';
 

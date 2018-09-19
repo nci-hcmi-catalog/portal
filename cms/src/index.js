@@ -1,3 +1,5 @@
+// @ts-check
+
 import 'babel-polyfill';
 import express from 'express';
 import { Server } from 'http';
@@ -9,7 +11,7 @@ import restify from 'express-restify-mongoose';
 import morgan from 'morgan';
 
 import { data_sync_router } from './routes/sync-data';
-import { imagesRouter } from './routes';
+import { imagesRouter, publishRouter } from './routes';
 import { preUpdate, validateYup, preModelDelete, postUpdate } from './hooks';
 import Model from './schemas/model';
 
@@ -47,12 +49,12 @@ restify.serve(router, Model, {
 });
 
 app.use('/api/v1', data_sync_router);
-// app.use('/api/v1/publish', publishRouter); // temp disabling these until we decide on final approach to bulk publishing
+app.use('/api/v1/publish', publishRouter);
 app.use('/api/v1/images', imagesRouter);
 app.use(router);
 
 // start app
-const http = Server(app);
+const http = new Server(app);
 http.listen(port, async () => {
   console.log(`⚡️ Listening on port ${port} ⚡️`);
 });
