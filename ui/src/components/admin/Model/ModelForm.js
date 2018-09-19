@@ -104,6 +104,7 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
         dirty={dirty}
         errors={errors}
         didUpdate={({ props, prevProps }) => {
+
           // Sync form values on change
           if (props.values !== prevProps.values) {
             syncFormState({
