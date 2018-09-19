@@ -377,6 +377,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                         ...state,
                         form: {
                           ...state.form,
+                          values: modelDataResponse.data,
                           // recompute isFormReadyToPublish on attach
                           isReadyToPublish: isFormReadyToPublish(
                             modelDataResponse.data,
@@ -446,6 +447,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     // Set form to unsavable status (will release on next form interaction)
                     form: {
                       ...state.form,
+                      values: modelDataResponse.data,
                       isReadyToSave: false,
                       // if files is different in new state
                       isReadyToPublish:
