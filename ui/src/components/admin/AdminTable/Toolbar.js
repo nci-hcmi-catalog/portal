@@ -1,32 +1,11 @@
 import React from 'react';
+
 import TextInput from '@arranger/components/dist/Input';
+import BulkActions from './BulkActions';
+
 import FilterIcon from 'icons/FilterIcon';
-import Popup from 'reactjs-popup';
 
-import {
-  ActionsMenu,
-  ActionsMenuItem,
-  ToolbarControl,
-  ToolbarMain,
-  ToolbarSection,
-  ToolbarText,
-} from 'theme/adminTableStyles';
-
-const ArrowIcon = ({ isOpen }) => {
-  return (
-    <svg
-      viewBox="0 0 20 20"
-      preserveAspectRatio="none"
-      width={10}
-      fill="transparent"
-      stroke="#979797"
-      strokeWidth="0.75px"
-      transform={isOpen ? 'rotate(180)' : null}
-    >
-      <path d="M1,6 L10,15 L19,6" />
-    </svg>
-  );
-};
+import { ToolbarMain, ToolbarSection, ToolbarText } from 'theme/adminTableStyles';
 
 export default ({
   state: { isLoading, page, pageSize, filterValue, rowCount },
@@ -40,43 +19,13 @@ export default ({
   return (
     <ToolbarMain>
       {type === 'Models' && (
-        <ToolbarSection>
-          <Popup
-            trigger={open => (
-              <div
-                css={`
-                  align-items: center;
-                  display: inline-flex;
-                  postion: relative;
-                `}
-              >
-                <ToolbarText>Bulk Actions :</ToolbarText>
-                <ToolbarControl onClick={() => ''}>
-                  --Select An Action-- {ArrowIcon({ isOpen: open })}
-                </ToolbarControl>
-              </div>
-            )}
-            position="bottom right"
-            offset={0}
-            on="click"
-            closeOnDocumentClick
-            mouseLeaveDelay={300}
-            mouseEnterDelay={0}
-            contentStyle={{
-              padding: '0px',
-              border: 'none',
-              borderRadius: '10px',
-              width: 'max-content',
-            }}
-            arrow={false}
-          >
-            <ActionsMenu>
-              <ActionsMenuItem onClick={onPublishClick}>Publish</ActionsMenuItem>
-              <ActionsMenuItem onClick={onUnpublishClick}>Unpublish</ActionsMenuItem>
-              <ActionsMenuItem onClick={onDeleteClick}>Delete</ActionsMenuItem>
-            </ActionsMenu>
-          </Popup>
-        </ToolbarSection>
+        <BulkActions
+          {...{
+            onPublishClick,
+            onUnpublishClick,
+            onDeleteClick,
+          }}
+        />
       )}
       <ToolbarSection>
         <TextInput
@@ -85,10 +34,16 @@ export default ({
           placeholder="Filter"
           value={filterValue}
           onChange={({ target: { value } }) => onFilterValueChange(value)}
+          css={`
+            height: 37px;
+            line-height: 37px;
+          `}
         />
         <ToolbarText
           css={`
+            line-height: 37px;
             padding-left: 28px;
+            color: #64666a;
           `}
         >
           {!isLoading &&

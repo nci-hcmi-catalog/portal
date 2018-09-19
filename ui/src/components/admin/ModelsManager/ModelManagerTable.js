@@ -18,9 +18,20 @@ export default () => (
       toggleSelection,
       toggleAll,
       bulkPublish,
+      bulkUnpublish,
+      bulkDelete,
     }) => (
       <Col>
-        <Toolbar {...{ state, type, onFilterValueChange, onPublishClick: bulkPublish }} />
+        <Toolbar
+          {...{
+            state,
+            type,
+            onFilterValueChange,
+            onPublishClick: bulkPublish,
+            onUnpublishClick: bulkUnpublish,
+            onDeleteClick: bulkDelete,
+          }}
+        />
         <DataTable
           {...{
             state,
