@@ -22,7 +22,7 @@ publishRouter.post('/', async (req, res) => {
     })
     .then(data => res.json(data))
     .catch(error =>
-      res.status(400).json({
+      res.status(500).json({
         error: error,
       }),
     );
