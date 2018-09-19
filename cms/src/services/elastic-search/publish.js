@@ -62,8 +62,6 @@ export const indexModelsToES = filter => {
           new: true,
         },
       ).then(() => result.success.push(doc.name));
-
-      console.log('Adding ' + doc.name);
     });
 
     ModelES.on('es-bulk-error', function(err) {
@@ -73,8 +71,6 @@ export const indexModelsToES = filter => {
     // Populate Models with variants
     const query = ModelES.find(filter || {}).populate('variants.variant');
 
-    // Index is being "synchronize filtered" as ModelEs
-    // definition, only valid models will be published
     ModelES.esSynchronize(query).then(() => {
       resolve({
         status: 'Indexing complete.',

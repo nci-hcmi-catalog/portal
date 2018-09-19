@@ -1,40 +1,31 @@
 // @ts-check
 
 import express from 'express';
+import Model from '../schemas/model';
+import publishValidation from '../validation/model';
+import { runYupValidators } from '../helpers';
 import { indexModelsToES } from '../services/elastic-search/publish';
 
 const publishRouter = express.Router();
 
 publishRouter.post('/', async (req, res) => {
-  indexModelsToES({
+  // Validate models for publishing
+  Model.find({
     _id: { $in: req.body },
   })
+    .then(models => runYupValidators(publishValidation, models))
+    .then(validModels => {
+      const ids = validModels.map(({ _id }) => _id);
+      return indexModelsToES({
+        _id: { $in: ids },
+      });
+    })
     .then(data => res.json(data))
     .catch(error =>
-      res.json({
+      res.status(400).json({
         error: error,
       }),
     );
 });
-
-// publishRouter.post('/updated', async (req, res) => {
-//   indexUpdatesToES()
-//     .then(data => res.json(data))
-//     .catch(error =>
-//       res.json({
-//         error: error,
-//       }),
-//     );
-// });
-
-// publishRouter.post('/all', async (req, res) => {
-//   indexAllToES()
-//     .then(data => res.json(data))
-//     .catch(error =>
-//       res.json({
-//         error: error,
-//       }),
-//     );
-// });
 
 export default publishRouter;
