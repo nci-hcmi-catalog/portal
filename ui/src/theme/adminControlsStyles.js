@@ -40,8 +40,9 @@ const PillBase = styled('div')`
   font-style: normal;
   font-stretch: normal;
   text-align: center;
-  cursor: pointer;
   text-decoration: none;
+  opacity: ${({ secondary, disabled }) => (secondary && disabled ? '0.5' : '1')};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   color: ${({ secondary }) => (secondary ? brandPrimary : white)};
   border: solid 1px ${pillBorderColour};
   background: ${({ primary, warning, secondary, disabled, info }) => {

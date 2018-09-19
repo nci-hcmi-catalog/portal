@@ -7,7 +7,7 @@ import { Row } from 'theme/system';
 import { SmallPill } from 'theme/adminControlsStyles';
 
 const {
-  keyedPalette: { white, dustyGray, iron, mystic, black, lightBlack, mineShaft, shuttleGrey },
+  keyedPalette: { white, shuttleGrey, iron, mystic, black, lightBlack, mineShaft, frenchGrey },
   fonts: { openSans, libreFranklin },
 } = base;
 
@@ -53,7 +53,7 @@ export const Actions = styled('div')`
 `;
 
 export const ActionsMenu = styled('div')`
-  width: 125px;
+  width: 100%;
   box-shadow: 1px 1.7px 4px 0 ${lightBlack};
   border: solid 1px ${iron};
   display: flex;
@@ -104,40 +104,39 @@ export const ToolbarSection = styled('div')`
 `;
 
 export const ToolbarText = styled('span')`
-  display: inherit;
-  width: max-content;
   font-family: ${libreFranklin};
   font-size: 13px;
+  line-height: 37px;
+  font-weight: 500;
   font-stretch: normal;
-  line-height: 1.54;
   letter-spacing: normal;
   text-align: left;
   color: ${mineShaft};
-  padding-left: 5px;
-  padding-right: 5px;
+  margin-right: 9px;
   label: toolbar-text;
 `;
 
 export const ToolbarControl = styled('div')`
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   width: max-content;
   font-family: ${openSans};
-  font-family: OpenSans;
-  font-size: 13px;
+  min-width: 172px;
+  font-size: 14px;
+  line-height: 37px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
-  line-height: 2;
   letter-spacing: normal;
   text-align: left;
-  color: ${dustyGray};
+  color: ${shuttleGrey};
   align-items: center;
   text-transform: none;
-  justify-content: space-between;
-  cursor: pointer;
-  border-radius: 10px;
   background-color: ${white};
-  border: solid 1px ${shuttleGrey};
-  padding-right: 3px;
+  border: solid 1px ${frenchGrey};
+  border-radius: 10px;
+  padding: 0 8px;
+  cursor: pointer;
   label: toolbar-control;
 `;

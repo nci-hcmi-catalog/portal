@@ -152,7 +152,7 @@ export default ({ baseUrl, children, ...props }) => (
                       await appendNotification({
                         type: 'success',
                         message: 'Bulk Publish Complete',
-                        // details: extractResultText(result),
+                        details: extractResultText(result),
                       });
                     }),
                   )
@@ -167,10 +167,12 @@ export default ({ baseUrl, children, ...props }) => (
                     await appendNotification({
                       type: 'error',
                       message: 'Bulk Publish Error.',
-                      // details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
                     });
                   });
               },
+              bulkUnpublish: async () => console.warn('Unimplemented Method'),
+              bulkDelete: async () => console.warn('Unimplemented Method'),
               ...generateTableActions(state, setState, state.data),
             }}
             {...props}
