@@ -61,6 +61,7 @@ const bulkActionCreator = ({
           data: dataResponse.data,
           error: null,
           selection: [],
+          selectAll: false,
           rowCount: countResponse.data.count,
         }));
 
@@ -77,7 +78,8 @@ const bulkActionCreator = ({
       await setState(() => ({
         ...state,
         isLoading: false,
-        selection: []
+        selection: [],
+        selectAll: false,
       }));
 
       await appendNotification({

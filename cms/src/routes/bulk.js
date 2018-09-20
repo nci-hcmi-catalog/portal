@@ -30,17 +30,20 @@ bulkRouter.post('/publish', async (req, res) => {
 });
 
 bulkRouter.post('/unpublish', async (req, res) => {
+  let deleteCount = 0;
+
   Model.find({ _id: { $in: req.body } })
     .then(models => unpublishManyFromES(models.map(({ name }) => name)))
-    .then(() =>
-      Model.updateMany(
+    .then(result => {
+      deleteCount = result.deleted;
+      return Model.updateMany(
         {
           _id: { $in: req.body },
         },
         { status: modelStatus.unpublished },
-      ),
-    )
-    .then(() => res.json({ success: `${req.body.length} models unpublished` }))
+      );
+    })
+    .then(() => res.json({ success: `${deleteCount} models unpublished` }))
     .catch(error =>
       res.status(500).json({
         error: error,
