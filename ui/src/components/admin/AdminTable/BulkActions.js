@@ -54,7 +54,7 @@ export default ({ onPublishClick, onUnpublishClick, onDeleteClick }) => (
     {({ setState, state, state: { isOpen, selectedAction } }) => (
       <ToolbarSection>
         <Popup
-          trigger={open => (
+          trigger={() => (
             <div
               css={`
                 align-items: center;
