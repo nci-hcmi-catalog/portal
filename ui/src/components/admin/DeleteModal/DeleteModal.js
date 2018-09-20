@@ -31,23 +31,8 @@ const DeleteModal = ({ next, target, onCancel = () => false }) => (
             line-height: 2;
           `}
         >
-          <span
-            css={`
-              font-size: 16px;
-              margin-bottom: 2em;
-            `}
-          >
+          <span>
             Are you sure you want to delete <strong>{target}</strong>? This action cannot be undone.
-          </span>
-          <span
-            css={`
-              font-size: 14px;
-              font-style: italic;
-              color: #64666a;
-            `}
-          >
-            Note: This image will be available on the searchable catalog until the model is
-            republished.
           </span>
         </Content>
         <Footer>
