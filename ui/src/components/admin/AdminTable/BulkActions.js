@@ -2,6 +2,8 @@ import React from 'react';
 import Component from 'react-component-component';
 import Popup from 'reactjs-popup';
 
+import withDeleteModal from '../DeleteModal';
+
 import {
   ActionsMenu,
   ActionsMenuItem,
@@ -30,21 +32,19 @@ const ArrowIcon = ({ isOpen }) => {
 
 const [publishAction, unpublishAction, deleteAction] = ['Publish', 'Unpublish', 'Delete'];
 
-const onApplyClick = ({ action, onPublishClick, onUnpublishClick, onDeleteClick, reset }) => {
+const onApplyClick = ({ action, onPublishClick, onUnpublishClick, reset }) => {
   reset();
   switch (action) {
     case publishAction:
       return onPublishClick();
     case unpublishAction:
       return onUnpublishClick();
-    case deleteAction:
-      return onDeleteClick();
     default:
       return false;
   }
 };
 
-export default ({ onPublishClick, onUnpublishClick, onDeleteClick }) => (
+export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection }) => (
   <Component
     initialState={{
       isOpen: false,
@@ -100,22 +100,44 @@ export default ({ onPublishClick, onUnpublishClick, onDeleteClick }) => (
             </ActionsMenuItem>
           </ActionsMenu>
         </Popup>
-        <Pill
-          onClick={() =>
-            onApplyClick({
-              action: selectedAction,
-              onPublishClick,
-              onUnpublishClick,
-              onDeleteClick,
-              reset: () => setState({ ...state, isOpen: false, selectedAction: '' }),
-            })
-          }
-          marginLeft="8px"
-          secondary
-          disabled={selectedAction.length === 0}
-        >
-          Apply
-        </Pill>
+        {selectedAction === deleteAction ? (
+          withDeleteModal({
+            next: () => {
+              if (!hasSelection) {
+                return;
+              }
+              setState({ ...state, isOpen: false, selectedAction: '' });
+              onDeleteClick();
+            },
+            target: 'multiple models',
+            onCancel: () => setState({ ...state, isOpen: false, selectedAction: '' }),
+          })(
+            <Pill
+              marginLeft="8px"
+              secondary
+              disabled={!hasSelection || selectedAction.length === 0}
+            >
+              Apply
+            </Pill>,
+          )
+        ) : (
+          <Pill
+            onClick={() =>
+              hasSelection &&
+              onApplyClick({
+                action: selectedAction,
+                onPublishClick,
+                onUnpublishClick,
+                reset: () => setState({ ...state, isOpen: false, selectedAction: '' }),
+              })
+            }
+            marginLeft="8px"
+            secondary
+            disabled={!hasSelection || selectedAction.length === 0}
+          >
+            Apply
+          </Pill>
+        )}
       </ToolbarSection>
     )}
   </Component>

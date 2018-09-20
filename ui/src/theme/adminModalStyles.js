@@ -8,7 +8,7 @@ import base from 'theme';
 import { Row } from 'theme/system';
 
 const {
-  fonts: { libreFranklin },
+  fonts: { libreFranklin, openSans },
   keyedPalette: { brandPrimary, lightPorcelain, white, frenchGrey },
 } = base;
 
@@ -25,6 +25,14 @@ export const AdminModalStyle = css`
   border-radius: 5px;
   background-color: ${white};
   label: admin-modal-main;
+`;
+
+export const AdminModalStyleNarrow = css`
+  ${AdminModalStyle};
+  max-width: 468px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 export const ModalWrapper = styled('div')`
@@ -76,6 +84,7 @@ export const Content = styled('div')`
   display: flex;
   flex-direction: column;
   padding: 30px 21px;
+  font-family: ${openSans};
   label: admin-modal-content;
 `;
 
