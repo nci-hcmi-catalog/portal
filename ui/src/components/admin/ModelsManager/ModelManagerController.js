@@ -8,9 +8,13 @@ import {
   extractErrorText,
   generateTableActions,
   bulkAction,
+  saveModel,
+  deleteModel,
 } from '../helpers';
 
 import { NotificationsContext } from '../Notifications';
+
+import { modelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
 
 export const ModelManagerContext = React.createContext();
 
@@ -90,7 +94,7 @@ const bulkActionCreator = ({
     });
 };
 
-export default ({ baseUrl, children, ...props }) => (
+export default ({ baseUrl, cmsBase, children, ...props }) => (
   <NotificationsContext>
     {({ appendNotification }) => (
       <Component
@@ -202,6 +206,54 @@ export default ({ baseUrl, children, ...props }) => (
                 setState,
                 appendNotification,
               }),
+              publishOne: async name => {
+                // Set loading true (lock UI)
+                await setState(() => ({
+                  ...state,
+                  isLoading: true,
+                }));
+
+                saveModel(
+                  cmsBase,
+                  {
+                    name,
+                    status: modelStatus.published,
+                  },
+                  true,
+                )
+                  .then(() => loadData(baseUrl, state))
+                  .then(async ([dataResponse, countResponse]) => {
+                    await setState(() => ({
+                      isLoading: false,
+                      data: dataResponse.data,
+                      error: null,
+                      rowCount: countResponse.data.count,
+                    }));
+
+                    await appendNotification({
+                      type: 'success',
+                      message: `Publish Successful!`,
+                      details: `${name} has been succesfully published. View it live here: `,
+                      link: `/model/${name}`,
+                      linkText: name,
+                    });
+                  })
+                  .catch(async err => {
+                    await setState(() => ({
+                      ...state,
+                      isLoading: false,
+                      error: err,
+                    }));
+
+                    await appendNotification({
+                      type: 'error',
+                      message: `Publish Error.`,
+                      details: err.msg || 'Unknown error has occured.',
+                    });
+                  });
+              },
+              unpublishOne: async id => console.log('Unpublish', id),
+              deleteOne: async id => console.log('Delete', id),
               ...generateTableActions(state, setState, state.data),
             }}
             {...props}

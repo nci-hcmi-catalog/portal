@@ -20,7 +20,7 @@ import config from '../config';
 
 const content = () => {
   return (
-    <ModelManagerProvider baseUrl={`${config.urls.cmsBase}/Model`}>
+    <ModelManagerProvider cmsBase={config.urls.cmsBase} baseUrl={`${config.urls.cmsBase}/Model`}>
       <AdminContainer>
         <NotificationToaster />
         <AdminHeader>

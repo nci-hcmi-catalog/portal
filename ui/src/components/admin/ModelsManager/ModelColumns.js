@@ -2,7 +2,9 @@ import React from 'react';
 import Popup from 'reactjs-popup';
 import Moment from 'react-moment';
 
+import { ModelManagerContext } from './ModelManagerController';
 import { modelEditUrlBase } from '../AdminNav';
+import withDeleteModal from '../DeleteModal';
 
 import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
 import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
@@ -86,11 +88,10 @@ const modelManagerCustomColumns = [
   {
     Header: 'Actions',
     accessor: 'name',
-    Cell: row => {
-      const data = row;
+    Cell: ({ original: { name, status } }) => {
       return (
         <Actions>
-          <ActionLinkPill secondary marginRight="6px" to={modelEditUrlBase + '/' + data.value}>
+          <ActionLinkPill secondary marginRight="6px" to={modelEditUrlBase + '/' + name}>
             <AdminEditPencilIcon
               css={`
                 width: 12px;
@@ -125,10 +126,21 @@ const modelManagerCustomColumns = [
             }}
             arrow={false}
           >
-            <ActionsMenu>
-              <ActionsMenuItem>Publish</ActionsMenuItem>
-              <ActionsMenuItem>Delete</ActionsMenuItem>
-            </ActionsMenu>
+            <ModelManagerContext.Consumer>
+              {({ publishOne, unpublishOne, deleteOne }) => (
+                <ActionsMenu>
+                  {status === 'published' ? (
+                    <ActionsMenuItem onClick={() => unpublishOne(name)}>Unpublish</ActionsMenuItem>
+                  ) : (
+                    <ActionsMenuItem onClick={() => publishOne(name)}>Publish</ActionsMenuItem>
+                  )}
+                  {withDeleteModal({
+                    next: () => deleteOne(name),
+                    target: name,
+                  })(<ActionsMenuItem>Delete</ActionsMenuItem>)}
+                </ActionsMenu>
+              )}
+            </ModelManagerContext.Consumer>
           </Popup>
         </Actions>
       );
