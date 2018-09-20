@@ -1,8 +1,12 @@
 import React from 'react';
-import { ModelSingleContext } from './ModelSingleController';
-import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
 import { schemaArr } from '../schema/modelVariant';
-import { ActionPill, Actions } from '../../../theme/adminTableStyles';
+
+import { ModelSingleContext } from './ModelSingleController';
+import withDeleteModal from '../DeleteModal';
+
+import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
+
+import { ActionPill, Actions } from 'theme/adminTableStyles';
 
 const selectedColumns = ['variant_name', 'variant_type', 'assessment_type', 'expression_level'];
 
@@ -17,20 +21,25 @@ const modelVariantCustomColumns = [
   {
     Header: 'Actions',
     accessor: 'actions',
-    Cell: ({ original: { _id } }) => {
+    Cell: ({ original: { _id, variant_name, variant_type, assessment_type } }) => {
       return (
         <ModelSingleContext.Consumer>
           {({ deleteVariant }) => (
             <Actions>
-              <ActionPill secondary marginRight="6px" onClick={() => deleteVariant(_id)}>
-                <AdminEditPencilIcon
-                  css={`
-                    width: 12px;
-                    height: 12px;
-                  `}
-                />
-                Delete
-              </ActionPill>
+              {withDeleteModal({
+                next: () => deleteVariant(_id),
+                target: `${variant_name}-${variant_type}`,
+              })(
+                <ActionPill secondary marginRight="6px">
+                  <AdminEditPencilIcon
+                    css={`
+                      width: 12px;
+                      height: 12px;
+                    `}
+                  />
+                  Delete
+                </ActionPill>,
+              )}
             </Actions>
           )}
         </ModelSingleContext.Consumer>
