@@ -8,7 +8,7 @@ import FilterIcon from 'icons/FilterIcon';
 import { ToolbarMain, ToolbarSection, ToolbarText } from 'theme/adminTableStyles';
 
 export default ({
-  state: { isLoading, page, pageSize, filterValue, rowCount },
+  state: { isLoading, page, pageSize, filterValue, rowCount, selection },
   onFilterValueChange,
   type,
   onPublishClick,
@@ -24,6 +24,7 @@ export default ({
             onPublishClick,
             onUnpublishClick,
             onDeleteClick,
+            hasSelection: selection.length > 0,
           }}
         />
       )}
