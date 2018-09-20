@@ -12,3 +12,14 @@ export const unpublishOneFromES = name => {
     },
   });
 };
+
+export const unpublishManyFromES = nameArr => {
+  return elasticClient.deleteByQuery({
+    index,
+    body: {
+      query: {
+        terms: { name: nameArr },
+      },
+    },
+  });
+};
