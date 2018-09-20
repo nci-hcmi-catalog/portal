@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import { ModelSingleContext } from '../ModelSingleController';
 import { ActionsMenu, ActionsMenuItem } from 'theme/adminControlsStyles';
 import { manageModelsUrlBase } from '../../AdminNav';
+import withDeleteModal from '../../DeleteModal';
 
 const makeDoActionThenClose = (action, close) => () => {
   // Do the thing
@@ -29,14 +30,14 @@ export default ({ close }) => (
                 Unpublish
               </ActionsMenuItem>
             )}
-            <ActionsMenuItem
-              onClick={makeDoActionThenClose(
+            {withDeleteModal({
+              next: makeDoActionThenClose(
                 () => deleteModel(values.name, () => history.push(manageModelsUrlBase)),
                 close,
-              )}
-            >
-              Delete
-            </ActionsMenuItem>
+              ),
+              target: values.name,
+              onCancel: close,
+            })(<ActionsMenuItem>Delete</ActionsMenuItem>)}
           </ActionsMenu>
         )}
       </ModelSingleContext.Consumer>
