@@ -11,7 +11,6 @@ import {
 } from '../helpers';
 
 import { NotificationsContext } from '../Notifications';
-import config from '../config';
 
 export const ModelManagerContext = React.createContext();
 
@@ -35,6 +34,58 @@ const loadData = async (baseUrl, state) => {
   });
 
   return [await getData, await getCount];
+};
+
+const bulkActionCreator = ({
+  action,
+  baseUrl,
+  state,
+  setState,
+  appendNotification,
+}) => async () => {
+  if (state.selection.length === 0) {
+    return console.error('Cannot publish a null selection');
+  }
+
+  // Set loading true (lock UI)
+  await setState(() => ({
+    ...state,
+    isLoading: true,
+  }));
+
+  bulkAction(action, state.selection)
+    .then(({ data: { success } }) =>
+      loadData(baseUrl, state).then(async ([dataResponse, countResponse]) => {
+        await setState(() => ({
+          isLoading: false,
+          data: dataResponse.data,
+          error: null,
+          selection: [],
+          rowCount: countResponse.data.count,
+        }));
+
+        await appendNotification({
+          type: 'success',
+          message: `Bulk ${action} complete.`,
+          details: success,
+        });
+      }),
+    )
+    .catch(async err => {
+      const errorText = extractErrorText(err);
+
+      await setState(() => ({
+        ...state,
+        isLoading: false,
+        selection: []
+      }));
+
+      await appendNotification({
+        type: 'error',
+        message: `Bulk ${action} error.`,
+        details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+      });
+    });
 };
 
 export default ({ baseUrl, children, ...props }) => (
@@ -128,51 +179,27 @@ export default ({ baseUrl, children, ...props }) => (
                     });
                   });
               },
-              bulkPublish: async () => {
-                if (state.selection.length === 0) {
-                  return console.error('Cannot publish a null selection');
-                }
-
-                // Set loading true (lock UI)
-                await setState(() => ({
-                  ...state,
-                  isLoading: true,
-                }));
-
-                bulkAction(`${config.urls.cmsBase}/publish`, 'post', state.selection)
-                  .then(({ data: { result } }) =>
-                    loadData(baseUrl, state).then(async ([dataResponse, countResponse]) => {
-                      await setState(() => ({
-                        isLoading: false,
-                        data: dataResponse.data,
-                        error: null,
-                        rowCount: countResponse.data.count,
-                      }));
-
-                      await appendNotification({
-                        type: 'success',
-                        message: 'Bulk Publish Complete',
-                        details: extractResultText(result),
-                      });
-                    }),
-                  )
-                  .catch(async err => {
-                    const errorText = extractErrorText(err);
-
-                    await setState(() => ({
-                      ...state,
-                      isLoading: false,
-                    }));
-
-                    await appendNotification({
-                      type: 'error',
-                      message: 'Bulk Publish Error.',
-                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
-                    });
-                  });
-              },
-              bulkUnpublish: async () => console.warn('Unimplemented Method'),
-              bulkDelete: async () => console.warn('Unimplemented Method'),
+              bulkPublish: bulkActionCreator({
+                action: 'publish',
+                baseUrl,
+                state,
+                setState,
+                appendNotification,
+              }),
+              bulkUnpublish: bulkActionCreator({
+                action: 'unpublish',
+                baseUrl,
+                state,
+                setState,
+                appendNotification,
+              }),
+              bulkDelete: bulkActionCreator({
+                action: 'delete',
+                baseUrl,
+                state,
+                setState,
+                appendNotification,
+              }),
               ...generateTableActions(state, setState, state.data),
             }}
             {...props}
