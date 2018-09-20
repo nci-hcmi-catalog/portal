@@ -11,7 +11,7 @@
  */
 export default function deepFlattenObjNaive(object) {
   return Object.keys(object).reduce((acc, curr) => {
-    if (typeof object[curr] === 'object') {
+    if (object[curr] && typeof object[curr] === 'object' && object[curr].constructor === Object) {
       return Object.assign(deepFlattenObjNaive(object[curr]), acc);
     } else {
       acc[curr] = object[curr];
@@ -29,7 +29,7 @@ export default function deepFlattenObjNaive(object) {
  */
 // function deepFlattenObj(object, prefix = '') {
 //   return Object.keys(object).reduce((acc, curr) => {
-//     if (typeof object[curr] === 'object') {
+//     if (object[curr] && typeof object[curr] === 'object' && object[curr].constructor === Object) {
 //       return Object.assign(deepFlattenObj(object[curr], curr), acc);
 //     } else {
 //       acc[camelCase(`${prefix} ${curr}`)] = object[curr];

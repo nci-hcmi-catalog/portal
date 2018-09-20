@@ -15,7 +15,7 @@ export default function(fileName, objArr) {
           Object.keys(objArr[0]).join('\t'),
           ...objArr.map(obj =>
             Object.values(obj)
-              .map(value => (typeof value === 'string' ? value : value.export))
+              .map(value => (value ? (typeof value === 'string' ? value : value.export) : ''))
               .join('\t'),
           ),
         ].join('\n'),
