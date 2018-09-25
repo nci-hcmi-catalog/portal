@@ -8,6 +8,7 @@ import {
   extractErrorText,
   generateTableActions,
   bulkAction,
+  singleAction,
 } from '../helpers';
 
 import { NotificationsContext } from '../Notifications';
@@ -90,7 +91,7 @@ const bulkActionCreator = ({
     });
 };
 
-export default ({ baseUrl, children, ...props }) => (
+export default ({ baseUrl, cmsBase, children, ...props }) => (
   <NotificationsContext>
     {({ appendNotification }) => (
       <Component
@@ -202,6 +203,125 @@ export default ({ baseUrl, children, ...props }) => (
                 setState,
                 appendNotification,
               }),
+              publishOne: async name => {
+                // Set loading true (lock UI)
+                await setState(() => ({
+                  ...state,
+                  isLoading: true,
+                }));
+
+                singleAction('publish', name)
+                  .then(() => loadData(baseUrl, state))
+                  .then(async ([dataResponse, countResponse]) => {
+                    await setState(() => ({
+                      isLoading: false,
+                      data: dataResponse.data,
+                      error: null,
+                      rowCount: countResponse.data.count,
+                    }));
+
+                    await appendNotification({
+                      type: 'success',
+                      message: `Publish Successful!`,
+                      details: `${name} has been succesfully published. View it live here: `,
+                      link: `/model/${name}`,
+                      linkText: name,
+                    });
+                  })
+                  .catch(async err => {
+                    const errorText = extractErrorText(err);
+
+                    await setState(() => ({
+                      ...state,
+                      isLoading: false,
+                      error: err,
+                    }));
+
+                    await appendNotification({
+                      type: 'error',
+                      message: `Publish Error.`,
+                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+                    });
+                  });
+              },
+              unpublishOne: async name => {
+                // Set loading true (lock UI)
+                await setState(() => ({
+                  ...state,
+                  isLoading: true,
+                }));
+
+                singleAction('unpublish', name)
+                  .then(() => loadData(baseUrl, state))
+                  .then(async ([dataResponse, countResponse]) => {
+                    await setState(() => ({
+                      isLoading: false,
+                      data: dataResponse.data,
+                      error: null,
+                      rowCount: countResponse.data.count,
+                    }));
+
+                    await appendNotification({
+                      type: 'success',
+                      message: `Unpublish Successful!`,
+                      details: `${name} has been succesfully unpublished`,
+                    });
+                  })
+                  .catch(async err => {
+                    const errorText = extractErrorText(err);
+
+                    await setState(() => ({
+                      ...state,
+                      isLoading: false,
+                      error: err,
+                    }));
+
+                    await appendNotification({
+                      type: 'error',
+                      message: `Unpublish Error.`,
+                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+                    });
+                  });
+              },
+              deleteOne: async name => {
+                // Set loading true (lock UI)
+                await setState(() => ({
+                  ...state,
+                  isLoading: true,
+                }));
+
+                singleAction('delete', name)
+                  .then(() => loadData(baseUrl, state))
+                  .then(async ([dataResponse, countResponse]) => {
+                    await setState(() => ({
+                      isLoading: false,
+                      data: dataResponse.data,
+                      error: null,
+                      rowCount: countResponse.data.count,
+                    }));
+
+                    await appendNotification({
+                      type: 'success',
+                      message: `Delete Successful!`,
+                      details: `${name} has been succesfully deleted`,
+                    });
+                  })
+                  .catch(async err => {
+                    const errorText = extractErrorText(err);
+
+                    await setState(() => ({
+                      ...state,
+                      isLoading: false,
+                      error: err,
+                    }));
+
+                    await appendNotification({
+                      type: 'error',
+                      message: `Delete Error.`,
+                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+                    });
+                  });
+              },
               ...generateTableActions(state, setState, state.data),
             }}
             {...props}

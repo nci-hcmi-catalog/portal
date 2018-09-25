@@ -19,7 +19,7 @@ export const saveModel = async (baseUrl, values, isUpdate) => {
   return fetchData({
     url,
     data: values,
-    method: isUpdate ? 'put' : 'post',
+    method: isUpdate ? 'patch' : 'post',
   });
 };
 

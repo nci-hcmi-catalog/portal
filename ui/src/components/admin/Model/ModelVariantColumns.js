@@ -21,7 +21,7 @@ const modelVariantCustomColumns = [
   {
     Header: 'Actions',
     accessor: 'actions',
-    Cell: ({ original: { _id, variant_name, variant_type, assessment_type } }) => {
+    Cell: ({ original: { _id, variant_name, variant_type } }) => {
       return (
         <ModelSingleContext.Consumer>
           {({ deleteVariant }) => (
