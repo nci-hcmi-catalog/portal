@@ -8,13 +8,10 @@ import {
   extractErrorText,
   generateTableActions,
   bulkAction,
-  saveModel,
-  deleteModel,
+  singleAction,
 } from '../helpers';
 
 import { NotificationsContext } from '../Notifications';
-
-import { modelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
 
 export const ModelManagerContext = React.createContext();
 
@@ -213,14 +210,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                   isLoading: true,
                 }));
 
-                saveModel(
-                  cmsBase,
-                  {
-                    name,
-                    status: modelStatus.published,
-                  },
-                  true,
-                )
+                singleAction('publish', name)
                   .then(() => loadData(baseUrl, state))
                   .then(async ([dataResponse, countResponse]) => {
                     await setState(() => ({
@@ -239,6 +229,8 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     });
                   })
                   .catch(async err => {
+                    const errorText = extractErrorText(err);
+
                     await setState(() => ({
                       ...state,
                       isLoading: false,
@@ -248,11 +240,49 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     await appendNotification({
                       type: 'error',
                       message: `Publish Error.`,
-                      details: err.msg || 'Unknown error has occured.',
+                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
                     });
                   });
               },
-              unpublishOne: async id => console.log('Unpublish', id),
+              unpublishOne: async name => {
+                // Set loading true (lock UI)
+                await setState(() => ({
+                  ...state,
+                  isLoading: true,
+                }));
+
+                singleAction('unpublish', name)
+                  .then(() => loadData(baseUrl, state))
+                  .then(async ([dataResponse, countResponse]) => {
+                    await setState(() => ({
+                      isLoading: false,
+                      data: dataResponse.data,
+                      error: null,
+                      rowCount: countResponse.data.count,
+                    }));
+
+                    await appendNotification({
+                      type: 'success',
+                      message: `Unpublish Successful!`,
+                      details: `${name} has been succesfully unpublished`,
+                    });
+                  })
+                  .catch(async err => {
+                    const errorText = extractErrorText(err);
+
+                    await setState(() => ({
+                      ...state,
+                      isLoading: false,
+                      error: err,
+                    }));
+
+                    await appendNotification({
+                      type: 'error',
+                      message: `Unpublish Error.`,
+                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+                    });
+                  });
+              },
               deleteOne: async id => console.log('Delete', id),
               ...generateTableActions(state, setState, state.data),
             }}

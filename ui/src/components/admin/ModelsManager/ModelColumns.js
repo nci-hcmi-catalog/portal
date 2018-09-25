@@ -1,4 +1,5 @@
 import React from 'react';
+import Component from 'react-component-component';
 import Popup from 'reactjs-popup';
 import Moment from 'react-moment';
 
@@ -10,7 +11,7 @@ import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
 import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
 
 import { schemaArr } from '../schema/model';
-import { ActionLinkPill, Actions, ToolbarText } from '../../../theme/adminTableStyles';
+import { ActionPill, ActionLinkPill, Actions, ToolbarText } from '../../../theme/adminTableStyles';
 import { SmallPill, ActionsMenu, ActionsMenuItem } from 'theme/adminControlsStyles';
 
 const selectedColumns = [
@@ -35,6 +36,11 @@ const selectedColumns = [
   'createdAt',
   'updatedAt',
 ];
+
+const actionAndClose = (action, close) => () => {
+  action();
+  close();
+};
 
 export const columns = schemaArr
   .filter(field => selectedColumns.indexOf(field.accessor) !== -1)
@@ -102,22 +108,17 @@ const modelManagerCustomColumns = [
           </ActionLinkPill>
           <Popup
             trigger={
-              <ActionLinkPill
+              <ActionPill
                 secondary
                 css={`
                   height: 26px;
                 `}
-                to={() => ''}
               >
                 <AdminModelMoreOptionsIcon css={'margin: 0;'} width={15} height={3} />
-              </ActionLinkPill>
+              </ActionPill>
             }
             position="bottom right"
             offset={0}
-            on="click"
-            closeOnDocumentClick
-            mouseLeaveDelay={300}
-            mouseEnterDelay={0}
             contentStyle={{
               padding: '0px',
               border: 'none',
@@ -126,21 +127,28 @@ const modelManagerCustomColumns = [
             }}
             arrow={false}
           >
-            <ModelManagerContext.Consumer>
-              {({ publishOne, unpublishOne, deleteOne }) => (
-                <ActionsMenu>
-                  {status === 'published' ? (
-                    <ActionsMenuItem onClick={() => unpublishOne(name)}>Unpublish</ActionsMenuItem>
-                  ) : (
-                    <ActionsMenuItem onClick={() => publishOne(name)}>Publish</ActionsMenuItem>
-                  )}
-                  {withDeleteModal({
-                    next: () => deleteOne(name),
-                    target: name,
-                  })(<ActionsMenuItem>Delete</ActionsMenuItem>)}
-                </ActionsMenu>
-              )}
-            </ModelManagerContext.Consumer>
+            {close => (
+              <ModelManagerContext.Consumer>
+                {({ publishOne, unpublishOne, deleteOne }) => (
+                  <ActionsMenu>
+                    {status === 'published' ? (
+                      <ActionsMenuItem onClick={actionAndClose(() => unpublishOne(name), close)}>
+                        Unpublish
+                      </ActionsMenuItem>
+                    ) : (
+                      <ActionsMenuItem onClick={actionAndClose(() => publishOne(name), close)}>
+                        Publish
+                      </ActionsMenuItem>
+                    )}
+                    {withDeleteModal({
+                      next: actionAndClose(() => deleteOne(name), close),
+                      target: name,
+                      onCancel: close,
+                    })(<ActionsMenuItem>Delete</ActionsMenuItem>)}
+                  </ActionsMenu>
+                )}
+              </ModelManagerContext.Consumer>
+            )}
           </Popup>
         </Actions>
       );
