@@ -283,7 +283,45 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     });
                   });
               },
-              deleteOne: async id => console.log('Delete', id),
+              deleteOne: async name => {
+                // Set loading true (lock UI)
+                await setState(() => ({
+                  ...state,
+                  isLoading: true,
+                }));
+
+                singleAction('delete', name)
+                  .then(() => loadData(baseUrl, state))
+                  .then(async ([dataResponse, countResponse]) => {
+                    await setState(() => ({
+                      isLoading: false,
+                      data: dataResponse.data,
+                      error: null,
+                      rowCount: countResponse.data.count,
+                    }));
+
+                    await appendNotification({
+                      type: 'success',
+                      message: `Delete Successful!`,
+                      details: `${name} has been succesfully deleted`,
+                    });
+                  })
+                  .catch(async err => {
+                    const errorText = extractErrorText(err);
+
+                    await setState(() => ({
+                      ...state,
+                      isLoading: false,
+                      error: err,
+                    }));
+
+                    await appendNotification({
+                      type: 'error',
+                      message: `Delete Error.`,
+                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+                    });
+                  });
+              },
               ...generateTableActions(state, setState, state.data),
             }}
             {...props}

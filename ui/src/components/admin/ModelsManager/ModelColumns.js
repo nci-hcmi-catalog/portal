@@ -1,5 +1,4 @@
 import React from 'react';
-import Component from 'react-component-component';
 import Popup from 'reactjs-popup';
 import Moment from 'react-moment';
 
