@@ -40,7 +40,27 @@ export default () => (
           {notifications.map(notification => (
             <Notification key={notification.id} type={notification.type}>
               <Message>{notification.message}</Message>
-              {notification.details && <Details>{notification.details}</Details>}
+              {notification.details && (
+                <Details>
+                  {notification.details}
+                  {notification.errors && (
+                    <ul>
+                      {notification.errors.map(({ name, details }) => (
+                        <li>
+                          <div>
+                            <span>Name: </span>
+                            {name}
+                          </div>
+                          <div>
+                            <span>Errors: </span>
+                            <ul>{details.map(detail => <li>{detail}</li>)}</ul>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </Details>
+              )}
               {notification.link && (
                 <MessageLink to={notification.link} type={notification.type}>
                   {notification.linkText || 'Link'}

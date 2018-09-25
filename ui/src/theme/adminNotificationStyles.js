@@ -7,14 +7,16 @@ import base from 'theme';
 
 const {
   fonts: { openSans },
-  keyedPalette: { brandPrimary, pelorousapprox, mineShaft },
-  transparency: { brandPrimary20, pelorousapprox20 },
+  keyedPalette: { brandPrimary, pelorousapprox, mineShaft, yellowOrange },
+  transparency: { brandPrimary20, pelorousapprox20, yellowOrange20 },
 } = base;
 
 const successBkgColour = pelorousapprox20;
 const successColour = pelorousapprox;
 const errorBkgColour = brandPrimary20;
+const warningBkgColour = yellowOrange20;
 const errorColour = brandPrimary;
+const warningColour = yellowOrange;
 const textColour = mineShaft;
 
 export const NotificationsToaster = styled(Element)`
@@ -38,6 +40,8 @@ export const Notification = styled('div')`
   background: ${({ type }) => {
     if (type === 'error') {
       return errorBkgColour;
+    } else if (type === 'warning') {
+      return warningBkgColour;
     } else {
       return successBkgColour;
     }
@@ -46,6 +50,8 @@ export const Notification = styled('div')`
   border-color: ${({ type }) => {
     if (type === 'error') {
       return errorColour;
+    } else if (type === 'warning') {
+      return warningColour;
     } else {
       return successColour;
     }

@@ -3,18 +3,19 @@
 import express from 'express';
 import Model from '../schemas/model';
 import publishValidation from '../validation/model';
-import { runYupValidators, modelStatus } from '../helpers';
+import { runYupValidatorFailSlow, modelStatus } from '../helpers';
 import { indexModelsToES } from '../services/elastic-search/publish';
 import { unpublishManyFromES } from '../services/elastic-search/unpublish';
 
 const bulkRouter = express.Router();
 
+// TODO - Rework for fail slow
 bulkRouter.post('/publish', async (req, res) => {
   // Validate models for publishing
   Model.find({
     _id: { $in: req.body },
   })
-    .then(models => runYupValidators(publishValidation, models))
+    .then(models => runYupValidatorFailSlow(publishValidation, models))
     .then(validModels => {
       const ids = validModels.map(({ _id }) => _id);
       return indexModelsToES({

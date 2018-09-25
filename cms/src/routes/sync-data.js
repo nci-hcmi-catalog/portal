@@ -1,3 +1,5 @@
+// @ts-check
+
 import express from 'express';
 import { unionWith, uniqWith, isEqual } from 'lodash';
 
@@ -7,7 +9,7 @@ import Variant from '../schemas/variant';
 import { saveValidation } from '../validation/model';
 import { modelVariantUploadSchema } from '../validation/variant';
 
-import { ensureAuth, computeModelStatus, runYupValidators } from '../helpers';
+import { ensureAuth, computeModelStatus, runYupValidatorFailSlow, runYupValidatorFailFast } from '../helpers';
 
 import { getSheetData, typeToParser, NAtoNull } from '../services/import/SheetsToMongo';
 
@@ -100,12 +102,12 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
         .map(d => removeNullKeys(d));
       return parsed;
     })
-    .then(parsed => runYupValidators(saveValidation, parsed))
-    .then(parsed => {
-      const savePromises = parsed.map(async p => {
+    .then(parsed => runYupValidatorFailSlow(saveValidation, parsed))
+    .then(validated => {
+      const savePromises = validated.filter(({ success }) => success).map(async ({ result }) => {
         const prevModel = await Model.findOne(
           {
-            name: p.name,
+            name: result.name,
           },
           {
             _id: false,
@@ -113,46 +115,50 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
           }, //omit mongoose generated fields
         );
         if (prevModel) {
-          if (overwrite && !isEqual(prevModel._doc, p)) {
+          if (overwrite && !isEqual(prevModel._doc, result)) {
             return new Promise((resolve, reject) => {
               Model.findOneAndUpdate(
                 {
-                  name: p.name,
+                  name: result.name,
                 },
-                p,
+                result,
                 {
                   upsert: true,
                   new: true,
                   runValidators: true,
                 },
               )
-                .then(() => resolve({ status: 'updated', doc: p.name }))
+                .then(() => resolve({ status: 'updated', doc: result.name }))
                 .catch(error =>
                   reject({
                     message: `An unexpected error occurred while updating model: ${
-                      p.name
+                      result.name
                     }, Error:  ${error}`,
                   }),
                 );
             });
           }
-          return new Promise(resolve => resolve({ status: 'unchanged', doc: p.name })); //no fields modified, do nothing
+          return new Promise(resolve => resolve({ status: 'unchanged', doc: result.name })); //no fields modified, do nothing
         } else {
           return new Promise((resolve, reject) => {
-            const newModel = new Model(p);
+            const newModel = new Model(result);
             newModel
               .save()
-              .then(() => resolve({ status: 'new', doc: p.name }))
+              .then(() => resolve({ status: 'new', doc: result.name }))
               .catch(error =>
                 reject({
                   message: `An unexpected error occurred while creating model: ${
-                    p.name
+                    result.name
                   }, Error:  ${error}`,
                 }),
               );
           });
         }
       });
+
+      const validationErrors = validated
+        .filter(({ success }) => !success)
+        .map(({ errors }) => errors);
 
       return Promise.all(savePromises)
         .then(saveResults =>
@@ -163,7 +169,7 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
                 finalResponse[status].push(doc);
                 return finalResponse;
               },
-              { unchanged: [], updated: [], new: [] },
+              { unchanged: [], updated: [], new: [], errors: validationErrors },
             ),
           }),
         )
@@ -196,7 +202,8 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
         return modelVariantUpload;
       }),
     )
-    .then(data => runYupValidators(modelVariantUploadSchema, data))
+    // TODO: Redo for runYupValidatorFailSlow
+    .then(data => runYupValidatorFailSlow(modelVariantUploadSchema, data))
     .then(validatedData =>
       Promise.all(
         validatedData.map(validatedVariant =>

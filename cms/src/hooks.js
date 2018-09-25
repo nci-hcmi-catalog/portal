@@ -1,11 +1,11 @@
 import { indexOneToES } from './services/elastic-search/publish';
 import { unpublishOneFromES } from './services/elastic-search/unpublish';
-import { modelStatus, runYupValidators } from './helpers';
+import { modelStatus, runYupValidatorFailFast } from './helpers';
 import { deleteImage } from './routes/images';
 import { saveValidation } from './validation/model';
 
 export const validateYup = (req, res, next) => {
-  runYupValidators(saveValidation, [req.body])
+  runYupValidatorFailFast(saveValidation, [req.body])
     .then(() => next())
     .catch(error => {
       res.status(400).json({
@@ -25,7 +25,7 @@ export const preModelDelete = (req, res, next) => {
 };
 
 export const preUpdate = (req, res, next) => {
-  runYupValidators(saveValidation, [req.body])
+  runYupValidatorFailFast(saveValidation, [req.body])
     .then(async () => {
       const {
         body,

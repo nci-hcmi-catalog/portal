@@ -161,9 +161,10 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                       }));
 
                       await appendNotification({
-                        type: 'success',
+                        type: result.errors.length > 0 ? 'warning' : 'success',
                         message: 'Model Upload Complete',
                         details: extractResultText(result),
+                        errors: result.errors,
                       });
                     }),
                   )
