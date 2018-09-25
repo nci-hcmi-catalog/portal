@@ -14,10 +14,12 @@ import { data_sync_router } from './routes/sync-data';
 import { imagesRouter, bulkRouter } from './routes';
 import { preUpdate, validateYup, preModelDelete, postUpdate } from './hooks';
 import Model from './schemas/model';
+import User from './schemas/user';
 
 const port = process.env.PORT || 8080;
 const app = express();
-const router = express.Router();
+const modelRouter = express.Router();
+const userRouter = express.Router();
 
 // Handle "unhandled" promise rejections
 process.on('unhandledRejection', (reason, promise) => {
@@ -40,7 +42,7 @@ app.use(cors());
 app.use(morgan('combined'));
 
 // configure endpoints
-restify.serve(router, Model, {
+restify.serve(modelRouter, Model, {
   preCreate: validateYup,
   preUpdate,
   postUpdate: postUpdate,
@@ -48,10 +50,14 @@ restify.serve(router, Model, {
   idProperty: 'name',
 });
 
+// configure endpoints
+restify.serve(userRouter, User);
+
 app.use('/api/v1', data_sync_router);
 app.use('/api/v1/bulk', bulkRouter);
 app.use('/api/v1/images', imagesRouter);
-app.use(router);
+app.use(modelRouter);
+app.use(modelRouter);
 
 // start app
 const http = new Server(app);
