@@ -9,7 +9,12 @@ import Variant from '../schemas/variant';
 import { saveValidation } from '../validation/model';
 import { modelVariantUploadSchema } from '../validation/variant';
 
-import { ensureAuth, computeModelStatus, runYupValidatorFailSlow, runYupValidatorFailFast } from '../helpers';
+import {
+  ensureAuth,
+  computeModelStatus,
+  runYupValidatorFailSlow,
+  runYupValidatorFailFast,
+} from '../helpers';
 
 import { getSheetData, typeToParser, NAtoNull } from '../services/import/SheetsToMongo';
 
@@ -77,10 +82,6 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
   let { overwrite } = req.query;
   overwrite = overwrite || false;
   overwrite = normalizeOption(overwrite);
-
-  // TODO - Do not fail fast, instead do entire bulk operation and report
-  // https://nmaggioni.xyz/2016/10/13/Avoiding-Promise-all-fail-fast-behavior/
-  // (bottom solution)
 
   ensureAuth(req)
     .then(authClient => getSheetData({ authClient, spreadsheetId, sheetId }))
@@ -187,10 +188,6 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
   overwrite = overwrite || false;
   overwrite = normalizeOption(overwrite);
 
-  // TODO - Do not fail fast, instead do entire bulk operation and report
-  // https://nmaggioni.xyz/2016/10/13/Avoiding-Promise-all-fail-fast-behavior/
-  // (bottom solution)
-
   ensureAuth(req)
     .then(authClient => getSheetData({ authClient, spreadsheetId, sheetId }))
     .then(data =>
@@ -202,52 +199,72 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
         return modelVariantUpload;
       }),
     )
-    // TODO: Redo for runYupValidatorFailSlow
     .then(data => runYupValidatorFailSlow(modelVariantUploadSchema, data))
-    .then(validatedData =>
+    .then(validated =>
       Promise.all(
-        validatedData.map(validatedVariant =>
-          Variant.findOne({
-            name: validatedVariant.variant_name,
-            type: validatedVariant.variant_type,
-          }).then(variant => {
-            if (!variant) {
-              const error = {
-                message: `No variant found matching "${validatedVariant.variant_name}" and "${
-                  validatedVariant.variant_type
-                }" in database.`,
-              };
-              throw error;
-            }
+        validated.map(validatedVariant => {
+          if (validatedVariant.success) {
+            const variantData = validatedVariant.result;
+            return Variant.findOne({
+              name: variantData.variant_name,
+              type: variantData.variant_type,
+            }).then(variantResult => {
+              // If no variant found return an error in
+              // the same format as validation errors
+              if (!variantResult) {
+                return {
+                  success: false,
+                  errors: {
+                    name: variantData.variant_name || 'Unknown',
+                    details: [
+                      `No variant found matching "${variantData.variant_name}" and "${
+                        variantData.variant_type
+                      }" in database.`,
+                    ],
+                  },
+                };
+              }
 
-            return {
-              model_name: validatedVariant.model_name,
-              variant: variant._id,
-              assessment_type: validatedVariant.assessment_type,
-              expression_level: validatedVariant.expression_level,
-            };
-          }),
-        ),
+              // Modify the succsefully found and validated variant
+              // before passing it forward to the next step
+              return {
+                success: true,
+                result: {
+                  model_name: variantData.model_name,
+                  variant: variantResult._id,
+                  assessment_type: variantData.assessment_type,
+                  expression_level: variantData.expression_level,
+                },
+              };
+            });
+          } else {
+            // Return the unsuccessfull validation error like normal
+            return new Promise(resolve => resolve(validatedVariant));
+          }
+        }),
       ),
     )
     .then(populatedVariants => {
       // Sort the modelVariant relations by model_name
-      const mappedModelVariants = populatedVariants.reduce((acc, curr) => {
-        // Get model name
-        const model_name = curr.model_name;
+      const mappedModelVariants = populatedVariants
+        .filter(({ success }) => success)
+        .reduce((acc, { result }) => {
+          // Get model name
+          const model_name = result.model_name;
 
-        // Delete model name from final variant object
-        delete curr.model_name;
+          // Delete model name from final variant object
+          delete result.model_name;
 
-        if (model_name in acc) {
-          acc[model_name].push(curr);
-        } else {
-          acc[model_name] = [curr];
-        }
+          if (model_name in acc) {
+            acc[model_name].push(result);
+          } else {
+            acc[model_name] = [result];
+          }
 
-        return acc;
-      }, {});
+          return acc;
+        }, {});
 
+      // Process all successfully populated variants as normal
       const savePromises = Object.keys(mappedModelVariants).map(async model_name => {
         // Upload set for the model we are operating on
         const uploadedModelVariants = uniqWith(mappedModelVariants[model_name], isEqual);
@@ -319,6 +336,11 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
         }
       });
 
+      // Gather the errors for reporting along with the success
+      const errors = populatedVariants
+        .filter(({ success }) => !success)
+        .map(({ errors }) => errors);
+
       return Promise.all(savePromises)
         .then(saveResults =>
           res.json({
@@ -328,7 +350,7 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
                 finalResponse[status].push({ model: doc, variants });
                 return finalResponse;
               },
-              { unchanged: [], updated: [], new: [] },
+              { unchanged: [], updated: [], new: [], errors },
             ),
           }),
         )

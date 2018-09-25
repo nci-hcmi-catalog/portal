@@ -55,7 +55,7 @@ const bulkActionCreator = ({
   }));
 
   bulkAction(action, state.selection)
-    .then(({ data: { success } }) =>
+    .then(({ data: { success, errors } }) =>
       loadData(baseUrl, state).then(async ([dataResponse, countResponse]) => {
         await setState(() => ({
           isLoading: false,
@@ -67,9 +67,10 @@ const bulkActionCreator = ({
         }));
 
         await appendNotification({
-          type: 'success',
+          type: errors.length > 0 ? 'warning' : 'success',
           message: `Bulk ${action} complete.`,
           details: success,
+          bulkErrors: errors,
         });
       }),
     )
@@ -164,7 +165,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                         type: result.errors.length > 0 ? 'warning' : 'success',
                         message: 'Model Upload Complete',
                         details: extractResultText(result),
-                        errors: result.errors,
+                        bulkErrors: result.errors,
                       });
                     }),
                   )

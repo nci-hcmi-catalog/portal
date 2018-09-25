@@ -18,7 +18,16 @@ export const runYupValidatorFailSlow = (validator, data) => {
         return {
           success: false,
           errors: {
-            name: result.value.name || 'Unknown Name',
+            // Name will be one of:
+            // name (model upload)
+            // variant_name (variant upload)
+            // First key in object (all other cases)
+            // Unknown (fallback)
+            name:
+              result.value.name ||
+              result.value.variant_name ||
+              result.value[Object.keys(result.value)[0]] ||
+              'Unknown',
             details: result.errors,
           },
         };

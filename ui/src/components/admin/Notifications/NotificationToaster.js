@@ -43,22 +43,23 @@ export default () => (
               {notification.details && (
                 <Details>
                   {notification.details}
-                  {notification.errors && (
-                    <ul>
-                      {notification.errors.map(({ name, details }) => (
-                        <li>
-                          <div>
-                            <span>Name: </span>
-                            {name}
-                          </div>
-                          <div>
-                            <span>Errors: </span>
-                            <ul>{details.map(detail => <li>{detail}</li>)}</ul>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                  {notification.bulkErrors &&
+                    notification.bulkErrors.length > 0 && (
+                      <ul>
+                        {notification.bulkErrors.map(({ name, details }) => (
+                          <li>
+                            <div>
+                              <span>Name: </span>
+                              {name}
+                            </div>
+                            <div>
+                              <span>Errors: </span>
+                              <ul>{details.map(detail => <li>{detail}</li>)}</ul>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                 </Details>
               )}
               {notification.link && (

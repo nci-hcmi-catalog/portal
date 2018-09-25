@@ -23,6 +23,12 @@ const variantReducer = result => (acc, curr) => {
   if (acc.length === 0 && result[curr].length === 0) {
     // First time, zero variant data in the key
     return `${capitalize(curr)}: 0`;
+  } else if (acc.length === 0 && curr === 'errors') {
+    // First time if there is errors data (special case)
+    return `${capitalize(curr)}: ${result[curr].length}`;
+  } else if (result[curr].length > 0 && curr === 'errors') {
+    // Non-first and key is errors (special case)
+    return `${acc} | ${capitalize(curr)}: ${result[curr].length}`;
   } else if (acc.length === 0 && result[curr].length > 0) {
     // First time if there is variant data in the key
     return `${capitalize(curr)}: ${result[curr][0]['variants'].length}`;
@@ -43,6 +49,7 @@ export function extractResultText(result, type = 'model') {
     new: 1,
     updated: 2,
     unchanged: 3,
+    error: 4,
   };
 
   const sortedKeys = Object.keys(result).sort((a, b) => customSortMatrix[a] - customSortMatrix[b]);

@@ -394,9 +394,10 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       });
 
                       await appendNotification({
-                        type: 'success',
+                        type: result.errors.length > 0 ? 'warning' : 'success',
                         message: 'Variants Upload Complete',
                         details: extractResultText(result, 'variant'),
+                        bulkErrors: result.errors,
                       });
                     }),
                   )
