@@ -57,7 +57,7 @@ app.use('/api/v1', data_sync_router);
 app.use('/api/v1/bulk', bulkRouter);
 app.use('/api/v1/images', imagesRouter);
 app.use(modelRouter);
-app.use(modelRouter);
+app.use(userRouter);
 
 // start app
 const http = new Server(app);
