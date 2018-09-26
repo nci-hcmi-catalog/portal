@@ -5,7 +5,6 @@ import { xor, get } from 'lodash';
 const nestedStateResolver = (state, update, path) =>
   path
     ? {
-        ...state,
         [path]: {
           ...state[path],
           ...update,
