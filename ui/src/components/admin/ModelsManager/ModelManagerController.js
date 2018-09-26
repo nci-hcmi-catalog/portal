@@ -49,10 +49,7 @@ const bulkActionCreator = ({
   }
 
   // Set loading true (lock UI)
-  await setState(() => ({
-    ...state,
-    isLoading: true,
-  }));
+  await setState({ isLoading: true });
 
   bulkAction(action, state.selection)
     .then(({ data: { success, errors } }) =>
@@ -78,12 +75,11 @@ const bulkActionCreator = ({
     .catch(async err => {
       const errorText = extractErrorText(err);
 
-      await setState(() => ({
-        ...state,
+      await setState({
         isLoading: false,
         selection: [],
         selectAll: false,
-      }));
+      });
 
       await appendNotification({
         type: 'error',
@@ -147,20 +143,19 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
               state,
               uploadModelsFromSheet: async (sheetURL, overwrite) => {
                 // Set loading true (lock UI)
-                await setState(() => ({
-                  ...state,
+                await setState({
                   isLoading: true,
-                }));
+                });
 
                 uploadModelsFromSheet(sheetURL, overwrite)
                   .then(({ data: { result } }) =>
                     loadData(baseUrl, state).then(async ([dataResponse, countResponse]) => {
-                      await setState(() => ({
+                      await setState({
                         isLoading: false,
                         data: dataResponse.data,
                         error: null,
                         rowCount: countResponse.data.count,
-                      }));
+                      });
 
                       await appendNotification({
                         type: result.errors.length > 0 ? 'warning' : 'success',
@@ -174,10 +169,9 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                   .catch(async err => {
                     const errorText = extractErrorText(err);
 
-                    await setState(() => ({
-                      ...state,
+                    await setState({
                       isLoading: false,
-                    }));
+                    });
 
                     await appendNotification({
                       type: 'error',
@@ -209,20 +203,19 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
               }),
               publishOne: async name => {
                 // Set loading true (lock UI)
-                await setState(() => ({
-                  ...state,
+                await setState({
                   isLoading: true,
-                }));
+                });
 
                 singleAction('publish', name)
                   .then(() => loadData(baseUrl, state))
                   .then(async ([dataResponse, countResponse]) => {
-                    await setState(() => ({
+                    await setState({
                       isLoading: false,
                       data: dataResponse.data,
                       error: null,
                       rowCount: countResponse.data.count,
-                    }));
+                    });
 
                     await appendNotification({
                       type: 'success',
@@ -235,11 +228,10 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                   .catch(async err => {
                     const errorText = extractErrorText(err);
 
-                    await setState(() => ({
-                      ...state,
+                    await setState({
                       isLoading: false,
                       error: err,
-                    }));
+                    });
 
                     await appendNotification({
                       type: 'error',
@@ -250,10 +242,9 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
               },
               unpublishOne: async name => {
                 // Set loading true (lock UI)
-                await setState(() => ({
-                  ...state,
+                await setState({
                   isLoading: true,
-                }));
+                });
 
                 singleAction('unpublish', name)
                   .then(() => loadData(baseUrl, state))
@@ -274,11 +265,10 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                   .catch(async err => {
                     const errorText = extractErrorText(err);
 
-                    await setState(() => ({
-                      ...state,
+                    await setState({
                       isLoading: false,
                       error: err,
-                    }));
+                    });
 
                     await appendNotification({
                       type: 'error',
@@ -289,10 +279,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
               },
               deleteOne: async name => {
                 // Set loading true (lock UI)
-                await setState(() => ({
-                  ...state,
-                  isLoading: true,
-                }));
+                await setState({ isLoading: true });
 
                 singleAction('delete', name)
                   .then(() => loadData(baseUrl, state))
@@ -313,11 +300,10 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                   .catch(async err => {
                     const errorText = extractErrorText(err);
 
-                    await setState(() => ({
-                      ...state,
+                    await setState({
                       isLoading: false,
                       error: err,
-                    }));
+                    });
 
                     await appendNotification({
                       type: 'error',
@@ -326,7 +312,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     });
                   });
               },
-              ...generateTableActions(state, setState, state.data),
+              ...generateTableActions(setState, state.data),
             }}
             {...props}
           >
