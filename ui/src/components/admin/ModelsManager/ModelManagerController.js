@@ -64,11 +64,11 @@ const bulkActionCreator = ({
         }));
 
         await appendNotification({
-          type: errors.length > 0 ? 'warning' : 'success',
+          type: action === 'publish' && errors.length > 0 ? 'warning' : 'success',
           message: `Bulk ${action} complete.`,
           details: success,
-          bulkErrors: errors,
-          timeout: false, // do not auto-remove this notification
+          bulkErrors: action === 'publish' && errors,
+          timeout: action === 'publish' ? false : 10000, // do not auto-remove this notification when bulk publishing
         });
       }),
     )
