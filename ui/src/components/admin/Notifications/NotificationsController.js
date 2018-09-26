@@ -54,7 +54,7 @@ const NotificationsProvider = ({ children, history }) => (
         value={{
           state: state,
           appendNotification: notification => {
-            setState({
+            setState(state => ({
               notifications: [
                 ...state.notifications,
                 // Generating a notification also creates the clear function
@@ -62,7 +62,7 @@ const NotificationsProvider = ({ children, history }) => (
                 // to the notification itself
                 generateNotification(notification, setState, history),
               ],
-            });
+            }));
           },
           clearNotification: id =>
             // Clearing a notification from the outside means finding the correct

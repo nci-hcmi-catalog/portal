@@ -82,10 +82,9 @@ export default ({ selected, ...props }) => (
       // no need to query everytime we remove items from the list
       const newModelId = props.selected.state.modelIds;
       if (newModelId.length < prevProps.selected.state.modelIds.length && !state.loading) {
-        setState({
-          ...state,
+        setState(state => ({
           models: state.models.filter(model => newModelId.indexOf(model.id) !== -1),
-        });
+        }));
       }
     }}
   />
