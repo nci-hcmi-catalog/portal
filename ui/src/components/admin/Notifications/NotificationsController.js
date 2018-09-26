@@ -4,9 +4,9 @@ import Component from 'react-component-component';
 
 export const NotificationsContext = React.createContext();
 
-const generateNotification = (notification, state, setState, history) => {
+const generateNotification = (notification, setState, history) => {
   const id = Date.now();
-  const timeout = 'timeout' in notification ? notification.timeout : 3000; // default value is 10 seconds, can be overwritten or turned off (false)
+  const timeout = 'timeout' in notification ? notification.timeout : 10000; // default value is 10 seconds, can be overwritten or turned off (false)
 
   // Create the clear function for this notification
   const clearThisNotification = () => {
@@ -60,7 +60,7 @@ const NotificationsProvider = ({ children, history }) => (
                 // Generating a notification also creates the clear function
                 // which requires we pass state, setState, history in addition
                 // to the notification itself
-                generateNotification(notification, state, setState, history),
+                generateNotification(notification, setState, history),
               ],
             });
           },
