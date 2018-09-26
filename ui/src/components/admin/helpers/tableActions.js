@@ -2,38 +2,40 @@
 
 import { xor, get } from 'lodash';
 
-const nestedStateResolver = (state, update, path) =>
-  path
+// If we provide a key update that keys
+// state instead of the root object
+const nestedStateResolver = (state, update, key) =>
+  key
     ? {
-        [path]: {
-          ...state[path],
+        [key]: {
+          ...state[key],
           ...update,
         },
       }
     : update;
 
-export const generateTableActions = (setState, data, nestedStatePath = false) => ({
+export const generateTableActions = (setState, data, nestedStateKey = false) => ({
   onPageChange: newPage =>
     setState(state =>
-      nestedStateResolver(state, { page: newPage, isLoading: true }, nestedStatePath),
+      nestedStateResolver(state, { page: newPage, isLoading: true }, nestedStateKey),
     ),
   onFilterValueChange: newValue =>
-    setState(state => nestedStateResolver(state, { filterValue: newValue }, nestedStatePath)),
+    setState(state => nestedStateResolver(state, { filterValue: newValue }, nestedStateKey)),
   onPageSizeChange: newValue =>
     setState(state =>
-      nestedStateResolver(state, { page: 0, pageSize: newValue, isLoading: true }, nestedStatePath),
+      nestedStateResolver(state, { page: 0, pageSize: newValue, isLoading: true }, nestedStateKey),
     ),
   toggleSelection: id =>
     setState(state =>
       nestedStateResolver(
         state,
         {
-          selection: xor(
-            get(state, nestedStatePath ? `${nestedStatePath}.selection` : 'selection'),
-            [id],
-          ),
+          // Becasue we can have a nested key we use the lodash get function to extract the correct value
+          selection: xor(get(state, nestedStateKey ? `${nestedStateKey}.selection` : 'selection'), [
+            id,
+          ]),
         },
-        nestedStatePath,
+        nestedStateKey,
       ),
     ),
   toggleAll: () => {
@@ -44,13 +46,15 @@ export const generateTableActions = (setState, data, nestedStatePath = false) =>
         state,
         {
           selection:
-            get(state, nestedStatePath ? `${nestedStatePath}.selection` : 'selection').length ===
+            // Becasue we can have a nested key we use the lodash get function to extract the correct value
+            get(state, nestedStateKey ? `${nestedStateKey}.selection` : 'selection').length ===
             ids.length
               ? []
               : ids,
-          selectAll: !get(state, nestedStatePath ? `${nestedStatePath}.selectAll` : 'selectAll'),
+          // Becasue we can have a nested key we use the lodash get function to extract the correct value
+          selectAll: !get(state, nestedStateKey ? `${nestedStateKey}.selectAll` : 'selectAll'),
         },
-        nestedStatePath,
+        nestedStateKey,
       ),
     );
   },
