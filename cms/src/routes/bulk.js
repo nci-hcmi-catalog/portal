@@ -17,13 +17,15 @@ bulkRouter.post('/publish', async (req, res) => {
   })
     .then(models => runYupValidatorFailSlow(publishValidation, models))
     .then(validated => {
-      const ids = validated.filter(({ success }) => success).map(({ result: { _id } }) => _id);
+      const validModelNames = validated
+        .filter(({ success }) => success)
+        .map(({ result: { name } }) => name);
 
       // Put any validation errors into higher scope for return
       validationErrors = validated.filter(({ success }) => !success).map(({ errors }) => errors);
 
       return indexModelsToES({
-        _id: { $in: ids },
+        name: { $in: validModelNames },
       });
     })
     .then(() =>
