@@ -63,7 +63,7 @@ export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection 
               `}
             >
               <ToolbarText>Bulk Actions :</ToolbarText>
-              <ToolbarControl onClick={() => setState({ ...state, isOpen: !isOpen })}>
+              <ToolbarControl onClick={() => setState({ isOpen: !isOpen })}>
                 <span>{selectedAction ? `-- ${selectedAction} --` : '-- Select An Action --'}</span>
                 {ArrowIcon({ isOpen })}
               </ToolbarControl>

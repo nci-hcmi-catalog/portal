@@ -71,6 +71,7 @@ const bulkActionCreator = ({
           message: `Bulk ${action} complete.`,
           details: success,
           bulkErrors: errors,
+          timeout: false, // do not auto-remove this notification
         });
       }),
     )
@@ -166,6 +167,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                         message: 'Model Upload Complete',
                         details: extractResultText(result),
                         bulkErrors: result.errors,
+                        timeout: false, // do not auto-remove this notification
                       });
                     }),
                   )

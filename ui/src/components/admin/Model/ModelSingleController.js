@@ -398,6 +398,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                         message: 'Variants Upload Complete',
                         details: extractResultText(result, 'variant'),
                         bulkErrors: result.errors,
+                        timeout: false, // do not auto-remove this notification
                       });
                     }),
                   )
