@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import Component from 'react-component-component';
 
 export const NotificationsContext = React.createContext();
@@ -9,10 +10,24 @@ const generateNotification = notification => ({
 });
 
 // Provider
-export const NotificationsProvider = ({ children, props }) => (
+const NotificationsProvider = ({ children, history }) => (
   <Component
     initialState={{
       notifications: [],
+    }}
+    didMount={({ setState }) => {
+      // This will be called to unsubscribe
+      // the listener on willUnmount
+      let unlisten;
+
+      // Listen to history changes and immediately clear
+      // notifications then unmount
+      unlisten = history.listen(() => {
+        unlisten();
+        setState({
+          notifications: [],
+        });
+      });
     }}
   >
     {({ state, setState }) => (
@@ -42,7 +57,6 @@ export const NotificationsProvider = ({ children, props }) => (
               notifications: [],
             }),
         }}
-        {...props}
       >
         {children}
       </NotificationsContext.Provider>
@@ -50,4 +64,4 @@ export const NotificationsProvider = ({ children, props }) => (
   </Component>
 );
 
-export default NotificationsProvider;
+export default withRouter(NotificationsProvider);
