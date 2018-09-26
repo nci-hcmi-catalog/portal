@@ -8,7 +8,7 @@ import { Pill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
 import config from '../config';
 import ModelManagerProvider, { ModelManagerContext } from '../ModelsManager/ModelManagerController';
-import ModelManagerTable from '../ModelsManager/ModelManagerTable';
+import UserManagerTable from './UserManagerTable';
 
 const content = () => {
   return (
@@ -32,7 +32,7 @@ const content = () => {
           </AdminHeaderBlock>
         </AdminHeader>
         <Table>
-          <ModelManagerTable />
+          <UserManagerTable />
         </Table>
       </AdminContainer>
     </ModelManagerProvider>
