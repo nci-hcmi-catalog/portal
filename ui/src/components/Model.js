@@ -195,7 +195,6 @@ export default ({ modelName }) => (
                       'createdAt',
                       'updatedAt',
                       'licensing_required',
-                      'gender',
                     ]}
                   />
                   <div

@@ -3,7 +3,7 @@
 import express from 'express';
 import Model from '../schemas/model';
 import publishValidation from '../validation/model';
-import { runYupValidators, modelStatus } from '../helpers';
+import { runYupValidatorFailFast, modelStatus } from '../helpers';
 import { indexOneToES } from '../services/elastic-search/publish';
 import { unpublishOneFromES } from '../services/elastic-search/unpublish';
 
@@ -14,7 +14,7 @@ actionRouter.post('/publish/:name', async (req, res) => {
   Model.find({
     name,
   })
-    .then(models => runYupValidators(publishValidation, models))
+    .then(models => runYupValidatorFailFast(publishValidation, models))
     .then(() => indexOneToES({ name }))
     .then(() =>
       Model.updateOne(

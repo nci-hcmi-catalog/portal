@@ -3,25 +3,35 @@
 import express from 'express';
 import Model from '../schemas/model';
 import publishValidation from '../validation/model';
-import { runYupValidators, modelStatus } from '../helpers';
+import { runYupValidatorFailSlow, modelStatus } from '../helpers';
 import { indexModelsToES } from '../services/elastic-search/publish';
 import { unpublishManyFromES } from '../services/elastic-search/unpublish';
 
 const bulkRouter = express.Router();
 
 bulkRouter.post('/publish', async (req, res) => {
+  let validationErrors;
   // Validate models for publishing
   Model.find({
     _id: { $in: req.body },
   })
-    .then(models => runYupValidators(publishValidation, models))
-    .then(validModels => {
-      const ids = validModels.map(({ _id }) => _id);
+    .then(models => runYupValidatorFailSlow(publishValidation, models))
+    .then(validated => {
+      const ids = validated.filter(({ success }) => success).map(({ result: { _id } }) => _id);
+
+      // Put any validation errors into higher scope for return
+      validationErrors = validated.filter(({ success }) => !success).map(({ errors }) => errors);
+
       return indexModelsToES({
         _id: { $in: ids },
       });
     })
-    .then(() => res.json({ success: `${req.body.length} models published` }))
+    .then(() =>
+      res.json({
+        success: `${req.body.length - validationErrors.length} models published`,
+        errors: validationErrors,
+      }),
+    )
     .catch(error =>
       res.status(500).json({
         error: error,

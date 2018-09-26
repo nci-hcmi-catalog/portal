@@ -1,6 +1,42 @@
 // @ts-check
 
-export const runYupValidators = (validator, data) => {
+import { ValidationError } from 'yup';
+
+export const runYupValidatorFailSlow = (validator, data) => {
+  const validatePromises = data.map(p =>
+    validator.validate(p, { abortEarly: false }).catch(Error => Error),
+  );
+
+  return Promise.all(validatePromises).then(results =>
+    results.map(result => {
+      if (!(result instanceof ValidationError)) {
+        return {
+          success: true,
+          result,
+        };
+      } else {
+        return {
+          success: false,
+          errors: {
+            // Name will be one of:
+            // name (model upload)
+            // variant_name (variant upload)
+            // First key in object (all other cases)
+            // Unknown (fallback)
+            name:
+              result.value.name ||
+              result.value.variant_name ||
+              result.value[Object.keys(result.value)[0]] ||
+              'Unknown',
+            details: result.errors,
+          },
+        };
+      }
+    }),
+  );
+};
+
+export const runYupValidatorFailFast = (validator, data) => {
   const validatePromises = data.map(p =>
     validator.validate(p, { abortEarly: false }).catch(Error => Error),
   );
