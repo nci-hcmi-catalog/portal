@@ -14,6 +14,7 @@ import ShareButton from 'components/ShareButton';
 import ModelList from 'components/ModelList';
 import { Row, Col } from 'theme/system';
 import { SelectedModelsContext } from 'providers/SelectedModels';
+import LastUpdatedDate from './LastUpdatedDate';
 
 let stable = true;
 
@@ -151,6 +152,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
               </SelectedModelsContext.Consumer>
             )}
           </Component>
+          <LastUpdatedDate />
         </Col>
       </SplitPane>
     </Col>
