@@ -27,14 +27,14 @@ const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis, fie
       ),
     );
 
-const nameValidation = /HCM-\w{4}-\d{4}\.\w\d{2}/;
+const nameValidation = /HCM-\w{4}-\d{4}\.\w\d{2}$/;
 
 // In order to publish a model, this validation
 // must be satisfied, including all required fields
 export default object().shape({
   name: string()
     .required()
-    .matches(nameValidation),
+    .matches(nameValidation, 'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]',),
   type: string()
     .required()
     .lowercase()
@@ -135,7 +135,7 @@ export default object().shape({
 export const saveValidation = object().shape({
   name: string()
     .required()
-    .matches(nameValidation),
+    .matches(nameValidation, 'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]'),
   type: string()
     .lowercase()
     .oneOf(modelType),
