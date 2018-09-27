@@ -1,15 +1,49 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import Component from 'react-component-component';
 
 export const NotificationsContext = React.createContext();
 
-const generateNotification = notification => ({
-  ...notification,
-  id: new Date().valueOf(),
-});
+const generateNotification = (notification, setState, history) => {
+  const id = Date.now();
+  const timeout = 'timeout' in notification ? notification.timeout : 10000; // default value is 10 seconds, can be overwritten or turned off (false)
+
+  // Create the clear function for this notification
+  const clearThisNotification = () => {
+    // Removes the notification from state
+    setState(state => ({
+      notifications: state.notifications.filter(notification => notification.id !== id),
+    }));
+
+    // releases the navigation listener
+    unlisten();
+    // clears the timout function
+    window.clearTimeout(notificationTimeout);
+  };
+
+  // Attach a listener to clear this notification on navigation
+  // (clears the notification when navigating to a different page)
+  const unlisten = history.listen(() => {
+    clearThisNotification();
+  });
+
+  // If the notification has a timeout (default)
+  // On timeout will clear the notification
+  const notificationTimeout =
+    timeout &&
+    setTimeout(() => {
+      clearThisNotification();
+    }, timeout);
+
+  return {
+    ...notification,
+    id,
+    clear: clearThisNotification,
+  };
+};
 
 // Provider
-export const NotificationsProvider = ({ children, props }) => (
+const NotificationsProvider = ({ children, history }) => (
   <Component
     initialState={{
       notifications: [],
@@ -19,30 +53,22 @@ export const NotificationsProvider = ({ children, props }) => (
       <NotificationsContext.Provider
         value={{
           state: state,
-          appendNotification: async notification =>
-            await setState({
-              notifications: [...state.notifications, generateNotification(notification)],
-            }),
-          clearNotification: id => {
-            const notifications = state.notifications.filter(
-              notification => notification.id !== id,
-            );
-            setState({
-              ...state,
-              notifications,
-            });
+          appendNotification: notification => {
+            setState(state => ({
+              notifications: [
+                ...state.notifications,
+                // Generating a notification also creates the clear function
+                // which requires we pass state, setState, history in addition
+                // to the notification itself
+                generateNotification(notification, setState, history),
+              ],
+            }));
           },
-          loadNotifications: async notifications =>
-            setState({
-              notifications,
-            }),
-          clearAllNotifications: () =>
-            setState({
-              ...state,
-              notifications: [],
-            }),
+          clearNotification: id =>
+            // Clearing a notification from the outside means finding the correct
+            // notification object and executing its' clear function
+            state.notifications.find(notification => notification.id === id).clear(),
         }}
-        {...props}
       >
         {children}
       </NotificationsContext.Provider>
@@ -50,4 +76,4 @@ export const NotificationsProvider = ({ children, props }) => (
   </Component>
 );
 
-export default NotificationsProvider;
+export default withRouter(NotificationsProvider);

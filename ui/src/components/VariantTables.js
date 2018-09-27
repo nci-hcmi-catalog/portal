@@ -55,7 +55,6 @@ const VariantTable = ({ type, modelName, columns }) => (
         );
 
         setState({
-          ...state,
           filteredData,
           pageSize: filteredData.lenth > 10 ? 10 : filteredData.length,
         });
@@ -221,7 +220,6 @@ const VariantTable = ({ type, modelName, columns }) => (
               value={state.filterValue}
               onChange={({ target: { value } }) => {
                 setState({
-                  ...state,
                   filterValue: value,
                 });
               }}
@@ -249,7 +247,6 @@ const VariantTable = ({ type, modelName, columns }) => (
             page={state.page}
             PaginationComponent={props => {
               setState({
-                ...state,
                 pageSize: props.pageSize,
                 page: props.page,
               });
@@ -257,7 +254,6 @@ const VariantTable = ({ type, modelName, columns }) => (
             }}
             onPageChange={newPage => {
               setState({
-                ...state,
                 page: newPage,
               });
             }}

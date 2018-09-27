@@ -30,7 +30,7 @@ export default ({ data: { name, variants } }) => {
       {({
         state: { variantTable },
         attachVariants,
-        variantTableControlls: {
+        variantTableControls: {
           onFilterValueChange,
           onPageChange,
           onPageSizeChange,

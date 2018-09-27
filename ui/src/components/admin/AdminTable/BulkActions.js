@@ -51,7 +51,7 @@ export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection 
       selectedAction: '',
     }}
   >
-    {({ setState, state, state: { isOpen, selectedAction } }) => (
+    {({ setState, state: { isOpen, selectedAction } }) => (
       <ToolbarSection>
         <Popup
           trigger={() => (
@@ -63,7 +63,7 @@ export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection 
               `}
             >
               <ToolbarText>Bulk Actions :</ToolbarText>
-              <ToolbarControl onClick={() => setState({ ...state, isOpen: !isOpen })}>
+              <ToolbarControl onClick={() => setState({ isOpen: !isOpen })}>
                 <span>{selectedAction ? `-- ${selectedAction} --` : '-- Select An Action --'}</span>
                 {ArrowIcon({ isOpen })}
               </ToolbarControl>
@@ -84,17 +84,17 @@ export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection 
         >
           <ActionsMenu>
             <ActionsMenuItem
-              onClick={() => setState({ ...state, isOpen: false, selectedAction: publishAction })}
+              onClick={() => setState({ isOpen: false, selectedAction: publishAction })}
             >
               {publishAction}
             </ActionsMenuItem>
             <ActionsMenuItem
-              onClick={() => setState({ ...state, isOpen: false, selectedAction: unpublishAction })}
+              onClick={() => setState({ isOpen: false, selectedAction: unpublishAction })}
             >
               {unpublishAction}
             </ActionsMenuItem>
             <ActionsMenuItem
-              onClick={() => setState({ ...state, isOpen: false, selectedAction: deleteAction })}
+              onClick={() => setState({ isOpen: false, selectedAction: deleteAction })}
             >
               {deleteAction}
             </ActionsMenuItem>
@@ -106,11 +106,11 @@ export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection 
               if (!hasSelection) {
                 return;
               }
-              setState({ ...state, isOpen: false, selectedAction: '' });
+              setState({ isOpen: false, selectedAction: '' });
               onDeleteClick();
             },
             target: 'multiple models',
-            onCancel: () => setState({ ...state, isOpen: false, selectedAction: '' }),
+            onCancel: () => setState({ isOpen: false, selectedAction: '' }),
           })(
             <Pill
               marginLeft="8px"
@@ -128,7 +128,7 @@ export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection 
                 action: selectedAction,
                 onPublishClick,
                 onUnpublishClick,
-                reset: () => setState({ ...state, isOpen: false, selectedAction: '' }),
+                reset: () => setState({ isOpen: false, selectedAction: '' }),
               })
             }
             marginLeft="8px"

@@ -10,6 +10,10 @@ import {
   Message,
   Details,
   MessageLink,
+  ErrorsRow,
+  ErrorsCol,
+  ErrorLabel,
+  ErrorText,
   closeIcon,
 } from 'theme/adminNotificationStyles';
 import AdminCloseIcon from 'icons/AdminCloseIcon';
@@ -40,7 +44,30 @@ export default () => (
           {notifications.map(notification => (
             <Notification key={notification.id} type={notification.type}>
               <Message>{notification.message}</Message>
-              {notification.details && <Details>{notification.details}</Details>}
+              {notification.details && (
+                <Details>
+                  {notification.details}
+                  {notification.bulkErrors &&
+                    notification.bulkErrors.length > 0 && (
+                      <ErrorsCol marginTop="16px">
+                        {notification.bulkErrors.map(({ name, details }) => (
+                          <ErrorsCol marginBottom="16px">
+                            <ErrorsRow>
+                              <ErrorLabel>Name: </ErrorLabel>
+                              <ErrorText>{name}</ErrorText>
+                            </ErrorsRow>
+                            <ErrorsRow>
+                              <ErrorLabel>Errors: </ErrorLabel>
+                              <ErrorsCol>
+                                {details.map(detail => <ErrorText>{detail}</ErrorText>)}
+                              </ErrorsCol>
+                            </ErrorsRow>
+                          </ErrorsCol>
+                        ))}
+                      </ErrorsCol>
+                    )}
+                </Details>
+              )}
               {notification.link && (
                 <MessageLink to={notification.link} type={notification.type}>
                   {notification.linkText || 'Link'}
