@@ -28,21 +28,6 @@ export const indexOneToES = filter => {
   });
 };
 
-export const indexUpdatesToES = () => {
-  let currentDate = new Date();
-  let dateSearch = currentDate.toISOString().replace(/[T].*[Z]/g, 'T00:00:00.000Z');
-  var inputDate = new Date(dateSearch);
-  return indexModelsToES({
-    updatedAt: {
-      $gte: inputDate,
-    },
-  });
-};
-
-export const indexAllToES = () => {
-  return indexModelsToES();
-};
-
 export const indexModelsToES = filter => {
   // Need to validate models first
   return new Promise((resolve, reject) => {
