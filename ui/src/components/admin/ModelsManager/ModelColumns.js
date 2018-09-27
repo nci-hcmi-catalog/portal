@@ -92,7 +92,7 @@ const modelManagerCustomColumns = [
   },
   {
     Header: 'Actions',
-    accessor: 'name',
+    accessor: 'name', 
     Cell: ({ original: { name, status } }) => {
       return (
         <Actions>
