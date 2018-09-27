@@ -9,12 +9,7 @@ import Variant from '../schemas/variant';
 import { saveValidation } from '../validation/model';
 import { modelVariantUploadSchema } from '../validation/variant';
 
-import {
-  ensureAuth,
-  computeModelStatus,
-  runYupValidatorFailSlow,
-  runYupValidatorFailFast,
-} from '../helpers';
+import { ensureAuth, computeModelStatus, runYupValidatorFailSlow } from '../helpers';
 
 import { getSheetData, typeToParser, NAtoNull } from '../services/import/SheetsToMongo';
 
@@ -101,9 +96,8 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
         )
         .filter(Boolean)
         .map(d => removeNullKeys(d));
-      return parsed;
+      return runYupValidatorFailSlow(saveValidation, parsed);
     })
-    .then(parsed => runYupValidatorFailSlow(saveValidation, parsed))
     .then(validated => {
       const savePromises = validated.filter(({ success }) => success).map(async ({ result }) => {
         const prevModel = await Model.findOne(
