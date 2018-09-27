@@ -1,3 +1,5 @@
+// @ts-check
+
 import elasticClient from './common/client';
 
 const index = process.env.ES_INDEX;

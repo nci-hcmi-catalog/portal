@@ -6,6 +6,7 @@ import publishValidation from '../validation/model';
 import { runYupValidatorFailSlow, modelStatus } from '../helpers';
 import { indexModelsToES } from '../services/elastic-search/publish';
 import { unpublishManyFromES } from '../services/elastic-search/unpublish';
+import indexEsUpdate from '../services/elastic-search/update';
 
 const bulkRouter = express.Router();
 
@@ -26,7 +27,7 @@ bulkRouter.post('/publish', async (req, res) => {
 
       return indexModelsToES({
         name: { $in: validModelNames },
-      });
+      }).then(() => validModelNames.length > 0 && indexEsUpdate());
     })
     .then(() =>
       res.json({
@@ -46,6 +47,7 @@ bulkRouter.post('/unpublish', async (req, res) => {
 
   Model.find({ _id: { $in: req.body } })
     .then(models => unpublishManyFromES(models.map(({ name }) => name)))
+    .then(indexEsUpdate)
     .then(result => {
       deleteCount = result.deleted;
       return Model.updateMany(
@@ -65,7 +67,14 @@ bulkRouter.post('/unpublish', async (req, res) => {
 
 bulkRouter.post('/delete', async (req, res) => {
   Model.find({ _id: { $in: req.body } })
-    .then(models => unpublishManyFromES(models.map(({ name }) => name)))
+    .then(models => {
+      const modelsToUnpublish = models
+        .filter(({ status }) => status !== modelStatus.unpublished)
+        .map(({ name }) => name);
+      return unpublishManyFromES(modelsToUnpublish).then(
+        () => modelsToUnpublish.length > 0 && indexEsUpdate(),
+      );
+    })
     .then(() =>
       Model.deleteMany({
         _id: { $in: req.body },
