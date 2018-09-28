@@ -4,10 +4,11 @@ import Popup from 'reactjs-popup';
 import withDeleteModal from '../DeleteModal';
 import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
 import DeleteIcon from 'icons/TrashIcon';
-
+import { ModalStateContext } from 'providers/ModalState';
 import { schemaArr } from '../schema/user';
 import { ActionPill, Actions, ToolbarText } from '../../../theme/adminTableStyles';
-
+import UserForm from './UserForm';
+import { AdminModalStyle } from 'theme/adminModalStyles';
 const selectedColumns = ['name', 'email', 'status', 'createdAt', 'updatedAt'];
 
 const deleteUser = id => console.log(`Will delete ${id}`);
@@ -76,18 +77,32 @@ const userManagerCustomColumns = [
   {
     Header: 'Actions',
     accessor: 'name',
-    Cell: ({ original: { _id, name, email } }) => {
+    Cell: ({ original: { _id, name, email, status } }) => {
       return (
         <Actions>
-          <ActionPill secondary marginRight="6px">
-            <AdminEditPencilIcon
-              css={`
-                width: 12px;
-                height: 12px;
-              `}
-            />
-            Edit
-          </ActionPill>
+          <ModalStateContext.Consumer>
+            {modalState => (
+              <ActionPill
+                secondary
+                marginRight="6px"
+                onClick={() =>
+                  modalState.setModalState({
+                    component: <UserForm type={'edit'} user={{ id: _id, name, email, status }} />,
+                    shouldCloseOnOverlayClick: true,
+                    styles: AdminModalStyle,
+                  })
+                }
+              >
+                <AdminEditPencilIcon
+                  css={`
+                    width: 12px;
+                    height: 12px;
+                  `}
+                />Edit
+              </ActionPill>
+            )}
+          </ModalStateContext.Consumer>
+
           {withDeleteModal({
             next: () => deleteUser(_id),
             target: `${name}(${email})`,

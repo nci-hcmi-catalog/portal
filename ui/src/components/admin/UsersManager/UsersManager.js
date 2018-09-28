@@ -6,8 +6,10 @@ import AdminPlusIcon from '../../../icons/AdminPlusIcon';
 import { AdminContainer, AdminHeader, AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
 import { Pill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
-
+import { ModalStateContext } from 'providers/ModalState';
 import UserManagerTable from './UserManagerTable';
+import UserForm from './UserForm';
+import { AdminModalStyle } from 'theme/adminModalStyles';
 
 const content = () => {
   return (
@@ -26,9 +28,23 @@ const content = () => {
               />User Management
             </AdminHeaderH1>
             <AdminHeaderBlock>
-              <Pill primary marginRight="10px" onClick={() => {}}>
-                <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add A User
-              </Pill>
+              <ModalStateContext.Consumer>
+                {modalState => (
+                  <Pill
+                    primary
+                    marginRight="10px"
+                    onClick={() =>
+                      modalState.setModalState({
+                        component: <UserForm type={'add'} />,
+                        shouldCloseOnOverlayClick: true,
+                        styles: AdminModalStyle,
+                      })
+                    }
+                  >
+                    <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add A User
+                  </Pill>
+                )}
+              </ModalStateContext.Consumer>
             </AdminHeaderBlock>
           </AdminHeader>
           <Table>
