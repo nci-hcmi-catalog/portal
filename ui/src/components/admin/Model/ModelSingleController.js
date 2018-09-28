@@ -164,10 +164,12 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       isReadyToSave: false,
                       // if files is different in new state
                       isReadyToPublish:
-                        !isEqual(
+                        (!isEqual(
                           (modelDataResponse.data.response || {}).files || [],
                           (state.data.response || {}).files || [],
-                        ) || state.form.isReadyToPublish,
+                        ) &&
+                          Object.keys(state.form.errors).length === 0) ||
+                        state.form.isReadyToPublish,
                     },
                     // Put save response into data
                     data: {
