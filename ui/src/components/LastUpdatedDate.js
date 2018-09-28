@@ -8,6 +8,7 @@ export default () => (
       <div
         css={`
           border: 0 !important;
+          font-family: 'Open Sans', sans-serif;
           font-size: 12px;
           font-weight: normal;
           font-style: normal;
