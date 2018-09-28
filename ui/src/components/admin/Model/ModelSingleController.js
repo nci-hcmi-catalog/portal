@@ -1,6 +1,6 @@
 import React from 'react';
 import Component from 'react-component-component';
-import { uniqBy, isEqual } from 'lodash';
+import { uniqBy, isEqual, get } from 'lodash';
 import { NotificationsContext } from '../Notifications';
 import { fetchData } from '../services/Fetcher';
 import {
@@ -192,7 +192,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   await appendNotification({
                     type: 'error',
                     message: 'Save Error.',
-                    details: err.msg || 'Unknown error has occured.',
+                    details:
+                      err.msg || get(err, 'response.data.message', 'Unknown error has occured.'),
                   });
                 }
               },
@@ -259,7 +260,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   await appendNotification({
                     type: 'error',
                     message: 'Publish Error.',
-                    details: err.msg || 'Unknown error has occured.',
+                    details:
+                      err.msg || get(err, 'response.data.message', 'Unknown error has occured.'),
                   });
                 }
               },
@@ -313,7 +315,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   await appendNotification({
                     type: 'error',
                     message: 'Unpublish Error.',
-                    details: err.msg || 'Unknown error has occured.',
+                    details:
+                      err.msg || get(err, 'response.data.message', 'Unknown error has occured.'),
                   });
                 }
               },
@@ -341,7 +344,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   await appendNotification({
                     type: 'error',
                     message: 'Delete Error.',
-                    details: err.msg || 'Unknown error has occured.',
+                    details:
+                      err.msg || get(err, 'response.data.message', 'Unknown error has occured.'),
                   });
                 }
               },
@@ -465,7 +469,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   await appendNotification({
                     type: 'error',
                     message: 'Variant Delete Error.',
-                    details: err.msg || 'Unknown error has occured.',
+                    details:
+                      err.msg || get(err, 'response.data.message', 'Unknown error has occured.'),
                   });
                 }
               },
