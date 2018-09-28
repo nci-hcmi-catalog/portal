@@ -16,6 +16,7 @@ services:
       - '9300:9300'
     volumes:
       - ./docker/elasticsearch/data:/usr/share/elasticsearch/data
+      - ./docker/elasticsearch/config:/usr/share/elasticsearch/config
   kibana:
     image: kibana
     ports:

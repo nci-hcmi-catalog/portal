@@ -24,9 +24,12 @@ bulkRouter.post('/publish', async (req, res) => {
       // Put any validation errors into higher scope for return
       validationErrors = validated.filter(({ success }) => !success).map(({ errors }) => errors);
 
-      return indexModelsToES({
-        name: { $in: validModelNames },
-      });
+      return (
+        validModelNames.length > 0 &&
+        indexModelsToES({
+          name: { $in: validModelNames },
+        })
+      );
     })
     .then(() =>
       res.json({
@@ -65,7 +68,12 @@ bulkRouter.post('/unpublish', async (req, res) => {
 
 bulkRouter.post('/delete', async (req, res) => {
   Model.find({ _id: { $in: req.body } })
-    .then(models => unpublishManyFromES(models.map(({ name }) => name)))
+    .then(models => {
+      const modelsToUnpublish = models
+        .filter(({ status }) => status !== modelStatus.unpublished)
+        .map(({ name }) => name);
+      return unpublishManyFromES(modelsToUnpublish);
+    })
     .then(() =>
       Model.deleteMany({
         _id: { $in: req.body },

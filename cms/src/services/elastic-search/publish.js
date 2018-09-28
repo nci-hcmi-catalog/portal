@@ -1,6 +1,7 @@
 import { ModelES } from './common/schemas/model';
 import publishValidation from '../../validation/model';
 import { modelStatus } from '../../helpers/modelStatus';
+import indexEsUpdate from './update';
 
 export const indexOneToES = filter => {
   return new Promise((resolve, reject) => {
@@ -18,7 +19,9 @@ export const indexOneToES = filter => {
             doc.esIndex((err, res) => {
               err
                 ? reject(err)
-                : resolve({
+                : // Not waiting for promise to resolve as this is just bookkeeping
+                  indexEsUpdate() &&
+                  resolve({
                     status: `Indexing successful with status: ${res.result}`,
                   });
             }),
@@ -26,21 +29,6 @@ export const indexOneToES = filter => {
           .catch(err => reject(err));
       });
   });
-};
-
-export const indexUpdatesToES = () => {
-  let currentDate = new Date();
-  let dateSearch = currentDate.toISOString().replace(/[T].*[Z]/g, 'T00:00:00.000Z');
-  var inputDate = new Date(dateSearch);
-  return indexModelsToES({
-    updatedAt: {
-      $gte: inputDate,
-    },
-  });
-};
-
-export const indexAllToES = () => {
-  return indexModelsToES();
 };
 
 export const indexModelsToES = filter => {
@@ -61,7 +49,9 @@ export const indexModelsToES = filter => {
           upsert: true,
           new: true,
         },
-      ).then(() => result.success.push(doc.name));
+      ).then(() => {
+        result.success.push(doc.name);
+      });
     });
 
     ModelES.on('es-bulk-error', function(err) {
@@ -77,5 +67,8 @@ export const indexModelsToES = filter => {
         result,
       });
     });
+
+    // Not waiting for promise to resolve as this is just bookkeeping
+    indexEsUpdate();
   });
 };
