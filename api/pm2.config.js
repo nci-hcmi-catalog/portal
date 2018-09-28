@@ -12,6 +12,7 @@ module.exports = {
       log: '../../logs/combined.outerr.log',
       env: {
         PORT: 5050,
+        ES_UPDATE_INDEX: 'hcmi-update',
       },
       env_dev: {
         NODE_ENV: 'dev',
