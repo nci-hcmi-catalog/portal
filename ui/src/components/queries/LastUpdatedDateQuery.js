@@ -5,28 +5,11 @@ import globals from 'utils/globals';
 import Component from 'react-component-component';
 import axios from 'axios';
 
-const esQuery = {
-  query: {
-    match_all: {},
-  },
-  size: 1,
-  sort: [
-    {
-      date: {
-        order: 'desc',
-      },
-    },
-  ],
-};
-
 const fetchData = async ({ setState }) => {
   try {
-    const { data } = await axios.post(
-      `${globals.ES_HOST}/${globals.ES_UPDATE_INDEX}/_search`,
-      esQuery,
-    );
+    const { data } = await axios.get(`${globals.ARRANGER_API}/last-updated`);
     return setState({
-      date: data.hits.hits[0]._source.date,
+      date: data.date,
       loading: false,
     });
   } catch (err) {
