@@ -26,7 +26,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
       age_at_diagnosis: {
         type: 'long',
       },
-      age_at_aquisition: {
+      age_at_acquisition: {
         type: 'long',
       },
       date_of_availability: {
@@ -46,7 +46,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
       },
       clinical_diagnosis: {
         properties: {
-          aquisition_site: {
+          acquisition_site: {
             type: 'keyword',
           },
           clinical_tumor_diagnosis: {

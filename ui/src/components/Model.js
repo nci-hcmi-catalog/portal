@@ -139,7 +139,7 @@ export default ({ modelName }) => (
                     extended={queryState.extended}
                     fieldNames={[
                       'clinical_diagnosis.clinical_tumor_diagnosis',
-                      'clinical_diagnosis.aquisition_site',
+                      'clinical_diagnosis.acquisition_site',
                       'clinical_diagnosis.histological_type',
                       'clinical_diagnosis.histological_grade',
                       'clinical_diagnosis.clinical_stage_grouping',
@@ -166,7 +166,7 @@ export default ({ modelName }) => (
                     extended={queryState.extended}
                     fieldNames={[
                       'age_at_diagnosis',
-                      'queryState.model.age_at_aquisition',
+                      'queryState.model.age_at_acquisition',
                       'vital_status',
                       'disease_status',
                       'gender',
