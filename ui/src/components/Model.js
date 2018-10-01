@@ -139,7 +139,7 @@ export default ({ modelName }) => (
                     extended={queryState.extended}
                     fieldNames={[
                       'clinical_diagnosis.clinical_tumor_diagnosis',
-                      'clinical_diagnosis.aquisition_site',
+                      'clinical_diagnosis.site_of_sample_acquisition',
                       'clinical_diagnosis.histological_type',
                       'clinical_diagnosis.histological_grade',
                       'clinical_diagnosis.clinical_stage_grouping',
@@ -166,7 +166,7 @@ export default ({ modelName }) => (
                     extended={queryState.extended}
                     fieldNames={[
                       'age_at_diagnosis',
-                      'queryState.model.age_at_aquisition',
+                      'queryState.model.age_at_acquisition',
                       'vital_status',
                       'disease_status',
                       'gender',
@@ -185,7 +185,7 @@ export default ({ modelName }) => (
                         fill: #900000;
                       `}
                     />
-                    Model Administration
+                    Repository Status
                   </h3>
                   <HorizontalTable
                     rawData={queryState.model}
@@ -213,15 +213,19 @@ export default ({ modelName }) => (
                   </div>
                   <HorizontalTable
                     data={{
-                      model: (
+                      model: queryState.model.source_model_url ? (
                         <ExternalLink href={queryState.model.source_model_url}>
                           Link to Source
                         </ExternalLink>
+                      ) : (
+                        'N/A'
                       ),
-                      'original sequencing files': (
+                      'original sequencing files': queryState.model.source_sequence_url ? (
                         <ExternalLink href={queryState.model.source_sequence_url}>
                           Link to Source
                         </ExternalLink>
+                      ) : (
+                        'N/A'
                       ),
                     }}
                   />

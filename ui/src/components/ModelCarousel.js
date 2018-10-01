@@ -79,7 +79,7 @@ export default ({ modelName, sqon, className }) => (
                     background-color: #f8fafb;
                     opacity: ${loading ? '0.5' : '1'};
                     transition: opacity 0.5s ease-in;
-                    padding: 6px;
+                    padding: 6px 12px;
                     flex: 1 1 auto;
                   `}
                 >
