@@ -213,15 +213,19 @@ export default ({ modelName }) => (
                   </div>
                   <HorizontalTable
                     data={{
-                      model: (
+                      model: queryState.model.source_model_url ? (
                         <ExternalLink href={queryState.model.source_model_url}>
                           Link to Source
                         </ExternalLink>
+                      ) : (
+                        'N/A'
                       ),
-                      'original sequencing files': (
+                      'original sequencing files': queryState.model.source_sequence_url ? (
                         <ExternalLink href={queryState.model.source_sequence_url}>
                           Link to Source
                         </ExternalLink>
+                      ) : (
+                        'N/A'
                       ),
                     }}
                   />

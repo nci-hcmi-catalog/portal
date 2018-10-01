@@ -9,6 +9,7 @@ const processors = {
 };
 
 const isNullOrUndefined = value => value === null || typeof value === 'undefined';
+
 const isEmptyByType = {
   date: value => isNullOrUndefined(value) || !value.length,
   boolean: isNullOrUndefined,
