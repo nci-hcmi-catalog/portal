@@ -22,9 +22,9 @@ const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis, fie
   string()
     .lowercase()
     .oneOf(
-      (clinicalTumorDiagnosisDependent[fieldName][clinical_tumor_diagnosis] || []).map(v =>
-        v.toLowerCase(),
-      ),
+      (clinicalTumorDiagnosisDependent[fieldName][clinical_tumor_diagnosis] || [])
+        .map(v => v.toLowerCase())
+        .concat(''), // allow empty value
     );
 
 const nameValidation = /HCM-\w{4}-\d{4}\.\w\d{2}$/;
@@ -34,7 +34,10 @@ const nameValidation = /HCM-\w{4}-\d{4}\.\w\d{2}$/;
 export default object().shape({
   name: string()
     .required()
-    .matches(nameValidation, 'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]',),
+    .matches(
+      nameValidation,
+      'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]',
+    ),
   type: string()
     .required()
     .lowercase()
@@ -135,7 +138,10 @@ export default object().shape({
 export const saveValidation = object().shape({
   name: string()
     .required()
-    .matches(nameValidation, 'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]'),
+    .matches(
+      nameValidation,
+      'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]',
+    ),
   type: string()
     .lowercase()
     .oneOf(modelType),

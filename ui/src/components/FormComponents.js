@@ -92,7 +92,7 @@ export const FormSelect = ({
         /* Formik does not have a "remove" or "unset" and their reset function
            is too heavy handed for what we are trying to do here so ... direct
            mutation of the values ... forgive me */
-        delete values[field.name];
+        values[field.name] = '';
         setFieldTouched(field.name, false);
       }
     }}
