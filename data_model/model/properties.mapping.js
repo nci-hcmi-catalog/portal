@@ -83,7 +83,7 @@ export default ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) =
   },
   clinical_diagnosis: {
     properties: {
-      acquisition_site: {
+      site_of_sample_acquisition: {
         type: 'keyword',
         [EXTENSIONS_KEY]: {
           [FAKER_KEY]: ['Pancreatic head', 'Liver', 'Kidney', 'lung', 'Other', 'Brain'],

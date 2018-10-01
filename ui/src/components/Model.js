@@ -139,7 +139,7 @@ export default ({ modelName }) => (
                     extended={queryState.extended}
                     fieldNames={[
                       'clinical_diagnosis.clinical_tumor_diagnosis',
-                      'clinical_diagnosis.acquisition_site',
+                      'clinical_diagnosis.site_of_sample_acquisition',
                       'clinical_diagnosis.histological_type',
                       'clinical_diagnosis.histological_grade',
                       'clinical_diagnosis.clinical_stage_grouping',
