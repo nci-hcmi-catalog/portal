@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 const processors = {
-  date: value => moment(value).format('DD/MM/YYYY'),
+  date: value => moment(value).format('MMMM DD, YYYY'),
   boolean: value => (value ? 'Yes' : 'No'),
   keyword: value => `${value}`,
   long: value => value.toLocaleString(),
