@@ -121,7 +121,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 successNotification = {
                   type: 'success',
                   message: 'Save Successful!',
-                  details: 'Model has been succesfully saved, however not yet published.',
+                  details: 'Model has been successfully saved, however not yet published.',
                 },
               }) => {
                 // Set loading true (lock UI)
@@ -244,7 +244,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   await appendNotification({
                     type: 'success',
                     message: 'Publish Successful!',
-                    details: `${name} has been succesfully published. View it live here: `,
+                    details: `${name} has been successfully published. View it live here: `,
                     link: `/model/${modelDataResponse.data.name}`,
                     linkText: modelDataResponse.data.name,
                   });
@@ -301,7 +301,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   await appendNotification({
                     type: 'success',
                     message: 'Unpublish Successful!',
-                    details: `${name} has been succesfully unpublished and will no longer appear on the public portal.`,
+                    details: `${name} has been successfully unpublished and will no longer appear on the public portal.`,
                   });
                 } catch (err) {
                   await setState(state => ({

@@ -220,7 +220,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     await appendNotification({
                       type: 'success',
                       message: `Publish Successful!`,
-                      details: `${name} has been succesfully published. View it live here: `,
+                      details: `${name} has been successfully published. View it live here: `,
                       link: `/model/${name}`,
                       linkText: name,
                     });
@@ -259,7 +259,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     await appendNotification({
                       type: 'success',
                       message: `Unpublish Successful!`,
-                      details: `${name} has been succesfully unpublished`,
+                      details: `${name} has been successfully unpublished`,
                     });
                   })
                   .catch(async err => {
@@ -294,7 +294,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     await appendNotification({
                       type: 'success',
                       message: `Delete Successful!`,
-                      details: `${name} has been succesfully deleted`,
+                      details: `${name} has been successfully deleted`,
                     });
                   })
                   .catch(async err => {
