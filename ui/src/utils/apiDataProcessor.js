@@ -25,6 +25,6 @@ const isEmptyByType = {
  */
 export default ({ data, type, unit }) => {
   return isEmptyByType[type || 'keyword'](data)
-    ? '--'
+    ? 'N/A'
     : `${processors[type || 'keyword'](data)}${unit ? ` ${unit}` : ''}`;
 };
