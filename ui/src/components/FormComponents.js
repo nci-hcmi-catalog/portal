@@ -68,7 +68,7 @@ export const FormDateInput = ({ field, form: { touched, errors }, ...props }) =>
     <DatePicker
       {...field}
       type="date"
-      value={moment(field.value).format('YYYY-MM-DD')}
+      value={field.value && field.value.length > 0 ? moment(field.value).format('YYYY-MM-DD') : ''}
       {...props}
       errors={hasErrors(errors, touched, field.name)}
     />
