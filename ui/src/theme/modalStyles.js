@@ -11,11 +11,11 @@ export default css`
   border-radius: 4px;
   transform: translate(-50%, -50%);
   width: 95%;
+  max-width: 1000px;
+  max-height: 95%;
   box-sizing: border-box;
   padding: 20px 20px;
-  max-width: 1000px;
   box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px;
-  overflow: visible;
   display: flex;
   flex-direction: column;
   border-radius: 5px;
@@ -29,7 +29,12 @@ export default css`
   letter-spacing: normal;
   text-align: left;
   color: #323232;
-  padding-bottom: 75px;
+  padding-bottom: 80px;
+
+  .modal-body {
+    height: 100%;
+    overflow-y: auto;
+  }
 
   .modal-footer {
     display: flex;
