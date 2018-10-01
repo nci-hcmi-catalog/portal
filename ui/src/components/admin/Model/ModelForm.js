@@ -315,7 +315,7 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
           </FormSection>
 
           <FormHeader>
-            <h2>Model Administration</h2>
+            <h2>Repository Status</h2>
           </FormHeader>
           <FormSection>
             <FormCol>

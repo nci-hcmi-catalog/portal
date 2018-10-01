@@ -185,7 +185,7 @@ export default ({ modelName }) => (
                         fill: #900000;
                       `}
                     />
-                    Model Administration
+                    Repository Status
                   </h3>
                   <HorizontalTable
                     rawData={queryState.model}
