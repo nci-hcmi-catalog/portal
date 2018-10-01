@@ -83,7 +83,7 @@ export default ({ sqon, setSQON }) => (
               ),
               yGridStepSize = yGridSizes.reduce(
                 (gridSize, possible) => (largestCount > possible ? possible : gridSize),
-                10,
+                Math.floor(largestCount / 3), // y-axis step size minimum value
               ),
               yGridValues = largestCount > 0
                 ? range(
