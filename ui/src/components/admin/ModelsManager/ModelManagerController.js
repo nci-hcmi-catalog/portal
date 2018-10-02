@@ -69,7 +69,7 @@ const bulkActionCreator = ({
           details:
             success +
             (action === 'publish' && errors.length > 0
-              ? `. ${errors.length} errors detected.`
+              ? `. ${errors.length} error${errors.length > 1 ? 's' : ''} detected.`
               : ''),
           bulkErrors: action === 'publish' && errors.length > 0 && errors,
           timeout: action === 'publish' && errors.length > 0 ? false : 10000, // do not auto-remove this notification when bulk publishing
