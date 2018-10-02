@@ -11,7 +11,7 @@ const {
 const bkgColour = lightPorcelain;
 const borderColour = porcelain;
 
-export const ModelForm = styled(Form)`
+export const FormContainer = styled(Form)`
   width: 100%;
 
   fieldset {

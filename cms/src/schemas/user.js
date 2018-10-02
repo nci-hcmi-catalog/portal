@@ -1,10 +1,5 @@
 import mongoose from 'mongoose';
-
-// Constants
-export const userStatus = {
-  active: 'Active',
-  inactive: 'Inactive',
-};
+import { userStatus } from '../helpers/userStatus';
 
 export const UserSchema = new mongoose.Schema(
   {

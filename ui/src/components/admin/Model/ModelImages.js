@@ -7,10 +7,9 @@ import { Pill as NavPill } from 'theme/adminNavStyles';
 import { Pill } from 'theme/adminControlsStyles';
 import base from 'theme';
 import { Row, Col } from 'theme/system';
-import { FormHeader } from 'theme/adminModelFormStyles';
+import { FormContainer, FormHeader } from 'theme/adminFormStyles';
 import { Field, Formik } from 'formik';
 import { FormInput } from 'components/FormComponents';
-import { ModelForm } from 'theme/adminModelFormStyles';
 
 import DragNDropIcon from 'icons/DragNDrop';
 import PlusIcon from 'icons/PlusIcon';
@@ -36,7 +35,7 @@ const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) =
       setPreviewState({ editing: !editing });
     }}
     render={({ handleSubmit }) => (
-      <ModelForm>
+      <FormContainer>
         <ul>
           <li>
             {!editing ? <b>{file.file_name}</b> : <b>File name:</b>}
@@ -60,7 +59,7 @@ const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) =
           </li>
         </ul>
         {editing && <NavPill onClick={handleSubmit}>Save</NavPill>}
-      </ModelForm>
+      </FormContainer>
     )}
   />
 );

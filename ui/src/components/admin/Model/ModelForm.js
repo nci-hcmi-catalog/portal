@@ -13,7 +13,7 @@ import {
   FomAutoComplete,
   FormLabelHeader,
 } from 'components/FormComponents';
-import { ModelForm, FormHeader, FormSection, FormCol } from 'theme/adminModelFormStyles';
+import { FormContainer, FormHeader, FormSection, FormCol } from 'theme/adminFormStyles';
 import publishValidation from '@hcmi-portal/cms/src/validation/model';
 import { schemaObj } from '../schema/model';
 import {
@@ -104,7 +104,6 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
         dirty={dirty}
         errors={errors}
         didUpdate={({ props, prevProps }) => {
-
           // Sync form values on change
           if (props.values !== prevProps.values) {
             syncFormState({
@@ -126,7 +125,7 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
           }
         }}
       >
-        <ModelForm>
+        <FormContainer>
           <FormHeader>
             <h2>Model Details</h2>
           </FormHeader>
@@ -347,7 +346,7 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
               </FormComponent>
             </FormCol>
           </FormSection>
-        </ModelForm>
+        </FormContainer>
       </Component>
     )}
   </ModelSingleContext.Consumer>
