@@ -16,6 +16,6 @@ export default () =>
     .catch(err =>
       // Catch here as we do not want an error here to block execution of the app
       console.error(
-        `Error creating a new update in the ${index} index: ${err || 'Unknown error has occured.'}`,
+        `Error creating a new update in the ${index} index: ${err || 'Unknown error has occurred.'}`,
       ),
     );
