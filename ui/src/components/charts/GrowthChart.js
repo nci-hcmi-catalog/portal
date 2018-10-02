@@ -67,7 +67,7 @@ export default ({ sqon, setSQON }) => (
                       css={`
                         margin-top: 4px;
                         font-weight: bold;
-                        color: ${theme.palette[6]};
+                        color: ${theme.growthChartPalette[1]};
                       `}
                     >
                       2D:
@@ -95,7 +95,7 @@ export default ({ sqon, setSQON }) => (
                     data.find(({ id }) => id === '3-D') || { id: '3-D', value: 0 },
                     data.find(({ id }) => id === '2-D') || { id: '2-D', value: 0 },
                   ]}
-                  colors={[theme.palette[2], theme.palette[6]]}
+                  colors={theme.growthChartPalette}
                   innerRadius={0.7}
                   enableRadialLabels={false}
                   enableSlicesLabels={false}
@@ -142,7 +142,7 @@ export default ({ sqon, setSQON }) => (
                       css={`
                         margin-top: 4px;
                         font-weight: bold;
-                        color: ${theme.palette[2]};
+                        color: ${theme.growthChartPalette[0]};
                       `}
                     >
                       3D:

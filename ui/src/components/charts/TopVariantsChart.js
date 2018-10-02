@@ -68,7 +68,7 @@ export default ({ sqon, setSQON }) => (
                     palette,
                   };
                 },
-                { coloredTop10: [], palette: theme.palette },
+                { coloredTop10: [], palette: theme.chartsPalette },
               );
               setState({
                 coloredTop10,
