@@ -16,6 +16,7 @@ import { preUpdate, validateYup, preModelDelete, postUpdate } from './hooks';
 import Model from './schemas/model';
 import User from './schemas/user';
 import { validateUserRequest } from './validation/user';
+import isUserAuthorized from './helpers/authorizeUserAccess';
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -42,6 +43,17 @@ app.use(cors());
 // configure logging
 app.use(morgan('combined'));
 
+if (process.env.AUTH_ENABLED) {
+  app.use((req, res, next) => {
+    if (!isUserAuthorized(req)) {
+      return res.status(403).json({
+        error: `${req.headers['USER_EMAIL'] || ''} is not authorized to access this application.`,
+      });
+    }
+    next();
+  });
+}
+
 // configure endpoints
 restify.serve(modelRouter, Model, {
   preCreate: validateYup,
@@ -55,6 +67,11 @@ restify.serve(modelRouter, Model, {
 restify.serve(userRouter, User, {
   preCreate: validateUserRequest,
   preUpdate: validateUserRequest,
+});
+
+// get logged in user info
+app.get('api/vi/loggedInUser', (req, res) => {
+  res.json({ user_email: req.headers['USER_EMAIL'] || '' });
 });
 
 app.use('/api/v1', data_sync_router);
