@@ -36,22 +36,20 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
               css={`
                 position: absolute;
                 top: 50%;
-                font-size: 10px;
+                transform: translateY(-10px);
+                font-size: 14px;
                 text-align: center;
               `}
             >
-              {state.buckets
-                .sort((a, b) => b.doc_count - a.doc_count)[0]
-                ?.key.split(' ')
-                .map((x, i) => <div key={i}>{x}</div>)}
+              {state.buckets.length}
               <div
                 css={`
-                  font-size: 12px;
+                  font-size: 10px;
                   text-align: center;
                   margin-top: 4px;
                 `}
               >
-                {state.buckets.sort((a, b) => b.doc_count - a.doc_count)[0]?.doc_count}
+                Primary<br />Sites
               </div>
             </div>
             <ResponsivePie
@@ -67,9 +65,9 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
                 value: x.doc_count,
                 color: theme.chartsPalette[i % theme.chartsPalette.length],
               }))}
-              tooltip={({ value, label }) => ChartTooltip({value, label})}
+              tooltip={({ value, label }) => ChartTooltip({ value, label })}
               colors={theme.chartsPalette}
-              colorBy={({color}) => color}
+              colorBy={({ color }) => color}
               theme={theme.chart}
               innerRadius={0.7}
               enableRadialLabels={false}
