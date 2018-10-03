@@ -8,10 +8,7 @@ const userValidation = yup.object().shape({
     .string()
     .email('Please provide a valid email address')
     .required('Email is a required field'),
-  status: yup
-    .string()
-    .oneOf(Object.values(userStatus))
-    .default(),
+  status: yup.string().oneOf(Object.values(userStatus)),
 });
 
 export const validateUserRequest = (req, res, next) => {

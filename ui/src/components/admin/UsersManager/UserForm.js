@@ -9,7 +9,7 @@ import { FormComponent, FormInput, FormRadioSelect } from 'components/FormCompon
 import { userStatus } from '@hcmi-portal/cms/src/helpers/userStatus';
 import validationSchema from '@hcmi-portal/cms/src/validation/user';
 import base from 'theme';
-import { NotificationsContext } from '../Notifications';
+
 const {
   keyedPalette: { lightPorcelain },
 } = base;
@@ -59,14 +59,13 @@ const UserFormTemplate = ({ values, errors, appendNotification }) => {
 const UserFormComponent = withFormik({
   mapPropsToValues: ({ user }) => user || {},
   validationSchema: validationSchema,
-  handleSubmit: (values, { setSubmitting, appendNotification, closeModal }) => {
+  handleSubmit: async (values, { props: { appendNotification, closeModal } }) => {
     const successNotification = {
       type: 'success',
       message: 'Save Successful!',
       details: 'User has been successfully saved.',
     };
-    console.log(values);
-    appendNotification(successNotification);
+    await appendNotification(successNotification);
     closeModal();
   },
   displayName: 'UserForm',
@@ -80,35 +79,32 @@ const UserModal = ({
   type,
   user = { name: '', email: '', status: '', id: '' },
   onCancel = () => false,
+  appendNotification,
 }) => {
   const actionTitle = 'add' === type ? `Add new` : `Edit`;
   return (
-    <NotificationsContext.Consumer>
-      {appendNotification => (
-        <ModalStateContext.Consumer>
-          {modalState => (
-            <ModalWrapper>
-              <Header>
-                <Title>{`${actionTitle} User`}</Title>
-                <CloseModal onClick={() => modalState.setModalState({ component: null })} />
-              </Header>
-              <Content
-                css={`
-                  line-height: 2;
-                  padding: 0px 21px 21px;
-                `}
-              >
-                <UserFormComponent
-                  user={user}
-                  appendNotification={appendNotification}
-                  closeModal={() => modalState.setModalState({ component: null })}
-                />
-              </Content>
-            </ModalWrapper>
-          )}
-        </ModalStateContext.Consumer>
+    <ModalStateContext.Consumer>
+      {modalState => (
+        <ModalWrapper>
+          <Header>
+            <Title>{`${actionTitle} User`}</Title>
+            <CloseModal onClick={() => modalState.setModalState({ component: null })} />
+          </Header>
+          <Content
+            css={`
+              line-height: 2;
+              padding: 0px 21px 21px;
+            `}
+          >
+            <UserFormComponent
+              user={user}
+              appendNotification={appendNotification}
+              closeModal={() => modalState.setModalState({ component: null })}
+            />
+          </Content>
+        </ModalWrapper>
       )}
-    </NotificationsContext.Consumer>
+    </ModalStateContext.Consumer>
   );
 };
 export default UserModal;
