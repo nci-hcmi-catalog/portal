@@ -193,7 +193,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     type: 'error',
                     message: 'Save Error.',
                     details:
-                      err.msg || get(err, 'response.data.message', 'Unknown error has occured.'),
+                      err.msg || get(err, 'response.data.message', 'Unknown error has occurred.'),
                   });
                 }
               },
@@ -261,7 +261,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     type: 'error',
                     message: 'Publish Error.',
                     details:
-                      err.msg || get(err, 'response.data.message', 'Unknown error has occured.'),
+                      err.msg || get(err, 'response.data.message', 'Unknown error has occurred.'),
                   });
                 }
               },
@@ -316,7 +316,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     type: 'error',
                     message: 'Unpublish Error.',
                     details:
-                      err.msg || get(err, 'response.data.message', 'Unknown error has occured.'),
+                      err.msg || get(err, 'response.data.message', 'Unknown error has occurred.'),
                   });
                 }
               },
@@ -345,7 +345,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     type: 'error',
                     message: 'Delete Error.',
                     details:
-                      err.msg || get(err, 'response.data.message', 'Unknown error has occured.'),
+                      err.msg || get(err, 'response.data.message', 'Unknown error has occurred.'),
                   });
                 }
               },
@@ -403,7 +403,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     await appendNotification({
                       type: 'error',
                       message: 'Variants Upload Error.',
-                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+                      details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
                     });
                   });
               },
@@ -470,7 +470,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     type: 'error',
                     message: 'Variant Delete Error.',
                     details:
-                      err.msg || get(err, 'response.data.message', 'Unknown error has occured.'),
+                      err.msg || get(err, 'response.data.message', 'Unknown error has occurred.'),
                   });
                 }
               },

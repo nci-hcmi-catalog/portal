@@ -26,7 +26,7 @@ const {
 const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) => (
   <Formik
     initialValues={{
-      name: file.file_name || '',
+      file_name: file.file_name || '',
       scale_bar_length: file.scale_bar_length || 0,
       magnification: file.magnification || 0,
       passage_number: file.passage_number || 0,

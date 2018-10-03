@@ -1,16 +1,16 @@
 import React from 'react';
 import { get } from 'lodash';
 import Spinner from 'react-spinkit';
-import Slider from 'react-styled-carousel';
 
 import ModelQuery from 'components/queries/ModelQuery';
 import modelImageProcessor from 'utils/modelImageProcessor';
 import apiDataProcessor from 'utils/apiDataProcessor';
 import ModelBar from 'components/ModelBar';
 import ModelFooterBar from 'components/ModelFooterBar';
-import { Row, Col } from 'theme/system';
 
+import { Row, Col } from 'theme/system';
 import styles from 'theme/modelStyles';
+import { ModelSlider, ModelSlide, LeftArrow, RightArrow } from 'theme/carouselStyles';
 import AdminIcon from 'icons/AdminIcon';
 import ModelIcon from 'icons/ModelIcon';
 import PatientIcon from 'icons/PatientIcon';
@@ -249,7 +249,13 @@ export default ({ modelName }) => (
                         border: solid 1px #cacbcf;
                       `}
                     >
-                      <Slider autoSlide={false} showDots={false} cardsToShow={1}>
+                      <ModelSlider
+                        LeftArrow={<LeftArrow />}
+                        RightArrow={<RightArrow />}
+                        autoSlide={false}
+                        showDots={false}
+                        cardsToShow={1}
+                      >
                         {modelImages.map(
                           ({
                             file_id,
@@ -258,16 +264,10 @@ export default ({ modelName }) => (
                             magnification,
                             passage_number,
                           }) => (
-                            <>
+                            <ModelSlide>
                               <img
                                 src={`${config.urls.cmsBase}/images/${file_id}`}
                                 alt={`File name: ${file_name}`}
-                                css={`
-                                  display: block;
-                                  width: 100%;
-                                  height: auto;
-                                  padding: 20px 0 16px;
-                                `}
                               />
                               {(scale_bar_length || magnification || passage_number) && (
                                 <div
@@ -295,10 +295,10 @@ export default ({ modelName }) => (
                                   )}
                                 </div>
                               )}
-                            </>
+                            </ModelSlide>
                           ),
                         )}
-                      </Slider>
+                      </ModelSlider>
                     </Col>
                   </Col>
                 )}

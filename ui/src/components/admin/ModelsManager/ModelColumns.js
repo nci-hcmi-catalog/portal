@@ -1,6 +1,7 @@
 import React from 'react';
 import Popup from 'reactjs-popup';
-import Moment from 'react-moment';
+import MomentReact from 'react-moment';
+import moment from 'moment';
 
 import { ModelManagerContext } from './ModelManagerController';
 import { modelEditUrlBase } from '../AdminNav';
@@ -56,7 +57,7 @@ const modelManagerCustomColumns = [
       const value = row.value;
       return (
         <Popup
-          trigger={() => <Moment fromNow>{value}</Moment>}
+          trigger={() => <MomentReact fromNow>{value}</MomentReact>}
           position="top"
           offset={0}
           on="hover"
@@ -70,7 +71,9 @@ const modelManagerCustomColumns = [
           arrow={true}
         >
           <ToolbarText>
-            <Moment parse="YYYY-MM-DD HH:mm">{value}</Moment>
+            <MomentReact parse="YYYY-MM-DD HH:mm" tz={moment.tz.guess()}>
+              {value}
+            </MomentReact>
           </ToolbarText>
         </Popup>
       );

@@ -33,7 +33,7 @@ export const indexOneToES = filter => {
 
 export const indexModelsToES = filter => {
   // Need to validate models first
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     let result = {
       success: [],
       error: [],
@@ -62,13 +62,14 @@ export const indexModelsToES = filter => {
     const query = ModelES.find(filter || {}).populate('variants.variant');
 
     ModelES.esSynchronize(query).then(() => {
+      // Not waiting for promise to resolve as this is just bookkeeping
+      indexEsUpdate();
+
+      // Resolve the promise
       resolve({
         status: 'Indexing complete.',
         result,
       });
     });
-
-    // Not waiting for promise to resolve as this is just bookkeeping
-    indexEsUpdate();
   });
 };
