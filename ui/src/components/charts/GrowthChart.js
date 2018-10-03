@@ -77,7 +77,7 @@ export default ({ sqon, setSQON }) => (
                             key: k,
                             total: sumBy(v, x => x.doc_count),
                           }))
-                          .find(x => x.key === '2-D')?.total || 0) /
+                          .find(x => x.key === '2-d')?.total || 0) /
                           state.total *
                           100, //eslint-disable-line
                       )}%
@@ -92,8 +92,8 @@ export default ({ sqon, setSQON }) => (
                     left: 12,
                   }}
                   data={[
-                    data.find(({ id }) => id === '3-D') || { id: '3-D', value: 0 },
-                    data.find(({ id }) => id === '2-D') || { id: '2-D', value: 0 },
+                    data.find(({ id }) => id === '3-d') || { id: '3-d', value: 0 },
+                    data.find(({ id }) => id === '2-d') || { id: '2-d', value: 0 },
                   ]}
                   colors={theme.growthChartPalette}
                   innerRadius={0.7}
@@ -152,7 +152,7 @@ export default ({ sqon, setSQON }) => (
                             key: k,
                             total: sumBy(v, x => x.doc_count),
                           }))
-                          .find(x => x.key === '3-D')?.total || 0) /
+                          .find(x => x.key === '3-d')?.total || 0) /
                           state.total *
                           100,
                       )}%
