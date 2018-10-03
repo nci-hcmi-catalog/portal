@@ -9,11 +9,9 @@ import { schemaArr } from '../schema/user';
 import { ActionPill, Actions, ToolbarText } from '../../../theme/adminTableStyles';
 import UserForm from './UserForm';
 import { AdminModalStyle } from 'theme/adminModalStyles';
-import { NotificationsContext } from '../Notifications';
 
 const selectedColumns = ['name', 'email', 'status', 'createdAt', 'updatedAt'];
 
-const deleteUser = id => console.log(`Will delete ${id}`);
 export const columns = schemaArr
   .filter(field => selectedColumns.indexOf(field.accessor) !== -1)
   .map(field => {
@@ -21,7 +19,7 @@ export const columns = schemaArr
     return field;
   });
 
-const userManagerCustomColumns = [
+const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
   {
     Header: 'Created',
     accessor: 'createdAt',
@@ -82,41 +80,36 @@ const userManagerCustomColumns = [
     Cell: ({ original: { _id, name, email, status } }) => {
       return (
         <Actions>
-          <NotificationsContext>
-            {({ appendNotification }) => (
-              <ModalStateContext.Consumer>
-                {modalState => (
-                  <ActionPill
-                    secondary
-                    marginRight="6px"
-                    onClick={() =>
-                      modalState.setModalState({
-                        component: (
-                          <UserForm
-                            type={'edit'}
-                            user={{ id: _id, name, email, status }}
-                            appendNotification={appendNotification}
-                          />
-                        ),
-                        shouldCloseOnOverlayClick: true,
-                        styles: AdminModalStyle,
-                      })
-                    }
-                  >
-                    <AdminEditPencilIcon
-                      css={`
-                        width: 12px;
-                        height: 12px;
-                      `}
-                    />Edit
-                  </ActionPill>
-                )}
-              </ModalStateContext.Consumer>
+          <ModalStateContext.Consumer>
+            {modalState => (
+              <ActionPill
+                secondary
+                marginRight="6px"
+                onClick={() =>
+                  modalState.setModalState({
+                    component: (
+                      <UserForm
+                        type={'edit'}
+                        user={{ id: _id, name, email, status }}
+                        saveUser={saveUser}
+                      />
+                    ),
+                    shouldCloseOnOverlayClick: true,
+                    styles: AdminModalStyle,
+                  })
+                }
+              >
+                <AdminEditPencilIcon
+                  css={`
+                    width: 12px;
+                    height: 12px;
+                  `}
+                />Edit
+              </ActionPill>
             )}
-          </NotificationsContext>
-
+          </ModalStateContext.Consumer>
           {withDeleteModal({
-            next: () => deleteUser(_id),
+            next: () => deleteUser({ id: _id }),
             target: `${name}(${email})`,
           })(
             <ActionPill secondary marginRight="6px">
@@ -136,6 +129,7 @@ const userManagerCustomColumns = [
   },
 ];
 
-export const UserTableColumns = columns
-  .filter(col => ['name', 'email', 'status'].includes(col.accessor))
-  .concat(userManagerCustomColumns);
+export const getUserTableColumns = ({ deleteUser, saveUser }) =>
+  columns
+    .filter(col => ['name', 'email', 'status'].includes(col.accessor))
+    .concat(userManagerCustomColumns({ deleteUser, saveUser }));

@@ -1,8 +1,7 @@
 import React from 'react';
-import config from '../config';
 import Component from 'react-component-component';
 import { Toolbar, DataTable } from '../AdminTable';
-import { UserTableColumns } from './UserTableColumns';
+import { getUserTableColumns } from './UserTableColumns';
 import { generateTableActions } from '../helpers';
 import { Col } from 'theme/system';
 import { fetchData } from '../services/Fetcher';
@@ -31,7 +30,7 @@ const loadData = async (baseUrl, state) => {
   return [await getData, await getCount];
 };
 
-export default ({ isDataUpdated }) => (
+export default ({ isTableDataSynced, dataSyncCallback, baseUrl, deleteUser, saveUser }) => (
   <Component
     initialState={{
       minRows: 0,
@@ -50,7 +49,7 @@ export default ({ isDataUpdated }) => (
     }}
     didMount={async ({ state, setState }) => {
       try {
-        const [dataResponse, countResponse] = await loadData(`${config.urls.cmsBase}/User`, state);
+        const [dataResponse, countResponse] = await loadData(`${baseUrl}/User`, state);
         setState(() => ({
           isLoading: false,
           data: dataResponse.data,
@@ -62,12 +61,12 @@ export default ({ isDataUpdated }) => (
       }
     }}
     didUpdate={async ({ state, setState }) => {
-      if (isDataUpdated) {
+      if (!isTableDataSynced) {
+        // do this before actual update calls because update calls will invoke another update on component and
+        // this prop will still be true; that will cause it to execute below statements again.
+        dataSyncCallback();
         try {
-          const [dataResponse, countResponse] = await loadData(
-            `${config.urls.cmsBase}/User`,
-            state,
-          );
+          const [dataResponse, countResponse] = await loadData(`${baseUrl}/User`, state);
           setState(() => ({
             isLoading: false,
             data: dataResponse.data,
@@ -94,7 +93,7 @@ export default ({ isDataUpdated }) => (
           <DataTable
             {...{
               state,
-              tableColumns: UserTableColumns,
+              tableColumns: getUserTableColumns({ deleteUser, saveUser }),
               simpleTableWithPagination: true,
               ...tableActions,
             }}

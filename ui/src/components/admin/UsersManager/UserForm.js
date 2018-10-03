@@ -10,19 +10,15 @@ import { userStatus } from '@hcmi-portal/cms/src/helpers/userStatus';
 import validationSchema from '@hcmi-portal/cms/src/validation/user';
 import base from 'theme';
 
+// All labels/keys from model schema
+const { name, email, status } = schemaObj;
 const {
   keyedPalette: { lightPorcelain },
 } = base;
 
 const SubmitFormPill = Pill.withComponent('button');
 
-const updateUser = userInfo => console.log(`Save user`);
-const createUser = userInfo => console.log(`Create user`);
-
-// All labels/keys from model schema
-const { name, email, status } = schemaObj;
-
-const UserFormTemplate = ({ values, errors, appendNotification }) => {
+const UserFormTemplate = ({ values, errors, appendNotification, closeModal }) => {
   return (
     <FormContainer
       css={`
@@ -47,7 +43,9 @@ const UserFormTemplate = ({ values, errors, appendNotification }) => {
         </FormComponent>
       </FormCol>
       <Footer>
-        <Pill secondary>Cancel</Pill>
+        <Pill secondary onClick={closeModal}>
+          Cancel
+        </Pill>
         <SubmitFormPill type={'submit'} primary>
           Save
         </SubmitFormPill>
@@ -59,28 +57,14 @@ const UserFormTemplate = ({ values, errors, appendNotification }) => {
 const UserFormComponent = withFormik({
   mapPropsToValues: ({ user }) => user || {},
   validationSchema: validationSchema,
-  handleSubmit: async (values, { props: { appendNotification, closeModal } }) => {
-    const successNotification = {
-      type: 'success',
-      message: 'Save Successful!',
-      details: 'User has been successfully saved.',
-    };
-    await appendNotification(successNotification);
+  handleSubmit: async (values, { props: { closeModal, saveUser, type } }) => {
+    await saveUser({ values, isUpdate: type === 'edit' });
     closeModal();
   },
   displayName: 'UserForm',
 })(UserFormTemplate);
 
-const doThenClose = (next, modalState) => () => {
-  next();
-  return modalState.setModalState({ component: null });
-};
-const UserModal = ({
-  type,
-  user = { name: '', email: '', status: '', id: '' },
-  onCancel = () => false,
-  appendNotification,
-}) => {
+const UserModal = ({ type, user = { name: '', email: '', status: '', id: '' }, saveUser }) => {
   const actionTitle = 'add' === type ? `Add new` : `Edit`;
   return (
     <ModalStateContext.Consumer>
@@ -98,8 +82,9 @@ const UserModal = ({
           >
             <UserFormComponent
               user={user}
-              appendNotification={appendNotification}
+              type={type}
               closeModal={() => modalState.setModalState({ component: null })}
+              saveUser={saveUser}
             />
           </Content>
         </ModalWrapper>
