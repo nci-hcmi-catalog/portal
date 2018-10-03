@@ -7,25 +7,26 @@ import { withFormik, Field } from 'formik';
 import { schemaObj } from '../schema/user';
 import { FormComponent, FormInput, FormRadioSelect } from 'components/FormComponents';
 import { userStatus } from '@hcmi-portal/cms/src/helpers/userStatus';
-import * as Yup from 'yup';
+import validationSchema from '@hcmi-portal/cms/src/validation/user';
 import base from 'theme';
-
+import { NotificationsContext } from '../Notifications';
 const {
   keyedPalette: { lightPorcelain },
 } = base;
+
+const SubmitFormPill = Pill.withComponent('button');
+
 const updateUser = userInfo => console.log(`Save user`);
 const createUser = userInfo => console.log(`Create user`);
 
 // All labels/keys from model schema
 const { name, email, status } = schemaObj;
 
-const UserFormTemplate = ({ values, errors }) => {
+const UserFormTemplate = ({ values, errors, appendNotification }) => {
   return (
     <FormContainer
       css={`
         background: ${lightPorcelain};
-        padding: 0;
-        margin: 0;
       `}
     >
       <FormCol>
@@ -47,7 +48,9 @@ const UserFormTemplate = ({ values, errors }) => {
       </FormCol>
       <Footer>
         <Pill secondary>Cancel</Pill>
-        <Pill primary>Save</Pill>
+        <SubmitFormPill type={'submit'} primary>
+          Save
+        </SubmitFormPill>
       </Footer>
     </FormContainer>
   );
@@ -55,15 +58,17 @@ const UserFormTemplate = ({ values, errors }) => {
 
 const UserFormComponent = withFormik({
   mapPropsToValues: ({ user }) => user || {},
-  validationSchema: Yup.object().shape({
-    name: Yup.string().required('Name is a required field'),
-    email: Yup.string()
-      .email('Please provide a valid email address')
-      .required('Email is a required field'),
-    status: Yup.string()
-      .oneOf(Object.values(userStatus))
-      .default(),
-  }),
+  validationSchema: validationSchema,
+  handleSubmit: (values, { setSubmitting, appendNotification, closeModal }) => {
+    const successNotification = {
+      type: 'success',
+      message: 'Save Successful!',
+      details: 'User has been successfully saved.',
+    };
+    console.log(values);
+    appendNotification(successNotification);
+    closeModal();
+  },
   displayName: 'UserForm',
 })(UserFormTemplate);
 
@@ -78,24 +83,32 @@ const UserModal = ({
 }) => {
   const actionTitle = 'add' === type ? `Add new` : `Edit`;
   return (
-    <ModalStateContext.Consumer>
-      {modalState => (
-        <ModalWrapper>
-          <Header>
-            <Title>{`${actionTitle} User`}</Title>
-            <CloseModal onClick={() => modalState.setModalState({ component: null })} />
-          </Header>
-          <Content
-            css={`
-              line-height: 2;
-              padding: 0px 21px 21px;
-            `}
-          >
-            <UserFormComponent user={user} />
-          </Content>
-        </ModalWrapper>
+    <NotificationsContext.Consumer>
+      {appendNotification => (
+        <ModalStateContext.Consumer>
+          {modalState => (
+            <ModalWrapper>
+              <Header>
+                <Title>{`${actionTitle} User`}</Title>
+                <CloseModal onClick={() => modalState.setModalState({ component: null })} />
+              </Header>
+              <Content
+                css={`
+                  line-height: 2;
+                  padding: 0px 21px 21px;
+                `}
+              >
+                <UserFormComponent
+                  user={user}
+                  appendNotification={appendNotification}
+                  closeModal={() => modalState.setModalState({ component: null })}
+                />
+              </Content>
+            </ModalWrapper>
+          )}
+        </ModalStateContext.Consumer>
       )}
-    </ModalStateContext.Consumer>
+    </NotificationsContext.Consumer>
   );
 };
 export default UserModal;

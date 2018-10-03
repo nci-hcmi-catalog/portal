@@ -15,6 +15,7 @@ import { imagesRouter, bulkRouter, actionRouter } from './routes';
 import { preUpdate, validateYup, preModelDelete, postUpdate } from './hooks';
 import Model from './schemas/model';
 import User from './schemas/user';
+import { validateUserRequest } from './validation/user';
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -51,7 +52,10 @@ restify.serve(modelRouter, Model, {
 });
 
 // configure endpoints
-restify.serve(userRouter, User);
+restify.serve(userRouter, User, {
+  preCreate: validateUserRequest,
+  preUpdate: validateUserRequest,
+});
 
 app.use('/api/v1', data_sync_router);
 app.use('/api/v1/bulk', bulkRouter);
