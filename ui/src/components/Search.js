@@ -10,6 +10,7 @@ import PrimarySiteChart from 'components/charts/PrimarySiteChart';
 import GrowthChart from 'components/charts/GrowthChart';
 import TopVariantsChart from 'components/charts/TopVariantsChart';
 import TableEntity from 'components/TableEntity';
+import TableList from 'components/TableList';
 import ShareButton from 'components/ShareButton';
 import ModelList from 'components/ModelList';
 import { Row, Col } from 'theme/system';
@@ -140,6 +141,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
                             history={history}
                           />
                         ),
+                        list: props => <TableList {...props} />,
                       }}
                       index={props.index}
                       graphqlField={props.index}
