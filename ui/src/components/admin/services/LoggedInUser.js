@@ -4,9 +4,9 @@ import { Fetcher } from './Fetcher';
 
 export const LoggedInUserContext = React.createContext();
 
-export const LoggedInUserProvider = props => (
+export const LoggedInUserProvider = ({ children }) => (
   <Fetcher url={`${config.urls.cmsBase}/loggedInUser`} method={'get'}>
-    {({ data, isLoading, children }) => (
+    {({ data, isLoading }) => (
       <LoggedInUserContext.Provider value={{ user: { email: data.user_email }, isLoading }}>
         {children}
       </LoggedInUserContext.Provider>

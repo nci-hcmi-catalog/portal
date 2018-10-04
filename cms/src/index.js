@@ -74,7 +74,7 @@ restify.serve(userRouter, User, {
 });
 
 // get logged in user info
-app.get('api/vi/loggedInUser', (req, res) => {
+app.get('/api/v1/loggedInUser', (req, res) => {
   res.json({ user_email: req.headers['USER_EMAIL'] || '' });
 });
 

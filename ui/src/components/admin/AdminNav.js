@@ -2,7 +2,6 @@ import React from 'react';
 import { AdminNav, NavLink, Account, User, Pill } from 'theme/adminNavStyles';
 import UserIcon from 'icons/UserIcon';
 import { LoginWithGoogle } from './services/GoogleLink';
-import { LoggedInUserContext } from '@hcmi-portal/ui/src/components/admin/services/LoggedInUser';
 
 // Regex for URLs used in navigation
 const [base, manageUsers, modelUploadSingle] = [
@@ -44,6 +43,7 @@ export default ({ location: { pathname } }) => (
             margin-right: 5px;
           `}
         />
+        rosi.bajari@example.nih.gov
       </User>
       <LoginWithGoogle />
       <Pill last>Logout</Pill>
