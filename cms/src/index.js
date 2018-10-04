@@ -75,7 +75,7 @@ restify.serve(userRouter, User, {
 
 // get logged in user info
 app.get('/api/v1/loggedInUser', (req, res) => {
-  res.json({ user_email: req.headers['USER_EMAIL'] || '' });
+  res.json({ user_email: req.headers['USER_EMAIL'] || 'ANONYMOUS' });
 });
 
 app.use('/api/v1', data_sync_router);
