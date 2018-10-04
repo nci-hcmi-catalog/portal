@@ -15,11 +15,13 @@ export default ({
   onPageSizeChange,
   toggleSelection,
   toggleAll,
+  simpleTableWithPagination,
 }) => {
+  let TableComponent = simpleTableWithPagination ? ReactTable : EnhancedReactTable;
   return (
     <div css={searchStyles}>
-      <EnhancedReactTable
-        minRows={pageSize}
+      <TableComponent
+        minRows={1}
         loading={isLoading}
         columns={tableColumns}
         data={data}

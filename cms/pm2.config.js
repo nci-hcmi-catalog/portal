@@ -14,6 +14,7 @@ module.exports = {
         NODE_ENV: 'dev',
         ES_URL: 'http://es.hcmi.cancercollaboratory.org:9200',
         MONGO_COLLECTION: 'models',
+        MONGO_USER_COLLECTION: 'users',
         MONGODB_URI: 'mongodb: //localhost/test',
         ES_INDEX: 'models',
         ES_TYPE: 'models',

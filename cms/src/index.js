@@ -14,10 +14,14 @@ import { data_sync_router } from './routes/sync-data';
 import { imagesRouter, bulkRouter, actionRouter } from './routes';
 import { preUpdate, validateYup, preModelDelete, postUpdate } from './hooks';
 import Model from './schemas/model';
+import User from './schemas/user';
+import { validateUserRequest } from './validation/user';
+import isUserAuthorized from './helpers/authorizeUserAccess';
 
 const port = process.env.PORT || 8080;
 const app = express();
-const router = express.Router();
+const modelRouter = express.Router();
+const userRouter = express.Router();
 
 // Handle "unhandled" promise rejections
 process.on('unhandledRejection', (reason, promise) => {
@@ -43,8 +47,19 @@ app.use(cors());
 // configure logging
 app.use(morgan('combined'));
 
+if (process.env.AUTH_ENABLED) {
+  app.use((req, res, next) => {
+    if (!isUserAuthorized(req)) {
+      return res.status(403).json({
+        error: `${req.headers['USER_EMAIL'] || ''} is not authorized to access this application.`,
+      });
+    }
+    next();
+  });
+}
+
 // configure endpoints
-restify.serve(router, Model, {
+restify.serve(modelRouter, Model, {
   preCreate: validateYup,
   preUpdate,
   postUpdate: postUpdate,
@@ -52,11 +67,23 @@ restify.serve(router, Model, {
   idProperty: 'name',
 });
 
+// configure endpoints
+restify.serve(userRouter, User, {
+  preCreate: validateUserRequest,
+  preUpdate: validateUserRequest,
+});
+
+// get logged in user info
+app.get('api/vi/loggedInUser', (req, res) => {
+  res.json({ user_email: req.headers['USER_EMAIL'] || '' });
+});
+
 app.use('/api/v1', data_sync_router);
 app.use('/api/v1/bulk', bulkRouter);
 app.use('/api/v1/images', imagesRouter);
 app.use('/api/v1/action', actionRouter);
-app.use(router);
+app.use(modelRouter);
+app.use(userRouter);
 
 // start app
 const http = new Server(app);
