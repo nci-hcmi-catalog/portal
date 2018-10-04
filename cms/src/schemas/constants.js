@@ -487,8 +487,10 @@ export const clinicalTumorDiagnosisDependent = {
       'Other',
     ],
     'esophageal cancer': [
-      'Esophagus adenocarcinoma (NOS) Esophagus squamous cell carcinoma Unknown',
-      'Other histology ',
+      'Esophagus adenocarcinoma (NOS)',
+      'Esophagus squamous cell carcinoma',
+      'Unknown',
+      'Other histology',
     ],
     "ewing's sarcoma": [],
     'extrahepatic bile duct cancer': [],
