@@ -8,6 +8,7 @@ let props = ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) => (
       [FAKER_KEY]: {
         min: 2,
         max: 10,
+        // cSpell:disable
         enum: [
           'EWSR1-PBX1',
           'EWSR1-ZNF444',
@@ -28,7 +29,7 @@ let props = ({ EXTENSIONS_KEY = '__extensions', FAKER_KEY = 'faker' } = {}) => (
   },
   clinical_diagnosis: {
     properties: {
-      aquisition_site: {
+      site_of_sample_acquisition: {
         type: 'keyword',
         [EXTENSIONS_KEY]: {
           [FAKER_KEY]: /[A-Z]{4}-[a-z]{4}/,

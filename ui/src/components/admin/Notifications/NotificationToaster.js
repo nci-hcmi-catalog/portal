@@ -35,7 +35,8 @@ export default () => (
         }}
         notifications={notifications}
         didUpdate={({ props, prevProps }) => {
-          if (props.notifications.length !== prevProps.notifications.length) {
+          // If we have new notifications (do not scroll on removal)
+          if (props.notifications.length > prevProps.notifications.length) {
             scrollIntoView();
           }
         }}

@@ -65,10 +65,10 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
                 id: x.key,
                 label: x.key,
                 value: x.doc_count,
-                color: theme.palette[i % theme.palette.length],
+                color: theme.chartsPalette[i % theme.chartsPalette.length],
               }))}
               tooltip={({ value, label }) => ChartTooltip({value, label})}
-              colors={theme.palette}
+              colors={theme.chartsPalette}
               colorBy={({color}) => color}
               theme={theme.chart}
               innerRadius={0.7}

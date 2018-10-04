@@ -30,7 +30,7 @@ const headerText = (modelName = null, error = null) => {
           text = 'Error loading {modelName}';
       }
     } else {
-      text = 'Unkown error has occured';
+      text = 'Unkown error has occurred';
     }
   }
 

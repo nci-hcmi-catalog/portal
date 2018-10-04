@@ -1,16 +1,16 @@
 import React from 'react';
 import { get } from 'lodash';
 import Spinner from 'react-spinkit';
-import Slider from 'react-styled-carousel';
 
 import ModelQuery from 'components/queries/ModelQuery';
 import modelImageProcessor from 'utils/modelImageProcessor';
 import apiDataProcessor from 'utils/apiDataProcessor';
 import ModelBar from 'components/ModelBar';
 import ModelFooterBar from 'components/ModelFooterBar';
-import { Row, Col } from 'theme/system';
 
+import { Row, Col } from 'theme/system';
 import styles from 'theme/modelStyles';
+import { ModelSlider, ModelSlide, LeftArrow, RightArrow } from 'theme/carouselStyles';
 import AdminIcon from 'icons/AdminIcon';
 import ModelIcon from 'icons/ModelIcon';
 import PatientIcon from 'icons/PatientIcon';
@@ -139,7 +139,7 @@ export default ({ modelName }) => (
                     extended={queryState.extended}
                     fieldNames={[
                       'clinical_diagnosis.clinical_tumor_diagnosis',
-                      'clinical_diagnosis.aquisition_site',
+                      'clinical_diagnosis.site_of_sample_acquisition',
                       'clinical_diagnosis.histological_type',
                       'clinical_diagnosis.histological_grade',
                       'clinical_diagnosis.clinical_stage_grouping',
@@ -166,7 +166,7 @@ export default ({ modelName }) => (
                     extended={queryState.extended}
                     fieldNames={[
                       'age_at_diagnosis',
-                      'queryState.model.age_at_aquisition',
+                      'queryState.model.age_at_acquisition',
                       'vital_status',
                       'disease_status',
                       'gender',
@@ -185,7 +185,7 @@ export default ({ modelName }) => (
                         fill: #900000;
                       `}
                     />
-                    Model Administration
+                    Repository Status
                   </h3>
                   <HorizontalTable
                     rawData={queryState.model}
@@ -213,15 +213,19 @@ export default ({ modelName }) => (
                   </div>
                   <HorizontalTable
                     data={{
-                      model: (
+                      model: queryState.model.source_model_url ? (
                         <ExternalLink href={queryState.model.source_model_url}>
                           Link to Source
                         </ExternalLink>
+                      ) : (
+                        'N/A'
                       ),
-                      'original sequencing files': (
+                      'original sequencing files': queryState.model.source_sequence_url ? (
                         <ExternalLink href={queryState.model.source_sequence_url}>
                           Link to Source
                         </ExternalLink>
+                      ) : (
+                        'N/A'
                       ),
                     }}
                   />
@@ -245,7 +249,13 @@ export default ({ modelName }) => (
                         border: solid 1px #cacbcf;
                       `}
                     >
-                      <Slider autoSlide={false} showDots={false} cardsToShow={1}>
+                      <ModelSlider
+                        LeftArrow={<LeftArrow />}
+                        RightArrow={<RightArrow />}
+                        autoSlide={false}
+                        showDots={false}
+                        cardsToShow={1}
+                      >
                         {modelImages.map(
                           ({
                             file_id,
@@ -254,16 +264,10 @@ export default ({ modelName }) => (
                             magnification,
                             passage_number,
                           }) => (
-                            <>
+                            <ModelSlide>
                               <img
                                 src={`${config.urls.cmsBase}/images/${file_id}`}
                                 alt={`File name: ${file_name}`}
-                                css={`
-                                  display: block;
-                                  width: 100%;
-                                  height: auto;
-                                  padding: 20px 0 16px;
-                                `}
                               />
                               {(scale_bar_length || magnification || passage_number) && (
                                 <div
@@ -291,10 +295,10 @@ export default ({ modelName }) => (
                                   )}
                                 </div>
                               )}
-                            </>
+                            </ModelSlide>
                           ),
                         )}
-                      </Slider>
+                      </ModelSlider>
                     </Col>
                   </Col>
                 )}

@@ -17,6 +17,7 @@
     "formik": "^1.0.1",
     "lodash": "^4.17.10",
     "moment": "^2.22.0",
+    "moment-timezone": "^0.5.21",
     "query-string": "5.1.0",
     "react": "16.4.0",
     "react-autocomplete": "^1.8.1",

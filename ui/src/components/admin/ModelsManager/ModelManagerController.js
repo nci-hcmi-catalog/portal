@@ -66,9 +66,13 @@ const bulkActionCreator = ({
         await appendNotification({
           type: action === 'publish' && errors.length > 0 ? 'warning' : 'success',
           message: `Bulk ${action} complete.`,
-          details: success,
-          bulkErrors: action === 'publish' && errors,
-          timeout: action === 'publish' ? false : 10000, // do not auto-remove this notification when bulk publishing
+          details:
+            success +
+            (action === 'publish' && errors.length > 0
+              ? `. ${errors.length} error${errors.length > 1 ? 's' : ''} detected.`
+              : ''),
+          bulkErrors: action === 'publish' && errors.length > 0 && errors,
+          timeout: action === 'publish' && errors.length > 0 ? false : 10000, // do not auto-remove this notification when bulk publishing
         });
       }),
     )
@@ -84,7 +88,7 @@ const bulkActionCreator = ({
       await appendNotification({
         type: 'error',
         message: `Bulk ${action} error.`,
-        details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+        details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
       });
     });
 };
@@ -176,7 +180,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     await appendNotification({
                       type: 'error',
                       message: 'Model Upload Error.',
-                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+                      details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
                     });
                   });
               },
@@ -220,7 +224,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     await appendNotification({
                       type: 'success',
                       message: `Publish Successful!`,
-                      details: `${name} has been succesfully published. View it live here: `,
+                      details: `${name} has been successfully published. View it live here: `,
                       link: `/model/${name}`,
                       linkText: name,
                     });
@@ -236,7 +240,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     await appendNotification({
                       type: 'error',
                       message: `Publish Error.`,
-                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+                      details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
                     });
                   });
               },
@@ -259,7 +263,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     await appendNotification({
                       type: 'success',
                       message: `Unpublish Successful!`,
-                      details: `${name} has been succesfully unpublished`,
+                      details: `${name} has been successfully unpublished`,
                     });
                   })
                   .catch(async err => {
@@ -273,7 +277,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     await appendNotification({
                       type: 'error',
                       message: `Unpublish Error.`,
-                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+                      details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
                     });
                   });
               },
@@ -294,7 +298,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     await appendNotification({
                       type: 'success',
                       message: `Delete Successful!`,
-                      details: `${name} has been succesfully deleted`,
+                      details: `${name} has been successfully deleted`,
                     });
                   })
                   .catch(async err => {
@@ -308,7 +312,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     await appendNotification({
                       type: 'error',
                       message: `Delete Error.`,
-                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+                      details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
                     });
                   });
               },

@@ -19,7 +19,7 @@ const VariantExpression = new mongoose.Schema({
 
 export const ModelSchema = new mongoose.Schema(
   {
-    name: { type: String, es_indexed: true },
+    name: { type: String, unique: true, required: true, es_indexed: true },
     type: { type: String, es_indexed: true },
     growth_rate: { type: Number, es_indexed: true },
     split_ratio: { type: String, es_indexed: true },

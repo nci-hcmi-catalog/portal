@@ -25,7 +25,7 @@ const {
 const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) => (
   <Formik
     initialValues={{
-      name: file.file_name || '',
+      file_name: file.file_name || '',
       scale_bar_length: file.scale_bar_length || 0,
       magnification: file.magnification || 0,
       passage_number: file.passage_number || 0,
@@ -294,7 +294,7 @@ export default () => (
                       type: 'success',
                       message: `Image Metadata Saved!`,
                       details:
-                        'Image metadata has been succesfully saved, however not yet published.',
+                        'Image metadata has been successfully saved, however not yet published.',
                     },
                   });
                 }}
@@ -326,7 +326,7 @@ export default () => (
                     type: 'success',
                     message: `${Object.keys(uploaded).length} image(s) uploaded!`,
                     details:
-                      'Image(s) have been succesfully saved to the model, however not yet published.',
+                      'Image(s) have been successfully saved to the model, however not yet published.',
                   },
                 });
               }}

@@ -30,6 +30,10 @@ process.on('unhandledRejection', (reason, promise) => {
   console.log('For promise:', promise);
 });
 
+// Ensures uniques actually work
+// (default results in log: mongoose collection.ensureIndex is deprecated. Use createIndexes)
+mongoose.set('useCreateIndex', true);
+
 // Connect to database
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/test', {
   useNewUrlParser: true,

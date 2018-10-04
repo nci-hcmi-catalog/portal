@@ -19,15 +19,7 @@ export default ({ name }) => (
       >
         <h2>Model {name}</h2>
 
-        {sqon && (
-          <ModelCarousel
-            modelName={name}
-            sqon={sqon}
-            css={`
-              width: 40%;
-            `}
-          />
-        )}
+        {sqon && <ModelCarousel modelName={name} sqon={sqon} />}
 
         <div className="model-bar-actions">
           <BackToSearch sqon={sqon} history={history}>

@@ -45,11 +45,13 @@ export default css`
   }
 
   .pagination {
+    display: flex;
+    flex-direction: row;
     background: #fff;
-    height: 35px;
     border-radius: 10px;
     background-color: #ffffff;
     border: solid 1px #cacbcf;
+    margin: 0 16px;
     align-items: center;
     font-family: 'Open Sans';
     font-size: 12px;
@@ -67,9 +69,7 @@ export default css`
     text-decoration: none;
     font-family: 'Libre Franklin';
     font-size: 12px;
-
-    padding: 6px 0px 6px 6px;
-    width: 204px;
+    padding: 6px 12px;
     transition: opacity 0.5s ease-in;
   }
 

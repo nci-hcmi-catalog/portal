@@ -1,6 +1,7 @@
 import { ModelES } from './common/schemas/model';
 import publishValidation from '../../validation/model';
 import { modelStatus } from '../../helpers/modelStatus';
+import indexEsUpdate from './update';
 
 export const indexOneToES = filter => {
   return new Promise((resolve, reject) => {
@@ -18,7 +19,9 @@ export const indexOneToES = filter => {
             doc.esIndex((err, res) => {
               err
                 ? reject(err)
-                : resolve({
+                : // Not waiting for promise to resolve as this is just bookkeeping
+                  indexEsUpdate() &&
+                  resolve({
                     status: `Indexing successful with status: ${res.result}`,
                   });
             }),
@@ -28,24 +31,9 @@ export const indexOneToES = filter => {
   });
 };
 
-export const indexUpdatesToES = () => {
-  let currentDate = new Date();
-  let dateSearch = currentDate.toISOString().replace(/[T].*[Z]/g, 'T00:00:00.000Z');
-  var inputDate = new Date(dateSearch);
-  return indexModelsToES({
-    updatedAt: {
-      $gte: inputDate,
-    },
-  });
-};
-
-export const indexAllToES = () => {
-  return indexModelsToES();
-};
-
 export const indexModelsToES = filter => {
   // Need to validate models first
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     let result = {
       success: [],
       error: [],
@@ -61,7 +49,9 @@ export const indexModelsToES = filter => {
           upsert: true,
           new: true,
         },
-      ).then(() => result.success.push(doc.name));
+      ).then(() => {
+        result.success.push(doc.name);
+      });
     });
 
     ModelES.on('es-bulk-error', function(err) {
@@ -72,6 +62,10 @@ export const indexModelsToES = filter => {
     const query = ModelES.find(filter || {}).populate('variants.variant');
 
     ModelES.esSynchronize(query).then(() => {
+      // Not waiting for promise to resolve as this is just bookkeeping
+      indexEsUpdate();
+
+      // Resolve the promise
       resolve({
         status: 'Indexing complete.',
         result,

@@ -68,7 +68,7 @@ export const FormDateInput = ({ field, form: { touched, errors }, ...props }) =>
     <DatePicker
       {...field}
       type="date"
-      value={moment(field.value).format('YYYY-MM-DD')}
+      value={field.value && field.value.length > 0 ? moment(field.value).format('YYYY-MM-DD') : ''}
       {...props}
       errors={hasErrors(errors, touched, field.name)}
     />
@@ -92,7 +92,7 @@ export const FormSelect = ({
         /* Formik does not have a "remove" or "unset" and their reset function
            is too heavy handed for what we are trying to do here so ... direct
            mutation of the values ... forgive me */
-        delete values[field.name];
+        values[field.name] = '';
         setFieldTouched(field.name, false);
       }
     }}

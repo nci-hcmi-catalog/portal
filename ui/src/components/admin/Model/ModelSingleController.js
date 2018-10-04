@@ -1,6 +1,6 @@
 import React from 'react';
 import Component from 'react-component-component';
-import { uniqBy, isEqual } from 'lodash';
+import { uniqBy, isEqual, get } from 'lodash';
 import { NotificationsContext } from '../Notifications';
 import { fetchData } from '../services/Fetcher';
 import {
@@ -121,7 +121,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 successNotification = {
                   type: 'success',
                   message: 'Save Successful!',
-                  details: 'Model has been succesfully saved, however not yet published.',
+                  details: 'Model has been successfully saved, however not yet published.',
                 },
               }) => {
                 // Set loading true (lock UI)
@@ -164,10 +164,12 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       isReadyToSave: false,
                       // if files is different in new state
                       isReadyToPublish:
-                        !isEqual(
+                        (!isEqual(
                           (modelDataResponse.data.response || {}).files || [],
                           (state.data.response || {}).files || [],
-                        ) || state.form.isReadyToPublish,
+                        ) &&
+                          Object.keys(state.form.errors).length === 0) ||
+                        state.form.isReadyToPublish,
                     },
                     // Put save response into data
                     data: {
@@ -190,7 +192,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   await appendNotification({
                     type: 'error',
                     message: 'Save Error.',
-                    details: err.msg || 'Unknown error has occured.',
+                    details:
+                      err.msg || get(err, 'response.data.message', 'Unknown error has occurred.'),
                   });
                 }
               },
@@ -241,7 +244,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   await appendNotification({
                     type: 'success',
                     message: 'Publish Successful!',
-                    details: `${name} has been succesfully published. View it live here: `,
+                    details: `${name} has been successfully published. View it live here: `,
                     link: `/model/${modelDataResponse.data.name}`,
                     linkText: modelDataResponse.data.name,
                   });
@@ -257,7 +260,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   await appendNotification({
                     type: 'error',
                     message: 'Publish Error.',
-                    details: err.msg || 'Unknown error has occured.',
+                    details:
+                      err.msg || get(err, 'response.data.message', 'Unknown error has occurred.'),
                   });
                 }
               },
@@ -297,7 +301,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   await appendNotification({
                     type: 'success',
                     message: 'Unpublish Successful!',
-                    details: `${name} has been succesfully unpublished and will no longer appear on the public portal.`,
+                    details: `${name} has been successfully unpublished and will no longer appear on the public portal.`,
                   });
                 } catch (err) {
                   await setState(state => ({
@@ -311,7 +315,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   await appendNotification({
                     type: 'error',
                     message: 'Unpublish Error.',
-                    details: err.msg || 'Unknown error has occured.',
+                    details:
+                      err.msg || get(err, 'response.data.message', 'Unknown error has occurred.'),
                   });
                 }
               },
@@ -339,7 +344,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   await appendNotification({
                     type: 'error',
                     message: 'Delete Error.',
-                    details: err.msg || 'Unknown error has occured.',
+                    details:
+                      err.msg || get(err, 'response.data.message', 'Unknown error has occurred.'),
                   });
                 }
               },
@@ -397,7 +403,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     await appendNotification({
                       type: 'error',
                       message: 'Variants Upload Error.',
-                      details: errorText.length > 0 ? errorText : 'Unknown error has occured.',
+                      details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
                     });
                   });
               },
@@ -463,7 +469,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   await appendNotification({
                     type: 'error',
                     message: 'Variant Delete Error.',
-                    details: err.msg || 'Unknown error has occured.',
+                    details:
+                      err.msg || get(err, 'response.data.message', 'Unknown error has occurred.'),
                   });
                 }
               },

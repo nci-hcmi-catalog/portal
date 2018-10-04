@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 const processors = {
-  date: value => moment(value).format('DD/MM/YYYY'),
+  date: value => moment(value).format('MMMM DD, YYYY'),
   boolean: value => (value ? 'Yes' : 'No'),
   keyword: value => `${value}`,
   long: value => value.toLocaleString(),
@@ -9,6 +9,7 @@ const processors = {
 };
 
 const isNullOrUndefined = value => value === null || typeof value === 'undefined';
+
 const isEmptyByType = {
   date: value => isNullOrUndefined(value) || !value.length,
   boolean: isNullOrUndefined,
@@ -25,6 +26,6 @@ const isEmptyByType = {
  */
 export default ({ data, type, unit }) => {
   return isEmptyByType[type || 'keyword'](data)
-    ? '--'
+    ? 'N/A'
     : `${processors[type || 'keyword'](data)}${unit ? ` ${unit}` : ''}`;
 };

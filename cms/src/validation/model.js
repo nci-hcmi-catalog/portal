@@ -22,9 +22,9 @@ const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis, fie
   string()
     .lowercase()
     .oneOf(
-      (clinicalTumorDiagnosisDependent[fieldName][clinical_tumor_diagnosis] || []).map(v =>
-        v.toLowerCase(),
-      ),
+      (clinicalTumorDiagnosisDependent[fieldName][clinical_tumor_diagnosis] || [])
+        .map(v => v.toLowerCase())
+        .concat(''), // allow empty value
     );
 
 const nameValidation = /HCM-\w{4}-\d{4}\.\w\d{2}$/;
