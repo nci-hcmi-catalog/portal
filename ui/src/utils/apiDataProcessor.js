@@ -1,12 +1,14 @@
 import moment from 'moment';
 
-const processors = {
-  date: value => moment(value).format('MMMM DD, YYYY'),
-  boolean: value => (value ? 'Yes' : 'No'),
-  keyword: value => `${value}`,
-  long: value => value.toLocaleString(),
-  short: value => value.toLocaleString(),
-};
+const processor = (type = 'keyword', unit) =>
+  ({
+    date: value => `${moment(value).format('MMMM DD, YYYY')}${unit}`,
+    boolean: value => (value ? 'Yes' : 'No'),
+    keyword: value =>
+      Array.isArray(value) ? value.map(val => `${val}${unit}`) : `${value}${unit}`,
+    long: value => `${value.toLocaleString()}${unit}`,
+    short: value => `${value.toLocaleString()}${unit}`,
+  }[type]);
 
 const isNullOrUndefined = value => value === null || typeof value === 'undefined';
 
@@ -25,7 +27,5 @@ const isEmptyByType = {
  * @param String type - date, boolean, keyword, long, short
  */
 export default ({ data, type, unit }) => {
-  return isEmptyByType[type || 'keyword'](data)
-    ? 'N/A'
-    : `${processors[type || 'keyword'](data)}${unit ? ` ${unit}` : ''}`;
+  return isEmptyByType[type || 'keyword'](data) ? 'N/A' : processor(type, unit || '')(data);
 };

@@ -83,6 +83,14 @@ export const ModelSchema = new mongoose.Schema(
             type: variant.variant.type,
           })),
       },
+      createdAt: {
+        es_type: 'date',
+        es_value: doc => doc.createdAt,
+      },
+      updatedAt: {
+        es_type: 'date',
+        es_value: doc => doc.updatedAt,
+      },
     },
     timestamps: true,
     collection: process.env.MONGO_COLLECTION,

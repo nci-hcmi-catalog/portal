@@ -49,7 +49,11 @@ const HorizontalTable = ({
       {Object.keys(data).map(key => (
         <tr key={key}>
           <td className="heading">{key}</td>
-          <td className="content">{data[key]}</td>
+          <td className="content">
+            {Array.isArray(data[key])
+              ? data[key].map((val, idx) => <div key={idx}>{`${val}`}</div>)
+              : data[key]}
+          </td>
         </tr>
       ))}
     </tbody>

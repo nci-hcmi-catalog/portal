@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Row } from 'theme/system';
 import nihPath from 'assets/logo-NIH-NCI.svg';
-import sangerPath from 'assets/logo-welcome-sanger-institute.png';
-import hubPath from 'assets/logo-hubrecht-organoid-technology.png';
-import cancerResearchUKPath from 'assets/logo-cancer-research-uk.png';
+import sangerPath from 'assets/logo-wellcome-sanger-institute.svg';
+import hubPath from 'assets/logo-hub.svg';
+import cancerResearchUKPath from 'assets/logo-cancer-research-UK.svg';
 
 const Footer = () => (
   <footer

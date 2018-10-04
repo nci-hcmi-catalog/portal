@@ -1,14 +1,15 @@
 import { css } from 'emotion';
+import styled from 'react-emotion';
 import facetarrow from 'assets/icon-facetarrow.svg';
 import base from 'theme';
 
 const {
   fonts: { libreFranklin, openSans },
+  keyedPalette: { brandPrimary },
 } = base;
 
 const headerHeight = '88px';
 const grey = '#f4f5f7';
-const primaryColor = '#900';
 const linkColor = '#774928';
 
 export default css`
@@ -68,7 +69,7 @@ export default css`
   }
 
   .ReactTable .-pagination_button.-current {
-    color: ${primaryColor};
+    color: ${brandPrimary};
     background: #e6e6e6;
   }
 
@@ -175,7 +176,7 @@ export default css`
     width: 10px;
     height: 9px;
     margin-right: 5px;
-    color: ${primaryColor};
+    color: ${brandPrimary};
   }
 
   .aggregations-wrapper .arrow::after {
@@ -310,16 +311,16 @@ export default css`
   }
 
   .quick-search-result-entity-1 {
-    background-color: ${primaryColor};
+    background-color: ${brandPrimary};
     color: white;
   }
 
   .showMore-wrapper {
-    color: ${primaryColor};
+    color: ${brandPrimary};
   }
 
   .clickable {
-    color: ${primaryColor};
+    color: ${brandPrimary};
     cursor: pointer;
     text-decoration: underline;
   }
@@ -391,4 +392,22 @@ export default css`
   .tableToolbar .dropDownButton svg {
     stroke: ${linkColor};
   }
+`;
+
+export const List = styled('div')`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  > div {
+    margin-bottom: 4px;
+  }
+`;
+
+export const Toggle = styled('div')`
+  color: ${brandPrimary};
+  font-size: 11px;
+  text-align: right;
+  font-style: italic;
+  margin: 6px 0 0 0;
 `;
