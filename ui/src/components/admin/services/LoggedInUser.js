@@ -27,7 +27,7 @@ export const LoggedInUserProvider = ({ children }) => (
   </Fetcher>
 );
 
-export const LoggedInUserPill = props => (
+export const LoggedInUserPill = () => (
   <LoggedInUserContext.Consumer>
     {({ user }) => (
       <Component initialState={{ isOpen: false }}>
