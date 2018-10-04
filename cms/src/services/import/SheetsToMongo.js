@@ -59,10 +59,11 @@ export const getSheetData = ({ authClient, spreadsheetId, sheetId }) => {
 
 export const NAtoNull = data =>
   ['n/a', 'na', ''].includes((data || '').toLowerCase()) ? null : data;
-export const typeToParser = {
+
+  export const typeToParser = {
   String: data => (data ? `${data}` : null),
   Number: data => (isNaN(Number(data)) ? data : Number(data)), //dont return null if wrong type so validators are still triggered
-  Array: data => (data ? data : []),
+  Array: data => (data ? data.split('|') : []),
   Date: data => data,
   Boolean: data => {
     return { yes: true, no: false, true: true, false: false }[(data || '').toLowerCase()];
