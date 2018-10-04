@@ -1,9 +1,11 @@
 import * as yup from 'yup';
+import moment from 'moment';
 import { arrItemIsOneOf } from './helpers';
+
 import {
+  clinicalTumorDiagnosisDependent,
   primarySites,
   clinicalTumorDiagnosis,
-  clinicalTumorDiagnosisDependent,
   modelType,
   molecularCharacterizations,
   splitRatio,
@@ -14,18 +16,27 @@ import {
   vitalStatus,
   therapy,
 } from '../schemas/constants';
+
 import { modelVariantSchema } from './variant';
+
+// Custom date validation parser
+yup.date().transform(function(value, originalValue) {
+  if (this.isType(value)) return value;
+  //the default coercion transform failed so lets try it with Moment instead
+  value = moment(originalValue);
+  return value.isValid() ? value.toDate() : new Date('');
+});
 
 const { string, number, array, object, date, boolean } = yup;
 
-const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis, fieldName) =>
-  string()
-    .lowercase()
-    .oneOf(
-      (clinicalTumorDiagnosisDependent[fieldName][clinical_tumor_diagnosis] || [])
-        .map(v => v.toLowerCase())
-        .concat(''), // allow empty value
-    );
+const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis = '', fieldName = '') =>
+  string().oneOf(
+    (
+      clinicalTumorDiagnosisDependent[fieldName.toLowerCase()][
+        clinical_tumor_diagnosis.toLowerCase()
+      ] || []
+    ).concat(''), // allow empty value
+  );
 
 const nameValidation = /HCM-\w{4}-\d{4}\.\w\d{2}$/;
 
@@ -40,7 +51,7 @@ export default object().shape({
     ),
   type: string()
     .required()
-    .lowercase()
+
     .oneOf(modelType),
   growth_rate: number()
     .required()
@@ -52,12 +63,12 @@ export default object().shape({
     .oneOf(splitRatio),
   gender: string()
     .required()
-    .lowercase()
+
     .oneOf(gender),
   race: string()
     .required()
     .nullable()
-    .lowercase()
+
     .oneOf(race),
   age_at_diagnosis: number()
     .required()
@@ -70,26 +81,23 @@ export default object().shape({
   date_of_availability: date().required(),
   primary_site: string()
     .required()
-    .lowercase()
     .oneOf(primarySites),
   tnm_stage: string().matches(
     /T[0-2]N[0-4]M[0-2]/,
     'Field must follow TNM classification format: T0-T2, N0-N4, and M0-M2 ex. T0N1M2',
   ),
-  neoadjuvant_therapy: string()
-    .lowercase()
-    .oneOf(neoadjuvantTherapy),
+  neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
   chemotherapeutic_drugs: boolean().nullable(),
   disease_status: string()
     .required()
-    .lowercase()
+
     .oneOf(diseaseStatus),
   vital_status: string()
     .required()
-    .lowercase()
+
     .oneOf(vitalStatus),
   therapy: array()
-    .of(string().lowercase())
+    .of(string())
     .ensure()
     .test(
       'is-one-of',
@@ -97,7 +105,7 @@ export default object().shape({
       arrItemIsOneOf(therapy),
     ),
   molecular_characterizations: array()
-    .of(string().lowercase())
+    .of(string())
     .ensure()
     .test(
       'is-one-of',
@@ -106,7 +114,7 @@ export default object().shape({
     ),
   clinical_tumor_diagnosis: string()
     .required()
-    .lowercase()
+
     .oneOf(clinicalTumorDiagnosis),
   histological_type: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
     makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'histological type'),
@@ -142,37 +150,25 @@ export const saveValidation = object().shape({
       nameValidation,
       'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]',
     ),
-  type: string()
-    .lowercase()
-    .oneOf(modelType),
+  type: string().oneOf(modelType),
   growth_rate: number(),
   split_ratio: string().oneOf(splitRatio),
-  gender: string()
-    .lowercase()
-    .oneOf(gender),
+  gender: string().oneOf(gender),
   race: string()
     .nullable()
-    .lowercase()
+
     .oneOf(race),
   age_at_diagnosis: number(),
   age_at_sample_acquisition: number(),
   date_of_availability: date(),
-  primary_site: string()
-    .lowercase()
-    .oneOf(primarySites),
+  primary_site: string().oneOf(primarySites),
   tnm_stage: string(),
-  neoadjuvant_therapy: string()
-    .lowercase()
-    .oneOf(neoadjuvantTherapy),
+  neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
   chemotherapeutic_drugs: boolean().nullable(),
-  disease_status: string()
-    .lowercase()
-    .oneOf(diseaseStatus),
-  vital_status: string()
-    .lowercase()
-    .oneOf(vitalStatus),
+  disease_status: string().oneOf(diseaseStatus),
+  vital_status: string().oneOf(vitalStatus),
   therapy: array()
-    .of(string().lowercase())
+    .of(string())
     .ensure()
     .test(
       'is-one-of',
@@ -180,16 +176,14 @@ export const saveValidation = object().shape({
       arrItemIsOneOf(therapy),
     ),
   molecular_characterizations: array()
-    .of(string().lowercase())
+    .of(string())
     .ensure()
     .test(
       'is-one-of',
       `Molecular Characterizations can only be one of: ${molecularCharacterizations.join(', ')}`,
       arrItemIsOneOf(molecularCharacterizations),
     ),
-  clinical_tumor_diagnosis: string()
-    .lowercase()
-    .oneOf(clinicalTumorDiagnosis),
+  clinical_tumor_diagnosis: string().oneOf(clinicalTumorDiagnosis),
   histological_type: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
     makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'histological type'),
   ),
