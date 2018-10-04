@@ -47,7 +47,7 @@ app.use(cors());
 // configure logging
 app.use(morgan('combined'));
 
-if (process.env.AUTH_ENABLED) {
+if (process.env.AUTH_ENABLED !== 'false') {
   app.use((req, res, next) => {
     if (!isUserAuthorized(req)) {
       return res.status(403).json({
@@ -75,7 +75,7 @@ restify.serve(userRouter, User, {
 
 // get logged in user info
 app.get('/api/v1/loggedInUser', (req, res) => {
-  res.json({ user_email: req.headers['USER_EMAIL'] || 'ANONYMOUS' });
+  res.json({ user_email: req.headers['USER_EMAIL'] || 'ANONYMOUS@UNKNOWN.DOMAIN' });
 });
 
 app.use('/api/v1', data_sync_router);

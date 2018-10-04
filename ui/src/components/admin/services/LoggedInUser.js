@@ -3,9 +3,14 @@ import config from '../config';
 import { Fetcher } from './Fetcher';
 import UserIcon from 'icons/UserIcon';
 import CollapsibleArrow from 'icons/CollapsibleArrow';
-import { User, Pill } from 'theme/adminNavStyles';
+import { User, AnchorTag } from 'theme/adminNavStyles';
 import Popup from 'reactjs-popup';
 import Component from 'react-component-component';
+import base from 'theme';
+
+const {
+  keyedPalette: { brandPrimary },
+} = base;
 
 export const LoggedInUserContext = React.createContext();
 
@@ -36,8 +41,13 @@ export const LoggedInUserPill = props => (
                   postion: relative;
                 `}
               >
-                <Pill onClick={() => setState({ isOpen: !isOpen })}>
-                  <User>
+                <User onClick={() => setState({ isOpen: !isOpen })}>
+                  <div
+                    css={`
+                      padding-top: 1px;
+                      padding-bottom: 1px;
+                    `}
+                  >
                     <UserIcon
                       width={12}
                       heigh={13}
@@ -46,27 +56,35 @@ export const LoggedInUserPill = props => (
                         top: 2px;
                         margin-right: 5px;
                       `}
+                      fill={brandPrimary}
                     />
-                    {user.email}
-                  </User>
-                  {CollapsibleArrow({ isOpen })}
-                </Pill>
+                    <span
+                      css={`
+                        padding: 2px;
+                        height: 30px;
+                      `}
+                    >
+                      {user.email}
+                    </span>
+                    {CollapsibleArrow({ isOpen })}
+                  </div>
+                </User>
               </div>
             )}
-            position="bottom right"
+            position="bottom center"
             offset={0}
             open={isOpen}
+            arrow={false}
             contentStyle={{
               padding: '0px',
               border: 'none',
               borderBottomLeftRadius: '10px',
               borderBottomRightRadius: '10px',
               width: 'max-content',
-              minWidth: '172px',
+              minWidth: '152px',
             }}
-            arrow={false}
           >
-            <Pill onClick={() => 'logout'}>Logout</Pill>
+            <AnchorTag href={`${config.urls.logoutUrl}`}>Logout</AnchorTag>
           </Popup>
         )}
       </Component>
