@@ -73,18 +73,20 @@ export default object().shape({
   age_at_diagnosis: number()
     .required()
     .integer()
-    .positive(),
+    .min(0)
+    .max(99),
   age_at_sample_acquisition: number()
     .required()
     .integer()
-    .positive(),
+    .min(0)
+    .max(99),
   date_of_availability: date().required(),
   primary_site: string()
     .required()
     .oneOf(primarySites),
   tnm_stage: string().matches(
-    /T[0-2]N[0-4]M[0-2]/,
-    'Field must follow TNM classification format: T0-T2, N0-N4, and M0-M2 ex. T0N1M2',
+    /T[0-5]N[0-4]M[0-2]/,
+    'Field must follow TNM classification format: T0-T5, N0-N4, and M0-M2 ex. T0N1M2',
   ),
   neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
   chemotherapeutic_drugs: boolean().nullable(),
