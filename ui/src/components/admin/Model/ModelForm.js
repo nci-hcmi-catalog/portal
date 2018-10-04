@@ -33,10 +33,13 @@ import {
 
 const booleanChoice = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
 
-const makeClinicalTumorDiagnosisDependentOptions = (clinical_tumor_diagnosis, fieldName) =>
-  (clinicalTumorDiagnosisDependent[fieldName][clinical_tumor_diagnosis] || []).map(v =>
-    v.toLowerCase(),
-  );
+const makeClinicalTumorDiagnosisDependentOptions = (
+  clinical_tumor_diagnosis = '',
+  fieldName = '',
+) =>
+  clinicalTumorDiagnosisDependent[fieldName.toLowerCase()][
+    clinical_tumor_diagnosis.toLowerCase()
+  ] || [];
 
 const isClinicalTumorDiagnosisSelected = values =>
   !values.clinical_tumor_diagnosis || values.clinical_tumor_diagnosis === '0';
