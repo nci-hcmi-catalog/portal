@@ -3,8 +3,8 @@ import { userStatus } from '../helpers/userStatus';
 
 export const UserSchema = new mongoose.Schema(
   {
-    name: { type: String },
-    email: { type: String },
+    name: { type: String, required: true },
+    email: { type: String, unique: true, required: true },
     status: {
       type: String,
       enum: [userStatus.active, userStatus.inactive],

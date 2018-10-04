@@ -18,7 +18,7 @@ const {
 
 const SubmitFormPill = Pill.withComponent('button');
 
-const UserFormTemplate = ({ values, errors, appendNotification, closeModal }) => {
+const UserFormTemplate = ({ closeModal }) => {
   return (
     <FormContainer
       css={`

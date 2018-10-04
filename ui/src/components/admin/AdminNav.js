@@ -1,7 +1,7 @@
 import React from 'react';
-import { AdminNav, NavLink, Account, User, Pill } from 'theme/adminNavStyles';
-import UserIcon from 'icons/UserIcon';
+import { AdminNav, NavLink, Account } from 'theme/adminNavStyles';
 import { LoginWithGoogle } from './services/GoogleLink';
+import { LoggedInUserPill } from './services/LoggedInUser';
 
 // Regex for URLs used in navigation
 const [base, manageUsers, modelUploadSingle] = [
@@ -33,20 +33,8 @@ export default ({ location: { pathname } }) => (
       </NavLink>
     </div>
     <Account>
-      <User>
-        <UserIcon
-          width={12}
-          heigh={13}
-          css={`
-            position: relative;
-            top: 2px;
-            margin-right: 5px;
-          `}
-        />
-        rosi.bajari@example.nih.gov
-      </User>
       <LoginWithGoogle />
-      <Pill last>Logout</Pill>
+      <LoggedInUserPill />
     </Account>
   </AdminNav>
 );

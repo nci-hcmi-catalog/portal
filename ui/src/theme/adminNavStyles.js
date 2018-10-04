@@ -66,7 +66,14 @@ export const Account = styled('div')`
   align-items: center;
 `;
 
-export const User = styled('div')`
+export const Pill = styled('div')`
+  ${pillBase};
+  line-height: 27px;
+  color: ${brandPrimary};
+  margin-left: ${props => props.last && '20px'};
+`;
+
+export const User = styled(Pill)`
   font-family: ${openSans};
   font-size: 13px;
   font-weight: 600;
@@ -74,14 +81,10 @@ export const User = styled('div')`
   font-stretch: normal;
   line-height: 2;
   letter-spacing: normal;
-  text-align: left;
-  color: #ffffff;
-  margin-right: 20px;
+  text-align: center;
+  color: ${brandPrimary};
+  border: none;
+  padding: 1px 15px;
 `;
 
-export const Pill = styled('div')`
-  ${pillBase};
-  line-height: 27px;
-  color: ${brandPrimary};
-  margin-left: ${props => props.last && '20px'};
-`;
+export const AnchorTag = User.withComponent('a');

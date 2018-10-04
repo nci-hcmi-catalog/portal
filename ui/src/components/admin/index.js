@@ -10,16 +10,19 @@ import { ModelSingle } from './Model';
 
 import { Col } from 'theme/system';
 import { AdminMain } from 'theme/adminStyles';
+import { LoggedInUserProvider } from '@hcmi-portal/ui/src/components/admin/services/LoggedInUser';
 
 export default ({ location }) => (
   <NotificationsProvider>
-    <Col>
-      <AdminNav location={location} />
-      <AdminMain>
-        <Route exact path="/admin" component={ModelsManager} />
-        <Route exact path="/admin/model/:name?" component={ModelSingle} />
-        <Route exact path="/admin/manage-users" component={UsersManager} />
-      </AdminMain>
-    </Col>
+    <LoggedInUserProvider>
+      <Col>
+        <AdminNav location={location} />
+        <AdminMain>
+          <Route exact path="/admin" component={ModelsManager} />
+          <Route exact path="/admin/model/:name?" component={ModelSingle} />
+          <Route exact path="/admin/manage-users" component={UsersManager} />
+        </AdminMain>
+      </Col>
+    </LoggedInUserProvider>
   </NotificationsProvider>
 );
