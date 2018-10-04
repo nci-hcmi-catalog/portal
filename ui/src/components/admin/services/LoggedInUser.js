@@ -32,60 +32,66 @@ export const LoggedInUserPill = props => (
     {({ user }) => (
       <Component initialState={{ isOpen: false }}>
         {({ state: { isOpen }, setState }) => (
-          <Popup
-            trigger={() => (
-              <div
-                css={`
-                  align-items: center;
-                  display: inline-flex;
-                  postion: relative;
-                `}
-              >
-                <User onClick={() => setState({ isOpen: !isOpen })}>
-                  <div
-                    css={`
-                      padding-top: 1px;
-                      padding-bottom: 1px;
-                    `}
-                  >
-                    <UserIcon
-                      width={12}
-                      heigh={13}
+          <div
+            css={`
+              margin-left: 20px;
+            `}
+          >
+            <Popup
+              trigger={() => (
+                <div
+                  css={`
+                    align-items: center;
+                    display: inline-flex;
+                    postion: relative;
+                  `}
+                >
+                  <User onClick={() => setState({ isOpen: !isOpen })}>
+                    <div
                       css={`
-                        position: relative;
-                        top: 2px;
-                        margin-right: 5px;
-                      `}
-                      fill={brandPrimary}
-                    />
-                    <span
-                      css={`
-                        padding: 2px;
-                        height: 30px;
+                        padding-top: 1px;
+                        padding-bottom: 1px;
                       `}
                     >
-                      {user.email}
-                    </span>
-                    {CollapsibleArrow({ isOpen })}
-                  </div>
-                </User>
-              </div>
-            )}
-            position="bottom center"
-            offset={0}
-            open={isOpen}
-            arrow={false}
-            contentStyle={{
-              padding: '0px',
-              border: 'none',
-              borderBottomLeftRadius: '10px',
-              borderBottomRightRadius: '10px',
-              width: 'max-content',
-              minWidth: '152px',
-            }}
-          >
-            <AnchorTag href={`${config.urls.logoutUrl}`}>Logout</AnchorTag>
-          </Popup>
+                      <UserIcon
+                        width={12}
+                        heigh={13}
+                        css={`
+                          position: relative;
+                          top: 2px;
+                          margin-right: 5px;
+                        `}
+                        fill={brandPrimary}
+                      />
+                      <span
+                        css={`
+                          padding: 2px;
+                          height: 30px;
+                        `}
+                      >
+                        {user.email}
+                      </span>
+                      {CollapsibleArrow({ isOpen })}
+                    </div>
+                  </User>
+                </div>
+              )}
+              position="bottom center"
+              offset={0}
+              open={isOpen}
+              arrow={false}
+              contentStyle={{
+                padding: '0px',
+                border: 'none',
+                borderBottomLeftRadius: '10px',
+                borderBottomRightRadius: '10px',
+                width: 'max-content',
+                minWidth: '152px',
+              }}
+            >
+              <AnchorTag href={`${config.urls.logoutUrl}`}>Logout</AnchorTag>
+            </Popup>
+          </div>
         )}
       </Component>
     )}
