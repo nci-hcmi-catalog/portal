@@ -4,6 +4,7 @@ import { modelStatus, runYupValidatorFailFast } from './helpers';
 import { deleteImage } from './routes/images';
 import { saveValidation } from './validation/model';
 import { getLoggedInUser } from './helpers/authorizeUserAccess';
+import userValidation from './validation/user';
 
 export const validateYup = (req, res, next) => {
   runYupValidatorFailFast(saveValidation, [req.body])
@@ -90,6 +91,18 @@ export const postUpdate = async (req, res, next) => {
   return next();
 };
 
+export const validateUserRequest = (req, res, next) => {
+  runYupValidatorFailFast(userValidation, [req.body])
+    .then(() => {
+      addUserEmail(req);
+      next();
+    })
+    .catch(error => {
+      res.status(400).json({
+        error,
+      });
+    });
+};
 const addUserEmail = req => {
   req.body.updatedBy = getLoggedInUser(req).user_email;
 };

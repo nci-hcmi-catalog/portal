@@ -12,10 +12,9 @@ import morgan from 'morgan';
 
 import { data_sync_router } from './routes/sync-data';
 import { imagesRouter, bulkRouter, actionRouter } from './routes';
-import { preUpdate, validateYup, preModelDelete, postUpdate } from './hooks';
+import { preUpdate, validateYup, preModelDelete, postUpdate, validateUserRequest } from './hooks';
 import Model from './schemas/model';
 import User from './schemas/user';
-import { validateUserRequest } from './validation/user';
 import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess';
 
 const port = process.env.PORT || 8080;
