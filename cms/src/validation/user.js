@@ -7,7 +7,6 @@ const userValidation = yup.object().shape({
   email: yup
     .string()
     .email('Please provide a valid email address')
-    .lowercase()
     .required('Email is a required field'),
   status: yup.string().oneOf(Object.values(userStatus)),
 });
