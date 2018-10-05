@@ -3,10 +3,14 @@ import { unpublishOneFromES } from './services/elastic-search/unpublish';
 import { modelStatus, runYupValidatorFailFast } from './helpers';
 import { deleteImage } from './routes/images';
 import { saveValidation } from './validation/model';
+import { getLoggedInUser } from './helpers/authorizeUserAccess';
 
 export const validateYup = (req, res, next) => {
   runYupValidatorFailFast(saveValidation, [req.body])
-    .then(() => next())
+    .then(() => {
+      addUserEmail(req);
+      next();
+    })
     .catch(error => {
       res.status(400).json({
         error,
@@ -31,6 +35,7 @@ export const preUpdate = (req, res, next) => {
         body,
         erm: { model },
       } = req;
+      addUserEmail(req);
       if (model.modelName.toLowerCase() === 'model' && body && 'status' in body) {
         if (body.status === modelStatus.published) {
           // mongoose document is not avaiable in the hook unless findOneAndUpdate is false
@@ -83,4 +88,8 @@ export const postUpdate = async (req, res, next) => {
   }
 
   return next();
+};
+
+const addUserEmail = req => {
+  req.body.updatedBy = getLoggedInUser(req).user_email;
 };
