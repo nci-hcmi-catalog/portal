@@ -8,10 +8,9 @@ import Model, { ModelSchema } from '../schemas/model';
 import Variant from '../schemas/variant';
 import { saveValidation } from '../validation/model';
 import { modelVariantUploadSchema } from '../validation/variant';
-
 import { ensureAuth, computeModelStatus, runYupValidatorFailSlow } from '../helpers';
-
 import { getSheetData, typeToParser, NAtoNull } from '../services/import/SheetsToMongo';
+import { getLoggedInUser } from '../helpers/authorizeUserAccess';
 
 export const data_sync_router = express.Router();
 
@@ -116,7 +115,7 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
                 {
                   name: result.name,
                 },
-                result,
+                addUserEmail(req, result),
                 {
                   upsert: true,
                   new: true,
@@ -136,7 +135,7 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
           return new Promise(resolve => resolve({ status: 'unchanged', doc: result.name })); //no fields modified, do nothing
         } else {
           return new Promise((resolve, reject) => {
-            const newModel = new Model(result);
+            const newModel = new Model(addUserEmail(req, result));
             newModel
               .save()
               .then(() => resolve({ status: 'new', doc: result.name }))
@@ -299,6 +298,7 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
               },
               {
                 status: computeModelStatus(model.status, 'save'),
+                updatedBy: getLoggedInUser(req).user_email + '_test',
                 variants,
               },
               {
@@ -357,3 +357,8 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
       return res.status(500).json({ error: error instanceof Error ? error.message : error });
     });
 });
+
+const addUserEmail = (req, model) => {
+  model.updatedBy = getLoggedInUser(req).user_email;
+  return model;
+};

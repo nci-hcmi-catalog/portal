@@ -16,7 +16,7 @@ import { preUpdate, validateYup, preModelDelete, postUpdate } from './hooks';
 import Model from './schemas/model';
 import User from './schemas/user';
 import { validateUserRequest } from './validation/user';
-import isUserAuthorized, { USER_EMAIL } from './helpers/authorizeUserAccess';
+import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess';
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -45,7 +45,13 @@ app.use(methodOverride());
 app.use(cors());
 
 // configure logging
+// record user email for each authenticated request
 app.use(morgan('combined'));
+app.use(
+  morgan(
+    ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :req[USER_EMAIL]',
+  ),
+);
 
 if (process.env.AUTH_ENABLED !== 'false') {
   app.use((req, res, next) => {
@@ -76,7 +82,7 @@ restify.serve(userRouter, User, {
 
 // get logged in user info
 app.get('/api/v1/loggedInUser', (req, res) => {
-  res.json({ user_email: req.headers[USER_EMAIL] || 'ANONYMOUS@UNKNOWN.DOMAIN' });
+  res.json(getLoggedInUser(req));
 });
 
 app.use('/api/v1', data_sync_router);
