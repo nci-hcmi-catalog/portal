@@ -10,6 +10,7 @@ export const UserSchema = new mongoose.Schema(
       enum: [userStatus.active, userStatus.inactive],
       default: userStatus.active,
     },
+    updatedBy: { type: String },
   },
   {
     timestamps: true,
