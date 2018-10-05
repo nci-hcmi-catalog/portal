@@ -16,7 +16,7 @@ import { preUpdate, validateYup, preModelDelete, postUpdate } from './hooks';
 import Model from './schemas/model';
 import User from './schemas/user';
 import { validateUserRequest } from './validation/user';
-import isUserAuthorized from './helpers/authorizeUserAccess';
+import isUserAuthorized, { USER_EMAIL } from './helpers/authorizeUserAccess';
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -51,7 +51,8 @@ if (process.env.AUTH_ENABLED !== 'false') {
   app.use((req, res, next) => {
     if (!isUserAuthorized(req)) {
       return res.status(403).json({
-        error: `${req.headers['USER_EMAIL'] || ''} is not authorized to access this application.`,
+        error: `${req.headers[USER_EMAIL] ||
+          'Unknown user '} is not authorized to access this application.`,
       });
     }
     next();
@@ -75,7 +76,7 @@ restify.serve(userRouter, User, {
 
 // get logged in user info
 app.get('/api/v1/loggedInUser', (req, res) => {
-  res.json({ user_email: req.headers['USER_EMAIL'] || 'ANONYMOUS@UNKNOWN.DOMAIN' });
+  res.json({ user_email: req.headers[USER_EMAIL] || 'ANONYMOUS@UNKNOWN.DOMAIN' });
 });
 
 app.use('/api/v1', data_sync_router);
