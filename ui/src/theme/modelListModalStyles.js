@@ -141,7 +141,7 @@ export default css`
 
   .model-list-model-content h3 {
     font-family: ${libreFranklin};
-    font-size: 16px;
+    font-size: 13px;
     line-height: 1.38;
     color: #900000;
     margin: 0 0 0.5em;
