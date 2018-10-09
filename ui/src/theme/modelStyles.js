@@ -5,7 +5,6 @@ import selectedModel from 'assets/icon-selected-model.svg';
 export default css`
   .model-bar {
     background-color: rgb(144, 0, 0, 0.7);
-    border-top: 6px solid #fff;
     color: #ffffff;
     align-items: center;
     justify-content: space-between;

@@ -21,7 +21,6 @@ export const AdminNav = styled(Row)`
   display: flex;
   justify-content: space-between;
   padding: 0 30px;
-  border-top: 6px solid white;
   border-bottom: 6px solid white;
 `;
 

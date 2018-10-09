@@ -8,7 +8,7 @@ const {
   keyedPalette: { brandPrimary },
 } = base;
 
-const headerHeight = '88px';
+const headerHeight = '94px'; // 88px + 6px border-bottom
 const grey = '#f4f5f7';
 const linkColor = '#774928';
 
