@@ -74,6 +74,7 @@ export const AdminModelContent = styled(AdminContent)`
   display: flex;
   flex-direction: column;
   width: calc(100% - 164px);
+  min-height: 416px;
   z-index: 1;
   padding: 7px 8px;
   label: admin-model-content;
