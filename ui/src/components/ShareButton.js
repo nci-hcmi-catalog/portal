@@ -16,6 +16,7 @@ import { Row, Col } from 'theme/system';
 
 const {
   keyedPalette: { lightBlack },
+  fonts: { openSans },
 } = base;
 
 let Bubble = p => (
@@ -67,6 +68,10 @@ export default ({ link, error, quote, leftOffset = 0 }) => (
                   box-shadow: 1px 1.7px 4px 0 ${lightBlack};
                   color: black;
                   z-index: 99;
+
+                  > div {
+                    font-family: ${openSans} !important;
+                  }
                 `}
               >
                 {!link ? (
