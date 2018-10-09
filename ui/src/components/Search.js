@@ -95,7 +95,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
               <ShareButton
                 link={`${window.location.origin}/`}
                 quote={`HCMI Search`}
-                leftOffset="18px"
+                leftOffset="-100px"
               />
               <ModelList className="search-header-model-list" />
             </div>
