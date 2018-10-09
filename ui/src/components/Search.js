@@ -5,7 +5,7 @@ import '@arranger/components/public/themeStyles/beagle/beagle.css';
 import SplitPane from 'react-split-pane';
 
 import searchStyles from 'theme/searchStyles';
-import Quicksearch from 'components/Quicksearch';
+import ModelNameSearch from 'components/ModelNameSearch';
 import PrimarySiteChart from 'components/charts/PrimarySiteChart';
 import GrowthChart from 'components/charts/GrowthChart';
 import TopVariantsChart from 'components/charts/TopVariantsChart';
@@ -37,7 +37,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
           <Component shouldUpdate={() => stable}>
             {() => (
               <>
-                <Quicksearch {...{ ...props, setSQON }} />
+                <ModelNameSearch {...{ ...props, setSQON }} />
                 <Aggregations
                   {...props}
                   sqon={sqon}
