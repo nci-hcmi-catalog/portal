@@ -4,7 +4,6 @@ import Component from 'react-component-component';
 
 import globals from 'utils/globals';
 
-import { ThemeProvider } from 'emotion-theming';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Dashboard as ArrangerDashboard } from '@arranger/components';
 
@@ -19,7 +18,6 @@ import WarningModal from 'components/modals/WarningModal';
 import RootProvider from 'providers/RootProvider';
 import { ModalStateContext } from 'providers/ModalState';
 
-import theme from 'theme';
 
 // issue with react-router and react context provider workaround:
 // Router and Context must be rendered in seperate render calls, else
@@ -66,12 +64,10 @@ const ProvidedRoutes = () => (
 );
 
 export default () => (
-  <ThemeProvider theme={theme}>
-    <RootProvider>
-      <Router>
-        <ProvidedRoutes />
-      </Router>
-      <Modal />
-    </RootProvider>
-  </ThemeProvider>
+  <RootProvider>
+    <Router>
+      <ProvidedRoutes />
+    </Router>
+    <Modal />
+  </RootProvider>
 );

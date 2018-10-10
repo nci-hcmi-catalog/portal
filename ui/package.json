@@ -11,7 +11,6 @@
     "babel-polyfill": "^6.26.0",
     "downshift": "^1.31.10",
     "emotion": "^9.0.2",
-    "emotion-theming": "^9.1.2",
     "encodeurl": "^1.0.2",
     "filesaver.js": "^1.3.4",
     "formik": "^1.0.1",
