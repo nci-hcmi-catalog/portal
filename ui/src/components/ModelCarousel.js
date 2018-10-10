@@ -63,12 +63,8 @@ export default ({ modelName, sqon, className }) => (
                   `}
                 >
                   <ArrowLeftIcon
-                    height={9}
-                    width={5}
-                    fill="#900000"
-                    css={`
+                    style={`
                       opacity: ${loading ? '0.5' : '1'};
-                      transition: opacity 0.5s ease-in;
                     `}
                   />
                   <span>PREVIOUS: {prevName}</span>
@@ -101,13 +97,10 @@ export default ({ modelName, sqon, className }) => (
                 >
                   <span>NEXT: {nextName}</span>
                   <ArrowRightIcon
-                    height={9}
-                    width={5}
-                    fill="#900000"
-                    css={`
-                      margin-left: 10px;
+                    style={`
+                      margin-left: 5px;
+                      margin-right: 0;
                       opacity: ${loading ? '0.5' : '1'};
-                      transition: opacity 0.5s ease-in;
                     `}
                   />
                 </Link>

@@ -97,7 +97,7 @@ export default ({ modelName }) => (
         </AdminHeaderBlock>
         <AdminHeaderBlock>
           <ModelHeaderBackLink to={manageModelsUrlBase}>
-            <ArrowLeftIcon height={9} width={5} /> Back to List
+            <ArrowLeftIcon /> Back to List
           </ModelHeaderBackLink>
           <PublishModel marginLeft="21px" marginRight="10px" />
           <SaveModel />

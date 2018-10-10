@@ -7,6 +7,8 @@ import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 
 import BackToSearch from 'components/links/BackToSearch';
 
+import { brandPrimaryColourHover } from 'theme/hoverStyles';
+
 export default ({ name }) => (
   <Url
     render={({ sqon, history }) => (
@@ -15,11 +17,17 @@ export default ({ name }) => (
           sqon={sqon}
           history={history}
           css={`
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            ${brandPrimaryColourHover};
+            font-family: 'Open Sans', sans-serif;
             padding-right: 20px;
             width: 30%;
+            cursor: pointer;
           `}
         >
-          <ArrowLeftIcon height={9} width={5} fill="#724c31" /> Back to Search
+          <ArrowLeftIcon /> Back to Search
         </BackToSearch>
         {sqon && <ModelCarousel modelName={name} sqon={sqon} />}
         <div
