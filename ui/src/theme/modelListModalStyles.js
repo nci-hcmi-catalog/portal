@@ -1,7 +1,9 @@
 import { css } from 'emotion';
 import base from 'theme';
+import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 
 const {
+  keyedPalette: { brandPrimary },
   fonts: { libreFranklin, openSans },
 } = base;
 
@@ -94,7 +96,7 @@ export default css`
   }
 
   .empty-list a {
-    color: #900000;
+    ${brandPrimaryHighlightHover};
     text-decoration: none;
   }
 
@@ -143,7 +145,7 @@ export default css`
     font-family: ${libreFranklin};
     font-size: 13px;
     line-height: 1.38;
-    color: #900000;
+    color: ${brandPrimary};
     margin: 0 0 0.5em;
   }
 

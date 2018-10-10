@@ -3,6 +3,7 @@ import { Row, Col } from 'theme/system';
 import { css } from 'emotion';
 import styled from 'react-emotion';
 import base from 'theme';
+import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 
 const {
   fonts: { libreFranklin, openSans },
@@ -215,7 +216,7 @@ export const OverwriteWarning = styled('div')`
   margin-top: 20px;
 
   a {
-    color: ${brandPrimary};
     font-weight: bold;
+    ${brandPrimaryHighlightHover};
   }
 `;
