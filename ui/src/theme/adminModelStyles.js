@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import base from 'theme';
 import { Col } from 'theme/system';
 import { AdminContent, AdminHeaderH1 } from 'theme/adminStyles';
+import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 
 const {
   fonts: { libreFranklin },
@@ -24,7 +25,7 @@ export const AdminModelNav = styled(Col)`
 `;
 
 const activeNavItem = css`
-  color: ${activeNavItemIconColor};
+  color: ${mineShaft};
   background: ${white};
   border: solid 1px ${borderColour};
   border-right-color: ${white};
@@ -35,6 +36,10 @@ const activeNavItem = css`
   position: relative;
   width: 165px;
   label: admin-model-nav-item-active;
+
+  &:hover {
+    color: ${mineShaft};
+  }
 `;
 
 const disabledNavItem = css`
@@ -56,10 +61,10 @@ export const NavItem = styled('div')`
   line-height: 1.57;
   letter-spacing: normal;
   text-align: left;
-  color: ${brandPrimary};
   text-transform: uppercase;
   cursor: pointer;
   label: admin-model-nav-item;
+  ${brandPrimaryHighlightHover};
   ${({ active }) => active && activeNavItem};
   ${({ disabled }) => disabled && disabledNavItem};
 `;
@@ -94,7 +99,7 @@ export const ModelHeaderH1 = styled(AdminHeaderH1)`
 `;
 
 export const ModelHeaderBackLink = styled(Link)`
-  color: ${brandPrimary};
+  ${brandPrimaryHighlightHover};
   font-family: ${libreFranklin};
   font-size: 12px;
   font-weight: 500;

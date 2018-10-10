@@ -138,9 +138,9 @@ export const BulkUploadTemplateLink = styled('a')`
   font-family: ${libreFranklin};
   font-size: 12px;
   font-weight: 500;
-  color: ${brandPrimary};
   text-decoration: none;
   text-transform: uppercase;
+  ${brandPrimaryHighlightHover};
   label: bulk-upload-template-link;
 `;
 
