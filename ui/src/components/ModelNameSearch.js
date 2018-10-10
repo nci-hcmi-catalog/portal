@@ -7,19 +7,19 @@ export default (
   { props, ...rest }, // super subtle bug due to `props` name collision
 ) => (
   <div // display: flex is causing this component to have zero height for reasons I do not understand.
-    className="quicksearch-wrapper aggregation-card"
+    className="model-name-search-wrapper aggregation-card"
   >
     <Row className="header">
       <Row className="title-wrapper">
         <span className="arrow" />
-        <span className="title">Quick Search</span>
+        <span className="title">Search by Name</span>
       </Row>
     </Row>
-    <Col className="quicksearch-content-wrapper" p={2}>
-      <Row className="quicksearch-content" alignItems="center">
+    <Col className="model-name-search-content-wrapper" p={2}>
+      <Row className="model-name-search-content" alignItems="center">
         <QuickSearch
           {...rest}
-          placeholder="Enter Identifiers"
+          placeholder="Enter model name ..."
           searchTextDelimiters={[',']}
           LoadingIcon={
             <Spinner

@@ -23,7 +23,7 @@ export default ({ name }) => (
 
         <div className="model-bar-actions">
           <BackToSearch sqon={sqon} history={history}>
-            <ArrowLeftIcon height={9} width={5} /> BACK TO SEARCH
+            <ArrowLeftIcon height={9} width={5} fill="#fff" /> BACK TO SEARCH
           </BackToSearch>
           <ModelList className="model-bar-model-list" />
         </div>

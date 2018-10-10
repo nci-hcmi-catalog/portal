@@ -8,7 +8,7 @@ const {
   keyedPalette: { brandPrimary },
 } = base;
 
-const headerHeight = '88px';
+const headerHeight = '94px'; // 88px + 6px border-bottom
 const grey = '#f4f5f7';
 const linkColor = '#774928';
 
@@ -294,7 +294,7 @@ export default css`
     background-color: #fef7eb;
   }
 
-  .quicksearch-wrapper .title-wrapper {
+  .model-name-search-wrapper .title-wrapper {
     flex: 1;
     justify-content: start;
   }
@@ -303,7 +303,7 @@ export default css`
     flex: 1;
   }
 
-  .quicksearch-label {
+  .model-name-search-label {
     font-weight: bold;
     color: #545454;
     margin-right: 16px;

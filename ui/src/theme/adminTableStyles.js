@@ -13,7 +13,7 @@ const {
 
 export const Table = styled('div')`
   width: 100%;
-  margin-bottom: 52px;
+  margin-bottom: ${({ marginBottom }) => marginBottom || '52px'};
   align-self: center;
   background: ${white};
   label: models-table-main;

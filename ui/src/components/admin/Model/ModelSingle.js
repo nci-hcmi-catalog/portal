@@ -42,7 +42,7 @@ export default ({ match }) => (
         <AdminContainer>
           {isLoading && <Loading />}
           <NotificationToaster />
-          <ModelSingleHeader modelName={match.params.name} />
+          <ModelSingleHeader modelName={response.name} />
           <Row>
             <AdminModelNav />
             <AdminModelContent>{renderTab(activeTab, response)}</AdminModelContent>

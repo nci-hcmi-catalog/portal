@@ -252,7 +252,7 @@ export default () => (
       }) => (
         <>
           <Row
-            p={18}
+            p={'18px 42px'}
             css={`
               justify-content: space-between;
             `}
@@ -277,7 +277,7 @@ export default () => (
             )}
           </Row>
           <Row
-            p={18}
+            p={'18px 42px'}
             css={`
               flex-wrap: wrap;
             `}

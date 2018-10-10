@@ -8,14 +8,15 @@ import { AdminContent, AdminHeaderH1 } from 'theme/adminStyles';
 
 const {
   fonts: { libreFranklin },
-  keyedPalette: { brandPrimary, porcelain, white, mineShaft },
+  keyedPalette: { brandPrimary, porcelain, white, mineShaft, silver },
   transparency: { white70 },
 } = base;
 
 const borderColour = porcelain;
 const activeNavItemIconColor = mineShaft;
+const disabledNavItemIconColor = silver;
 
-export { brandPrimary, activeNavItemIconColor };
+export { brandPrimary, activeNavItemIconColor, disabledNavItemIconColor };
 
 export const AdminModelNav = styled(Col)`
   width: 164px;
@@ -36,6 +37,12 @@ const activeNavItem = css`
   label: admin-model-nav-item-active;
 `;
 
+const disabledNavItem = css`
+  color: ${disabledNavItemIconColor};
+  cursor: not-allowed;
+  label: admin-model-nav-item-disabled;
+`;
+
 export const NavItem = styled('div')`
   display: flex;
   flex-direction: row;
@@ -53,7 +60,8 @@ export const NavItem = styled('div')`
   text-transform: uppercase;
   cursor: pointer;
   label: admin-model-nav-item;
-  ${props => props.active && activeNavItem};
+  ${({ active }) => active && activeNavItem};
+  ${({ disabled }) => disabled && disabledNavItem};
 `;
 
 export const navItemIcon = css`
@@ -74,6 +82,7 @@ export const AdminModelContent = styled(AdminContent)`
   display: flex;
   flex-direction: column;
   width: calc(100% - 164px);
+  min-height: 416px;
   z-index: 1;
   padding: 7px 8px;
   label: admin-model-content;
