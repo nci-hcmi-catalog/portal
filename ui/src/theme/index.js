@@ -93,6 +93,7 @@ const base = {
     white: '#ffffff',
     mineShaft: '#323232',
     sienna: '#d57046',
+    burntSienna: '#EC595D',
     pelorousapprox: '#45b3c3',
     dustyGray: '#969696',
     iron: '#cdd4d9',

@@ -4,7 +4,7 @@ import Component from 'react-component-component';
 import { NotificationsContext } from '../Notifications';
 import config from '../config';
 
-import { Pill } from 'theme/adminNavStyles';
+import { Pill as NavPill, HoverPill } from 'theme/adminNavStyles';
 import AdminGoogleLinked from 'icons/AdminGoogleLinked';
 
 const { googleAppId } = config;
@@ -82,7 +82,7 @@ export const LoginWithGoogle = () => (
           return (
             <>
               {loggedIn ? (
-                <Pill
+                <NavPill
                   css={`
                     width: 160px;
                     height: 30px;
@@ -95,11 +95,11 @@ export const LoginWithGoogle = () => (
                       height: 18px;
                     `}
                   />Google Linked
-                </Pill>
+                </NavPill>
               ) : (
-                <Pill key="google" id="googleSignin">
+                <HoverPill key="google" id="googleSignin">
                   Link With Google
-                </Pill>
+                </HoverPill>
               )}
               {children}
             </>

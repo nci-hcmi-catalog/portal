@@ -7,7 +7,15 @@ import base, {
 } from 'theme';
 
 const {
-  keyedPalette: { brandPrimary, brandPrimaryHighlight, oldCopper, lightPorcelain, mystic, white },
+  keyedPalette: {
+    brandPrimary,
+    brandPrimaryHighlight,
+    oldCopper,
+    lightPorcelain,
+    mystic,
+    white,
+    burntSienna,
+  },
 } = base;
 
 export const brandPrimaryHighlightHover = softTransitionRollover(
@@ -27,6 +35,12 @@ export const whiteButtonHover = css`
 
 export const brandPrimaryButtonHover = css`
   ${transitionRollover()};
-  ${bkgRollover(brandPrimaryHighlight, '#ec595d')};
+  ${bkgRollover(brandPrimaryHighlight, burntSienna)};
   ${colourRollover(white, white)};
+`;
+
+export const adminPillHover = (colour, bkgColour) => css`
+  ${transitionRollover()};
+  ${bkgRollover(bkgColour.base, bkgColour.hover)};
+  ${colourRollover(colour.base, colour.hover)};
 `;

@@ -2,12 +2,13 @@ import { css } from 'emotion';
 import styled from 'react-emotion';
 import { Link } from 'react-router-dom';
 import base from 'theme';
+import { adminPillHover } from 'theme/hoverStyles';
 import { Row } from 'theme/system';
 
 const {
   fonts: { libreFranklin, openSans },
   transparency: { brandPrimary70 },
-  keyedPalette: { brandPrimary, valencia },
+  keyedPalette: { brandPrimary, valencia, porcelain },
   buttons: { pillBase },
 } = base;
 
@@ -70,6 +71,10 @@ export const Pill = styled('div')`
   line-height: 27px;
   color: ${brandPrimary};
   margin-left: ${props => props.last && '20px'};
+`;
+
+export const HoverPill = styled(Pill)`
+  ${adminPillHover({ base: brandPrimary, hover: valencia }, { base: '#ffffff', hover: porcelain })};
 `;
 
 export const User = styled(Pill)`

@@ -11,7 +11,7 @@ import AdminPlusIcon from '../../../icons/AdminPlusIcon';
 
 import { AdminContainer, AdminHeader, AdminHeaderH3, AdminHeaderBlock } from 'theme/adminStyles';
 import { FormHeader } from 'theme/adminFormStyles';
-import { Pill } from 'theme/adminControlsStyles';
+import { HoverPill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 
@@ -53,7 +53,7 @@ export default ({ data: { name, variants } }) => {
               <AdminHeaderBlock>
                 <ModalStateContext.Consumer>
                   {modalState => (
-                    <Pill
+                    <HoverPill
                       primary
                       marginRight="10px"
                       onClick={() =>
@@ -73,7 +73,7 @@ export default ({ data: { name, variants } }) => {
                     >
                       <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add
                       Variants
-                    </Pill>
+                    </HoverPill>
                   )}
                 </ModalStateContext.Consumer>
               </AdminHeaderBlock>

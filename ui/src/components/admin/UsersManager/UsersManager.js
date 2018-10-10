@@ -4,7 +4,7 @@ import { NotificationToaster } from '../Notifications';
 import UserIcon from '../../../icons/PatientIcon';
 import AdminPlusIcon from '../../../icons/AdminPlusIcon';
 import { AdminContainer, AdminHeader, AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
-import { Pill } from 'theme/adminControlsStyles';
+import { HoverPill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
 import { ModalStateContext } from 'providers/ModalState';
 import UserManagerTable from './UserManagerTable';
@@ -87,7 +87,7 @@ const content = () => {
                   <AdminHeaderBlock>
                     <ModalStateContext.Consumer>
                       {modalState => (
-                        <Pill
+                        <HoverPill
                           primary
                           marginRight="10px"
                           onClick={() =>
@@ -100,7 +100,7 @@ const content = () => {
                         >
                           <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add A
                           User
-                        </Pill>
+                        </HoverPill>
                       )}
                     </ModalStateContext.Consumer>
                   </AdminHeaderBlock>

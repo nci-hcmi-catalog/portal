@@ -1,11 +1,13 @@
 import styled from 'react-emotion';
 import { Link } from 'react-router-dom';
 import base from 'theme';
+import { adminPillHover } from 'theme/hoverStyles';
 
 const {
   fonts: { libreFranklin, openSans },
   keyedPalette: {
     brandPrimary,
+    burntSienna,
     pelorousapprox,
     valencia,
     sienna,
@@ -16,6 +18,7 @@ const {
     mystic,
     black,
     dustyGray,
+    lightPorcelain,
   },
 } = base;
 
@@ -30,6 +33,38 @@ const pillBorderColour = frenchGrey;
 const actionsMenuHighlight = lightBlack;
 const actionsMenuHover = mystic;
 
+const pillColour = ({ secondary, disabled }) => {
+  if (secondary && disabled) {
+    return { base: brandPrimary, hover: brandPrimary };
+  } else if (secondary) {
+    return { base: brandPrimary, hover: valencia };
+  } else {
+    return { base: white, hover: white };
+  }
+};
+
+const pillBackgroundColour = ({ primary, warning, secondary, disabled, info }) => {
+  if (primary && disabled) {
+    return { base: pillRedDisabled, hover: pillRedDisabled };
+  } else if (primary) {
+    return { base: pillRed, hover: burntSienna };
+  } else if (warning && disabled) {
+    return { base: pillOrange, hover: sienna };
+  } else if (warning) {
+    return { base: pillOrange, hover: '#D9805A' };
+  } else if (secondary && disabled) {
+    return { base: white, hover: white };
+  } else if (secondary) {
+    return { base: white, hover: lightPorcelain };
+  } else if (info) {
+    return { base: pillGrey, hover: '#A2A2A2' };
+  } else if (disabled) {
+    return { base: pillBlueDisabled, hover: pillBlueDisabled };
+  } else {
+    return { base: pillBlue, hover: '#58BAC9' };
+  }
+};
+
 const PillBase = styled('div')`
   display: flex;
   flex-direction: row;
@@ -43,29 +78,9 @@ const PillBase = styled('div')`
   text-decoration: none;
   opacity: ${({ secondary, disabled }) => (secondary && disabled ? '0.5' : '1')};
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  color: ${({ secondary }) => (secondary ? brandPrimary : white)};
   border: solid 1px ${pillBorderColour};
-  background: ${({ primary, warning, secondary, disabled, info }) => {
-    if (primary && disabled) {
-      return pillRedDisabled;
-    } else if (primary) {
-      return pillRed;
-    } else if (warning && disabled) {
-      return pillOrange;
-    } else if (warning) {
-      return pillOrange;
-    } else if (secondary && disabled) {
-      return white;
-    } else if (secondary) {
-      return white;
-    } else if (info) {
-      return pillGrey;
-    } else if (disabled) {
-      return pillBlueDisabled;
-    } else {
-      return pillBlue;
-    }
-  }};
+  color: ${props => pillColour(props).base};
+  background: ${props => pillBackgroundColour(props).base};
   margin-left: ${props => (props.marginLeft ? props.marginLeft : '0')};
   margin-right: ${props => (props.marginRight ? props.marginRight : '0')};
 `;
@@ -89,9 +104,17 @@ export const Pill = styled(PillBase)`
   label: admin-pill;
 `;
 
-export const LinkPill = Pill.withComponent(Link);
+export const SmallHoverPill = styled(SmallPill)`
+  ${props => adminPillHover(pillColour(props), pillBackgroundColour(props))};
+`;
 
-export const SmallLinkPill = SmallPill.withComponent(Link);
+export const HoverPill = styled(Pill)`
+  ${props => adminPillHover(pillColour(props), pillBackgroundColour(props))};
+`;
+
+export const SmallLinkPill = SmallHoverPill.withComponent(Link);
+
+export const LinkPill = HoverPill.withComponent(Link);
 
 export const ActionsMenu = styled('div')`
   display: flex;

@@ -12,7 +12,7 @@ import {
   ToolbarText,
 } from 'theme/adminTableStyles';
 
-import { Pill } from 'theme/adminControlsStyles';
+import { HoverPill } from 'theme/adminControlsStyles';
 
 const [publishAction, unpublishAction, deleteAction] = ['Publish', 'Unpublish', 'Delete'];
 
@@ -96,16 +96,16 @@ export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection 
             target: 'multiple models',
             onCancel: () => setState({ isOpen: false, selectedAction: '' }),
           })(
-            <Pill
+            <HoverPill
               marginLeft="8px"
               secondary
               disabled={!hasSelection || selectedAction.length === 0}
             >
               Apply
-            </Pill>,
+            </HoverPill>,
           )
         ) : (
-          <Pill
+          <HoverPill
             onClick={() =>
               hasSelection &&
               onApplyClick({
@@ -120,7 +120,7 @@ export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection 
             disabled={!hasSelection || selectedAction.length === 0}
           >
             Apply
-          </Pill>
+          </HoverPill>
         )}
       </ToolbarSection>
     )}
