@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import base from 'theme';
 import { adminPillHover } from 'theme/hoverStyles';
 import { Row } from 'theme/system';
-import {mysticHover} from 'theme/hoverStyles';
+import {whiteHover} from 'theme/hoverStyles';
 
 const {
   fonts: { libreFranklin, openSans },
@@ -56,7 +56,7 @@ export const NavLink = styled(Link)`
   line-height: 50px;
   padding: 0 22px;
   text-transform: uppercase;
-  ${mysticHover};
+  ${whiteHover};
   ${props => props.active && activeNavLink};
 `;
 

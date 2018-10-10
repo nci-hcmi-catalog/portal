@@ -63,7 +63,7 @@ export default ({ modelName, sqon, className }) => (
                   `}
                 >
                   <ArrowLeftIcon
-                    style={`
+                    css={`
                       opacity: ${loading ? '0.5' : '1'};
                     `}
                   />
@@ -97,7 +97,7 @@ export default ({ modelName, sqon, className }) => (
                 >
                   <span>NEXT: {nextName}</span>
                   <ArrowRightIcon
-                    style={`
+                    css={`
                       margin-left: 5px;
                       margin-right: 0;
                       opacity: ${loading ? '0.5' : '1'};

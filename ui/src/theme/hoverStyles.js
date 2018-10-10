@@ -12,7 +12,6 @@ const {
     brandPrimaryHighlight,
     oldCopper,
     lightPorcelain,
-    mystic,
     white,
     burntSienna,
   },
@@ -25,7 +24,7 @@ export const brandPrimaryHighlightHover = softTransitionRollover(
 
 export const brandPrimaryColourHover = softTransitionRollover(oldCopper, brandPrimary);
 
-export const mysticHover = softTransitionRollover(white, mystic);
+export const whiteHover = softTransitionRollover(white, '#E5E5E5');
 
 export const whiteButtonHover = css`
   ${transitionRollover()};

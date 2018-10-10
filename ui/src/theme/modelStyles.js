@@ -2,7 +2,7 @@ import { css } from 'emotion';
 import {
   brandPrimaryHighlightHover,
   brandPrimaryColourHover,
-  mysticHover,
+  whiteHover,
   whiteButtonHover,
   brandPrimaryButtonHover,
 } from 'theme/hoverStyles';
@@ -32,7 +32,7 @@ export default css`
 
   .model-bar .clickable {
     cursor: pointer;
-    ${mysticHover};
+    ${whiteHover};
     text-decoration: none;
     font-family: 'Libre Franklin';
     font-size: 12px;

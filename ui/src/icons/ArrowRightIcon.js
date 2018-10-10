@@ -4,8 +4,8 @@ import { InlineSvg } from 'icons';
 export default props =>
   InlineSvg({
     viewBox: '0 0 55.83 90.93',
-    height: '9px',
     width: '5px',
+    height: '9px',
     path: (
       <path
         class="cls-1"

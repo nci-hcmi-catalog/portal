@@ -7,6 +7,7 @@ import { Pill as NavPill } from 'theme/adminNavStyles';
 import { HoverPill } from 'theme/adminControlsStyles';
 import base from 'theme';
 import { Row, Col } from 'theme/system';
+import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 import { FormContainer, FormHeader } from 'theme/adminFormStyles';
 import { Field, Formik } from 'formik';
 import { FormInput } from 'components/FormComponents';
@@ -136,8 +137,8 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
             ) : (
               <TrashIcon
                 css={`
+                  ${brandPrimaryHighlightHover};
                   margin-right: 0;
-                  height: 17px;
                 `}
               />
             )}
