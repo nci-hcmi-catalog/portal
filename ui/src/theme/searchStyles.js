@@ -3,7 +3,11 @@ import styled from 'react-emotion';
 import facetarrow from 'assets/icon-facetarrow.svg';
 
 import base from 'theme';
-import { brandPrimaryColourHover, brandPrimaryHighlightHover } from 'theme/hoverStyles';
+import {
+  brandPrimaryColourHover,
+  brandPrimaryHighlightHover,
+  whiteButtonHover,
+} from 'theme/hoverStyles';
 
 const {
   fonts: { libreFranklin, openSans },
@@ -66,7 +70,7 @@ export default css`
 
   .ReactTable .-pagination_button {
     font-size: 11px;
-    ${brandPrimaryColourHover};
+    ${whiteButtonHover};
   }
 
   .ReactTable .-pagination_button.-current {
@@ -141,7 +145,6 @@ export default css`
     padding: 0 15px;
     height: 36px;
     border-radius: 10px;
-    background-color: #ffffff;
     border: solid 1px #cacbcf;
     font-family: 'Libre Franklin';
     font-size: 12px;
@@ -151,12 +154,12 @@ export default css`
     line-height: 1.67;
     letter-spacing: normal;
     text-align: center;
-    color: #734d32;
     text-transform: uppercase;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    ${whiteButtonHover};
   }
 
   .search-results-wrapper {

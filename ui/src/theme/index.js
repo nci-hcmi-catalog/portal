@@ -76,7 +76,7 @@ const base = {
     // Colour names from http://chir.ag/projects/name-that-color/
     cherry: palette[0],
     brandPrimary: palette[1],
-    brandPrimaryHighlight: '#d3494d',
+    brandPrimaryHighlight: palette[11],
     crimson: palette[2],
     carnation: palette[3],
     froly: palette[4],
