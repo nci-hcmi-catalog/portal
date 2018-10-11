@@ -29,6 +29,11 @@ export default css`
     padding: 13px 5px;
   }
 
+  /* Additional padding for scroll bars */
+  .ReactTable .rt-td:last-child {
+    padding-right: 18px;
+  }
+
   .ReactTable .rt-resizable-header {
     padding: 13px 5px;
   }
@@ -47,7 +52,7 @@ export default css`
     ${brandPrimaryColourHover};
   }
 
-  .ReactTable.-striped .rt-th {
+  .ReactTable.-striped .rt-thead {
     background-color: #fef7eb;
   }
 

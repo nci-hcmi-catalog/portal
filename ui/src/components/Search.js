@@ -143,6 +143,14 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
                         ),
                         list: props => <TableList {...props} />,
                       }}
+                      customTypeConfigs={{
+                        entity: {
+                          minWidth: 140,
+                        },
+                        list: {
+                          minWidth: 160,
+                        },
+                      }}
                       index={props.index}
                       graphqlField={props.index}
                       columnDropdownText="Columns"
