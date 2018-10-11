@@ -3,8 +3,8 @@ import React from 'react';
 import { groupBy, sumBy } from 'lodash';
 import { ResponsivePie } from '@nivo/pie';
 import AggregationQuery from 'components/queries/AggregationQuery';
-import TwoDIcon from 'assets/icon-2dimensions.svg';
-import ThreeDIcon from 'assets/icon-3dimensions.svg';
+import TwoDIcon from 'icons/TwoDIcon';
+import ThreeDIcon from 'icons/ThreeDIcon';
 import { Col } from 'theme/system';
 import theme from 'theme';
 import { ChartTooltip } from './';
@@ -54,13 +54,15 @@ export default ({ sqon, setSQON }) => (
                       position: absolute;
                       top: 50%;
                       left: 10%;
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
                     `}
                   >
-                    <img
-                      src={TwoDIcon}
+                    <TwoDIcon
                       alt="2d growth"
                       css={`
-                        height: 20px;
+                        fill: ${theme.growthChartPalette[1]};
                       `}
                     />
                     <span
@@ -129,13 +131,15 @@ export default ({ sqon, setSQON }) => (
                       position: absolute;
                       top: 50%;
                       right: 10%;
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
                     `}
                   >
-                    <img
-                      src={ThreeDIcon}
-                      alt="2d growth"
+                    <ThreeDIcon
+                      alt="3d growth"
                       css={`
-                        height: 20px;
+                        fill: ${theme.growthChartPalette[0]};
                       `}
                     />
                     <span
