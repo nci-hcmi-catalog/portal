@@ -11,7 +11,7 @@ import {
 
 const {
   fonts: { libreFranklin, openSans },
-  keyedPalette: { brandPrimary },
+  keyedPalette: { brandPrimary, lightBlack },
 } = base;
 
 const headerHeight = '94px'; // 88px + 6px border-bottom
@@ -399,6 +399,13 @@ export default css`
 
   .tableToolbar .dropDownButton svg {
     stroke: '#724c31';
+  }
+
+  .dropDownHeader .dropDownContent {
+    max-height: 360px;
+    overflow-y: auto;
+    font-size: 13px;
+    box-shadow: 1px 1.7px 4px 0 ${lightBlack};
   }
 `;
 
