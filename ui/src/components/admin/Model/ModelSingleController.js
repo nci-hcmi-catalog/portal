@@ -165,7 +165,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       // if files is different in new state
                       isReadyToPublish:
                         (!isEqual(
-                          (modelDataResponse.data.response || {}).files || [],
+                          (modelDataResponse.data || {}).files || [],
                           (state.data.response || {}).files || [],
                         ) &&
                           Object.keys(state.form.errors).length === 0) ||
