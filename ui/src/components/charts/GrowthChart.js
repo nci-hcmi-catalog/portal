@@ -20,7 +20,8 @@ export default ({ sqon, setSQON }) => (
         css={`
           position: relative;
           height: 185px;
-          width: 25%;
+          width: 48%; /* 25% when there are three charts */
+          max-width: 360px;
           padding: 16px 0 16px 0;
         `}
       >
