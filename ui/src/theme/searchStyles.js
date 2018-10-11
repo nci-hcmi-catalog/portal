@@ -259,11 +259,15 @@ export default css`
   }
 
   .aggregation-card .title-wrapper .title {
-    color: #900;
     font-weight: bolder;
     font-size: 0.9rem;
     font-family: Open Sans, sans-serif;
     text-transform: uppercase;
+    color: #900000;
+  }
+
+  .aggregation-card .title-wrapper .title-control .title {
+    ${brandPrimaryHighlightHover};
   }
 
   .aggregation-card {
