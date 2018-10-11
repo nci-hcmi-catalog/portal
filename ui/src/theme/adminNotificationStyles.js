@@ -3,11 +3,11 @@ import { css } from 'emotion';
 import { Link } from 'react-router-dom';
 import { Element } from 'react-scroll';
 
-import base from 'theme';
+import base, { softTransitionRollover } from 'theme';
 
 const {
   fonts: { openSans },
-  keyedPalette: { brandPrimary, pelorousapprox, mineShaft, yellowOrange },
+  keyedPalette: { brandPrimary, burntSienna, pelorousapprox, mineShaft, yellowOrange },
   transparency: { brandPrimary20, pelorousapprox20, yellowOrange20 },
 } = base;
 
@@ -132,11 +132,11 @@ export const ErrorText = styled('span')`
 export const MessageLink = styled(Link)`
   font-weight: bold;
   text-decoration: underline;
-  color: ${({ type }) => {
+  ${({ type }) => {
     if (type === 'error') {
-      return errorColour;
+      return softTransitionRollover(errorColour, burntSienna);
     } else {
-      return successColour;
+      return softTransitionRollover(successColour, '#58BAC9');
     }
   }};
   label: notification-message-link;

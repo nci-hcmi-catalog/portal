@@ -11,7 +11,7 @@ import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
 
 import { AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
 import { ModelHeaderH1, ModelHeaderBackLink } from 'theme/adminModelStyles';
-import { SmallPill, Pill } from 'theme/adminControlsStyles';
+import { SmallPill, HoverPill } from 'theme/adminControlsStyles';
 
 import { modelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
 
@@ -59,9 +59,9 @@ const modelMoreOptions = (data = null) =>
   data && (
     <Popup
       trigger={
-        <Pill secondary marginLeft="10px">
+        <HoverPill secondary marginLeft="10px">
           <AdminModelMoreOptionsIcon css={'margin: 0;'} width={15} height={3} />
-        </Pill>
+        </HoverPill>
       }
       position="bottom right"
       offset={0}
@@ -97,7 +97,7 @@ export default ({ modelName }) => (
         </AdminHeaderBlock>
         <AdminHeaderBlock>
           <ModelHeaderBackLink to={manageModelsUrlBase}>
-            <ArrowLeftIcon height={9} width={5} /> Back to List
+            <ArrowLeftIcon /> Back to List
           </ModelHeaderBackLink>
           <PublishModel marginLeft="21px" marginRight="10px" />
           <SaveModel />

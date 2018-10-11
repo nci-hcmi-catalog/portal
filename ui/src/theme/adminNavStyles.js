@@ -2,12 +2,14 @@ import { css } from 'emotion';
 import styled from 'react-emotion';
 import { Link } from 'react-router-dom';
 import base from 'theme';
+import { adminPillHover } from 'theme/hoverStyles';
 import { Row } from 'theme/system';
+import {whiteHover} from 'theme/hoverStyles';
 
 const {
   fonts: { libreFranklin, openSans },
   transparency: { brandPrimary70 },
-  keyedPalette: { brandPrimary, valencia },
+  keyedPalette: { brandPrimary, valencia, porcelain },
   buttons: { pillBase },
 } = base;
 
@@ -44,7 +46,6 @@ const activeNavLink = css`
 export const NavLink = styled(Link)`
   display: inline-block;
   position: relative;
-  color: white;
   text-decoration: none;
   font-size: 14px;
   font-weight: 600;
@@ -55,6 +56,7 @@ export const NavLink = styled(Link)`
   line-height: 50px;
   padding: 0 22px;
   text-transform: uppercase;
+  ${whiteHover};
   ${props => props.active && activeNavLink};
 `;
 
@@ -70,6 +72,10 @@ export const Pill = styled('div')`
   line-height: 27px;
   color: ${brandPrimary};
   margin-left: ${props => props.last && '20px'};
+`;
+
+export const HoverPill = styled(Pill)`
+  ${adminPillHover({ base: brandPrimary, hover: valencia }, { base: '#ffffff', hover: porcelain })};
 `;
 
 export const User = styled(Pill)`

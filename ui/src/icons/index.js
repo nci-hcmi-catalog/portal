@@ -18,3 +18,22 @@ export const BaseSvg = ({ alt = '', height, width, svg, style, className, ...pro
     {...props}
   />
 );
+
+export const InlineSvg = ({ viewBox, path, height, width, fill, className, alt, ...props }) => (
+  <svg
+    css={`
+      height: ${height};
+      width: ${width};
+      fill: ${fill};
+      margin-right: 5px;
+      ${className};
+    `}
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox={viewBox}
+    role="img"
+    {...props}
+  >
+    {alt && <title>{alt}</title>}
+    {path}
+  </svg>
+);

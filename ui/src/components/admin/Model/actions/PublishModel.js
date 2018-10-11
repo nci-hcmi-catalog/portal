@@ -3,7 +3,7 @@ import Tooltip from '../../ToolTip';
 
 import { ModelSingleContext } from '../ModelSingleController';
 
-import { Pill } from 'theme/adminControlsStyles';
+import { HoverPill } from 'theme/adminControlsStyles';
 import AdminModelPublishIcon from 'icons/AdminModelPublishIcon';
 
 export default props => (
@@ -16,13 +16,13 @@ export default props => (
     }) => (
       <Tooltip
         trigger={() => (
-          <Pill
+          <HoverPill
             disabled={!isReadyToPublish}
             onClick={() => isReadyToPublish && publishForm(values)}
             {...props}
           >
             <AdminModelPublishIcon css={'margin-right: 10px;'} height={16} width={15} />Publish
-          </Pill>
+          </HoverPill>
         )}
         disabled={isReadyToPublish}
       >

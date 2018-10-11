@@ -4,9 +4,10 @@ import Component from 'react-component-component';
 
 import { ModelSingleContext } from './ModelSingleController';
 import { Pill as NavPill } from 'theme/adminNavStyles';
-import { Pill } from 'theme/adminControlsStyles';
+import { HoverPill } from 'theme/adminControlsStyles';
 import base from 'theme';
 import { Row, Col } from 'theme/system';
+import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 import { FormContainer, FormHeader } from 'theme/adminFormStyles';
 import { Field, Formik } from 'formik';
 import { FormInput } from 'components/FormComponents';
@@ -136,8 +137,8 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
             ) : (
               <TrashIcon
                 css={`
+                  ${brandPrimaryHighlightHover};
                   margin-right: 0;
-                  height: 17px;
                 `}
               />
             )}
@@ -259,7 +260,7 @@ export default () => (
           >
             <div>Upload images in jpeg, tiff, png or svg formats.</div>
             {!!files.length && (
-              <Pill
+              <HoverPill
                 css={`
                   align-self: right;
                 `}
@@ -273,7 +274,7 @@ export default () => (
                     height: 16px;
                   `}
                 />Add Images
-              </Pill>
+              </HoverPill>
             )}
           </Row>
           <Row

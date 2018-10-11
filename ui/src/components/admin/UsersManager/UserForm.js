@@ -2,7 +2,7 @@ import React from 'react';
 import { ModalStateContext } from 'providers/ModalState';
 import { ModalWrapper, Header, Title, CloseModal, Content, Footer } from 'theme/adminModalStyles';
 import { FormContainer, FormCol } from 'theme/adminFormStyles';
-import { Pill } from 'theme/adminControlsStyles';
+import { HoverPill } from 'theme/adminControlsStyles';
 import { withFormik, Field } from 'formik';
 import { schemaObj } from '../schema/user';
 import { FormComponent, FormInput, FormRadioSelect } from 'components/FormComponents';
@@ -16,7 +16,7 @@ const {
   keyedPalette: { lightPorcelain },
 } = base;
 
-const SubmitFormPill = Pill.withComponent('button');
+const SubmitFormPill = HoverPill.withComponent('button');
 
 const UserFormTemplate = ({ closeModal }) => {
   return (
@@ -43,9 +43,9 @@ const UserFormTemplate = ({ closeModal }) => {
         </FormComponent>
       </FormCol>
       <Footer>
-        <Pill secondary onClick={closeModal}>
+        <HoverPill secondary onClick={closeModal}>
           Cancel
-        </Pill>
+        </HoverPill>
         <SubmitFormPill type={'submit'} primary>
           Save
         </SubmitFormPill>

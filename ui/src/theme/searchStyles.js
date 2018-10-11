@@ -1,7 +1,13 @@
 import { css } from 'emotion';
 import styled from 'react-emotion';
 import facetarrow from 'assets/icon-facetarrow.svg';
+
 import base from 'theme';
+import {
+  brandPrimaryColourHover,
+  brandPrimaryHighlightHover,
+  whiteButtonHover,
+} from 'theme/hoverStyles';
 
 const {
   fonts: { libreFranklin, openSans },
@@ -10,7 +16,6 @@ const {
 
 const headerHeight = '94px'; // 88px + 6px border-bottom
 const grey = '#f4f5f7';
-const linkColor = '#774928';
 
 export default css`
   .ReactTable {
@@ -39,7 +44,7 @@ export default css`
   }
 
   .ReactTable a {
-    color: ${linkColor};
+    ${brandPrimaryColourHover};
   }
 
   .ReactTable.-striped .rt-th {
@@ -65,7 +70,7 @@ export default css`
 
   .ReactTable .-pagination_button {
     font-size: 11px;
-    color: ${linkColor};
+    ${whiteButtonHover};
   }
 
   .ReactTable .-pagination_button.-current {
@@ -140,7 +145,6 @@ export default css`
     padding: 0 15px;
     height: 36px;
     border-radius: 10px;
-    background-color: #ffffff;
     border: solid 1px #cacbcf;
     font-family: 'Libre Franklin';
     font-size: 12px;
@@ -150,12 +154,12 @@ export default css`
     line-height: 1.67;
     letter-spacing: normal;
     text-align: center;
-    color: #734d32;
     text-transform: uppercase;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    ${whiteButtonHover};
   }
 
   .search-results-wrapper {
@@ -320,7 +324,7 @@ export default css`
   }
 
   .clickable {
-    color: ${brandPrimary};
+    ${brandPrimaryHighlightHover};
     cursor: pointer;
     text-decoration: underline;
   }
@@ -377,12 +381,12 @@ export default css`
 
   .tableToolbar button {
     background: none;
-    color: ${linkColor};
     text-transform: uppercase;
     font-family: ${libreFranklin};
     font-size: 12px;
     font-weight: 500;
     line-height: 1.67;
+    ${brandPrimaryColourHover};
   }
 
   .tableToolbar .dropDownButtonContent {
@@ -390,7 +394,7 @@ export default css`
   }
 
   .tableToolbar .dropDownButton svg {
-    stroke: ${linkColor};
+    stroke: '#724c31';
   }
 `;
 

@@ -1,7 +1,9 @@
 import { css } from 'emotion';
-import base from 'theme';
+import base, { transitionRollover, bkgRollover, colourRollover } from 'theme';
+import { brandPrimaryHighlightHover, whiteHover } from 'theme/hoverStyles';
 
 const {
+  keyedPalette: { brandPrimary },
   fonts: { libreFranklin, openSans },
 } = base;
 
@@ -27,7 +29,7 @@ export default css`
     justify-content: space-between;
     align-items: center;
     padding: 16px;
-    background-color: rgb(144, 0, 0, 0.7);
+    background-color: rgba(144, 0, 0, 0.7);
   }
 
   .model-list-drawer-header h2 {
@@ -39,7 +41,7 @@ export default css`
     margin: 0;
     line-height: 1.2;
     letter-spacing: normal;
-    color: #ffffff;
+    ${whiteHover}
     cursor: pointer;
   }
 
@@ -77,6 +79,12 @@ export default css`
     opacity: 0.5;
   }
 
+  .model-list-drawer-header .clear:not([disabled]) {
+    ${transitionRollover()}
+    ${bkgRollover('#f3f6f7', '#ebf1f3')}
+    ${colourRollover('#724c31', brandPrimary)}
+  }
+
   .empty-list {
     display: flex;
     flex-direction: column;
@@ -94,7 +102,7 @@ export default css`
   }
 
   .empty-list a {
-    color: #900000;
+    ${brandPrimaryHighlightHover};
     text-decoration: none;
   }
 
@@ -143,7 +151,7 @@ export default css`
     font-family: ${libreFranklin};
     font-size: 13px;
     line-height: 1.38;
-    color: #900000;
+    color: ${brandPrimary};
     margin: 0 0 0.5em;
   }
 
@@ -191,6 +199,11 @@ export default css`
 
   .download-tsv-btn:disabled {
     opacity: 0.4;
+  }
+
+  .download-tsv-btn:not([disabled]) {
+    ${transitionRollover()}
+    ${bkgRollover('#45b3c3', '#38BCCF')}
   }
 
   .close {
