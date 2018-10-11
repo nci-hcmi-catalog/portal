@@ -10,7 +10,7 @@ const app = express();
 const http = Server(app);
 app.use(cors());
 
-Arranger().then(router => {
+Arranger({ enableAdmin: process.env.ENABLE_ADMIN === 'true' }).then(router => {
   app.use(router);
   app.use('/last-updated', lastUpdatedRouter);
 

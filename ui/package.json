@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "@arranger/components": "0.4.2",
+    "@arranger/components": "0.5.7",
     "@hcmi-portal/cms": "0.0.1",
     "@nivo/bar": "^0.42.1",
     "@nivo/pie": "^0.40.0",
@@ -53,16 +53,7 @@
     "react-app-rewired": "^1.5.0"
   },
   "browserslist": {
-    "development": [
-      "last 2 chrome versions",
-      "last 2 firefox versions",
-      "last 2 edge versions"
-    ],
-    "production": [
-      ">1%",
-      "last 4 versions",
-      "Firefox ESR",
-      "not ie < 11"
-    ]
+    "development": ["last 2 chrome versions", "last 2 firefox versions", "last 2 edge versions"],
+    "production": [">1%", "last 4 versions", "Firefox ESR", "not ie < 11"]
   }
 }
