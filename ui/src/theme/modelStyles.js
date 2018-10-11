@@ -11,7 +11,7 @@ import selectedModel from 'assets/icon-selected-model.svg';
 
 export default css`
   .model-bar {
-    background-color: rgb(144, 0, 0, 0.7);
+    background-color: rgba(144, 0, 0, 0.7);
     color: #ffffff;
     align-items: center;
     justify-content: space-between;
