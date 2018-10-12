@@ -22,7 +22,7 @@ const {
 let Bubble = p => (
   <span
     css={`
-      background-color: rgb(144, 0, 0, 0.7);
+      background-color: rgba(144, 0, 0, 0.7);
       color: white;
       padding: 4px 6px;
       border-radius: 100%;

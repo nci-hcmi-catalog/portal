@@ -1,6 +1,7 @@
 import 'babel-polyfill';
 import React from 'react';
 import Component from 'react-component-component';
+import { injectGlobal } from 'emotion';
 
 import globals from 'utils/globals';
 
@@ -17,7 +18,7 @@ import WarningModal from 'components/modals/WarningModal';
 
 import RootProvider from 'providers/RootProvider';
 import { ModalStateContext } from 'providers/ModalState';
-
+import base from 'theme';
 
 // issue with react-router and react context provider workaround:
 // Router and Context must be rendered in seperate render calls, else
@@ -62,6 +63,14 @@ const ProvidedRoutes = () => (
     )}
   </ModalStateContext.Consumer>
 );
+
+// Global CSS
+injectGlobal`
+  body, div {
+    /* Overwrite arranger's Montserrat fonts */
+    font-family: ${base.fonts.openSans};
+  }
+`;
 
 export default () => (
   <RootProvider>

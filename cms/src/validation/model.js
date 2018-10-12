@@ -56,8 +56,8 @@ export default object().shape({
   growth_rate: number()
     .required()
     .integer()
-    .min(5)
-    .max(90),
+    .min(1)
+    .max(99),
   split_ratio: string()
     .required()
     .oneOf(splitRatio),

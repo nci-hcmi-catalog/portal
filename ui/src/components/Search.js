@@ -8,7 +8,6 @@ import searchStyles from 'theme/searchStyles';
 import ModelNameSearch from 'components/ModelNameSearch';
 import PrimarySiteChart from 'components/charts/PrimarySiteChart';
 import GrowthChart from 'components/charts/GrowthChart';
-import TopVariantsChart from 'components/charts/TopVariantsChart';
 import TableEntity from 'components/TableEntity';
 import TableList from 'components/TableList';
 import ShareButton from 'components/ShareButton';
@@ -104,13 +103,14 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
             bg="white"
             css={`
               padding: 0 16px 0 16px;
+              justify-content: space-around;
             `}
           >
             <Component shouldUpdate={() => stable}>
               {() => (
                 <>
                   <PrimarySiteChart sqon={sqon} setSQON={setSQON} />
-                  <TopVariantsChart sqon={sqon} setSQON={setSQON} />
+                  {/* <TopVariantsChart sqon={sqon} setSQON={setSQON} /> */}
                   <GrowthChart sqon={sqon} setSQON={setSQON} />
                 </>
               )}
@@ -142,6 +142,14 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
                           />
                         ),
                         list: props => <TableList {...props} />,
+                      }}
+                      customTypeConfigs={{
+                        entity: {
+                          minWidth: 140,
+                        },
+                        list: {
+                          minWidth: 160,
+                        },
                       }}
                       index={props.index}
                       graphqlField={props.index}

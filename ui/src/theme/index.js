@@ -110,15 +110,15 @@ const base = {
     oldCopper: '#724c31',
   },
   transparency: {
-    brandPrimary70: 'rgb(144,0,0,0.7)',
-    brandPrimary20: 'rgb(144,0,0,0.2)',
+    brandPrimary70: 'rgba(144,0,0,0.7)',
+    brandPrimary20: 'rgba(144,0,0,0.2)',
     yellowOrange20: 'rgba(253,171,64,0.2)',
     white70: 'rgba(255,255,255, 0.7)',
-    pelorousapprox20: 'rgb(69,179,195,0.2)',
+    pelorousapprox20: 'rgba(69,179,195,0.2)',
   },
   buttons: {
     primary: {
-      backgroundColor: 'rgb(144,0,0,0.7)',
+      backgroundColor: 'rgba(144,0,0,0.7)',
       color: 'white',
     },
     pillBase: css`
