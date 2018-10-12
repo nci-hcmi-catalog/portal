@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col } from 'theme/system';
 import Spinner from 'react-spinkit';
 import { QuickSearch } from '@arranger/components/dist/Arranger';
+import TextInput from './TextInput';
 
 export default (
   { props, ...rest }, // super subtle bug due to `props` name collision
@@ -21,6 +22,7 @@ export default (
           {...rest}
           placeholder="Enter model name ..."
           searchTextDelimiters={[',']}
+          InputComponent={TextInput}
           LoadingIcon={
             <Spinner
               fadeIn="none"
