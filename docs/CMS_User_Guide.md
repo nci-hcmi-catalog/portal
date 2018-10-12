@@ -42,8 +42,6 @@ Content Administrators can  edit individual models from the web interface.
 1. Navigate to the [Model Management]() page.
 2. Click the "Add a Model" button above the model management table on the right side. You will be navigated to a new model entry form. 
 3. Enter the name of the model in the correct format in the first form box.  
-
-	> Note: You _must_ save the model with at least a name before 
 4. Fill in the rest of the form fields. 
 
 	> Note: Each of the form fields has a set of validations.  Validation messages on the field appear if incorrect data is entered.  Please refer to the [data dictionary](#data-dictionary) for individual field validation rules.
@@ -52,8 +50,10 @@ Content Administrators can  edit individual models from the web interface.
 **To edit a model:**
 1. Navigate to the [Model Management]() page.
 2. Find the correct model in the model management table and click the "Edit" button in the far right. column.
- 
- {{{And explain how to add a single model - at least the part where they click the button and fill out the details form. Also how they need to save the name of the model at least before adding images and variants.}}}}
+3. Adjust form fields on the model edit page as desired. 
+4. After you have completed editing the model, there are two options:
+	- **Save:** By selecting Save, the changes will be saved to the database but will not be visible on the searchable catalog if the model is already published. 
+	- **Publish:**  By selecting Publish, the changes will will be saved to the database and the  immediately available on the public searchable catalog
  
 #### [Add Images to a Model](#how-to-add-images)
 Images are added to a model by using the image uploader on the Edit Model page. 
