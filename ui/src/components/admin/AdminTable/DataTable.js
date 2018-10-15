@@ -7,6 +7,9 @@ import checkboxHOC from 'react-table/lib/hoc/selectTable';
 
 const EnhancedReactTable = checkboxHOC(ReactTable);
 
+const defaultFilterFunc = (cellValue, filterValue) =>
+  `${cellValue}`.toLowerCase().includes(filterValue.toLowerCase());
+
 export default ({
   state,
   state: { isLoading, page, pageSize, data, rowCount, selection, filterValue },
@@ -28,11 +31,12 @@ export default ({
           filterValue === ''
             ? data
             : data.filter(
-                d =>
-                  Object.values(d)
-                    .filter(d => typeof d === 'string')
-                    .map(d => d.toLowerCase().includes(state.filterValue.toLowerCase()))
-                    .filter(v => v).length > 0,
+                row =>
+                  // filter only based on visible columns
+                  tableColumns.filter(tableCol =>
+                    // apply each column's filter or a default filter if col filter is not defined
+                    (tableCol.filter || defaultFilterFunc)(row[tableCol.accessor], filterValue),
+                  ).length > 0,
               )
         }
         showPagination={rowCount > pageSize}

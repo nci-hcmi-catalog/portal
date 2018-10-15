@@ -10,6 +10,8 @@ export const schemaArr = [
   {
     displayName: 'Status',
     accessor: 'status',
+    filter: (cellValue, filterValue) =>
+      cellValue.toLowerCase().startsWith(filterValue.toLowerCase()),
   },
   {
     displayName: 'CreatedAt',

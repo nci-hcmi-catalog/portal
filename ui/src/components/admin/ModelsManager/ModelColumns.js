@@ -83,6 +83,8 @@ const modelManagerCustomColumns = [
   {
     Header: 'Status',
     accessor: 'status',
+    filter: (cellValue, filterValue) =>
+      cellValue.toLowerCase().startsWith(filterValue.toLowerCase()),
     Cell: row => {
       let statusValue = (row.value || 'Unpublished').toLowerCase();
       if (statusValue === 'unpublished changes') {
