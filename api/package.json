@@ -16,8 +16,7 @@
     "dotenv": "^5.0.1",
     "elasticsearch": "^14.0.0",
     "express-inspector": "^0.3.1",
-    "fs": "^0.0.1-security",
-    "remove": "^0.1.5"
+    "fs": "^0.0.1-security"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.35",
