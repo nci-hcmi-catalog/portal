@@ -4,7 +4,9 @@ import { Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arra
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
 import SplitPane from 'react-split-pane';
 
-import searchStyles from 'theme/searchStyles';
+import { SelectedModelsContext } from 'providers/SelectedModels';
+
+import LastUpdatedDate from './LastUpdatedDate';
 import ModelNameSearch from 'components/ModelNameSearch';
 import PrimarySiteChart from 'components/charts/PrimarySiteChart';
 import GrowthChart from 'components/charts/GrowthChart';
@@ -12,9 +14,10 @@ import TableEntity from 'components/TableEntity';
 import TableList from 'components/TableList';
 import ShareButton from 'components/ShareButton';
 import ModelList from 'components/ModelList';
+import TextInput from './TextInput';
+
+import searchStyles from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
-import { SelectedModelsContext } from 'providers/SelectedModels';
-import LastUpdatedDate from './LastUpdatedDate';
 
 let stable = true;
 
@@ -45,6 +48,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
                   graphqlField={props.index}
                   componentProps={{
                     getTermAggProps: () => ({ maxTerms: 4 }),
+                    InputComponent: TextInput,
                   }}
                 />
               </>
@@ -153,6 +157,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
                       }}
                       index={props.index}
                       graphqlField={props.index}
+                      InputComponent={TextInput}
                       columnDropdownText="Columns"
                       exportTSVText="Export All"
                       fieldTypesForFilter={['text', 'keyword', 'id']}

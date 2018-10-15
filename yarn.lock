@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@arranger/components@0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-0.4.2.tgz#70aedd3379da3383c7651b69dde13fb3fed57818"
+"@arranger/components@0.5.8":
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-0.5.8.tgz#4fba2d6d34f3a9ac663bdf143cba6b9a621d1d66"
   dependencies:
-    "@arranger/mapping-utils" "^0.4.2"
+    "@arranger/mapping-utils" "^0.5.8"
     ajv "^6.1.1"
     babel-polyfill "^6.26.0"
     classnames "^2.2.5"
@@ -54,11 +54,11 @@
     node-fetch "^2.0.0"
     uuid "^3.2.1"
 
-"@arranger/mapping-utils@^0.4.2":
-  version "0.4.17"
-  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.4.17.tgz#7c84653a3d516a282ad7563ad102cc2e8c122402"
+"@arranger/mapping-utils@^0.5.8":
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.5.8.tgz#f308500d1b797246d320e3186d9d073b9540c222"
   dependencies:
-    "@arranger/middleware" "^0.4.17"
+    "@arranger/middleware" "^0.5.8"
     babel-polyfill "^6.26.0"
     elasticsearch "^14.0.0"
     graphql-fields "^1.0.2"
@@ -66,9 +66,9 @@
     node-fetch "^2.0.0"
     uuid "^3.2.1"
 
-"@arranger/middleware@^0.4.17":
-  version "0.4.17"
-  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.4.17.tgz#1dd605d760b60eb7f937fc2053de6a22f0e91841"
+"@arranger/middleware@^0.4.19":
+  version "0.4.19"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.4.19.tgz#ba4070e1f2426cf26e2e007e90914be3fb684d3e"
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
@@ -79,9 +79,9 @@
     utf8 "^3.0.0"
     winston "^2.4.0"
 
-"@arranger/middleware@^0.4.19":
-  version "0.4.19"
-  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.4.19.tgz#ba4070e1f2426cf26e2e007e90914be3fb684d3e"
+"@arranger/middleware@^0.5.8":
+  version "0.5.8"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.5.8.tgz#4e130c015308f90ddda813c9bb78e8a95ec3cfb1"
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
