@@ -21,7 +21,7 @@ export default ({
   return (
     <div css={searchStyles}>
       <TableComponent
-        minRows={1}
+        minRows={0}
         loading={isLoading}
         columns={tableColumns}
         data={data}

@@ -249,7 +249,7 @@ const VariantTable = ({ type, modelName, columns }) => (
             loading={state.loading}
             showPagination={sortedData.length > 10}
             defaultPageSize={state.pageSize}
-            minRows={state.pageSize}
+            minRows={0}
             page={state.page}
             PaginationComponent={props => {
               setState({
