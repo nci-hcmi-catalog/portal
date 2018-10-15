@@ -74,7 +74,7 @@ export default () => (
           text-shadow: 0 0 4.9px rgba(50, 50, 50, 0.44);
         `}
       >
-        Models Catalog
+        Searchable Models Catalog
       </div>
     </Link>
   </div>
