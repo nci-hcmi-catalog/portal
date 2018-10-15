@@ -25,10 +25,16 @@ export const modelEditUrlBase = '/admin/model';
 export default ({ location: { pathname } }) => (
   <AdminNav>
     <div>
-      <NavLink active={isNavLinkActive(pathname, modelsNavPaths)} to={manageModelsUrlBase}>
+      <NavLink
+        active={isNavLinkActive(pathname, modelsNavPaths) ? `true` : undefined}
+        to={manageModelsUrlBase}
+      >
         Model Management
       </NavLink>
-      <NavLink active={isNavLinkActive(pathname, usersNavPaths)} to={manageUsersUrlBase}>
+      <NavLink
+        active={isNavLinkActive(pathname, usersNavPaths) ? `true` : undefined}
+        to={manageUsersUrlBase}
+      >
         User Management
       </NavLink>
     </div>

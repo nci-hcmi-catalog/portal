@@ -58,7 +58,7 @@ const modelManagerCustomColumns = [
       return (
         <Popup
           trigger={() => <MomentReact fromNow>{value}</MomentReact>}
-          position="top"
+          position="top center"
           offset={0}
           on="hover"
           mouseLeaveDelay={30}
@@ -95,11 +95,11 @@ const modelManagerCustomColumns = [
   },
   {
     Header: 'Actions',
-    accessor: 'name', 
+    accessor: 'name',
     Cell: ({ original: { name, status } }) => {
       return (
         <Actions>
-          <ActionLinkPill secondary marginRight="6px" to={modelEditUrlBase + '/' + name}>
+          <ActionLinkPill secondary={`true`} to={modelEditUrlBase + '/' + name}>
             <AdminEditPencilIcon
               css={`
                 width: 12px;
