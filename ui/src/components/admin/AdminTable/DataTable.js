@@ -35,7 +35,7 @@ export default ({
                     .filter(v => v).length > 0,
               )
         }
-        showPagination={rowCount > 10}
+        showPagination={rowCount > pageSize}
         className={`-striped -highlight`}
         defaultPageSize={pageSize}
         pageSize={pageSize}
@@ -47,7 +47,7 @@ export default ({
           <CustomPagination
             {...state}
             {...{
-              pages: rowCount / pageSize,
+              pages: Math.ceil(rowCount / pageSize),
               showPageSizeOptions: true,
               pageSizeOptions: [10, 20, 50, 100],
               showPageJump: rowCount > pageSize,
