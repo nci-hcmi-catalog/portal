@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 
 // todo: props to pass in text displayed on right side
 
-let Gradient = p => (
+const headerHeight = '88px';
+
+const Gradient = p => (
   <div
     css={`
-      height: 88px;
+      height: ${headerHeight};
       position: absolute;
       width: 100%;
       ${p.xcss};
@@ -17,7 +19,11 @@ let Gradient = p => (
 );
 
 export default () => (
-  <>
+  <div
+    css={`
+      border-bottom: 6px solid #fff;
+    `}
+  >
     <Gradient
       xcss={`
        background-image: -webkit-gradient(
@@ -34,7 +40,7 @@ export default () => (
         display: flex;
         background: #fff0ce;
         background-image: url(${bannerPath});
-        height: 88px;
+        height: ${headerHeight};
         background-repeat: no-repeat;
         background-position: center center;
         background-size: cover;
@@ -71,5 +77,5 @@ export default () => (
         Models Catalog
       </div>
     </Link>
-  </>
+  </div>
 );

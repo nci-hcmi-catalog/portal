@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { Pill } from 'theme/adminControlsStyles';
+import { HoverPill } from 'theme/adminControlsStyles';
 import { Footer } from 'theme/adminModalStyles';
 
 export default ({ onUploadClick, modalState }) => (
   <Footer>
-    <Pill secondary onClick={() => modalState.setModalState({ component: null })}>
+    <HoverPill secondary onClick={() => modalState.setModalState({ component: null })}>
       Cancel
-    </Pill>
-    <Pill primary onClick={onUploadClick}>
+    </HoverPill>
+    <HoverPill primary onClick={onUploadClick}>
       Upload
-    </Pill>
+    </HoverPill>
   </Footer>
 );

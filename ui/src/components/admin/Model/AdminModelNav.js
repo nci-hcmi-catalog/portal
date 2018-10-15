@@ -1,4 +1,6 @@
 import React from 'react';
+import Tooltip from '../ToolTip';
+
 import { ModelSingleContext } from './ModelSingleController';
 import {
   AdminModelNav,
@@ -6,6 +8,7 @@ import {
   navItemIcon,
   brandPrimary,
   activeNavItemIconColor,
+  disabledNavItemIconColor,
 } from 'theme/adminModelStyles';
 import AdminModelEditIcon from 'icons/AdminModelEditIcon';
 import AdminModelImageIcon from 'icons/AdminModelImageIcon';
@@ -16,31 +19,72 @@ export default () => (
     {({
       state: {
         ui: { activeTab },
+        data: { response },
       },
       setUIActiveTab,
-    }) => (
-      <AdminModelNav>
-        <NavItem active={activeTab === 'edit'} onClick={() => setUIActiveTab('edit')}>
-          <AdminModelEditIcon
-            fill={activeTab === 'edit' ? activeNavItemIconColor : brandPrimary}
-            css={navItemIcon}
-          />Edit
-        </NavItem>
+    }) => {
+      const modelExists = response.name || false;
 
-        <NavItem active={activeTab === 'images'} onClick={() => setUIActiveTab('images')}>
-          <AdminModelImageIcon
-            fill={activeTab === 'images' ? activeNavItemIconColor : brandPrimary}
-            css={navItemIcon}
-          />Images
-        </NavItem>
+      return (
+        <AdminModelNav>
+          <NavItem active={activeTab === 'edit'} onClick={() => setUIActiveTab('edit')}>
+            <AdminModelEditIcon
+              fill={activeTab === 'edit' ? activeNavItemIconColor : brandPrimary}
+              css={navItemIcon}
+            />Edit
+          </NavItem>
 
-        <NavItem active={activeTab === 'variants'} onClick={() => setUIActiveTab('variants')}>
-          <AdminModelVariantsIcon
-            fill={activeTab === 'variants' ? activeNavItemIconColor : brandPrimary}
-            css={navItemIcon}
-          />Variants
-        </NavItem>
-      </AdminModelNav>
-    )}
+          <Tooltip
+            trigger={() => (
+              <NavItem
+                active={activeTab === 'images'}
+                disabled={!modelExists}
+                onClick={() => modelExists && setUIActiveTab('images')}
+              >
+                <AdminModelImageIcon
+                  fill={
+                    !modelExists
+                      ? disabledNavItemIconColor
+                      : activeTab === 'images'
+                        ? activeNavItemIconColor
+                        : brandPrimary
+                  }
+                  css={navItemIcon}
+                />Images
+              </NavItem>
+            )}
+            disabled={modelExists}
+            offsetY={-16}
+          >
+            Please save the model first
+          </Tooltip>
+
+          <Tooltip
+            trigger={() => (
+              <NavItem
+                active={activeTab === 'variants'}
+                disabled={!modelExists}
+                onClick={() => modelExists && setUIActiveTab('variants')}
+              >
+                <AdminModelVariantsIcon
+                  fill={
+                    !modelExists
+                      ? disabledNavItemIconColor
+                      : activeTab === 'variants'
+                        ? activeNavItemIconColor
+                        : brandPrimary
+                  }
+                  css={navItemIcon}
+                />Variants
+              </NavItem>
+            )}
+            disabled={modelExists}
+            offsetY={-16}
+          >
+            Please save the model first
+          </Tooltip>
+        </AdminModelNav>
+      );
+    }}
   </ModelSingleContext.Consumer>
 );

@@ -3,8 +3,8 @@ import base from 'theme';
 import { Row, Col } from 'theme/system';
 
 const {
-  fonts: { libreFranklin },
-  keyedPalette: { brandPrimary, lightPorcelain, porcelain, white },
+  fonts: { libreFranklin, openSans },
+  keyedPalette: { brandPrimary, lightPorcelain, porcelain, white, mineShaft },
 } = base;
 
 const bkgColour = lightPorcelain;
@@ -20,7 +20,7 @@ export const AdminContainer = styled(Col)`
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: ${({ p }) => p || '0 20px'};
   label: admin-container;
 `;
 
@@ -52,6 +52,18 @@ export const AdminHeaderH1 = styled('h1')`
   font-stretch: normal;
   margin: 0;
   label: admin-header-h1;
+`;
+
+export const AdminHeaderH3 = styled('h3')`
+  font-family: ${openSans};
+  line-height: 1;
+  color: ${mineShaft};
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  margin: 0;
+  label: admin-header-h3;
 `;
 
 export const AdminHeaderBlock = styled('div')`

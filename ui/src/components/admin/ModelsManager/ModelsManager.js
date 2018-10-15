@@ -12,7 +12,7 @@ import ModelIcon from '../../../icons/ModelIcon';
 import AdminPlusIcon from '../../../icons/AdminPlusIcon';
 
 import { AdminContainer, AdminHeader, AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
-import { Pill, LinkPill } from 'theme/adminControlsStyles';
+import { HoverPill, LinkPill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 
@@ -38,7 +38,7 @@ const content = () => {
               {({ uploadModelsFromSheet }) => (
                 <ModalStateContext.Consumer>
                   {modalState => (
-                    <Pill
+                    <HoverPill
                       primary
                       marginRight="10px"
                       onClick={() =>
@@ -52,7 +52,7 @@ const content = () => {
                       }
                     >
                       <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add Bulk
-                    </Pill>
+                    </HoverPill>
                   )}
                 </ModalStateContext.Consumer>
               )}

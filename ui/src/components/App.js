@@ -1,10 +1,10 @@
 import 'babel-polyfill';
 import React from 'react';
 import Component from 'react-component-component';
+import { injectGlobal } from 'emotion';
 
 import globals from 'utils/globals';
 
-import { ThemeProvider } from 'emotion-theming';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Dashboard as ArrangerDashboard } from '@arranger/components';
 
@@ -13,12 +13,12 @@ import Model from 'components/Model';
 import Admin from 'components/admin';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
-import theme from 'theme';
 import Modal from 'components/modals/Modal';
+import WarningModal from 'components/modals/WarningModal';
 
 import RootProvider from 'providers/RootProvider';
 import { ModalStateContext } from 'providers/ModalState';
-import WarningModal from 'components/modals/WarningModal';
+import base from 'theme';
 
 // issue with react-router and react context provider workaround:
 // Router and Context must be rendered in seperate render calls, else
@@ -64,13 +64,19 @@ const ProvidedRoutes = () => (
   </ModalStateContext.Consumer>
 );
 
+// Global CSS
+injectGlobal`
+  body, div {
+    /* Overwrite arranger's Montserrat fonts */
+    font-family: ${base.fonts.openSans};
+  }
+`;
+
 export default () => (
-  <ThemeProvider theme={theme}>
-    <RootProvider>
-      <Router>
-        <ProvidedRoutes />
-      </Router>
-      <Modal />
-    </RootProvider>
-  </ThemeProvider>
+  <RootProvider>
+    <Router>
+      <ProvidedRoutes />
+    </Router>
+    <Modal />
+  </RootProvider>
 );

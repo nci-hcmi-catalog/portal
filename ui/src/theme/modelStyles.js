@@ -1,11 +1,17 @@
 import { css } from 'emotion';
+import {
+  brandPrimaryHighlightHover,
+  brandPrimaryColourHover,
+  whiteHover,
+  whiteButtonHover,
+  brandPrimaryButtonHover,
+} from 'theme/hoverStyles';
 import plusWhite from 'assets/icon-plus-white.svg';
 import selectedModel from 'assets/icon-selected-model.svg';
 
 export default css`
   .model-bar {
-    background-color: rgb(144, 0, 0, 0.7);
-    border-top: 6px solid #fff;
+    background-color: rgba(144, 0, 0, 0.7);
     color: #ffffff;
     align-items: center;
     justify-content: space-between;
@@ -26,7 +32,7 @@ export default css`
 
   .model-bar .clickable {
     cursor: pointer;
-    color: #fff;
+    ${whiteHover};
     text-decoration: none;
     font-family: 'Libre Franklin';
     font-size: 12px;
@@ -65,12 +71,11 @@ export default css`
   }
 
   .pagination a {
-    color: #900000;
     text-decoration: none;
     font-family: 'Libre Franklin';
     font-size: 12px;
     padding: 6px 12px;
-    transition: opacity 0.5s ease-in;
+    ${brandPrimaryColourHover};
   }
 
   .model-section {
@@ -119,13 +124,12 @@ export default css`
   }
 
   .model-details-header .select-model {
-    color: #fff;
     background: url(${plusWhite}) no-repeat;
     background-size: 16px 16px;
     background-position: 23px center;
     padding: 0 24px 0 46px;
-    background-color: #d3494d;
     border: solid 1px #cacbcf;
+    ${brandPrimaryButtonHover};
   }
 
   .model-details-header .select-model.selected {
@@ -230,7 +234,7 @@ export default css`
     line-height: 1.67;
     letter-spacing: normal;
     text-align: left;
-    color: #724c31;
+    ${brandPrimaryColourHover};
     text-decoration: none;
     text-transform: uppercase;
   }
@@ -259,6 +263,7 @@ export default css`
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    ${whiteButtonHover};
   }
 
   .toolbar {
@@ -288,7 +293,6 @@ export default css`
     padding: 18px 40px;
     margin-right: 10px;
     background-color: #ebf1f3;
-    color: #900000;
     font-family: 'Libre Franklin';
     font-size: 14px;
     font-weight: 600;
@@ -300,6 +304,7 @@ export default css`
     position: relative;
     top: 1px;
     z-index: 0;
+    ${brandPrimaryHighlightHover};
   }
 
   .tabs-title.active-tab {
@@ -332,10 +337,10 @@ export default css`
   }
 
   .ReactTable a {
-    color: #900000;
+    ${brandPrimaryHighlightHover};
   }
 
   a.external-link {
-    color: #900000;
+    ${brandPrimaryHighlightHover};
   }
 `;

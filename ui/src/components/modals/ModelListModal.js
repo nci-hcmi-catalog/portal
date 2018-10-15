@@ -11,6 +11,8 @@ import { SelectedModelsContext } from 'providers/SelectedModels';
 import { ModalStateContext } from 'providers/ModalState';
 
 import { Row } from 'theme/system';
+import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
+
 import DoubleArrowRightIcon from 'icons/DoubleArrowRightIcon';
 import ModelPlaceholderIcon from 'icons/ModelPlaceholderIcon';
 import TrashIcon from 'icons/TrashIcon';
@@ -66,7 +68,7 @@ export default () => (
                     <>
                       <div className="model-list-drawer-header">
                         <h2 onClick={() => modalState.setModalState({ component: null })}>
-                          <DoubleArrowRightIcon width={18} height={15} />
+                          <DoubleArrowRightIcon />
                           My Model List{hasSelected && (
                             <span className="count">{selectedCount}</span>
                           )}
@@ -113,12 +115,11 @@ export default () => (
                                     </p>
                                   </div>
                                   <TrashIcon
-                                    width={13}
-                                    height={17}
                                     onClick={() => selected.toggleModel(model.id)}
                                     css={`
                                       cursor: pointer;
                                       margin: 0 0 0 10px;
+                                      ${brandPrimaryHighlightHover};
                                     `}
                                   />
                                 </div>

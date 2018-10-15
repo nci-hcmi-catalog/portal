@@ -64,7 +64,7 @@ const chartsPalette = [
   '#de376f',
 ];
 
-export default {
+const base = {
   fonts: {
     openSans: openSans,
     libreFranklin: libreFranklin,
@@ -76,6 +76,7 @@ export default {
     // Colour names from http://chir.ag/projects/name-that-color/
     cherry: palette[0],
     brandPrimary: palette[1],
+    brandPrimaryHighlight: palette[11],
     crimson: palette[2],
     carnation: palette[3],
     froly: palette[4],
@@ -92,6 +93,7 @@ export default {
     white: '#ffffff',
     mineShaft: '#323232',
     sienna: '#d57046',
+    burntSienna: '#EC595D',
     pelorousapprox: '#45b3c3',
     dustyGray: '#969696',
     iron: '#cdd4d9',
@@ -105,17 +107,18 @@ export default {
     silverChalice: '#A8A8A8',
     dawnPink: '#F3E4E4',
     oldLace: '#FDF4E9',
+    oldCopper: '#724c31',
   },
   transparency: {
-    brandPrimary70: 'rgb(144,0,0,0.7)',
-    brandPrimary20: 'rgb(144,0,0,0.2)',
+    brandPrimary70: 'rgba(144,0,0,0.7)',
+    brandPrimary20: 'rgba(144,0,0,0.2)',
     yellowOrange20: 'rgba(253,171,64,0.2)',
     white70: 'rgba(255,255,255, 0.7)',
-    pelorousapprox20: 'rgb(69,179,195,0.2)',
+    pelorousapprox20: 'rgba(69,179,195,0.2)',
   },
   buttons: {
     primary: {
-      backgroundColor: 'rgb(144,0,0,0.7)',
+      backgroundColor: 'rgba(144,0,0,0.7)',
       color: 'white',
     },
     pillBase: css`
@@ -151,3 +154,55 @@ export default {
     },
   },
 };
+
+export default base;
+
+export const transitionRollover = (transitionSpeed = '0.25s') => css`
+  transition: opacity ${transitionSpeed} ease, background-color ${transitionSpeed} ease,
+    color ${transitionSpeed} ease, border-color ${transitionSpeed} ease;
+
+  &:hover {
+    transition: opacity 0s, background-color 0s, color 0s, border-color 0s;
+  }
+`;
+
+export const colourRollover = (baseColour, hoverColour) =>
+  css`
+    color: ${baseColour};
+    text-decoration: none;
+    &:hover {
+      color: ${hoverColour};
+    }
+  `;
+
+export const bkgRollover = (baseColour, hoverColour) =>
+  css`
+    background-color: ${baseColour};
+
+    &:hover {
+      background-color: ${hoverColour};
+    }
+  `;
+
+export const svgRollover = (baseColour, hoverColour) =>
+  css`
+    fill: ${baseColour} !important;
+
+    &:hover {
+      fill: ${hoverColour} !important;
+    }
+  `;
+
+export const softTransitionRollover = (baseColour, hoverColour, transitionSpeed) =>
+  css`
+    ${transitionRollover(transitionSpeed)};
+    ${colourRollover(baseColour, hoverColour)};
+    ${svgRollover(baseColour, hoverColour)};
+  `;
+
+export const softTransitionRolloverBkg = (baseColour, hoverColour, transitionSpeed) =>
+  css`
+    ${transitionRollover(transitionSpeed)};
+    ${bkgRollover(baseColour, hoverColour)};
+    ${svgRollover(baseColour, hoverColour)};
+  `;

@@ -6,9 +6,11 @@ import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
 import DeleteIcon from 'icons/TrashIcon';
 import { ModalStateContext } from 'providers/ModalState';
 import { schemaArr } from '../schema/user';
-import { ActionPill, Actions, ToolbarText } from '../../../theme/adminTableStyles';
 import UserForm from './UserForm';
+import { ActionPill, Actions, ToolbarText } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
+import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
+
 
 const selectedColumns = ['name', 'email', 'status', 'createdAt', 'updatedAt'];
 
@@ -118,6 +120,7 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
                   width: 12px;
                   height: 12px;
                   font-weight: normal;
+                  ${brandPrimaryHighlightHover};
                 `}
               />
               Delete

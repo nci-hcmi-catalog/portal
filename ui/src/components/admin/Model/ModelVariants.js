@@ -9,8 +9,9 @@ import { ModelVariantColumns as tableColumns } from './ModelVariantColumns';
 
 import AdminPlusIcon from '../../../icons/AdminPlusIcon';
 
-import { AdminContainer, AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
-import { Pill } from 'theme/adminControlsStyles';
+import { AdminContainer, AdminHeader, AdminHeaderH3, AdminHeaderBlock } from 'theme/adminStyles';
+import { FormHeader } from 'theme/adminFormStyles';
+import { HoverPill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 
@@ -26,64 +27,76 @@ export default ({ data: { name, variants } }) => {
   const type = 'Variants';
 
   return (
-    <ModelSingleContext.Consumer>
-      {({
-        state: { variantTable },
-        attachVariants,
-        variantTableControls: {
-          onFilterValueChange,
-          onPageChange,
-          onPageSizeChange,
-          toggleSelection,
-          toggleAll,
-        },
-      }) => (
-        <AdminContainer>
-          <AdminHeader>
-            <h3>Variant Data</h3>
-            <AdminHeaderBlock>
-              <ModalStateContext.Consumer>
-                {modalState => (
-                  <Pill
-                    primary
-                    marginRight="10px"
-                    onClick={() =>
-                      modalState.setModalState({
-                        component: (
-                          <BulkUploader
-                            type={'variant'}
-                            onUpload={(sheetsURL, overwrite) =>
-                              attachVariants(sheetsURL, overwrite, name)
-                            }
-                          />
-                        ),
-                        shouldCloseOnOverlayClick: true,
-                        styles: AdminModalStyle,
-                      })
-                    }
-                  >
-                    <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add Variants
-                  </Pill>
-                )}
-              </ModalStateContext.Consumer>
-            </AdminHeaderBlock>
-          </AdminHeader>
-          <Table>
-            <Toolbar {...{ state: variantTable, type, onFilterValueChange }} />
-            <DataTable
-              {...{
-                state: { ...variantTable, data },
-                variantTable,
-                tableColumns,
-                onPageChange,
-                onPageSizeChange,
-                toggleSelection,
-                toggleAll,
-              }}
-            />
-          </Table>
-        </AdminContainer>
-      )}
-    </ModelSingleContext.Consumer>
+    <>
+      <FormHeader>
+        <h2>Variants</h2>
+      </FormHeader>
+      <ModelSingleContext.Consumer>
+        {({
+          state: { variantTable },
+          attachVariants,
+          variantTableControls: {
+            onFilterValueChange,
+            onPageChange,
+            onPageSizeChange,
+            toggleSelection,
+            toggleAll,
+          },
+        }) => (
+          <AdminContainer p="18px 42px">
+            <AdminHeader>
+              <AdminHeaderH3>
+                {data.length > 0
+                  ? 'Variant Data'
+                  : 'Submit your variant data by selecting “Add Variants” and uploading a google sheet or a CSV file.'}
+              </AdminHeaderH3>
+              <AdminHeaderBlock>
+                <ModalStateContext.Consumer>
+                  {modalState => (
+                    <HoverPill
+                      primary
+                      marginRight="10px"
+                      onClick={() =>
+                        modalState.setModalState({
+                          component: (
+                            <BulkUploader
+                              type={'variant'}
+                              onUpload={(sheetsURL, overwrite) =>
+                                attachVariants(sheetsURL, overwrite, name)
+                              }
+                            />
+                          ),
+                          shouldCloseOnOverlayClick: true,
+                          styles: AdminModalStyle,
+                        })
+                      }
+                    >
+                      <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add
+                      Variants
+                    </HoverPill>
+                  )}
+                </ModalStateContext.Consumer>
+              </AdminHeaderBlock>
+            </AdminHeader>
+            {data.length > 0 && (
+              <Table marginBottom="0">
+                <Toolbar {...{ state: variantTable, type, onFilterValueChange }} />
+                <DataTable
+                  {...{
+                    state: { ...variantTable, data },
+                    variantTable,
+                    tableColumns,
+                    onPageChange,
+                    onPageSizeChange,
+                    toggleSelection,
+                    toggleAll,
+                  }}
+                />
+              </Table>
+            )}
+          </AdminContainer>
+        )}
+      </ModelSingleContext.Consumer>
+    </>
   );
 };

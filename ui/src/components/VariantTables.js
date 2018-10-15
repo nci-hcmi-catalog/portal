@@ -149,7 +149,13 @@ const VariantTable = ({ type, modelName, columns }) => (
         genes: (d.genes || '').join(', '),
         frequency: {
           display: (
-            <>
+            <div
+              css={`
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+              `}
+            >
               <Link
                 style={{ display: 'inline-block', width: '23px' }}
                 to={{
@@ -177,7 +183,7 @@ const VariantTable = ({ type, modelName, columns }) => (
                 2,
               )}
               %
-            </>
+            </div>
           ),
           export: `${(
             get(freqs, d.name, 0) /

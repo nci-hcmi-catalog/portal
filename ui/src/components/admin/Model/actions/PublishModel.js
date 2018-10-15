@@ -1,23 +1,38 @@
 import React from 'react';
+import Tooltip from '../../ToolTip';
+
 import { ModelSingleContext } from '../ModelSingleController';
-import { Pill } from 'theme/adminControlsStyles';
+
+import { HoverPill } from 'theme/adminControlsStyles';
 import AdminModelPublishIcon from 'icons/AdminModelPublishIcon';
 
 export default props => (
   <ModelSingleContext.Consumer>
     {({
       state: {
-        form: { isReadyToPublish, values },
+        form: { isReadyToPublish, values, errors },
       },
       publishForm,
     }) => (
-      <Pill
-        disabled={!isReadyToPublish}
-        onClick={() => isReadyToPublish && publishForm(values)}
-        {...props}
+      <Tooltip
+        trigger={() => (
+          <HoverPill
+            disabled={!isReadyToPublish}
+            onClick={() => isReadyToPublish && publishForm(values)}
+            {...props}
+          >
+            <AdminModelPublishIcon css={'margin-right: 10px;'} height={16} width={15} />Publish
+          </HoverPill>
+        )}
+        disabled={isReadyToPublish}
       >
-        <AdminModelPublishIcon css={'margin-right: 10px;'} height={16} width={15} />Publish
-      </Pill>
+        {Object.keys(errors).length > 0 || !values.name
+          ? 'Please complete all required fields before publishing'
+          : !isReadyToPublish
+            ? 'No new changes to publish'
+            : // If a user hovers for 1000 seconds ...
+              'Ready to Publish =)'}
+      </Tooltip>
     )}
   </ModelSingleContext.Consumer>
 );

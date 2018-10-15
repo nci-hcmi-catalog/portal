@@ -5,17 +5,19 @@ import { Link } from 'react-router-dom';
 import base from 'theme';
 import { Col } from 'theme/system';
 import { AdminContent, AdminHeaderH1 } from 'theme/adminStyles';
+import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 
 const {
   fonts: { libreFranklin },
-  keyedPalette: { brandPrimary, porcelain, white, mineShaft },
+  keyedPalette: { brandPrimary, porcelain, white, mineShaft, silver },
   transparency: { white70 },
 } = base;
 
 const borderColour = porcelain;
 const activeNavItemIconColor = mineShaft;
+const disabledNavItemIconColor = silver;
 
-export { brandPrimary, activeNavItemIconColor };
+export { brandPrimary, activeNavItemIconColor, disabledNavItemIconColor };
 
 export const AdminModelNav = styled(Col)`
   width: 164px;
@@ -23,7 +25,7 @@ export const AdminModelNav = styled(Col)`
 `;
 
 const activeNavItem = css`
-  color: ${activeNavItemIconColor};
+  color: ${mineShaft};
   background: ${white};
   border: solid 1px ${borderColour};
   border-right-color: ${white};
@@ -34,6 +36,16 @@ const activeNavItem = css`
   position: relative;
   width: 165px;
   label: admin-model-nav-item-active;
+
+  &:hover {
+    color: ${mineShaft};
+  }
+`;
+
+const disabledNavItem = css`
+  color: ${disabledNavItemIconColor};
+  cursor: not-allowed;
+  label: admin-model-nav-item-disabled;
 `;
 
 export const NavItem = styled('div')`
@@ -49,11 +61,12 @@ export const NavItem = styled('div')`
   line-height: 1.57;
   letter-spacing: normal;
   text-align: left;
-  color: ${brandPrimary};
   text-transform: uppercase;
   cursor: pointer;
   label: admin-model-nav-item;
-  ${props => props.active && activeNavItem};
+  ${brandPrimaryHighlightHover};
+  ${({ active }) => active && activeNavItem};
+  ${({ disabled }) => disabled && disabledNavItem};
 `;
 
 export const navItemIcon = css`
@@ -74,6 +87,7 @@ export const AdminModelContent = styled(AdminContent)`
   display: flex;
   flex-direction: column;
   width: calc(100% - 164px);
+  min-height: 416px;
   z-index: 1;
   padding: 7px 8px;
   label: admin-model-content;
@@ -85,7 +99,7 @@ export const ModelHeaderH1 = styled(AdminHeaderH1)`
 `;
 
 export const ModelHeaderBackLink = styled(Link)`
-  color: ${brandPrimary};
+  ${brandPrimaryHighlightHover};
   font-family: ${libreFranklin};
   font-size: 12px;
   font-weight: 500;

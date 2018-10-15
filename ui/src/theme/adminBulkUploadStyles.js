@@ -3,6 +3,7 @@ import { Row, Col } from 'theme/system';
 import { css } from 'emotion';
 import styled from 'react-emotion';
 import base from 'theme';
+import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 
 const {
   fonts: { libreFranklin, openSans },
@@ -137,9 +138,9 @@ export const BulkUploadTemplateLink = styled('a')`
   font-family: ${libreFranklin};
   font-size: 12px;
   font-weight: 500;
-  color: ${brandPrimary};
   text-decoration: none;
   text-transform: uppercase;
+  ${brandPrimaryHighlightHover};
   label: bulk-upload-template-link;
 `;
 
@@ -215,7 +216,7 @@ export const OverwriteWarning = styled('div')`
   margin-top: 20px;
 
   a {
-    color: ${brandPrimary};
     font-weight: bold;
+    ${brandPrimaryHighlightHover};
   }
 `;

@@ -12,7 +12,8 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
     alignItems="center"
     css={`
       position: relative;
-      width: 25%;
+      width: 48%; /* 25% when there are three charts */
+      max-width: 360px;
       height: 185px;
       padding: 16px 0 16px 0;
     `}

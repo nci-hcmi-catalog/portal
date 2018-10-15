@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import base from 'theme';
 import { Row } from 'theme/system';
-import { SmallPill } from 'theme/adminControlsStyles';
+import { SmallHoverPill } from 'theme/adminControlsStyles';
 
 const {
   keyedPalette: { white, shuttleGrey, iron, mystic, black, lightBlack, mineShaft, frenchGrey },
@@ -13,7 +13,7 @@ const {
 
 export const Table = styled('div')`
   width: 100%;
-  margin-bottom: 52px;
+  margin-bottom: ${({ marginBottom }) => marginBottom || '52px'};
   align-self: center;
   background: ${white};
   label: models-table-main;
@@ -35,7 +35,7 @@ const tableStatusBase = css`
   color: ${white};
 `;
 
-export const ActionPill = styled(SmallPill)`
+export const ActionPill = styled(SmallHoverPill)`
   font-size: 12px;
   font-weight: bold;
   line-height: 26px;
