@@ -35,6 +35,7 @@ const selectedColumns = [
   'tumor_histological_grade',
   'createdAt',
   'updatedAt',
+  'updatedBy',
 ];
 
 const actionAndClose = (action, close) => () => {
@@ -159,5 +160,5 @@ const modelManagerCustomColumns = [
 ];
 
 export const ModelTableColumns = columns
-  .filter(col => ['name', 'type'].includes(col.accessor))
+  .filter(col => ['name', 'type', 'updatedBy'].includes(col.accessor))
   .concat(modelManagerCustomColumns);

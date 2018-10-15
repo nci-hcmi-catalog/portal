@@ -110,7 +110,7 @@ export const schemaArr = [
   {
     displayName: 'UpdatedAt',
     accessor: 'updatedAt',
-  }
+  },
 ];
 
 export const schemaObj = schemaArr.reduce((acc, curr) => {
