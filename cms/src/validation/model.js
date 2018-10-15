@@ -30,13 +30,15 @@ yup.date().transform(function(value, originalValue) {
 const { string, number, array, object, date, boolean } = yup;
 
 const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis = '', fieldName = '') =>
-  string().oneOf(
-    (
-      clinicalTumorDiagnosisDependent[fieldName.toLowerCase()][
-        clinical_tumor_diagnosis.toLowerCase()
-      ] || []
-    ).concat(''), // allow empty value
-  );
+  string()
+    .nullable(true)
+    .oneOf(
+      (
+        clinicalTumorDiagnosisDependent[fieldName.toLowerCase()][
+          clinical_tumor_diagnosis.toLowerCase()
+        ] || []
+      ).concat([null, '']), // allow null values (to be removed by Mongoose schema set)
+    );
 
 const nameValidation = /HCM-\w{4}-\d{4}\.\w\d{2}$/;
 
@@ -67,8 +69,7 @@ export default object().shape({
     .oneOf(gender),
   race: string()
     .required()
-    .nullable()
-
+    .nullable(true)
     .oneOf(race),
   age_at_diagnosis: number()
     .required()
@@ -89,7 +90,7 @@ export default object().shape({
     'Field must follow TNM classification format: T0-T5, N0-N4, and M0-M2 ex. T0N1M2',
   ),
   neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
-  chemotherapeutic_drugs: boolean().nullable(),
+  chemotherapeutic_drugs: boolean().nullable(true),
   disease_status: string()
     .required()
 
@@ -116,23 +117,36 @@ export default object().shape({
     ),
   clinical_tumor_diagnosis: string()
     .required()
-
     .oneOf(clinicalTumorDiagnosis),
-  histological_type: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
-    makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'histological type'),
-  ),
-  clinical_stage_grouping: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
-    makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'clinical stage grouping'),
-  ),
-  site_of_sample_acquisition: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
-    makeClinicalTumorDiagnosisDependentSchema(
-      clinical_tumor_diagnosis,
-      'site of sample acquisition',
+  histological_type: string()
+    .nullable(true)
+    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+      makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'histological type'),
     ),
-  ),
-  tumor_histological_grade: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
-    makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'tumor histological grade'),
-  ),
+  clinical_stage_grouping: string()
+    .nullable(true)
+    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+      makeClinicalTumorDiagnosisDependentSchema(
+        clinical_tumor_diagnosis,
+        'clinical stage grouping',
+      ),
+    ),
+  site_of_sample_acquisition: string()
+    .nullable(true)
+    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+      makeClinicalTumorDiagnosisDependentSchema(
+        clinical_tumor_diagnosis,
+        'site of sample acquisition',
+      ),
+    ),
+  tumor_histological_grade: string()
+    .nullable(true)
+    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+      makeClinicalTumorDiagnosisDependentSchema(
+        clinical_tumor_diagnosis,
+        'tumor histological grade',
+      ),
+    ),
   licensing_required: boolean().required(),
   source_model_url: string().url(),
   source_sequence_url: string().url(),
@@ -157,8 +171,7 @@ export const saveValidation = object().shape({
   split_ratio: string().oneOf(splitRatio),
   gender: string().oneOf(gender),
   race: string()
-    .nullable()
-
+    .nullable(true)
     .oneOf(race),
   age_at_diagnosis: number(),
   age_at_sample_acquisition: number(),
@@ -166,7 +179,7 @@ export const saveValidation = object().shape({
   primary_site: string().oneOf(primarySites),
   tnm_stage: string(),
   neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
-  chemotherapeutic_drugs: boolean().nullable(),
+  chemotherapeutic_drugs: boolean().nullable(true),
   disease_status: string().oneOf(diseaseStatus),
   vital_status: string().oneOf(vitalStatus),
   therapy: array()
@@ -185,23 +198,41 @@ export const saveValidation = object().shape({
       `Molecular Characterizations can only be one of: ${molecularCharacterizations.join(', ')}`,
       arrItemIsOneOf(molecularCharacterizations),
     ),
-  clinical_tumor_diagnosis: string().oneOf(clinicalTumorDiagnosis),
+  clinical_tumor_diagnosis: string()
+    .nullable(true)
+    .notRequired()
+    .oneOf(clinicalTumorDiagnosis),
   histological_type: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
     makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'histological type'),
   ),
-  clinical_stage_grouping: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
-    makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'clinical stage grouping'),
-  ),
-  site_of_sample_acquisition: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
-    makeClinicalTumorDiagnosisDependentSchema(
-      clinical_tumor_diagnosis,
-      'site of sample acquisition',
+  clinical_stage_grouping: string()
+    .nullable(true)
+    .notRequired()
+    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+      makeClinicalTumorDiagnosisDependentSchema(
+        clinical_tumor_diagnosis,
+        'clinical stage grouping',
+      ),
     ),
-  ),
-  tumor_histological_grade: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
-    makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'tumor histological grade'),
-  ),
-  licensing_required: boolean().nullable(),
+  site_of_sample_acquisition: string()
+    .nullable(true)
+    .notRequired()
+    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+      makeClinicalTumorDiagnosisDependentSchema(
+        clinical_tumor_diagnosis,
+        'site of sample acquisition',
+      ),
+    ),
+  tumor_histological_grade: string()
+    .nullable(true)
+    .notRequired()
+    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+      makeClinicalTumorDiagnosisDependentSchema(
+        clinical_tumor_diagnosis,
+        'tumor histological grade',
+      ),
+    ),
+  licensing_required: boolean().nullable(true),
   source_model_url: string(),
   source_sequence_url: string(),
   updatedBy: string(),
