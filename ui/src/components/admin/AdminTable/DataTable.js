@@ -9,7 +9,7 @@ const EnhancedReactTable = checkboxHOC(ReactTable);
 
 export default ({
   state,
-  state: { isLoading, page, pageSize, data, rowCount, selection },
+  state: { isLoading, page, pageSize, data, rowCount, selection, filterValue },
   tableColumns,
   onPageChange,
   onPageSizeChange,
@@ -24,7 +24,17 @@ export default ({
         minRows={0}
         loading={isLoading}
         columns={tableColumns}
-        data={data}
+        data={
+          filterValue === ''
+            ? data
+            : data.filter(
+                d =>
+                  Object.values(d)
+                    .filter(d => typeof d === 'string')
+                    .map(d => d.toLowerCase().includes(state.filterValue.toLowerCase()))
+                    .filter(v => v).length > 0,
+              )
+        }
         showPagination={rowCount > 10}
         className={`-striped -highlight`}
         defaultPageSize={pageSize}

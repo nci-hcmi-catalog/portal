@@ -80,7 +80,7 @@ export default ({ isTableDataSynced, dataSyncCallback, baseUrl, deleteUser, save
     }}
   >
     {({ state, setState }) => {
-      const tableActions = generateTableActions(state, setState, state.data);
+      const tableActions = generateTableActions(setState, state.data);
       return (
         <Col>
           <Toolbar
