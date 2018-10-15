@@ -96,7 +96,6 @@ export default ({ modelName }) => (
                   <ShareButton
                     link={`${window.location.origin}/model/${queryState.model.name}`}
                     quote={`HCMI Model ${queryState.model.name}`}
-                    leftOffset="10px"
                   />
                   <SelectedModelsContext.Consumer>
                     {selected => {

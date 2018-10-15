@@ -49,12 +49,16 @@ const ItemRow = ({ xcss = '', ...props }) => (
   />
 );
 
-export default ({ link, error, quote, leftOffset = 0 }) => (
+export default ({ link, error, quote, leftOffset = '-121px' }) => (
   <Component initialState={{ copied: false }}>
     {({ state, setState }) => (
       <Downshift
         render={({ isOpen, toggleMenu }) => (
-          <div>
+          <div
+            css={`
+              position: relative;
+            `}
+          >
             <div className="pill" onClick={() => toggleMenu({}, () => setState({ copied: false }))}>
               <ShareIcon height={13} />Share
             </div>

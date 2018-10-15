@@ -95,11 +95,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
               graphqlField={props.index}
             />
             <div className="search-header-actions">
-              <ShareButton
-                link={`${window.location.origin}/`}
-                quote={`HCMI Search`}
-                leftOffset="-100px"
-              />
+              <ShareButton link={`${window.location.origin}/`} quote={`HCMI Search`} />
               <ModelList className="search-header-model-list" />
             </div>
           </Row>
