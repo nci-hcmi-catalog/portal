@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
 import { modelStatus } from '../helpers/modelStatus';
 
+// Used to remove values that are empty strings from document
+const deleteEmptyStrings = v => (v === null || v.length === 0 ? undefined : v);
+
 const FilesSchema = new mongoose.Schema({
   file_id: { type: String, es_indexed: true },
   file_name: { type: String, es_indexed: true },
@@ -37,10 +40,10 @@ export const ModelSchema = new mongoose.Schema(
     therapy: { type: [String], es_indexed: true },
     molecular_characterizations: { type: [String], es_indexed: true },
     clinical_tumor_diagnosis: { type: String, es_indexed: false },
-    histological_type: { type: String, es_indexed: false },
-    clinical_stage_grouping: { type: String, es_indexed: false },
-    site_of_sample_acquisition: { type: String, es_indexed: false },
-    tumor_histological_grade: { type: String, es_indexed: false },
+    histological_type: { type: String, set: deleteEmptyStrings, es_indexed: false },
+    clinical_stage_grouping: { type: String, set: deleteEmptyStrings, es_indexed: false },
+    site_of_sample_acquisition: { type: String, set: deleteEmptyStrings, es_indexed: false },
+    tumor_histological_grade: { type: String, set: deleteEmptyStrings, es_indexed: false },
     licensing_required: { type: Boolean, es_indexed: true },
     source_model_url: { type: String, es_indexed: true },
     source_sequence_url: { type: String, es_indexed: true },
