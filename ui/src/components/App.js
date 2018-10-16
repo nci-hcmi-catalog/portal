@@ -46,10 +46,14 @@ const ProvidedRoutes = () => (
                 exact
                 render={() => <Search version={state.version} index="models" />}
               />
-              <Route
-                path="/arranger"
-                render={({ match }) => <ArrangerDashboard basename={match.url} />}
-              />
+              {process.env.ENABLE_ADMIN ? (
+                <Route
+                  path="/arranger"
+                  render={({ match }) => <ArrangerDashboard basename={match.url} />}
+                />
+              ) : (
+                ''
+              )}
               <Route path="/admin" render={({ location }) => <Admin location={location} />} />
               <Route
                 path="/model/:modelName"

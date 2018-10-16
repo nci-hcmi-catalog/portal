@@ -11,8 +11,7 @@ import { ActionPill, Actions, ToolbarText } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 
-
-const selectedColumns = ['name', 'email', 'status', 'createdAt', 'updatedAt'];
+const selectedColumns = ['name', 'email', 'status', 'createdAt', 'updatedAt', 'updatedBy'];
 
 export const columns = schemaArr
   .filter(field => selectedColumns.indexOf(field.accessor) !== -1)
@@ -30,7 +29,7 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
       return (
         <Popup
           trigger={() => <Moment fromNow>{value}</Moment>}
-          position="top"
+          position="top center"
           offset={0}
           on="hover"
           mouseLeaveDelay={30}
@@ -57,7 +56,7 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
       return (
         <Popup
           trigger={() => <Moment fromNow>{value}</Moment>}
-          position="top"
+          position="top center"
           offset={0}
           on="hover"
           mouseLeaveDelay={30}
@@ -134,5 +133,5 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
 
 export const getUserTableColumns = ({ deleteUser, saveUser }) =>
   columns
-    .filter(col => ['name', 'email', 'status'].includes(col.accessor))
+    .filter(col => ['name', 'email', 'status', 'updatedBy'].includes(col.accessor))
     .concat(userManagerCustomColumns({ deleteUser, saveUser }));

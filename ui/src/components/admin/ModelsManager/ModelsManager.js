@@ -57,7 +57,7 @@ const content = () => {
                 </ModalStateContext.Consumer>
               )}
             </ModelManagerContext.Consumer>
-            <LinkPill primary to={modelEditUrlBase}>
+            <LinkPill primary={`true`} to={modelEditUrlBase}>
               <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add A Model
             </LinkPill>
           </AdminHeaderBlock>

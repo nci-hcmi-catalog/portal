@@ -35,6 +35,7 @@ const selectedColumns = [
   'tumor_histological_grade',
   'createdAt',
   'updatedAt',
+  'updatedBy',
 ];
 
 const actionAndClose = (action, close) => () => {
@@ -58,7 +59,7 @@ const modelManagerCustomColumns = [
       return (
         <Popup
           trigger={() => <MomentReact fromNow>{value}</MomentReact>}
-          position="top"
+          position="top center"
           offset={0}
           on="hover"
           mouseLeaveDelay={30}
@@ -82,6 +83,8 @@ const modelManagerCustomColumns = [
   {
     Header: 'Status',
     accessor: 'status',
+    filter: (cellValue, filterValue) =>
+      cellValue.toLowerCase().startsWith(filterValue.toLowerCase()),
     Cell: row => {
       let statusValue = (row.value || 'Unpublished').toLowerCase();
       if (statusValue === 'unpublished changes') {
@@ -95,11 +98,11 @@ const modelManagerCustomColumns = [
   },
   {
     Header: 'Actions',
-    accessor: 'name', 
+    accessor: 'name',
     Cell: ({ original: { name, status } }) => {
       return (
         <Actions>
-          <ActionLinkPill secondary marginRight="6px" to={modelEditUrlBase + '/' + name}>
+          <ActionLinkPill secondary={`true`} to={modelEditUrlBase + '/' + name}>
             <AdminEditPencilIcon
               css={`
                 width: 12px;
@@ -159,5 +162,5 @@ const modelManagerCustomColumns = [
 ];
 
 export const ModelTableColumns = columns
-  .filter(col => ['name', 'type'].includes(col.accessor))
+  .filter(col => ['name', 'type', 'updatedBy'].includes(col.accessor))
   .concat(modelManagerCustomColumns);

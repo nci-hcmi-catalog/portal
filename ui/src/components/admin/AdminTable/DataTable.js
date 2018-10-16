@@ -7,9 +7,12 @@ import checkboxHOC from 'react-table/lib/hoc/selectTable';
 
 const EnhancedReactTable = checkboxHOC(ReactTable);
 
+const defaultFilterFunc = (cellValue, filterValue) =>
+  `${cellValue}`.toLowerCase().includes(filterValue.toLowerCase());
+
 export default ({
   state,
-  state: { isLoading, page, pageSize, data, rowCount, selection },
+  state: { isLoading, page, pageSize, data, rowCount, selection, filterValue },
   tableColumns,
   onPageChange,
   onPageSizeChange,
@@ -21,11 +24,22 @@ export default ({
   return (
     <div css={searchStyles}>
       <TableComponent
-        minRows={1}
+        minRows={0}
         loading={isLoading}
         columns={tableColumns}
-        data={data}
-        showPagination={rowCount > 10}
+        data={
+          filterValue === ''
+            ? data
+            : data.filter(
+                row =>
+                  // filter only based on visible columns
+                  tableColumns.filter(tableCol =>
+                    // apply each column's filter or a default filter if col filter is not defined
+                    (tableCol.filter || defaultFilterFunc)(row[tableCol.accessor], filterValue),
+                  ).length > 0,
+              )
+        }
+        showPagination={rowCount > pageSize}
         className={`-striped -highlight`}
         defaultPageSize={pageSize}
         pageSize={pageSize}
@@ -37,7 +51,7 @@ export default ({
           <CustomPagination
             {...state}
             {...{
-              pages: rowCount / pageSize,
+              pages: Math.ceil(rowCount / pageSize),
               showPageSizeOptions: true,
               pageSizeOptions: [10, 20, 50, 100],
               showPageJump: rowCount > pageSize,
