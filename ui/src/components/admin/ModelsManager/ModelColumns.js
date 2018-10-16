@@ -2,6 +2,7 @@ import React from 'react';
 import Popup from 'reactjs-popup';
 import MomentReact from 'react-moment';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 import { ModelManagerContext } from './ModelManagerController';
 import { modelEditUrlBase } from '../AdminNav';
@@ -50,6 +51,19 @@ export const columns = schemaArr
     return field;
   });
 
+// create this as an array in order to concat it with rest of the columns
+// concatenation order of array decides the order of columns in table
+const nameColumn = [
+  {
+    Header: 'Name',
+    accessor: 'name',
+    Cell: row => (
+      <Link secondary={`true`} to={modelEditUrlBase + '/' + row.value}>
+        {row.value}
+      </Link>
+    ),
+  },
+];
 const modelManagerCustomColumns = [
   {
     Header: 'Updated',
@@ -161,6 +175,6 @@ const modelManagerCustomColumns = [
   },
 ];
 
-export const ModelTableColumns = columns
-  .filter(col => ['name', 'type', 'updatedBy'].includes(col.accessor))
+export const ModelTableColumns = nameColumn
+  .concat(columns.filter(col => ['type', 'updatedBy'].includes(col.accessor)))
   .concat(modelManagerCustomColumns);

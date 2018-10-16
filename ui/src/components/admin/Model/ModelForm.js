@@ -2,7 +2,8 @@ import React from 'react';
 import Component from 'react-component-component';
 import { withFormik, Field } from 'formik';
 import { ModelSingleContext } from './ModelSingleController';
-
+import MomentReact from 'react-moment';
+import moment from 'moment';
 import {
   FormComponent,
   FormInput,
@@ -71,6 +72,7 @@ const {
   licensing_required,
   source_model_url,
   source_sequence_url,
+  updatedAt,
 } = schemaObj;
 
 const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
@@ -130,7 +132,32 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
       >
         <FormContainer>
           <FormHeader>
-            <h2>Model Details</h2>
+            <h2
+              css={`
+                flex-grow: 1;
+              `}
+            >
+              Model Details
+            </h2>
+            {Object.keys(values).length > 0 && values[updatedAt.accessor] ? (
+              <div
+                css={`
+                  justify-content: right;
+                  font-size: 12px;
+                `}
+              >
+                <span>{`Updated `}</span>
+                <MomentReact
+                  parse="YYYY-MM-DD HH:mm"
+                  format="YYYY-MM-DD hh:mm a"
+                  tz={moment.tz.guess()}
+                >
+                  {values[updatedAt.accessor]}
+                </MomentReact>
+              </div>
+            ) : (
+              ''
+            )}
           </FormHeader>
           <FormSection>
             <FormCol>
@@ -341,11 +368,19 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
               />
 
               <FormComponent labelText={source_model_url.displayName}>
-                <Field name={source_model_url.accessor} component={FormInput} />
+                <Field
+                  name={source_model_url.accessor}
+                  component={FormInput}
+                  placeholder={`http://model_url.example.com`}
+                />
               </FormComponent>
 
               <FormComponent labelText={source_sequence_url.displayName}>
-                <Field name={source_sequence_url.accessor} component={FormInput} />
+                <Field
+                  name={source_sequence_url.accessor}
+                  component={FormInput}
+                  placeholder={`http://sequence_url.example.com`}
+                />
               </FormComponent>
             </FormCol>
           </FormSection>

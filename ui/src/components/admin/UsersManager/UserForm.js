@@ -64,7 +64,11 @@ const UserFormComponent = withFormik({
   displayName: 'UserForm',
 })(UserFormTemplate);
 
-const UserModal = ({ type, user = { name: '', email: '', status: '', id: '' }, saveUser }) => {
+const UserModal = ({
+  type,
+  user = { name: '', email: '', status: userStatus.active, id: '' },
+  saveUser,
+}) => {
   const actionTitle = 'add' === type ? `Add new` : `Edit`;
   return (
     <ModalStateContext.Consumer>
