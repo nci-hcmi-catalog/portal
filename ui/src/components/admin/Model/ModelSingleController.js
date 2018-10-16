@@ -46,6 +46,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
           variantTable: {
             selection: [],
             selectAll: false,
+            filterValue: '',
             minRows: 0,
             rowCount: 0,
             page: 0,
