@@ -46,44 +46,44 @@ const nameValidation = /HCM-\w{4}-\d{4}\.\w\d{2}$/;
 // must be satisfied, including all required fields
 export default object().shape({
   name: string()
-    .required()
+    .required('This is a required field')
     .matches(
       nameValidation,
       'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]',
     ),
   type: string()
-    .required()
+    .required('This is a required field')
 
     .oneOf(modelType),
   growth_rate: number()
-    .required()
+    .required('This is a required field')
     .integer()
     .min(1)
     .max(99),
   split_ratio: string()
-    .required()
+    .required('This is a required field')
     .oneOf(splitRatio),
   gender: string()
-    .required()
+    .required('This is a required field')
 
     .oneOf(gender),
   race: string()
-    .required()
+    .required('This is a required field')
     .nullable(true)
     .oneOf(race),
   age_at_diagnosis: number()
-    .required()
+    .required('This is a required field')
     .integer()
     .min(0)
     .max(99),
   age_at_sample_acquisition: number()
-    .required()
+    .required('This is a required field')
     .integer()
     .min(0)
     .max(99),
-  date_of_availability: date().required(),
+  date_of_availability: date().required('This is a required field'),
   primary_site: string()
-    .required()
+    .required('This is a required field')
     .oneOf(primarySites),
   tnm_stage: string().matches(
     /T[0-5]N[0-4]M[0-2]/,
@@ -92,11 +92,11 @@ export default object().shape({
   neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
   chemotherapeutic_drugs: boolean().nullable(true),
   disease_status: string()
-    .required()
+    .required('This is a required field')
 
     .oneOf(diseaseStatus),
   vital_status: string()
-    .required()
+    .required('This is a required field')
 
     .oneOf(vitalStatus),
   therapy: array()
@@ -116,7 +116,7 @@ export default object().shape({
       arrItemIsOneOf(molecularCharacterizations),
     ),
   clinical_tumor_diagnosis: string()
-    .required()
+    .required('This is a required field')
     .oneOf(clinicalTumorDiagnosis),
   histological_type: string()
     .nullable(true)
@@ -147,7 +147,7 @@ export default object().shape({
         'tumor histological grade',
       ),
     ),
-  licensing_required: boolean().required(),
+  licensing_required: boolean().required('This is a required field'),
   source_model_url: string().url(),
   source_sequence_url: string().url(),
   updatedBy: string(),
@@ -161,7 +161,7 @@ export default object().shape({
 // enforcing only the minimal set of conditions
 export const saveValidation = object().shape({
   name: string()
-    .required()
+    .required('This is a required field')
     .matches(
       nameValidation,
       'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]',

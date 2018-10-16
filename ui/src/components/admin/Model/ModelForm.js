@@ -139,7 +139,7 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
             >
               Model Details
             </h2>
-            {Object.keys(values).length > 0 ? (
+            {Object.keys(values).length > 0 && values[updatedAt.accessor] ? (
               <div
                 css={`
                   justify-content: right;
