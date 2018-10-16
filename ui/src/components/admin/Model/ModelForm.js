@@ -143,6 +143,7 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
               <div
                 css={`
                   justify-content: right;
+                  font-size: 12px;
                 `}
               >
                 <span>{`Updated `}</span>
@@ -367,11 +368,19 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
               />
 
               <FormComponent labelText={source_model_url.displayName}>
-                <Field name={source_model_url.accessor} component={FormInput} />
+                <Field
+                  name={source_model_url.accessor}
+                  component={FormInput}
+                  placeholder={`http://model_url.example.com`}
+                />
               </FormComponent>
 
               <FormComponent labelText={source_sequence_url.displayName}>
-                <Field name={source_sequence_url.accessor} component={FormInput} />
+                <Field
+                  name={source_sequence_url.accessor}
+                  component={FormInput}
+                  placeholder={`http://sequence_url.example.com`}
+                />
               </FormComponent>
             </FormCol>
           </FormSection>
