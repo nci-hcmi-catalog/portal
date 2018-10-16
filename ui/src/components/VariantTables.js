@@ -18,6 +18,12 @@ import { Row, Col } from 'theme/system';
 import FilterIcon from 'icons/FilterIcon';
 import ExportIcon from 'icons/ExportIcon';
 import SparkMeter from 'components/SparkMeter';
+import base from 'theme';
+import { AdminHeaderH3 } from 'theme/adminStyles';
+
+const {
+  keyedPalette: { lightPorcelain, frenchGrey },
+} = base;
 
 const VariantTable = ({ type, modelName, columns }) => (
   <Component
@@ -210,63 +216,91 @@ const VariantTable = ({ type, modelName, columns }) => (
       from = state.page * state.pageSize + 1,
       to = state.page * state.pageSize + state.pageSize,
       sortedData = state.filteredData.slice().sort((a, b) => b.frequency.raw - a.frequency.raw),
-    }) => (
-      <Col>
-        <Row className="toolbar" justifyContent="space-between">
-          <div>
-            {!state.loading &&
-              `Showing ${from} - ${to <= sortedData.length ? to : sortedData.length} of
+    }) =>
+      sortedData.length === 0 ? (
+        <Col>
+          <Row
+            justifyContent="center"
+            css={`
+              border: solid 1px ${frenchGrey};
+              background: white;
+            `}
+          >
+            <div
+              css={`
+                flex-grow: 0;
+                margin: 50px;
+              `}
+            >
+              <AdminHeaderH3
+                css={`
+                  background: ${lightPorcelain};
+                  padding: 20px;
+                `}
+              >
+                No variants available.
+              </AdminHeaderH3>
+            </div>
+          </Row>
+        </Col>
+      ) : (
+        <Col>
+          <Row className="toolbar" justifyContent="space-between">
+            <div>
+              {!state.loading &&
+                `Showing ${from} - ${to <= sortedData.length ? to : sortedData.length} of
             ${sortedData.length} Variants`}
-          </div>
-          <Row justifyContent="flex-end">
-            <TextInput
-              icon={<FilterIcon height={10} width={10} css={'margin: 0 0 0 5px;'} />}
-              type="text"
-              placeholder="Filter"
-              value={state.filterValue}
-              onChange={({ target: { value } }) => {
+            </div>
+            <Row justifyContent="flex-end">
+              <TextInput
+                icon={<FilterIcon height={10} width={10} css={'margin: 0 0 0 5px;'} />}
+                type="text"
+                placeholder="Filter"
+                value={state.filterValue}
+                onChange={({ target: { value } }) => {
+                  setState({
+                    filterValue: value,
+                  });
+                }}
+              />
+              <div
+                className="pill"
+                disabled={sortedData.length === 0}
+                style={{ marginLeft: '10px' }}
+                onClick={() => tsvDownloader(`${modelName}-${type}`, state.filteredData)}
+              >
+                <ExportIcon height={10} width={10} />
+                TSV
+              </div>
+            </Row>
+          </Row>
+          <div css={searchStyles}>
+            <ReactTable
+              className="-striped"
+              data={sortedData}
+              columns={columns}
+              loading={state.loading}
+              showPagination={sortedData.length > 10}
+              defaultPageSize={state.pageSize}
+              minRows={0}
+              page={state.page}
+              PaginationComponent={props => {
                 setState({
-                  filterValue: value,
+                  pageSize: props.pageSize,
+                  page: props.page,
+                });
+                return <CustomPagination {...props} maxPagesOptions={10} />;
+              }}
+              onPageChange={newPage => {
+                setState({
+                  page: newPage,
                 });
               }}
             />
-            <div
-              className="pill"
-              disabled={sortedData.length === 0}
-              style={{ marginLeft: '10px' }}
-              onClick={() => tsvDownloader(`${modelName}-${type}`, state.filteredData)}
-            >
-              <ExportIcon height={10} width={10} />
-              TSV
-            </div>
-          </Row>
-        </Row>
-        <div css={searchStyles}>
-          <ReactTable
-            className="-striped"
-            data={sortedData}
-            columns={columns}
-            loading={state.loading}
-            showPagination={sortedData.length > 10}
-            defaultPageSize={state.pageSize}
-            minRows={0}
-            page={state.page}
-            PaginationComponent={props => {
-              setState({
-                pageSize: props.pageSize,
-                page: props.page,
-              });
-              return <CustomPagination {...props} maxPagesOptions={10} />;
-            }}
-            onPageChange={newPage => {
-              setState({
-                page: newPage,
-              });
-            }}
-          />
-        </div>
-      </Col>
-    )}
+          </div>
+        </Col>
+      )
+    }
   </Component>
 );
 
