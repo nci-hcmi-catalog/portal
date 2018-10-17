@@ -25,12 +25,12 @@ const fetchData = async ({ setState, modelName }) => {
                       neoadjuvant_therapy
                       tnm_stage
                       molecular_characterizations
+                      age_at_diagnosis
                       age_at_sample_acquisition
                       vital_status
                       gender
                       race
                       chemotherapeutic_drugs
-                      age_at_sample_acquisition
                       disease_status
                       files {
                         hits{
