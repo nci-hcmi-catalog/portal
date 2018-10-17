@@ -100,15 +100,15 @@ export const schemaArr = [
     accessor: 'source_sequence_url',
   },
   {
-    displayName: 'UpdatedBy',
+    displayName: 'Updated By',
     accessor: 'updatedBy',
   },
   {
-    displayName: 'CreatedAt',
+    displayName: 'Created At',
     accessor: 'createdAt',
   },
   {
-    displayName: 'UpdatedAt',
+    displayName: 'Updated At',
     accessor: 'updatedAt',
   },
 ];
