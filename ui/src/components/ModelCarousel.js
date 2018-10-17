@@ -67,7 +67,7 @@ export default ({ modelName, sqon, className }) => (
                       opacity: ${loading ? '0.5' : '1'};
                     `}
                   />
-                  <span>PREVIOUS: {prevName}</span>
+                  <span>{prevName}</span>
                 </Link>
                 <Row
                   justifyContent="center"
@@ -95,7 +95,7 @@ export default ({ modelName, sqon, className }) => (
                     align-items: center;
                   `}
                 >
-                  <span>NEXT: {nextName}</span>
+                  <span>{nextName}</span>
                   <ArrowRightIcon
                     css={`
                       margin-left: 5px;
