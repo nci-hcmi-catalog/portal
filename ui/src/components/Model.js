@@ -119,7 +119,7 @@ export default ({ modelName }) => (
                     rawData={queryState.model}
                     extended={queryState.extended}
                     fieldNames={['name', 'type', 'split_ratio', 'growth_rate']}
-                    customUnits={{ growth_rate: 'days to split' }}
+                    customUnits={{ growth_rate: ' days to split' }}
                   />
                 </Col>
 
