@@ -14,15 +14,15 @@ export const schemaArr = [
       cellValue.toLowerCase().startsWith(filterValue.toLowerCase()),
   },
   {
-    displayName: 'CreatedAt',
+    displayName: 'Created At',
     accessor: 'createdAt',
   },
   {
-    displayName: 'UpdatedAt',
+    displayName: 'Updated At',
     accessor: 'updatedAt',
   },
   {
-    displayName: 'UpdatedBy',
+    displayName: 'Updated By',
     accessor: 'updatedBy',
   },
 ];
