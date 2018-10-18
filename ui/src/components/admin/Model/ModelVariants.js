@@ -90,6 +90,8 @@ export default ({ data: { name, variants } }) => {
                     onPageSizeChange,
                     toggleSelection,
                     toggleAll,
+                    disablePagination: true,
+                    simpleTableWithPagination: true,
                   }}
                 />
               </Table>

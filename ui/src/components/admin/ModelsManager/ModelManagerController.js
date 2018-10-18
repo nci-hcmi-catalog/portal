@@ -100,7 +100,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
         initialState={{
           minRows: 0,
           page: 0,
-          pageSize: 10,
+          pageSize: 20,
           scrollbarSize: {
             scrollbarWidth: 10,
           },

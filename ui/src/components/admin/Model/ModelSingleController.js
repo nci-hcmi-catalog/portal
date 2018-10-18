@@ -49,8 +49,6 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             filterValue: '',
             minRows: 0,
             rowCount: 0,
-            page: 0,
-            pageSize: 10,
             isLoading: false,
           },
         }}
