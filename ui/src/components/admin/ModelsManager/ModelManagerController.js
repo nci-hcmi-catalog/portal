@@ -11,22 +11,17 @@ import {
   singleAction,
 } from '../helpers';
 
+import { getPageData } from '../helpers/fetchTableData';
+import { ModelTableColumns } from './ModelColumns';
 import { NotificationsContext } from '../Notifications';
 
 export const ModelManagerContext = React.createContext();
-
-const paginatedUrl = ({ baseUrl, page, pageSize }) =>
-  `${baseUrl}?skip=${0}&limit=${page * pageSize + pageSize}`;
-
-const getPageData = ({ baseUrl, page, pageSize }) => {
-  let url = paginatedUrl({ baseUrl, page, pageSize });
-  return fetchData({ url, data: '', method: 'get' });
-};
 
 const loadData = async (baseUrl, state) => {
   const getData = getPageData({
     baseUrl,
     ...state,
+    tableColumns: ModelTableColumns,
   });
   const getCount = fetchData({
     url: `${baseUrl}/count`,
@@ -126,7 +121,11 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
           }
         }}
         didUpdate={async ({ state, setState, prevState }) => {
-          if (state.pageSize !== prevState.pageSize || state.page !== prevState.page) {
+          if (
+            state.pageSize !== prevState.pageSize ||
+            state.page !== prevState.page ||
+            state.filterValue !== prevState.filterValue
+          ) {
             try {
               const [dataResponse, countResponse] = await loadData(baseUrl, state);
               setState(() => ({

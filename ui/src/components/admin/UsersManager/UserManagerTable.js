@@ -5,21 +5,16 @@ import { getUserTableColumns } from './UserTableColumns';
 import { generateTableActions } from '../helpers';
 import { Col } from 'theme/system';
 import { fetchData } from '../services/Fetcher';
+import { getPageData } from '../helpers/fetchTableData';
 
 const type = 'Users';
 
-const paginatedUrl = ({ baseUrl, page, pageSize }) =>
-  `${baseUrl}?skip=${0}&limit=${page * pageSize + pageSize}`;
-
-const getPageData = ({ baseUrl, page, pageSize }) => {
-  let url = paginatedUrl({ baseUrl, page, pageSize });
-  return fetchData({ url, data: '', method: 'get' });
-};
-
 const loadData = async (baseUrl, state) => {
+  debugger;
   const getData = getPageData({
     baseUrl,
     ...state,
+    tableColumns: getUserTableColumns({}),
   });
   const getCount = fetchData({
     url: `${baseUrl}/count`,
@@ -60,8 +55,13 @@ export default ({ isTableDataSynced, dataSyncCallback, baseUrl, deleteUser, save
         setState(() => ({ isLoading: false, data: [], error: err }));
       }
     }}
-    didUpdate={async ({ state, setState }) => {
-      if (!isTableDataSynced) {
+    didUpdate={async ({ state, setState, prevState }) => {
+      if (
+        state.pageSize !== prevState.pageSize ||
+        state.page !== prevState.page ||
+        state.filterValue !== prevState.filterValue ||
+        !isTableDataSynced
+      ) {
         // do this before actual update calls because update calls will invoke another update on component and
         // this prop will still be true; that will cause it to execute below statements again.
         dataSyncCallback();

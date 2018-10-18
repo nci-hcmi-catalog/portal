@@ -14,6 +14,7 @@ import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
 import { schemaArr } from '../schema/model';
 import { ActionPill, ActionLinkPill, Actions, ToolbarText } from '../../../theme/adminTableStyles';
 import { SmallPill, ActionsMenu, ActionsMenuItem } from 'theme/adminControlsStyles';
+import { filters } from '../helpers/queryFilters';
 
 const selectedColumns = [
   'name',
@@ -68,6 +69,7 @@ const modelManagerCustomColumns = [
   {
     Header: 'Updated',
     accessor: 'updatedAt',
+    queryFilter: filters.date,
     Cell: row => {
       const value = row.value;
       return (
@@ -99,6 +101,7 @@ const modelManagerCustomColumns = [
     accessor: 'status',
     filter: (cellValue, filterValue) =>
       cellValue.toLowerCase().startsWith(filterValue.toLowerCase()),
+    queryFilter: filters.startsWith,
     Cell: row => {
       let statusValue = (row.value || 'Unpublished').toLowerCase();
       if (statusValue === 'unpublished changes') {
