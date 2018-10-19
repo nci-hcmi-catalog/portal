@@ -30,7 +30,7 @@ export const saveUser = async (values, isUpdate, setState, appendNotification) =
       message: 'Save Successful!',
       details: 'User has been successfully saved.',
     });
-    setState({ isTableDataSynced: false });
+    setState({ isTableDataSynced: false, isCreate: !isUpdate });
   } catch (err) {
     appendNotification({
       type: 'error',
@@ -64,8 +64,8 @@ export const deleteUser = async (userId, setState, appendNotification) => {
 
 const content = () => {
   return (
-    <Component initialState={{ isTableDataSynced: false }}>
-      {({ state: { isTableDataSynced }, setState }) => (
+    <Component initialState={{ isTableDataSynced: false, isCreate: false }}>
+      {({ state: { isTableDataSynced, isCreate }, setState }) => (
         <NotificationsContext>
           {({ appendNotification }) => {
             const saveFormUser = ({ values, isUpdate }) =>
@@ -108,7 +108,8 @@ const content = () => {
                 <Table>
                   <UserManagerTable
                     isTableDataSynced={isTableDataSynced}
-                    dataSyncCallback={() => setState({ isTableDataSynced: true })}
+                    isCreate={isCreate}
+                    dataSyncCallback={() => setState({ isTableDataSynced: true, isCreate: false })}
                     baseUrl={config.urls.cmsBase}
                     deleteUser={deleteFormUser}
                     saveUser={saveFormUser}

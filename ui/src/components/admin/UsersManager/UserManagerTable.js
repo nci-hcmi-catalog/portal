@@ -4,55 +4,77 @@ import { Toolbar, DataTable } from '../AdminTable';
 import { getUserTableColumns } from './UserTableColumns';
 import { generateTableActions } from '../helpers';
 import { Col } from 'theme/system';
-import { fetchData } from '../services/Fetcher';
-import { getPageData } from '../helpers/fetchTableData';
+import { getPageData, getCountData } from '../helpers/fetchTableData';
 import { debounce } from 'lodash';
 const type = 'Users';
 
 const loadData = async (baseUrl, state) => {
+  let tableCols = getUserTableColumns({});
   const getData = getPageData({
     baseUrl,
     ...state,
-    tableColumns: getUserTableColumns({}),
+    tableColumns: tableCols,
   });
-  const getCount = fetchData({
-    url: `${baseUrl}/count`,
-    data: '',
-    method: 'get',
+  const getCount = getCountData({
+    baseUrl: `${baseUrl}/count`,
+    ...state,
+    tableColumns: tableCols,
   });
 
   return [await getData, await getCount];
 };
 
-export default ({ isTableDataSynced, dataSyncCallback, baseUrl, deleteUser, saveUser }) => (
+export const initPagingState = {
+  page: 0,
+  filterValue: '',
+  sorted: {
+    id: 'updatedAt',
+    desc: true,
+  },
+  selection: [],
+  selectAll: false,
+};
+
+const fetchFormData = async ({ state, setState, baseUrl }) => {
+  try {
+    const [dataResponse, countResponse] = await loadData(`${baseUrl}/User`, state);
+    setState(() => ({
+      isLoading: false,
+      data: dataResponse.data,
+      error: null,
+      rowCount: countResponse.data.count,
+      selection: [],
+      selectAll: false,
+    }));
+  } catch (err) {
+    setState(() => ({ isLoading: false, data: [], error: err }));
+  }
+};
+export default ({
+  isTableDataSynced,
+  isCreate,
+  dataSyncCallback,
+  baseUrl,
+  deleteUser,
+  saveUser,
+}) => (
   <Component
     initialState={{
       minRows: 0,
-      page: 0,
       pageSize: 20,
       scrollbarSize: {
         scrollbarWidth: 10,
       },
-      filterValue: '',
       selection: [],
       selectAll: false,
       data: [],
       isLoading: false,
       error: null,
       rowCount: 0,
+      ...initPagingState,
     }}
     didMount={async ({ state, setState }) => {
-      try {
-        const [dataResponse, countResponse] = await loadData(`${baseUrl}/User`, state);
-        setState(() => ({
-          isLoading: false,
-          data: dataResponse.data,
-          error: null,
-          rowCount: countResponse.data.count,
-        }));
-      } catch (err) {
-        setState(() => ({ isLoading: false, data: [], error: err }));
-      }
+      await fetchFormData({ state, setState, baseUrl });
     }}
     // only debounce data load on updates -- this is primarily to prevent too many data fetches as user is filtering the table
     didUpdate={debounce(
@@ -60,23 +82,20 @@ export default ({ isTableDataSynced, dataSyncCallback, baseUrl, deleteUser, save
         if (
           state.pageSize !== prevState.pageSize ||
           state.page !== prevState.page ||
-          state.filterValue !== prevState.filterValue ||
-          !isTableDataSynced
+          state.filterValue !== prevState.filterValue
         ) {
+          await fetchFormData({ state, setState, baseUrl });
+        } else if (!isTableDataSynced || isCreate) {
           // do this before actual update calls because update calls will invoke another update on component and
           // this prop will still be true; that will cause it to execute below statements again.
           dataSyncCallback();
-          try {
-            const [dataResponse, countResponse] = await loadData(`${baseUrl}/User`, state);
+          // reset filtervalues and page if a new user is creaeted
+          if (isCreate) {
             setState(() => ({
-              isLoading: false,
-              data: dataResponse.data,
-              error: null,
-              rowCount: countResponse.data.count,
+              ...initPagingState,
             }));
-          } catch (err) {
-            setState(() => ({ isLoading: false, data: [], error: err }));
           }
+          await fetchFormData({ state, setState, baseUrl });
         }
       },
       300,

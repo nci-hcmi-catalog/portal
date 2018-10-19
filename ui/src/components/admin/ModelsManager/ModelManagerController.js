@@ -1,7 +1,6 @@
 import React from 'react';
 import Component from 'react-component-component';
 
-import { fetchData } from '../services/Fetcher';
 import {
   uploadModelsFromSheet,
   extractResultText,
