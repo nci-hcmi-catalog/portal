@@ -14,6 +14,7 @@ import {
 import { getPageData } from '../helpers/fetchTableData';
 import { ModelTableColumns } from './ModelColumns';
 import { NotificationsContext } from '../Notifications';
+import { debounce } from 'lodash';
 
 export const ModelManagerContext = React.createContext();
 
@@ -120,25 +121,30 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
             setState(() => ({ isLoading: false, data: [], error: err }));
           }
         }}
-        didUpdate={async ({ state, setState, prevState }) => {
-          if (
-            state.pageSize !== prevState.pageSize ||
-            state.page !== prevState.page ||
-            state.filterValue !== prevState.filterValue
-          ) {
-            try {
-              const [dataResponse, countResponse] = await loadData(baseUrl, state);
-              setState(() => ({
-                isLoading: false,
-                data: dataResponse.data,
-                error: null,
-                rowCount: countResponse.data.count,
-              }));
-            } catch (err) {
-              setState(() => ({ isLoading: false, data: [], error: err }));
+        // only debounce data load on updates -- this is primarily to prevent too many data fetches as user is filtering the table
+        didUpdate={debounce(
+          async ({ state, setState, prevState }) => {
+            if (
+              state.pageSize !== prevState.pageSize ||
+              state.page !== prevState.page ||
+              state.filterValue !== prevState.filterValue
+            ) {
+              try {
+                const [dataResponse, countResponse] = await loadData(baseUrl, state);
+                setState(() => ({
+                  isLoading: false,
+                  data: dataResponse.data,
+                  error: null,
+                  rowCount: countResponse.data.count,
+                }));
+              } catch (err) {
+                setState(() => ({ isLoading: false, data: [], error: err }));
+              }
             }
-          }
-        }}
+          },
+          300,
+          { maxWait: 1000, trailing: true },
+        )}
       >
         {({ state, setState }) => (
           <ModelManagerContext.Provider
