@@ -12,22 +12,23 @@ const defaultFilterFunc = (cellValue, filterValue) =>
 
 const commonDataTableProps = ({
   state,
-  state: { isLoading, data, selection, filterValue },
+  state: { isLoading, data, selection, filterValue, sorted },
+  onSortedChange,
   tableColumns,
   toggleSelection,
   toggleAll,
-  defaultSortColId,
 }) => ({
   minRows: 0,
   loading: isLoading,
   columns: tableColumns,
   defaultSorted: [
-    {
-      id: defaultSortColId || 'updatedAt',
+    sorted || {
+      id: 'updatedAt',
       desc: true,
     },
   ],
   multiSort: false,
+  onSortedChange,
   data:
     filterValue === ''
       ? data
@@ -54,19 +55,19 @@ const TableWithoutPagination = ({ TableComponent, ...props }) => (
 const TableWithPagination = ({
   TableComponent,
   state,
-  state: { rowCount, data, pageSize, page },
+  state: { rowCount, data, pageSize },
   onPageChange,
   onPageSizeChange,
+  onSortedChange,
   ...props
 }) => (
   <TableComponent
-    {...commonDataTableProps({ state, ...props })}
+    {...commonDataTableProps({ state, onSortedChange, ...props })}
     {...{
       data: data,
       showPagination: rowCount > pageSize,
       defaultPageSize: pageSize,
       pageSize: pageSize,
-      page: page,
       PaginationComponent: () => (
         <CustomPagination
           {...state}

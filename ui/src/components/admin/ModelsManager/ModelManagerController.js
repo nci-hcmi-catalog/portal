@@ -11,7 +11,7 @@ import {
   singleAction,
 } from '../helpers';
 
-import { getPageData } from '../helpers/fetchTableData';
+import { getPageData, getCountData } from '../helpers/fetchTableData';
 import { ModelTableColumns } from './ModelColumns';
 import { NotificationsContext } from '../Notifications';
 import { debounce } from 'lodash';
@@ -24,13 +24,24 @@ const loadData = async (baseUrl, state) => {
     ...state,
     tableColumns: ModelTableColumns,
   });
-  const getCount = fetchData({
-    url: `${baseUrl}/count`,
-    data: '',
-    method: 'get',
+  const getCount = getCountData({
+    baseUrl: `${baseUrl}/count`,
+    ...state,
+    tableColumns: ModelTableColumns,
   });
 
   return [await getData, await getCount];
+};
+
+const initPagingState = {
+  page: 0,
+  filterValue: '',
+  selection: [],
+  selectAll: false,
+  sorted: {
+    id: 'updatedAt',
+    desc: true,
+  },
 };
 
 const bulkActionCreator = ({
@@ -54,9 +65,8 @@ const bulkActionCreator = ({
           isLoading: false,
           data: dataResponse.data,
           error: null,
-          selection: [],
-          selectAll: false,
           rowCount: countResponse.data.count,
+          ...initPagingState,
         }));
 
         await appendNotification({
@@ -95,18 +105,16 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
       <Component
         initialState={{
           minRows: 0,
-          page: 0,
           pageSize: 20,
           scrollbarSize: {
             scrollbarWidth: 10,
           },
           filterValue: '',
-          selection: [],
-          selectAll: false,
           data: [],
           isLoading: false,
           error: null,
           rowCount: 0,
+          ...initPagingState,
         }}
         didMount={async ({ state, setState }) => {
           try {
@@ -127,15 +135,24 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
             if (
               state.pageSize !== prevState.pageSize ||
               state.page !== prevState.page ||
-              state.filterValue !== prevState.filterValue
+              state.filterValue !== prevState.filterValue ||
+              state.sorted !== prevState.sorted
             ) {
               try {
+                setState({
+                  isLoading: true,
+                  data: [],
+                  error: null,
+                  rowCount: 0,
+                });
                 const [dataResponse, countResponse] = await loadData(baseUrl, state);
                 setState(() => ({
                   isLoading: false,
                   data: dataResponse.data,
                   error: null,
                   rowCount: countResponse.data.count,
+                  selection: [],
+                  selectAll: false,
                 }));
               } catch (err) {
                 setState(() => ({ isLoading: false, data: [], error: err }));
@@ -164,6 +181,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                         data: dataResponse.data,
                         error: null,
                         rowCount: countResponse.data.count,
+                        ...initPagingState,
                       });
 
                       await appendNotification({
