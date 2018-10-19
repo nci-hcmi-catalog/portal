@@ -16,10 +16,18 @@ const commonDataTableProps = ({
   tableColumns,
   toggleSelection,
   toggleAll,
+  defaultSortColId,
 }) => ({
   minRows: 0,
   loading: isLoading,
   columns: tableColumns,
+  defaultSorted: [
+    {
+      id: defaultSortColId || 'updatedAt',
+      desc: true,
+    },
+  ],
+  multiSort: false,
   data:
     filterValue === ''
       ? data
