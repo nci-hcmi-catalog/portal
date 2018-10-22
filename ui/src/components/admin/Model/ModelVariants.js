@@ -48,7 +48,7 @@ export default ({ data: { name, variants } }) => {
               <AdminHeaderH3>
                 {data.length > 0
                   ? 'Variant Data'
-                  : 'Submit your variant data by selecting “Add Variants” and uploading a google sheet or a CSV file.'}
+                  : 'Submit your variant data by selecting “Add Variants” and uploading a google sheet.'}
               </AdminHeaderH3>
               <AdminHeaderBlock>
                 <ModalStateContext.Consumer>

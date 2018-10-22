@@ -36,7 +36,7 @@ const overwriteOptions = type => [
 export default ({ type, onSheetsURLChange, sheetsURL, overwrite, onOverwriteChange }) => (
   <BulkUploadContent>
     <BulkUploadContentBlock>
-      <div>{`Submit your ${type} data by uploading a google sheet or a CSV file`}</div>
+      <div>{`Submit your ${type} data by uploading a google sheet.`}</div>
       <BulkUploadTemplateLink href="https://sheets.google.com">
         <ExternalLinkIcon height={10} width={10} css={'margin-right: 8px;'} />Sheet Template
       </BulkUploadTemplateLink>
