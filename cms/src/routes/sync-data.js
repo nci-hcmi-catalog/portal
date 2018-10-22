@@ -174,8 +174,8 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
     .catch(error => res.status(500).json({ error }));
 });
 
-data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res) => {
-  const { spreadsheetId, sheetId } = req.params;
+data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId/:modelName', async (req, res) => {
+  const { spreadsheetId, sheetId, modelName } = req.params;
 
   let { overwrite } = req.query;
   overwrite = overwrite || false;
@@ -245,6 +245,10 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
           // Get model name
           const model_name = result.model_name;
 
+          // ignore any updates to any other model if a tagetModelName is provided
+          if (modelName && model_name !== modelName) {
+            return acc;
+          }
           // Delete model name from final variant object
           delete result.model_name;
 
@@ -298,7 +302,7 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId', async (req, res
               },
               {
                 status: computeModelStatus(model.status, 'save'),
-                updatedBy: getLoggedInUser(req).user_email + '_test',
+                updatedBy: getLoggedInUser(req).user_email,
                 variants,
               },
               {

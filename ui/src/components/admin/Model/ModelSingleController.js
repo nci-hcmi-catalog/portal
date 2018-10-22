@@ -363,7 +363,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   },
                 }));
 
-                attachVariants(baseUrl, sheetURL, overwrite)
+                attachVariants(baseUrl, sheetURL, overwrite, modelName)
                   .then(({ data: { result } }) =>
                     // Reload model data with new variants
                     getModel(baseUrl, modelName).then(async modelDataResponse => {

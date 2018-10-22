@@ -30,9 +30,9 @@ export const deleteModel = async (baseUrl, modelName) =>
     method: 'delete',
   });
 
-export const attachVariants = async (baseUrl, sheetURL, overwrite) => {
+export const attachVariants = async (baseUrl, sheetURL, overwrite, modelName) => {
   const { spreadsheetId, sheetId } = getSheetObject(sheetURL);
-  const uploadURL = `${baseUrl}/attach-variants/${spreadsheetId}/${sheetId}}?overwrite=${overwrite}`;
+  const uploadURL = `${baseUrl}/attach-variants/${spreadsheetId}/${sheetId}}/${modelName}?overwrite=${overwrite}`;
   const gapi = global.gapi;
 
   // TODO: this assumes user is already logged in - create a prompt to let user
