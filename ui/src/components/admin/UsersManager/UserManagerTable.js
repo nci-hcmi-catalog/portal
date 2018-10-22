@@ -89,7 +89,7 @@ export default ({
           // do this before actual update calls because update calls will invoke another update on component and
           // this prop will still be true; that will cause it to execute below statements again.
           dataSyncCallback();
-          // reset filtervalues and page if a new user is creaeted
+          // reset filtervalues and page if a new user is created
           if (isCreate) {
             setState(() => ({
               ...initPagingState,
