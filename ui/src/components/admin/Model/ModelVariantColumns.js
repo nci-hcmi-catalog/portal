@@ -4,9 +4,10 @@ import { schemaArr } from '../schema/modelVariant';
 import { ModelSingleContext } from './ModelSingleController';
 import withDeleteModal from '../DeleteModal';
 
-import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
+import DeleteIcon from 'icons/TrashIcon';
 
 import { ActionPill, Actions } from 'theme/adminTableStyles';
+import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 
 const selectedColumns = ['variant_name', 'variant_type', 'assessment_type', 'expression_level'];
 
@@ -31,10 +32,12 @@ const modelVariantCustomColumns = [
                 target: `${variant_name}-${variant_type}`,
               })(
                 <ActionPill secondary marginRight="6px">
-                  <AdminEditPencilIcon
+                  <DeleteIcon
                     css={`
                       width: 12px;
                       height: 12px;
+                      font-weight: normal;
+                      ${brandPrimaryHighlightHover};
                     `}
                   />
                   Delete
