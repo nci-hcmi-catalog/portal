@@ -4,80 +4,110 @@ import { Toolbar, DataTable } from '../AdminTable';
 import { getUserTableColumns } from './UserTableColumns';
 import { generateTableActions } from '../helpers';
 import { Col } from 'theme/system';
-import { fetchData } from '../services/Fetcher';
-
+import { getPageData, getCountData } from '../helpers/fetchTableData';
+import { debounce } from 'lodash';
 const type = 'Users';
 
-const paginatedUrl = ({ baseUrl, page, pageSize }) =>
-  `${baseUrl}?skip=${0}&limit=${page * pageSize + pageSize}`;
-
-const getPageData = ({ baseUrl, page, pageSize }) => {
-  let url = paginatedUrl({ baseUrl, page, pageSize });
-  return fetchData({ url, data: '', method: 'get' });
-};
-
 const loadData = async (baseUrl, state) => {
+  let tableCols = getUserTableColumns({});
   const getData = getPageData({
     baseUrl,
     ...state,
+    tableColumns: tableCols,
   });
-  const getCount = fetchData({
-    url: `${baseUrl}/count`,
-    data: '',
-    method: 'get',
+  const getCount = getCountData({
+    baseUrl: `${baseUrl}/count`,
+    ...state,
+    tableColumns: tableCols,
   });
 
   return [await getData, await getCount];
 };
 
-export default ({ isTableDataSynced, dataSyncCallback, baseUrl, deleteUser, saveUser }) => (
+export const initPagingState = {
+  page: 0,
+  filterValue: '',
+  sorted: {
+    id: 'updatedAt',
+    desc: true,
+  },
+  selection: [],
+  selectAll: false,
+};
+
+const fetchFormData = async ({ state, setState, baseUrl }) => {
+  try {
+    const [dataResponse, countResponse] = await loadData(`${baseUrl}/User`, state);
+    setState(() => ({
+      isLoading: false,
+      data: dataResponse.data,
+      error: null,
+      rowCount: countResponse.data.count,
+      selection: [],
+      selectAll: false,
+    }));
+  } catch (err) {
+    setState(() => ({ isLoading: false, data: [], error: err }));
+  }
+};
+
+/*
+Component state transitions for each action:
+1. Add a user: resets table's filter, sort and page #
+2. Edit/Delete a user: doesn't reset table's filter, sort and page #
+*/
+export default ({
+  isTableDataSynced,
+  isCreate,
+  dataSyncCallback,
+  baseUrl,
+  deleteUser,
+  saveUser,
+}) => (
   <Component
     initialState={{
       minRows: 0,
-      page: 0,
-      pageSize: 10,
+      pageSize: 20,
       scrollbarSize: {
         scrollbarWidth: 10,
       },
-      filterValue: '',
       selection: [],
       selectAll: false,
       data: [],
       isLoading: false,
       error: null,
       rowCount: 0,
+      ...initPagingState,
     }}
     didMount={async ({ state, setState }) => {
-      try {
-        const [dataResponse, countResponse] = await loadData(`${baseUrl}/User`, state);
-        setState(() => ({
-          isLoading: false,
-          data: dataResponse.data,
-          error: null,
-          rowCount: countResponse.data.count,
-        }));
-      } catch (err) {
-        setState(() => ({ isLoading: false, data: [], error: err }));
-      }
+      await fetchFormData({ state, setState, baseUrl });
     }}
-    didUpdate={async ({ state, setState }) => {
-      if (!isTableDataSynced) {
-        // do this before actual update calls because update calls will invoke another update on component and
-        // this prop will still be true; that will cause it to execute below statements again.
-        dataSyncCallback();
-        try {
-          const [dataResponse, countResponse] = await loadData(`${baseUrl}/User`, state);
-          setState(() => ({
-            isLoading: false,
-            data: dataResponse.data,
-            error: null,
-            rowCount: countResponse.data.count,
-          }));
-        } catch (err) {
-          setState(() => ({ isLoading: false, data: [], error: err }));
+    // only debounce data load on updates -- this is primarily to prevent too many data fetches as user is filtering the table
+    didUpdate={debounce(
+      async ({ state, setState, prevState }) => {
+        if (
+          state.pageSize !== prevState.pageSize ||
+          state.page !== prevState.page ||
+          state.filterValue !== prevState.filterValue
+        ) {
+          await fetchFormData({ state, setState, baseUrl });
+        } else if (!isTableDataSynced || isCreate) {
+          // this condition gets triggered when a new user is created/edited or deleted
+          // do this before actual update calls because update calls will invoke another update on component and
+          // this prop will still be true; that will cause it to execute below statements again.
+          dataSyncCallback();
+          // reset filter values and page if a new user is created
+          if (isCreate) {
+            setState(() => ({
+              ...initPagingState,
+            }));
+          }
+          await fetchFormData({ state, setState, baseUrl });
         }
-      }
-    }}
+      },
+      300,
+      { maxWait: 1000, trailing: true },
+    )}
   >
     {({ state, setState }) => {
       const tableActions = generateTableActions(setState, state.data);

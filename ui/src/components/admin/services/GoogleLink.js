@@ -11,9 +11,8 @@ const { googleAppId } = config;
 
 export const googleSDK = () => {
   return new Promise((resolve, reject) => {
-    const gapi = global.gapi;
-    gapi.load('auth2', () => {
-      gapi.auth2
+    window.gapi.load('auth2', () => {
+      window.gapi.auth2
         .init({
           client_id: googleAppId,
           scope: 'profile email https://www.googleapis.com/auth/spreadsheets',
@@ -60,7 +59,10 @@ export const LoginWithGoogle = () => (
                   appendNotification({
                     type: 'error',
                     message: 'Google Auth Error.',
-                    details: err.details || 'Unknown error has occurred.',
+                    timeout: 20000,
+                    details:
+                      err.details ||
+                      'Unknown error has occurred. This usually indicates a temporary communication error with Google. Please reload the application in a different browser window to fix this issue. If issue still persists; please contact the support team. You can continue to use the application but you will not be able to bulk import data from Google sheets if this error persists.',
                   }),
               );
             } else {
@@ -70,10 +72,14 @@ export const LoginWithGoogle = () => (
               });
             }
           } catch (err) {
+            debugger;
             appendNotification({
               type: 'error',
               message: 'Google Auth Error.',
-              details: err.details || 'Unknown error has occurred.',
+              timeout: 20000,
+              details:
+                err.details ||
+                'Unknown error has occurred. This usually indicates a temporary communication error with Google. Please reload the application in a different browser window to fix this issue. If issue still persists; please contact the support team. You can continue to use the application but you will not be able to bulk import data from Google sheets if this error persists.',
             });
           }
         }}

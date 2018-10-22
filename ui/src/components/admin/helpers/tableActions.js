@@ -20,11 +20,25 @@ export const generateTableActions = (setState, data, nestedStateKey = false) => 
       nestedStateResolver(state, { page: newPage, isLoading: true }, nestedStateKey),
     ),
   onFilterValueChange: newValue =>
-    setState(state => nestedStateResolver(state, { filterValue: newValue }, nestedStateKey)),
+    setState(state =>
+      nestedStateResolver(
+        state,
+        {
+          filterValue: newValue,
+          page: 0,
+          selection: [],
+          selectAll: false,
+        },
+        nestedStateKey,
+      ),
+    ),
   onPageSizeChange: newValue =>
     setState(state =>
       nestedStateResolver(state, { page: 0, pageSize: newValue, isLoading: true }, nestedStateKey),
     ),
+  onSortedChange: sorted =>
+    // since multisort is disabled; there is always one sorted field
+    setState(state => nestedStateResolver(state, { sorted: sorted[0], page: 0 }, nestedStateKey)),
   toggleSelection: id =>
     setState(state =>
       nestedStateResolver(

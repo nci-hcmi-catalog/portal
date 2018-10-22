@@ -1,3 +1,5 @@
+import { filters } from '../helpers/queryFilters';
+
 export const schemaArr = [
   {
     displayName: 'Name',
@@ -12,6 +14,7 @@ export const schemaArr = [
     accessor: 'status',
     filter: (cellValue, filterValue) =>
       cellValue.toLowerCase().startsWith(filterValue.toLowerCase()),
+    queryFilter: filters.startsWith,
   },
   {
     displayName: 'Created At',

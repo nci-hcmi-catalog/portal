@@ -1,7 +1,6 @@
 import React from 'react';
 import Component from 'react-component-component';
 
-import { fetchData } from '../services/Fetcher';
 import {
   uploadModelsFromSheet,
   extractResultText,
@@ -11,30 +10,37 @@ import {
   singleAction,
 } from '../helpers';
 
+import { getPageData, getCountData } from '../helpers/fetchTableData';
+import { ModelTableColumns } from './ModelColumns';
 import { NotificationsContext } from '../Notifications';
+import { debounce } from 'lodash';
 
 export const ModelManagerContext = React.createContext();
-
-const paginatedUrl = ({ baseUrl, page, pageSize }) =>
-  `${baseUrl}?skip=${0}&limit=${page * pageSize + pageSize}`;
-
-const getPageData = ({ baseUrl, page, pageSize }) => {
-  let url = paginatedUrl({ baseUrl, page, pageSize });
-  return fetchData({ url, data: '', method: 'get' });
-};
 
 const loadData = async (baseUrl, state) => {
   const getData = getPageData({
     baseUrl,
     ...state,
+    tableColumns: ModelTableColumns,
   });
-  const getCount = fetchData({
-    url: `${baseUrl}/count`,
-    data: '',
-    method: 'get',
+  const getCount = getCountData({
+    baseUrl: `${baseUrl}/count`,
+    ...state,
+    tableColumns: ModelTableColumns,
   });
 
   return [await getData, await getCount];
+};
+
+const initPagingState = {
+  page: 0,
+  filterValue: '',
+  selection: [],
+  selectAll: false,
+  sorted: {
+    id: 'updatedAt',
+    desc: true,
+  },
 };
 
 const bulkActionCreator = ({
@@ -58,9 +64,8 @@ const bulkActionCreator = ({
           isLoading: false,
           data: dataResponse.data,
           error: null,
-          selection: [],
-          selectAll: false,
           rowCount: countResponse.data.count,
+          ...initPagingState,
         }));
 
         await appendNotification({
@@ -93,24 +98,28 @@ const bulkActionCreator = ({
     });
 };
 
+/*
+Model table state transitions for each action:
+1. Any successful bulk action (Publish/Unpublish/Delete) should reset filter, sort and page #
+2. Bulk upload should reset filter, sort and page #
+2. Individual model publish/unpublish/delete should not reset filter, sort and page #
+*/
 export default ({ baseUrl, cmsBase, children, ...props }) => (
   <NotificationsContext>
     {({ appendNotification }) => (
       <Component
         initialState={{
           minRows: 0,
-          page: 0,
-          pageSize: 10,
+          pageSize: 20,
           scrollbarSize: {
             scrollbarWidth: 10,
           },
           filterValue: '',
-          selection: [],
-          selectAll: false,
           data: [],
           isLoading: false,
           error: null,
           rowCount: 0,
+          ...initPagingState,
         }}
         didMount={async ({ state, setState }) => {
           try {
@@ -125,21 +134,39 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
             setState(() => ({ isLoading: false, data: [], error: err }));
           }
         }}
-        didUpdate={async ({ state, setState, prevState }) => {
-          if (state.pageSize !== prevState.pageSize || state.page !== prevState.page) {
-            try {
-              const [dataResponse, countResponse] = await loadData(baseUrl, state);
-              setState(() => ({
-                isLoading: false,
-                data: dataResponse.data,
-                error: null,
-                rowCount: countResponse.data.count,
-              }));
-            } catch (err) {
-              setState(() => ({ isLoading: false, data: [], error: err }));
+        // only debounce data load on updates -- this is primarily to prevent too many data fetches as user is filtering the table
+        didUpdate={debounce(
+          async ({ state, setState, prevState }) => {
+            if (
+              state.pageSize !== prevState.pageSize ||
+              state.page !== prevState.page ||
+              state.filterValue !== prevState.filterValue ||
+              state.sorted !== prevState.sorted
+            ) {
+              try {
+                setState({
+                  isLoading: true,
+                  data: [],
+                  error: null,
+                  rowCount: 0,
+                });
+                const [dataResponse, countResponse] = await loadData(baseUrl, state);
+                setState(() => ({
+                  isLoading: false,
+                  data: dataResponse.data,
+                  error: null,
+                  rowCount: countResponse.data.count,
+                  selection: [],
+                  selectAll: false,
+                }));
+              } catch (err) {
+                setState(() => ({ isLoading: false, data: [], error: err }));
+              }
             }
-          }
-        }}
+          },
+          300,
+          { maxWait: 1000, trailing: true },
+        )}
       >
         {({ state, setState }) => (
           <ModelManagerContext.Provider
@@ -159,6 +186,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                         data: dataResponse.data,
                         error: null,
                         rowCount: countResponse.data.count,
+                        ...initPagingState,
                       });
 
                       await appendNotification({

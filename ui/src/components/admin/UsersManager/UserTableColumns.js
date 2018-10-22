@@ -10,6 +10,7 @@ import UserForm from './UserForm';
 import { ActionPill, Actions, ToolbarText } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
+import { filters } from '../helpers/queryFilters';
 
 const selectedColumns = ['name', 'email', 'status', 'createdAt', 'updatedAt', 'updatedBy'];
 
@@ -24,6 +25,7 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
   {
     Header: 'Created',
     accessor: 'createdAt',
+    queryFilter: filters.date,
     Cell: row => {
       const value = row.value;
       return (
@@ -51,6 +53,7 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
   {
     Header: 'Updated',
     accessor: 'updatedAt',
+    queryFilter: filters.date,
     Cell: row => {
       const value = row.value;
       return (

@@ -179,7 +179,7 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
 
               <FormComponent
                 labelText={growth_rate.displayName}
-                description="This must be a number between 5 and 90"
+                description="This must be a number between 1 and 99"
               >
                 <Field name={growth_rate.accessor} component={FormInput} type="number" step={1} />
               </FormComponent>

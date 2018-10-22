@@ -15,6 +15,7 @@ export default () => (
       onPageChange,
       onPageSizeChange,
       onFilterValueChange,
+      onSortedChange,
       toggleSelection,
       toggleAll,
       bulkPublish,
@@ -38,6 +39,7 @@ export default () => (
             tableColumns: ModelTableColumns,
             onPageChange,
             onPageSizeChange,
+            onSortedChange,
             toggleSelection,
             toggleAll,
           }}

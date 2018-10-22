@@ -56,7 +56,7 @@ export default () => (
             disabled={modelExists}
             offsetY={-16}
           >
-            Please save the model first
+            Please add a name and save the model first
           </Tooltip>
 
           <Tooltip
@@ -81,7 +81,7 @@ export default () => (
             disabled={modelExists}
             offsetY={-16}
           >
-            Please save the model first
+            Please add a name and save the model first
           </Tooltip>
         </AdminModelNav>
       );
