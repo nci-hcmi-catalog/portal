@@ -68,6 +68,8 @@ const TableWithPagination = ({
       showPagination: rowCount > pageSize,
       defaultPageSize: pageSize,
       pageSize: pageSize,
+      // there is no page property for the table. Table always displays single page of data coming from server
+      // paging component is responsible for keeping track of the page # (offset) of server data
       PaginationComponent: () => (
         <CustomPagination
           {...state}

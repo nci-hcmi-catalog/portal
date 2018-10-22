@@ -98,6 +98,12 @@ const bulkActionCreator = ({
     });
 };
 
+/*
+Model table state transitions for each action:
+1. Any successful bulk action (Publish/Unpublish/Delete) should reset filter, sort and page #
+2. Bulk upload should reset filter, sort and page #
+2. Individual model publish/unpublish/delete should not reset filter, sort and page #
+*/
 export default ({ baseUrl, cmsBase, children, ...props }) => (
   <NotificationsContext>
     {({ appendNotification }) => (

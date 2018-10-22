@@ -50,6 +50,12 @@ const fetchFormData = async ({ state, setState, baseUrl }) => {
     setState(() => ({ isLoading: false, data: [], error: err }));
   }
 };
+
+/*
+Component state transitions for each action:
+1. Add a user: resets table's filter, sort and page #
+2. Edit/Delete a user: doesn't reset table's filter, sort and page #
+*/
 export default ({
   isTableDataSynced,
   isCreate,
@@ -86,10 +92,11 @@ export default ({
         ) {
           await fetchFormData({ state, setState, baseUrl });
         } else if (!isTableDataSynced || isCreate) {
+          // this condition gets triggered when a new user is created/edited or deleted
           // do this before actual update calls because update calls will invoke another update on component and
           // this prop will still be true; that will cause it to execute below statements again.
           dataSyncCallback();
-          // reset filtervalues and page if a new user is created
+          // reset filter values and page if a new user is created
           if (isCreate) {
             setState(() => ({
               ...initPagingState,
