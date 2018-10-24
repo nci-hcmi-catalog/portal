@@ -44,7 +44,11 @@ const content = () => {
                       onClick={() =>
                         modalState.setModalState({
                           component: (
-                            <BulkUploader type={'model'} onUpload={uploadModelsFromSheet} />
+                            <BulkUploader
+                              type={'model'}
+                              onUpload={uploadModelsFromSheet}
+                              backupURL={`${config.urls.cmsBase}/bulk/backup`}
+                            />
                           ),
                           shouldCloseOnOverlayClick: true,
                           styles: AdminModalStyle,

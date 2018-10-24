@@ -8,7 +8,7 @@ import BulkUploadControls from './BulkUploadControls';
 
 import { ModalWrapper, Header, Title, CloseModal, Content } from 'theme/adminModalStyles';
 
-const UploadModal = ({ type, onUpload, ...props }) => (
+const UploadModal = ({ type, onUpload, backupURL, ...props }) => (
   <ModalStateContext.Consumer>
     {modalState => (
       <Component
@@ -54,6 +54,7 @@ const UploadModal = ({ type, onUpload, ...props }) => (
                   {...{
                     onSheetsURLChange,
                     sheetsURL,
+                    backupURL,
                     type,
                     overwrite,
                     onOverwriteChange,

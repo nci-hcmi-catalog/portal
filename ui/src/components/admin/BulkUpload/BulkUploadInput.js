@@ -33,7 +33,14 @@ const overwriteOptions = type => [
   { label: `Yes, overwrite existing ${type}s`, value: true },
 ];
 
-export default ({ type, onSheetsURLChange, sheetsURL, overwrite, onOverwriteChange }) => (
+export default ({
+  type,
+  onSheetsURLChange,
+  sheetsURL,
+  backupURL,
+  overwrite,
+  onOverwriteChange,
+}) => (
   <BulkUploadContent>
     <BulkUploadContentBlock>
       <div>{`Submit your ${type} data by uploading a google sheet.`}</div>
@@ -85,10 +92,10 @@ export default ({ type, onSheetsURLChange, sheetsURL, overwrite, onOverwriteChan
               <ErrorIcon width={24} height={20} css={'margin-right: 10px;'} fill={'#f3ae4c'} />
               <div>
                 It is recommend that you{' '}
-                <a href="/admin">
+                <a href={backupURL}>
                   <ExportIcon width={10} height={12} css={'margin: 0 5px 0 2px'} />download a backup
                 </a>{' '}
-                of the current models before overwriting data.
+                {`of the current ${type}s before overwriting data.`}
               </div>
             </OverwriteWarning>
           )}
