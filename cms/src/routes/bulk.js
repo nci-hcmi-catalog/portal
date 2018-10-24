@@ -95,7 +95,6 @@ bulkRouter.get('/backup', async (req, res) => {
     writeHeaders: true,
     exportFileName: 'models',
     response: res,
-    request: req,
   });
 });
 

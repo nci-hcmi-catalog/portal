@@ -1,3 +1,5 @@
+import { trimEnd } from 'lodash';
+
 export const schemaArr = [
   {
     displayName: 'Name',
@@ -62,10 +64,15 @@ export const schemaArr = [
   {
     displayName: 'Therapy',
     accessor: 'therapy',
+    // value field is used by backup feature
+    value: row => trimEnd(row.therapy.reduce((acc, item) => acc + `${item}|`, ``), `|`),
   },
   {
     displayName: 'Molecular Characterization',
     accessor: 'molecular_characterizations',
+    // value field is used by backup feature
+    value: row =>
+      trimEnd(row.molecular_characterizations.reduce((acc, item) => acc + `${item}|`, ``), `|`),
   },
   {
     displayName: 'Clinical Tumor Diagnosis',
@@ -118,7 +125,11 @@ export const schemaObj = schemaArr.reduce((acc, curr) => {
   return acc;
 }, {});
 
-export const backupFields = schemaArr.map(field => ({
-  label: field.displayName,
-  value: field.value || field.accessor,
-}));
+const excludeFromBackup = ['updatedBy', 'updatedAt', 'createdAt'];
+
+export const backupFields = schemaArr
+  .filter(field => !excludeFromBackup.includes(field.accessor))
+  .map(field => ({
+    label: field.displayName,
+    value: field.value || field.accessor,
+  }));

@@ -58,9 +58,9 @@ export const ModelSchema = new mongoose.Schema(
         modelStatus.other,
       ],
       default: modelStatus.unpublished,
-      es_indexed: true,
+      es_indexed: false,
     },
-    updatedBy: { type: String, es_indexed: true },
+    updatedBy: { type: String, es_indexed: false },
   },
   {
     es_extend: {
