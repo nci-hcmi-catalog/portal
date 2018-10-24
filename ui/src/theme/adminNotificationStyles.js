@@ -136,7 +136,7 @@ export const MessageLink = styled(Link)`
     if (type === 'error') {
       return softTransitionRollover(errorColour, burntSienna);
     } else {
-      return softTransitionRollover(successColour, '#58BAC9');
+      return softTransitionRollover(successColour, '#0b6d7b');
     }
   }};
   label: notification-message-link;

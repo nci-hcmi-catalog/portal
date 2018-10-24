@@ -4,7 +4,7 @@ import { ModalWrapper, Header, Title, CloseModal, Content, Footer } from 'theme/
 import { FormContainer, FormCol } from 'theme/adminFormStyles';
 import { HoverPill } from 'theme/adminControlsStyles';
 import { withFormik, Field } from 'formik';
-import { schemaObj } from '../schema/user';
+import { schemaObj } from '@hcmi-portal/cms/src/schemas/descriptions/user';
 import { FormComponent, FormInput, FormRadioSelect } from 'components/FormComponents';
 import { userStatus } from '@hcmi-portal/cms/src/helpers/userStatus';
 import validationSchema from '@hcmi-portal/cms/src/validation/user';

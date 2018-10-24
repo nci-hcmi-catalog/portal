@@ -16,7 +16,7 @@ import {
 } from 'components/FormComponents';
 import { FormContainer, FormHeader, FormSection, FormCol } from 'theme/adminFormStyles';
 import publishValidation from '@hcmi-portal/cms/src/validation/model';
-import { schemaObj } from '../schema/model';
+import { schemaObj } from '@hcmi-portal/cms/src/schemas/descriptions/model';
 import {
   clinicalTumorDiagnosisDependent,
   clinicalTumorDiagnosis as clinicalTumorDiagnosisOptions,

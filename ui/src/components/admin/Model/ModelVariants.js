@@ -14,7 +14,7 @@ import { FormHeader } from 'theme/adminFormStyles';
 import { HoverPill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
-
+import config from '../config';
 export default ({ data: { name, variants } }) => {
   const data = variants.map(variant => ({
     _id: variant._id,
@@ -48,7 +48,7 @@ export default ({ data: { name, variants } }) => {
               <AdminHeaderH3>
                 {data.length > 0
                   ? 'Variant Data'
-                  : 'Submit your variant data by selecting “Add Variants” and uploading a google sheet or a CSV file.'}
+                  : 'Submit your variant data by selecting “Add Variants” and uploading a google sheet.'}
               </AdminHeaderH3>
               <AdminHeaderBlock>
                 <ModalStateContext.Consumer>
@@ -64,6 +64,7 @@ export default ({ data: { name, variants } }) => {
                               onUpload={(sheetsURL, overwrite) =>
                                 attachVariants(sheetsURL, overwrite, name)
                               }
+                              backupURL={`${config.urls.cmsBase}/action/backup-variants/${name}`}
                             />
                           ),
                           shouldCloseOnOverlayClick: true,

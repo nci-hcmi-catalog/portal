@@ -49,6 +49,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             filterValue: '',
             minRows: 0,
             rowCount: 0,
+            page: 0,
+            pageSize: 10,
             isLoading: false,
           },
         }}
@@ -70,6 +72,10 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   isLoading: false,
                   didLoad: true,
                   response: modelDataResponse.data,
+                },
+                variantTable: {
+                  ...state.variantTable,
+                  rowCount: (modelDataResponse.data.variants || []).length,
                 },
               }));
             } catch (err) {
@@ -357,7 +363,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   },
                 }));
 
-                attachVariants(baseUrl, sheetURL, overwrite)
+                attachVariants(baseUrl, sheetURL, overwrite, modelName)
                   .then(({ data: { result } }) =>
                     // Reload model data with new variants
                     getModel(baseUrl, modelName).then(async modelDataResponse => {
@@ -377,6 +383,10 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                           isLoading: false,
                           didLoad: true,
                           response: modelDataResponse.data,
+                        },
+                        variantTable: {
+                          ...state.variantTable,
+                          rowCount: (modelDataResponse.data.variants || []).length,
                         },
                       }));
 
@@ -448,6 +458,10 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       isLoading: false,
                       didLoad: true,
                       response: modelDataResponse.data,
+                    },
+                    variantTable: {
+                      ...state.variantTable,
+                      rowCount: (modelDataResponse.data.variants || []).length,
                     },
                   }));
 
