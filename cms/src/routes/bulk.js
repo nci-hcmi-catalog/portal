@@ -7,7 +7,7 @@ import { runYupValidatorFailSlow, modelStatus } from '../helpers';
 import { indexModelsToES } from '../services/elastic-search/publish';
 import { unpublishManyFromES } from '../services/elastic-search/unpublish';
 import csvStream from '../helpers/streamAsCSV';
-
+import { backupFields } from '../schemas/descriptions/model';
 const bulkRouter = express.Router();
 
 bulkRouter.post('/publish', async (req, res) => {
@@ -91,7 +91,8 @@ bulkRouter.post('/delete', async (req, res) => {
 bulkRouter.get('/backup', async (req, res) => {
   csvStream({
     schemaObj: Model,
-    writeHeaders: false,
+    fields: backupFields,
+    writeHeaders: true,
     exportFileName: 'models',
     response: res,
     request: req,

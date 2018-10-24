@@ -11,10 +11,10 @@ import withDeleteModal from '../DeleteModal';
 import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
 import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
 
-import { schemaArr } from '../schema/model';
+import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/model';
 import { ActionPill, ActionLinkPill, Actions, ToolbarText } from '../../../theme/adminTableStyles';
 import { SmallPill, ActionsMenu, ActionsMenuItem } from 'theme/adminControlsStyles';
-import { filters } from '../helpers/queryFilters';
+import { filters } from '@hcmi-portal/cms/src/helpers/dataFilters';
 
 const selectedColumns = [
   'name',

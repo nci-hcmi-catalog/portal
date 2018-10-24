@@ -117,3 +117,8 @@ export const schemaObj = schemaArr.reduce((acc, curr) => {
   acc[curr.accessor] = curr;
   return acc;
 }, {});
+
+export const backupFields = schemaArr.map(field => ({
+  label: field.displayName,
+  value: field.value || field.accessor,
+}));

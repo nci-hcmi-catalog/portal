@@ -5,12 +5,12 @@ import withDeleteModal from '../DeleteModal';
 import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
 import DeleteIcon from 'icons/TrashIcon';
 import { ModalStateContext } from 'providers/ModalState';
-import { schemaArr } from '../schema/user';
+import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/user';
 import UserForm from './UserForm';
 import { ActionPill, Actions, ToolbarText } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
-import { filters } from '../helpers/queryFilters';
+import { filters } from '@hcmi-portal/cms/src/helpers/dataFilters';
 
 const selectedColumns = ['name', 'email', 'status', 'createdAt', 'updatedAt', 'updatedBy'];
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { schemaArr } from '../schema/modelVariant';
+import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/modelVariant';
 
 import { ModelSingleContext } from './ModelSingleController';
 import withDeleteModal from '../DeleteModal';

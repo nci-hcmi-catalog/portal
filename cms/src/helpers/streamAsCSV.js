@@ -1,13 +1,14 @@
 import map from 'map-stream';
 import json2csv from 'json2csv';
+import { trimEnd } from 'lodash';
 
-const dataTransformer = new json2csv.Transform({}, { objectMode: true });
-const dataParser = new json2csv.Parser({ header: false, flatten: true });
+const NEW_LINE = '\n';
 /** Given a mongoose schema object, produces a comma separated file. The nested objects are not exported
  * Export of nested object to is left to caller; caller can stream nested objects each as its own different file
  */
 export default ({
   schemaObj,
+  fields = [],
   populate = undefined,
   dataFilters = {},
   writeHeaders,
@@ -15,6 +16,8 @@ export default ({
   response,
   request,
 }) => {
+  const dataParser = new json2csv.Parser({ header: false, flatten: true, fields });
+
   // write headers
   response.writeHead(200, {
     'Content-Type': 'text/csv',
@@ -22,7 +25,8 @@ export default ({
   });
 
   if (writeHeaders) {
-    response.write(`headers`);
+    const headerRow = fields.reduce((acc, field) => acc + `${field.label},`, ``);
+    response.write(`${trimEnd(headerRow, ',')}${NEW_LINE}`);
   }
 
   let streamingObj = populate
@@ -34,8 +38,7 @@ export default ({
     .pipe(
       map((dataRow, cb) => {
         let output = dataParser.parse(dataRow);
-        console.log(output);
-        cb(null, `${output}\n`);
+        cb(null, `${output}${NEW_LINE}`);
       }),
     )
     .pipe(response)
