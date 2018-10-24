@@ -62,14 +62,17 @@ actionRouter.get('/backup-variants/:name', async (req, res) => {
     name,
   })
     .populate('variants.variant')
-    .exec((err, data) =>
-      csvStream({
-        data: JSON.parse(JSON.stringify(data.variants)), // mongoose objects are not json -> this converts data to pure json object that can be used by json2csv parser
-        fields: [{ label: 'Model Name', value: () => name }].concat(backupFields),
-        writeHeaders: true,
-        exportFileName: `${name}-Variants`,
-        response: res,
-      }),
+    .exec(
+      (err, data) =>
+        err
+          ? res.status(500).send(err)
+          : csvStream({
+              data: JSON.parse(JSON.stringify(data.variants)), // mongoose objects are not json -> this converts data to pure json object that can be used by json2csv parser
+              fields: [{ label: 'Model Name', value: () => name }].concat(backupFields),
+              writeHeaders: true,
+              exportFileName: `${name}-Variants`,
+              response: res,
+            }),
     );
 });
 

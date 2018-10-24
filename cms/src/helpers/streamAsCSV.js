@@ -41,7 +41,10 @@ export default ({
         }),
       )
       .pipe(response)
-      .on('error', err => response.status(500).send(err));
+      .on('error', err => {
+        response.status(500).write(err);
+        response.end();
+      });
   } else if (data) {
     response.write(dataParser.parse(data));
     response.end();
