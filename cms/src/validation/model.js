@@ -96,7 +96,6 @@ export default object().shape({
     .oneOf(diseaseStatus),
   vital_status: string()
     .required('This is a required field')
-
     .oneOf(vitalStatus),
   therapy: array()
     .of(string())

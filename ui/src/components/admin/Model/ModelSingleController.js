@@ -392,7 +392,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
                       await appendNotification({
                         type: result.errors.length > 0 ? 'warning' : 'success',
-                        message: 'Variants Upload Complete',
+                        message:
+                          'Bulk Upload of variants has successfully completed. New variants or updated fields are saved but not yet published.',
                         details: extractResultText(result, 'variant'),
                         bulkErrors: result.errors,
                         timeout: false, // do not auto-remove this notification
