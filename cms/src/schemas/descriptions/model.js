@@ -53,7 +53,7 @@ export const schemaArr = [
     displayName: 'Chemotherapeutic Drugs',
     accessor: 'chemotherapeutic_drugs',
     value: row =>
-      row.chemotherapeutic_drugs === '' ? (`` ? row.chemotherapeutic_drugs : `Yes`) : `No`,
+      row.chemotherapeutic_drugs === '' ? `` : row.chemotherapeutic_drugs ? `Yes` : `No`,
   },
   {
     displayName: 'Disease Status',
@@ -99,7 +99,7 @@ export const schemaArr = [
   {
     displayName: 'Licensing Requirements',
     accessor: 'licensing_required',
-    value: row => (row.licensing_required === '' ? (`` ? row.licensing_required : `Yes`) : `No`),
+    value: row => (row.licensing_required === '' ? `` : row.licensing_required ? `Yes` : `No`),
   },
   {
     displayName: 'Model URL',
