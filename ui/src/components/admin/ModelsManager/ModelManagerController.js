@@ -191,7 +191,8 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
 
                       await appendNotification({
                         type: result.errors.length > 0 ? 'warning' : 'success',
-                        message: 'Model Upload Complete',
+                        message:
+                          'Bulk Upload of models has successfully completed. New models or updated fields are saved but not yet published.',
                         details: extractResultText(result),
                         bulkErrors: result.errors,
                         timeout: false, // do not auto-remove this notification
