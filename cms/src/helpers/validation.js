@@ -28,7 +28,7 @@ export const runYupValidatorFailSlow = (validator, data) => {
               result.value.variant_name ||
               result.value[Object.keys(result.value)[0]] ||
               'Unknown',
-            details: result.errors,
+            details: getErrorDetails(result),
           },
         };
       }
@@ -61,3 +61,6 @@ export const runYupValidatorFailFast = (validator, data) => {
     return data;
   });
 };
+
+const getErrorDetails = validationResult =>
+  validationResult.inner.flatMap(({ errors, path }) => errors.map(error => `${path}: ${error}`));
