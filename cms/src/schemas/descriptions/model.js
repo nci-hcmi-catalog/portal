@@ -74,7 +74,7 @@ export const schemaArr = [
     value: row => trimEnd(row.therapy.reduce((acc, item) => acc + `${item}|`, ``), `|`),
   },
   {
-    displayName: 'Molecular Characterization',
+    displayName: 'Molecular Characterizations',
     accessor: 'molecular_characterizations',
     // value field is used by backup feature
     value: row =>

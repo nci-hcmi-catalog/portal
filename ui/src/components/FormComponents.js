@@ -137,7 +137,7 @@ export const FormRadioSelect = ({
       <FormFieldError>
         {/* Radio Select will only ever error when they are required so we
             will simplify the messaging for the front-end */}
-        {name} is a required field
+        {errors[name]}
         <FormFieldErrorIcon css={checkboxRadioErrorIcon} />
       </FormFieldError>
     )}
