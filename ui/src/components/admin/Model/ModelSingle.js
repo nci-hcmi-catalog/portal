@@ -17,12 +17,11 @@ import { Row } from 'theme/system';
 
 const renderTab = (tab, data) => {
   const dataKey = JSON.stringify(data);
-
   switch (tab) {
     case 'edit':
       return <ModelForm key={dataKey} data={data} />;
     case 'images':
-      return <ModelImages />;
+      return <ModelImages data={data} />;
     case 'variants':
       return <ModelVariants key={dataKey} data={data} />;
     default:

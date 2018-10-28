@@ -2,8 +2,6 @@ import React from 'react';
 import Component from 'react-component-component';
 import { withFormik, Field } from 'formik';
 import { ModelSingleContext } from './ModelSingleController';
-import MomentReact from 'react-moment';
-import moment from 'moment';
 import {
   FormComponent,
   FormInput,
@@ -31,6 +29,7 @@ import {
   therapy as therapyOptions,
   primarySites as primarySitesOptions,
 } from '@hcmi-portal/cms/src/schemas/constants';
+import TabHeader from './TabHeader';
 
 const booleanChoice = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
 
@@ -131,34 +130,14 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
         }}
       >
         <FormContainer>
-          <FormHeader>
-            <h2
-              css={`
-                flex-grow: 1;
-              `}
-            >
-              Model Details
-            </h2>
-            {Object.keys(values).length > 0 && values[updatedAt.accessor] ? (
-              <div
-                css={`
-                  justify-content: right;
-                  font-size: 12px;
-                `}
-              >
-                <span>{`Updated `}</span>
-                <MomentReact
-                  parse="YYYY-MM-DD HH:mm"
-                  format="YYYY-MM-DD hh:mm a"
-                  tz={moment.tz.guess()}
-                >
-                  {values[updatedAt.accessor]}
-                </MomentReact>
-              </div>
-            ) : (
-              ''
-            )}
-          </FormHeader>
+          <TabHeader
+            title={`Model Details`}
+            updatedAt={
+              Object.keys(values).length > 0 && values[updatedAt.accessor]
+                ? values[updatedAt.accessor]
+                : undefined
+            }
+          />
           <FormSection>
             <FormCol>
               <FormComponent labelText={name.displayName}>

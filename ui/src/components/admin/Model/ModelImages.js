@@ -8,7 +8,7 @@ import { HoverPill } from 'theme/adminControlsStyles';
 import base from 'theme';
 import { Row, Col } from 'theme/system';
 import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
-import { FormContainer, FormHeader } from 'theme/adminFormStyles';
+import { FormContainer } from 'theme/adminFormStyles';
 import { Field, Formik } from 'formik';
 import { FormInput } from 'components/FormComponents';
 
@@ -17,7 +17,7 @@ import PlusIcon from 'icons/PlusIcon';
 import TrashIcon from 'icons/TrashIcon';
 import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
 import config from '../config';
-
+import TabHeader from './TabHeader';
 const {
   keyedPalette: { frenchGrey, lightPorcelain, mineShaft, porcelain, silver },
   fonts: { libreFranklin, openSans },
@@ -235,11 +235,9 @@ const ImageDropper = ({ onDrop, display }) => (
   </Dropzone>
 );
 
-export default () => (
+export default ({ data: { updatedAt } }) => (
   <>
-    <FormHeader>
-      <h2>Model Images</h2>
-    </FormHeader>
+    <TabHeader title={`Model Images`} updatedAt={updatedAt} />
     <ModelSingleContext.Consumer>
       {({
         state: {
