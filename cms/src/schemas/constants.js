@@ -1107,7 +1107,7 @@ export const modelType = [
 export const molecularCharacterizations = [
   'WGS of parent tumor',
   'WGS of normal',
-  'WGS of Model',
+  'WGS of model',
   'WXS of parent tumor',
   'WXS of normal',
   'WXS of model',
