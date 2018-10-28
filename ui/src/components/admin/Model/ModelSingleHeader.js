@@ -11,10 +11,8 @@ import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
 
 import { AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
 import { ModelHeaderH1, ModelHeaderBackLink } from 'theme/adminModelStyles';
-import { SmallPill, HoverPill } from 'theme/adminControlsStyles';
-
-import { modelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
-
+import { HoverPill } from 'theme/adminControlsStyles';
+import { modelStatusPill } from '../ModelsManager/ModelColumns';
 const headerText = (modelName = null, error = null) => {
   // Default is the create state text
   let text = 'Create a Model';
@@ -40,19 +38,6 @@ const headerText = (modelName = null, error = null) => {
   }
 
   return <ModelHeaderH1>{text}</ModelHeaderH1>;
-};
-
-const modelStatusPill = (data = null) => {
-  switch (data.status) {
-    case modelStatus.published:
-      return <SmallPill>{data.status}</SmallPill>;
-    case modelStatus.unpublishedChanges:
-      return <SmallPill warning>{data.status}</SmallPill>;
-    case modelStatus.unpublished:
-      return <SmallPill info>{data.status}</SmallPill>;
-    default:
-      return <SmallPill primary>{data.status}</SmallPill>;
-  }
 };
 
 const modelMoreOptions = (data = null) =>
