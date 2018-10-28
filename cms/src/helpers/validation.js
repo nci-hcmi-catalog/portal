@@ -49,7 +49,7 @@ export const runYupValidatorFailFast = (validator, data) => {
           errors: inner.reduce(
             (acc, { path, message }) => ({
               ...acc,
-              [path]: message,
+              [path]: `${path}: ${message}`,
             }),
             {},
           ),

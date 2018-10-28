@@ -105,7 +105,7 @@ const modelManagerCustomColumns = [
     Cell: row => {
       let statusValue = (row.value || 'Unpublished').toLowerCase();
       if (statusValue === 'unpublished changes') {
-        return <SmallPill warning>Unpublished Changes</SmallPill>;
+        return <SmallPill warning>Changes not yet published</SmallPill>;
       } else if (statusValue === 'published') {
         return <SmallPill>Published</SmallPill>;
       } else {
