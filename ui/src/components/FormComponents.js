@@ -146,9 +146,10 @@ export const FormRadioSelect = ({
         const formValue = normalizeOption(value);
         const optionValue = normalizeOption(option.value);
         return (
-          <label key={idx}>
+          <label htmlFor={idx} key={idx}>
             {option.label}
             <input
+              id={idx}
               type="radio"
               {...field}
               value={optionValue}
@@ -182,9 +183,10 @@ export const FormMultiCheckbox = ({
           const name = option.label;
           const value = option.value;
           return (
-            <label key={idx}>
+            <label htmlFor={idx} key={idx}>
               {name}
               <input
+                id={idx}
                 type="checkbox"
                 value={value}
                 checked={fieldValues.includes(value)}
