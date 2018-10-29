@@ -1,7 +1,7 @@
 // Constants
 export const modelStatus = {
   unpublished: 'unpublished',
-  unpublishedChanges: 'unpublished changes',
+  unpublishedChanges: 'changes not yet published',
   other: 'other',
   published: 'published',
 };

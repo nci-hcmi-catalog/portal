@@ -10,12 +10,12 @@ import { ModelVariantColumns as tableColumns } from './ModelVariantColumns';
 import AdminPlusIcon from '../../../icons/AdminPlusIcon';
 
 import { AdminContainer, AdminHeader, AdminHeaderH3, AdminHeaderBlock } from 'theme/adminStyles';
-import { FormHeader } from 'theme/adminFormStyles';
 import { HoverPill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 import config from '../config';
-export default ({ data: { name, variants } }) => {
+import TabHeader from './TabHeader';
+export default ({ data: { name, variants, updatedAt } }) => {
   const data = variants.map(variant => ({
     _id: variant._id,
     variant_name: variant.variant.name,
@@ -28,9 +28,7 @@ export default ({ data: { name, variants } }) => {
 
   return (
     <>
-      <FormHeader>
-        <h2>Variants</h2>
-      </FormHeader>
+      <TabHeader title={`Variants`} updatedAt={updatedAt} />
       <ModelSingleContext.Consumer>
         {({
           state: { variantTable },

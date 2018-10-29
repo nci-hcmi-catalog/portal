@@ -270,6 +270,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                       type: 'error',
                       message: `Publish Error.`,
                       details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
+                      timeout: false, // do not auto-remove this notification when publishing
                     });
                   });
               },
@@ -307,6 +308,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                       type: 'error',
                       message: `Unpublish Error.`,
                       details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
+                      timeout: false, // do not auto-remove this notification when unpublishing
                     });
                   });
               },
@@ -342,6 +344,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                       type: 'error',
                       message: `Delete Error.`,
                       details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
+                      timeout: false, // do not auto-remove this notification when deleting
                     });
                   });
               },

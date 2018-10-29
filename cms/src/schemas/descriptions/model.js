@@ -16,6 +16,7 @@ export const schemaArr = [
   {
     displayName: 'Split Ratio',
     accessor: 'split_ratio',
+    value: row => (typeof row.split_ratio === 'undefined' ? undefined : `'${row.split_ratio}`),
   },
   {
     displayName: 'Gender',
@@ -74,7 +75,7 @@ export const schemaArr = [
     value: row => trimEnd(row.therapy.reduce((acc, item) => acc + `${item}|`, ``), `|`),
   },
   {
-    displayName: 'Molecular Characterization',
+    displayName: 'Molecular Characterizations',
     accessor: 'molecular_characterizations',
     // value field is used by backup feature
     value: row =>

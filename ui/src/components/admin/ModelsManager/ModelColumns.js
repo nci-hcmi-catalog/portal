@@ -15,6 +15,7 @@ import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/model';
 import { ActionPill, ActionLinkPill, Actions, ToolbarText } from '../../../theme/adminTableStyles';
 import { SmallPill, ActionsMenu, ActionsMenuItem } from 'theme/adminControlsStyles';
 import { filters } from '@hcmi-portal/cms/src/helpers/dataFilters';
+import { modelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
 
 const selectedColumns = [
   'name',
@@ -39,6 +40,19 @@ const selectedColumns = [
   'updatedAt',
   'updatedBy',
 ];
+
+export const modelStatusPill = (data = null) => {
+  switch (data.status) {
+    case modelStatus.published:
+      return <SmallPill>{modelStatus.published}</SmallPill>;
+    case modelStatus.unpublishedChanges:
+      return <SmallPill warning>{modelStatus.unpublishedChanges}</SmallPill>;
+    case modelStatus.unpublished:
+      return <SmallPill info>{modelStatus.unpublished}</SmallPill>;
+    default:
+      return <SmallPill primary>{data.status}</SmallPill>;
+  }
+};
 
 const actionAndClose = (action, close) => () => {
   action();
@@ -103,14 +117,8 @@ const modelManagerCustomColumns = [
       cellValue.toLowerCase().startsWith(filterValue.toLowerCase()),
     queryFilter: filters.startsWith,
     Cell: row => {
-      let statusValue = (row.value || 'Unpublished').toLowerCase();
-      if (statusValue === 'unpublished changes') {
-        return <SmallPill warning>Unpublished Changes</SmallPill>;
-      } else if (statusValue === 'published') {
-        return <SmallPill>Published</SmallPill>;
-      } else {
-        return <SmallPill info>Unpublished</SmallPill>;
-      }
+      let status = (row.value || 'Unpublished').toLowerCase();
+      return modelStatusPill({ status });
     },
   },
   {

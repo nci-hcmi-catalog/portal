@@ -52,20 +52,14 @@ export default object().shape({
       nameValidation,
       'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]',
     ),
-  type: string()
-    .required('This is a required field')
-    .oneOf(modelType),
+  type: string().oneOf(modelType),
   growth_rate: number()
-    .required('This is a required field')
     .integer()
     .min(1)
     .max(99),
-  split_ratio: string()
-    .required('This is a required field')
-    .oneOf(splitRatio),
+  split_ratio: string().oneOf(splitRatio),
   gender: string()
     .required('This is a required field')
-
     .oneOf(gender),
   race: string()
     .required('This is a required field')
@@ -77,11 +71,10 @@ export default object().shape({
     .min(0)
     .max(99),
   age_at_sample_acquisition: number()
-    .required('This is a required field')
     .integer()
     .min(0)
     .max(99),
-  date_of_availability: date().required('This is a required field'),
+  date_of_availability: date(),
   primary_site: string()
     .required('This is a required field')
     .oneOf(primarySites),
@@ -91,12 +84,8 @@ export default object().shape({
   ),
   neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
   chemotherapeutic_drugs: boolean().nullable(true),
-  disease_status: string()
-    .required('This is a required field')
-    .oneOf(diseaseStatus),
-  vital_status: string()
-    .required('This is a required field')
-    .oneOf(vitalStatus),
+  disease_status: string().oneOf(diseaseStatus),
+  vital_status: string().oneOf(vitalStatus),
   therapy: array()
     .of(string())
     .ensure()
@@ -145,7 +134,7 @@ export default object().shape({
         'tumor histological grade',
       ),
     ),
-  licensing_required: boolean().required('This is a required field'),
+  licensing_required: boolean(),
   source_model_url: string().url(),
   source_sequence_url: string().url(),
   updatedBy: string(),

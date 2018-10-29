@@ -16,7 +16,7 @@ import ExternalLinkIcon from 'icons/ExternalLinkIcon';
 import ErrorIcon from 'icons/ErrorIcon';
 import ExportIcon from 'icons/ExportIcon';
 import googleSheetsLogo from 'assets/logo-googlesheets.png';
-
+import config from '../config';
 const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
 // Map simple string/number options to keyed objects
@@ -44,8 +44,8 @@ export default ({
   <BulkUploadContent>
     <BulkUploadContentBlock>
       <div>{`Submit your ${type} data by uploading a google sheet.`}</div>
-      <BulkUploadTemplateLink href="https://sheets.google.com">
-        <ExternalLinkIcon height={10} width={10} css={'margin-right: 8px;'} />Sheet Template
+      <BulkUploadTemplateLink href={`${config.urls.cmsBase}/templates/${type}s`}>
+        <ExportIcon width={10} height={12} css={'margin: 0 5px 0 2px'} />Download Sheet Template
       </BulkUploadTemplateLink>
     </BulkUploadContentBlock>
     <BulkUploadContentBlock>

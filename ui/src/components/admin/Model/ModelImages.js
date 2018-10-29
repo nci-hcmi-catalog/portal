@@ -8,7 +8,7 @@ import { HoverPill } from 'theme/adminControlsStyles';
 import base from 'theme';
 import { Row, Col } from 'theme/system';
 import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
-import { FormContainer, FormHeader } from 'theme/adminFormStyles';
+import { FormContainer } from 'theme/adminFormStyles';
 import { Field, Formik } from 'formik';
 import { FormInput } from 'components/FormComponents';
 
@@ -17,7 +17,7 @@ import PlusIcon from 'icons/PlusIcon';
 import TrashIcon from 'icons/TrashIcon';
 import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
 import config from '../config';
-
+import TabHeader from './TabHeader';
 const {
   keyedPalette: { frenchGrey, lightPorcelain, mineShaft, porcelain, silver },
   fonts: { libreFranklin, openSans },
@@ -39,7 +39,7 @@ const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) =
       <FormContainer>
         <ul>
           <li>
-            {!editing ? <b>{file.file_name}</b> : <b>File name:</b>}
+            {!editing ? <b>{file.file_name}</b> : <b>Description:</b>}
             {editing && <Field name="file_name" component={FormInput} />}
           </li>
           <li>
@@ -65,8 +65,8 @@ const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) =
   />
 );
 const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
-  <Component initialState={{ editing: false }}>
-    {({ state: { editing }, setState }) => (
+  <Component initialState={{ editing: false, showControls: false }}>
+    {({ state: { editing, showControls }, setState }) => (
       <Col
         css={`
           font: ${openSans};
@@ -80,6 +80,8 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
           position: relative;
           opacity: ${queuedForDelete ? 0.5 : 1};
         `}
+        onMouseOver={() => setState({ showControls: true })}
+        onMouseOut={() => setState({ showControls: false })}
       >
         <img
           src={file.preview ? file.preview : `${config.urls.cmsBase}/images/${file.file_id}`}
@@ -92,12 +94,9 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
             position: absolute;
             right: 10px;
             top: 10px;
-            opacity: 0;
+            opacity: ${showControls && !editing ? 1 : 0};
             width: 100%;
             justify-content: flex-end;
-            &:hover {
-              opacity: 1;
-            }
           `}
         >
           {!queuedForDelete && (
@@ -235,11 +234,9 @@ const ImageDropper = ({ onDrop, display }) => (
   </Dropzone>
 );
 
-export default () => (
+export default ({ data: { updatedAt } }) => (
   <>
-    <FormHeader>
-      <h2>Model Images</h2>
-    </FormHeader>
+    <TabHeader title={`Model Images`} updatedAt={updatedAt} />
     <ModelSingleContext.Consumer>
       {({
         state: {

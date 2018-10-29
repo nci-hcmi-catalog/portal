@@ -11,8 +11,9 @@ import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
 
 import { AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
 import { ModelHeaderH1, ModelHeaderBackLink } from 'theme/adminModelStyles';
-import { SmallPill, HoverPill } from 'theme/adminControlsStyles';
-
+import { HoverPill } from 'theme/adminControlsStyles';
+import { modelStatusPill } from '../ModelsManager/ModelColumns';
+import ExternalLinkIcon from 'icons/ExternalLinkIcon';
 import { modelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
 
 const headerText = (modelName = null, error = null) => {
@@ -40,19 +41,6 @@ const headerText = (modelName = null, error = null) => {
   }
 
   return <ModelHeaderH1>{text}</ModelHeaderH1>;
-};
-
-const modelStatusPill = (data = null) => {
-  switch (data.status) {
-    case modelStatus.published:
-      return <SmallPill>{data.status}</SmallPill>;
-    case modelStatus.unpublishedChanges:
-      return <SmallPill warning>{data.status}</SmallPill>;
-    case modelStatus.unpublished:
-      return <SmallPill info>{data.status}</SmallPill>;
-    default:
-      return <SmallPill primary>{data.status}</SmallPill>;
-  }
 };
 
 const modelMoreOptions = (data = null) =>
@@ -90,20 +78,37 @@ export default ({ modelName }) => (
         data: { response, error },
       },
     }) => (
-      <AdminHeader>
-        <AdminHeaderBlock>
-          {headerText(modelName, error)}
-          {response.status && modelStatusPill(response)}
-        </AdminHeaderBlock>
-        <AdminHeaderBlock>
-          <ModelHeaderBackLink to={manageModelsUrlBase}>
-            <ArrowLeftIcon /> Back to List
-          </ModelHeaderBackLink>
-          <PublishModel marginLeft="21px" marginRight="10px" />
-          <SaveModel />
-          {modelMoreOptions(response || null)}
-        </AdminHeaderBlock>
-      </AdminHeader>
+      <>
+        <ModelHeaderBackLink
+          css={`
+            padding-top: 20px;
+          `}
+          to={manageModelsUrlBase}
+        >
+          <ArrowLeftIcon /> Back to List
+        </ModelHeaderBackLink>
+        <AdminHeader>
+          <AdminHeaderBlock>
+            {headerText(modelName, error)}
+            {response.status && modelStatusPill(response)}
+          </AdminHeaderBlock>
+          <AdminHeaderBlock>
+            {response.status &&
+            (response.status === modelStatus.published ||
+              response.status === modelStatus.unpublishedChanges) ? (
+              <ModelHeaderBackLink to={`/model/${modelName}`}>
+                <ExternalLinkIcon height={10} width={10} css={'margin-right: 8px;'} />View in
+                catalog
+              </ModelHeaderBackLink>
+            ) : (
+              ''
+            )}
+            <PublishModel marginLeft="21px" marginRight="10px" />
+            <SaveModel />
+            {modelMoreOptions(response || null)}
+          </AdminHeaderBlock>
+        </AdminHeader>
+      </>
     )}
   </ModelSingleContext.Consumer>
 );
