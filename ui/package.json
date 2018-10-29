@@ -49,19 +49,11 @@
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.0.0-beta.46",
     "babel-plugin-emotion": "^9.1.2",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
     "react-app-rewired": "^1.5.0"
   },
   "browserslist": {
-    "development": [
-      "last 2 chrome versions",
-      "last 2 firefox versions",
-      "last 2 edge versions"
-    ],
-    "production": [
-      ">1%",
-      "last 4 versions",
-      "Firefox ESR",
-      "not ie < 11"
-    ]
+    "development": ["last 2 chrome versions", "last 2 firefox versions", "last 2 edge versions"],
+    "production": [">1%", "last 4 versions", "Firefox ESR", "not ie < 11"]
   }
 }
