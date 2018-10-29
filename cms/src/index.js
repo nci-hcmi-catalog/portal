@@ -11,7 +11,7 @@ import restify from 'express-restify-mongoose';
 import morgan from 'morgan';
 
 import { data_sync_router } from './routes/sync-data';
-import { imagesRouter, bulkRouter, actionRouter } from './routes';
+import { imagesRouter, bulkRouter, actionRouter, templatesRouter } from './routes';
 import { preUpdate, validateYup, preModelDelete, postUpdate, validateUserRequest } from './hooks';
 import Model from './schemas/model';
 import User from './schemas/user';
@@ -88,6 +88,7 @@ app.use('/api/v1', data_sync_router);
 app.use('/api/v1/bulk', bulkRouter);
 app.use('/api/v1/images', imagesRouter);
 app.use('/api/v1/action', actionRouter);
+app.use('/api/v1/templates', templatesRouter);
 app.use(modelRouter);
 app.use(userRouter);
 
