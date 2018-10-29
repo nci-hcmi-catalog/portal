@@ -39,7 +39,7 @@ const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) =
       <FormContainer>
         <ul>
           <li>
-            {!editing ? <b>{file.file_name}</b> : <b>File name:</b>}
+            {!editing ? <b>{file.file_name}</b> : <b>Description:</b>}
             {editing && <Field name="file_name" component={FormInput} />}
           </li>
           <li>
@@ -65,8 +65,8 @@ const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) =
   />
 );
 const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
-  <Component initialState={{ editing: false }}>
-    {({ state: { editing }, setState }) => (
+  <Component initialState={{ editing: false, showControls: false }}>
+    {({ state: { editing, showControls }, setState }) => (
       <Col
         css={`
           font: ${openSans};
@@ -80,6 +80,8 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
           position: relative;
           opacity: ${queuedForDelete ? 0.5 : 1};
         `}
+        onMouseOver={() => setState({ showControls: true })}
+        onMouseOut={() => setState({ showControls: false })}
       >
         <img
           src={file.preview ? file.preview : `${config.urls.cmsBase}/images/${file.file_id}`}
@@ -92,12 +94,9 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
             position: absolute;
             right: 10px;
             top: 10px;
-            opacity: 0;
+            opacity: ${showControls && !editing ? 1 : 0};
             width: 100%;
             justify-content: flex-end;
-            &:hover {
-              opacity: 1;
-            }
           `}
         >
           {!queuedForDelete && (
