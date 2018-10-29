@@ -13,6 +13,8 @@ import { AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
 import { ModelHeaderH1, ModelHeaderBackLink } from 'theme/adminModelStyles';
 import { HoverPill } from 'theme/adminControlsStyles';
 import { modelStatusPill } from '../ModelsManager/ModelColumns';
+import ExternalLinkIcon from 'icons/ExternalLinkIcon';
+
 const headerText = (modelName = null, error = null) => {
   // Default is the create state text
   let text = 'Create a Model';
@@ -76,53 +78,27 @@ export default ({ modelName }) => (
       },
     }) => (
       <>
-        <AdminHeader
+        <ModelHeaderBackLink
           css={`
-            flex-flow: column wrap;
+            padding-top: 20px;
           `}
+          to={manageModelsUrlBase}
         >
-          <div
-            css={`
-              display: flex;
-              flex-direction: row;
-              flex-grow: 1;
-              width: 100%;
-              align-items: flex-start;
-            `}
-          >
-            <ModelHeaderBackLink to={manageModelsUrlBase}>
-              <ArrowLeftIcon /> Back to List
+          <ArrowLeftIcon /> Back to List
+        </ModelHeaderBackLink>
+        <AdminHeader>
+          <AdminHeaderBlock>
+            {headerText(modelName, error)}
+            {response.status && modelStatusPill(response)}
+          </AdminHeaderBlock>
+          <AdminHeaderBlock>
+            <ModelHeaderBackLink to={`/model/${modelName}`}>
+              <ExternalLinkIcon height={10} width={10} css={'margin-right: 8px;'} />View in catalog
             </ModelHeaderBackLink>
-          </div>
-          <div
-            css={`
-              display: flex;
-              flex-direction: row;
-              flex-grow: 1;
-              width: 100%;
-              align-items: center;
-              justify-content: space-between;
-            `}
-          >
-            <AdminHeaderBlock
-              css={`
-                flex-grow: 1;
-              `}
-            >
-              {headerText(modelName, error)}
-              {response.status && modelStatusPill(response)}
-            </AdminHeaderBlock>
-            <AdminHeaderBlock
-              css={`
-                flex-grow: 0;
-                align-items: flex-end;
-              `}
-            >
-              <PublishModel marginLeft="21px" marginRight="10px" />
-              <SaveModel />
-              {modelMoreOptions(response || null)}
-            </AdminHeaderBlock>
-          </div>
+            <PublishModel marginLeft="21px" marginRight="10px" />
+            <SaveModel />
+            {modelMoreOptions(response || null)}
+          </AdminHeaderBlock>
         </AdminHeader>
       </>
     )}
