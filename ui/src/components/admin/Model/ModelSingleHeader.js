@@ -75,20 +75,56 @@ export default ({ modelName }) => (
         data: { response, error },
       },
     }) => (
-      <AdminHeader>
-        <AdminHeaderBlock>
-          {headerText(modelName, error)}
-          {response.status && modelStatusPill(response)}
-        </AdminHeaderBlock>
-        <AdminHeaderBlock>
-          <ModelHeaderBackLink to={manageModelsUrlBase}>
-            <ArrowLeftIcon /> Back to List
-          </ModelHeaderBackLink>
-          <PublishModel marginLeft="21px" marginRight="10px" />
-          <SaveModel />
-          {modelMoreOptions(response || null)}
-        </AdminHeaderBlock>
-      </AdminHeader>
+      <>
+        <AdminHeader
+          css={`
+            flex-flow: column wrap;
+          `}
+        >
+          <div
+            css={`
+              display: flex;
+              flex-direction: row;
+              flex-grow: 1;
+              width: 100%;
+              align-items: flex-start;
+            `}
+          >
+            <ModelHeaderBackLink to={manageModelsUrlBase}>
+              <ArrowLeftIcon /> Back to List
+            </ModelHeaderBackLink>
+          </div>
+          <div
+            css={`
+              display: flex;
+              flex-direction: row;
+              flex-grow: 1;
+              width: 100%;
+              align-items: center;
+              justify-content: space-between;
+            `}
+          >
+            <AdminHeaderBlock
+              css={`
+                flex-grow: 1;
+              `}
+            >
+              {headerText(modelName, error)}
+              {response.status && modelStatusPill(response)}
+            </AdminHeaderBlock>
+            <AdminHeaderBlock
+              css={`
+                flex-grow: 0;
+                align-items: flex-end;
+              `}
+            >
+              <PublishModel marginLeft="21px" marginRight="10px" />
+              <SaveModel />
+              {modelMoreOptions(response || null)}
+            </AdminHeaderBlock>
+          </div>
+        </AdminHeader>
+      </>
     )}
   </ModelSingleContext.Consumer>
 );
