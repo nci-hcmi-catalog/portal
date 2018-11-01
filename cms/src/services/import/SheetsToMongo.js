@@ -62,7 +62,8 @@ export const NAtoNull = data =>
 
 export const typeToParser = {
   String: data => (data ? `${data}` : null),
-  Number: data => (`${data}`.length === 0 ? null : isNaN(Number(data)) ? data : Number(data)), //return null for empty values; dont return null if wrong type so validators are still triggered
+  Number: data =>
+    data ? (`${data}`.length === 0 ? null : isNaN(Number(data)) ? data : Number(data)) : null, //return null for null or empty values; dont return null if wrong type so validators are still triggered
   Array: data => (data ? data.split('|') : []),
   Date: data => data,
   Boolean: data => {
