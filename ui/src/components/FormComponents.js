@@ -72,6 +72,7 @@ export const FormDateInput = ({ field, form: { touched, errors }, ...props }) =>
       <FormFieldError>{errors[field.name]}</FormFieldError>
     )}
     <DatePicker
+      aria-label={field.name}
       {...field}
       type="date"
       value={field.value && field.value.length > 0 ? moment(field.value).format('YYYY-MM-DD') : ''}
@@ -114,6 +115,7 @@ export const FormSelect = ({
           disabled={disabled || Object.keys(processedOptions).length === 0}
           {...field}
           {...props}
+          id={field.name}
           errors={hasErrors(errors, touched, field.name)}
         >
           <option value="">-- Select an Option --</option>
@@ -152,10 +154,9 @@ export const FormRadioSelect = ({
         const formValue = normalizeOption(value);
         const optionValue = normalizeOption(option.value);
         return (
-          <label htmlFor={idx} key={idx}>
+          <label key={idx}>
             {option.label}
             <input
-              id={idx}
               type="radio"
               {...field}
               value={optionValue}
@@ -189,7 +190,7 @@ export const FormMultiCheckbox = ({
           const name = option.label;
           const value = option.value;
           return (
-            <label htmlFor={idx} key={idx}>
+            <label key={idx}>
               {name}
               <input
                 id={idx}
@@ -225,12 +226,19 @@ export const FomAutoComplete = ({
       <FormFieldError>{errorText || errors[name]}</FormFieldError>
     )}
     <ReactAutocomplete
+      inputProps={{ 'aria-label': `${name}-options` }}
       items={processOptions(options)}
       shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
       getItemValue={item => item.label}
       renderMenu={items => <AutoCompleteMenu children={items} />}
       renderItem={(item, highlighted) => (
-        <AutoCompleteOption key={item.value} highlighted={highlighted}>
+        <AutoCompleteOption
+          id={item.value}
+          name={item.value}
+          aria-label={item.label}
+          key={item.value}
+          highlighted={highlighted}
+        >
           {item.label}
         </AutoCompleteOption>
       )}

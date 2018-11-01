@@ -188,6 +188,7 @@ const ImageGallery = ({ acceptedFiles, toDeleteFiles, onDelete, onMetaDataSave }
 let dropzoneRef;
 const ImageDropper = ({ onDrop, display }) => (
   <Dropzone
+    inputProps={{ 'aria-label': `Drop images here` }}
     ref={node => {
       dropzoneRef = node;
     }}
