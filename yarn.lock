@@ -2025,6 +2025,10 @@ aws4@^1.2.1, aws4@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.8.0.tgz#f0e003d9ca9e7f59c7a508945d7b2ef9a04a542f"
 
+axe-core@^3.0.0:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-3.1.2.tgz#ca0aff897ebefca7552f97859dc1217c06c4f9e6"
+
 axios@^0.18.0:
   version "0.18.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.0.tgz#32d53e4851efdc0a11993b6cd000789d70c05102"
@@ -9040,6 +9044,12 @@ react-autocomplete@^1.8.1:
   dependencies:
     dom-scroll-into-view "1.0.1"
     prop-types "^15.5.10"
+
+react-axe@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-axe/-/react-axe-3.0.2.tgz#91e4265b665dd1f45cf3d0254a90c72ff6fd88cb"
+  dependencies:
+    axe-core "^3.0.0"
 
 react-component-component@^1.0.1, react-component-component@^1.2.1:
   version "1.2.1"

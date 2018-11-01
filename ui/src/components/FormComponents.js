@@ -54,7 +54,13 @@ export const FormInput = ({ field, form: { touched, errors }, type = 'text', ...
     {hasErrors(errors, touched, field.name) && (
       <FormFieldError>{errors[field.name]}</FormFieldError>
     )}
-    <Input type={type} {...field} {...props} errors={hasErrors(errors, touched, field.name)} />
+    <Input
+      type={type}
+      {...field}
+      {...props}
+      aria-label={`${field.name}`}
+      errors={hasErrors(errors, touched, field.name)}
+    />
     {hasErrors(errors, touched, field.name) && <FormFieldErrorIcon css={inputSelectErrorIcon} />}
   </>
 );

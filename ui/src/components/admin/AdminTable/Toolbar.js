@@ -39,6 +39,7 @@ export default ({
             height: 37px;
             line-height: 37px;
           `}
+          aria-label={`Data filter`}
         />
         <ToolbarText
           css={`

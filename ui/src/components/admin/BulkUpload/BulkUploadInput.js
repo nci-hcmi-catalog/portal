@@ -54,6 +54,7 @@ export default ({
         <Input
           type="text"
           placeholder="Google Sheets URL"
+          aria-label={`Google Sheets URL`}
           value={sheetsURL}
           onChange={({ target: { value } }) => onSheetsURLChange(value)}
         />
