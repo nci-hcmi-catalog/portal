@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import base from 'theme';
 import { adminPillHover } from 'theme/hoverStyles';
 import { Row } from 'theme/system';
-import {whiteHover} from 'theme/hoverStyles';
+import { whiteHover } from 'theme/hoverStyles';
 
 const {
   fonts: { libreFranklin, openSans },

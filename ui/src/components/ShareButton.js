@@ -59,9 +59,12 @@ export default ({ link, error, quote, leftOffset = '-121px' }) => (
               position: relative;
             `}
           >
-            <div className="pill" onClick={() => toggleMenu({}, () => setState({ copied: false }))}>
+            <button
+              className="pill"
+              onClick={() => toggleMenu({}, () => setState({ copied: false }))}
+            >
               <ShareIcon height={13} />Share
-            </div>
+            </button>
             {isOpen && (
               <Col
                 css={`

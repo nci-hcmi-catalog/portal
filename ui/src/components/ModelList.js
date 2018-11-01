@@ -14,8 +14,12 @@ export default ({ className }) => (
           const hasSelected = selectedCount > 0;
           return (
             <div css={styles}>
-              <div
+              <button
+                aria-label={`Show models selected for download`}
                 className={`model-list-icon ${hasSelected ? 'not-empty' : ''} ${className}`}
+                css={`
+                  border: none;
+                `}
                 onClick={() =>
                   modalState.setModalState({
                     component: <ModelListModal />,
@@ -25,7 +29,7 @@ export default ({ className }) => (
                 }
               >
                 {hasSelected && <span className="count">{selectedCount}</span>}
-              </div>
+              </button>
             </div>
           );
         }}

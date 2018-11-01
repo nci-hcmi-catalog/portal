@@ -263,7 +263,7 @@ const VariantTable = ({ type, modelName, columns }) => (
                   });
                 }}
               />
-              <div
+              <button
                 className="pill"
                 disabled={sortedData.length === 0}
                 style={{ marginLeft: '10px' }}
@@ -271,7 +271,7 @@ const VariantTable = ({ type, modelName, columns }) => (
               >
                 <ExportIcon height={10} width={10} />
                 TSV
-              </div>
+              </button>
             </Row>
           </Row>
           <div css={searchStyles}>

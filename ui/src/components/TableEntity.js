@@ -2,8 +2,12 @@ import React from 'react';
 import { stringify } from 'query-string';
 
 export default ({ sqon, savedSetsContext, state, value, history }) => (
-  <div
+  <button
     className="clickable"
+    css={`
+      background: none;
+      border: none;
+    `}
     onClick={async () => {
       const { setId } = await savedSetsContext.createSet({
         sqon,
@@ -26,5 +30,5 @@ export default ({ sqon, savedSetsContext, state, value, history }) => (
     }}
   >
     {value}
-  </div>
+  </button>
 );

@@ -50,7 +50,7 @@ export default ({ className, value, disabled, ref = React.createRef(), ...props 
 
   return (
     <TextInputWrapper disabled={disabled} className={className}>
-      <TextInput {...{ value, disabled, ...props }} componentRef={ref} autoFocus />
+      <TextInput {...{ value, disabled, ...props }} componentRef={ref} />
       {value && value.length && <AdminCloseIcon style={closeStyle} onClick={clearInput} />}
     </TextInputWrapper>
   );

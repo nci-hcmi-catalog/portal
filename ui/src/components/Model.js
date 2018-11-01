@@ -101,13 +101,13 @@ export default ({ modelName }) => (
                     {selected => {
                       const isSelected = selected.state.modelIds.includes(queryState.model.id);
                       return (
-                        <div
+                        <button
                           onClick={() => selected.toggleModel(queryState.model.id)}
                           className={`pill select-model ${isSelected ? 'selected' : ''}`}
                           style={{ marginLeft: '10px' }}
                         >
                           {isSelected ? 'Selected for download' : 'Add model to my list'}
-                        </div>
+                        </button>
                       );
                     }}
                   </SelectedModelsContext.Consumer>
