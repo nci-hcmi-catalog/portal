@@ -13,6 +13,7 @@ import {
   extractResultText,
   extractErrorText,
   generateTableActions,
+  isEmptyResult,
 } from '../helpers';
 
 import { modelStatus, computeModelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
@@ -389,12 +390,15 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                           rowCount: (modelDataResponse.data.variants || []).length,
                         },
                       }));
+                      const anyUpdatesDone = isEmptyResult(result);
+                      const notificationMessage = anyUpdatesDone
+                        ? `No suitable data is available to upload. No changes were made.`
+                        : `Bulk Upload of variants has successfully completed. New variants or updated fields are saved but not yet published.`;
 
                       await appendNotification({
                         type: result.errors.length > 0 ? 'warning' : 'success',
-                        message:
-                          'Bulk Upload of variants has successfully completed. New variants or updated fields are saved but not yet published.',
-                        details: extractResultText(result, 'variant'),
+                        message: notificationMessage,
+                        details: anyUpdatesDone ? '' : extractResultText(result),
                         bulkErrors: result.errors,
                         timeout: false, // do not auto-remove this notification
                       });

@@ -5,6 +5,7 @@ import {
   uploadModelsFromSheet,
   extractResultText,
   extractErrorText,
+  isEmptyResult,
   generateTableActions,
   bulkAction,
   singleAction,
@@ -188,12 +189,14 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                         rowCount: countResponse.data.count,
                         ...initPagingState,
                       });
-
+                      const anyUpdatesDone = isEmptyResult(result);
+                      const notificationMessage = anyUpdatesDone
+                        ? `No suitable data is available to upload. No changes were made.`
+                        : `Bulk Upload of models has successfully completed. New models or updated fields are saved but not yet published.`;
                       await appendNotification({
                         type: result.errors.length > 0 ? 'warning' : 'success',
-                        message:
-                          'Bulk Upload of models has successfully completed. New models or updated fields are saved but not yet published.',
-                        details: extractResultText(result),
+                        message: notificationMessage,
+                        details: anyUpdatesDone ? '' : extractResultText(result),
                         bulkErrors: result.errors,
                         timeout: false, // do not auto-remove this notification
                       });

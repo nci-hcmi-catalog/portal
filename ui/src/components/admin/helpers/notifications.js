@@ -63,3 +63,19 @@ export function extractErrorText(err) {
     '; ',
   );
 }
+
+/*
+ if all values are empty that means no updates were done - termed as empty result set
+*/
+export function isEmptyResult(result) {
+  return result.new &&
+    result.new.length === 0 &&
+    result.updated &&
+    result.updated.length === 0 &&
+    result.unchanged &&
+    result.unchanged.length === 0 &&
+    result.errors &&
+    result.errors.length === 0
+    ? true
+    : false;
+}
