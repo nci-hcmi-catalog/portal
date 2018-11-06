@@ -30,7 +30,6 @@ import {
   primarySites as primarySitesOptions,
 } from '@hcmi-portal/cms/src/schemas/constants';
 import TabHeader from './TabHeader';
-
 const booleanChoice = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
 
 const makeClinicalTumorDiagnosisDependentOptions = (
@@ -375,7 +374,9 @@ export default withFormik({
     try {
       publishValidation.validateSync(values, { abortEarly: false });
     } catch (error) {
-      return error.inner.reduce((acc, inner) => ({ ...acc, [inner.path]: inner.message }), {});
+      return error.inner
+        ? error.inner.reduce((acc, inner) => ({ ...acc, [inner.path]: inner.message }), {})
+        : error;
     }
   },
   displayName: 'ModelForm',

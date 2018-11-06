@@ -49,12 +49,27 @@ export const FormComponent = ({
   </FormBlock>
 );
 
-export const FormInput = ({ field, form: { touched, errors }, type = 'text', ...props }) => (
+export const FormInput = ({
+  field,
+  form: { touched, errors, setFieldValue },
+  type = 'text',
+  ...props
+}) => (
   <>
     {hasErrors(errors, touched, field.name) && (
       <FormFieldError>{errors[field.name]}</FormFieldError>
     )}
-    <Input type={type} {...field} {...props} errors={hasErrors(errors, touched, field.name)} />
+    <Input
+      type={type}
+      {...field}
+      {...props}
+      errors={hasErrors(errors, touched, field.name)}
+      onChange={e => {
+        type === 'number' && e.target.value === ''
+          ? setFieldValue(field.name, '')
+          : setFieldValue(field.name, e.target.value);
+      }}
+    />
     {hasErrors(errors, touched, field.name) && <FormFieldErrorIcon css={inputSelectErrorIcon} />}
   </>
 );

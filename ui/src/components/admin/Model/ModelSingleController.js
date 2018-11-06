@@ -1,3 +1,4 @@
+//@flow
 import React from 'react';
 import Component from 'react-component-component';
 import { uniqBy, isEqual, get } from 'lodash';

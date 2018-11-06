@@ -54,9 +54,14 @@ export default object().shape({
     ),
   type: string().oneOf(modelType),
   growth_rate: number()
+    .nullable(true)
     .integer()
     .min(1)
-    .max(99),
+    .max(99)
+    .transform(value => {
+      console.log(Number.isNaN(value) ? undefined : value);
+      return Number.isNaN(value) ? undefined : value;
+    }),
   split_ratio: string().oneOf(splitRatio),
   gender: string()
     .required('This is a required field')
@@ -78,10 +83,13 @@ export default object().shape({
   primary_site: string()
     .required('This is a required field')
     .oneOf(primarySites),
-  tnm_stage: string().matches(
-    tnmValidation,
-    'Field must follow TNM classification format: T0-T5, N0-N4, and M0-M2 ex. T0N1M2',
-  ),
+  tnm_stage: string()
+    .nullable(true)
+    .transform(value => (value && value.length === 0 ? null : value))
+    .matches(
+      tnmValidation,
+      'Field must follow TNM classification format: T0-T5, N0-N4, and M0-M2 ex. T0N1M2',
+    ),
   neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
   chemotherapeutic_drugs: boolean().nullable(true),
   disease_status: string().oneOf(diseaseStatus),
@@ -154,7 +162,9 @@ export const saveValidation = object().shape({
       'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]',
     ),
   type: string().oneOf(modelType),
-  growth_rate: number(),
+  growth_rate: number()
+    .nullable()
+    .transform(value => (Number.isNaN(value) ? undefined : value)),
   split_ratio: string().oneOf(splitRatio),
   gender: string().oneOf(gender),
   race: string()
@@ -164,10 +174,13 @@ export const saveValidation = object().shape({
   age_at_sample_acquisition: number(),
   date_of_availability: date(),
   primary_site: string().oneOf(primarySites),
-  tnm_stage: string().matches(
-    tnmValidation,
-    'Field must follow TNM classification format: T0-T5, N0-N4, and M0-M2 ex. T0N1M2',
-  ),
+  tnm_stage: string()
+    .nullable(true)
+    .transform(value => (value && value.length === 0 ? null : value))
+    .matches(
+      tnmValidation,
+      'Field must follow TNM classification format: T0-T5, N0-N4, and M0-M2 ex. T0N1M2',
+    ),
   neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
   chemotherapeutic_drugs: boolean().nullable(true),
   disease_status: string().oneOf(diseaseStatus),

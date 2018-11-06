@@ -2,7 +2,10 @@ import mongoose from 'mongoose';
 import { modelStatus } from '../helpers/modelStatus';
 
 // Used to remove values that are empty strings from document
-const deleteEmptyStrings = v => (v === null || v.length === 0 ? undefined : v);
+const deleteEmptyStrings = v => {
+  console.log(`${v}`);
+  return v === null || v.length === 0 ? undefined : v;
+};
 
 const FilesSchema = new mongoose.Schema({
   file_id: { type: String, es_indexed: true },
@@ -24,7 +27,7 @@ export const ModelSchema = new mongoose.Schema(
   {
     name: { type: String, unique: true, required: true, es_indexed: true },
     type: { type: String, es_indexed: true },
-    growth_rate: { type: Number, es_indexed: true },
+    growth_rate: { type: Number, set: deleteEmptyStrings, es_indexed: true },
     split_ratio: { type: String, es_indexed: true },
     gender: { type: String, es_indexed: true },
     race: { type: String, es_indexed: true },
@@ -32,7 +35,7 @@ export const ModelSchema = new mongoose.Schema(
     age_at_sample_acquisition: { type: Number, es_indexed: true },
     date_of_availability: { type: Date, es_indexed: true },
     primary_site: { type: String, es_indexed: true },
-    tnm_stage: { type: String, es_indexed: true },
+    tnm_stage: { type: String, set: deleteEmptyStrings, es_indexed: true },
     neoadjuvant_therapy: { type: String, es_indexed: true },
     chemotherapeutic_drugs: { type: Boolean, es_indexed: true },
     disease_status: { type: String, es_indexed: true },
