@@ -1149,10 +1149,12 @@ export const diseaseStatus = [
 export const vitalStatus = ['Alive', 'Dead', 'Lost to followup'];
 
 export const therapy = [
+  'Cytotoxic chemotherapy',
   'Targeted therapy (small molecule inhibitors and targeted antibodies)',
   'Immunotherapy (cellular and immune checkpoint)',
   'Hormonal therapy',
   'Radiation therapy',
+  'Surgery',
   'Other',
   'None',
 ];

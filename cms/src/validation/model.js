@@ -40,7 +40,7 @@ const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis = ''
       ).concat([null, '']), // allow null values (to be removed by Mongoose schema set)
     );
 
-const nameValidation = /HCM-\w{4}-\d{4}\.\w\d{2}$/;
+const nameValidation = /HCM-\w{4}-\d{4}-\w\d{2}$/;
 const tnmValidation = /T[0-5]N[0-4]M[0-2]/;
 
 // In order to publish a model, this validation

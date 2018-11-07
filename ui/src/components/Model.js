@@ -132,7 +132,7 @@ export default ({ modelName }) => (
                       'neoadjuvant_therapy',
                       'tnm_stage',
                       'molecular_characterizations',
-                      'chemotherapeutic_drug_list_available',
+                      'chemotherapeutic_drugs',
                     ]}
                   />
                 </Col>
@@ -144,7 +144,7 @@ export default ({ modelName }) => (
                       'clinical_diagnosis.clinical_tumor_diagnosis',
                       'clinical_diagnosis.site_of_sample_acquisition',
                       'clinical_diagnosis.histological_type',
-                      'clinical_diagnosis.histological_grade',
+                      'clinical_diagnosis.tumor_histological_grade',
                       'clinical_diagnosis.clinical_stage_grouping',
                     ]}
                   />
