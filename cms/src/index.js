@@ -12,7 +12,14 @@ import morgan from 'morgan';
 
 import { data_sync_router } from './routes/sync-data';
 import { imagesRouter, bulkRouter, actionRouter, templatesRouter } from './routes';
-import { preUpdate, validateYup, preModelDelete, postUpdate, validateUserRequest } from './hooks';
+import {
+  preUpdate,
+  validateYup,
+  preModelDelete,
+  postUpdate,
+  outputFn,
+  validateUserRequest,
+} from './hooks';
 import Model from './schemas/model';
 import User from './schemas/user';
 import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess';
@@ -68,8 +75,9 @@ if (process.env.AUTH_ENABLED !== 'false') {
 restify.serve(modelRouter, Model, {
   preCreate: validateYup,
   preUpdate,
-  postUpdate: postUpdate,
   preDelete: preModelDelete,
+  postUpdate: postUpdate,
+  outputFn,
   idProperty: 'name',
 });
 

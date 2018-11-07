@@ -55,6 +55,9 @@ export default object().shape({
   type: string().oneOf(modelType),
   growth_rate: number()
     .integer()
+    .transform(value => {
+      return value === '' || isNaN(value) ? undefined : value;
+    })
     .min(1)
     .max(99),
   split_ratio: string().oneOf(splitRatio),
@@ -154,7 +157,9 @@ export const saveValidation = object().shape({
       'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]',
     ),
   type: string().oneOf(modelType),
-  growth_rate: number(),
+  growth_rate: number().transform(value => {
+    return value === '' || isNaN(value) ? undefined : value;
+  }),
   split_ratio: string().oneOf(splitRatio),
   gender: string().oneOf(gender),
   race: string()

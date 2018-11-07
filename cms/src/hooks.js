@@ -5,6 +5,7 @@ import { deleteImage } from './routes/images';
 import { saveValidation } from './validation/model';
 import { getLoggedInUser } from './helpers/authorizeUserAccess';
 import userValidation from './validation/user';
+import { transform } from 'lodash';
 
 export const validateYup = (req, res, next) => {
   runYupValidatorFailFast(saveValidation, [req.body])
@@ -61,6 +62,20 @@ export const preUpdate = (req, res, next) => {
     });
 };
 
+export const outputFn = async (req, res, next) => {
+  const {
+    erm: { result, statusCode },
+  } = req;
+
+  // remove nulls from result
+  const responseResult =
+    result instanceof Array
+      ? result.map(item => removeNullsFromResponse(item))
+      : removeNullsFromResponse(result);
+
+  res.status(statusCode).json(responseResult);
+};
+
 export const postUpdate = async (req, res, next) => {
   const {
     body,
@@ -106,3 +121,14 @@ export const validateUserRequest = (req, res, next) => {
 const addUserEmail = req => {
   req.body.updatedBy = getLoggedInUser(req).user_email;
 };
+
+const removeNullsFromResponse = data =>
+  transform(
+    data,
+    (result, value, key) => {
+      if (value !== null) {
+        result[key] = value;
+      }
+    },
+    {},
+  );

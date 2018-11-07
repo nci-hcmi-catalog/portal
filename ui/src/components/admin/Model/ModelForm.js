@@ -30,7 +30,6 @@ import {
   primarySites as primarySitesOptions,
 } from '@hcmi-portal/cms/src/schemas/constants';
 import TabHeader from './TabHeader';
-
 const booleanChoice = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
 
 const makeClinicalTumorDiagnosisDependentOptions = (
@@ -380,3 +379,15 @@ export default withFormik({
   },
   displayName: 'ModelForm',
 })(ModelFormTemplate);
+
+// // ignore nulls
+// const ignoreNulls = data =>
+//   transform(
+//     data,
+//     (result, value, key) => {
+//       if (value !== null) {
+//         result[key] = value;
+//       }
+//     },
+//     {},
+//   );
