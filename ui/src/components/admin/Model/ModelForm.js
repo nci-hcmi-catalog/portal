@@ -379,15 +379,3 @@ export default withFormik({
   },
   displayName: 'ModelForm',
 })(ModelFormTemplate);
-
-// // ignore nulls
-// const ignoreNulls = data =>
-//   transform(
-//     data,
-//     (result, value, key) => {
-//       if (value !== null) {
-//         result[key] = value;
-//       }
-//     },
-//     {},
-//   );
