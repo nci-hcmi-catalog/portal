@@ -30,7 +30,6 @@ import {
   primarySites as primarySitesOptions,
 } from '@hcmi-portal/cms/src/schemas/constants';
 import TabHeader from './TabHeader';
-
 const booleanChoice = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
 
 const makeClinicalTumorDiagnosisDependentOptions = (

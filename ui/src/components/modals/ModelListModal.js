@@ -110,9 +110,14 @@ export default () => (
                                   <div className="model-list-model-content">
                                     <h3>{model.name}</h3>
                                     <p className="available-label">Available:</p>
-                                    <p className="available-date">
-                                      {moment(model.date_of_availability).format('MMMM DD, YYYY')}
-                                    </p>
+                                    {model.date_of_availability &&
+                                    model.date_of_availability !== null ? (
+                                      <p className="available-date">
+                                        {moment(model.date_of_availability).format('MMMM DD, YYYY')}
+                                      </p>
+                                    ) : (
+                                      <p>{`N/A`}</p>
+                                    )}
                                   </div>
                                   <TrashIcon
                                     onClick={() => selected.toggleModel(model.id)}
