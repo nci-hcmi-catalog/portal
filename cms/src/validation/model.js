@@ -30,23 +30,6 @@ yup.date().transform(function(value, originalValue) {
 
 const { string, number, array, object, date, boolean } = yup;
 
-class EmptyStringNumber extends yup.number {
-  _typeCheck(value) {
-    return value === '' || super._typeCheck(value);
-  }
-
-  required(message = yup.mixed.required) {
-    const result = this.test({
-      message,
-      name: 'requiredString',
-      test: function(value) {
-        return value === '' ? false : true;
-      },
-    });
-    return result;
-  }
-}
-
 // Custom number transform to handle empty values
 // TODO: setting a global yup.number().transform() didn't solve the problem
 // using transforms is not ideal as this causes a value change -
@@ -76,7 +59,7 @@ export default object().shape({
     .required('This is a required field')
     .matches(
       nameValidation,
-      'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]',
+      'Name should follow the format HCM-[4-letter Center code]-[4 number model code]-[ICD10]',
     ),
   type: string().oneOf(modelType),
   growth_rate: number()
