@@ -49,7 +49,7 @@ export default ({ sqon, setSQON }) => (
               'loading'
             ) : (
               <>
-                {size.width > HAS_LABELS_WIDTH && (
+                {/* {size.width > HAS_LABELS_WIDTH && (
                   <Col
                     css={`
                       position: absolute;
@@ -86,7 +86,7 @@ export default ({ sqon, setSQON }) => (
                       )}%
                     </span>
                   </Col>
-                )}
+                )} */}
                 <ResponsivePie
                   margin={{
                     top: 12,
@@ -127,7 +127,7 @@ export default ({ sqon, setSQON }) => (
                     )
                   }
                 />
-                {size.width > HAS_LABELS_WIDTH && (
+                {/* {size.width > HAS_LABELS_WIDTH && (
                   <Col
                     css={`
                       position: absolute;
@@ -164,7 +164,7 @@ export default ({ sqon, setSQON }) => (
                       )}%
                     </span>
                   </Col>
-                )}
+                )} */}
               </>
             );
           }}
