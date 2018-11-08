@@ -4,7 +4,7 @@ export { default as PrimarySiteChart } from './PrimarySiteChart';
 
 export const ChartTooltip = ({ value, label }) => (
   <div>
-    {label}
+    {`${label}`.startsWith('__m') ? 'No Data' : label}
     <br />
     {value} Models
   </div>

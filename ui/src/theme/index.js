@@ -19,7 +19,7 @@ const palette = [
   '#e1e5e7', // 13  - porcelain
 ];
 
-const growthChartPalette = ['#2ca0b1', '#e82e2b'];
+const growthChartPalette = ['#2ca0b1', '#e82e2b', '#f09f32'];
 
 const chartsPalette = [
   '#851330', // 0
