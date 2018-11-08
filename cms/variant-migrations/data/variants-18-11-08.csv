@@ -1,0 +1,17 @@
+name,type,category,genes
+ALK Other,,Other,ALK
+BRAF Other,Clinical ,Other,BRAF
+CDKN2A Other,Clinical ,Other,CDKN2A
+EGFR Other,Clinical ,Other,EGFR
+GNAS Other,Clinical ,Other,GNAS
+IDH1 Other,Clinical ,Other,IDH1
+IDH2 Other,Clinical ,Other,IDH2 
+KRAS Other,Clinical ,Other,KRAS
+MET Other,Clinical ,Other,MET
+RNF43 Other,Clinical ,Other,RNF43
+TP53 Other,Clinical ,Other,TP53
+PIK3CA Other,Clinical ,Other,PIK3CA
+EWSR1-FLI1,Clinical ,Translocation,"EWSR1,FLI1"
+MGMT promoter methylated,Histopathological Biomarker,Histopathological biomarker,MGMT 
+MMR alteration,Histopathological Biomarker,Histopathological biomarker,MMR
+MLH1 promoter methylation status,Histopathological Biomarker,Histopathological biomarker,MLH1
