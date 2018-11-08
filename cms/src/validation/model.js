@@ -18,6 +18,7 @@ import {
 } from '../schemas/constants';
 
 import { modelVariantSchema } from './variant';
+import { transform } from 'lodash';
 
 // Custom date validation parser
 yup.date().transform(function(value, originalValue) {
@@ -28,6 +29,31 @@ yup.date().transform(function(value, originalValue) {
 });
 
 const { string, number, array, object, date, boolean } = yup;
+
+class EmptyStringNumber extends yup.number {
+  _typeCheck(value) {
+    return value === '' || super._typeCheck(value);
+  }
+
+  required(message = yup.mixed.required) {
+    const result = this.test({
+      message,
+      name: 'requiredString',
+      test: function(value) {
+        return value === '' ? false : true;
+      },
+    });
+    return result;
+  }
+}
+
+// Custom number transform to handle empty values
+// TODO: setting a global yup.number().transform() didn't solve the problem
+// using transforms is not ideal as this causes a value change -
+// the solution is to create custom classes potentially derived from
+// yup.mixed to handle all possible values - but for now using transform in favor of time
+// related issue: https://github.com/jquense/yup/issues/298
+const numberEmptyValueTransform = value => (value === '' || isNaN(value) ? undefined : value);
 
 const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis = '', fieldName = '') =>
   string()
@@ -55,9 +81,7 @@ export default object().shape({
   type: string().oneOf(modelType),
   growth_rate: number()
     .integer()
-    .transform(value => {
-      return value === '' || isNaN(value) ? undefined : value;
-    })
+    .transform(numberEmptyValueTransform)
     .min(1)
     .max(99),
   split_ratio: string().oneOf(splitRatio),
@@ -71,20 +95,24 @@ export default object().shape({
   age_at_diagnosis: number()
     .required('This is a required field')
     .integer()
+    .transform(numberEmptyValueTransform)
     .min(0)
     .max(99),
   age_at_sample_acquisition: number()
     .integer()
+    .transform(numberEmptyValueTransform)
     .min(0)
     .max(99),
   date_of_availability: date(),
   primary_site: string()
     .required('This is a required field')
     .oneOf(primarySites),
-  tnm_stage: string().matches(
-    tnmValidation,
-    'Field must follow TNM classification format: T0-T5, N0-N4, and M0-M2 ex. T0N1M2',
-  ),
+  tnm_stage: string()
+    .transform(value => (value === '' ? undefined : value))
+    .matches(
+      tnmValidation,
+      'Field must follow TNM classification format: T0-T5, N0-N4, and M0-M2 ex. T0N1M2',
+    ),
   neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
   chemotherapeutic_drugs: boolean().nullable(true),
   disease_status: string().oneOf(diseaseStatus),
@@ -157,22 +185,24 @@ export const saveValidation = object().shape({
       'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]',
     ),
   type: string().oneOf(modelType),
-  growth_rate: number().transform(value => {
-    return value === '' || isNaN(value) ? undefined : value;
-  }),
+  growth_rate: number()
+    .integer()
+    .transform(numberEmptyValueTransform),
   split_ratio: string().oneOf(splitRatio),
   gender: string().oneOf(gender),
   race: string()
     .nullable(true)
     .oneOf(race),
-  age_at_diagnosis: number(),
-  age_at_sample_acquisition: number(),
+  age_at_diagnosis: number().transform(numberEmptyValueTransform),
+  age_at_sample_acquisition: number().transform(numberEmptyValueTransform),
   date_of_availability: date(),
   primary_site: string().oneOf(primarySites),
-  tnm_stage: string().matches(
-    tnmValidation,
-    'Field must follow TNM classification format: T0-T5, N0-N4, and M0-M2 ex. T0N1M2',
-  ),
+  tnm_stage: string()
+    .transform(value => (value === '' ? undefined : value))
+    .matches(
+      tnmValidation,
+      'Field must follow TNM classification format: T0-T5, N0-N4, and M0-M2 ex. T0N1M2',
+    ),
   neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
   chemotherapeutic_drugs: boolean().nullable(true),
   disease_status: string().oneOf(diseaseStatus),
