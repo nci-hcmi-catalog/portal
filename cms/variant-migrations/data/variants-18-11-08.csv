@@ -12,6 +12,5 @@ RNF43 Other,Clinical ,Other,RNF43
 TP53 Other,Clinical ,Other,TP53
 PIK3CA Other,Clinical ,Other,PIK3CA
 EWSR1-FLI1,Clinical ,Translocation,"EWSR1,FLI1"
-MGMT promoter methylated,Histopathological Biomarker,Histopathological biomarker,MGMT 
 MMR alteration,Histopathological Biomarker,Histopathological biomarker,MMR
-MLH1 promoter methylation status,Histopathological Biomarker,Histopathological biomarker,MLH1
+MLH1 promoter,Histopathological Biomarker,Histopathological biomarker,MLH1
