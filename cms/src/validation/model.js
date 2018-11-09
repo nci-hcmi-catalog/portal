@@ -49,7 +49,7 @@ const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis = ''
     );
 
 const nameValidation = /HCM-\w{4}-\d{4}-\w\d{2}$/;
-const tnmValidation = /T[0-5]N[0-4]M[0-2]/;
+//const tnmValidation = /T[0-5]N[0-4]M[0-2]/;
 
 // In order to publish a model, this validation
 // must be satisfied, including all required fields
@@ -89,12 +89,7 @@ export default object().shape({
   primary_site: string()
     .required('This is a required field')
     .oneOf(primarySites),
-  tnm_stage: string()
-    .transform(value => (value === '' ? undefined : value))
-    .matches(
-      tnmValidation,
-      'Field must follow TNM classification format: T0-T5, N0-N4, and M0-M2 ex. T0N1M2',
-    ),
+  tnm_stage: string(),
   neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
   chemotherapeutic_drugs: boolean().nullable(true),
   disease_status: string().oneOf(diseaseStatus),
@@ -179,12 +174,7 @@ export const saveValidation = object().shape({
   age_at_sample_acquisition: number().transform(numberEmptyValueTransform),
   date_of_availability: date(),
   primary_site: string().oneOf(primarySites),
-  tnm_stage: string()
-    .transform(value => (value === '' ? undefined : value))
-    .matches(
-      tnmValidation,
-      'Field must follow TNM classification format: T0-T5, N0-N4, and M0-M2 ex. T0N1M2',
-    ),
+  tnm_stage: string(),
   neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
   chemotherapeutic_drugs: boolean().nullable(true),
   disease_status: string().oneOf(diseaseStatus),
