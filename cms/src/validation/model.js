@@ -18,7 +18,6 @@ import {
 } from '../schemas/constants';
 
 import { modelVariantSchema } from './variant';
-import { transform } from 'lodash';
 
 // Custom date validation parser
 yup.date().transform(function(value, originalValue) {

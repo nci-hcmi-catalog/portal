@@ -3,46 +3,51 @@
 import { get, capitalize } from 'lodash';
 import objectValuesToString from './objectValuesToString';
 
-const modelReducer = result => (acc, curr) => {
+const printResult = (type, curr, count) =>
+  curr === 'errors'
+    ? `${count} ${capitalize(type)}s with ${curr}`
+    : `${count} ${capitalize(curr)} ${type}s`;
+
+const modelReducer = (result, type) => (acc, curr) => {
   if (acc.length === 0 && result[curr].length === 0) {
     // First time, zero variant data in the key
-    return `${capitalize(curr)}: 0`;
+    return printResult(type, curr, 0);
   } else if (acc.length === 0 && result[curr].length > 0) {
     // First time if there is variant data in the key
-    return `${capitalize(curr)}: ${result[curr].length}`;
+    return printResult(type, curr, result[curr].length);
   } else if (result[curr].length > 0) {
     // All subsequent if there is data in the key
-    return `${acc} | ${capitalize(curr)}: ${result[curr].length}`;
+    return `${acc} | ${printResult(type, curr, result[curr].length)}`;
   } else {
     // Else return zero result
-    return `${acc} | ${capitalize(curr)}: 0`;
+    return `${acc} | ${printResult(type, curr, 0)}`;
   }
 };
 
-const variantReducer = result => (acc, curr) => {
+const variantReducer = (result, type) => (acc, curr) => {
   if (acc.length === 0 && result[curr].length === 0) {
     // First time, zero variant data in the key
-    return `${capitalize(curr)}: 0`;
+    return printResult(type, curr, 0);
   } else if (acc.length === 0 && curr === 'errors') {
     // First time if there is errors data (special case)
-    return `${capitalize(curr)}: ${result[curr].length}`;
+    return printResult(type, curr, result[curr].length);
   } else if (result[curr].length > 0 && curr === 'errors') {
     // Non-first and key is errors (special case)
-    return `${acc} | ${capitalize(curr)}: ${result[curr].length}`;
+    return `${acc} | ${printResult(type, curr, result[curr].length)}`;
   } else if (acc.length === 0 && result[curr].length > 0) {
     // First time if there is variant data in the key
-    return `${capitalize(curr)}: ${result[curr][0]['variants'].length}`;
+    return printResult(type, curr, result[curr][0]['variants'].length);
   } else if (result[curr].length > 0) {
     // All subsequent if there is data in the key
-    return `${acc} | ${capitalize(curr)}: ${result[curr][0]['variants'].length}`;
+    return `${acc} | ${printResult(type, curr, result[curr][0]['variants'].length)}`;
   } else {
     // Else return zero result
-    return `${acc} | ${capitalize(curr)}: 0`;
+    return `${acc} | ${printResult(type, curr, 0)}`;
   }
 };
 
 const reduceResult = (result, type) =>
-  type === 'variant' ? variantReducer(result) : modelReducer(result);
+  type === 'variant' ? variantReducer(result, type) : modelReducer(result, type);
 
 export function extractResultText(result, type = 'model') {
   const customSortMatrix = {
