@@ -398,7 +398,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       await appendNotification({
                         type: result.errors.length > 0 ? 'warning' : 'success',
                         message: notificationMessage,
-                        details: anyUpdatesDone ? '' : extractResultText(result),
+                        details: anyUpdatesDone ? '' : extractResultText(result, 'variant'),
                         bulkErrors: result.errors,
                         timeout: false, // do not auto-remove this notification
                       });
