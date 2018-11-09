@@ -12,7 +12,6 @@ import {
 } from 'theme/adminBulkUploadStyles';
 import { Input, RadioSelect } from 'theme/formComponentsStyles';
 
-import ExternalLinkIcon from 'icons/ExternalLinkIcon';
 import ErrorIcon from 'icons/ErrorIcon';
 import ExportIcon from 'icons/ExportIcon';
 import googleSheetsLogo from 'assets/logo-googlesheets.png';

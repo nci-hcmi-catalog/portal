@@ -2,7 +2,9 @@ import mongoose from 'mongoose';
 import { modelStatus } from '../helpers/modelStatus';
 
 // Used to remove values that are empty strings from document
-const deleteEmptyStrings = v => (v === null || v.length === 0 ? undefined : v);
+const deleteEmptyStrings = v => {
+  return v === null || v.length === 0 ? undefined : v;
+};
 
 const FilesSchema = new mongoose.Schema({
   file_id: { type: String, es_indexed: true },
@@ -24,7 +26,7 @@ export const ModelSchema = new mongoose.Schema(
   {
     name: { type: String, unique: true, required: true, es_indexed: true },
     type: { type: String, es_indexed: true },
-    growth_rate: { type: Number, es_indexed: true },
+    growth_rate: { type: Number, set: deleteEmptyStrings, es_indexed: true },
     split_ratio: { type: String, es_indexed: true },
     gender: { type: String, es_indexed: true },
     race: { type: String, es_indexed: true },

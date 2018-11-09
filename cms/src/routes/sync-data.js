@@ -106,6 +106,11 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
           {
             _id: false,
             __v: false,
+            updatedBy: false,
+            updatedAt: false,
+            files: false,
+            createdAt: false,
+            status: false,
           }, //omit mongoose generated fields
         );
         if (prevModel) {

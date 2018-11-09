@@ -38,7 +38,7 @@ export const runYupValidatorFailSlow = (validator, data) => {
 
 export const runYupValidatorFailFast = (validator, data) => {
   const validatePromises = data.map(p =>
-    validator.validate(p, { abortEarly: false }).catch(Error => Error),
+    validator.validate(p, { abortEarly: false, strict: false }).catch(Error => Error),
   );
 
   return Promise.all(validatePromises).then(results => {

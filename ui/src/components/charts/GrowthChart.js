@@ -49,7 +49,7 @@ export default ({ sqon, setSQON }) => (
               'loading'
             ) : (
               <>
-                {size.width > HAS_LABELS_WIDTH && (
+                {/* {size.width > HAS_LABELS_WIDTH && (
                   <Col
                     css={`
                       position: absolute;
@@ -86,7 +86,7 @@ export default ({ sqon, setSQON }) => (
                       )}%
                     </span>
                   </Col>
-                )}
+                )} */}
                 <ResponsivePie
                   margin={{
                     top: 12,
@@ -97,6 +97,7 @@ export default ({ sqon, setSQON }) => (
                   data={[
                     data.find(({ id }) => id === '3-D') || { id: '3-D', value: 0 },
                     data.find(({ id }) => id === '2-D') || { id: '2-D', value: 0 },
+                    data.find(({ id }) => id === '__m') || { id: '__m', value: 0 },
                   ]}
                   colors={theme.growthChartPalette}
                   innerRadius={0.7}
@@ -126,7 +127,7 @@ export default ({ sqon, setSQON }) => (
                     )
                   }
                 />
-                {size.width > HAS_LABELS_WIDTH && (
+                {/* {size.width > HAS_LABELS_WIDTH && (
                   <Col
                     css={`
                       position: absolute;
@@ -163,7 +164,7 @@ export default ({ sqon, setSQON }) => (
                       )}%
                     </span>
                   </Col>
-                )}
+                )} */}
               </>
             );
           }}
