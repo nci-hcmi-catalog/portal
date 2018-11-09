@@ -1,7 +1,7 @@
 // @ts-check
 
 import express from 'express';
-import { unionWith, uniqWith, isEqual } from 'lodash';
+import { unionWith, uniqWith, isEqual, omit } from 'lodash';
 
 import { toExcelHeaders, toExcelRowNumber } from '../schemas/constants';
 import Model, { ModelSchema } from '../schemas/model';
@@ -106,9 +106,20 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
           {
             _id: false,
             __v: false,
+            updatedBy: false,
+            updatedAt: false,
+            files: false,
+            createdAt: false,
+            status: false,
           }, //omit mongoose generated fields
         );
         if (prevModel) {
+          console.log('prevModel', prevModel);
+          // console.log(
+          //   'withOmit',
+          //   omit(prevModel._doc, ['files', 'updatedBy', 'updatedAt', 'createdAt']),
+          // );
+          console.log('result', result);
           if (overwrite && !isEqual(prevModel._doc, result)) {
             return new Promise((resolve, reject) => {
               Model.findOneAndUpdate(
