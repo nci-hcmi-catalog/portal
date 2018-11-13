@@ -4,6 +4,7 @@ import { Server } from 'http';
 import Arranger from '@arranger/server';
 import cors from 'cors';
 import lastUpdatedRouter from './lastUpdated';
+import dataExportRouter from './dataExport';
 
 const port = process.env.PORT || 5050;
 const app = express();
@@ -13,6 +14,7 @@ app.use(cors());
 Arranger({ enableAdmin: process.env.ENABLE_ADMIN === 'true' }).then(router => {
   app.use(router);
   app.use('/last-updated', lastUpdatedRouter);
+  app.use('/export', dataExportRouter);
 
   http.listen(port, async () => {
     console.log(`⚡️ Listening on port ${port} ⚡️`);

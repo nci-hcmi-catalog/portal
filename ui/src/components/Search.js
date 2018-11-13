@@ -156,6 +156,7 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
                       InputComponent={TextInput}
                       columnDropdownText="Columns"
                       exportTSVText="Export All"
+                      exporter={args => console.log(args)}
                       fieldTypesForFilter={['text', 'keyword', 'id']}
                     />
                   );
