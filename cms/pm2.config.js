@@ -23,8 +23,8 @@ module.exports = {
         ES_API_VERSION: 6.1,
         ES_LOG_LEVEL: 'error',
       },
-      env_qa: {
-        NODE_ENV: 'qa',
+      env_staging: {
+        NODE_ENV: 'staging',
         ES_URL: 'http://es.hcmi.cancercollaboratory.org:9200',
       },
       env_prd: {

@@ -18,8 +18,8 @@ module.exports = {
         NODE_ENV: 'dev',
         ES_URL: 'http://ncias-d2019-v:9200',
       },
-      env_qa: {
-        NODE_ENV: 'qa',
+      env_staging: {
+        NODE_ENV: 'staging',
         ES_URL: 'http://es.hcmi.cancercollaboratory.org:9200',
       },
       env_prd: {
