@@ -111,7 +111,7 @@ pipeline {
       when {
              environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
              expression {
-               return env.BRANCH_NAME == 'master' || ( tag != '' & env.BRANCH_NAME == tag);
+               return env.BRANCH_NAME == 'master';
              }
              expression {
                return tag != '';
