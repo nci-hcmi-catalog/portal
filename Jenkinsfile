@@ -111,16 +111,13 @@ pipeline {
       when {
              environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
              expression {
-               return env.BRANCH_NAME == 'master' || ( tag != '' & env.BRANCH_NAME == tag);
-             }
-             expression {
-               return tag != '';
+               return env.BRANCH_NAME == 'master';
              }
            }
       steps {
              script {
                      env.DEPLOY_TO_DEV = input message: 'User input required',
-                                     submitter: '''+APP_ADMINS+''',
+                                     submitter: APP_ADMINS,
                                      parameters: [choice(name: 'HCMI Portal: Deploy to QA Environment', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy the QA server')]
              }
      }
