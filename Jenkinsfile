@@ -113,9 +113,6 @@ pipeline {
              expression {
                return env.BRANCH_NAME == 'master';
              }
-             expression {
-               return tag != '';
-             }
            }
       steps {
              script {
