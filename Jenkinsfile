@@ -117,7 +117,7 @@ pipeline {
       steps {
              script {
                      env.DEPLOY_TO_DEV = input message: 'User input required',
-                                     submitter: '''+APP_ADMINS+''',
+                                     submitter: APP_ADMINS,
                                      parameters: [choice(name: 'HCMI Portal: Deploy to QA Environment', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy the QA server')]
              }
      }
