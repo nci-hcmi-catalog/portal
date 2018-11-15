@@ -104,9 +104,31 @@ pipeline {
         failSafeBuild('hcmi-ui-dev-config', UI_PACKAGE_TYPE)
       }
     }
+    stage("Get Admin Permission to proceed to QA") {
+     options {
+        timeout(time: 1, unit: 'HOURS') 
+     }
+      when {
+             environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
+             expression {
+               return env.BRANCH_NAME == 'master' || ( tag != '' & env.BRANCH_NAME == tag);
+             }
+             expression {
+               return tag != '';
+             }
+           }
+      steps {
+             script {
+                     env.DEPLOY_TO_DEV = input message: 'User input required',
+                                     submitter: '''+APP_ADMINS+''',
+                                     parameters: [choice(name: 'HCMI Portal: Deploy to QA Environment', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy the QA server')]
+             }
+     }
+    }
     stage('Deploy Dev') {
       when{
         environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
+        environment name: 'DEPLOY_TO_DEV', value: 'yes'
       }
       steps {
         echo "DEPLOYING TO DEVELOPMENT: (${env.BUILD_URL})"
