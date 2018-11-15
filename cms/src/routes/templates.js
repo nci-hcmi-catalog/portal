@@ -12,7 +12,7 @@ const streamServerFile = (filePath, response) => {
     if (exists) {
       response.writeHead(200, {
         'Content-Type': 'text/csv',
-        'Content-Disposition': `attachment; filename=${path.basename(absoluteFilePath)}.csv`,
+        'Content-Disposition': `attachment; filename=${path.basename(absoluteFilePath)}.xlsx`,
       });
 
       fs.createReadStream(absoluteFilePath).pipe(response);
@@ -24,10 +24,10 @@ const streamServerFile = (filePath, response) => {
 };
 
 templatesRouter.get('/models', async (req, res) => {
-  streamServerFile('../../templates/bulk-model-upload.csv', res);
+  streamServerFile('../../templates/bulk-model-upload.xlsx', res);
 });
 
 templatesRouter.get('/variants', async (req, res) => {
-  streamServerFile('../../templates/bulk-variant-upload.csv', res);
+  streamServerFile('../../templates/bulk-variant-upload.xlsx', res);
 });
 export default templatesRouter;
