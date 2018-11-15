@@ -104,7 +104,7 @@ pipeline {
         failSafeBuild('hcmi-ui-dev-config', UI_PACKAGE_TYPE)
       }
     }
-    stage("Get Admin Permission to proceed to QA") {
+    stage("Get Admin Permission to proceed to DEV") {
      options {
         timeout(time: 1, unit: 'HOURS') 
      }
