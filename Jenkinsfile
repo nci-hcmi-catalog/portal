@@ -130,6 +130,26 @@ pipeline {
         }
       }
     }
+    stage("Get Admin Permission to proceed to QA") {
+     options {
+        timeout(time: 1, unit: 'HOURS') 
+     }
+      when {
+             expression {
+               return env.BRANCH_NAME == 'master' || ( tag != '' & env.BRANCH_NAME == tag);
+             }
+             expression {
+               return tag != '';
+             }
+           }
+      steps {
+             script {
+                     env.DEPLOY_TO_PRD = input message: 'User input required',
+                                     submitter: '''+APP_ADMINS+''',
+                                     parameters: [choice(name: 'HCMI Portal: Deploy to QA Environment', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy the QA server')]
+             }
+     }
+    }
     stage('Build QA') {
       steps {
         failSafeBuild('hcmi-cms-qa-config',CMS_PACKAGE_TYPE)
@@ -141,7 +161,10 @@ pipeline {
       when {
        environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
        expression {
-           return env.BRANCH_NAME == 'master';
+              return env.BRANCH_NAME == 'master' || ( tag != '' & env.BRANCH_NAME == tag);
+       }
+       expression {
+           return tag != '';
        }
      }
       steps {
@@ -165,6 +188,26 @@ pipeline {
        failure {
          echo "Deploy Failed: Branch '${env.BRANCH_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
        }
+     }
+    }
+    stage("Get Admin Permission to proceed to PRD") {
+     options {
+        timeout(time: 1, unit: 'HOURS') 
+     }
+      when {
+             expression {
+               return env.BRANCH_NAME == 'master' || ( tag != '' & env.BRANCH_NAME == tag);
+             }
+             expression {
+               return tag != '';
+             }
+           }
+      steps {
+             script {
+                     env.DEPLOY_TO_PRD = input message: 'User input required',
+                                     submitter: '''+ APP_ADMINS +''',
+                                     parameters: [choice(name: 'HCMI Portal: Deploy to PRD Environment', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy the PRD server')]
+             }
      }
     }
     stage('Build PRD') {
