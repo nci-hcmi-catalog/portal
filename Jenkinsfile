@@ -104,28 +104,9 @@ pipeline {
         failSafeBuild('hcmi-ui-dev-config', UI_PACKAGE_TYPE)
       }
     }
-    stage("Get Admin Permission to proceed to DEV") {
-     options {
-        timeout(time: 1, unit: 'HOURS') 
-     }
-      when {
-             environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
-             expression {
-               return env.BRANCH_NAME == 'master';
-             }
-           }
-      steps {
-             script {
-                     env.DEPLOY_TO_DEV = input message: 'User input required',
-                                     submitter: APP_ADMINS,
-                                     parameters: [choice(name: 'HCMI Portal: Deploy to QA Environment', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy the QA server')]
-             }
-     }
-    }
     stage('Deploy Dev') {
       when{
         environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
-        environment name: 'DEPLOY_TO_DEV', value: 'yes'
       }
       steps {
         echo "DEPLOYING TO DEVELOPMENT: (${env.BUILD_URL})"
@@ -173,7 +154,7 @@ pipeline {
       steps {
              script {
                      env.DEPLOY_TO_QA = input message: 'User input required',
-                                     submitter: '''+APP_ADMINS+''',
+                                     submitter: APP_ADMINS,
                                      parameters: [choice(name: 'HCMI Portal: Deploy to QA Environment', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy the QA server')]
              }
      }
@@ -235,7 +216,7 @@ pipeline {
       steps {
              script {
                      env.DEPLOY_TO_PRD = input message: 'User input required',
-                                     submitter: '''+ APP_ADMINS +''',
+                                     submitter: APP_ADMINS,
                                      parameters: [choice(name: 'HCMI Portal: Deploy to PRD Environment', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy the PRD server')]
              }
      }
