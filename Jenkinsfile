@@ -130,6 +130,7 @@ pipeline {
         }
       }
     }
+
     stage('Build QA') {
       steps {
         failSafeBuild('hcmi-cms-qa-config',CMS_PACKAGE_TYPE)
@@ -137,11 +138,36 @@ pipeline {
         failSafeBuild('hcmi-ui-qa-config',UI_PACKAGE_TYPE)
       }
     }
+    stage("Get Admin Permission to proceed to QA") {
+     options {
+        timeout(time: 1, unit: 'HOURS') 
+     }
+      when {
+             environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
+             expression {
+               return env.BRANCH_NAME == 'master' || ( tag != '' & env.BRANCH_NAME == tag);
+             }
+             expression {
+               return tag != '';
+             }
+           }
+      steps {
+             script {
+                     env.DEPLOY_TO_QA = input message: 'User input required',
+                                     submitter: '''+APP_ADMINS+''',
+                                     parameters: [choice(name: 'HCMI Portal: Deploy to QA Environment', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy the QA server')]
+             }
+     }
+    }
     stage('Deploy QA') {
       when {
        environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
+       environment name: 'DEPLOY_TO_QA', value: 'yes'
        expression {
-           return env.BRANCH_NAME == 'master';
+              return env.BRANCH_NAME == 'master' || ( tag != '' & env.BRANCH_NAME == tag);
+       }
+       expression {
+           return tag != '';
        }
      }
       steps {
@@ -174,9 +200,31 @@ pipeline {
         failSafeBuild('hcmi-ui-prd-config',UI_PACKAGE_TYPE)
       }
     }
+    stage("Get Admin Permission to proceed to PRD") {
+     options {
+        timeout(time: 1, unit: 'HOURS') 
+     }
+      when {
+             environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
+             expression {
+               return env.BRANCH_NAME == 'master' || ( tag != '' & env.BRANCH_NAME == tag);
+             }
+             expression {
+               return tag != '';
+             }
+           }
+      steps {
+             script {
+                     env.DEPLOY_TO_PRD = input message: 'User input required',
+                                     submitter: '''+ APP_ADMINS +''',
+                                     parameters: [choice(name: 'HCMI Portal: Deploy to PRD Environment', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy the PRD server')]
+             }
+     }
+    }
     stage('Deploy PRD') {
       when {
        environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
+       environment name: 'DEPLOY_TO_PRD', value: 'yes'
        expression {
            return env.BRANCH_NAME == 'master';
        }
