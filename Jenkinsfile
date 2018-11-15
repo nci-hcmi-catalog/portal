@@ -131,14 +131,14 @@ pipeline {
       }
     }
 
-    stage('Build STAGING') {
+    stage('Build Staging') {
       steps {
         failSafeBuild('hcmi-cms-staging-config',CMS_PACKAGE_TYPE)
         failSafeBuild('hcmi-api-staging-config',API_PACKAGE_TYPE)
         failSafeBuild('hcmi-ui-staging-config',UI_PACKAGE_TYPE)
       }
     }
-    stage("Get Admin Permission to proceed to STAGING") {
+    stage("Get Admin Permission to proceed to Staging") {
      options {
         timeout(time: 1, unit: 'HOURS') 
      }
@@ -159,7 +159,7 @@ pipeline {
              }
      }
     }
-    stage('Deploy STAGING') {
+    stage('Deploy Staging') {
       when {
        environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
        environment name: 'DEPLOY_TO_STAGING', value: 'yes'
