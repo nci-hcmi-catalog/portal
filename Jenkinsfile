@@ -130,11 +130,20 @@ pipeline {
         }
       }
     }
+
+    stage('Build QA') {
+      steps {
+        failSafeBuild('hcmi-cms-qa-config',CMS_PACKAGE_TYPE)
+        failSafeBuild('hcmi-api-qa-config',API_PACKAGE_TYPE)
+        failSafeBuild('hcmi-ui-qa-config',UI_PACKAGE_TYPE)
+      }
+    }
     stage("Get Admin Permission to proceed to QA") {
      options {
         timeout(time: 1, unit: 'HOURS') 
      }
       when {
+             environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
              expression {
                return env.BRANCH_NAME == 'master' || ( tag != '' & env.BRANCH_NAME == tag);
              }
@@ -144,22 +153,16 @@ pipeline {
            }
       steps {
              script {
-                     env.DEPLOY_TO_PRD = input message: 'User input required',
+                     env.DEPLOY_TO_QA = input message: 'User input required',
                                      submitter: '''+APP_ADMINS+''',
                                      parameters: [choice(name: 'HCMI Portal: Deploy to QA Environment', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy the QA server')]
              }
      }
     }
-    stage('Build QA') {
-      steps {
-        failSafeBuild('hcmi-cms-qa-config',CMS_PACKAGE_TYPE)
-        failSafeBuild('hcmi-api-qa-config',API_PACKAGE_TYPE)
-        failSafeBuild('hcmi-ui-qa-config',UI_PACKAGE_TYPE)
-      }
-    }
     stage('Deploy QA') {
       when {
        environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
+       environment name: 'DEPLOY_TO_QA', value: 'yes'
        expression {
               return env.BRANCH_NAME == 'master' || ( tag != '' & env.BRANCH_NAME == tag);
        }
@@ -190,11 +193,19 @@ pipeline {
        }
      }
     }
+    stage('Build PRD') {
+      steps {
+        failSafeBuild('hcmi-cms-prd-config',CMS_PACKAGE_TYPE)
+        failSafeBuild('hcmi-api-prd-config',API_PACKAGE_TYPE)
+        failSafeBuild('hcmi-ui-prd-config',UI_PACKAGE_TYPE)
+      }
+    }
     stage("Get Admin Permission to proceed to PRD") {
      options {
         timeout(time: 1, unit: 'HOURS') 
      }
       when {
+             environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
              expression {
                return env.BRANCH_NAME == 'master' || ( tag != '' & env.BRANCH_NAME == tag);
              }
@@ -210,16 +221,10 @@ pipeline {
              }
      }
     }
-    stage('Build PRD') {
-      steps {
-        failSafeBuild('hcmi-cms-prd-config',CMS_PACKAGE_TYPE)
-        failSafeBuild('hcmi-api-prd-config',API_PACKAGE_TYPE)
-        failSafeBuild('hcmi-ui-prd-config',UI_PACKAGE_TYPE)
-      }
-    }
     stage('Deploy PRD') {
       when {
        environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
+       environment name: 'DEPLOY_TO_PRD', value: 'yes'
        expression {
            return env.BRANCH_NAME == 'master';
        }
