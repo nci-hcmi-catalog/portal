@@ -58,11 +58,6 @@ void getPipelineResult (){
     }
 }
 
-properties([
-    pipelineTriggers([
-        pollSCM('H/5 * * * *')
-    ])
-])
 node ('default-lower|| default-upper ||default-builder') {
     configFileProvider([configFile(fileId: 'hcmi-env-config', variable: 'FILE')]) {
         echo "FILE=$FILE"
