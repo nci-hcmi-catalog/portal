@@ -63,14 +63,14 @@ properties([
         pollSCM('H/5 * * * *')
     ])
 ])
-node ('default-lower|| default-lower ||default-builder') {
+node ('default-lower|| default-upper ||default-builder') {
     configFileProvider([configFile(fileId: 'hcmi-env-config', variable: 'FILE')]) {
         echo "FILE=$FILE"
         load "$FILE"
     }
 }
 pipeline {
-  agent { label 'default-lower||default-builder' }
+  agent { label 'default-lower|| default-upper||default-builder' }
   stages{
     stage('Get Code') {
       steps {
