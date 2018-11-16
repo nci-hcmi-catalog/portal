@@ -63,7 +63,7 @@ properties([
         pollSCM('H/5 * * * *')
     ])
 ])
-node ('default-lower||default-builder') {
+node ('default-lower|| default-lower ||default-builder') {
     configFileProvider([configFile(fileId: 'hcmi-env-config', variable: 'FILE')]) {
         echo "FILE=$FILE"
         load "$FILE"
