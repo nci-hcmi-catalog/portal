@@ -48,7 +48,7 @@ void failSafeBuild(configId, packageType){
 void getPipelineResult (){
     script {
         // fail the build if all deployment stages were skipped
-        if(env.DEV_DEPLOYMENT_STATUS == null && env.QA_DEPLOYMENT_STATUS == null && env.PRD_DEPLOYMENT_STATUS == null) {
+        if(env.DEV_DEPLOYMENT_STATUS == null && env.STAGING_DEPLOYMENT_STATUS == null && env.PRD_DEPLOYMENT_STATUS == null) {
             echo 'Build failed because application was not deployed to any environment.'
             echo 'Please make sure Jenkins has all required configuration files and variables.'
             currentBuild.result = 'FAILURE'
@@ -131,14 +131,14 @@ pipeline {
       }
     }
 
-    stage('Build QA') {
+    stage('Build Staging') {
       steps {
-        failSafeBuild('hcmi-cms-qa-config',CMS_PACKAGE_TYPE)
-        failSafeBuild('hcmi-api-qa-config',API_PACKAGE_TYPE)
-        failSafeBuild('hcmi-ui-qa-config',UI_PACKAGE_TYPE)
+        failSafeBuild('hcmi-cms-staging-config',CMS_PACKAGE_TYPE)
+        failSafeBuild('hcmi-api-staging-config',API_PACKAGE_TYPE)
+        failSafeBuild('hcmi-ui-staging-config',UI_PACKAGE_TYPE)
       }
     }
-    stage("Get Admin Permission to proceed to QA") {
+    stage("Get Admin Permission to proceed to Staging") {
      options {
         timeout(time: 1, unit: 'HOURS') 
      }
@@ -153,16 +153,16 @@ pipeline {
            }
       steps {
              script {
-                     env.DEPLOY_TO_QA = input message: 'User input required',
+                     env.DEPLOY_TO_STAGING = input message: 'User input required',
                                      submitter: APP_ADMINS,
-                                     parameters: [choice(name: 'HCMI Portal: Deploy to QA Environment', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy the QA server')]
+                                     parameters: [choice(name: 'HCMI Portal: Deploy to STAGING Environment', choices: 'no\nyes', description: 'Choose "yes" if you want to deploy the STAGING server')]
              }
      }
     }
-    stage('Deploy QA') {
+    stage('Deploy Staging') {
       when {
        environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
-       environment name: 'DEPLOY_TO_QA', value: 'yes'
+       environment name: 'DEPLOY_TO_STAGING', value: 'yes'
        expression {
               return env.BRANCH_NAME == 'master' || ( tag != '' & env.BRANCH_NAME == tag);
        }
@@ -171,19 +171,19 @@ pipeline {
        }
      }
       steps {
-     echo "DEPLOYING TO QA: (${env.BUILD_URL})"
-        sshagent (credentials: ["$QA_CREDS"]) {
-          sh (returnStdout: false, script: "ssh -o StrictHostKeyChecking=no $APP_USER@$CMS_QA_SERVER \"set -x; if [ ! -d $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ ]; then mkdir -p $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ || exit \$?; fi\" && scp ${CMS_PACKAGE_TYPE}.tar portal-ci/deploy_stage/deploy.sh $APP_USER@$CMS_QA_SERVER:$REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ && ssh -o StrictHostKeyChecking=no $APP_USER@$CMS_QA_SERVER \"set -x; cd $REMOTE_DIR/hcmi && bash deploy/$BUILD_NUMBER/deploy.sh qa $BUILD_NUMBER $CMS_PACKAGE_TYPE\""
+     echo "DEPLOYING TO STAGING: (${env.BUILD_URL})"
+        sshagent (credentials: ["$STAGING_CREDS"]) {
+          sh (returnStdout: false, script: "ssh -o StrictHostKeyChecking=no $APP_USER@$CMS_STAGING_SERVER \"set -x; if [ ! -d $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ ]; then mkdir -p $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ || exit \$?; fi\" && scp ${CMS_PACKAGE_TYPE}.tar portal-ci/deploy_stage/deploy.sh $APP_USER@$CMS_STAGING_SERVER:$REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ && ssh -o StrictHostKeyChecking=no $APP_USER@$CMS_STAGING_SERVER \"set -x; cd $REMOTE_DIR/hcmi && bash deploy/$BUILD_NUMBER/deploy.sh staging $BUILD_NUMBER $CMS_PACKAGE_TYPE\""
           )
-          sh (returnStdout: false, script: "ssh -o StrictHostKeyChecking=no $APP_USER@$API_QA_SERVER \"set -x; if [ ! -d $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ ]; then mkdir -p $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ || exit \$?; fi\" && scp ${API_PACKAGE_TYPE}.tar portal-ci/deploy_stage/deploy.sh $APP_USER@$API_QA_SERVER:$REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ && ssh -o StrictHostKeyChecking=no $APP_USER@$API_QA_SERVER \"set -x; cd $REMOTE_DIR/hcmi && bash deploy/$BUILD_NUMBER/deploy.sh qa $BUILD_NUMBER $API_PACKAGE_TYPE\""
+          sh (returnStdout: false, script: "ssh -o StrictHostKeyChecking=no $APP_USER@$API_STAGING_SERVER \"set -x; if [ ! -d $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ ]; then mkdir -p $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ || exit \$?; fi\" && scp ${API_PACKAGE_TYPE}.tar portal-ci/deploy_stage/deploy.sh $APP_USER@$API_STAGING_SERVER:$REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ && ssh -o StrictHostKeyChecking=no $APP_USER@$API_STAGING_SERVER \"set -x; cd $REMOTE_DIR/hcmi && bash deploy/$BUILD_NUMBER/deploy.sh staging $BUILD_NUMBER $API_PACKAGE_TYPE\""
           )
-          sh (returnStdout: false, script: "ssh -o StrictHostKeyChecking=no $APP_USER@$UI_QA_SERVER \"set -x; if [ ! -d $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ ]; then mkdir -p $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ || exit \$?; fi\" && scp ${UI_PACKAGE_TYPE}.tar portal-ci/deploy_stage/deploy.sh $APP_USER@$UI_QA_SERVER:$REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ && ssh -o StrictHostKeyChecking=no $APP_USER@$UI_QA_SERVER \"set -x; cd $REMOTE_DIR/hcmi && bash deploy/$BUILD_NUMBER/deploy.sh qa $BUILD_NUMBER $UI_PACKAGE_TYPE\""
+          sh (returnStdout: false, script: "ssh -o StrictHostKeyChecking=no $APP_USER@$UI_STAGING_SERVER \"set -x; if [ ! -d $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ ]; then mkdir -p $REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ || exit \$?; fi\" && scp ${UI_PACKAGE_TYPE}.tar portal-ci/deploy_stage/deploy.sh $APP_USER@$UI_STAGING_SERVER:$REMOTE_DIR/hcmi/deploy/$BUILD_NUMBER/ && ssh -o StrictHostKeyChecking=no $APP_USER@$UI_STAGING_SERVER \"set -x; cd $REMOTE_DIR/hcmi && bash deploy/$BUILD_NUMBER/deploy.sh staging $BUILD_NUMBER $UI_PACKAGE_TYPE\""
           )
         }
         
-       echo "DEPLOYED TO QA: (${env.BUILD_URL})"
+       echo "DEPLOYED TO STAGING: (${env.BUILD_URL})"
        script {
-            env.QA_DEPLOYMENT_STATUS = 'SUCCESS'
+            env.STAGING_DEPLOYMENT_STATUS = 'SUCCESS'
         }
         
      }
