@@ -177,8 +177,7 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
         });
     })
     .catch(error => {
-      console.log(error);
-      res.status(500).json({ error: error.details });
+      res.status(500).json({ error: error.details || 'Unknown error occurred.' });
     });
 });
 
