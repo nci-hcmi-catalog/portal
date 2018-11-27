@@ -176,7 +176,10 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
           throw error;
         });
     })
-    .catch(error => res.status(500).json({ error }));
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error: error.details });
+    });
 });
 
 data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId/:modelName', async (req, res) => {

@@ -15,13 +15,23 @@ import TableList from 'components/TableList';
 import ShareButton from 'components/ShareButton';
 import ModelList from 'components/ModelList';
 import TextInput from './TextInput';
+import globals from '../utils/globals';
 
 import searchStyles from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
 
 let stable = true;
 
-export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...props }) => (
+export default ({
+  setState,
+  state,
+  setSQON,
+  sqon,
+  savedSetsContext,
+  history,
+  version,
+  ...props
+}) => (
   <>
     <Col css={searchStyles}>
       <SplitPane
@@ -156,7 +166,10 @@ export default ({ setState, state, setSQON, sqon, savedSetsContext, history, ...
                       InputComponent={TextInput}
                       columnDropdownText="Columns"
                       exportTSVText="Export All"
-                      exporterParamsGenerator={() => {}}
+                      transformParams={params => ({
+                        ...params,
+                        url: `${globals.ARRANGER_API}/export/${version}/models`,
+                      })}
                       fieldTypesForFilter={['text', 'keyword', 'id']}
                     />
                   );

@@ -17,7 +17,13 @@ export default props => (
                 {...props}
                 projectId={props.version}
                 render={props => (
-                  <Search {...props} {...urlProps} {...state} savedSetsContext={savedSetsContext} />
+                  <Search
+                    {...props}
+                    {...urlProps}
+                    {...state}
+                    savedSetsContext={savedSetsContext}
+                    version={props.projectId}
+                  />
                 )}
               />
             )}
