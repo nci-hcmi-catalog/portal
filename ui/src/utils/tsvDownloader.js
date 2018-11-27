@@ -26,9 +26,12 @@ export default function(fileName, objArr) {
   );
 }
 
-const addColumnSpecificCustomizations = row => ({
-  ...row,
-  split_ratio: (`${row['split_ratio']}` || '').includes(':')
-    ? `'${row['split_ratio']}`
-    : row['split_ratio'],
-});
+const addColumnSpecificCustomizations = row =>
+  row['split_ratio']
+    ? {
+        ...row,
+        split_ratio: (`${row['split_ratio']}` || '').includes(':')
+          ? `'${row['split_ratio']}`
+          : row['split_ratio'],
+      }
+    : row;
