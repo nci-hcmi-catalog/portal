@@ -12,9 +12,9 @@ const http = Server(app);
 app.use(cors());
 
 Arranger({ enableAdmin: process.env.ENABLE_ADMIN === 'true' }).then(router => {
-  app.use(router);
   app.use('/last-updated', lastUpdatedRouter);
   app.use('/export', dataExportRouter);
+  app.use(router);
 
   http.listen(port, async () => {
     console.log(`⚡️ Listening on port ${port} ⚡️`);

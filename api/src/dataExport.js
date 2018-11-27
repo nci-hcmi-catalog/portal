@@ -1,5 +1,4 @@
 // @ts-check
-
 import express from 'express';
 import bodyParser from 'body-parser';
 import { dataStream } from '@arranger/server/dist/download';
@@ -54,7 +53,6 @@ const getParamsObj = params => {
   // Arranger will stream data in JSON; and that allows application to apply customization to each column's value
   // before sending response back to the client
   paramsObj.files = setFilesExportTypeAsJSON(paramsObj);
-  console.log(paramsObj);
   return paramsObj;
 };
 
@@ -74,9 +72,7 @@ const setFilesExportTypeAsJSON = ({ files = [] }) =>
   files.map(item => ({ ...item, fileType: 'json' }));
 
 const rowToTSV = (row, fields) => {
-  console.log('row', row);
   const customizedRow = addColumnSpecificCustomizations(row);
-  console.log('customizedRow', customizedRow);
   // extracting it using a field map guarantees each row will have fields in same order
   // using lodash values may or may not guarantee that
   return fields.map(filedAccessor => customizedRow[filedAccessor]).join('\t');
