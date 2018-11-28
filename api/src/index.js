@@ -5,10 +5,18 @@ import Arranger from '@arranger/server';
 import cors from 'cors';
 import lastUpdatedRouter from './lastUpdated';
 import dataExportRouter from './dataExport';
+import helmet from 'helmet';
+import bodyParser from 'body-parser';
+import expressSanitizer from 'express-sanitizer';
 
 const port = process.env.PORT || 5050;
 const app = express();
 const http = Server(app);
+app.use(helmet());
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressSanitizer()); // each route is responsible for sanitization
 app.use(cors());
 
 Arranger({ enableAdmin: process.env.ENABLE_ADMIN === 'true' }).then(router => {

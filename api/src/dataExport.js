@@ -14,7 +14,8 @@ dataExportRouter.post('/:projectId/models', async (req, res) => {
   const projectId = req.params['projectId'];
   const project = getProject(projectId);
   const es = project.es;
-  const { params } = req.body;
+  // sanitize user input
+  const params = req.sanitize(req.body.params);
   console.time('download');
   try {
     const { output } = await dataStream({
