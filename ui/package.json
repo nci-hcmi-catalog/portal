@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "@arranger/components": "^0.5.17",
+    "@arranger/components": "^0.5.19",
     "@hcmi-portal/cms": "0.0.1",
     "@nivo/bar": "^0.42.1",
     "@nivo/pie": "^0.40.0",

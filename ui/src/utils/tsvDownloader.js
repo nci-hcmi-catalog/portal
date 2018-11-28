@@ -14,7 +14,7 @@ export default function(fileName, objArr) {
         [
           Object.keys(objArr[0]).join('\t'),
           ...objArr.map(obj =>
-            Object.values(obj)
+            Object.values(addColumnSpecificCustomizations(obj))
               .map(value => (value ? (typeof value === 'string' ? value : value.export) : ''))
               .join('\t'),
           ),
@@ -25,3 +25,13 @@ export default function(fileName, objArr) {
     `${fileName}.tsv`,
   );
 }
+
+const addColumnSpecificCustomizations = row =>
+  row['split_ratio']
+    ? {
+        ...row,
+        split_ratio: (`${row['split_ratio']}` || '').includes(':')
+          ? `'${row['split_ratio']}`
+          : row['split_ratio'],
+      }
+    : row;

@@ -9,6 +9,7 @@ import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import restify from 'express-restify-mongoose';
 import morgan from 'morgan';
+import helmet from 'helmet';
 
 import { data_sync_router } from './routes/sync-data';
 import { imagesRouter, bulkRouter, actionRouter, templatesRouter } from './routes';
@@ -46,6 +47,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/test', {
 });
 
 // configure server
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(cors());
