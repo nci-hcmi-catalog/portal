@@ -1,13 +1,18 @@
 # HCMI Portal
 
+The HCMI Portal is a mono-repo containing the [HCMI Portal UI](ui), [CMS server](cms), and [Arranger API server](api).
+
+## Development
+
 ### Migrations
+
 First time setup will require variants being loaded into mongo via a migration in the `cms/variant-migrations` folder. Migrations require the global installation of the migrate-mongo package, `npm i -g migrate-mongo`. for more information visit https://www.npmjs.com/package/migrate-mongo.
 
 To run the required migrations:
 
 ```
 cd cms/variant-migrations
-migrate-mongo up
+migrate-mongo up -f config.js
 ```
 
 ### Quickstart
