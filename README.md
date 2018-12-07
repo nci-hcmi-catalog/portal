@@ -1,8 +1,17 @@
 # HCMI Portal
 
-The HCMI Portal is a mono-repo containing the [HCMI Portal UI](ui), [CMS server](cms), and [Arranger API server](api).
+This is a mono-repo containing the [HCMI Portal UI](ui), [CMS server](cms), and [Arranger API server](api).
 
 ## Development
+
+To work on this project, running the UI, CMS, and API on a local device, make sure your device has the listed dependencies and then follow the steps in the [Configuration](#Configuration), [Migrations](#Migrations), and [Quickstart](#Quickstart) sections.
+
+### Dependencies
+
+* Elasticsearch - Needs to be installed and running on the default port (9200)
+* MongoDB - Does not need to be installed locally, but if not local update all config file references to mongo location.
+
+### Configuration
 
 ### Migrations
 
