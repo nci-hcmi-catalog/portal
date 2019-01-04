@@ -5,6 +5,7 @@ import Arranger from '@arranger/server';
 import cors from 'cors';
 import lastUpdatedRouter from './lastUpdated';
 import dataExportRouter from './dataExport';
+import cmsDataRouter from './cmsData';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import expressSanitizer from 'express-sanitizer';
@@ -22,6 +23,7 @@ app.use(cors());
 Arranger({ enableAdmin: process.env.ENABLE_ADMIN === 'true' }).then(router => {
   app.use('/last-updated', lastUpdatedRouter);
   app.use('/export', dataExportRouter);
+  app.use('/data', cmsDataRouter);
   app.use(router);
 
   http.listen(port, async () => {
