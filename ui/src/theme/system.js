@@ -11,10 +11,10 @@ import {
   alignItems,
   justifyContent,
   flexDirection,
-  complexStyle,
+  variant,
 } from 'styled-system';
 
-const buttons = complexStyle({
+const buttons = variant({
   prop: 'buttons',
   key: 'buttons',
 });
