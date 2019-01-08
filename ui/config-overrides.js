@@ -1,10 +1,5 @@
-const { injectBabelPlugin } = require('react-app-rewired');
+const { override, addBabelPlugins } = require('customize-cra');
 
-function rewireEmotion(config, env) {
-  config = injectBabelPlugin('emotion', config);
-  config = injectBabelPlugin('@babel/plugin-proposal-optional-chaining', config);
-
-  return config;
-}
-
-module.exports = rewireEmotion;
+module.exports = override(
+  ...addBabelPlugins('@babel/plugin-proposal-optional-chaining', 'emotion'),
+);

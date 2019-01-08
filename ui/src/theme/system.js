@@ -19,14 +19,14 @@ const buttons = variant({
   key: 'buttons',
 });
 
-let Box = styled.div`
+let Box = styled('div')`
   ${space}
   ${width}
   ${fontSize}
   ${color}
 `;
 
-let Row = styled.div`
+let Row = styled('div')`
   display: flex;
   ${flex}
   ${space}
@@ -41,7 +41,7 @@ let Row = styled.div`
 
 let Col = p => <Row flexDirection="column" {...p} />;
 
-let Button = styled.button`
+let Button = styled('button')`
   ${buttons};
 `;
 

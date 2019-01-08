@@ -2,10 +2,10 @@ import React from 'react';
 
 import Downshift from 'downshift';
 import Spinner from 'react-spinkit';
-import ChainIcon from 'react-icons/lib/fa/chain';
-import FBIcon from 'react-icons/lib/fa/facebook';
-import TwitterIcon from 'react-icons/lib/fa/twitter';
-import LIIcon from 'react-icons/lib/fa/linkedin';
+import { FaLink as ChainIcon } from 'react-icons/fa';
+import { FaFacebookF } from 'react-icons/fa';
+import { FaTwitter } from 'react-icons/fa';
+import { FaLinkedinIn } from 'react-icons/fa';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
 import Component from 'react-component-component';
@@ -112,14 +112,14 @@ export default ({ link, error, quote, leftOffset = '-121px' }) => (
                     <ItemRow>
                       <FacebookShareButton url={link} quote={quote}>
                         <Bubble>
-                          <FBIcon />
+                          <FaFacebookF />
                         </Bubble>
                         <span>share on facebook</span>
                       </FacebookShareButton>
                     </ItemRow>
                     <ItemRow>
                       <Bubble>
-                        <TwitterIcon />
+                        <FaTwitter />
                       </Bubble>
                       <TwitterShareButton title={quote} url={link}>
                         <span>share on twitter</span>
@@ -128,7 +128,7 @@ export default ({ link, error, quote, leftOffset = '-121px' }) => (
                     <ItemRow>
                       <LinkedinShareButton title={quote} url={link}>
                         <Bubble>
-                          <LIIcon />
+                          <FaLinkedinIn />
                         </Bubble>
                         <span>share on linkedin</span>
                       </LinkedinShareButton>

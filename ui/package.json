@@ -28,7 +28,7 @@
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "16.7.0",
     "react-dropzone": "^5.0.1",
-    "react-emotion": "^10.0.0",
+    "react-emotion": "^9.2.7",
     "react-icons": "^3.2.2",
     "react-modal": "^3.4.4",
     "react-moment": "^0.8.4",
@@ -47,11 +47,12 @@
   "scripts": {
     "boom": "yarn 💥",
     "💥": "rm -rf node_modules && yarn && yarn start",
-    "start": "SKIP_PREFLIGHT_CHECK=true NODE_PATH=src react-scripts start",
-    "build": "NODE_PATH=src react-scripts build"
+    "start": "SKIP_PREFLIGHT_CHECK=true NODE_PATH=src react-app-rewired start",
+    "build": "NODE_PATH=src react-app-rewired build"
   },
   "devDependencies": {
     "babel-plugin-emotion": "^10.0.6",
+    "customize-cra": "^0.2.9",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "react-app-rewired": "^2.0.1"
   },
