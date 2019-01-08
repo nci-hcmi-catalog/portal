@@ -51,10 +51,10 @@
     "build": "NODE_PATH=src react-app-rewired build"
   },
   "devDependencies": {
-    "babel-plugin-emotion": "^10.0.6",
     "customize-cra": "^0.2.9",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "react-app-rewired": "^2.0.1"
+    "react-app-rewired": "^2.0.1",
+    "babel-plugin-emotion": "^10.0.6",
+    "eslint-plugin-jsx-a11y": "^6.1.2"
   },
   "browserslist": {
     "development": [

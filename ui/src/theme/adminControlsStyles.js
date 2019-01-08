@@ -150,7 +150,7 @@ export const ActionsMenuItem = styled('div')`
     background-color: ${actionsMenuHover};
   }
 
-  &:first-child {
+  &:first-of-type {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }

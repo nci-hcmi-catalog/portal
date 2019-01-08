@@ -152,7 +152,7 @@ export default css`
     color: #323232;
   }
 
-  .image-caption:not(:first-child) {
+  .image-caption:not(:first-of-type) {
     padding-left: 8px;
   }
 
@@ -174,11 +174,11 @@ export default css`
     text-align: left;
   }
 
-  .entity-horizontal-table tr:nth-child(even) {
+  .entity-horizontal-table tr:nth-of-type(even) {
     background: #ffffff;
   }
 
-  .entity-horizontal-table tr:nth-child(odd) {
+  .entity-horizontal-table tr:nth-of-type(odd) {
     background: #f8fafb;
   }
 
