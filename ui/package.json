@@ -4,32 +4,36 @@
   "private": true,
   "dependencies": {
     "@arranger/components": "^0.5.19",
+    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "@hcmi-portal/cms": "0.0.1",
-    "@nivo/bar": "^0.42.1",
-    "@nivo/pie": "^0.40.0",
+    "@nivo/bar": "^0.52.0",
+    "@nivo/pie": "^0.52.0",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "downshift": "^1.31.10",
-    "emotion": "^9.0.2",
+    "emotion": "^10.0.6",
     "encodeurl": "^1.0.2",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-flowtype": "^3.2.1",
+    "eslint-plugin-prettier": "^3.0.1",
     "filesaver.js": "^1.3.4",
     "formik": "^1.0.1",
     "lodash": "^4.17.10",
-    "moment": "^2.22.0",
-    "moment-timezone": "^0.5.21",
-    "query-string": "5.1.0",
-    "react": "16.4.0",
+    "moment": "^2.23.0",
+    "moment-timezone": "^0.5.23",
+    "query-string": "6.2.0",
+    "react": "16.7.0",
     "react-autocomplete": "^1.8.1",
     "react-component-component": "^1.2.1",
     "react-copy-to-clipboard": "^5.0.1",
-    "react-dom": "16.4.0",
+    "react-dom": "16.7.0",
     "react-dropzone": "^5.0.1",
-    "react-emotion": "^9.0.2",
-    "react-icons": "^2.2.7",
+    "react-emotion": "^10.0.0",
+    "react-icons": "^3.2.2",
     "react-modal": "^3.4.4",
-    "react-moment": "^0.7.9",
-    "react-router-dom": "4.3.0-rc.3",
-    "react-scripts": "^2.0.0-next.66cc7a90",
+    "react-moment": "^0.8.4",
+    "react-router-dom": "4.3.1",
+    "react-scripts": "^2.1.3",
     "react-scroll": "^1.7.10",
     "react-share": "^2.1.1",
     "react-sizeme": "^2.5.2",
@@ -37,23 +41,31 @@
     "react-split-pane": "^0.1.77",
     "react-styled-carousel": "^0.4.12",
     "reactjs-popup": "^1.1.1",
-    "styled-system": "^2.2.1",
+    "styled-system": "^3.2.0",
     "url-join": "^4.0.0"
   },
   "scripts": {
     "boom": "yarn 💥",
     "💥": "rm -rf node_modules && yarn && yarn start",
-    "start": "SKIP_PREFLIGHT_CHECK=true NODE_PATH=src react-app-rewired start",
-    "build": "NODE_PATH=src react-app-rewired build"
+    "start": "SKIP_PREFLIGHT_CHECK=true NODE_PATH=src react-scripts start",
+    "build": "NODE_PATH=src react-scripts build"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "^7.0.0-beta.46",
-    "babel-plugin-emotion": "^9.1.2",
+    "babel-plugin-emotion": "^10.0.6",
     "eslint-plugin-jsx-a11y": "^6.1.2",
-    "react-app-rewired": "^1.5.0"
+    "react-app-rewired": "^2.0.1"
   },
   "browserslist": {
-    "development": ["last 2 chrome versions", "last 2 firefox versions", "last 2 edge versions"],
-    "production": [">1%", "last 4 versions", "Firefox ESR", "not ie < 11"]
+    "development": [
+      "last 2 chrome versions",
+      "last 2 firefox versions",
+      "last 2 edge versions"
+    ],
+    "production": [
+      ">1%",
+      "last 4 versions",
+      "Firefox ESR",
+      "not ie < 11"
+    ]
   }
 }
