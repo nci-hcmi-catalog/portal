@@ -269,7 +269,7 @@ export default ({ modelName }) => (
                           }) => (
                             <ModelSlide>
                               <img
-                                src={`/data/images/${file_id}`}
+                                src={`/api/data/images/${file_id}`}
                                 alt={`File name: ${file_name}`}
                               />
                               {(scale_bar_length || magnification || passage_number) && (
