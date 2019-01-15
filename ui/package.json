@@ -11,7 +11,7 @@
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "downshift": "^1.31.10",
-    "emotion": "^10.0.6",
+    "emotion": "^9.0.2",
     "encodeurl": "^1.0.2",
     "eslint-plugin-babel": "^5.1.0",
     "eslint-plugin-flowtype": "^3.2.1",
@@ -28,7 +28,7 @@
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "16.7.0",
     "react-dropzone": "^5.0.1",
-    "react-emotion": "^9.2.7",
+    "react-emotion": "^9.0.2",
     "react-icons": "^3.2.2",
     "react-modal": "^3.4.4",
     "react-moment": "^0.8.4",
@@ -41,7 +41,7 @@
     "react-split-pane": "^0.1.77",
     "react-styled-carousel": "^0.4.12",
     "reactjs-popup": "^1.1.1",
-    "styled-system": "^3.2.0",
+    "styled-system": "^2.2.1",
     "url-join": "^4.0.0"
   },
   "scripts": {
@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "customize-cra": "^0.2.9",
-    "react-app-rewired": "^2.0.1",
+    "react-app-rewired": "^2.0.2",
     "babel-plugin-emotion": "^10.0.6",
     "eslint-plugin-jsx-a11y": "^6.1.2"
   },

@@ -1,6 +1,7 @@
 import React from 'react';
 import bannerPath from 'assets/hcmi-dna-banner.jpg';
 import { Link } from 'react-router-dom';
+import { css } from 'emotion';
 
 // todo: props to pass in text displayed on right side
 
@@ -8,7 +9,7 @@ const headerHeight = '88px';
 
 const Gradient = p => (
   <div
-    css={`
+    css={css`
       height: ${headerHeight};
       position: absolute;
       width: 100%;
@@ -20,23 +21,24 @@ const Gradient = p => (
 
 export default () => (
   <div
-    css={`
+    css={css`
       border-bottom: 6px solid #fff;
     `}
   >
     <Gradient
-      xcss={`
-       background-image: -webkit-gradient(
-         linear,
-         left top,
-         right top,
-         from(rgba(255, 255, 255, 0.7)),
-         to(rgba(0, 0, 0, 0))
-       );`}
+      xcss={css`
+        background-image: gradient(
+          linear,
+          left top,
+          right top,
+          from(rgba(255, 255, 255, 0.7)),
+          to(rgba(0, 0, 0, 0))
+        );
+      `}
     />
     <Link
       to="/"
-      css={`
+      css={css`
         display: flex;
         background: #fff0ce;
         background-image: url(${bannerPath});
@@ -51,7 +53,7 @@ export default () => (
       `}
     >
       <div
-        css={`
+        css={css`
           font-family: 'Libre Franklin';
           font-weight: bold;
           font-size: 30px;
@@ -62,7 +64,7 @@ export default () => (
         Human Cancer Models Initiative
       </div>
       <div
-        css={`
+        css={css`
           font-family: 'Libre Franklin';
           font-size: 26px;
           font-weight: bold;

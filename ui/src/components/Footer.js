@@ -8,7 +8,7 @@ import cancerResearchUKPath from 'assets/logo-cancer-research-UK.svg';
 
 const Footer = () => (
   <footer
-    css={`
+    className={`
       height: 70px;
       background-color: #ffffff;
       box-shadow: 0 0 5.9px 0.1px rgba(160, 160, 163, 0.93);
@@ -40,28 +40,28 @@ const Footer = () => (
       <img
         src={nihPath}
         alt="NIH"
-        css={`
+        className={`
           height: 24px;
         `}
       />
       <img
         src={sangerPath}
         alt="Wellcome Sanger Institue"
-        css={`
+        className={`
           height: 41px;
         `}
       />
       <img
         src={hubPath}
         alt="Hubrecht Organoid Technology"
-        css={`
+        className={`
           height: 41px;
         `}
       />
       <img
         src={cancerResearchUKPath}
         alt="Cancer Research UK"
-        css={`
+        className={`
           height: 41px;
         `}
       />
