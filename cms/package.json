@@ -36,12 +36,12 @@
     "yup": "^0.25.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.35",
-    "@babel/core": "^7.0.0-beta.35",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.35",
-    "@babel/plugin-proposal-optional-chaining": "^7.0.0-beta.35",
-    "@babel/preset-env": "^7.0.0-beta.35",
-    "@babel/register": "^7.0.0-beta.35",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/register": "^7.0.0",
     "nodemon": "^1.13.3"
   }
 }
