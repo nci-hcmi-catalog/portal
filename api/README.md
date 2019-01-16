@@ -98,3 +98,119 @@ downloadKey: dc9e3c25-130c-43ab-a662-fe248add0f4c
 **Example** : `https://hcmi-searchable-catalog.nci.nih.gov/api/last-updated`
 
 ### Arranger
+
+The Portal API is a wrapper for [@arranger/server](https://github.com/overture-stack/arranger/tree/master/modules/server) . Arranger provides a GraphQL endpoint to access the data stored in ElasticSearch, and can be configured without modifying code to stay compatible with any changes in the ES data model.
+
+**URL** : /api/:projectId/graphql
+
+**Method** : POST
+
+**Body** : application/json - See Parameters chart.
+
+**Parameters** :
+| Name | Type | Value |
+| --- | --- | --- |
+| projectId | Path | [URL Encoded String] Arranger project ID |
+| query | Body | [String] GraphQL query |
+| variables | Path | [JSON] Variables that need to be used in the GraphQL query |
+
+#### Example Arranger Request
+
+This request searches the project with ID `hcmi` for data from the models index. It filters models to only those with `primary_site="Brain"`, sorted by `age_at_sample_acquisition` and then `name`, and limited to first 20 results. It returns a list of 8 fields, specified within the `node` object.
+
+https://hcmi-searchable-catalog.nci.nih.gov/api/hcmi/graphql
+
+Body:
+
+```
+{
+  "query":
+    "query($sort: [Sort], $first: Int, $offset: Int, $score: String, $sqon: JSON) {
+      models {
+        hits(first: $first, offset: $offset, sort: $sort, score: $score, filters: $sqon) {
+          total
+          edges {
+            node {
+              name
+              primary_site
+              clinical_diagnosis {
+                clinical_tumor_diagnosis
+              }
+              gender
+              race
+              age_at_sample_acquisition
+              age_at_diagnosis
+              id
+            }
+          }
+        }
+      }
+    }",
+
+  "variables":
+    {
+      "sqon":{
+        "op":"and",
+        "content":[
+          {
+            "op":"in",
+            "content":{
+              "field":"primary_site",
+              "value":["Brain"]
+            }
+          }
+        ]
+      },
+      "sort":[
+        {"field":"age_at_sample_acquisition","order":"asc"},
+        {"field":"name","order":"asc"}
+      ],
+      "score":null,
+      "offset":0,
+      "first":20
+    }
+}
+```
+
+#### Query
+
+The GraphQL query uses standard [GraphQL syntax](https://graphql.org/learn/queries/), see example for a common pattern.
+
+#### SQON Filters
+
+Arranger uses a custom JSON object format for filtering that is called SQON (pronounced like "Scone"). SQON provides a flexible system for combining many different filters.
+
+A SQON object consists of nested objects of two types: **Operations** and **Values**.
+
+Operation objects apply boolean logic to a list of content objects which can be either type. They are of the form:
+
+Combination operation which groups one or more filters
+
+```
+{
+  "op":"", //Operation to apply to content ["and", "or", "not"]
+  "content":[] //List of Operation objects that the boolean operation will apply to
+}
+```
+
+OR
+
+Filter operation that applies to a specific field
+
+```
+{
+  "op":"", //Operation to apply to content ["in", "not-in"]
+  "content":{} //Value object specifying the field and list of values that the field must be "in" or "not-in"
+}
+```
+
+**Value** objects specify a list the field name and values for it that the wrapping . This filter can specify to include or exclude fields with any of the listed values. It will have the following format:
+
+```
+{
+  "field":"", //name of the field this operation applies to
+  "value":[] //List of values for the field
+}
+```
+
+The top level of a SQON must always be a Combination Operation, even if only a single filter is being applied.
