@@ -19,6 +19,8 @@ import TrashIcon from 'icons/TrashIcon';
 import DownloadIconWhite from 'icons/DownloadIconWhite';
 import modelListEmptyRedPlus from 'assets/icon-modellist-empty-red.svg';
 
+import { imgPath } from 'utils/constants';
+
 import config from '../admin/config';
 
 const EmptyList = () => (
@@ -93,7 +95,7 @@ export default () => (
                                 <div className="model-list-model" key={idx}>
                                   {modelImages.length > 0 ? (
                                     <img
-                                      src={`/api/data/images/${modelImages[0].file_id}`}
+                                      src={`${imgPath}/${modelImages[0].file_id}`}
                                       alt="model representation"
                                       width="100"
                                       height="74"

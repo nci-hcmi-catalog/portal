@@ -20,7 +20,7 @@ import VariantTables from 'components/VariantTables';
 import ExternalLink from 'components/ExternalLink';
 import ShareButton from 'components/ShareButton';
 import { SelectedModelsContext } from 'providers/SelectedModels';
-import config from 'components/admin/config';
+import { imgPath } from 'utils/constants';
 
 const HorizontalTable = ({
   fieldNames,
@@ -268,10 +268,7 @@ export default ({ modelName }) => (
                             passage_number,
                           }) => (
                             <ModelSlide>
-                              <img
-                                src={`/api/data/images/${file_id}`}
-                                alt={`File name: ${file_name}`}
-                              />
+                              <img src={`${imgPath}/${file_id}`} alt={`File name: ${file_name}`} />
                               {(scale_bar_length || magnification || passage_number) && (
                                 <div
                                   css={`
