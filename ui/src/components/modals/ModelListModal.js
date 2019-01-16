@@ -21,8 +21,6 @@ import modelListEmptyRedPlus from 'assets/icon-modellist-empty-red.svg';
 
 import { imgPath } from 'utils/constants';
 
-import config from '../admin/config';
-
 const EmptyList = () => (
   <div className="empty-list">
     <img src={modelListEmptyRedPlus} alt="Add to list icon" width="26" height="30" />
