@@ -93,9 +93,7 @@ export default () => (
                                 <div className="model-list-model" key={idx}>
                                   {modelImages.length > 0 ? (
                                     <img
-                                      src={`${config.urls.cmsBase}/images/${
-                                        modelImages[0].file_id
-                                      }`}
+                                      src={`/api/data/images/${modelImages[0].file_id}`}
                                       alt="model representation"
                                       width="100"
                                       height="74"
