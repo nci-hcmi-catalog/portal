@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "@arranger/components": "^0.5.19",
+    "@arranger/components": "^0.5.20",
     "@hcmi-portal/cms": "0.0.1",
-    "@nivo/bar": "^0.42.1",
-    "@nivo/pie": "^0.40.0",
+    "@nivo/bar": "^0.52.0",
+    "@nivo/pie": "^0.52.0",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "downshift": "^1.31.10",
@@ -19,6 +19,7 @@
     "moment-timezone": "^0.5.23",
     "query-string": "5.1.0",
     "react": "16.4.0",
+    "react-app-polyfill": "^0.2.0",
     "react-autocomplete": "^1.8.1",
     "react-component-component": "^1.2.1",
     "react-copy-to-clipboard": "^5.0.1",
@@ -29,7 +30,7 @@
     "react-modal": "^3.4.4",
     "react-moment": "^0.7.9",
     "react-router-dom": "4.3.1",
-    "react-scripts": "^2.0.0-next.66cc7a90",
+    "react-scripts": "2.0.3",
     "react-scroll": "^1.7.10",
     "react-share": "^2.1.1",
     "react-sizeme": "^2.5.2",
@@ -50,10 +51,19 @@
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "babel-plugin-emotion": "^9.1.2",
     "eslint-plugin-jsx-a11y": "^6.1.2",
-    "react-app-rewired": "^1.5.0"
+    "react-app-rewired": "^1.6.2"
   },
   "browserslist": {
-    "development": ["last 2 chrome versions", "last 2 firefox versions", "last 2 edge versions"],
-    "production": [">1%", "last 4 versions", "Firefox ESR", "not ie < 11"]
+    "development": [
+      "last 2 chrome versions",
+      "last 2 firefox versions",
+      "last 2 edge versions"
+    ],
+    "production": [
+      ">1%",
+      "last 4 versions",
+      "Firefox ESR",
+      "not ie < 11"
+    ]
   }
 }
