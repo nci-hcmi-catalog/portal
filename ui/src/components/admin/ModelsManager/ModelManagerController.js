@@ -106,7 +106,7 @@ Model table state transitions for each action:
 2. Individual model publish/unpublish/delete should not reset filter, sort and page #
 */
 export default ({ baseUrl, cmsBase, children, ...props }) => (
-  <NotificationsContext>
+  <NotificationsContext.Consumer>
     {({ appendNotification }) => (
       <Component
         initialState={{
@@ -360,5 +360,5 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
         )}
       </Component>
     )}
-  </NotificationsContext>
+  </NotificationsContext.Consumer>
 );

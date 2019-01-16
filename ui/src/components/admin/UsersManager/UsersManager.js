@@ -66,7 +66,7 @@ const content = () => {
   return (
     <Component initialState={{ isTableDataSynced: false, isCreate: false }}>
       {({ state: { isTableDataSynced, isCreate }, setState }) => (
-        <NotificationsContext>
+        <NotificationsContext.Consumer>
           {({ appendNotification }) => {
             const saveFormUser = ({ values, isUpdate }) =>
               saveUser(values, isUpdate, setState, appendNotification);
@@ -118,7 +118,7 @@ const content = () => {
               </AdminContainer>
             );
           }}
-        </NotificationsContext>
+        </NotificationsContext.Consumer>
       )}
     </Component>
   );

@@ -29,7 +29,7 @@ const attachGoogleSignIn = (elementId, googleAuth, onSuccess, onFailure) => {
 };
 
 export const LoginWithGoogle = () => (
-  <NotificationsContext>
+  <NotificationsContext.Consumer>
     {({ appendNotification }) => (
       <Component
         initialState={{
@@ -113,5 +113,5 @@ export const LoginWithGoogle = () => (
         }}
       </Component>
     )}
-  </NotificationsContext>
+  </NotificationsContext.Consumer>
 );

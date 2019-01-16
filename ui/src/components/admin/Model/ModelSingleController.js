@@ -22,7 +22,7 @@ export const ModelSingleContext = React.createContext();
 
 // Provider
 export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) => (
-  <NotificationsContext>
+  <NotificationsContext.Consumer>
     {({ appendNotification }) => (
       <Component
         initialState={{
@@ -530,7 +530,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
         )}
       </Component>
     )}
-  </NotificationsContext>
+  </NotificationsContext.Consumer>
 );
 
 export default ModelSingleProvider;
