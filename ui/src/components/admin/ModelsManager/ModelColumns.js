@@ -1,7 +1,7 @@
 import React from 'react';
 import Popup from 'reactjs-popup';
 import MomentReact from 'react-moment';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 
 import { ModelManagerContext } from './ModelManagerController';
