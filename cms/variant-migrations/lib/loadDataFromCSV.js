@@ -7,7 +7,10 @@ const loadDataFromCSV = async filename => {
     name: variant.name,
     type: variant.type,
     category: variant.category,
-    genes: variant.genes.length > 0 ? variant.genes.split(',').map(gene => gene.trim()) : [],
+    genes:
+      variant.genes.length > 0
+        ? variant.genes.split(',').map(gene => (typeof gene === 'string' ? gene.trim() : gene))
+        : [],
   }));
 };
 
