@@ -40,8 +40,9 @@ Currently only stored image data is available through this path.
 **Method** : GET
 
 **Parameters** :
-| Name | Type | Value |
-| --- | --- | --- |
+
+| Name    | Type | Value                                                                   |
+| ------- | ---- | ----------------------------------------------------------------------- |
 | imageId | Path | [URL Encoded String] Image ID assigned by the CMS to the uploaded image |
 
 **Response** : Image Data
@@ -59,12 +60,13 @@ This is a wrapper for Arranger's table export functionality
 **Body** : application/x-www-form-urlencoded - See Parameters chart.
 
 **Parameters** :
-| Name | Type | Value |
-| --- | --- | --- |
-| projectId | Path | [URL Encoded String] Arranger project ID |
-| params | Body | [JSON] These are the params that are parsed and sent to arranger to generate the .tsv file of the chart data. This includes many fields (see example below) and specifies the files to include, file type, fields to include etc.|
-| httpHeaders | Body | [JSON] Passthrough for Header values that Arranger expects - `Authorization` is commonly provided (with an Ego JWT), though is uneccesary for exports of public data. |
-| downloadKey | Body | [UUID] Unique identifier for download session - Included in requests but unused |
+
+| Name        | Type | Value                                                                                                                                                                                                                             |
+| ----------- | ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| projectId   | Path | [URL Encoded String] Arranger project ID                                                                                                                                                                                          |
+| params      | Body | [JSON] These are the params that are parsed and sent to arranger to generate the .tsv file of the chart data. This includes many fields (see example below) and specifies the files to include, file type, fields to include etc. |
+| httpHeaders | Body | [JSON] Passthrough for Header values that Arranger expects - `Authorization` is commonly provided (with an Ego JWT), though is uneccesary for exports of public data.                                                             |
+| downloadKey | Body | [UUID] Unique identifier for download session - Included in requests but unused                                                                                                                                                   |
 
 **Response** : .tsv file with content as specified in the request body
 
@@ -91,8 +93,9 @@ downloadKey: dc9e3c25-130c-43ab-a662-fe248add0f4c
 **Method** : GET
 
 **Response** : [JSON]
-| Name | Value |
-| --- | --- |
+
+| Name | Value                                         |
+| ---- | --------------------------------------------- |
 | date | [Number] DateTime value for Last Updated Time |
 
 **Example** : `https://hcmi-searchable-catalog.nci.nih.gov/api/last-updated`
@@ -108,10 +111,11 @@ The Portal API is a wrapper for [@arranger/server](https://github.com/overture-s
 **Body** : application/json - See Parameters chart.
 
 **Parameters** :
-| Name | Type | Value |
-| --- | --- | --- |
-| projectId | Path | [URL Encoded String] Arranger project ID |
-| query | Body | [String] GraphQL query |
+
+| Name      | Type | Value                                                      |
+| --------- | ---- | ---------------------------------------------------------- |
+| projectId | Path | [URL Encoded String] Arranger project ID                   |
+| query     | Body | [String] GraphQL query                                     |
 | variables | Path | [JSON] Variables that need to be used in the GraphQL query |
 
 #### Example Arranger Request
