@@ -1,6 +1,6 @@
 import React from 'react';
 import MomentReact from 'react-moment';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { FormHeader } from 'theme/adminFormStyles';
 
 export default ({ title, updatedAt }) => (
