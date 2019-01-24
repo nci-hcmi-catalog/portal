@@ -186,9 +186,9 @@ Arranger uses a custom JSON object format for filtering that is called SQON (pro
 
 A SQON object consists of nested objects of two types: **Operations** and **Values**.
 
-Operation objects apply boolean logic to a list of content objects which can be either type. They are of the form:
+Operation objects apply boolean logic to a list of operation objects. They are of the form:
 
-Combination operation which groups one or more filters
+**Combination Operation** which groups one or more filters
 
 ```
 {
@@ -199,11 +199,11 @@ Combination operation which groups one or more filters
 
 OR
 
-Filter operation that applies to a specific field
+**Field Operation** that applies to a filter to Value Object
 
 ```
 {
-  "op":"", //Operation to apply to content ["in", "not-in"]
+  "op":"", //Operation to apply to content ["in", "<=", ">="]
   "content":{} //Value object specifying the field and list of values that the field must be "in" or "not-in"
 }
 ```
@@ -213,7 +213,7 @@ Filter operation that applies to a specific field
 ```
 {
   "field":"", //name of the field this operation applies to
-  "value":[] //List of values for the field
+  "value":[] //List of values for the field if using the "in" operation, or a scalar value for ">=" and "<=" operations
 }
 ```
 
