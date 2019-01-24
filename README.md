@@ -1,13 +1,27 @@
 # HCMI Portal
 
+This is a mono-repo containing the [HCMI Portal UI](ui), [CMS server](cms), and [Arranger API server](api).
+
+## Development
+
+To work on this project, running the UI, CMS, and API on a local device, make sure your device has the listed dependencies and then follow the steps in the [Configuration](#Configuration), [Migrations](#Migrations), and [Quickstart](#Quickstart) sections.
+
+### Dependencies
+
+* Elasticsearch - Needs to be installed and running on the default port (9200)
+* MongoDB - Does not need to be installed locally, but if not local update all config file references to mongo location.
+
+### Configuration
+
 ### Migrations
+
 First time setup will require variants being loaded into mongo via a migration in the `cms/variant-migrations` folder. Migrations require the global installation of the migrate-mongo package, `npm i -g migrate-mongo`. for more information visit https://www.npmjs.com/package/migrate-mongo.
 
 To run the required migrations:
 
 ```
 cd cms/variant-migrations
-migrate-mongo up
+migrate-mongo up -f config.js
 ```
 
 ### Quickstart
