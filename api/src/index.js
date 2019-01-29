@@ -9,6 +9,7 @@ import cmsDataRouter from './cmsData';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import expressSanitizer from 'express-sanitizer';
+import * as path from 'path';
 
 const port = process.env.PORT || 5050;
 const app = express();
@@ -20,10 +21,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressSanitizer()); // each route is responsible for sanitization
 app.use(cors());
 
+//swagger
+app.use('/docs', (req, res) => {
+  res.sendFile(path.join(__dirname, '../redoc.html'));
+});
+app.use('/swagger', (req, res) => {
+  res.sendFile(path.join(__dirname, '../swagger.json'));
+});
+
+app.use('/data', cmsDataRouter);
+
 Arranger({ enableAdmin: process.env.ENABLE_ADMIN === 'true' }).then(router => {
   app.use('/last-updated', lastUpdatedRouter);
   app.use('/export', dataExportRouter);
-  app.use('/data', cmsDataRouter);
   app.use(router);
 
   http.listen(port, async () => {
