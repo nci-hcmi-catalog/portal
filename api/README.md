@@ -23,9 +23,11 @@ To configure run the API locally in isolation, follow these steps:
 
 This section details HTTP requests for all endpoints provided by the API service.
 
-When running on the portal, all these endpoints are found within the `/api` path. The URLs given here are relative to this api path.
+There is no default base path for this API when run locally. On the HCMI Searchable Catalog portal,the base path is `/api` and all URLs given here are relative to this api path.
 
 ### Custom Endpoints
+
+Interactive documentation for custom endpoints is included with the API at the `/docs` path.
 
 #### 1. CMS Data
 

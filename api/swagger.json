@@ -1,0 +1,116 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.1",
+    "title": "HCMI Searchable Catalog API",
+    "description": "Wrapper for Arranger API and programatic CMS data access"
+  },
+  "basePath": "/api",
+  "schemes": ["https", "http"],
+  "paths": {
+    "/data/images/{imageId}": {
+      "get": {
+        "summary": "Fetch an image uploaded to CMS",
+        "description": "Publicly accessible endpoint for fetching images uploaded to the CMS",
+        "parameters": [
+          {
+            "name": "imageId",
+            "in": "path",
+            "description": "ID of image assigned by CMS",
+            "required": "true",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Raw Image Data"
+          }
+        }
+      }
+    },
+    "/export/{projectId}/models": {
+      "post": {
+        "summary": "Data Export",
+        "description": ".tsv file export. This is a wrapper for Arranger's export functionality.",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "responses": {
+          "200": {
+            "description": ".tsv file with content as specified in the request body"
+          }
+        },
+        "parameters": [
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "ID for the project with the data we want to export",
+            "required": true,
+            "type": "string",
+            "x-oad-type": "parameter"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "URL Encoded Form with the following fields",
+            "required": true,
+            "schema": {
+              "x-oad-type": "object",
+              "type": "object",
+              "properties": {
+                "params": {
+                  "x-oad-type": "object",
+                  "type": "object",
+                  "title": "params",
+                  "description":
+                    "Parameters for the arranger request defining the data to export. Decode example for sample content."
+                },
+                "httpHeaders": {
+                  "x-oad-type": "object",
+                  "type": "object",
+                  "title": "httpHeaders",
+                  "description":
+                    "Passthrough for Header values that Arranger expects - `Authorization` is commonly provided (with an Ego JWT), though is uneccesary for exports of public data."
+                },
+                "downloadKey": {
+                  "x-oad-type": "string",
+                  "type": "string",
+                  "title": "downloadKey",
+                  "description":
+                    "Unique identifier for download session - Included in requests but unused"
+                }
+              },
+              "required": ["params", "httpHeaders", "downloadKey"],
+              "example":
+                "params=%7B%22files%22%3A%5B%7B%22fileName%22%3A%22models-table.tsv%22%2C%22fileType%22%3A%22tsv%22%2C%22index%22%3A%22models%22%2C%22columns%22%3A%5B%7B%22field%22%3A%22name%22%2C%22accessor%22%3A%22name%22%2C%22show%22%3Atrue%2C%22type%22%3A%22entity%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Name%22%2C%22extendedType%22%3A%22keyword%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Atrue%2C%22minWidth%22%3A140%7D%2C%7B%22field%22%3A%22primary_site%22%2C%22accessor%22%3A%22primary_site%22%2C%22show%22%3Atrue%2C%22type%22%3A%22string%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Primary+Site%22%2C%22extendedType%22%3A%22keyword%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%2C%7B%22field%22%3A%22clinical_diagnosis.clinical_tumor_diagnosis%22%2C%22accessor%22%3A%22clinical_diagnosis.clinical_tumor_diagnosis%22%2C%22show%22%3Atrue%2C%22type%22%3A%22string%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Clinical+Tumor+Diagnosis%22%2C%22extendedType%22%3A%22keyword%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%2C%7B%22field%22%3A%22gender%22%2C%22accessor%22%3A%22gender%22%2C%22show%22%3Atrue%2C%22type%22%3A%22string%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Gender%22%2C%22extendedType%22%3A%22keyword%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%2C%7B%22field%22%3A%22race%22%2C%22accessor%22%3A%22race%22%2C%22show%22%3Atrue%2C%22type%22%3A%22string%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Race%22%2C%22extendedType%22%3A%22keyword%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%2C%7B%22field%22%3A%22age_at_sample_acquisition%22%2C%22accessor%22%3A%22age_at_sample_acquisition%22%2C%22show%22%3Atrue%2C%22type%22%3A%22number%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Age+At+Acquisition+%28Years%29%22%2C%22extendedType%22%3A%22long%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%2C%7B%22field%22%3A%22age_at_diagnosis%22%2C%22accessor%22%3A%22age_at_diagnosis%22%2C%22show%22%3Atrue%2C%22type%22%3A%22number%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Age+At+Diagnosis+%28Years%29%22%2C%22extendedType%22%3A%22long%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%5D%7D%5D%7D&httpHeaders=%7B%7D&downloadKey=dc9e3c25-130c-43ab-a662-fe248add0f4c"
+            },
+            "x-oad-type": "parameter"
+          }
+        ]
+      }
+    },
+    "/last-updated": {
+      "get": {
+        "description": "Get the Date and Time the catalog data was last published.",
+        "responses": {
+          "200": {
+            "description": "JSON Object with last updated time.",
+            "schema": {
+              "x-oad-type": "object",
+              "type": "object",
+              "properties": {
+                "date": {
+                  "x-oad-type": "number",
+                  "type": "number",
+                  "title": "date",
+                  "description": "DateTime value for Last Updated Time",
+                  "format": "float"
+                }
+              }
+            },
+            "x-oad-type": "response"
+          }
+        }
+      },
+      "x-oad-type": "operation"
+    }
+  }
+}
