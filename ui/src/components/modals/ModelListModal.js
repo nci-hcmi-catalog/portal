@@ -1,7 +1,7 @@
 import React from 'react';
 import Component from 'react-component-component';
 import Spinner from 'react-spinkit';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import ModelListModalQuery from 'components/queries/ModelListModalQuery';
 import tsvDownloader from 'utils/tsvDownloader';
