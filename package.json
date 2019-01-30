@@ -1,6 +1,6 @@
 {
   "name": "hcmi-portal",
-  "version": "0.0.1",
+  "version": "0.0.7",
   "private": true,
   "workspaces": ["api", "cms", "ui", "data_model"],
   "description": "HCMI Portal",

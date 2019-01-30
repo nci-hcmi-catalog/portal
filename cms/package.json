@@ -1,6 +1,6 @@
 {
   "name": "@hcmi-portal/cms",
-  "version": "0.0.1",
+  "version": "0.0.7",
   "description": "Content Management services for HCMI Portal`",
   "private": true,
   "main": "index.js",

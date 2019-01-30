@@ -1,6 +1,6 @@
 {
   "name": "@hcmi-portal/api",
-  "version": "0.0.1",
+  "version": "0.0.7",
   "description": "``` npm i @arranger/server ```",
   "private": true,
   "main": "index.js",
