@@ -110,3 +110,29 @@ The HCMI Catalog user interface uses GraphQL to fetch data, using your browser's
 
 # REST endpoints
 
+HCMI rest endpoint have their dedicated documentation available here: https://hcmi-searchable-catalog.nci.nih.gov/api/docs#
+
+```graphql
+query ($sort: [Sort], $first: Int, $offset: Int, $sqon: JSON) {
+	models {
+		hits(first: $first, offset: $offset, sort: $sort, filters: $sqon) {
+      total
+      edges {
+        node {
+          name
+          files {
+						hits(first: 10){
+              edges{
+                node {
+                  file_id
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+	}  
+}
+```
+
