@@ -21,6 +21,73 @@ Once the application is installed, joint specify `https://hcmi-searchable-catalo
 
 INSERT SCREENSHOT
 
+## Sample Query
+
+In this first sample, we'll be requesting the first 5 cancer models, sorted by name as well as the total count of models available.
+
+INSERT SCREENSHOT
+
+GraphQL Query
+```graphQL
+query ($sort: [Sort], $first: Int, $offset: Int, $sqon: JSON) {
+  models {
+    hits(first: $first, offset: $offset, sort: $sort, filters: $sqon) {
+      total
+      edges {
+        node {
+          name
+        }
+      }
+    }
+  }  
+}
+```
+
+Variables
+```json
+{"first": 5, "offset": 0, "sort": [{"field": "name", "order": "asc"}]}
+```
+
+Results
+```json
+{
+  "data": {
+    "models": {
+      "hits": {
+        "total": 15,
+        "edges": [
+          {
+            "node": {
+              "name": "HCM-BROD-0003-C71"
+            }
+          },
+          {
+            "node": {
+              "name": "HCM-BROD-0011-C71"
+            }
+          },
+          {
+            "node": {
+              "name": "HCM-BROD-0012-C71"
+            }
+          },
+          {
+            "node": {
+              "name": "HCM-BROD-0014-C71"
+            }
+          },
+          {
+            "node": {
+              "name": "HCM-BROD-0028-C71"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
 
 
 
