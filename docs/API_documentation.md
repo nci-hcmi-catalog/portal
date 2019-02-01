@@ -114,14 +114,14 @@ HCMI rest endpoint have their dedicated documentation available here: https://hc
 
 ```graphql
 query ($sort: [Sort], $first: Int, $offset: Int, $sqon: JSON) {
-	models {
-		hits(first: $first, offset: $offset, sort: $sort, filters: $sqon) {
+  models {
+    hits(first: $first, offset: $offset, sort: $sort, filters: $sqon) {
       total
       edges {
         node {
           name
           files {
-						hits(first: 10){
+	    hits(first: 10){
               edges{
                 node {
                   file_id
@@ -132,7 +132,7 @@ query ($sort: [Sort], $first: Int, $offset: Int, $sqon: JSON) {
         }
       }
     }
-	}  
+  }  
 }
 ```
 
