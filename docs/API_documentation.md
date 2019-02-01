@@ -88,9 +88,25 @@ Results
 }
 ```
 
+You could request the next 5 results, by setting the value of `offset` to 5, allowing you to [paginate through the results](https://graphql.org/learn/pagination/).
 
+## GraphQL Introspection
 
+GraphQL supports [introspection](https://graphql.org/learn/introspection/). Using the `Docs` menu of GraphiQL, you can navigate through the schema and understand how to build queries.
 
+Auto-completion is also provided by GraphiQL, with auto-suggestion of available fields. The entire model and its mapping can also be obtained by executing the following query:
+```graphql
+query{
+  models {
+    mapping
+    extended
+  }
+}
+```
 
+## Learn more
 
+The HCMI Catalog user interface uses GraphQL to fetch data, using your browser's developer tools, you can inspect calls and look at how the portal is building its graphql calls
+
+# REST endpoints
 
