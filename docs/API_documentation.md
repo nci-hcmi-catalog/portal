@@ -119,14 +119,13 @@ Let's imagine we want to build a web app displaying a gallery view of all models
 ```graphql
 query ($sort: [Sort], $first: Int, $offset: Int, $sqon: JSON) {
   models {
-		hits(first: $first, offset: $offset, sort: $sort, filters: $sqon) {
+    hits(first: $first, offset: $offset, sort: $sort, filters: $sqon) {
       total
       edges {
         node {
           name
           files {
-						hits(first: 10){
-              total
+	  hits(first: 1){
               edges{
                 node {
                   file_id          
@@ -137,14 +136,14 @@ query ($sort: [Sort], $first: Int, $offset: Int, $sqon: JSON) {
         }
       }
     }
-	}  
+  }  
 }
 ```
 
 Variables
 ```json
 {
-  "first": 5, 
+  "first": 2, 
   "offset": 0, 
   "sort": [{"field": "name", "order": "asc"}], 
   "sqon":{
@@ -175,7 +174,6 @@ Result
               "name": "HCM-BROD-0011-C71",
               "files": {
                 "hits": {
-                  "total": 2,
                   "edges": [
                     {
                       "node": {
@@ -197,7 +195,6 @@ Result
               "name": "HCM-BROD-0012-C71",
               "files": {
                 "hits": {
-                  "total": 2,
                   "edges": [
                     {
                       "node": {
@@ -207,72 +204,6 @@ Result
                     {
                       "node": {
                         "file_id": "5c3ef48eeaddbe30c8ceb1b9"
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          {
-            "node": {
-              "name": "HCM-BROD-0029-C71",
-              "files": {
-                "hits": {
-                  "total": 2,
-                  "edges": [
-                    {
-                      "node": {
-                        "file_id": "5c3ef40eeaddbe30c8ceb19d"
-                      }
-                    },
-                    {
-                      "node": {
-                        "file_id": "5c3ef419eaddbe30c8ceb1a1"
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          {
-            "node": {
-              "name": "HCM-CSHL-0056-C18",
-              "files": {
-                "hits": {
-                  "total": 2,
-                  "edges": [
-                    {
-                      "node": {
-                        "file_id": "5c1910123361c71c89a48a92"
-                      }
-                    },
-                    {
-                      "node": {
-                        "file_id": "5c1910123361c71c89a48a95"
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          {
-            "node": {
-              "name": "HCM-CSHL-0057-C18",
-              "files": {
-                "hits": {
-                  "total": 2,
-                  "edges": [
-                    {
-                      "node": {
-                        "file_id": "5c1910793361c71c89a48ab8"
-                      }
-                    },
-                    {
-                      "node": {
-                        "file_id": "5c19107a3361c71c89a48abb"
                       }
                     }
                   ]
