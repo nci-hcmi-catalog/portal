@@ -15,7 +15,8 @@ The [Graphiql electron app](https://electronjs.org/apps/graphiql) provides a sim
 
 Once the application is installed, joint specify `https://hcmi-searchable-catalog.nci.nih.gov/api/hcmi/graphql` in the `GraphQL Endpoint` field.
 
-INSERT SCREENSHOT
+![Graphiql screen](./images/graphiql-intro.png "Graphiql screen")
+
 
 ## Sample Query
 
