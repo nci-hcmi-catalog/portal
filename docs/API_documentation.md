@@ -5,6 +5,8 @@ The HCMI Searchable Catalog was built with an extensive API allowing programmati
 * A GraphQL API supporting search and exploration features
 * A REST API providing HCMI-specific business logic
 
+Data available through the API is structured following a data model available here: INSERT LINK
+
 # Discover GraphQL
 
 The HCMI GraphQL endpoint, available at `https://hcmi-searchable-catalog.nci.nih.gov/api/hcmi/graphql` is a standard GraphQL implementation. Detailed GraphQL documentation and resources are available on [GraphQL official website](https://graphql.org/learn/).
@@ -23,8 +25,6 @@ This documentation will contain sample queries, you are encouraged to copy those
 ## Sample Query
 
 In this first sample, we'll be requesting the first 5 cancer models, sorted by name as well as the total count of models available.
-
-INSERT SCREENSHOT
 
 GraphQL Query
 ```graphQL
@@ -89,6 +89,10 @@ Results
 
 You could request the next 5 results, by setting the value of `offset` to 5, allowing you to [paginate through the results](https://graphql.org/learn/pagination/).
 
+As mentioned earlier, GraphQL supports introspection. While using the Graphiql, the query field supports auto-completion and will automatically indicates possible values and display errors if some values are not compliant with the model.
+
+![GraphQL built-in documentation](./images/graphiql-autocompletion.png "Exploring built-in documentation")
+
 ## GraphQL Introspection
 
 GraphQL supports [introspection](https://graphql.org/learn/introspection/). Using the `Docs` menu of GraphiQL, you can navigate through the schema and understand how to build queries.
@@ -105,16 +109,20 @@ query{
 
 ## Learn more
 
-The HCMI Catalog user interface uses GraphQL to fetch data, using your browser's developer tools, you can inspect calls and look at how the portal is building its graphql calls
+The HCMI Catalog user interface uses GraphQL to fetch data, all calls being made are viewable through a web browser's developer console. 
+
+![GraphQL calls made by the portal](./images/graphql-console.png "GraphQL calls made by the portal")
 
 # REST endpoints
 
-HCMI rest endpoint have their dedicated documentation available here: https://hcmi-searchable-catalog.nci.nih.gov/api/docs#
+The catalog also provides a limited number of REST endpoints to achieve specific tasks. Swagger-styled documentation for the REST API is available here: https://hcmi-searchable-catalog.nci.nih.gov/api/docs#
 
 # Sample App using both GraphQL and Rest
 
-Let's imagine we want to build a web app displaying a gallery view of all models with images. 
+Let's imagine one want to build a web app displaying a gallery view, containing 10 models per page, of only models containing images. The core API calls of this simple web app would be:
 
+## GraphQL call to fetch data
+A GraphQL query listing only models containing images:
 ```graphql
 query ($sort: [Sort], $first: Int, $offset: Int, $sqon: JSON) {
   models {
@@ -139,7 +147,7 @@ query ($sort: [Sort], $first: Int, $offset: Int, $sqon: JSON) {
 }
 ```
 
-Variables
+This query would take the following variables:
 ```json
 {
   "first": 2, 
@@ -160,19 +168,9 @@ Variables
 }
 ```
 
-Result
+Partial result:
 ```json
-{
-  "data": {
-    "models": {
-      "hits": {
-        "total": 11,
-        "edges": [
-          {
-            "node": {
-              "name": "HCM-BROD-0011-C71",
-              "files": {
-                "hits": {
+/*partial */
                   "edges": [
                     {
                       "node": {
@@ -185,15 +183,7 @@ Result
                       }
                     }
                   ]
-                }
-              }
-            }
-          },
-          {
-            "node": {
-              "name": "HCM-BROD-0012-C71",
-              "files": {
-                "hits": {
+/*partial */		  
                   "edges": [
                     {
                       "node": {
@@ -206,13 +196,18 @@ Result
                       }
                     }
                   ]
-                }
-              }
-            }
-          }
-        ]
-      }
-    }
-  }
-}
+/*partial */
 ```
+
+## REST call to fetch model images
+
+Using the value of file_id, a GET REST call can be made to fetch the images corresponding to a specific model.
+
+For Example: 
+```
+GET https://hcmi-searchable-catalog.nci.nih.gov/api/data/images/5c5366a9e14f017fdf9625f5
+```
+
+# Conclusion
+
+This short introduction to HCMI Catalog's API should provide all the key elements to start exploring the API and build complex queries.
