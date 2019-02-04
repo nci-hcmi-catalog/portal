@@ -5,7 +5,7 @@ The HCMI Searchable Catalog was built with an extensive API allowing programmati
 * A GraphQL API supporting search and exploration features
 * A REST API providing HCMI-specific business logic
 
-Data available through the API is structured following a data model available here: INSERT LINK @rosi
+Data available through the API is structured following a data model available here: https://github.com/nci-hcmi-catalog/portal/blob/master/docs/Data%20Dictionary.md
 
 # Discover GraphQL
 
