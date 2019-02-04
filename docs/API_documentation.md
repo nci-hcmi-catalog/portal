@@ -1,11 +1,11 @@
 # Introduction
 
-The HCMI Searchable Catalog was built with an extensive API allowing programmatic access to any data currently available through the user interface. The purpose of this documentation it to provide initial elements to start exploring HCMI data through its available APIs:
+The HCMI Searchable Catalog was built with an extensive API allowing programmatic access to any data currently available through the user interface. The purpose of this documentation is to provide initial elements to start exploring HCMI data through its available APIs:
 
 * A GraphQL API supporting search and exploration features
 * A REST API providing HCMI-specific business logic
 
-Data available through the API is structured following a data model available here: INSERT LINK
+Data available through the API is structured following a data model available here: INSERT LINK @rosi
 
 # Discover GraphQL
 
@@ -15,7 +15,7 @@ The HCMI GraphQL endpoint, available at `https://hcmi-searchable-catalog.nci.nih
 
 The [Graphiql electron app](https://electronjs.org/apps/graphiql) provides a simple user interface to start querying the catalog GraphQL API. 
 
-Once the application is installed, joint specify `https://hcmi-searchable-catalog.nci.nih.gov/api/hcmi/graphql` in the `GraphQL Endpoint` field.
+Once the application is installed, specify `https://hcmi-searchable-catalog.nci.nih.gov/api/hcmi/graphql` in the `GraphQL Endpoint` field.
 
 This documentation will contain sample queries, you are encouraged to copy those into Graphiql and start exploring the data.
 
@@ -89,7 +89,7 @@ Results
 
 You could request the next 5 results, by setting the value of `offset` to 5, allowing you to [paginate through the results](https://graphql.org/learn/pagination/).
 
-As mentioned earlier, GraphQL supports introspection. While using the Graphiql, the query field supports auto-completion and will automatically indicates possible values and display errors if some values are not compliant with the model.
+As mentioned earlier, GraphQL supports introspection. While using the Graphiql, the query field supports auto-completion and will automatically indicate possible values and display errors if some values are not compliant with the model.
 
 ![GraphQL built-in documentation](./images/graphiql-autocompletion.png "Exploring built-in documentation")
 
@@ -119,7 +119,7 @@ The catalog also provides a limited number of REST endpoints to achieve specific
 
 # Sample App using both GraphQL and Rest
 
-Let's imagine one want to build a web app displaying a gallery view, containing 10 models per page, of only models containing images. The core API calls of this simple web app would be:
+Let's imagine one wants to build a web app displaying a gallery view, with 10 models per page, of only models containing images. The core API calls of this simple web app would be:
 
 ## GraphQL call to fetch data
 A GraphQL query listing only models containing images:
@@ -150,7 +150,7 @@ query ($sort: [Sort], $first: Int, $offset: Int, $sqon: JSON) {
 This query would take the following variables:
 ```json
 {
-  "first": 2, 
+  "first": 10, 
   "offset": 0, 
   "sort": [{"field": "name", "order": "asc"}], 
   "sqon":{
