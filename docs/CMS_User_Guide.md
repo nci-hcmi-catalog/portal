@@ -141,9 +141,7 @@ In order to link your Google account:
 1.
 
 ## [Data Dictionary](#data-dictionary)
-| Field  |  Required or Publishing | Description | Permissible Values   |   |
-|---|---|---|---|---|
-|Name|   |   |   |   |
-|Type|   |   |   |
-|   |   |   |   |   |
+The HCMI Searchable Catalog has a light-weight dictionary that identifies the properties and accepted types or values for required, preferred, and optional data elements.  Administrative fields that the catalog uses that are not relevent to user use are not included in this data dictionary. 
 
+
+The data dictionary can be found [here](https://github.com/nci-hcmi-catalog/portal/blob/master/docs/Data%20Dictionary.md).
