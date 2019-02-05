@@ -12,8 +12,8 @@ The HCMI Searchable Catalog has a light-weight dictionary that identifies the pr
 | age_at_diagnosis | Number | Age of the patient at diagnosis. |
 | age_at_sample_acquisition | Number | Age of the patient when the sample used to genereate the model was acquired.|
 | chemotherapeutic_drugs | Boolean | Specifies if the patient model was treated with chemotherapeutic drugs. If yes, a list of responding therapies may be available.|
-| clinical_stage_grouping | String | For cancers that are staged, specifies the AJCC or other cancer-type specific stage groupings (e.g. IIB, IIIA, etc.)|
-| clinical_tumor_diagnosis | String | Clinical diagnosis of parent tumor |
+| clinical_stage_grouping | String | For cancers that are staged, specifies the AJCC or other cancer-type specific stage groupings (e.g. IIB, IIIA, etc.).|
+| clinical_tumor_diagnosis | String | Clinical diagnosis of parent tumor. |
 | date_of_availability | Date | Date the model will be available for purchase from ATCC. |
 | disease_status | String | Disease state of the patient at the time of unlinking. |
 | gender | String | Text designations that identify gender. |
@@ -29,7 +29,7 @@ The HCMI Searchable Catalog has a light-weight dictionary that identifies the pr
 | source_sequence_url | String | URL referencing the location of the models available sequencing data in external data repository. |
 | split_ratio | String | The ratio that the cultured cells should be split during cell propogation.  |
 | therapy | String | List of treatment modalities that the patient received.  |
-| tnm_stage | String | Pathologic Tumor Node Metastasis (TNM) Stage. The T refers to the size and extent of the main tumor. The N refers to the the number of nearby lymph nodes that have cancer.The M refers to whether the cancer has metastasized.  |
+| tnm_stage | String | Pathologic Tumor Node Metastasis (TNM) Stage. The T refers to the size and extent of the main tumor. The N refers to the the number of nearby lymph nodes that have cancer. The M refers to whether the cancer has metastasized.  |
 | tumor_histological_grade | String | Histological grade is assigned to a tumor to identify the type of tumor and help determine patient prognosis. For cancers that are assigned grade, specifies the cancer-specific grade.  |
 | type | String | Specifies the culture type of the model.   |
 | updatedAt | Date | Date the model was last updated by an HCMI content administrator.  |
