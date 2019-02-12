@@ -10,7 +10,7 @@ export default ({ modalState }) => (
     <div className="modal-body">
       {isIE &&
           <p className="ie-warning">
-            You are currently using Internet Explorer which is not on our list of supported Browser. 
+            You are currently using Internet Explorer which is not on our list of supported browsers. 
             We recommend using Microsoft Edge, Google Chrome or Mozilla Firefox.
           </p>      
       }
