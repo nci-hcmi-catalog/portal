@@ -1,14 +1,14 @@
 import React from 'react';
 
 import globals from 'utils/globals';
-import testIE from 'utils/testIE';
+import isIE from 'utils/isIE';
 
 
 export default ({ modalState }) => (
   <>
     <h1>Welcome to the HCMI Searchable Catalog</h1>
     <div className="modal-body">
-      {testIE &&
+      {isIE &&
           <p className="ie-warning">
             You are currently using Internet Explorer which is not on our list of supported Browser. 
             We recommend you use Microsoft Edge, Google Chrome or Mozilla Firefox.
