@@ -37,7 +37,7 @@ export default css`
   }
   
   .ie-warning {
-    color: #cc0000;
+    color: #990000;
     font-weight: bold;
   }
 
