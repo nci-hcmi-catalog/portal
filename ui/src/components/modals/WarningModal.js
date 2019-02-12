@@ -11,7 +11,7 @@ export default ({ modalState }) => (
       {isIE &&
           <p className="ie-warning">
             You are currently using Internet Explorer which is not on our list of supported Browser. 
-            We recommend you use Microsoft Edge, Google Chrome or Mozilla Firefox.
+            We recommend using Microsoft Edge, Google Chrome or Mozilla Firefox.
           </p>      
       }
       <p>
