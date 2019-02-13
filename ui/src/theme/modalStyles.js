@@ -35,6 +35,11 @@ export default css`
     height: 100%;
     overflow-y: auto;
   }
+  
+  .ie-warning {
+    color: #990000;
+    font-weight: bold;
+  }
 
   .modal-footer {
     display: flex;
