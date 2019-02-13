@@ -3,17 +3,16 @@ import React from 'react';
 import globals from 'utils/globals';
 import isIE from 'utils/isIE';
 
-
 export default ({ modalState }) => (
   <>
     <h1>Welcome to the HCMI Searchable Catalog</h1>
     <div className="modal-body">
-      {isIE() &&
-          <p className="ie-warning">
-            You are currently using Internet Explorer which is not on our list of supported browsers. 
-            We recommend using Microsoft Edge, Google Chrome or Mozilla Firefox.
-          </p>      
-      }
+      {isIE() && (
+        <p className="ie-warning">
+          You are currently using Internet Explorer which is not on our list of supported browsers.
+          We recommend using Microsoft Edge, Google Chrome or Mozilla Firefox.
+        </p>
+      )}
       <p>
         This message provides privacy and security notices consistent with applicable federal laws,
         directives, and other federal guidance for accessing this Government system, which includes:
