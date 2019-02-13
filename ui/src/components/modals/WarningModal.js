@@ -8,7 +8,7 @@ export default ({ modalState }) => (
   <>
     <h1>Welcome to the HCMI Searchable Catalog</h1>
     <div className="modal-body">
-      {isIE &&
+      {isIE() &&
           <p className="ie-warning">
             You are currently using Internet Explorer which is not on our list of supported browsers. 
             We recommend using Microsoft Edge, Google Chrome or Mozilla Firefox.
