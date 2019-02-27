@@ -3,14 +3,15 @@ import mongoose from 'mongoose';
 import sharp from 'sharp';
 
 // Mongoose Setup
-const conn = mongoose.createConnection(
-  process.env.MONGODB_URI || 'mongodb://localhost:27017/test',
-  {
-    useNewUrlParser: true,
-  },
-);
+const conn = mongoose.connection;
+
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/test', {
+  useNewUrlParser: true,
+});
+
 let bucket;
-conn.once('open', function() {
+conn.on('open', () => {
+  console.log('Mongo Connection: Now Open. Creating GridFSBucket.');
   bucket = new mongoose.mongo.GridFSBucket(conn.db, { bucketName: 'images' });
   console.log('Connected to Mongo Image Bucket');
 });
@@ -31,7 +32,6 @@ router.get('/images/:id', async (req, res) => {
     bucket
       .openDownloadStream(imageId)
       .on('error', () => {
-        console.log('error');
         res.status(400).json({ error: `file with ${req.params.id} not found` });
       })
       .pipe(resizer)
@@ -42,7 +42,7 @@ router.get('/images/:id', async (req, res) => {
         res.end();
       });
   } catch (err) {
-    const errorJson = _.isEmpty(err) ? { error: 'Unknown Error occurred.' } : { error: err };
+    const errorJson = err ? { error: 'Unknown Error occurred.' } : { error: err };
     return res.status(500).json(errorJson);
   }
 });
