@@ -82,10 +82,10 @@ export const ModelSchema = new mongoose.Schema(
           doc.variants.map(variant => ({
             assessment_type: variant.assessment_type,
             expression_level: variant.expression_level,
-            category: variant.variant.category,
-            genes: variant.variant.genes,
-            name: variant.variant.name,
-            type: variant.variant.type,
+            category: variant.category,
+            genes: variant.genes,
+            name: variant.name,
+            type: variant.type,
           })),
       },
       createdAt: {
