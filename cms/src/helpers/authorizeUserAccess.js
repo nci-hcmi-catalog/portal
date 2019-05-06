@@ -8,7 +8,7 @@ export const getLoggedInUser = req => ({
 
 const userExistsAndActive = userEmail => {
   return User.findOne({ email: userEmail.toLowerCase() }, (err, user) => {
-    return err ? false : user.status === userStatus.active ? true : false;
+    return err ? false : user && user.status === userStatus.active ? true : false;
   });
 };
 
