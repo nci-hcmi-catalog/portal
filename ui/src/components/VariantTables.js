@@ -104,7 +104,7 @@ const VariantTable = ({ type, modelName, columns }) => (
       });
       const data = get(variantsData, `data.models.hits.edges[0].node.variants.hits.edges`, [])
         .map(({ node }) => node)
-        .filter(node => node.type.toLowerCase() === type.toLowerCase());
+        .filter(node => node.type && node.type.toLowerCase() === type.toLowerCase());
 
       const variantNames = uniqBy(
         data.map(({ name }) => ({ name, safe: name.replace(/ |-|\.|\(|\)/g, '') })),
@@ -203,7 +203,7 @@ const VariantTable = ({ type, modelName, columns }) => (
         data: dataWithFreqs,
         loading: false,
         filteredData: dataWithFreqs,
-        pageSize: dataWithFreqs.length > 10 ? 10 : dataWithFreqs.length,
+        pageSize: 10,
         page: 0,
       });
       return dataWithFreqs;

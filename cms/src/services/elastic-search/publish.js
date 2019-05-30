@@ -31,6 +31,11 @@ export const indexOneToES = filter => {
   });
 };
 
+/*
+* Caution using this function: 
+*   Although the query does populate the variant data, 
+*   it fails to transfer this information to ES.
+*/
 export const indexModelsToES = filter => {
   // Need to validate models first
   return new Promise(resolve => {
