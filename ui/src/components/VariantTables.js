@@ -203,7 +203,7 @@ const VariantTable = ({ type, modelName, columns }) => (
         data: dataWithFreqs,
         loading: false,
         filteredData: dataWithFreqs,
-        pageSize: dataWithFreqs.length > 10 ? 10 : dataWithFreqs.length,
+        pageSize: 10,
         page: 0,
       });
       return dataWithFreqs;
