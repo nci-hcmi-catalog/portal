@@ -1104,7 +1104,7 @@ export const clinicalTumorDiagnosis = [
   'Melanoma',
   'Neuroblastoma',
   'Osteosarcoma',
-  'Other'
+  'Other',
   'Ovarian cancer',
   'Pancreatic cancer',
   'Prostate cancer',
