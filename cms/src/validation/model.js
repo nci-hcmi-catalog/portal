@@ -75,7 +75,6 @@ export default object().shape({
     .nullable(true)
     .oneOf(race),
   age_at_diagnosis: number()
-    .required('This is a required field')
     .integer()
     .transform(numberEmptyValueTransform)
     .min(0)
