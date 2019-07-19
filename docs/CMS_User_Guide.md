@@ -98,9 +98,11 @@ Bulk uploads are performed by submitting a correctly formatted Google sheet to t
 For any sheet submitted to the bulk uploader:
 - It must contain the correct headers.
 - Each row must consist of a single model.
-- Values in each field should match the the correct values in [data dictionary](#data-dictionary).
+- Enum Values in each field should match the the correct values in [data dictionary](#data-dictionary).
+- Dates should be formatted as YYYY-DD-MM (2019-01-01)
+- Fields with multiple values should be separated by a pipe character (|) with no surrounting spaces. 
 
-A template sheet prepared for bulk uploading can be found here: [Bulk Upload Template Sheet](https://docs.google.com/spreadsheets/d/1zQ8C0WeFxYlE_1Y591NqqolXud_g1ubrDLMF8iQvV-0/edit#gid=0)
+A template sheet prepared for bulk uploading can be found here: [Bulk Upload Template Sheet](https://docs.google.com/spreadsheets/d/1x5IHiP-75erkvPEoBc0xvBZSpru2ptRiiLMS8ylBZhM/edit?usp=sharing)
 
 To use this template in Google sheets click File > Make a Copy.  From your copied sheet, you can add model data to each row.  For fields that do not have validation rules in the Google sheet itself, please refer to the [data dictionary](#data-dictionary) for individual field validation rules. 
 ### [Publishing Models](#how-to-publish)
@@ -138,7 +140,9 @@ To use this template in Google sheets click File > Make a Copy.  From your copie
 
 ### [Link your Google Account](#link-google-account)
 In order to link your Google account:
-1.
+1. Click the Link button.
+2. Sign-in to the Google account you will be submitting sheets from.
+3. Once successfully signed in, you will see a checkmark in the button and will be able to submit bulk upload sheets.
 
 ## [Data Dictionary](#data-dictionary)
 The HCMI Searchable Catalog has a light-weight dictionary that identifies the properties and accepted types or values for required, preferred, and optional data elements.  Administrative fields that the catalog uses that are not relevent to user use are not included in this data dictionary. 
