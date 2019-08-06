@@ -852,7 +852,7 @@ export const clinicalTumorDiagnosisDependent = {
       'Unknown',
     ],
     'esophageal cancer': [
-      'Esophageal',
+      'Esophagus',
       'Esophagus - proximal third',
       'Esophagus - middle third',
       'Esophagus - distal third',
