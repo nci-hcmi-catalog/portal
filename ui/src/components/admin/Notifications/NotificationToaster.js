@@ -48,10 +48,14 @@ export default () => (
               {notification.details && (
                 <Details>
                   {notification.details}
-                  {notification.bulkErrors &&
-                    notification.bulkErrors.length > 0 && (
-                      <ErrorsCol marginTop="16px">
-                        {notification.bulkErrors.map(({ name, details }) => (
+                  {notification.bulkErrors && notification.bulkErrors.length > 0 && (
+                    <ErrorsCol marginTop="16px">
+                      {notification.bulkErrors.map(error => {
+                        const details =
+                          error.name === 'ValidationError' ? error.errors : error.details;
+                        const name =
+                          error.name === 'ValidationError' ? error.value.name : error.name;
+                        return (
                           <ErrorsCol marginBottom="16px">
                             <ErrorsRow>
                               <ErrorLabel>Name: </ErrorLabel>
@@ -60,13 +64,16 @@ export default () => (
                             <ErrorsRow>
                               <ErrorLabel>Errors: </ErrorLabel>
                               <ErrorsCol>
-                                {details.map(detail => <ErrorText>{detail}</ErrorText>)}
+                                {details.map(detail => (
+                                  <ErrorText>{detail}</ErrorText>
+                                ))}
                               </ErrorsCol>
                             </ErrorsRow>
                           </ErrorsCol>
-                        ))}
-                      </ErrorsCol>
-                    )}
+                        );
+                      })}
+                    </ErrorsCol>
+                  )}
                 </Details>
               )}
               {notification.link && (
