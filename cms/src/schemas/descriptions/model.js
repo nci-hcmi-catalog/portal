@@ -57,8 +57,8 @@ export const schemaArr = [
       typeof row.chemotherapeutic_drugs === 'undefined'
         ? undefined
         : row.chemotherapeutic_drugs
-          ? `Yes`
-          : `No`,
+        ? `Yes`
+        : `No`,
   },
   {
     displayName: 'Disease Status',
@@ -86,7 +86,7 @@ export const schemaArr = [
     accessor: 'clinical_tumor_diagnosis',
   },
   {
-    displayName: 'Histological Type',
+    displayName: 'Histological Subtype',
     accessor: 'histological_type',
   },
   {
@@ -108,8 +108,8 @@ export const schemaArr = [
       typeof row.licensing_required === 'undefined'
         ? undefined
         : row.licensing_required
-          ? `Yes`
-          : `No`,
+        ? `Yes`
+        : `No`,
   },
   {
     displayName: 'Model URL',
