@@ -1,0 +1,453 @@
+{
+  "type": "models",
+  "keyField": "id",
+  "defaultSorted": [
+    {
+      "id": "age_at_sample_acquisition",
+      "desc": false
+    }
+  ],
+  "columns": [
+    {
+      "field": "name",
+      "accessor": "name",
+      "show": true,
+      "type": "entity",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "primary_site",
+      "accessor": "primary_site",
+      "show": true,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "clinical_diagnosis.clinical_tumor_diagnosis",
+      "accessor": "clinical_diagnosis.clinical_tumor_diagnosis",
+      "show": true,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "clinical_diagnosis.clinical_stage_grouping",
+      "accessor": "clinical_diagnosis.clinical_stage_grouping",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "gender",
+      "accessor": "gender",
+      "show": true,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "race",
+      "accessor": "race",
+      "show": true,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "age_at_sample_acquisition",
+      "accessor": "age_at_sample_acquisition",
+      "show": true,
+      "type": "number",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "age_at_diagnosis",
+      "accessor": "age_at_diagnosis",
+      "show": true,
+      "type": "number",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "clinical_diagnosis.histological_type",
+      "accessor": "clinical_diagnosis.histological_type",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "clinical_diagnosis.tumor_histological_grade",
+      "accessor": "clinical_diagnosis.tumor_histological_grade",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "chemotherapeutic_drugs",
+      "accessor": "chemotherapeutic_drugs",
+      "show": false,
+      "type": "boolean",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "clinical_diagnosis.site_of_sample_acquisition",
+      "accessor": "clinical_diagnosis.site_of_sample_acquisition",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "vital_status",
+      "accessor": "vital_status",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "disease_status",
+      "accessor": "disease_status",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "split_ratio",
+      "accessor": "split_ratio",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "createdAt",
+      "accessor": "createdAt",
+      "show": false,
+      "type": "date",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "date_of_availability",
+      "accessor": "date_of_availability",
+      "show": false,
+      "type": "date",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "updatedAt",
+      "accessor": "updatedAt",
+      "show": false,
+      "type": "date",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "files.file_id",
+      "accessor": null,
+      "show": false,
+      "type": "list",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": " files { hits { edges { node { file_id } } } } ",
+      "jsonPath": "$.files.hits.edges[*].node.file_id"
+    },
+    {
+      "field": "files.file_name",
+      "accessor": null,
+      "show": false,
+      "type": "list",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": " files { hits { edges { node { file_name } } } } ",
+      "jsonPath": "$.files.hits.edges[*].node.file_name"
+    },
+    {
+      "field": "files.file_type",
+      "accessor": null,
+      "show": false,
+      "type": "list",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": " files { hits { edges { node { file_type } } } } ",
+      "jsonPath": "$.files.hits.edges[*].node.file_type"
+    },
+    {
+      "field": "files.hits.total",
+      "accessor": "files.hits.total",
+      "show": false,
+      "type": "number",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "growth_rate",
+      "accessor": "growth_rate",
+      "show": false,
+      "type": "number",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "licensing_required",
+      "accessor": "licensing_required",
+      "show": false,
+      "type": "boolean",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "molecular_characterizations",
+      "accessor": "molecular_characterizations",
+      "show": false,
+      "type": "list",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "neoadjuvant_therapy",
+      "accessor": "neoadjuvant_therapy",
+      "show": false,
+      "type": "keyword",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "source_model_url",
+      "accessor": "source_model_url",
+      "show": false,
+      "type": "string",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "source_sequence_url",
+      "accessor": "source_sequence_url",
+      "show": false,
+      "type": "string",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "therapy",
+      "accessor": "therapy",
+      "show": false,
+      "type": "list",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "tnm_stage",
+      "accessor": "tnm_stage",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "type",
+      "accessor": "type",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "variants.assessment_type",
+      "accessor": null,
+      "show": false,
+      "type": "list",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": " variants { hits { edges { node { assessment_type } } } } ",
+      "jsonPath": "$.variants.hits.edges[*].node.assessment_type"
+    },
+    {
+      "field": "variants.category",
+      "accessor": null,
+      "show": false,
+      "type": "list",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": " variants { hits { edges { node { category } } } } ",
+      "jsonPath": "$.variants.hits.edges[*].node.category"
+    },
+    {
+      "field": "variants.expression_level",
+      "accessor": null,
+      "show": false,
+      "type": "list",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": " variants { hits { edges { node { expression_level } } } } ",
+      "jsonPath": "$.variants.hits.edges[*].node.expression_level"
+    },
+    {
+      "field": "variants.genes",
+      "accessor": null,
+      "show": false,
+      "type": "list",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": " variants { hits { edges { node { genes } } } } ",
+      "jsonPath": "$.variants.hits.edges[*].node.genes"
+    },
+    {
+      "field": "variants.name",
+      "accessor": null,
+      "show": false,
+      "type": "list",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": " variants { hits { edges { node { name } } } } ",
+      "jsonPath": "$.variants.hits.edges[*].node.name"
+    },
+    {
+      "field": "variants.type",
+      "accessor": null,
+      "show": false,
+      "type": "list",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": " variants { hits { edges { node { type } } } } ",
+      "jsonPath": "$.variants.hits.edges[*].node.type"
+    },
+    {
+      "field": "variants.hits.total",
+      "accessor": "variants.hits.total",
+      "show": false,
+      "type": "number",
+      "sortable": true,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "autocomplete",
+      "accessor": "autocomplete",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "files.magnification",
+      "accessor": null,
+      "show": false,
+      "type": "list",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": " files { hits { edges { node { magnification } } } } ",
+      "jsonPath": "$.files.hits.edges[*].node.magnification"
+    },
+    {
+      "field": "files.passage_number",
+      "accessor": null,
+      "show": false,
+      "type": "list",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": " files { hits { edges { node { passage_number } } } } ",
+      "jsonPath": "$.files.hits.edges[*].node.passage_number"
+    },
+    {
+      "field": "files.scale_bar_length",
+      "accessor": null,
+      "show": false,
+      "type": "list",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": " files { hits { edges { node { scale_bar_length } } } } ",
+      "jsonPath": "$.files.hits.edges[*].node.scale_bar_length"
+    },
+    {
+      "field": "status",
+      "accessor": "status",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "updatedBy",
+      "accessor": "updatedBy",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    }
+  ],
+  "timestamp": "2019-10-11T20:36:07.801Z"
+}
