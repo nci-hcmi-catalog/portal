@@ -4,12 +4,11 @@ import { ModelSchema } from '../../../../schemas/model';
 import elasticClient from '../client';
 
 const index = process.env.ES_INDEX;
-const type = process.env.ES_TYPE;
 
-ModelSchema.plugin(mongooseElasticsearch, {
+ModelSchema.plugin(mongooseElasticsearch.v7, {
   client: elasticClient,
   index,
-  type,
+  type: '_doc',
 });
 
 export const ModelES = mongoose.model('ModelES', ModelSchema);
