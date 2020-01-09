@@ -30,7 +30,6 @@
     "react-modal": "^3.4.4",
     "react-moment": "^0.8.4",
     "react-router-dom": "4.3.1",
-    "react-scripts": "2.0.3",
     "react-scroll": "^1.7.10",
     "react-share": "^2.1.1",
     "react-sizeme": "^2.5.2",
@@ -48,13 +47,23 @@
     "build": "NODE_PATH=src react-app-rewired build"
   },
   "devDependencies": {
+    "react-scripts": "2.0.3",
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "babel-plugin-emotion": "^9.1.2",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "react-app-rewired": "^1.6.2"
   },
   "browserslist": {
-    "development": ["last 2 chrome versions", "last 2 firefox versions", "last 2 edge versions"],
-    "production": [">1%", "last 4 versions", "Firefox ESR", "not ie < 11"]
+    "development": [
+      "last 2 chrome versions",
+      "last 2 firefox versions",
+      "last 2 edge versions"
+    ],
+    "production": [
+      ">1%",
+      "last 4 versions",
+      "Firefox ESR",
+      "not ie < 11"
+    ]
   }
 }
