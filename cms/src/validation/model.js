@@ -15,6 +15,7 @@ import {
   diseaseStatus,
   vitalStatus,
   therapy,
+  tissueTypes,
 } from '../schemas/constants';
 
 import { modelVariantSchema } from './variant';
@@ -67,6 +68,7 @@ export default object().shape({
     .min(1)
     .max(99),
   split_ratio: string().oneOf(splitRatio),
+  time_to_split: number().positive(),
   gender: string()
     .required('This is a required field')
     .oneOf(gender),
@@ -109,6 +111,7 @@ export default object().shape({
       `Molecular Characterizations can only be one of: ${molecularCharacterizations.join(', ')}`,
       arrItemIsOneOf(molecularCharacterizations),
     ),
+  tissue_type: string().oneOf(tissueTypes),
   clinical_tumor_diagnosis: string()
     .required('This is a required field')
     .oneOf(clinicalTumorDiagnosis),
@@ -125,6 +128,7 @@ export default object().shape({
         'clinical stage grouping',
       ),
     ),
+
   site_of_sample_acquisition: string()
     .nullable(true)
     .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
@@ -142,8 +146,10 @@ export default object().shape({
       ),
     ),
   licensing_required: boolean(),
+  distributor_part_number: string(),
   source_model_url: string().url(),
   source_sequence_url: string().url(),
+
   updatedBy: string(),
   status: string(),
   variants: array()

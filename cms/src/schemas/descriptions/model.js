@@ -18,6 +18,7 @@ export const schemaArr = [
     accessor: 'split_ratio',
     value: row => (typeof row.split_ratio === 'undefined' ? undefined : `'${row.split_ratio}`),
   },
+  { displayName: 'Time to Split', accessor: 'time_to_split' },
   {
     displayName: 'Gender',
     accessor: 'gender',
@@ -57,8 +58,8 @@ export const schemaArr = [
       typeof row.chemotherapeutic_drugs === 'undefined'
         ? undefined
         : row.chemotherapeutic_drugs
-          ? `Yes`
-          : `No`,
+        ? `Yes`
+        : `No`,
   },
   {
     displayName: 'Disease Status',
@@ -81,12 +82,13 @@ export const schemaArr = [
     value: row =>
       trimEnd(row.molecular_characterizations.reduce((acc, item) => acc + `${item}|`, ``), `|`),
   },
+  { displayName: 'Tissue Type', accessor: 'tissue_type' },
   {
     displayName: 'Clinical Tumor Diagnosis',
     accessor: 'clinical_tumor_diagnosis',
   },
   {
-    displayName: 'Histological Type',
+    displayName: 'Histological Subtype',
     accessor: 'histological_type',
   },
   {
@@ -108,9 +110,10 @@ export const schemaArr = [
       typeof row.licensing_required === 'undefined'
         ? undefined
         : row.licensing_required
-          ? `Yes`
-          : `No`,
+        ? `Yes`
+        : `No`,
   },
+  { displayName: 'Distributor Part Number', accessor: 'distributor_part_number' },
   {
     displayName: 'Model URL',
     accessor: 'source_model_url',
