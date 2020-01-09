@@ -2,7 +2,12 @@
   "name": "hcmi-portal",
   "version": "0.0.1",
   "private": true,
-  "workspaces": ["api", "cms", "ui", "data_model"],
+  "workspaces": [
+    "api",
+    "cms",
+    "ui",
+    "data_model"
+  ],
   "description": "HCMI Portal",
   "scripts": {
     "test": "cd data_model && yarn test",
@@ -37,7 +42,7 @@
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "7.7.0",
-    "prettier": "1.12.1"
+    "prettier": "1.17.1"
   },
   "prettier": {
     "printWidth": 100,
