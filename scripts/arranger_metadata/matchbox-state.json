@@ -1,0 +1,23 @@
+[
+  {
+    "keyField": "createdAt",
+    "field": "",
+    "displayName": "models",
+    "searchFields": [],
+    "isActive": false
+  },
+  {
+    "keyField": null,
+    "field": "variants",
+    "displayName": "Variants",
+    "searchFields": [],
+    "isActive": false
+  },
+  {
+    "keyField": null,
+    "field": "files",
+    "displayName": "Files",
+    "searchFields": [],
+    "isActive": false
+  }
+]

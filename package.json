@@ -42,7 +42,8 @@
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "7.7.0",
-    "prettier": "1.17.1"
+    "prettier": "1.17.1",
+    "@elastic/elasticsearch": "^7.5.0"
   },
   "prettier": {
     "printWidth": 100,
