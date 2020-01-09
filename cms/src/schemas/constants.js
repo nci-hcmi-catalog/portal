@@ -497,11 +497,7 @@ export const clinicalTumorDiagnosisDependent = {
     ],
     "ewing's sarcoma": [],
     'extrahepatic bile duct cancer': [],
-    glioblastoma: [
-      'Giant cell glioblastoma',
-      'Gliosarcoma',
-      'NOS',
-      'Other'],
+    glioblastoma: ['Giant cell glioblastoma', 'Gliosarcoma', 'NOS', 'Other'],
     'head and neck cancer': [],
     'hematologic cancer': [],
     hepatoblastoma: [
@@ -1211,3 +1207,5 @@ export const variantExpressionLevel = [
   'Evidence of MMR loss by hypermutation phenotype (>10 mutations/Mb)',
   'No evidence of MMR alteration',
 ];
+
+export const tissueTypes = ['Primary', 'Metastasis', 'Recurrent', 'Pre-malignan'];
