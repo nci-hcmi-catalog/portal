@@ -27,11 +27,10 @@ const normalizeOption = option => (option === 'true' ? true : option === 'false'
 
 // Map simple string/number options to keyed objects
 const processOptions = options =>
-  options.map(
-    option =>
-      typeof option === 'object' && option.constructor === Object
-        ? option
-        : { label: option, value: normalizeOption(option) },
+  options.map(option =>
+    typeof option === 'object' && option.constructor === Object
+      ? option
+      : { label: option, value: normalizeOption(option) },
   );
 
 export const FormComponent = ({
@@ -215,7 +214,7 @@ export const FormMultiCheckbox = ({
   );
 };
 
-export const FomAutoComplete = ({
+export const FormAutoComplete = ({
   field: { value, name },
   form: { touched, errors, setFieldValue, setFieldTouched },
   options,

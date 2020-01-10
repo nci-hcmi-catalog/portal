@@ -28,6 +28,7 @@ const HorizontalTable = ({
   extended,
   css,
   customUnits = {},
+  customValue = {},
   data = (extended || [])
     .slice()
     .sort((a, b) => (fieldNames || []).indexOf(a) - (fieldNames || []).indexOf(b))
@@ -36,29 +37,39 @@ const HorizontalTable = ({
         fieldNames.includes(field)
           ? {
               ...acc,
-              [displayName]: apiDataProcessor({ data: get(rawData, field), type, unit }),
+              [field]: {
+                key: displayName,
+                value: apiDataProcessor({ data: get(rawData, field), type, unit }),
+              },
             }
           : acc;
       return !Object.keys(customUnits).includes(field)
         ? fieldHelper({ field, type, displayName, unit })
         : fieldHelper({ field: field, type, displayName, unit: customUnits[field] || unit });
     }, {}),
-}) => (
-  <table className="entity-horizontal-table" css={css}>
-    <tbody>
-      {Object.keys(data).map(key => (
-        <tr key={key}>
-          <td className="heading">{key}</td>
-          <td className="content">
-            {Array.isArray(data[key])
-              ? data[key].map((val, idx) => <div key={idx}>{`${val}`}</div>)
-              : data[key]}
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-);
+}) => {
+  return (
+    <table className="entity-horizontal-table" css={css}>
+      <tbody>
+        {Object.keys(data).map(field => {
+          const { key, value } = data[field];
+          return (
+            <tr key={key}>
+              <td className="heading">{key}</td>
+              <td className="content">
+                {Object.keys(customValue).includes(field)
+                  ? customValue[field](value)
+                  : Array.isArray(value)
+                  ? value.map((val, idx) => <div key={idx}>{`${val}`}</div>)
+                  : value}
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+};
 
 export default ({ modelName }) => (
   <ModelQuery modelName={modelName}>
@@ -118,8 +129,14 @@ export default ({ modelName }) => (
                   <HorizontalTable
                     rawData={queryState.model}
                     extended={queryState.extended}
-                    fieldNames={['name', 'type', 'split_ratio', 'growth_rate']}
+                    fieldNames={['name', 'type', 'split_ratio', 'time_to_split', 'growth_rate']}
                     customUnits={{ growth_rate: ' days to split' }}
+                    customValue={{
+                      time_to_split: val => {
+                        const days = Math.round((val / 24) * 100) / 100;
+                        return `${days} days (${val} hours)`;
+                      },
+                    }}
                   />
                 </Col>
 
@@ -141,11 +158,12 @@ export default ({ modelName }) => (
                     rawData={queryState.model}
                     extended={queryState.extended}
                     fieldNames={[
+                      'clinical_diagnosis.clinical_stage_grouping',
+                      'tissue_type',
                       'clinical_diagnosis.clinical_tumor_diagnosis',
                       'clinical_diagnosis.site_of_sample_acquisition',
                       'clinical_diagnosis.histological_type',
                       'clinical_diagnosis.tumor_histological_grade',
-                      'clinical_diagnosis.clinical_stage_grouping',
                     ]}
                   />
                 </Col>
@@ -215,21 +233,26 @@ export default ({ modelName }) => (
                     External Resources
                   </div>
                   <HorizontalTable
-                    data={{
-                      model: queryState.model.source_model_url ? (
-                        <ExternalLink href={queryState.model.source_model_url}>
-                          Link to Source
-                        </ExternalLink>
-                      ) : (
-                        'N/A'
-                      ),
-                      'original sequencing files': queryState.model.source_sequence_url ? (
-                        <ExternalLink href={queryState.model.source_sequence_url}>
-                          Link to Source
-                        </ExternalLink>
-                      ) : (
-                        'N/A'
-                      ),
+                    rawData={queryState.model}
+                    extended={queryState.extended}
+                    fieldNames={[
+                      'source_model_url',
+                      'source_sequence_url',
+                      'distributor_part_number',
+                    ]}
+                    customValue={{
+                      distributor_part_number: val =>
+                        val ? (
+                          <ExternalLink href={`https://www.atcc.org/products/all/${val}`}>
+                            {val}
+                          </ExternalLink>
+                        ) : (
+                          'N/A'
+                        ),
+                      source_model_url: val =>
+                        val ? <ExternalLink href={val}>Link to Source</ExternalLink> : 'N/A',
+                      source_sequence_url: val =>
+                        val ? <ExternalLink href={val}>Link to Source</ExternalLink> : 'N/A',
                     }}
                   />
                 </Col>
