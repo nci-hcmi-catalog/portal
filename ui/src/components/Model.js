@@ -242,7 +242,7 @@ export default ({ modelName }) => (
                     ]}
                     customValue={{
                       distributor_part_number: val =>
-                        val ? (
+                        val !== 'N/A' ? (
                           <ExternalLink href={`https://www.atcc.org/products/all/${val}`}>
                             {val}
                           </ExternalLink>
@@ -250,9 +250,17 @@ export default ({ modelName }) => (
                           'N/A'
                         ),
                       source_model_url: val =>
-                        val ? <ExternalLink href={val}>Link to Source</ExternalLink> : 'N/A',
+                        val !== 'N/A' ? (
+                          <ExternalLink href={val}>Link to Source</ExternalLink>
+                        ) : (
+                          'N/A'
+                        ),
                       source_sequence_url: val =>
-                        val ? <ExternalLink href={val}>Link to Source</ExternalLink> : 'N/A',
+                        val !== 'N/A' ? (
+                          <ExternalLink href={val}>Link to Source</ExternalLink>
+                        ) : (
+                          'N/A'
+                        ),
                     }}
                   />
                 </Col>
