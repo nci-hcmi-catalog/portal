@@ -9,7 +9,7 @@ import {
   FormSelect,
   FormRadioSelect,
   FormMultiCheckbox,
-  FomAutoComplete,
+  FormAutoComplete,
   FormLabelHeader,
 } from 'components/FormComponents';
 import { FormContainer, FormHeader, FormSection, FormCol } from 'theme/adminFormStyles';
@@ -28,6 +28,7 @@ import {
   vitalStatus as vitalStatusOptions,
   therapy as therapyOptions,
   primarySites as primarySitesOptions,
+  tissueTypes as tissueTypeOptions,
 } from '@hcmi-portal/cms/src/schemas/constants';
 import TabHeader from './TabHeader';
 const booleanChoice = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
@@ -48,12 +49,14 @@ const {
   name,
   type,
   split_ratio,
+  time_to_split,
   growth_rate,
   primary_site,
   neoadjuvant_therapy,
   tnm_stage,
   molecular_characterizations,
   chemotherapeutic_drugs,
+  tissue_type,
   clinical_tumor_diagnosis,
   site_of_sample_acquisition,
   histological_type,
@@ -68,6 +71,7 @@ const {
   therapy,
   date_of_availability,
   licensing_required,
+  distributor_part_number,
   source_model_url,
   source_sequence_url,
   updatedAt,
@@ -155,6 +159,10 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
                 />
               </FormComponent>
 
+              <FormComponent labelText={time_to_split.displayName} description="Time in Hours">
+                <Field name={time_to_split.accessor} component={FormInput} />
+              </FormComponent>
+
               <FormComponent
                 labelText={growth_rate.displayName}
                 description="This must be a number between 1 and 99"
@@ -168,7 +176,7 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
               >
                 <Field
                   name={primary_site.accessor}
-                  component={FomAutoComplete}
+                  component={FormAutoComplete}
                   options={primarySitesOptions}
                   errorText="Values must match a predefined primary site"
                 />
@@ -201,6 +209,14 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
                   name={chemotherapeutic_drugs.accessor}
                   component={FormRadioSelect}
                   options={booleanChoice}
+                />
+              </FormComponent>
+
+              <FormComponent labelText={tissue_type.displayName}>
+                <Field
+                  name={tissue_type.accessor}
+                  component={FormSelect}
+                  options={tissueTypeOptions}
                 />
               </FormComponent>
 
@@ -304,7 +320,11 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
 
             <FormCol>
               <FormComponent labelText={gender.displayName}>
-                <Field name={gender.accessor} component={FormRadioSelect} options={genderOptions} />
+                <Field
+                  name={gender.accessor}
+                  component={genderOptions.length > 5 ? FormSelect : FormRadioSelect}
+                  options={genderOptions}
+                />
               </FormComponent>
 
               <FormComponent labelText={race.displayName}>
@@ -344,6 +364,17 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
                 labelText="External Resources"
                 description="Please provide urls to GDC or EGA"
               />
+
+              <FormComponent labelText={distributor_part_number.displayName}>
+                <Field
+                  name={distributor_part_number.accessor}
+                  component={FormInput}
+                  placeholder="PMD-123"
+                />
+              </FormComponent>
+              <a href={`https://www.atcc.org/products/all/${values[distributor_part_number]}`}>
+                {values[distributor_part_number]}
+              </a>
 
               <FormComponent labelText={source_model_url.displayName}>
                 <Field

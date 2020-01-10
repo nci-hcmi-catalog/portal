@@ -15,11 +15,13 @@ const fetchData = async ({ setState, modelName }) => {
                   edges {
                     node {
                       id
+                      distributor_part_number
                       source_model_url
                       source_sequence_url
                       name
                       type
                       split_ratio
+                      time_to_split
                       growth_rate
                       primary_site
                       neoadjuvant_therapy
@@ -32,6 +34,7 @@ const fetchData = async ({ setState, modelName }) => {
                       race
                       chemotherapeutic_drugs
                       disease_status
+                      tissue_type
                       files {
                         hits{
                           edges {

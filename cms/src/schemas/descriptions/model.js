@@ -18,7 +18,7 @@ export const schemaArr = [
     accessor: 'split_ratio',
     value: row => (typeof row.split_ratio === 'undefined' ? undefined : `'${row.split_ratio}`),
   },
-  { displayName: 'Time to Split', accessor: 'time_to_split' },
+  { displayName: 'Days to Split', accessor: 'time_to_split' },
   {
     displayName: 'Gender',
     accessor: 'gender',
