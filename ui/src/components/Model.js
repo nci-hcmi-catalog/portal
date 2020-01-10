@@ -133,8 +133,9 @@ export default ({ modelName }) => (
                     customUnits={{ growth_rate: ' days to split' }}
                     customValue={{
                       time_to_split: val => {
-                        const days = Math.round((val / 24) * 100) / 100;
-                        return `${days} days (${val} hours)`;
+                        return val === 'N/A'
+                          ? val
+                          : `${Math.round((val / 24) * 100) / 100} days (${val} hours)`;
                       },
                     }}
                   />
