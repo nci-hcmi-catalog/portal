@@ -1208,4 +1208,4 @@ export const variantExpressionLevel = [
   'No evidence of MMR alteration',
 ];
 
-export const tissueTypes = ['Primary', 'Metastasis', 'Recurrent', 'Pre-malignan'];
+export const tissueTypes = ['Primary', 'Metastasis', 'Recurrent', 'Pre-malignant'];

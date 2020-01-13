@@ -136,6 +136,7 @@ export default ({ modelName }) => (
                         if (val === 'N/A') {
                           return val;
                         }
+                        // Val will be formatted as localeString (with commas) so we need to remove those before doing math
                         const hours = val;
                         const numericHours = parseInt(val.replace(/,/g, ''));
                         const days = Math.round((numericHours / 24) * 100) / 100;
