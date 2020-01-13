@@ -133,9 +133,13 @@ export default ({ modelName }) => (
                     customUnits={{ growth_rate: ' days to split' }}
                     customValue={{
                       time_to_split: val => {
-                        return val === 'N/A'
-                          ? val
-                          : `${Math.round((val / 24) * 100) / 100} days (${val} hours)`;
+                        if (val === 'N/A') {
+                          return val;
+                        }
+                        const hours = val;
+                        const numericHours = parseInt(val.replace(/,/g, ''));
+                        const days = Math.round((numericHours / 24) * 100) / 100;
+                        return `${days.toLocaleString()} days (${hours} hours)`;
                       },
                     }}
                   />
