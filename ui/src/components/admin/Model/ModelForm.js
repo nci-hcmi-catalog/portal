@@ -365,11 +365,14 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
                 description="Please provide urls to GDC or EGA"
               />
 
-              <FormComponent labelText={distributor_part_number.displayName}>
+              <FormComponent
+                labelText="Distributor ID"
+                description="Please provide the ATCC ID, e.g. PDM-146"
+              >
                 <Field
                   name={distributor_part_number.accessor}
                   component={FormInput}
-                  placeholder="PMD-123"
+                  placeholder="PMD-146"
                 />
               </FormComponent>
               <a href={`https://www.atcc.org/products/all/${values[distributor_part_number]}`}>
