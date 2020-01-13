@@ -360,13 +360,10 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
             </FormCol>
 
             <FormCol>
-              <FormLabelHeader
-                labelText="External Resources"
-                description="Please provide urls to GDC or EGA"
-              />
+              <FormLabelHeader labelText="External Resources" />
 
               <FormComponent
-                labelText="Distributor ID"
+                labelText={distributor_part_number.displayName}
                 description="Please provide the ATCC ID, e.g. PDM-146"
               >
                 <Field
@@ -379,7 +376,10 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
                 {values[distributor_part_number]}
               </a>
 
-              <FormComponent labelText={source_model_url.displayName}>
+              <FormComponent
+                labelText={source_model_url.displayName}
+                description="Please provide a url to GDC or EGA"
+              >
                 <Field
                   name={source_model_url.accessor}
                   component={FormInput}
@@ -387,7 +387,10 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
                 />
               </FormComponent>
 
-              <FormComponent labelText={source_sequence_url.displayName}>
+              <FormComponent
+                labelText={source_sequence_url.displayName}
+                description="Please provide a url to GDC or EGA"
+              >
                 <Field
                   name={source_sequence_url.accessor}
                   component={FormInput}

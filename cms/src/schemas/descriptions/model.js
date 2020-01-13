@@ -113,7 +113,7 @@ export const schemaArr = [
         ? `Yes`
         : `No`,
   },
-  { displayName: 'Link to Distributor', accessor: 'distributor_part_number' },
+  { displayName: 'Distributor ID', accessor: 'distributor_part_number' },
   {
     displayName: 'Model URL',
     accessor: 'source_model_url',
