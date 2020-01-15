@@ -4,7 +4,7 @@ const es = require('@elastic/elasticsearch');
 const aggsState = require('./arranger_metadata/aggs-state.json');
 const columnsState = require('./arranger_metadata/columns-state.json');
 const extended = require('./arranger_metadata/extended.json');
-const matchboxState = require('./arranger_metadata/matchbox-State.json');
+const matchboxState = require('./arranger_metadata/matchbox-state.json');
 
 /** Search index settings and mappings **/
 const indexSetup = require('./searchIndex.json');
