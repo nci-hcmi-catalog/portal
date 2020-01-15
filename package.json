@@ -18,7 +18,8 @@
     "launch": "yarn api & yarn cms & yarn ui",
     "mapping": "cd data_model && node bin/index --script mapping",
     "fake": "cd data_model && node bin/index --script fake",
-    "lint:ui": "eslint ui/src/**/*.js"
+    "lint:ui": "eslint ui/src/**/*.js",
+    "initualizeEs": "node scripts/initializeEs.js"
   },
   "repository": {
     "type": "git",
