@@ -25,7 +25,7 @@ class SavedSetsProvider extends React.Component {
               body: {
                 query: `
                 mutation ($sqon: JSON!, $sort: [Sort]) {
-                  saveSet(sqon: $sqon type: "models" path:"name" sort:$sort) {
+                  saveSet(sqon: $sqon type: models path:"name" sort:$sort) {
                     sqon
                     setId
                     ids
