@@ -1,10 +1,10 @@
 // @ts-check
 
 import express from 'express';
-import elasticsearch from 'elasticsearch';
+import elasticsearch from '@elastic/elasticsearch';
 
 const client = new elasticsearch.Client({
-  host: process.env.ES_URL,
+  node: process.env.ES_URL,
 });
 
 const lastUpdatedRouter = express.Router();
@@ -27,7 +27,7 @@ lastUpdatedRouter.get('/', async (req, res) => {
         ],
       },
     });
-    return res.json(response.hits.hits[0]._source);
+    return res.json(response.body.hits.hits[0]._source);
   } catch (error) {
     return res.status(500).json({
       error: error,
