@@ -192,7 +192,6 @@ export const FormMultiCheckbox = ({
             <label key={idx}>
               {name}
               <input
-                id={idx}
                 type="checkbox"
                 value={value}
                 checked={fieldValues.includes(value)}
