@@ -98,62 +98,64 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
       return runYupValidatorFailSlow(saveValidation, parsed);
     })
     .then(validated => {
-      const savePromises = validated.filter(({ success }) => success).map(async ({ result }) => {
-        const prevModel = await Model.findOne(
-          {
-            name: result.name,
-          },
-          {
-            _id: false,
-            __v: false,
-            updatedBy: false,
-            updatedAt: false,
-            files: false,
-            createdAt: false,
-            status: false,
-          }, //omit mongoose generated fields
-        );
-        if (prevModel) {
-          if (overwrite && !isEqual(prevModel._doc, result)) {
+      const savePromises = validated
+        .filter(({ success }) => success)
+        .map(async ({ result }) => {
+          const prevModel = await Model.findOne(
+            {
+              name: result.name,
+            },
+            {
+              _id: false,
+              __v: false,
+              updatedBy: false,
+              updatedAt: false,
+              files: false,
+              createdAt: false,
+              status: false,
+            }, //omit mongoose generated fields
+          );
+          if (prevModel) {
+            if (overwrite && !isEqual(prevModel._doc, result)) {
+              return new Promise((resolve, reject) => {
+                Model.findOneAndUpdate(
+                  {
+                    name: result.name,
+                  },
+                  addUserEmail(req, result),
+                  {
+                    upsert: true,
+                    new: true,
+                    runValidators: true,
+                  },
+                )
+                  .then(() => resolve({ status: 'updated', doc: result.name }))
+                  .catch(error =>
+                    reject({
+                      message: `An unexpected error occurred while updating model: ${
+                        result.name
+                      }, Error:  ${error}`,
+                    }),
+                  );
+              });
+            }
+            return new Promise(resolve => resolve({ status: 'unchanged', doc: result.name })); //no fields modified, do nothing
+          } else {
             return new Promise((resolve, reject) => {
-              Model.findOneAndUpdate(
-                {
-                  name: result.name,
-                },
-                addUserEmail(req, result),
-                {
-                  upsert: true,
-                  new: true,
-                  runValidators: true,
-                },
-              )
-                .then(() => resolve({ status: 'updated', doc: result.name }))
+              const newModel = new Model(addUserEmail(req, result));
+              newModel
+                .save()
+                .then(() => resolve({ status: 'new', doc: result.name }))
                 .catch(error =>
                   reject({
-                    message: `An unexpected error occurred while updating model: ${
+                    message: `An unexpected error occurred while creating model: ${
                       result.name
                     }, Error:  ${error}`,
                   }),
                 );
             });
           }
-          return new Promise(resolve => resolve({ status: 'unchanged', doc: result.name })); //no fields modified, do nothing
-        } else {
-          return new Promise((resolve, reject) => {
-            const newModel = new Model(addUserEmail(req, result));
-            newModel
-              .save()
-              .then(() => resolve({ status: 'new', doc: result.name }))
-              .catch(error =>
-                reject({
-                  message: `An unexpected error occurred while creating model: ${
-                    result.name
-                  }, Error:  ${error}`,
-                }),
-              );
-          });
-        }
-      });
+        });
 
       const validationErrors = validated
         .filter(({ success }) => !success)

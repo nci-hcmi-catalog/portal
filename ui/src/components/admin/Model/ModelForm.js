@@ -159,7 +159,7 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
                 />
               </FormComponent>
 
-              <FormComponent labelText={time_to_split.displayName} description="Time in Hours">
+              <FormComponent labelText={time_to_split.displayName}>
                 <Field name={time_to_split.accessor} component={FormInput} />
               </FormComponent>
 

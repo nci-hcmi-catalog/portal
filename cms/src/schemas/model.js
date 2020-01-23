@@ -28,7 +28,7 @@ export const ModelSchema = new mongoose.Schema(
     type: { type: String, es_indexed: true },
     growth_rate: { type: Number, set: deleteEmptyStrings, es_indexed: true },
     split_ratio: { type: String, es_indexed: true },
-    time_to_split: { type: Number, es_indexed: true },
+    time_to_split: { type: String, es_indexed: true },
     gender: { type: String, es_indexed: true },
     race: { type: String, es_indexed: true },
     age_at_diagnosis: { type: Number, es_indexed: true },

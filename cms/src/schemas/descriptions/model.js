@@ -10,7 +10,7 @@ export const schemaArr = [
     accessor: 'type',
   },
   {
-    displayName: 'Growth Rate',
+    displayName: 'Doubling Time',
     accessor: 'growth_rate',
   },
   {
@@ -18,7 +18,7 @@ export const schemaArr = [
     accessor: 'split_ratio',
     value: row => (typeof row.split_ratio === 'undefined' ? undefined : `'${row.split_ratio}`),
   },
-  { displayName: 'Days to Split', accessor: 'time_to_split' },
+  { displayName: 'Time to Split', accessor: 'time_to_split' },
   {
     displayName: 'Gender',
     accessor: 'gender',
@@ -113,7 +113,7 @@ export const schemaArr = [
         ? `Yes`
         : `No`,
   },
-  { displayName: 'Distributor ID', accessor: 'distributor_part_number' },
+  { displayName: 'Link to Distributor', accessor: 'distributor_part_number' },
   {
     displayName: 'Model URL',
     accessor: 'source_model_url',
