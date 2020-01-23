@@ -68,7 +68,7 @@ export default object().shape({
     .min(1)
     .max(99),
   split_ratio: string().oneOf(splitRatio),
-  time_to_split: number().positive(),
+  time_to_split: string(),
   gender: string()
     .required('This is a required field')
     .oneOf(gender),
