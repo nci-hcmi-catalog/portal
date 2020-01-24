@@ -52,11 +52,11 @@
     tslib "~1.9.3"
     typegql "^0.6.0"
 
-"@arranger/components@^0.5.20":
-  version "0.5.20"
-  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-0.5.20.tgz#10f4df40e1c2d221a9f869b2ef5f26e9e2ef8344"
+"@arranger/components@^0.5.24":
+  version "0.5.24"
+  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-0.5.24.tgz#576f2f8c4cb9a27b1aae813852f8c3df1960696a"
   dependencies:
-    "@arranger/mapping-utils" "^0.5.20"
+    "@arranger/mapping-utils" "^0.5.24"
     ajv "^6.1.1"
     babel-polyfill "^6.26.0"
     classnames "^2.2.5"
@@ -78,7 +78,7 @@
     react-router-dom "^4.2.2"
     react-scrollbar-size "^2.1.0"
     react-spinkit "^3.0.0"
-    react-table "^6.7.6"
+    react-table "6.8.6"
     react-toastify "^3.3.2"
     react-treeview "^0.4.7"
     recompose "^0.26.0"
@@ -102,9 +102,34 @@
     node-fetch "^2.0.0"
     uuid "^3.2.1"
 
+"@arranger/mapping-utils@^0.5.24":
+  version "0.5.24"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-0.5.24.tgz#48d61eab6a5d00539c4dc57ddf8f8ce3fa4d71e3"
+  dependencies:
+    "@arranger/middleware" "^0.5.24"
+    babel-polyfill "^6.26.0"
+    elasticsearch "^14.0.0"
+    graphql-fields "^1.0.2"
+    lodash "^4.17.4"
+    node-fetch "^2.0.0"
+    uuid "^3.2.1"
+
 "@arranger/middleware@^0.5.20":
   version "0.5.20"
   resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.5.20.tgz#55a043caacfc019327f9fef2cf26755b245bb63f"
+  dependencies:
+    body-parser "^1.18.2"
+    cors "^2.8.4"
+    date-fns "^1.29.0"
+    express "^4.16.2"
+    lodash "^4.17.4"
+    morgan "^1.9.0"
+    utf8 "^3.0.0"
+    winston "^2.4.0"
+
+"@arranger/middleware@^0.5.24":
+  version "0.5.24"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-0.5.24.tgz#18e3f48d9c3922e9fe8d4c9966de6d90cd01cc83"
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
@@ -1420,10 +1445,6 @@
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
 
-"@types/prop-types@*":
-  version "15.7.3"
-  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
-
 "@types/q@^1.5.1":
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
@@ -1431,19 +1452,6 @@
 "@types/range-parser@*":
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.3.tgz#7ee330ba7caafb98090bece86a5ee44115904c2c"
-
-"@types/react-table@^6.8.5":
-  version "6.8.6"
-  resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-6.8.6.tgz#6033868003541777e253478798c4dd0b588f0f3e"
-  dependencies:
-    "@types/react" "*"
-
-"@types/react@*":
-  version "16.9.17"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.17.tgz#58f0cc0e9ec2425d1441dd7b623421a867aa253e"
-  dependencies:
-    "@types/prop-types" "*"
-    csstype "^2.2.0"
 
 "@types/serve-static@*":
   version "1.13.3"
@@ -3819,7 +3827,7 @@ cssstyle@^2.0.0:
   dependencies:
     cssom "~0.3.6"
 
-csstype@^2.2.0, csstype@^2.5.2:
+csstype@^2.5.2:
   version "2.6.8"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.8.tgz#0fb6fc2417ffd2816a418c9336da74d7f07db431"
 
@@ -10678,14 +10686,6 @@ react-table@6.8.6:
   resolved "https://registry.yarnpkg.com/react-table/-/react-table-6.8.6.tgz#a0ad8b4839319052d5befc012603fb161e52ede3"
   dependencies:
     classnames "^2.2.5"
-
-react-table@^6.7.6:
-  version "6.11.5"
-  resolved "https://registry.yarnpkg.com/react-table/-/react-table-6.11.5.tgz#84e52885db426a07a6c4ce2c7e942f2cd4e2aa58"
-  dependencies:
-    "@types/react-table" "^6.8.5"
-    classnames "^2.2.5"
-    react-is "^16.8.1"
 
 react-toastify@^3.3.2:
   version "3.4.3"
