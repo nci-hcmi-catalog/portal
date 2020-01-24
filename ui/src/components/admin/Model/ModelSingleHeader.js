@@ -47,9 +47,11 @@ const modelMoreOptions = (data = null) =>
   data && (
     <Popup
       trigger={
-        <HoverPill secondary marginLeft="10px">
-          <AdminModelMoreOptionsIcon css={'margin: 0;'} width={15} height={3} />
-        </HoverPill>
+        <div>
+          <HoverPill secondary marginLeft="10px">
+            <AdminModelMoreOptionsIcon css={'margin: 0;'} width={15} height={3} />
+          </HoverPill>
+        </div>
       }
       position="bottom right"
       offset={0}
@@ -97,8 +99,8 @@ export default ({ modelName }) => (
             (response.status === modelStatus.published ||
               response.status === modelStatus.unpublishedChanges) ? (
               <ModelHeaderBackLink to={`/model/${modelName}`}>
-                <ExternalLinkIcon height={10} width={10} css={'margin-right: 8px;'} />View in
-                catalog
+                <ExternalLinkIcon height={10} width={10} css={'margin-right: 8px;'} />
+                View in catalog
               </ModelHeaderBackLink>
             ) : (
               ''

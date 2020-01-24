@@ -30,7 +30,11 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
       const value = row.value;
       return (
         <Popup
-          trigger={() => <Moment fromNow>{value}</Moment>}
+          trigger={() => (
+            <div>
+              <Moment fromNow>{value}</Moment>
+            </div>
+          )}
           position="top center"
           offset={0}
           on="hover"
@@ -58,7 +62,11 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
       const value = row.value;
       return (
         <Popup
-          trigger={() => <Moment fromNow>{value}</Moment>}
+          trigger={() => (
+            <div>
+              <Moment fromNow>{value}</Moment>
+            </div>
+          )}
           position="top center"
           offset={0}
           on="hover"
@@ -108,7 +116,8 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
                     width: 12px;
                     height: 12px;
                   `}
-                />Edit
+                />
+                Edit
               </ActionPill>
             )}
           </ModalStateContext.Consumer>

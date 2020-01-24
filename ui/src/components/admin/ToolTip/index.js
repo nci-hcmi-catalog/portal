@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup';
 
 export default ({ position = 'top center', disabled = false, offsetY = 2, trigger, children }) => (
   <Popup
-    trigger={trigger}
+    trigger={<div>{trigger}</div>}
     position={position}
     contentStyle={{
       padding: '6px 12px',
