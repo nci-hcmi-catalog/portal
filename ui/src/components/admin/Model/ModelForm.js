@@ -369,7 +369,7 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
                 <Field
                   name={distributor_part_number.accessor}
                   component={FormInput}
-                  placeholder="PMD-146"
+                  placeholder="PDM-146"
                 />
               </FormComponent>
               <a href={`https://www.atcc.org/products/all/${values[distributor_part_number]}`}>
