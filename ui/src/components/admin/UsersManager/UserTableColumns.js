@@ -29,30 +29,28 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
     Cell: row => {
       const value = row.value;
       return (
-        <div>
-          <Popup
-            trigger={() => (
-              <div>
-                <Moment fromNow>{value}</Moment>
-              </div>
-            )}
-            position="top center"
-            offset={0}
-            on="hover"
-            mouseLeaveDelay={30}
-            mouseEnterDelay={10}
-            contentStyle={{
-              padding: '0px',
-              border: 'none',
-              width: 'max-content',
-            }}
-            arrow={true}
-          >
-            <ToolbarText>
-              <Moment parse="YYYY-MM-DD HH:mm">{value}</Moment>
-            </ToolbarText>
-          </Popup>
-        </div>
+        <Popup
+          trigger={() => (
+            <div>
+              <Moment fromNow>{value}</Moment>
+            </div>
+          )}
+          position="top center"
+          offset={0}
+          on="hover"
+          mouseLeaveDelay={30}
+          mouseEnterDelay={10}
+          contentStyle={{
+            padding: '0px',
+            border: 'none',
+            width: 'max-content',
+          }}
+          arrow={true}
+        >
+          <ToolbarText>
+            <Moment parse="YYYY-MM-DD HH:mm">{value}</Moment>
+          </ToolbarText>
+        </Popup>
       );
     },
   },
@@ -63,30 +61,28 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
     Cell: row => {
       const value = row.value;
       return (
-        <div>
-          <Popup
-            trigger={() => (
-              <div>
-                <Moment fromNow>{value}</Moment>
-              </div>
-            )}
-            position="top center"
-            offset={0}
-            on="hover"
-            mouseLeaveDelay={30}
-            mouseEnterDelay={10}
-            contentStyle={{
-              padding: '0px',
-              border: 'none',
-              width: 'max-content',
-            }}
-            arrow={true}
-          >
-            <ToolbarText>
-              <Moment parse="YYYY-MM-DD HH:mm">{value}</Moment>
-            </ToolbarText>
-          </Popup>
-        </div>
+        <Popup
+          trigger={() => (
+            <div>
+              <Moment fromNow>{value}</Moment>
+            </div>
+          )}
+          position="top center"
+          offset={0}
+          on="hover"
+          mouseLeaveDelay={30}
+          mouseEnterDelay={10}
+          contentStyle={{
+            padding: '0px',
+            border: 'none',
+            width: 'max-content',
+          }}
+          arrow={true}
+        >
+          <ToolbarText>
+            <Moment parse="YYYY-MM-DD HH:mm">{value}</Moment>
+          </ToolbarText>
+        </Popup>
       );
     },
   },
