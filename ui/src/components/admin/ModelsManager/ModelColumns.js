@@ -88,7 +88,11 @@ const modelManagerCustomColumns = [
       const value = row.value;
       return (
         <Popup
-          trigger={() => <MomentReact fromNow>{value}</MomentReact>}
+          trigger={() => (
+            <div>
+              <MomentReact fromNow>{value}</MomentReact>
+            </div>
+          )}
           position="top center"
           offset={0}
           on="hover"
@@ -138,14 +142,16 @@ const modelManagerCustomColumns = [
           </ActionLinkPill>
           <Popup
             trigger={
-              <ActionPill
-                secondary
-                css={`
-                  height: 26px;
-                `}
-              >
-                <AdminModelMoreOptionsIcon css={'margin: 0;'} width={15} height={3} />
-              </ActionPill>
+              <div>
+                <ActionPill
+                  secondary
+                  css={`
+                    height: 26px;
+                  `}
+                >
+                  <AdminModelMoreOptionsIcon css={'margin: 0;'} width={15} height={3} />
+                </ActionPill>
+              </div>
             }
             position="bottom right"
             offset={0}
