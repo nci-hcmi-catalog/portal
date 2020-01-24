@@ -179,6 +179,7 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
         });
     })
     .catch(error => {
+      console.error('Error occured in bulk upload:', error);
       res.status(500).json({ error: error.details || 'Unknown error occurred.' });
     });
 });
