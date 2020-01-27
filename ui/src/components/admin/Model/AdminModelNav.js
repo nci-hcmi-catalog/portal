@@ -31,27 +31,31 @@ export default () => (
             <AdminModelEditIcon
               fill={activeTab === 'edit' ? activeNavItemIconColor : brandPrimary}
               css={navItemIcon}
-            />Edit
+            />
+            Edit
           </NavItem>
 
           <Tooltip
             trigger={() => (
-              <NavItem
-                active={activeTab === 'images'}
-                disabled={!modelExists}
-                onClick={() => modelExists && setUIActiveTab('images')}
-              >
-                <AdminModelImageIcon
-                  fill={
-                    !modelExists
-                      ? disabledNavItemIconColor
-                      : activeTab === 'images'
+              <div>
+                <NavItem
+                  active={activeTab === 'images'}
+                  disabled={!modelExists}
+                  onClick={() => modelExists && setUIActiveTab('images')}
+                >
+                  <AdminModelImageIcon
+                    fill={
+                      !modelExists
+                        ? disabledNavItemIconColor
+                        : activeTab === 'images'
                         ? activeNavItemIconColor
                         : brandPrimary
-                  }
-                  css={navItemIcon}
-                />Images
-              </NavItem>
+                    }
+                    css={navItemIcon}
+                  />
+                  Images
+                </NavItem>
+              </div>
             )}
             disabled={modelExists}
             offsetY={-16}
@@ -61,22 +65,25 @@ export default () => (
 
           <Tooltip
             trigger={() => (
-              <NavItem
-                active={activeTab === 'variants'}
-                disabled={!modelExists}
-                onClick={() => modelExists && setUIActiveTab('variants')}
-              >
-                <AdminModelVariantsIcon
-                  fill={
-                    !modelExists
-                      ? disabledNavItemIconColor
-                      : activeTab === 'variants'
+              <div>
+                <NavItem
+                  active={activeTab === 'variants'}
+                  disabled={!modelExists}
+                  onClick={() => modelExists && setUIActiveTab('variants')}
+                >
+                  <AdminModelVariantsIcon
+                    fill={
+                      !modelExists
+                        ? disabledNavItemIconColor
+                        : activeTab === 'variants'
                         ? activeNavItemIconColor
                         : brandPrimary
-                  }
-                  css={navItemIcon}
-                />Variants
-              </NavItem>
+                    }
+                    css={navItemIcon}
+                  />
+                  Variants
+                </NavItem>
+              </div>
             )}
             disabled={modelExists}
             offsetY={-16}
