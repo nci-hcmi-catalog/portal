@@ -88,7 +88,7 @@
   {
     "field": "clinical_diagnosis.histological_type",
     "type": "keyword",
-    "displayName": "Histological Type",
+    "displayName": "Histological Subtype",
     "active": false,
     "isArray": false,
     "primaryKey": false,
@@ -256,7 +256,7 @@
   {
     "field": "growth_rate",
     "type": "long",
-    "displayName": "Growth Rate",
+    "displayName": "Doubling Time",
     "active": false,
     "isArray": false,
     "primaryKey": false,
@@ -529,6 +529,42 @@
     "quickSearchEnabled": false,
     "unit": null,
     "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "unit": null,
+    "displayValues": {},
+    "quickSearchEnabled": false,
+    "field": "tissue_type",
+    "displayName": "Tissue Type",
+    "active": false,
+    "isArray": false,
+    "type": "keyword",
+    "primaryKey": false,
+    "rangeStep": 1
+  },
+  {
+    "unit": null,
+    "displayValues": {},
+    "quickSearchEnabled": false,
+    "field": "distributor_part_number",
+    "displayName": "Link To Distributor",
+    "active": false,
+    "isArray": false,
+    "type": "keyword",
+    "primaryKey": false,
+    "rangeStep": 1
+  },
+  {
+    "unit": null,
+    "displayValues": {},
+    "quickSearchEnabled": false,
+    "field": "time_to_split",
+    "displayName": "Time to Split",
+    "active": false,
+    "isArray": false,
+    "type": "keyword",
+    "primaryKey": false,
     "rangeStep": 1
   }
 ]

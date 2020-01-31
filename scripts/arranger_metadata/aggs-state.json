@@ -203,5 +203,20 @@
     "field": "status",
     "show": false,
     "active": true
+  },
+  {
+    "field": "tissue_type",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "distributor_part_number",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "time_to_split",
+    "show": false,
+    "active": true
   }
 ]

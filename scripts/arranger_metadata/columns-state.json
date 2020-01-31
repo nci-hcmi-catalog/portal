@@ -447,6 +447,36 @@
       "canChangeShow": false,
       "query": null,
       "jsonPath": null
+    },
+    {
+      "field": "tissue_type",
+      "accessor": "updatedBy",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "distributor_part_number",
+      "accessor": "distributor_part_number",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "time_to_split",
+      "accessor": "time_to_split",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
     }
   ],
   "timestamp": "2019-10-11T20:36:07.801Z"
