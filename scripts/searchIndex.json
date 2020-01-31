@@ -157,7 +157,7 @@
         "type": "keyword"
       },
       "time_to_split": {
-        "type": "long"
+        "type": "keyword"
       },
       "tissue_type": {
         "type": "keyword"
