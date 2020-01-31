@@ -33,13 +33,13 @@
   resolved "https://registry.yarnpkg.com/@apollographql/graphql-playground-html/-/graphql-playground-html-1.6.24.tgz#3ce939cb127fb8aaa3ffc1e90dff9b8af9f2e3dc"
   integrity sha512-8GqG48m1XqyXh4mIZrtB5xOhUwSsh1WsrrsaZQOEYYql3YN9DEu9OOSg0ILzXHZo/h2Q74777YE4YzlArQzQEQ==
 
-"@arranger/admin@^2.0.7":
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/@arranger/admin/-/admin-2.0.7.tgz#3b3855ab90662dc99c3bf225eedd43519ad30ccf"
-  integrity sha512-LNVZ3iiJtKRJzAUZrzZ9LxOHvSb+etBc/uzkmOgzuF+SiM/7jfHQO55Im+RA8kdc0RXKVohS68YpZpekv+IXpw==
+"@arranger/admin@^2.0.9":
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@arranger/admin/-/admin-2.0.9.tgz#9c3916440dd91f70c9df06e1938265ed9621f15f"
+  integrity sha512-IIM+HH4FhMJ/Z7kz+XTcbVYXBdk5KT2uQijLFki/1avBhe0hQqjaLosuBKlv18lu/Lsf6nu9hz4h+rPv3bv/mQ==
   dependencies:
-    "@arranger/mapping-utils" "^2.0.7"
-    "@arranger/schema" "^2.0.7"
+    "@arranger/mapping-utils" "^2.0.9"
+    "@arranger/schema" "^2.0.9"
     "@elastic/elasticsearch" "7.5.0"
     apollo-link-http "^1.5.5"
     apollo-server "^2.1.0"
@@ -110,6 +110,18 @@
     node-fetch "^2.2.0"
     uuid "^3.2.1"
 
+"@arranger/mapping-utils@^2.0.9":
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-2.0.9.tgz#3239f537ee7dc3dfae3d7fabd32512950609be99"
+  integrity sha512-A/hrQyURkdxlMyjcRmzFH0hFmCtnHbiUql4aPWH1wU1OyS96eCpZieQ4s3zmWWUyrHC+YsONa/5AoaoFWWAz0w==
+  dependencies:
+    "@arranger/middleware" "^2.0.9"
+    babel-polyfill "^6.26.0"
+    graphql-fields "^1.0.2"
+    lodash "^4.17.15"
+    node-fetch "^2.2.0"
+    uuid "^3.2.1"
+
 "@arranger/middleware@^2.0.7":
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-2.0.7.tgz#269d40c8a35215d4d21f2dfd2db35a5ba2ee6635"
@@ -124,13 +136,27 @@
     utf8 "^3.0.0"
     winston "^2.4.0"
 
-"@arranger/schema@^2.0.7":
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/@arranger/schema/-/schema-2.0.7.tgz#078212604ecd0543ebb371954f85090171cbcc52"
-  integrity sha512-Dx6PQ6K1x7sgJYprSveGrpZq36j/nJDkUzEyry1MzBIXUbgwT+2nqoeUZX4PWke6MTHz5EDyLieq1ktNbYErsQ==
+"@arranger/middleware@^2.0.9":
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-2.0.9.tgz#feac200a0d64fa0464407dfea3d9ed8f54940d00"
+  integrity sha512-OZbO9U+OCWNuPPkt8GxyZ7Z8CHyA0j6bhZ4ccJSmFz95ihAWRLbY6vmMDshsOC8vUhReLaq9kuTJyK1DiPq0ww==
   dependencies:
-    "@arranger/mapping-utils" "^2.0.7"
-    "@arranger/middleware" "^2.0.7"
+    body-parser "^1.18.2"
+    cors "^2.8.4"
+    date-fns "^1.29.0"
+    express "^4.16.3"
+    lodash "^4.17.15"
+    morgan "^1.9.0"
+    utf8 "^3.0.0"
+    winston "^2.4.0"
+
+"@arranger/schema@^2.0.9":
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@arranger/schema/-/schema-2.0.9.tgz#9d73ab6730af0b9c9f99a779ade823061673d57f"
+  integrity sha512-zFsNUEasZxWAaQQ4OH125LKIfLB+/OWhstvBI/AbycVy0iIB7Rl0fcTeghLsyWNf/q0U6iDXLV4L52npF4mnlQ==
+  dependencies:
+    "@arranger/mapping-utils" "^2.0.9"
+    "@arranger/middleware" "^2.0.9"
     babel-polyfill "^6.26.0"
     elasticsearch "^14.0.0"
     graphql-middleware "1.3.1"
@@ -141,15 +167,15 @@
     paralleljs "^0.2.1"
     uuid "^3.2.1"
 
-"@arranger/server@^2.0.7":
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-2.0.7.tgz#33e6218cbbd03a9fae4895cfec6da86e2e5775ae"
-  integrity sha512-/wefTp7eHUtrQvPVRzHNiM90V97jIJ+58O1Y7HcdwvJ+nQ/SJgywrHWbEZchzOvEip/mGgxqasenc1f3oqv2Cw==
+"@arranger/server@^2.0.9":
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-2.0.9.tgz#4bec5855ddc5bc777551254fc7e4fc7f868e8977"
+  integrity sha512-AO44ioQn9fCnv6xOH3DkbbVuCH6LyXN4F4xIl0dZLetcbqUjI7/PbiiWtzaiwJBrao6P+GxtY4vLPuu13zu0eQ==
   dependencies:
-    "@arranger/admin" "^2.0.7"
-    "@arranger/mapping-utils" "^2.0.7"
-    "@arranger/middleware" "^2.0.7"
-    "@arranger/schema" "^2.0.7"
+    "@arranger/admin" "^2.0.9"
+    "@arranger/mapping-utils" "^2.0.9"
+    "@arranger/middleware" "^2.0.9"
+    "@arranger/schema" "^2.0.9"
     "@elastic/elasticsearch" "^7.5.0"
     apollo-server-core "1.3.2"
     apollo-server-express "^2.1.0"
