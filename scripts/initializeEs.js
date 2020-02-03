@@ -25,9 +25,13 @@ const date = new Date();
     body: indexSetup,
   });
   console.log(`Creating arranger project list: arranger-projects`);
-  await client.indices.create({
-    index: 'arranger-projects',
-  });
+  try {
+    await client.indices.create({
+      index: 'arranger-projects',
+    });
+  } catch (err) {
+    console.log(`failed to create arranger-projects index: ${err}`);
+  }
   console.log(`Creating arranger project list: ${arrangerProject}`);
   await client.index({
     index: 'arranger-projects',
