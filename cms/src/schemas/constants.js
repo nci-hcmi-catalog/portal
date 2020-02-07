@@ -990,7 +990,7 @@ export const clinicalTumorDiagnosisDependent = {
       'Lymph node',
       'Other',
     ],
-    'diffuse midline glioma': [],
+    'diffuse midline glioma': ['Brain','Other','Unknown'],
     'embryonal tumor': [
       'Ascites',
       'Bone',
@@ -1234,7 +1234,7 @@ export const clinicalTumorDiagnosisDependent = {
       'Unknown',
     ],
     'colorectal cancer': ['G1', 'G2', 'G3', 'G4', 'GX', 'GB'],
-    'diffuse midline glioma': [],
+    'diffuse midline glioma': ['G4'],
     'embryonal tumor': [],
     'endometrial carcinoma': [
       'Grade 1 ',
