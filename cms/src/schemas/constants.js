@@ -488,7 +488,7 @@ export const clinicalTumorDiagnosisDependent = {
       'NOS',
       'Other',
     ],
-    'endometrial carcinoma': [
+    'endometrial cancer': [
       'Endometrioid carcinoma, NOS',
       'Endometrioid carcinoma with squamous differentiation',
       'Endometrioid carcinoma, villoglandular variant',
@@ -780,7 +780,7 @@ export const clinicalTumorDiagnosisDependent = {
     ],
     'diffuse midline glioma': [],
     'embryonal tumor': [],
-    'endometrial carcinoma': [
+    'endometrial cancer': [
       'Stage I',
       'Stage IA',
       'Stage IB',
@@ -1007,7 +1007,7 @@ export const clinicalTumorDiagnosisDependent = {
       'Other',
       'Unknown',
     ],
-    'endometrial carcinoma': [
+    'endometrial cancer': [
       'Adenomyosis',
       'Endometrial polyp',
       'Endometrium',
@@ -1236,7 +1236,7 @@ export const clinicalTumorDiagnosisDependent = {
     'colorectal cancer': ['G1', 'G2', 'G3', 'G4', 'GX', 'GB'],
     'diffuse midline glioma': ['G4'],
     'embryonal tumor': [],
-    'endometrial carcinoma': [
+    'endometrial cancer': [
       'Grade 1 ',
       'Grade 2',
       'Grade 3',
@@ -1356,7 +1356,7 @@ export const clinicalTumorDiagnosis = [
   'Colorectal cancer',
   'Diffuse midline glioma',
   'Embryonal tumor',
-  'Endometrial carcinoma',
+  'Endometrial cancer',
   'Esophageal cancer',
   'Extrahepatic bile duct cancer',
   "Ewing's sarcoma",
