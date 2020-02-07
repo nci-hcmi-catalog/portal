@@ -430,7 +430,7 @@ export const toExcelHeaders = {
   'pediatric hepatocellular carcinoma': 'pediatric_liver_cancer_data_entry_options_a',
   'prostate cancer': '?',
   'rare cancers': '?',
-  'renal cancer': '?',
+  'kidney cancer': '?',
   rhabdomyosarcoma: 'rhabdomyosarcoma_data_entry_options',
   'stomach cancer': 'stomach_data_entry_options',
   'thyroid cancer': '?',
@@ -676,7 +676,7 @@ export const clinicalTumorDiagnosisDependent = {
       'Other',
     ],
     'rare cancers': [],
-    'renal cancer': [
+    'kidney cancer': [
       'Acquired cystic disease associated renal cell carcinoma',
       'Chromophobe renal cell carcinoma',
       'Clear cell papillary renal cell carcinoma',
@@ -922,7 +922,7 @@ export const clinicalTumorDiagnosisDependent = {
       'Stage IVB',
     ],
     'rare cancers': [],
-    'renal cancer': ['Stage I,', 'Stage II', 'Stage III', 'Stage IV'],
+    'kidney cancer': ['Stage I,', 'Stage II', 'Stage III', 'Stage IV'],
     rhabdomyosarcoma: ['1', '2', '3', '4'],
     'stomach cancer': [
       'Stage 0',
@@ -1167,7 +1167,7 @@ export const clinicalTumorDiagnosisDependent = {
     ],
     'prostate cancer': ['Prostate', 'Other'],
     'rare cancers': [],
-    'renal cancer': ['Adrenal Gland', 'Kidney', 'Lymph node', 'Tumor thrombus', 'Other'],
+    'kidney cancer': ['Adrenal Gland', 'Kidney', 'Lymph node', 'Tumor thrombus', 'Other'],
     rhabdomyosarcoma: [
       'Abdominal cavity',
       'Ascites',
@@ -1317,7 +1317,7 @@ export const clinicalTumorDiagnosisDependent = {
       'Not applicable',
     ],
     'rare cancers': [],
-    'renal cancer': [],
+    'kidney cancer': [],
     rhabdomyosarcoma: [],
     'stomach cancer': ['G1', 'G2', 'G3', 'GX', 'GB'],
     'thyroid cancer': [],
@@ -1378,7 +1378,7 @@ export const clinicalTumorDiagnosis = [
   'Pediatric hepatocellular carcinoma',
   'Prostate cancer',
   'Rare cancers',
-  'Renal cancer',
+  'Kidney cancer',
   'Rhabdomyosarcoma',
   'Stomach cancer',
   'Thyroid cancer',
