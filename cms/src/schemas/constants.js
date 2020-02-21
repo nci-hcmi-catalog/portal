@@ -932,7 +932,7 @@ export const clinicalTumorDiagnosisDependent = {
       'Stage IVA',
       'Stage IVB',
     ],
-    'rare cancers': ['Stage IV', 'Stage 0', 'Stage I', 'Stage II', 'Stage III'],
+    'rare cancers': ['Stage 0', 'Stage I', 'Stage II', 'Stage III','Stage IV',],
     'kidney cancer': ['Stage I,', 'Stage II', 'Stage III', 'Stage IV'],
     rhabdomyosarcoma: ['1', '2', '3', '4'],
     'stomach cancer': [
@@ -1188,6 +1188,7 @@ export const clinicalTumorDiagnosisDependent = {
       'Lymph node(s)',
       'Transverse colon',
       'Sigmoid colon',
+      'Ileum', 
     ],
     'kidney cancer': ['Adrenal Gland', 'Kidney', 'Lymph node', 'Tumor thrombus', 'Other'],
     rhabdomyosarcoma: [
