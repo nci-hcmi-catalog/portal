@@ -114,6 +114,7 @@ export const primarySites = [
   'Ethmoid bone',
   'External internal iliac',
   'Extra adrenal site',
+  'Extrahepatic bile duct',
   'Extremities',
   'Eye',
   'Fallopian tube',
