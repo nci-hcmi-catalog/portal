@@ -12,7 +12,13 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 
 import { data_sync_router } from './routes/sync-data';
-import { imagesRouter, bulkRouter, actionRouter, templatesRouter } from './routes';
+import {
+  actionRouter,
+  bulkRouter,
+  imagesRouter,
+  matchedModelsRouter as matchedModelsActionsRouter,
+  templatesRouter,
+} from './routes';
 import {
   preUpdate,
   validateYup,
@@ -22,12 +28,14 @@ import {
   validateUserRequest,
 } from './hooks';
 import Model from './schemas/model';
+import MatchedModels from './schemas/matchedModels';
 import User from './schemas/user';
 import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess';
 
 const port = process.env.PORT || 8080;
 const app = express();
 const modelRouter = express.Router();
+const matchedModelsRestifyRouter = express.Router();
 const userRouter = express.Router();
 
 // Handle "unhandled" promise rejections
@@ -83,6 +91,8 @@ restify.serve(modelRouter, Model, {
   idProperty: 'name',
 });
 
+restify.serve(matchedModelsRestifyRouter, MatchedModels);
+
 // configure endpoints
 restify.serve(userRouter, User, {
   preCreate: validateUserRequest,
@@ -99,6 +109,8 @@ app.use('/api/v1/bulk', bulkRouter);
 app.use('/api/v1/images', imagesRouter);
 app.use('/api/v1/action', actionRouter);
 app.use('/api/v1/templates', templatesRouter);
+app.use('/api/v1/matches', matchedModelsActionsRouter);
+app.use(matchedModelsRestifyRouter);
 app.use(modelRouter);
 app.use(userRouter);
 
