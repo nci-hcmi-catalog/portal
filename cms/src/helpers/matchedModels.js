@@ -103,17 +103,11 @@ const connectWithMatchedModels = async (nameToAdd, setMemberName) => {
     return matchedModels;
   } else {
     // No existing set, make a new one
+    // Note that createMatchedModels also adds the reference to each model in the list.
     const matchedModels = await createMatchedModels([modelToAdd, modelFromSet]);
 
     return matchedModels;
   }
-
-  // Get matched set for setMemberName
-  //   If it isn't part of a set, create a new one
-  // Get model for nameToAdd
-  // Make list of all names
-  // Set matchedModels list to be this list of names, omitting the name for that model
-  // Save all models
 };
 
 export default {
