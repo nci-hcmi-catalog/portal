@@ -66,6 +66,11 @@ export const ModelSchema = new mongoose.Schema(
       es_indexed: false,
     },
     updatedBy: { type: String, es_indexed: false },
+    matchedModels: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'MatchedModels',
+      es_indexed: false,
+    },
   },
   {
     es_extend: {
