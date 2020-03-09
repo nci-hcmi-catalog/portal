@@ -2,22 +2,21 @@
 export const modelStatus = {
   unpublished: 'unpublished',
   unpublishedChanges: 'changes not yet published',
-  other: 'other',
   published: 'published',
 };
 
 export const computeModelStatus = (currentStatus, action) => {
   /*
-      *  Matrix
-      * -------------------------------------------
-      *             |    save     |    publish    |
-      * -------------------------------------------
-      * unpublished | unpublished |   published   |
-      * unpub. chgs | unpub. chgs |   published   |
-      * other       | unpublished |   published   |
-      * published   | unpub. chgs |   published   |
-      * -------------------------------------------
-    */
+   *  Matrix
+   * -------------------------------------------
+   *             |    save     |    publish    |
+   * -------------------------------------------
+   * unpublished | unpublished |   published   |
+   * unpub. chgs | unpub. chgs |   published   |
+   * other       | unpublished |   published   |
+   * published   | unpub. chgs |   published   |
+   * -------------------------------------------
+   */
 
   const statusMatrix = {
     unpublished: {
