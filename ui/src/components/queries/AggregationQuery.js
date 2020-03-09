@@ -8,8 +8,9 @@ const fetchData = async ({ setState, sqon, field }) => {
   const { data } = await api({
     endpoint: `${globals.VERSION}/graphql`,
     body: {
-      query: `query ${field}Aggregation ($filters: JSON) {
+      query: `query ${field}Aggregation ($filters: JSON, $fields: [String]) {
         models {
+          extended(fields: $fields)
           hits(filters: $filters) {
             total
           }
@@ -21,6 +22,7 @@ const fetchData = async ({ setState, sqon, field }) => {
               buckets {
                 doc_count
                 key
+                key_as_string
               }
             }
           }
@@ -28,6 +30,7 @@ const fetchData = async ({ setState, sqon, field }) => {
       }`,
       variables: {
         filters: sqon,
+        fields: [field],
       },
     },
   });
@@ -35,6 +38,7 @@ const fetchData = async ({ setState, sqon, field }) => {
   setState({
     total: data.models.hits.total,
     buckets: data.models.aggregations[field].buckets,
+    extended: data.models.extended[0],
     loading: false,
   });
 };

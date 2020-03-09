@@ -15,6 +15,7 @@ const fetchData = async ({ setState, modelIds }) => {
                 edges {
                   node {
                     id
+                    expanded
                     source_model_url
                     source_sequence_url
                     name
@@ -52,6 +53,16 @@ const fetchData = async ({ setState, modelIds }) => {
                       histological_type
                       tumor_histological_grade
                       clinical_stage_grouping
+                    }
+                    matched_models {
+                      hits{
+                        edges {
+                          node {
+                            name
+                            tissue_type
+                          }
+                        }
+                      }
                     }
                   }
                 }
