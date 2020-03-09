@@ -1,4 +1,4 @@
-import { indexOneToES } from './services/elastic-search/publish';
+import { publishModel } from './services/elastic-search/publish';
 import { unpublishOneFromES } from './services/elastic-search/unpublish';
 import { modelStatus, runYupValidatorFailFast } from './helpers';
 import { deleteImage } from './routes/images';
@@ -91,7 +91,7 @@ export const postUpdate = async (req, res, next) => {
   if (modelName.toLowerCase() === 'model' && body && 'status' in body) {
     switch (result.status) {
       case modelStatus.published:
-        return indexOneToES({ name: result.name })
+        return publishModel({ name: result.name })
           .then(() => next())
           .catch(err => next(err));
       case modelStatus.unpublished:

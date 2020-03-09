@@ -1,5 +1,7 @@
 import MatchedModels from '../schemas/matchedModels';
 import Model from '../schemas/model';
+import { modelStatus } from './modelStatus';
+import { uniq } from 'lodash';
 
 /* Worker methods, take models as inputs */
 const createMatchedModels = async models => {
@@ -8,6 +10,10 @@ const createMatchedModels = async models => {
 
   for (let model of models) {
     model.matchedModels = matchedModels._id;
+    model.status =
+      model.status === modelStatus.unpublished
+        ? modelStatus.unpublished
+        : modelStatus.unpublishedChanges;
     model.save();
   }
   return matchedModels;
@@ -29,6 +35,15 @@ const clearModelFromSets = async model => {
       item => item.toString() !== model._id.toString(),
     );
 
+    // We need to make sure that when these changes to our model are published,
+    //  the models from the old matched set also have their
+    //  matched models updated.
+    model.updateOldMatchesOnPublish = model.updateOldMatchesOnPublish
+      ? model.updateOldMatchesOnPublish.concat(matchedModels.models)
+      : matchedModels.models;
+
+    model.updateOldMatchesOnPublish = uniq(model.updateOldMatchesOnPublish);
+
     if (matchedModels.models.length <= 1) {
       // Only one entry left in this set, we need to remove the set and remove it from the other model
       const otherModels = await Model.find({ _id: { $in: [matchedModels.models] } });
@@ -49,6 +64,10 @@ const clearModelFromSets = async model => {
   }
   // Clear the matchedModels reference from this model
   model.matchedModels = null;
+  model.status =
+    model.status === modelStatus.unpublished
+      ? modelStatus.unpublished
+      : modelStatus.unpublishedChanges;
   await model.save();
 
   return;
@@ -98,6 +117,10 @@ const connectWithMatchedModels = async (nameToAdd, setMemberName) => {
 
     // Add reference to the set to the model
     modelToAdd.matchedModels = matchedModels._id;
+    modelToAdd.status =
+      modelToAdd.status === modelStatus.unpublished
+        ? modelStatus.unpublished
+        : modelStatus.unpublishedChanges;
     await modelToAdd.save();
 
     return matchedModels;
