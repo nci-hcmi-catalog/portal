@@ -69,29 +69,22 @@ export const indexOneToES = filter => {
 export const indexMatchedModelsToES = async (filter, skipSelf = true) => {
   const model = await ModelES.findOne(filter).populate('matchedModels');
 
-  if (!model.matchedModels) {
-    // No matched Models, nothing to do.
-    return;
-  }
-
-  const matchedModelIds = model.matchedModels.models || [];
-  if (matchedModelIds.length <= 1) {
+  // Get list of matched models if exists
+  const matchedModelIds = model.matchedModels ? model.matchedModels.models : [];
+  if (model.matchedModels && matchedModelIds.length <= 1) {
+    // if list of matched models exists but only includes itself, we can remove the whole matched model set.
     console.warn(
       `Model ${model.name} is part of a small or empty matchedModel set of length ${
         matchedModelIds.length
       }, deleting the set and the reference in the model.`,
     );
     await MatchUtils.removeFromSet(model.name);
-    return;
   }
 
   if (model.updateOldMatchesOnPublish) {
+    // if we need to update old matches, we can do that here
     matchedModelIds.push(...model.updateOldMatchesOnPublish);
   }
-
-  console.log('id', model._id.toString());
-  console.log('matchedModelIds', matchedModelIds);
-  console.log('skipSelf', skipSelf);
 
   await updateMatchedModelsToES({
     _id: { $in: matchedModelIds.filter(id => !skipSelf || id.toString() !== model._id.toString()) },
