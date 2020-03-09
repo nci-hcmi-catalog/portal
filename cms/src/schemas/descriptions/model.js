@@ -6,6 +6,10 @@ export const schemaArr = [
     accessor: 'name',
   },
   {
+    displayName: 'Expanded',
+    accessor: 'expanded',
+  },
+  {
     displayName: 'Type',
     accessor: 'type',
   },
@@ -83,6 +87,7 @@ export const schemaArr = [
       trimEnd(row.molecular_characterizations.reduce((acc, item) => acc + `${item}|`, ``), `|`),
   },
   { displayName: 'Tissue Type', accessor: 'tissue_type' },
+
   {
     displayName: 'Clinical Tumor Diagnosis',
     accessor: 'clinical_tumor_diagnosis',
@@ -121,6 +126,10 @@ export const schemaArr = [
   {
     displayName: 'Sequence URL',
     accessor: 'source_sequence_url',
+  },
+  {
+    displayName: 'Has Matched Models',
+    accessor: 'has_matched_models',
   },
   {
     displayName: 'Updated By',

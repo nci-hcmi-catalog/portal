@@ -52,25 +52,25 @@ export const ModelSchema = new mongoose.Schema(
     distributor_part_number: { type: String, es_indexed: true },
     source_model_url: { type: String, es_indexed: true },
     source_sequence_url: { type: String, es_indexed: true },
+    expanded: { type: Boolean, es_indexed: true },
     files: { type: [FilesSchema], es_indexed: true },
     variants: { type: [VariantExpression], es_indexed: false },
-    status: {
-      type: String,
-      enum: [
-        modelStatus.unpublished,
-        modelStatus.published,
-        modelStatus.unpublishedChanges,
-        modelStatus.other,
-      ],
-      default: modelStatus.unpublished,
-      es_indexed: false,
-    },
-    updatedBy: { type: String, es_indexed: false },
     matchedModels: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'MatchedModels',
       es_indexed: false,
     },
+    updateOldMatchesOnPublish: {
+      type: [String],
+      es_indexed: false,
+    },
+    status: {
+      type: String,
+      enum: [modelStatus.unpublished, modelStatus.published, modelStatus.unpublishedChanges],
+      default: modelStatus.unpublished,
+      es_indexed: false,
+    },
+    updatedBy: { type: String, es_indexed: false },
   },
   {
     es_extend: {
@@ -96,6 +96,21 @@ export const ModelSchema = new mongoose.Schema(
             type: variant.variant.type,
           })),
       },
+      // This is definitely a trick. You need to manually
+      // add populatedMatches as an array of models that should be included as matched_models before calling esIndex()
+      matched_models: {
+        es_type: 'nested',
+        es_value: doc =>
+          doc.populatedMatches.map(match => ({
+            name: match.name,
+            tissue_type: match.tissue_type,
+          })),
+      },
+      has_matched_models: {
+        es_type: 'boolean',
+        es_value: doc => doc.populatedMatches.length >= 1,
+      },
+
       createdAt: {
         es_type: 'date',
         es_value: doc => doc.createdAt,
