@@ -45,6 +45,10 @@ bulkRouter.post('/publish', async (req, res) => {
           validationErrors.push(err);
         }
       }
+      for (const name of validModelNames) {
+        // Now that everything has been published, lets make sure all the matched models for these are also updated in ES
+        indexMatchedModelsToES({ name });
+      }
       res.json({
         success: `${req.body.length - validationErrors.length} models published`,
         errors: validationErrors,
@@ -70,6 +74,12 @@ bulkRouter.post('/unpublish', async (req, res) => {
         },
         { status: modelStatus.unpublished },
       );
+    })
+    .then(() => {
+      for (const name of req.body) {
+        // Now that everything has been published, lets make sure all the matched models for these are also updated in ES
+        indexMatchedModelsToES({ name });
+      }
     })
     .then(() => res.json({ success: `${deleteCount} models unpublished` }))
     .catch(error =>

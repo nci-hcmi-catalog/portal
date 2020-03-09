@@ -4,7 +4,7 @@ import express from 'express';
 import Model from '../schemas/model';
 import publishValidation from '../validation/model';
 import { runYupValidatorFailFast, modelStatus } from '../helpers';
-import { indexOneToES } from '../services/elastic-search/publish';
+import { publishModel, indexMatchedModelsToES } from '../services/elastic-search/publish';
 import { unpublishOneFromES } from '../services/elastic-search/unpublish';
 import { backupFields } from '../schemas/descriptions/modelVariant';
 import csvStream from '../helpers/streamAsCSV';
@@ -17,7 +17,7 @@ actionRouter.post('/publish/:name', async (req, res) => {
     name,
   })
     .then(models => runYupValidatorFailFast(publishValidation, models))
-    .then(() => indexOneToES({ name }))
+    .then(() => publishModel({ name }))
     .then(() =>
       Model.updateOne(
         {
@@ -48,6 +48,7 @@ actionRouter.post('/unpublish/:name', async (req, res) => {
         { status: modelStatus.unpublished },
       ),
     )
+    .then(() => indexMatchedModelsToES({ name }))
     .then(() => res.json({ success: `${name} has been successfully unpublished` }))
     .catch(error =>
       res.status(500).json({
@@ -62,17 +63,16 @@ actionRouter.get('/backup-variants/:name', async (req, res) => {
     name,
   })
     .populate('variants.variant')
-    .exec(
-      (err, data) =>
-        err
-          ? res.status(500).send(err)
-          : csvStream({
-              data: JSON.parse(JSON.stringify(data.variants)), // mongoose objects are not json -> this converts data to pure json object that can be used by json2csv parser
-              fields: [{ label: 'Model Name', value: () => name }].concat(backupFields),
-              writeHeaders: true,
-              exportFileName: `${name}-Variants`,
-              response: res,
-            }),
+    .exec((err, data) =>
+      err
+        ? res.status(500).send(err)
+        : csvStream({
+            data: JSON.parse(JSON.stringify(data.variants)), // mongoose objects are not json -> this converts data to pure json object that can be used by json2csv parser
+            fields: [{ label: 'Model Name', value: () => name }].concat(backupFields),
+            writeHeaders: true,
+            exportFileName: `${name}-Variants`,
+            response: res,
+          }),
     );
 });
 
