@@ -19,6 +19,7 @@ import {
 } from '../schemas/constants';
 
 import { modelVariantSchema } from './variant';
+import { matchedModelSchema } from './matchedModels';
 
 // Custom date validation parser
 yup.date().transform(function(value, originalValue) {
@@ -128,7 +129,6 @@ export default object().shape({
         'clinical stage grouping',
       ),
     ),
-
   site_of_sample_acquisition: string()
     .nullable(true)
     .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
@@ -149,11 +149,14 @@ export default object().shape({
   distributor_part_number: string(),
   source_model_url: string().url(),
   source_sequence_url: string().url(),
-
+  expanded: boolean(),
   updatedBy: string(),
   status: string(),
   variants: array()
     .of(modelVariantSchema)
+    .ensure(),
+  matched_models: array()
+    .of(matchedModelSchema)
     .ensure(),
 });
 
@@ -167,10 +170,12 @@ export const saveValidation = object().shape({
       'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]',
     ),
   type: string().oneOf(modelType),
+  expanded: boolean(),
   growth_rate: number()
     .integer()
     .transform(numberEmptyValueTransform),
   split_ratio: string().oneOf(splitRatio),
+  time_to_split: string(),
   gender: string().oneOf(gender),
   race: string()
     .nullable(true)
@@ -204,6 +209,7 @@ export const saveValidation = object().shape({
     .nullable(true)
     .notRequired()
     .oneOf(clinicalTumorDiagnosis),
+  tissue_type: string().oneOf(tissueTypes),
   histological_type: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
     makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'histological type'),
   ),
@@ -235,6 +241,7 @@ export const saveValidation = object().shape({
       ),
     ),
   licensing_required: boolean().nullable(true),
+  distributor_part_number: string(),
   source_model_url: string(),
   source_sequence_url: string(),
   updatedBy: string(),
