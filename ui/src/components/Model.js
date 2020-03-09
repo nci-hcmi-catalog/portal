@@ -1,6 +1,7 @@
 import React from 'react';
 import { get } from 'lodash';
 import Spinner from 'react-spinkit';
+import { Link } from 'react-router-dom';
 
 import ModelQuery from 'components/queries/ModelQuery';
 import modelImageProcessor from 'utils/modelImageProcessor';
@@ -10,6 +11,7 @@ import ModelFooterBar from 'components/ModelFooterBar';
 
 import { Row, Col } from 'theme/system';
 import styles from 'theme/modelStyles';
+import theme from 'theme';
 import { ModelSlider, ModelSlide, LeftArrow, RightArrow } from 'theme/carouselStyles';
 import AdminIcon from 'icons/AdminIcon';
 import ModelIcon from 'icons/ModelIcon';
@@ -71,6 +73,57 @@ const HorizontalTable = ({
   );
 };
 
+const MultipleModelContent = match => {
+  return (
+    <div
+      css={`
+        margin-bottom: 10px;
+        display: flex;
+      `}
+    >
+      <div
+        css={`
+          padding-top: 2px;
+        `}
+      >
+        <ModelIcon height={18} width={18} />
+      </div>
+      <div>
+        <Link
+          to={{
+            pathname: `/model/${match.name}`,
+          }}
+          href=""
+          css={`
+            color: ${theme.keyedPalette.brandPrimary};
+          `}
+        >
+          {match.name}
+        </Link>
+        <br />
+        <span
+          css={`
+            font-size: 12px;
+          `}
+        >
+          Tissue Type: {match.tissue_type}
+        </span>
+        <br />
+      </div>
+    </div>
+  );
+};
+
+const MultipleModelsList = ({ matches }) => {
+  console.log('matches', matches);
+  switch (true) {
+    case matches.length > 0:
+      return matches.map(MultipleModelContent);
+    default:
+      return 'There are no other models from this patient';
+  }
+};
+
 export default ({ modelName }) => (
   <ModelQuery modelName={modelName}>
     {({
@@ -82,7 +135,11 @@ export default ({ modelName }) => (
       ),
     }) => (
       <div css={styles}>
-        <ModelBar name={modelName} id={(queryState.model || { id: '' }).id} />
+        <ModelBar
+          name={modelName}
+          id={(queryState.model || { id: '' }).id}
+          isExpanded={queryState.model ? queryState.model.expanded : null}
+        />
         {queryState.model ? (
           [
             <section
@@ -129,8 +186,25 @@ export default ({ modelName }) => (
                   <HorizontalTable
                     rawData={queryState.model}
                     extended={queryState.extended}
-                    fieldNames={['name', 'type', 'split_ratio', 'time_to_split', 'growth_rate']}
+                    fieldNames={[
+                      'type',
+                      'split_ratio',
+                      'time_to_split',
+                      'growth_rate',
+                      'molecular_characterizations',
+                      'tissue_type',
+                      'matched_models.name',
+                    ]}
                     customUnits={{ growth_rate: ' days' }}
+                    customValue={{
+                      'matched_models.name': val => (
+                        <MultipleModelsList
+                          matches={queryState.model.matched_models.hits.edges.map(
+                            match => match.node,
+                          )}
+                        />
+                      ),
+                    }}
                   />
                 </Col>
 
@@ -142,7 +216,6 @@ export default ({ modelName }) => (
                       'primary_site',
                       'neoadjuvant_therapy',
                       'tnm_stage',
-                      'molecular_characterizations',
                       'chemotherapeutic_drugs',
                     ]}
                   />
@@ -153,7 +226,6 @@ export default ({ modelName }) => (
                     extended={queryState.extended}
                     fieldNames={[
                       'clinical_diagnosis.clinical_stage_grouping',
-                      'tissue_type',
                       'clinical_diagnosis.clinical_tumor_diagnosis',
                       'clinical_diagnosis.site_of_sample_acquisition',
                       'clinical_diagnosis.histological_type',

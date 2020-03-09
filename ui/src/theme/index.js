@@ -108,6 +108,8 @@ const base = {
     dawnPink: '#F3E4E4',
     oldLace: '#FDF4E9',
     oldCopper: '#724c31',
+    green: '#3f8342',
+    redOrange: '#b55a36',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',

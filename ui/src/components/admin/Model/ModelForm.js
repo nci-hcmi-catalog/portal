@@ -74,6 +74,7 @@ const {
   distributor_part_number,
   source_model_url,
   source_sequence_url,
+  expanded,
   updatedAt,
 } = schemaObj;
 
@@ -134,7 +135,7 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
       >
         <FormContainer>
           <TabHeader
-            title={`Model Details`}
+            title={`Model Name`}
             updatedAt={
               Object.keys(values).length > 0 && values[updatedAt.accessor]
                 ? values[updatedAt.accessor]
@@ -144,9 +145,42 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
           <FormSection>
             <FormCol>
               <FormComponent labelText={name.displayName}>
-                <Field name={name.accessor} disabled={didLoad} component={FormInput} />
+                <Field
+                  name={name.accessor}
+                  disabled={didLoad}
+                  component={FormInput}
+                  errorText="This model already exists"
+                />
               </FormComponent>
 
+              <FormComponent labelText={expanded.displayName}>
+                <Field
+                  name={expanded.accessor}
+                  component={FormRadioSelect}
+                  options={booleanChoice}
+                />
+              </FormComponent>
+            </FormCol>
+            <FormCol>
+              <FormComponent
+                labelText="Link to Existing Model"
+                description="Start typing model name to look up existing models."
+              >
+                <Field
+                  name="modelToConnect"
+                  options={[]}
+                  errorText="No existing model with the given name"
+                  component={FormAutoComplete}
+                />
+              </FormComponent>
+            </FormCol>
+          </FormSection>
+
+          <FormHeader>
+            <h2>Model Details</h2>
+          </FormHeader>
+          <FormSection>
+            <FormCol>
               <FormComponent labelText={type.displayName}>
                 <Field name={type.accessor} component={FormSelect} options={modelTypeOptions} />
               </FormComponent>

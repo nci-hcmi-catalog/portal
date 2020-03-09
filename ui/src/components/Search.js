@@ -9,8 +9,11 @@ import { SelectedModelsContext } from 'providers/SelectedModels';
 import LastUpdatedDate from './LastUpdatedDate';
 import ModelNameSearch from 'components/ModelNameSearch';
 import PrimarySiteChart from 'components/charts/PrimarySiteChart';
+import MultipleModelsChart from 'components/charts/MultipleModelsChart';
 import GrowthChart from 'components/charts/GrowthChart';
 import TableEntity from 'components/TableEntity';
+import TableExpandedCell from 'components/TableExpandedCell';
+import TableMatchedModelsCell from 'components/TableMatchedModelsCell';
 import TableList from 'components/TableList';
 import ShareButton from 'components/ShareButton';
 import ModelList from 'components/ModelList';
@@ -121,6 +124,7 @@ export default ({
                 <>
                   <PrimarySiteChart sqon={sqon} setSQON={setSQON} />
                   {/* <TopVariantsChart sqon={sqon} setSQON={setSQON} /> */}
+                  <MultipleModelsChart sqon={sqon} setSQON={setSQON} />
                   <GrowthChart sqon={sqon} setSQON={setSQON} />
                 </>
               )}
@@ -145,6 +149,26 @@ export default ({
                         entity: props => (
                           <TableEntity
                             {...props}
+                            savedSetsContext={savedSetsContext}
+                            state={state}
+                            sqon={sqon}
+                            history={history}
+                          />
+                        ),
+                        expanded: props => (
+                          <TableExpandedCell
+                            {...props}
+                            value={props.value}
+                            savedSetsContext={savedSetsContext}
+                            state={state}
+                            sqon={sqon}
+                            history={history}
+                          />
+                        ),
+                        matched_models: props => (
+                          <TableMatchedModelsCell
+                            {...props}
+                            value={props.value}
                             savedSetsContext={savedSetsContext}
                             state={state}
                             sqon={sqon}
