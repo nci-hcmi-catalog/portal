@@ -12,11 +12,12 @@
   "author": "OICR",
   "license": "ISC",
   "dependencies": {
+    "@elastic/elasticsearch": "7.6.1",
     "babel-polyfill": "^6.26.0",
     "cors": "^2.8.4",
     "csvtojson": "^2.0.8",
     "dotenv": "^5.0.1",
-    "@elastic/elasticsearch": "7.6.1",
+    "elasticsearch": "^16.6.0",
     "express": "^4.16.3",
     "express-inspector": "^0.3.1",
     "express-restify-mongoose": "^5.0.0",

@@ -17,7 +17,6 @@ module.exports = {
         MONGO_USER_COLLECTION: 'users',
         MONGODB_URI: 'mongodb: //localhost/test',
         ES_INDEX: 'models',
-        ES_TYPE: 'models',
         ES_HOST: 'es.hcmi.cancercollaboratory.org',
         ES_PORT: 9200,
         ES_API_VERSION: 6.1,
