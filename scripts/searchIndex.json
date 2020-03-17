@@ -17,23 +17,15 @@
       },
       "analyzer": {
         "autocomplete_analyzed": {
-          "filter": [
-            "lowercase",
-            "edge_ngram"
-          ],
+          "filter": ["lowercase", "edge_ngram"],
           "tokenizer": "standard"
         },
         "autocomplete_prefix": {
-          "filter": [
-            "lowercase",
-            "edge_ngram"
-          ],
+          "filter": ["lowercase", "edge_ngram"],
           "tokenizer": "keyword"
         },
         "lowercase_keyword": {
-          "filter": [
-            "lowercase"
-          ],
+          "filter": ["lowercase"],
           "tokenizer": "keyword"
         }
       }
@@ -48,7 +40,7 @@
         "type": "long"
       },
       "autocomplete": {
-        "type": "keyword",
+        "type": "text",
         "fields": {
           "analyzed": {
             "type": "text",
@@ -134,9 +126,7 @@
       },
       "name": {
         "type": "keyword",
-        "copy_to": [
-          "autocomplete"
-        ]
+        "copy_to": ["autocomplete"]
       },
       "neoadjuvant_therapy": {
         "type": "keyword"
@@ -197,15 +187,11 @@
           },
           "genes": {
             "type": "keyword",
-            "copy_to": [
-              "autocomplete"
-            ]
+            "copy_to": ["autocomplete"]
           },
           "name": {
             "type": "keyword",
-            "copy_to": [
-              "autocomplete"
-            ]
+            "copy_to": ["autocomplete"]
           },
           "type": {
             "type": "keyword"

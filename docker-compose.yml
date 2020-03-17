@@ -1,6 +1,6 @@
 # For a quick mongo/elasticSearch local enviornment
 
-version: "3"
+version: '3'
 services:
   mongo:
     image: mongo
@@ -10,7 +10,7 @@ services:
     volumes:
       - ./docker/mongo/data:/data/db
   elasticsearch:
-    image: "elasticsearch:7.5.0"
+    image: 'elasticsearch:7.6.1'
     ports:
       - 9200:9200
       - 9300:9300
@@ -19,9 +19,9 @@ services:
     environment:
       - discovery.type=single-node
       - cluster.name=workflow.elasticsearch
-      - "ES_JAVA_OPTS=-Xms512m -Xmx2048m"
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx2048m'
   kibana:
-    image: "kibana:7.5.0"
+    image: 'kibana:7.6.1'
     depends_on:
       - elasticsearch
     ports:

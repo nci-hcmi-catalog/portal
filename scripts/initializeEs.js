@@ -8,8 +8,8 @@ const matchboxState = require('./arranger_metadata/matchbox-state.json');
 
 /** Search index settings and mappings **/
 const indexSetup = require('./searchIndex.json');
-const searchIndex = process.env.ES_INDEX || 'demo';
-const arrangerProject = process.env.PROJECT_ID || 'demo';
+const searchIndex = process.env.ES_INDEX || 'hcmi';
+const arrangerProject = process.env.PROJECT_ID || 'hcmi';
 const esHost = process.env.ES_HOST || 'http://localhost:9200';
 
 const client = new es.Client({
