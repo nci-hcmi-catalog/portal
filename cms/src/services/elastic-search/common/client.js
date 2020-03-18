@@ -1,9 +1,7 @@
-import elasticsearch from 'elasticsearch';
-
-const client = new elasticsearch.Client({
-  host: `${process.env.ES_HOST || 'localhost'}:${process.env.ES_PORT || 9200}`,
-  apiVersion: process.env.ES_API_VERSION,
-  log: process.env.ES_LOG_LEVEL,
+import { Client } from '@elastic/elasticsearch';
+const eshost = `${process.env.ES_HOST || 'http://localhost'}:${process.env.ES_PORT || 9200}`;
+const client = new Client({
+  node: eshost,
 });
 
 export default client;

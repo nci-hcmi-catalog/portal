@@ -1,0 +1,222 @@
+[
+  {
+    "field": "primary_site",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "type",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "clinical_diagnosis__site_of_sample_acquisition",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "clinical_diagnosis__clinical_tumor_diagnosis",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "clinical_diagnosis__clinical_stage_grouping",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "clinical_diagnosis__histological_type",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "clinical_diagnosis__tumor_histological_grade",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "age_at_sample_acquisition",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "age_at_diagnosis",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "disease_status",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "gender",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "molecular_characterizations",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "neoadjuvant_therapy",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "chemotherapeutic_drugs",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "createdAt",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "date_of_availability",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "updatedAt",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "growth_rate",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "licensing_required",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "name",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "race",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "variants__genes",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "source_model_url",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "files__file_id",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "files__file_name",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "files__file_type",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "source_sequence_url",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "split_ratio",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "therapy",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "tnm_stage",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "variants__assessment_type",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "variants__category",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "variants__expression_level",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "variants__name",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "variants__type",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "vital_status",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "autocomplete",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "files__magnification",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "files__passage_number",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "files__scale_bar_length",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "status",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "tissue_type",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "distributor_part_number",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "time_to_split",
+    "show": false,
+    "active": true
+  }
+]

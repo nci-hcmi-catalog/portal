@@ -31,7 +31,7 @@ app.use('/swagger', (req, res) => {
 
 app.use('/data', cmsDataRouter);
 
-Arranger({ enableAdmin: process.env.ENABLE_ADMIN === 'true' }).then(router => {
+Arranger().then(router => {
   app.use('/last-updated', lastUpdatedRouter);
   app.use('/export', dataExportRouter);
   app.use(router);
