@@ -36,6 +36,20 @@
     "rangeStep": 1
   },
   {
+    "field": "expanded",
+    "type": "boolean",
+    "displayName": "Expansion Status",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {
+      "true": "Expanded",
+      "false": "Unexpanded"
+    }
+  },
+  {
     "field": "chemotherapeutic_drugs",
     "type": "boolean",
     "displayName": "Chemotherapeutic Drug List Available",
@@ -47,7 +61,8 @@
     "displayValues": {
       "true": "Yes",
       "false": "No"
-    }
+    },
+    "rangeStep": 1
   },
   {
     "field": "clinical_diagnosis",
@@ -239,6 +254,69 @@
     "quickSearchEnabled": false,
     "unit": null,
     "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "matched_models",
+    "type": "nested",
+    "displayName": "Multiple Models",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "matched_models.name",
+    "type": "keyword",
+    "displayName": "Multiple Models From This Patient",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "matched_models.tissue_type",
+    "type": "keyword",
+    "displayName": "Multiple Model Tissue Type",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "matched_models.hits.total",
+    "type": "long",
+    "displayName": "Has Multiple Models",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "has_matched_models",
+    "type": "boolean",
+    "displayName": "Has Multiple Models",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {
+      "true": "Yes",
+      "false": "No"
+    },
     "rangeStep": 1
   },
   {
