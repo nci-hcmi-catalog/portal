@@ -58,6 +58,9 @@
           }
         }
       },
+      "expanded": {
+        "type": "boolean"
+      },
       "chemotherapeutic_drugs": {
         "type": "boolean"
       },
@@ -108,6 +111,20 @@
             "type": "keyword"
           },
           "scale_bar_length": {
+            "type": "keyword"
+          }
+        }
+      },
+      "has_matched_models": {
+        "type": "boolean"
+      },
+      "matched_models": {
+        "type": "nested",
+        "properties": {
+          "name": {
+            "type": "keyword"
+          },
+          "tissue_type": {
             "type": "keyword"
           }
         }
