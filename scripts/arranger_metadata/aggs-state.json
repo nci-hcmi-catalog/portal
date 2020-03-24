@@ -10,6 +10,16 @@
     "active": true
   },
   {
+    "field": "has_matched_models",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "expanded",
+    "show": false,
+    "active": true
+  },
+  {
     "field": "clinical_diagnosis__site_of_sample_acquisition",
     "show": true,
     "active": true
@@ -126,6 +136,16 @@
   },
   {
     "field": "files__file_type",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "matched_models__name",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "matched_models__tissue_type",
     "show": false,
     "active": true
   },

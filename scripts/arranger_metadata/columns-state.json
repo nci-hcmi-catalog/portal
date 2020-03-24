@@ -89,6 +89,36 @@
       "jsonPath": null
     },
     {
+      "field": "has_matched_models",
+      "accessor": "has_matched_models",
+      "show": false,
+      "type": "boolean",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "matched_models.hits.total",
+      "accessor": "matched_models.hits.total",
+      "show": true,
+      "type": "matched_models",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "expanded",
+      "accessor": "expanded",
+      "show": true,
+      "type": "expanded",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
       "field": "clinical_diagnosis.histological_type",
       "accessor": "clinical_diagnosis.histological_type",
       "show": false,
@@ -159,6 +189,16 @@
       "jsonPath": null
     },
     {
+      "field": "time_to_split",
+      "accessor": "time_to_split",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
       "field": "createdAt",
       "accessor": "createdAt",
       "show": false,
@@ -195,7 +235,7 @@
       "type": "list",
       "sortable": false,
       "canChangeShow": false,
-      "query": " files { hits { edges { node { file_id } } } } ",
+      "query": "files { hits { edges { node { file_id } } } } ",
       "jsonPath": "$.files.hits.edges[*].node.file_id"
     },
     {
@@ -205,7 +245,7 @@
       "type": "list",
       "sortable": false,
       "canChangeShow": false,
-      "query": " files { hits { edges { node { file_name } } } } ",
+      "query": "files { hits { edges { node { file_name } } } } ",
       "jsonPath": "$.files.hits.edges[*].node.file_name"
     },
     {
@@ -215,7 +255,7 @@
       "type": "list",
       "sortable": false,
       "canChangeShow": false,
-      "query": " files { hits { edges { node { file_type } } } } ",
+      "query": "files { hits { edges { node { file_type } } } } ",
       "jsonPath": "$.files.hits.edges[*].node.file_type"
     },
     {
@@ -227,6 +267,26 @@
       "canChangeShow": false,
       "query": null,
       "jsonPath": null
+    },
+    {
+      "field": "matched_models.name",
+      "accessor": null,
+      "show": false,
+      "type": "list",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": "matched_models {  hits {  edges {  node {  name}}}}",
+      "jsonPath": "$.matched_models.hits.edges[*].node.name"
+    },
+    {
+      "field": "matched_models.tissue_type",
+      "accessor": null,
+      "show": false,
+      "type": "list",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": "matched_models {  hits {  edges {  node {  tissue_type}}}}",
+      "jsonPath": "$.matched_models.hits.edges[*].node.tissue_type"
     },
     {
       "field": "growth_rate",
@@ -263,6 +323,26 @@
       "accessor": "neoadjuvant_therapy",
       "show": false,
       "type": "keyword",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "tissue_type",
+      "accessor": "tissue_type",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "distributor_part_number",
+      "accessor": "distributor_part_number",
+      "show": false,
+      "type": "string",
       "sortable": true,
       "canChangeShow": true,
       "query": null,
@@ -325,7 +405,7 @@
       "type": "list",
       "sortable": false,
       "canChangeShow": false,
-      "query": " variants { hits { edges { node { assessment_type } } } } ",
+      "query": "variants { hits { edges { node { assessment_type } } } } ",
       "jsonPath": "$.variants.hits.edges[*].node.assessment_type"
     },
     {
@@ -335,7 +415,7 @@
       "type": "list",
       "sortable": false,
       "canChangeShow": false,
-      "query": " variants { hits { edges { node { category } } } } ",
+      "query": "variants { hits { edges { node { category } } } } ",
       "jsonPath": "$.variants.hits.edges[*].node.category"
     },
     {
@@ -345,7 +425,7 @@
       "type": "list",
       "sortable": false,
       "canChangeShow": false,
-      "query": " variants { hits { edges { node { expression_level } } } } ",
+      "query": "variants { hits { edges { node { expression_level } } } } ",
       "jsonPath": "$.variants.hits.edges[*].node.expression_level"
     },
     {
@@ -355,7 +435,7 @@
       "type": "list",
       "sortable": false,
       "canChangeShow": false,
-      "query": " variants { hits { edges { node { genes } } } } ",
+      "query": "variants { hits { edges { node { genes } } } } ",
       "jsonPath": "$.variants.hits.edges[*].node.genes"
     },
     {
@@ -365,7 +445,7 @@
       "type": "list",
       "sortable": false,
       "canChangeShow": false,
-      "query": " variants { hits { edges { node { name } } } } ",
+      "query": "variants { hits { edges { node { name } } } } ",
       "jsonPath": "$.variants.hits.edges[*].node.name"
     },
     {
@@ -375,7 +455,7 @@
       "type": "list",
       "sortable": false,
       "canChangeShow": false,
-      "query": " variants { hits { edges { node { type } } } } ",
+      "query": "variants { hits { edges { node { type } } } } ",
       "jsonPath": "$.variants.hits.edges[*].node.type"
     },
     {
@@ -405,7 +485,7 @@
       "type": "list",
       "sortable": false,
       "canChangeShow": false,
-      "query": " files { hits { edges { node { magnification } } } } ",
+      "query": "files { hits { edges { node { magnification } } } } ",
       "jsonPath": "$.files.hits.edges[*].node.magnification"
     },
     {
@@ -415,7 +495,7 @@
       "type": "list",
       "sortable": false,
       "canChangeShow": false,
-      "query": " files { hits { edges { node { passage_number } } } } ",
+      "query": "files { hits { edges { node { passage_number } } } } ",
       "jsonPath": "$.files.hits.edges[*].node.passage_number"
     },
     {
@@ -425,7 +505,7 @@
       "type": "list",
       "sortable": false,
       "canChangeShow": false,
-      "query": " files { hits { edges { node { scale_bar_length } } } } ",
+      "query": "files { hits { edges { node { scale_bar_length } } } } ",
       "jsonPath": "$.files.hits.edges[*].node.scale_bar_length"
     },
     {
@@ -441,36 +521,6 @@
     {
       "field": "updatedBy",
       "accessor": "updatedBy",
-      "show": false,
-      "type": "string",
-      "sortable": true,
-      "canChangeShow": false,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "tissue_type",
-      "accessor": "updatedBy",
-      "show": false,
-      "type": "string",
-      "sortable": true,
-      "canChangeShow": false,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "distributor_part_number",
-      "accessor": "distributor_part_number",
-      "show": false,
-      "type": "string",
-      "sortable": true,
-      "canChangeShow": false,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "time_to_split",
-      "accessor": "time_to_split",
       "show": false,
       "type": "string",
       "sortable": true,

@@ -19,5 +19,12 @@
     "displayName": "Files",
     "searchFields": [],
     "isActive": false
+  },
+  {
+    "keyField": null,
+    "field": "multiple_models",
+    "displayName": "Multiple Models",
+    "searchFields": [],
+    "isActive": false
   }
 ]
