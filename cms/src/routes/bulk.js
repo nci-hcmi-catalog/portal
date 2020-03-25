@@ -31,16 +31,6 @@ bulkRouter.post('/publish', async (req, res) => {
       for (const name of validModelNames) {
         try {
           await indexOneToES({ name });
-          await Model.findOneAndUpdate(
-            {
-              name,
-            },
-            { status: modelStatus.published },
-            {
-              upsert: true,
-              new: true,
-            },
-          );
         } catch (err) {
           validationErrors.push(err);
         }
