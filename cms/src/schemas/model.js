@@ -101,14 +101,14 @@ export const ModelSchema = new mongoose.Schema(
       matched_models: {
         es_type: 'nested',
         es_value: doc =>
-          doc.populatedMatches.map(match => ({
+          (doc.populatedMatches || []).map(match => ({
             name: match.name,
             tissue_type: match.tissue_type,
           })),
       },
       has_matched_models: {
         es_type: 'boolean',
-        es_value: doc => doc.populatedMatches.length >= 1,
+        es_value: doc => (doc.populatedMatches ? doc.populatedMatches.length >= 1 : false),
       },
 
       createdAt: {

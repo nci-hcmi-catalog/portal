@@ -28,8 +28,6 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
     </span>
     <AggregationQuery sqon={sqon} field="has_matched_models">
       {({ state }) => {
-        console.log(state.buckets);
-        console.log(state.extended);
         return state.loading ? (
           'loading'
         ) : (
