@@ -98,7 +98,7 @@ export default ({ modelName }) => (
             {response.status &&
             (response.status === modelStatus.published ||
               response.status === modelStatus.unpublishedChanges) ? (
-              <ModelHeaderBackLink to={`/model/${modelName}`}>
+              <ModelHeaderBackLink to={`/model/${modelName}`} target="_blank">
                 <ExternalLinkIcon height={10} width={10} css={'margin-right: 8px;'} />
                 View in catalog
               </ModelHeaderBackLink>
