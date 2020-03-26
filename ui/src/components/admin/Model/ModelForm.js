@@ -2,6 +2,7 @@ import React from 'react';
 import Component from 'react-component-component';
 import { withFormik, Field } from 'formik';
 import { ModelSingleContext } from './ModelSingleController';
+import MatchedModelsFormComponent from './MatchedModelsFormComponent';
 import {
   FormComponent,
   FormInput,
@@ -78,7 +79,7 @@ const {
   updatedAt,
 } = schemaObj;
 
-const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
+const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched, otherModelOptions }) => (
   <ModelSingleContext.Consumer>
     {({
       state: {
@@ -88,6 +89,7 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
     }) => (
       <Component
         didMount={() => {
+          console.log('hello form', otherModelOptions);
           if (Object.keys(values).length > 0) {
             // Initiate all fields as touched if the form is loading values
             const touchedKeys = Object.keys(schemaObj) || [];
@@ -162,17 +164,11 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
               </FormComponent>
             </FormCol>
             <FormCol>
-              <FormComponent
-                labelText="Link to Existing Model"
-                description="Start typing model name to look up existing models."
-              >
-                <Field
-                  name="modelToConnect"
-                  options={[]}
-                  errorText="No existing model with the given name"
-                  component={FormAutoComplete}
-                />
-              </FormComponent>
+              <MatchedModelsFormComponent
+                currentModel={values.name}
+                modelsData={otherModelOptions}
+                linkedModels={values.linkedModels}
+              />
             </FormCol>
           </FormSection>
 

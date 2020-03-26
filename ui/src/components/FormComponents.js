@@ -218,6 +218,7 @@ export const FormAutoComplete = ({
   form: { touched, errors, setFieldValue, setFieldTouched },
   options,
   errorText,
+  onSelect = () => {},
 }) => (
   <AutoCompleteWrapper>
     {hasErrors(errors, touched, name) && (
@@ -244,8 +245,12 @@ export const FormAutoComplete = ({
       onChange={e => {
         setFieldValue(name, e.target.value);
         setFieldTouched(name);
+        onSelect();
       }}
-      onSelect={value => setFieldValue(name, value)}
+      onSelect={value => {
+        onSelect(value);
+        setFieldValue(name, value);
+      }}
     />
   </AutoCompleteWrapper>
 );
