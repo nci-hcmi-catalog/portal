@@ -16,11 +16,15 @@ const ExpandedPill = ({ isExpanded }) => {
         color: ${isExpanded ? theme.keyedPalette.green : theme.keyedPalette.redOrange};
         font-size: 13px;
         font-weight: bold;
+        font-family: Helvetica;
+        font-weight: bold;
+        line-height: 1.9;
+        letter-spacing: 0.2px;
         background-color: white;
         border-radius: 10px;
         border: solid 2px ${isExpanded ? '#72bb74' : '#ff9752'};
-        padding: 2px 11px;
-        margin-top: -2px;
+        padding: 0px 11px;
+        margin-top: 0px;
       `}
     >
       {isExpanded ? 'EXPANDED' : 'UNEXPANDED'}
