@@ -17,6 +17,7 @@ import AdminIcon from 'icons/AdminIcon';
 import ModelIcon from 'icons/ModelIcon';
 import PatientIcon from 'icons/PatientIcon';
 import CameraIcon from 'icons/CameraIcon';
+import ExternalSourcesIcon from 'icons/ExternalSourcesIcon';
 import VariantsIcon from 'icons/VariantsIcon';
 import VariantTables from 'components/VariantTables';
 import ExternalLink from 'components/ExternalLink';
@@ -150,10 +151,18 @@ export default ({ modelName }) => (
               `}
             >
               <Row className="model-details-header">
-                <h3>
-                  <ModelIcon height={50} width={50} />
-                  Model Details
-                </h3>
+                <Col className="three-col">
+                  <h3>
+                    <ModelIcon height={50} width={50} />
+                    Model Details
+                  </h3>
+                </Col>
+                <Col className="three-col">
+                  <h3>
+                    <PatientIcon height={50} width={50} />
+                    Patient Details
+                  </h3>
+                </Col>
                 <Row
                   className="model-actions"
                   css={`
@@ -213,10 +222,17 @@ export default ({ modelName }) => (
                     rawData={queryState.model}
                     extended={queryState.extended}
                     fieldNames={[
-                      'primary_site',
+                      'gender',
+                      'race',
+                      'age_at_diagnosis',
+                      'age_at_sample_acquisition',
+                      'disease_status',
+                      'vital_status',
                       'neoadjuvant_therapy',
-                      'tnm_stage',
-                      'chemotherapeutic_drugs',
+                      'therapy',
+                      // 'primary_site',
+                      // 'tnm_stage',
+                      // 'chemotherapeutic_drugs',
                     ]}
                   />
                 </Col>
@@ -225,10 +241,13 @@ export default ({ modelName }) => (
                     rawData={queryState.model}
                     extended={queryState.extended}
                     fieldNames={[
-                      'clinical_diagnosis.clinical_stage_grouping',
+                      'chemotherapeutic_drugs',
                       'clinical_diagnosis.clinical_tumor_diagnosis',
-                      'clinical_diagnosis.site_of_sample_acquisition',
                       'clinical_diagnosis.histological_type',
+                      'primary_site',
+                      'clinical_diagnosis.site_of_sample_acquisition',
+                      'tnm_stage',
+                      'clinical_diagnosis.clinical_stage_grouping',
                       'clinical_diagnosis.tumor_histological_grade',
                     ]}
                   />
@@ -245,26 +264,6 @@ export default ({ modelName }) => (
               <Row className="row">
                 <Col className={modelImages ? 'three-col' : 'two-col'}>
                   <h3>
-                    <PatientIcon height={50} width={50} />
-                    Patient Details
-                  </h3>
-                  <HorizontalTable
-                    rawData={queryState.model}
-                    extended={queryState.extended}
-                    fieldNames={[
-                      'age_at_diagnosis',
-                      'age_at_sample_acquisition',
-                      'vital_status',
-                      'disease_status',
-                      'gender',
-                      'race',
-                      'therapy',
-                    ]}
-                  />
-                </Col>
-
-                <Col className={modelImages ? 'three-col' : 'two-col'}>
-                  <h3>
                     <AdminIcon
                       height={50}
                       width={50}
@@ -278,26 +277,25 @@ export default ({ modelName }) => (
                     rawData={queryState.model}
                     extended={queryState.extended}
                     fieldNames={[
-                      'date_of_availability',
-                      'createdAt',
                       'updatedAt',
+                      'date_of_availability',
                       'licensing_required',
+                      'createdAt',
                     ]}
                   />
-                  <div
-                    css={`
-                      background-color: #ffffff;
-                      border-left: solid 1px #cacbcf;
-                      border-right: solid 1px #cacbcf;
-                      padding: 5px;
-                      margin-right: 1px;
-                      font-size: 14px;
-                      line-height: 1.71;
-                      color: #900000;
-                    `}
-                  >
+                </Col>
+
+                <Col className={modelImages ? 'three-col' : 'two-col'}>
+                  <h3>
+                    <ExternalSourcesIcon
+                      height={50}
+                      width={50}
+                      css={`
+                        fill: #900000;
+                      `}
+                    />
                     External Resources
-                  </div>
+                  </h3>
                   <HorizontalTable
                     rawData={queryState.model}
                     extended={queryState.extended}
