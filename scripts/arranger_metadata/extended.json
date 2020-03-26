@@ -1,5 +1,167 @@
 [
   {
+    "field": "type",
+    "type": "keyword",
+    "displayName": "Type",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "split_ratio",
+    "type": "keyword",
+    "displayName": "Split Ratio",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "unit": null,
+    "displayValues": {},
+    "quickSearchEnabled": false,
+    "field": "time_to_split",
+    "displayName": "Time to Split",
+    "active": false,
+    "isArray": false,
+    "type": "keyword",
+    "primaryKey": false,
+    "rangeStep": 1
+  },
+  {
+    "field": "growth_rate",
+    "type": "long",
+    "displayName": "Doubling Time",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "molecular_characterizations",
+    "type": "keyword",
+    "displayName": "Available Molecular Characterizations",
+    "active": false,
+    "isArray": true,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "unit": null,
+    "displayValues": {},
+    "quickSearchEnabled": false,
+    "field": "tissue_type",
+    "displayName": "Tissue Type",
+    "active": false,
+    "isArray": false,
+    "type": "keyword",
+    "primaryKey": false,
+    "rangeStep": 1
+  },
+
+  {
+    "field": "matched_models",
+    "type": "nested",
+    "displayName": "Multiple Models",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "matched_models.name",
+    "type": "keyword",
+    "displayName": "Multiple Models From This Patient",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "matched_models.tissue_type",
+    "type": "keyword",
+    "displayName": "Multiple Model Tissue Type",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "matched_models.hits.total",
+    "type": "long",
+    "displayName": "Has Multiple Models",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "has_matched_models",
+    "type": "boolean",
+    "displayName": "Multiple Models From This Patient",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {
+      "true": "Yes",
+      "false": "No"
+    },
+    "rangeStep": 1
+  },
+
+  {
+    "field": "gender",
+    "type": "keyword",
+    "displayName": "Gender",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+
+  {
+    "field": "race",
+    "type": "keyword",
+    "displayName": "Race",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
     "field": "age_at_diagnosis",
     "type": "long",
     "displayName": "Age At Diagnosis (Years)",
@@ -23,31 +185,54 @@
     "displayValues": {},
     "rangeStep": 1
   },
+
   {
-    "field": "autocomplete",
-    "type": "text",
-    "displayName": "Autocomplete",
-    "active": false,
-    "isArray": true,
-    "primaryKey": false,
-    "quickSearchEnabled": true,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
-  {
-    "field": "expanded",
-    "type": "boolean",
-    "displayName": "Expansion Status",
+    "field": "disease_status",
+    "type": "keyword",
+    "displayName": "Disease Status",
     "active": false,
     "isArray": false,
     "primaryKey": false,
     "quickSearchEnabled": false,
     "unit": null,
-    "displayValues": {
-      "true": "Expanded",
-      "false": "Unexpanded"
-    }
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "vital_status",
+    "type": "keyword",
+    "displayName": "Vital Status",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "neoadjuvant_therapy",
+    "type": "keyword",
+    "displayName": "Neoadjuvant Therapy",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "therapy",
+    "type": "keyword",
+    "displayName": "Therapy",
+    "active": false,
+    "isArray": true,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
   },
   {
     "field": "chemotherapeutic_drugs",
@@ -76,18 +261,7 @@
     "displayValues": {},
     "rangeStep": 1
   },
-  {
-    "field": "clinical_diagnosis.clinical_stage_grouping",
-    "type": "keyword",
-    "displayName": "Clinical Stage Grouping",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
+
   {
     "field": "clinical_diagnosis.clinical_tumor_diagnosis",
     "type": "keyword",
@@ -113,9 +287,45 @@
     "rangeStep": 1
   },
   {
+    "field": "primary_site",
+    "type": "keyword",
+    "displayName": "Primary Site",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
     "field": "clinical_diagnosis.site_of_sample_acquisition",
     "type": "keyword",
     "displayName": "Acquisition Site",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "tnm_stage",
+    "type": "keyword",
+    "displayName": "TNM Stage",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "clinical_diagnosis.clinical_stage_grouping",
+    "type": "keyword",
+    "displayName": "Clinical Stage Grouping",
     "active": false,
     "isArray": false,
     "primaryKey": false,
@@ -137,9 +347,9 @@
     "rangeStep": 1
   },
   {
-    "field": "createdAt",
+    "field": "updatedAt",
     "type": "date",
-    "displayName": "Date Created",
+    "displayName": "Date Updated",
     "active": false,
     "isArray": false,
     "primaryKey": false,
@@ -161,9 +371,23 @@
     "rangeStep": 1
   },
   {
-    "field": "disease_status",
-    "type": "keyword",
-    "displayName": "Disease Status",
+    "field": "licensing_required",
+    "type": "boolean",
+    "displayName": "Licensing Required For Commercial Use",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {
+      "true": "Yes",
+      "false": "No"
+    }
+  },
+  {
+    "field": "createdAt",
+    "type": "date",
+    "displayName": "Date Created",
     "active": false,
     "isArray": false,
     "primaryKey": false,
@@ -172,6 +396,7 @@
     "displayValues": {},
     "rangeStep": 1
   },
+
   {
     "field": "files",
     "type": "nested",
@@ -256,119 +481,7 @@
     "displayValues": {},
     "rangeStep": 1
   },
-  {
-    "field": "matched_models",
-    "type": "nested",
-    "displayName": "Multiple Models",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
-  {
-    "field": "matched_models.name",
-    "type": "keyword",
-    "displayName": "Multiple Models From This Patient",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
-  {
-    "field": "matched_models.tissue_type",
-    "type": "keyword",
-    "displayName": "Multiple Model Tissue Type",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
-  {
-    "field": "matched_models.hits.total",
-    "type": "long",
-    "displayName": "Has Multiple Models",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
-  {
-    "field": "has_matched_models",
-    "type": "boolean",
-    "displayName": "Has Multiple Models",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {
-      "true": "Yes",
-      "false": "No"
-    },
-    "rangeStep": 1
-  },
-  {
-    "field": "gender",
-    "type": "keyword",
-    "displayName": "Gender",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
-  {
-    "field": "growth_rate",
-    "type": "long",
-    "displayName": "Doubling Time",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
-  {
-    "field": "licensing_required",
-    "type": "boolean",
-    "displayName": "Licensing Required",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {
-      "true": "Yes",
-      "false": "No"
-    }
-  },
-  {
-    "field": "molecular_characterizations",
-    "type": "keyword",
-    "displayName": "Molecular Characterizations",
-    "active": false,
-    "isArray": true,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
+
   {
     "field": "name",
     "type": "keyword",
@@ -381,42 +494,7 @@
     "displayValues": {},
     "rangeStep": 1
   },
-  {
-    "field": "neoadjuvant_therapy",
-    "type": "keyword",
-    "displayName": "Neoadjuvant Therapy",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
-  {
-    "field": "primary_site",
-    "type": "keyword",
-    "displayName": "Primary Site",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
-  {
-    "field": "race",
-    "type": "keyword",
-    "displayName": "Race",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
+
   {
     "field": "source_model_url",
     "type": "keyword",
@@ -441,18 +519,7 @@
     "displayValues": {},
     "rangeStep": 1
   },
-  {
-    "field": "split_ratio",
-    "type": "keyword",
-    "displayName": "Split Ratio",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
+
   {
     "field": "status",
     "type": "text",
@@ -465,54 +532,7 @@
     "displayValues": {},
     "rangeStep": 1
   },
-  {
-    "field": "therapy",
-    "type": "keyword",
-    "displayName": "Therapy",
-    "active": false,
-    "isArray": true,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
-  {
-    "field": "tnm_stage",
-    "type": "keyword",
-    "displayName": "TNM Stage",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
-  {
-    "field": "type",
-    "type": "keyword",
-    "displayName": "Type",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
-  {
-    "field": "updatedAt",
-    "type": "date",
-    "displayName": "Date Updated",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
+
   {
     "field": "variants",
     "type": "nested",
@@ -597,30 +617,7 @@
     "displayValues": {},
     "rangeStep": 1
   },
-  {
-    "field": "vital_status",
-    "type": "keyword",
-    "displayName": "Vital Status",
-    "active": false,
-    "isArray": false,
-    "primaryKey": false,
-    "quickSearchEnabled": false,
-    "unit": null,
-    "displayValues": {},
-    "rangeStep": 1
-  },
-  {
-    "unit": null,
-    "displayValues": {},
-    "quickSearchEnabled": false,
-    "field": "tissue_type",
-    "displayName": "Tissue Type",
-    "active": false,
-    "isArray": false,
-    "type": "keyword",
-    "primaryKey": false,
-    "rangeStep": 1
-  },
+
   {
     "unit": null,
     "displayValues": {},
@@ -634,15 +631,29 @@
     "rangeStep": 1
   },
   {
+    "field": "autocomplete",
+    "type": "text",
+    "displayName": "Autocomplete",
+    "active": false,
+    "isArray": true,
+    "primaryKey": false,
+    "quickSearchEnabled": true,
     "unit": null,
     "displayValues": {},
-    "quickSearchEnabled": false,
-    "field": "time_to_split",
-    "displayName": "Time to Split",
+    "rangeStep": 1
+  },
+  {
+    "field": "expanded",
+    "type": "boolean",
+    "displayName": "Expansion Status",
     "active": false,
     "isArray": false,
-    "type": "keyword",
     "primaryKey": false,
-    "rangeStep": 1
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {
+      "true": "Expanded",
+      "false": "Unexpanded"
+    }
   }
 ]
