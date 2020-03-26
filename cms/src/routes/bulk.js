@@ -4,7 +4,7 @@ import express from 'express';
 import Model from '../schemas/model';
 import publishValidation from '../validation/model';
 import { runYupValidatorFailSlow, modelStatus } from '../helpers';
-import { indexOneToES } from '../services/elastic-search/publish';
+import { indexOneToES, indexMatchedModelsToES } from '../services/elastic-search/publish';
 import { unpublishManyFromES } from '../services/elastic-search/unpublish';
 import csvStream from '../helpers/streamAsCSV';
 import { backupFields } from '../schemas/descriptions/model';
@@ -44,11 +44,12 @@ bulkRouter.post('/publish', async (req, res) => {
         errors: validationErrors,
       });
     })
-    .catch(error =>
+    .catch(error => {
+      console.log(error);
       res.status(500).json({
         error: error,
-      }),
-    );
+      });
+    });
 });
 
 bulkRouter.post('/unpublish', async (req, res) => {
@@ -72,11 +73,12 @@ bulkRouter.post('/unpublish', async (req, res) => {
       }
     })
     .then(() => res.json({ success: `${deleteCount} models unpublished` }))
-    .catch(error =>
+    .catch(error => {
+      console.log(error);
       res.status(500).json({
         error: error,
-      }),
-    );
+      });
+    });
 });
 
 bulkRouter.post('/delete', async (req, res) => {
@@ -93,11 +95,12 @@ bulkRouter.post('/delete', async (req, res) => {
       }),
     )
     .then(() => res.json({ success: `${req.body.length} models deleted` }))
-    .catch(error =>
+    .catch(error => {
+      console.log(error);
       res.status(500).json({
         error: error,
-      }),
-    );
+      });
+    });
 });
 
 bulkRouter.get('/backup', async (req, res) => {

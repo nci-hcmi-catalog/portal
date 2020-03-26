@@ -20,10 +20,10 @@ actionRouter.post('/publish/:name', async (req, res) => {
     .then(() => publishModel({ name }))
     .then(() => res.json({ success: `${name} has been successfully published` }))
     .catch(error => {
+      console.log(error);
       res.status(500).json({
         error: error,
-      }),
-        console.log(error);
+      });
     });
 });
 
