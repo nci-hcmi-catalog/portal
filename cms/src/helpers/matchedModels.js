@@ -32,7 +32,7 @@ const clearModelFromSets = async model => {
   if (matchedModels) {
     // only do operations on the matched set if we find it. if we didnt, no issue, we are removing this reference anyways
     matchedModels.models = matchedModels.models.filter(
-      item => item.toString() !== model._id.toString(),
+      modelId => modelId.toString() !== model._id.toString(),
     );
 
     // We need to make sure that when these changes to our model are published,
@@ -49,6 +49,10 @@ const clearModelFromSets = async model => {
       const otherModels = await Model.find({ _id: { $in: [matchedModels.models] } });
       for (let otherModel of otherModels) {
         otherModel.matchedModels = null;
+        otherModel.status =
+          otherModel.status === modelStatus.unpublished
+            ? modelStatus.unpublished
+            : modelStatus.unpublishedChanges;
         await otherModel.save();
       }
       await MatchedModels.deleteOne({ _id: matchedModels._id });
@@ -98,38 +102,54 @@ const connectWithMatchedModels = async (nameToAdd, setMemberName) => {
   if (!modelToAdd) {
     throw new Error(`Could not find model with the name: ${nameToAdd}.`);
   }
+  const currentMatchedModels = modelToAdd.matchedModels
+    ? await MatchedModels.findOne({ _id: modelToAdd.matchedModels }).populate('models')
+    : null;
+  const inCurrentSet =
+    currentMatchedModels && currentMatchedModels.models.find(model => model.name === setMemberName);
 
-  // Remove model from any current set
-  await clearModelFromSets(modelToAdd);
+  // Only continue if we have to, if:
+  // a - the target model name (setMemberName) is not in the current matchedModels set
+  // b - its not currently part of a set
+  if (!currentMatchedModels || !inCurrentSet) {
+    // Remove model from any current set
+    await clearModelFromSets(modelToAdd);
 
-  // Fetch this after the clear, cause it could be modified by the clear if the models were in teh same set
-  const modelFromSet = await Model.findOne({ name: setMemberName });
-  if (!modelFromSet) {
-    throw new Error(`Could not find model with the name: ${setMemberName}.`);
-  }
+    // Fetch this after the clear, cause it could be modified by the clear if the models were in teh same set
+    const modelFromSet = await Model.findOne({ name: setMemberName });
+    if (!modelFromSet) {
+      throw new Error(`Could not find model with the name: ${setMemberName}.`);
+    }
 
-  if (modelFromSet.matchedModels) {
-    const matchedModels = await MatchedModels.findOne({ _id: modelFromSet.matchedModels });
+    if (modelFromSet.matchedModels) {
+      const matchedModels = await MatchedModels.findOne({ _id: modelFromSet.matchedModels });
 
-    // Add model to the set
-    matchedModels.models.push(modelToAdd._id);
-    await matchedModels.save();
+      // Add model to the set
+      matchedModels.models.push(modelToAdd._id);
+      await matchedModels.save();
 
-    // Add reference to the set to the model
-    modelToAdd.matchedModels = matchedModels._id;
-    modelToAdd.status =
-      modelToAdd.status === modelStatus.unpublished
-        ? modelStatus.unpublished
-        : modelStatus.unpublishedChanges;
-    await modelToAdd.save();
+      // Add reference to the set to the model
+      modelToAdd.matchedModels = matchedModels._id;
+      modelToAdd.status =
+        modelToAdd.status === modelStatus.unpublished
+          ? modelStatus.unpublished
+          : modelStatus.unpublishedChanges;
+      await modelToAdd.save();
 
-    return matchedModels;
+      return matchedModels;
+    } else {
+      // No existing set, make a new one
+      // Note that createMatchedModels also adds the reference to each model in the list.
+      const matchedModels = await createMatchedModels([modelToAdd, modelFromSet]);
+
+      return matchedModels;
+    }
   } else {
-    // No existing set, make a new one
-    // Note that createMatchedModels also adds the reference to each model in the list.
-    const matchedModels = await createMatchedModels([modelToAdd, modelFromSet]);
-
-    return matchedModels;
+    return {
+      models: currentMatchedModels.models.map(model => model._id),
+      _id: currentMatchedModels._id,
+      __v: currentMatchedModels.__v,
+    };
   }
 };
 
