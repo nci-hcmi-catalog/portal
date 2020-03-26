@@ -8,12 +8,13 @@ require('@babel/register')({
   ],
 });
 const mongoose = require('mongoose');
-const Model = require('./src/schemas/model');
+const { publishModel } = require('./src/services/elastic-search/publish');
 const { ModelES } = require('./src/services/elastic-search/common/schemas/model');
+require('./src/schemas/variant');
+require('./src/schemas/matchedModels');
 
 const { modelStatus } = require('./src/helpers/modelStatus');
 
-const { indexOneToES } = require('./src/services/elastic-search/publish.js');
 const indexEsUpdate = require('./src/services/elastic-search/update.js');
 
 const run = async () => {
@@ -34,11 +35,7 @@ const run = async () => {
   console.log('Found the following published models:\n', names);
   for (const model of models) {
     console.log('Publishing:', model.name);
-    await new Promise(resolve => model.esIndex(() => resolve()));
-
-    // Mark all models as published (no more published with changes)
-    model.status = modelStatus.published;
-    await model.save();
+    await publishModel({ name: model.name });
   }
 
   indexEsUpdate.default();
