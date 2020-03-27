@@ -50,7 +50,9 @@ const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis = ''
       ).concat([null, '']), // allow null values (to be removed by Mongoose schema set)
     );
 
-const nameValidation = /HCM-\w{4}-\d{4}-\w\d{2}$/;
+const nameRegex = /^HCM-\w{4}-\d{4}-\w\d{2}(-\w)?$/;
+const nameRegexError =
+  'Name should follow the format HCM-[4-letter Center code]-[4 number model code]-[ICD10]-[1 optional multiple indicator letter]';
 //const tnmValidation = /T[0-5]N[0-4]M[0-2]/;
 
 // In order to publish a model, this validation
@@ -58,10 +60,8 @@ const nameValidation = /HCM-\w{4}-\d{4}-\w\d{2}$/;
 export default object().shape({
   name: string()
     .required('This is a required field')
-    .matches(
-      nameValidation,
-      'Name should follow the format HCM-[4-letter Center code]-[4 number model code]-[ICD10]',
-    ),
+    .matches(nameRegex, nameRegexError),
+  expanded: boolean().required(),
   type: string().oneOf(modelType),
   growth_rate: number()
     .integer()
@@ -149,7 +149,6 @@ export default object().shape({
   distributor_part_number: string(),
   source_model_url: string().url(),
   source_sequence_url: string().url(),
-  expanded: boolean(),
   updatedBy: string(),
   status: string(),
   variants: array()
@@ -165,10 +164,7 @@ export default object().shape({
 export const saveValidation = object().shape({
   name: string()
     .required('This is a required field')
-    .matches(
-      nameValidation,
-      'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]',
-    ),
+    .matches(nameRegex, nameRegexError),
   type: string().oneOf(modelType),
   expanded: boolean(),
   growth_rate: number()
