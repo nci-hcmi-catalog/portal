@@ -50,7 +50,7 @@ const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis = ''
       ).concat([null, '']), // allow null values (to be removed by Mongoose schema set)
     );
 
-const nameRegex = /^HCM-\w{4}-\d{4}-\w\d{2}(-\w)?$/;
+const nameRegex = /^HCM-[A-Z]{4}-\d{4}-[A-Z]\d{2}(-[A-Z])?$/;
 const nameRegexError =
   'Name should follow the format HCM-[4-letter Center code]-[4 number model code]-[ICD10]-[1 optional multiple indicator letter]';
 //const tnmValidation = /T[0-5]N[0-4]M[0-2]/;
