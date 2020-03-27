@@ -107,7 +107,7 @@ const MultipleModelContent = match => {
             font-size: 12px;
           `}
         >
-          Tissue Type: {match.tissue_type}
+          Tissue Type: {match.tissue_type || 'N/A'}
         </span>
         <br />
       </div>
