@@ -102,6 +102,10 @@ const connectWithMatchedModels = async (nameToAdd, setMemberName) => {
   if (!modelToAdd) {
     throw new Error(`Could not find model with the name: ${nameToAdd}.`);
   }
+  if (nameToAdd === setMemberName) {
+    throw new Error('Model name and match name are the same.');
+  }
+
   const currentMatchedModels = modelToAdd.matchedModels
     ? await MatchedModels.findOne({ _id: modelToAdd.matchedModels }).populate('models')
     : null;
