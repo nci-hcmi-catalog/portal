@@ -123,7 +123,7 @@
   {
     "field": "has_matched_models",
     "type": "boolean",
-    "displayName": "Multiple Models From This Patient",
+    "displayName": "Has Multiple Models",
     "active": false,
     "isArray": false,
     "primaryKey": false,
@@ -132,7 +132,17 @@
     "displayValues": {
       "true": "Yes",
       "false": "No"
-    },
+    }
+  },
+  {
+    "field": "matched_models_count",
+    "type": "long",
+    "displayName": "Has Multiple Models",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
     "rangeStep": 1
   },
 

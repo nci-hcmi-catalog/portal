@@ -2,7 +2,7 @@ import React from 'react';
 import { stringify } from 'query-string';
 
 export default ({ row, sqon, savedSetsContext, state, value, history }) => {
-  const matchCount = row['matched_models.hits.total'] + 1;
+  const matchCount = value;
   return matchCount > 1 ? (
     <button
       className="clickable"

@@ -99,12 +99,22 @@
       "jsonPath": null
     },
     {
-      "field": "matched_models.hits.total",
-      "accessor": "matched_models.hits.total",
+      "field": "matched_models_count",
+      "accessor": "matched_models_count",
       "show": true,
       "type": "matched_models",
-      "sortable": true,
+      "sortable": false,
       "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "matched_models.hits.total",
+      "accessor": "matched_models.hits.total",
+      "show": false,
+      "type": "matched_models",
+      "sortable": false,
+      "canChangeShow": false,
       "query": null,
       "jsonPath": null
     },

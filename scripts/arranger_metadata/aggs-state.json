@@ -238,5 +238,10 @@
     "field": "time_to_split",
     "show": false,
     "active": true
+  },
+  {
+    "field": "matched_models_count",
+    "show": false,
+    "active": true
   }
 ]
