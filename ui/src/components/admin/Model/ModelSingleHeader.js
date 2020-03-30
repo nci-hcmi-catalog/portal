@@ -22,7 +22,7 @@ const headerText = (modelName = null, error = null) => {
 
   // Error text
   if (error) {
-    if (error.response.status) {
+    if (error.response && error.response.status) {
       switch (error.response.status) {
         case '404':
           text = 'Model {modelName} not found';

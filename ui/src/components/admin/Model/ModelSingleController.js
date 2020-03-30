@@ -229,7 +229,10 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   // And now we run the initialize matched models code before setting state:
                   await addMatchedModelsToModelResponse(baseUrl, modelDataResponse);
 
-                  const otherModelOptions = await getOtherModelOptions(baseUrl, modelName);
+                  const otherModelOptions = await getOtherModelOptions(
+                    baseUrl,
+                    modelDataResponse.data.name,
+                  );
                   await setState(state => ({
                     // Set form to unsavable status (will release on next form interaction)
                     form: {
@@ -293,7 +296,6 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
                   // 1. Save model changes so we can apply matched model changes
                   // TODO: this step is only needed when the model hasn't been saved previously.
-                  console.log('publish isUpdate', isUpdate);
                   const saveModelDataResponse = await saveModel(baseUrl, values, isUpdate);
 
                   // 2. Connect or disconnect the model to a matched set, as required.
@@ -314,7 +316,10 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
                   // 4. And now we run the initialize matched models code before setting state:
                   await addMatchedModelsToModelResponse(baseUrl, modelDataResponse);
-                  const otherModelOptions = await getOtherModelOptions(baseUrl, modelName);
+                  const otherModelOptions = await getOtherModelOptions(
+                    baseUrl,
+                    modelDataResponse.data.name,
+                  );
                   await setState(state => ({
                     form: {
                       ...state.form,

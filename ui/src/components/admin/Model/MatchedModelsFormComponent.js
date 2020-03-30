@@ -42,7 +42,7 @@ const LinkedModelDetails = ({ model }) => (
       margin-bottom: 6px;
     `}
   >
-    <span
+    <a
       css={`
         font-size: 11px;
         font-weight: bold;
@@ -52,10 +52,14 @@ const LinkedModelDetails = ({ model }) => (
         letter-spacing: normal;
         color: #900000;
         display: flex;
+        text-decoration: underline;
       `}
+      href={`/admin/model/${model.name}`}
+      target="_blank"
     >
       {model.name}
-    </span>
+    </a>
+
     <span
       css={`
         font-size: 10px;
@@ -66,7 +70,7 @@ const LinkedModelDetails = ({ model }) => (
         letter-spacing: normal;
       `}
     >
-      {model.status}
+      {model.status.charAt(0).toUpperCase() + model.status.slice(1)}
     </span>
   </div>
 );
@@ -89,7 +93,7 @@ const MatchedModelsFormComponent = ({ currentModel, linkedModels, modelsData }) 
       } catch (e) {
         // TODO:
         console.error(
-          `Failed to get details of the modles in the matched set for ${selected.name}:\n${e}`,
+          `Failed to get details of the models in the matched set for ${selected.name}:\n${e}`,
         );
       }
     }
@@ -100,7 +104,7 @@ const MatchedModelsFormComponent = ({ currentModel, linkedModels, modelsData }) 
     <div>
       <FormComponent
         labelText="Link to Existing Model"
-        description="Start typing model name to look up existing models."
+        description="Start typing model name to look up existing models. You only need to link to one model in the set."
       >
         <Field
           name="modelToConnect"
