@@ -1,5 +1,5 @@
 import { publishModel } from './services/elastic-search/publish';
-import { unpublishOneFromES } from './services/elastic-search/unpublish';
+import { unpublishModel } from './services/elastic-search/unpublish';
 import { modelStatus, runYupValidatorFailFast } from './helpers';
 import { deleteImage } from './routes/images';
 import { saveValidation } from './validation/model';
@@ -21,7 +21,7 @@ export const validateYup = (req, res, next) => {
 };
 
 export const preModelDelete = (req, res, next) => {
-  unpublishOneFromES(req.params.id)
+  unpublishModel(req.params.id)
     .then(() => next())
     .catch(error => {
       res.status(400).json({
@@ -95,7 +95,7 @@ export const postUpdate = async (req, res, next) => {
           .then(() => next())
           .catch(err => next(err));
       case modelStatus.unpublished:
-        return unpublishOneFromES(result.name)
+        return unpublishModel(result.name)
           .then(() => next())
           .catch(err => next(err));
       default:
