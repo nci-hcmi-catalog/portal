@@ -377,6 +377,11 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     { ...values, status: modelStatus.unpublished },
                     true,
                   );
+                  await addMatchedModelsToModelResponse(baseUrl, modelDataResponse);
+                  const otherModelOptions = await getOtherModelOptions(
+                    baseUrl,
+                    modelDataResponse.data.name,
+                  );
 
                   await setState(state => ({
                     form: {
@@ -389,6 +394,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       isLoading: false,
                       response: modelDataResponse.data,
                     },
+                    otherModelOptions,
                   }));
 
                   await appendNotification({
