@@ -140,7 +140,7 @@ pipeline {
       when {
              environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
              expression {
-               return env.BRANCH_NAME == 'master' || ( tag != '' & env.BRANCH_NAME == tag);
+               return env.BRANCH_NAME == 'master' || ( tag != '' && env.BRANCH_NAME == tag);
              }
              expression {
                return tag != '';
@@ -159,7 +159,7 @@ pipeline {
        environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
        environment name: 'DEPLOY_TO_STAGING', value: 'yes'
        expression {
-              return env.BRANCH_NAME == 'master' || ( tag != '' & env.BRANCH_NAME == tag);
+              return env.BRANCH_NAME == 'master' || ( tag != '' && env.BRANCH_NAME == tag);
        }
        expression {
            return tag != '';
@@ -202,7 +202,7 @@ pipeline {
       when {
              environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
              expression {
-               return env.BRANCH_NAME == 'master' || ( tag != '' & env.BRANCH_NAME == tag);
+               return env.BRANCH_NAME == 'master' || ( tag != '' && env.BRANCH_NAME == tag);
              }
              expression {
                return tag != '';
