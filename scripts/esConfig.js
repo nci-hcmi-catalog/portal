@@ -121,7 +121,11 @@ module.exports.updateArrangerProject = async () => {
 
 module.exports.configureArrangerSets = async () => {
   try {
-    console.log(`\nCreating index: arranger-sets`);
+    console.log(`\nDeleting existing index (if present): arranger-sets`);
+    await client.indices.delete({ index: `arranger-sets` });
+  } catch (e) {}
+  try {
+    console.log(`Creating index: arranger-sets`);
     await client.indices.create({
       index: 'arranger-sets',
       body: {
