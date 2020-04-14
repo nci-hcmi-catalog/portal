@@ -87,8 +87,13 @@ const date = new Date();
     console.log(e);
   }
 
+  console.log(`\nInitializing: arranger-sets`);
   try {
-    console.log(`\nCreating index: arranger-sets`);
+    console.log(`Deleting existing index (if present): arranger-sets`);
+    await client.indices.delete({ index: `arranger-sets` });
+  } catch (e) {}
+  try {
+    console.log(`Creating index: arranger-sets`);
     await client.indices.create({
       index: 'arranger-sets',
       body: {
