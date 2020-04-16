@@ -56,6 +56,7 @@ const LinkedModelDetails = ({ model }) => (
       `}
       href={`/admin/model/${model.name}`}
       target="_blank"
+      rel="noopener noreferrer"
     >
       {model.name}
     </a>

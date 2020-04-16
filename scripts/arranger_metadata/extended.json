@@ -135,8 +135,8 @@
     }
   },
   {
-    "field": "matched_models_count",
-    "type": "long",
+    "field": "matched_models_list",
+    "type": "string",
     "displayName": "Has Multiple Models",
     "active": false,
     "isArray": false,

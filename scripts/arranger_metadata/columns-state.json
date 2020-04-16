@@ -99,8 +99,8 @@
       "jsonPath": null
     },
     {
-      "field": "matched_models_count",
-      "accessor": "matched_models_count",
+      "field": "matched_models_list",
+      "accessor": "matched_models_list",
       "show": true,
       "type": "matched_models",
       "sortable": false,
