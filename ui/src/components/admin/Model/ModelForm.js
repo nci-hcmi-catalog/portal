@@ -439,7 +439,6 @@ export default withFormik({
   validate: (values, { otherModelOptions }) => {
     try {
       const excludeNames = otherModelOptions.map(option => option.name);
-      console.log('otherModelnames', excludeNames);
       publishSchema(excludeNames).validateSync(values, { abortEarly: false });
     } catch (error) {
       return error.inner.reduce((acc, inner) => ({ ...acc, [inner.path]: inner.message }), {});
