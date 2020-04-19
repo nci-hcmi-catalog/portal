@@ -155,6 +155,14 @@ export const AutoCompleteOption = styled('div')`
   cursor: pointer;
 `;
 
+export const AutoCompleteClearButton = styled('div')`
+  position: absolute;
+  width: 25px !important;
+  right: 3px;
+  bottom: 3px;
+  cursor: pointer;
+`;
+
 export const DatePicker = styled('input')`
   ${inputSelectSharedStyles};
   background: ${white} url(${CalendarIcon}) no-repeat;
