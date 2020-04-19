@@ -106,6 +106,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             isLoading: false,
           },
           otherModelOptions: [],
+          matchedModels: [],
         }}
         didMount={async ({ setState }) => {
           if (modelName) {
@@ -134,6 +135,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   rowCount: (modelDataResponse.data.variants || []).length,
                 },
                 otherModelOptions,
+                matchedModels: modelDataResponse.data.linkedModels || [],
               }));
             } catch (err) {
               setState(state => ({
@@ -180,6 +182,11 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       formState.errors,
                     ),
                   },
+                }));
+              },
+              setMatchedModels: async matches => {
+                await setState(state => ({
+                  matchedModels: matches,
                 }));
               },
               saveForm: async ({

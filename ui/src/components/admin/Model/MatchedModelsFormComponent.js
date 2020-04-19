@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Field } from 'formik';
 
+import { ModelSingleContext } from './ModelSingleController';
 import config from '../config';
 import { FormAutoComplete, FormComponent } from 'components/FormComponents';
 import { getMatchedModelSet } from '../helpers';
@@ -76,7 +77,12 @@ const LinkedModelDetails = ({ model }) => (
   </div>
 );
 
-const MatchedModelsFormComponent = ({ currentModel, linkedModels, modelsData }) => {
+const MatchedModelsFormComponent = ({
+  currentModel,
+  linkedModels,
+  modelsData,
+  addMatchedModel,
+}) => {
   const [matches, setMatches] = useState(linkedModels || []);
 
   const fetchMatchedModels = async selectedName => {
@@ -102,47 +108,51 @@ const MatchedModelsFormComponent = ({ currentModel, linkedModels, modelsData }) 
   };
 
   return (
-    <div>
-      <FormComponent
-        labelText="Link to Existing Model"
-        description="Start typing model name to look up existing models. You only need to link to one model in the set."
-      >
-        <Field
-          name="modelToConnect"
-          options={(modelsData || []).map(other => other.name)}
-          errorText="No existing model with the given name"
-          component={FormAutoComplete}
-          clearable={true}
-          onSelect={async value => {
-            if (value) {
-              const response = await fetchMatchedModels(value);
-              setMatches(response);
-            } else {
-              setMatches([]);
-            }
-          }}
-        />
-      </FormComponent>
-      {matches.length > 0 && (
-        <>
-          <LinkedModelsText>This model is linked to:</LinkedModelsText>
-          <div
-            css={`
-              display: flex;
-              flex-direction: row;
-              flex-wrap: wrap;
-            `}
+    <ModelSingleContext.Consumer>
+      {({ setMatchedModels, state: { matchedModels } }) => (
+        <div>
+          <FormComponent
+            labelText="Link to Existing Model"
+            description="Start typing model name to look up existing models. You only need to link to one model in the set."
           >
-            {matches.map(match => (
-              <LinkedModelDetails key={match.name} model={match} />
-            ))}
-          </div>
-        </>
+            <Field
+              name="modelToConnect"
+              options={(modelsData || []).map(other => other.name)}
+              errorText="No existing model with the given name"
+              component={FormAutoComplete}
+              clearable={true}
+              onSelect={async value => {
+                if (value) {
+                  const response = await fetchMatchedModels(value);
+                  setMatchedModels(response);
+                } else {
+                  setMatchedModels([]);
+                }
+              }}
+            />
+          </FormComponent>
+          {matchedModels.length > 0 && (
+            <>
+              <LinkedModelsText>This model is linked to:</LinkedModelsText>
+              <div
+                css={`
+                  display: flex;
+                  flex-direction: row;
+                  flex-wrap: wrap;
+                `}
+              >
+                {matchedModels.map(match => (
+                  <LinkedModelDetails key={match.name} model={match} />
+                ))}
+              </div>
+            </>
+          )}
+          {matchedModels.length === 0 && (
+            <LinkedModelsText>This model is not linked to other models.</LinkedModelsText>
+          )}
+        </div>
       )}
-      {matches.length === 0 && (
-        <LinkedModelsText>This model is not linked to other models.</LinkedModelsText>
-      )}
-    </div>
+    </ModelSingleContext.Consumer>
   );
 };
 
