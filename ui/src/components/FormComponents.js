@@ -220,6 +220,7 @@ export const FormAutoComplete = ({
   form: { touched, errors, setFieldValue, setFieldTouched },
   options,
   errorText,
+  clearable = false,
   onSelect = () => {},
 }) => {
   const select = value => {
@@ -259,7 +260,7 @@ export const FormAutoComplete = ({
         }}
         onSelect={value => select(value)}
       />
-      {value && (
+      {value && clearable && (
         <AutoCompleteClearButton onClick={() => select('')}>
           <ClearXIcon />
         </AutoCompleteClearButton>

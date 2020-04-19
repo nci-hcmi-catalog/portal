@@ -112,6 +112,7 @@ const MatchedModelsFormComponent = ({ currentModel, linkedModels, modelsData }) 
           options={(modelsData || []).map(other => other.name)}
           errorText="No existing model with the given name"
           component={FormAutoComplete}
+          clearable={true}
           onSelect={async value => {
             if (value) {
               const response = await fetchMatchedModels(value);
