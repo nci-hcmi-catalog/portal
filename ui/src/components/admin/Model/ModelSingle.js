@@ -45,7 +45,6 @@ export default ({ match }) => (
           <Row>
             <AdminModelNav />
             <AdminModelContent>
-              {console.log('modelName', match.params.name)}
               {renderTab(activeTab, response, otherModelOptions)}
             </AdminModelContent>
           </Row>

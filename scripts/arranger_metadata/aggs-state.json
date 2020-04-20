@@ -240,7 +240,7 @@
     "active": true
   },
   {
-    "field": "matched_models_count",
+    "field": "matched_models_list",
     "show": false,
     "active": true
   }

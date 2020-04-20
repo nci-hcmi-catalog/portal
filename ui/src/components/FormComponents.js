@@ -12,6 +12,7 @@ import {
   AutoCompleteWrapper,
   AutoCompleteMenu,
   AutoCompleteOption,
+  AutoCompleteClearButton,
   DatePicker,
   CheckBoxes,
   RadioSelect,
@@ -20,6 +21,7 @@ import {
   checkboxRadioErrorIcon,
 } from 'theme/formComponentsStyles';
 import FormFieldErrorIcon from 'icons/FormFieldErrorIcon';
+import ClearXIcon from 'icons/ClearXIcon';
 
 const hasErrors = (errors, touched, fieldName) => touched[fieldName] && errors[fieldName];
 
@@ -218,42 +220,54 @@ export const FormAutoComplete = ({
   form: { touched, errors, setFieldValue, setFieldTouched },
   options,
   errorText,
+  clearable = false,
   onSelect = () => {},
-}) => (
-  <AutoCompleteWrapper>
-    {hasErrors(errors, touched, name) && (
-      <FormFieldError>{errorText || errors[name]}</FormFieldError>
-    )}
-    <ReactAutocomplete
-      inputProps={{ 'aria-label': `${name}-options` }}
-      items={processOptions(options)}
-      shouldItemRender={(item, value) => item.label.toLowerCase().indexOf(value.toLowerCase()) > -1}
-      getItemValue={item => item.label}
-      renderMenu={items => <AutoCompleteMenu children={items} />}
-      renderItem={(item, highlighted) => (
-        <AutoCompleteOption
-          id={item.value}
-          name={item.value}
-          aria-label={item.label}
-          key={item.value}
-          highlighted={highlighted}
-        >
-          {item.label}
-        </AutoCompleteOption>
+}) => {
+  const select = value => {
+    onSelect(value);
+    setFieldValue(name, value);
+  };
+  return (
+    <AutoCompleteWrapper>
+      {hasErrors(errors, touched, name) && (
+        <FormFieldError>{errorText || errors[name]}</FormFieldError>
       )}
-      value={value}
-      onChange={e => {
-        setFieldValue(name, e.target.value);
-        setFieldTouched(name);
-        onSelect();
-      }}
-      onSelect={value => {
-        onSelect(value);
-        setFieldValue(name, value);
-      }}
-    />
-  </AutoCompleteWrapper>
-);
+      <ReactAutocomplete
+        type="search"
+        inputProps={{ 'aria-label': `${name}-options` }}
+        items={processOptions(options)}
+        shouldItemRender={(item, value) =>
+          item.label.toLowerCase().indexOf(value.toLowerCase()) > -1
+        }
+        getItemValue={item => item.label}
+        renderMenu={items => <AutoCompleteMenu children={items} />}
+        renderItem={(item, highlighted) => (
+          <AutoCompleteOption
+            id={item.value}
+            name={item.value}
+            aria-label={item.label}
+            key={item.value}
+            highlighted={highlighted}
+          >
+            {item.label}
+          </AutoCompleteOption>
+        )}
+        value={value}
+        onChange={e => {
+          setFieldValue(name, e.target.value);
+          setFieldTouched(name);
+          onSelect();
+        }}
+        onSelect={value => select(value)}
+      />
+      {value && clearable && (
+        <AutoCompleteClearButton onClick={() => select('')}>
+          <ClearXIcon />
+        </AutoCompleteClearButton>
+      )}
+    </AutoCompleteWrapper>
+  );
+};
 
 export const FormLabelHeader = ({ labelText, description }) => (
   <FormBlock>

@@ -20,7 +20,8 @@
     "fake": "cd data_model && node bin/index --script fake",
     "lint:ui": "eslint ui/src/**/*.js",
     "initializeEs": "node scripts/initializeEs.js",
-    "updateEs": "node scripts/updateEs.js"
+    "updateEs": "node scripts/updateEs.js",
+    "republish": "cd cms && node republish.js"
   },
   "repository": {
     "type": "git",

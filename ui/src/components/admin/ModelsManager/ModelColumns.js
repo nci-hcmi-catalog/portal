@@ -177,7 +177,7 @@ const modelManagerCustomColumns = [
                       </ActionsMenuItem>
                     )}
                     {withDeleteModal({
-                      next: actionAndClose(() => deleteOne(name), close),
+                      next: actionAndClose(() => alert(name)),
                       target: name,
                       onCancel: close,
                     })(<ActionsMenuItem>Delete</ActionsMenuItem>)}
