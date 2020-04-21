@@ -9,12 +9,22 @@ import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 
 const {
   fonts: { libreFranklin },
-  keyedPalette: { brandPrimary, porcelain, white, mineShaft, silver },
+  keyedPalette: {
+    alto,
+    aquaSpring,
+    brandPrimary,
+    elm,
+    lightBlack,
+    mineShaft,
+    pelorousapprox,
+    silver,
+    white,
+  },
   transparency: { white70 },
 } = base;
 
-const borderColour = porcelain;
-const activeNavItemIconColor = mineShaft;
+const borderColour = pelorousapprox;
+const activeNavItemIconColor = elm;
 const disabledNavItemIconColor = silver;
 
 export { brandPrimary, activeNavItemIconColor, disabledNavItemIconColor };
@@ -26,19 +36,42 @@ export const AdminModelNav = styled(Col)`
 
 const activeNavItem = css`
   color: ${mineShaft};
-  background: ${white};
+  background: ${aquaSpring};
   border: solid 1px ${borderColour};
-  border-right-color: ${white};
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-left-width: 3px;
+  box-shadow: 0 1px 5px 0 ${lightBlack};
   /* Extending it over 1 pixel to match design (cover other border) */
   z-index: 2;
   position: relative;
   width: 165px;
   label: admin-model-nav-item-active;
+  padding-left: 8px;
 
   &:hover {
     color: ${mineShaft};
+  }
+
+  /* Using pseudo-elements to create triangle that extends beyond div */
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+  }
+
+  &:before {
+    border-top: 23px solid transparent;
+    border-bottom: 23px solid transparent;
+    border-left: 13px solid ${borderColour};
+    right: -14px;
+    top: -1px;
+  }
+
+  &:after {
+    border-top: 22px solid transparent;
+    border-bottom: 22px solid transparent;
+    border-left: 12px solid ${aquaSpring};
+    right: -12px;
+    top: 0px;
   }
 `;
 
@@ -52,26 +85,28 @@ export const NavItem = styled('div')`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 19px 15px;
+  padding: 8px 10px 12px;
   font-family: ${libreFranklin};
   font-size: 14px;
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  line-height: 1.57;
+  line-height: normal;
   letter-spacing: normal;
   text-align: left;
   text-transform: uppercase;
   cursor: pointer;
   label: admin-model-nav-item;
+  border: solid 1px ${alto};
+  background-color: ${white};
   ${brandPrimaryHighlightHover};
   ${({ active }) => active && activeNavItem};
   ${({ disabled }) => disabled && disabledNavItem};
 `;
 
 export const navItemIcon = css`
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   margin-right: 9px;
   fill: ${brandPrimary};
   label: admin-model-nav-item-icon;
