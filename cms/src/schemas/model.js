@@ -110,8 +110,12 @@ export const ModelSchema = new mongoose.Schema(
         es_type: 'boolean',
         es_value: doc => (doc.populatedMatches ? doc.populatedMatches.length >= 1 : false),
       },
-      matched_models_count: {
-        es_value: doc => (doc.populatedMatches || []).length + 1,
+      matched_models_list: {
+        es_value: doc =>
+          (doc.populatedMatches || [])
+            .concat([doc])
+            .map(i => i.name)
+            .join(','),
       },
 
       createdAt: {

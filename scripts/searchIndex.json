@@ -118,8 +118,8 @@
       "has_matched_models": {
         "type": "boolean"
       },
-      "matched_models_count": {
-        "type": "long"
+      "matched_models_list": {
+        "type": "keyword"
       },
       "matched_models": {
         "type": "nested",

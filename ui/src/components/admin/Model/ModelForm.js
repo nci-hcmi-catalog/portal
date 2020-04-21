@@ -14,7 +14,7 @@ import {
   FormLabelHeader,
 } from 'components/FormComponents';
 import { FormContainer, FormHeader, FormSection, FormCol } from 'theme/adminFormStyles';
-import publishValidation from '@hcmi-portal/cms/src/validation/model';
+import { publishSchema } from '@hcmi-portal/cms/src/validation/model';
 import { schemaObj } from '@hcmi-portal/cms/src/schemas/descriptions/model';
 import {
   clinicalTumorDiagnosisDependent,
@@ -89,7 +89,6 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched, otherMo
     }) => (
       <Component
         didMount={() => {
-          console.log('hello form', otherModelOptions);
           if (Object.keys(values).length > 0) {
             // Initiate all fields as touched if the form is loading values
             const touchedKeys = Object.keys(schemaObj) || [];
@@ -437,9 +436,10 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched, otherMo
 
 export default withFormik({
   mapPropsToValues: ({ data }) => data || {},
-  validate: values => {
+  validate: (values, { otherModelOptions }) => {
     try {
-      publishValidation.validateSync(values, { abortEarly: false });
+      const excludeNames = otherModelOptions.map(option => option.name);
+      publishSchema(excludeNames).validateSync(values, { abortEarly: false });
     } catch (error) {
       return error.inner.reduce((acc, inner) => ({ ...acc, [inner.path]: inner.message }), {});
     }

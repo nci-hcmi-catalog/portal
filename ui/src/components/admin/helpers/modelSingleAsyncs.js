@@ -56,10 +56,8 @@ export const getOtherModelsList = async (baseUrl, modelName, select = []) => {
     data: '',
     method: 'get',
   });
-  console.log('response.data', response.data);
   const otherModelsList =
     response.status === 200 ? response.data.filter(other => other.name !== modelName) : [];
-  console.log('otherModelsList', otherModelsList);
   return otherModelsList;
 };
 
