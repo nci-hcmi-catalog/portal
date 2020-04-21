@@ -39,7 +39,7 @@ const activeNavItem = css`
   background: ${aquaSpring};
   border: solid 1px ${borderColour};
   border-left-width: 3px;
-  box-shadow: 0 1px 5px 0 ${lightBlack};
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.08);
   /* Extending it over 1 pixel to match design (cover other border) */
   z-index: 2;
   position: relative;
@@ -59,16 +59,16 @@ const activeNavItem = css`
   }
 
   &:before {
-    border-top: 23px solid transparent;
-    border-bottom: 23px solid transparent;
+    border-top: 21px solid transparent;
+    border-bottom: 21px solid transparent;
     border-left: 13px solid ${borderColour};
     right: -14px;
     top: -1px;
   }
 
   &:after {
-    border-top: 22px solid transparent;
-    border-bottom: 22px solid transparent;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
     border-left: 12px solid ${aquaSpring};
     right: -12px;
     top: 0px;
@@ -85,16 +85,15 @@ export const NavItem = styled('div')`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 8px 10px 12px;
+  padding: 8px 10px;
   font-family: ${libreFranklin};
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
   line-height: normal;
   letter-spacing: normal;
   text-align: left;
-  text-transform: uppercase;
   cursor: pointer;
   label: admin-model-nav-item;
   border: solid 1px ${alto};
