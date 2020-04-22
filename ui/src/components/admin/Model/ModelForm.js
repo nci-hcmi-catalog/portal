@@ -75,6 +75,7 @@ const {
   distributor_part_number,
   source_model_url,
   source_sequence_url,
+  somatic_maf_url,
   expanded,
   updatedAt,
 } = schemaObj;
@@ -424,6 +425,17 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched, otherMo
                   name={source_sequence_url.accessor}
                   component={FormInput}
                   placeholder={`http://sequence_url.example.com`}
+                />
+              </FormComponent>
+
+              <FormComponent
+                labelText={somatic_maf_url.displayName}
+                description="Please provide a url to GDC filtered on the open somatic MAF."
+              >
+                <Field
+                  name={somatic_maf_url.accessor}
+                  component={FormInput}
+                  placeholder={`http://maf_url.example.com`}
                 />
               </FormComponent>
             </FormCol>

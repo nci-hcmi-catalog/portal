@@ -163,6 +163,9 @@
       "source_sequence_url": {
         "type": "keyword"
       },
+      "somatic_maf_url": {
+        "type": "keyword"
+      },
       "split_ratio": {
         "type": "keyword"
       },

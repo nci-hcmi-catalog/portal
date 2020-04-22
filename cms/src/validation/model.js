@@ -149,6 +149,7 @@ export const publishSchema = excludedNames =>
     distributor_part_number: string(),
     source_model_url: string().url(),
     source_sequence_url: string().url(),
+    somatic_maf_url: string().url(),
     updatedBy: string(),
     status: string(),
     variants: array()
@@ -242,6 +243,7 @@ export const saveValidation = object().shape({
   distributor_part_number: string(),
   source_model_url: string(),
   source_sequence_url: string(),
+  somatic_maf_url: string().url(),
   updatedBy: string(),
   status: string(),
   variants: array()

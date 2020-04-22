@@ -1,4 +1,4 @@
-export const primarySites = [
+module.exports.primarySites = [
   'Abdomen',
   'Abdomen pelvis',
   'Abdominal wall',
@@ -402,7 +402,7 @@ export const primarySites = [
 ];
 
 // Used for the /wrangle-cde/sheet-id/tab-name endpoint
-export const toExcelHeaders = {
+module.exports.toExcelHeaders = {
   'breast cancer': 'breast_data_entry_options',
   'colorectal cancer': 'colon/rectum_data_entry_options',
   'diffuse midline glioma': 'diffuse_midline_glioma_data_entry_options',
@@ -438,7 +438,7 @@ export const toExcelHeaders = {
 };
 
 // Used for the /wrangle-cde/sheet-id/tab-name endpoint
-export const toExcelRowNumber = {
+module.exports.toExcelRowNumber = {
   'histological type': 0,
   'clinical stage grouping': 13,
   'site of sample acquisition': 4,
@@ -446,7 +446,7 @@ export const toExcelRowNumber = {
 };
 
 // this is generated from /wrangle-cde/sheet-id/tab-name endpoint
-export const clinicalTumorDiagnosisDependent = {
+module.exports.clinicalTumorDiagnosisDependent = {
   'histological type': {
     'breast cancer': [
       'Infiltrating ductal carcinoma',
@@ -1663,7 +1663,7 @@ export const clinicalTumorDiagnosisDependent = {
 };
 
 // One of options for Yup and front-end components
-export const clinicalTumorDiagnosis = [
+module.exports.clinicalTumorDiagnosis = [
   'Ampulla of Vater',
   'Breast cancer',
   'Colorectal cancer',
@@ -1704,7 +1704,7 @@ export const clinicalTumorDiagnosis = [
   'Wilms tumor',
 ];
 
-export const modelType = [
+module.exports.modelType = [
   '3-D: Organoid',
   '3-D: Other (e.g. neurosphere, air-liquid interface, etc.)',
   '2-D: Conditionally reprogrammed cells',
@@ -1714,7 +1714,7 @@ export const modelType = [
   'Other',
 ];
 
-export const molecularCharacterizations = [
+module.exports.molecularCharacterizations = [
   'WGS of parent tumor',
   'WGS of normal',
   'WGS of model',
@@ -1728,11 +1728,11 @@ export const molecularCharacterizations = [
   'RNA-seq of model',
 ];
 
-export const splitRatio = ['1:2', '1:4', '1:8'];
+module.exports.splitRatio = ['1:2', '1:4', '1:8'];
 
-export const gender = ['Female', 'Male', 'Unspecified', 'Unknown'];
+module.exports.gender = ['Female', 'Male', 'Unspecified', 'Unknown'];
 
-export const race = [
+module.exports.race = [
   'American Indian or Alaskan Native',
   'Asian',
   'Black or African American',
@@ -1742,7 +1742,7 @@ export const race = [
   'Unknown',
 ];
 
-export const neoadjuvantTherapy = [
+module.exports.neoadjuvantTherapy = [
   'No',
   'Yes, both radiation and pharmaceutical treatment',
   'Yes, pharmaceutical treatment',
@@ -1750,16 +1750,16 @@ export const neoadjuvantTherapy = [
   'Unknown',
 ];
 
-export const diseaseStatus = [
+module.exports.diseaseStatus = [
   'No evidence of disease',
   'Stable disease',
   'Progressive disease',
   'Unknown',
 ];
 
-export const vitalStatus = ['Alive', 'Dead', 'Lost to followup'];
+module.exports.vitalStatus = ['Alive', 'Dead', 'Lost to followup'];
 
-export const therapy = [
+module.exports.therapy = [
   'Cytotoxic chemotherapy',
   'Targeted therapy (small molecule inhibitors and targeted antibodies)',
   'Immunotherapy (cellular and immune checkpoint)',
@@ -1770,9 +1770,9 @@ export const therapy = [
   'None',
 ];
 
-export const variantTypes = ['Clinical', 'Histopathological Biomarker'];
+module.exports.variantTypes = ['Clinical', 'Histopathological Biomarker'];
 
-export const variantAssessmentType = [
+module.exports.variantAssessmentType = [
   'ISH/CISH/FISH',
   'IHC',
   'Pyrosequencing/methylation-specific PCR',
@@ -1780,7 +1780,7 @@ export const variantAssessmentType = [
   'PCR',
 ];
 
-export const variantExpressionLevel = [
+module.exports.variantExpressionLevel = [
   'Amplified',
   'Not amplified',
   'Equivocal',
@@ -1800,4 +1800,4 @@ export const variantExpressionLevel = [
   'No evidence of MMR alteration',
 ];
 
-export const tissueTypes = ['Primary', 'Metastasis', 'Recurrent', 'Pre-malignant'];
+module.exports.tissueTypes = ['Primary', 'Metastasis', 'Recurrent', 'Pre-malignant'];
