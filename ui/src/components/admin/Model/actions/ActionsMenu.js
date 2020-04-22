@@ -37,7 +37,7 @@ export default ({ close }) => (
               ),
               target: values.name,
               onCancel: close,
-            })(<ActionsMenuItem>Delete TEST TES</ActionsMenuItem>)}
+            })(<ActionsMenuItem>Delete</ActionsMenuItem>)}
           </ActionsMenu>
         )}
       </ModelSingleContext.Consumer>
