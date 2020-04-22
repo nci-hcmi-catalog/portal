@@ -1,7 +1,0 @@
-MONGO_COLLECTION="models"
-MONGODB_URI="mongodb://localhost:27017/hcmi"
-ES_INDEX=hcmi
-ES_UPDATE_INDEX="hcmi-update"
-ES_HOST="http://localhost"
-ES_PORT=9200
-
