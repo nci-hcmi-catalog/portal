@@ -506,9 +506,21 @@
   },
 
   {
+    "unit": null,
+    "displayValues": {},
+    "quickSearchEnabled": false,
+    "field": "distributor_part_number",
+    "displayName": "Link To Distributor",
+    "active": false,
+    "isArray": false,
+    "type": "keyword",
+    "primaryKey": false,
+    "rangeStep": 1
+  },
+  {
     "field": "source_model_url",
     "type": "keyword",
-    "displayName": "Source Model Url",
+    "displayName": "Link to Model Details",
     "active": false,
     "isArray": false,
     "primaryKey": false,
@@ -520,7 +532,19 @@
   {
     "field": "source_sequence_url",
     "type": "keyword",
-    "displayName": "Source Sequence Url",
+    "displayName": "Link To Sequencing Data",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "somatic_maf_url",
+    "type": "keyword",
+    "displayName": "Link To Masked Somatic MAF",
     "active": false,
     "isArray": false,
     "primaryKey": false,
@@ -628,18 +652,6 @@
     "rangeStep": 1
   },
 
-  {
-    "unit": null,
-    "displayValues": {},
-    "quickSearchEnabled": false,
-    "field": "distributor_part_number",
-    "displayName": "Link To Distributor",
-    "active": false,
-    "isArray": false,
-    "type": "keyword",
-    "primaryKey": false,
-    "rangeStep": 1
-  },
   {
     "field": "autocomplete",
     "type": "text",

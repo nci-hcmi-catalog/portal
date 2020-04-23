@@ -128,6 +128,10 @@ export const schemaArr = [
     accessor: 'source_sequence_url',
   },
   {
+    displayName: 'Somatic MAF URL',
+    accessor: 'somatic_maf_url',
+  },
+  {
     displayName: 'Has Matched Models',
     accessor: 'has_matched_models',
   },

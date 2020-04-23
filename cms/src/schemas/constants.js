@@ -401,8 +401,6 @@ export const primarySites = [
   'Zygomatic bone',
 ];
 
-export const primarySitesLc = primarySites.map(v => v.toLowerCase());
-
 // Used for the /wrangle-cde/sheet-id/tab-name endpoint
 export const toExcelHeaders = {
   'breast cancer': 'breast_data_entry_options',

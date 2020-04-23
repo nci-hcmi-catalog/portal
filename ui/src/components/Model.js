@@ -302,6 +302,7 @@ export default ({ modelName }) => (
                     fieldNames={[
                       'source_model_url',
                       'source_sequence_url',
+                      'somatic_maf_url',
                       'distributor_part_number',
                     ]}
                     customValue={{
@@ -320,6 +321,12 @@ export default ({ modelName }) => (
                           'N/A'
                         ),
                       source_sequence_url: val =>
+                        val !== 'N/A' ? (
+                          <ExternalLink href={val}>Link to Source</ExternalLink>
+                        ) : (
+                          'N/A'
+                        ),
+                      somatic_maf_url: val =>
                         val !== 'N/A' ? (
                           <ExternalLink href={val}>Link to Source</ExternalLink>
                         ) : (
