@@ -9,21 +9,10 @@ import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 
 const {
   fonts: { libreFranklin },
-  keyedPalette: {
-    alto,
-    aquaSpring,
-    brandPrimary,
-    elm,
-    lightBlack,
-    mineShaft,
-    pelorousapprox,
-    silver,
-    white,
-  },
+  keyedPalette: { brandPrimary, elm, mineShaft, silver },
   transparency: { white70 },
 } = base;
 
-const borderColour = pelorousapprox;
 const activeNavItemIconColor = elm;
 const disabledNavItemIconColor = silver;
 
@@ -34,75 +23,6 @@ export const AdminModelNav = styled(Col)`
   label: admin-model-nav;
 `;
 
-const activeNavItem = css`
-  color: ${mineShaft};
-  background: ${aquaSpring};
-  border: solid 1px ${borderColour};
-  border-left-width: 3px;
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.08);
-  /* Extending it over 1 pixel to match design (cover other border) */
-  z-index: 2;
-  position: relative;
-  width: 165px;
-  label: admin-model-nav-item-active;
-  padding-left: 8px;
-
-  &:hover {
-    color: ${mineShaft};
-  }
-
-  /* Using pseudo-elements to create triangle that extends beyond div */
-  &:before,
-  &:after {
-    content: '';
-    position: absolute;
-  }
-
-  &:before {
-    border-top: 21px solid transparent;
-    border-bottom: 21px solid transparent;
-    border-left: 13px solid ${borderColour};
-    right: -14px;
-    top: -1px;
-  }
-
-  &:after {
-    border-top: 20px solid transparent;
-    border-bottom: 20px solid transparent;
-    border-left: 12px solid ${aquaSpring};
-    right: -12px;
-    top: 0px;
-  }
-`;
-
-const disabledNavItem = css`
-  color: ${disabledNavItemIconColor};
-  cursor: not-allowed;
-  label: admin-model-nav-item-disabled;
-`;
-
-export const NavItem = styled('div')`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 8px 10px;
-  font-family: ${libreFranklin};
-  font-size: 15px;
-  font-weight: 600;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: left;
-  cursor: pointer;
-  label: admin-model-nav-item;
-  border: solid 1px ${alto};
-  background-color: ${white};
-  ${brandPrimaryHighlightHover};
-  ${({ active }) => active && activeNavItem};
-  ${({ disabled }) => disabled && disabledNavItem};
-`;
-
 export const navItemIcon = css`
   width: 24px;
   height: 24px;
@@ -111,10 +31,12 @@ export const navItemIcon = css`
   label: admin-model-nav-item-icon;
 `;
 
-export const navItemIconActive = css`
-  ${navItemIcon};
-  fill: ${activeNavItemIconColor};
-  label: admin-model-nav-item-icon-active;
+export const navItemActive = css`
+  color: ${mineShaft};
+
+  &:hover {
+    color: ${mineShaft};
+  }
 `;
 
 export const AdminModelContent = styled(AdminContent)`
