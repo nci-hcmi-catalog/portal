@@ -155,6 +155,11 @@
     "active": true
   },
   {
+    "field": "somatic_maf_url",
+    "show": false,
+    "active": true
+  },
+  {
     "field": "split_ratio",
     "show": false,
     "active": true

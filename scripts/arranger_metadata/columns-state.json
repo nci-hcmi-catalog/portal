@@ -379,6 +379,16 @@
       "jsonPath": null
     },
     {
+      "field": "somatic_maf_url",
+      "accessor": "somatic_maf_url",
+      "show": false,
+      "type": "string",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+    {
       "field": "therapy",
       "accessor": "therapy",
       "show": false,
