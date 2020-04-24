@@ -121,10 +121,10 @@
     {
       "field": "expanded",
       "accessor": "expanded",
-      "show": true,
+      "show": false,
       "type": "expanded",
       "sortable": true,
-      "canChangeShow": true,
+      "canChangeShow": false,
       "query": null,
       "jsonPath": null
     },
