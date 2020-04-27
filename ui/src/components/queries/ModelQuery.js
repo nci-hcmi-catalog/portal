@@ -19,6 +19,7 @@ const fetchData = async ({ setState, modelName }) => {
                       distributor_part_number
                       source_model_url
                       source_sequence_url
+                      somatic_maf_url
                       name
                       type
                       split_ratio

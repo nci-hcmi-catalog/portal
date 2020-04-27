@@ -8,25 +8,30 @@ import Url from 'components/Url';
 import BackToSearch from 'components/links/BackToSearch';
 import ModelList from 'components/ModelList';
 
-const ExpandedPill = ({ isExpanded }) => {
-  return (
-    <div
-      css={`
-        margin-left: 30px;
-        color: ${isExpanded ? theme.keyedPalette.green : theme.keyedPalette.redOrange};
-        font-size: 13px;
-        font-weight: bold;
-        background-color: white;
-        border-radius: 10px;
-        border: solid 2px ${isExpanded ? '#72bb74' : '#ff9752'};
-        padding: 2px 11px;
-        margin-top: -2px;
-      `}
-    >
-      {isExpanded ? 'EXPANDED' : 'UNEXPANDED'}
-    </div>
-  );
-};
+//TODO: Uncomment when expanded is available
+// const ExpandedPill = ({ isExpanded }) => {
+//   return (
+//     <div
+//       css={`
+//         margin-left: 30px;
+//         color: ${isExpanded ? theme.keyedPalette.green : theme.keyedPalette.redOrange};
+//         font-size: 13px;
+//         font-weight: bold;
+//         font-family: Helvetica;
+//         font-weight: bold;
+//         line-height: 1.9;
+//         letter-spacing: 0.2px;
+//         background-color: white;
+//         border-radius: 10px;
+//         border: solid 2px ${isExpanded ? '#72bb74' : '#ff9752'};
+//         padding: 0px 11px;
+//         margin-top: 0px;
+//       `}
+//     >
+//       {isExpanded ? 'EXPANDED' : 'UNEXPANDED'}
+//     </div>
+//   );
+// };
 
 export default ({ name, isExpanded }) => (
   <Url
@@ -46,9 +51,10 @@ export default ({ name, isExpanded }) => (
           `}
         >
           <h2>Model {name}</h2>
-          {isExpanded === null || isExpanded === undefined ? null : (
+          {/* TODO: Remove comment when isExpanded is available
+          isExpanded === null || isExpanded === undefined ? null : (
             <ExpandedPill isExpanded={isExpanded} />
-          )}
+          )*/}
         </div>
 
         {sqon && <ModelCarousel modelName={name} sqon={sqon} />}

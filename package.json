@@ -18,7 +18,10 @@
     "launch": "yarn api & yarn cms & yarn ui",
     "mapping": "cd data_model && node bin/index --script mapping",
     "fake": "cd data_model && node bin/index --script fake",
-    "lint:ui": "eslint ui/src/**/*.js"
+    "lint:ui": "eslint ui/src/**/*.js",
+    "initializeEs": "node scripts/initializeEs.js",
+    "updateEs": "node scripts/updateEs.js",
+    "republish": "cd cms && node republish.js"
   },
   "repository": {
     "type": "git",
@@ -32,8 +35,10 @@
   "homepage": "https://github.com/nci-hcmi-catalog/portal#readme",
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
+    "@elastic/elasticsearch": "7.6.1",
+    "axios": "^0.19.2",
     "babel-eslint": "8.2.3",
-    "eslint": "4.15.0",
+    "eslint": "^4.15.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-config-react-app": "^2.1.0",
     "eslint-plugin-babel": "^5.1.0",

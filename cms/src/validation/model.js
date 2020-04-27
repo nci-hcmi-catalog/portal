@@ -50,125 +50,124 @@ const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis = ''
       ).concat([null, '']), // allow null values (to be removed by Mongoose schema set)
     );
 
-const nameValidation = /HCM-\w{4}-\d{4}-\w\d{2}$/;
+const nameRegex = /^HCM-[A-Z]{4}-\d{4}-[A-Z]\d{2}(-[A-Z])?$/;
+const nameRegexError =
+  'Name should follow the format HCM-[4-letter Center code]-[4 number model code]-[ICD10]-[1 optional multiple indicator letter]';
 //const tnmValidation = /T[0-5]N[0-4]M[0-2]/;
 
-// In order to publish a model, this validation
-// must be satisfied, including all required fields
-export default object().shape({
-  name: string()
-    .required('This is a required field')
-    .matches(
-      nameValidation,
-      'Name should follow the format HCM-[4-letter Center code]-[4 number model code]-[ICD10]',
-    ),
-  type: string().oneOf(modelType),
-  growth_rate: number()
-    .integer()
-    .transform(numberEmptyValueTransform)
-    .min(1)
-    .max(99),
-  split_ratio: string().oneOf(splitRatio),
-  time_to_split: string(),
-  gender: string()
-    .required('This is a required field')
-    .oneOf(gender),
-  race: string()
-    .required('This is a required field')
-    .nullable(true)
-    .oneOf(race),
-  age_at_diagnosis: number()
-    .integer()
-    .transform(numberEmptyValueTransform)
-    .min(0)
-    .max(99),
-  age_at_sample_acquisition: number()
-    .integer()
-    .transform(numberEmptyValueTransform)
-    .min(0)
-    .max(99),
-  date_of_availability: date(),
-  primary_site: string()
-    .required('This is a required field')
-    .oneOf(primarySites),
-  tnm_stage: string(),
-  neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
-  chemotherapeutic_drugs: boolean().nullable(true),
-  disease_status: string().oneOf(diseaseStatus),
-  vital_status: string().oneOf(vitalStatus),
-  therapy: array()
-    .of(string())
-    .ensure()
-    .test(
-      'is-one-of',
-      `Therapy can only be one of: ${therapy.join(', ')}`,
-      arrItemIsOneOf(therapy),
-    ),
-  molecular_characterizations: array()
-    .of(string())
-    .ensure()
-    .test(
-      'is-one-of',
-      `Molecular Characterizations can only be one of: ${molecularCharacterizations.join(', ')}`,
-      arrItemIsOneOf(molecularCharacterizations),
-    ),
-  tissue_type: string().oneOf(tissueTypes),
-  clinical_tumor_diagnosis: string()
-    .required('This is a required field')
-    .oneOf(clinicalTumorDiagnosis),
-  histological_type: string()
-    .nullable(true)
-    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
-      makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'histological type'),
-    ),
-  clinical_stage_grouping: string()
-    .nullable(true)
-    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
-      makeClinicalTumorDiagnosisDependentSchema(
-        clinical_tumor_diagnosis,
-        'clinical stage grouping',
+export const publishSchema = excludedNames =>
+  object().shape({
+    name: string()
+      .required('This is a required field')
+      .matches(nameRegex, nameRegexError)
+      .notOneOf(excludedNames, 'This model already exists'),
+    expanded: boolean(), // TODO: add required when expanded is released: .required('This is a required field'),
+    type: string().oneOf(modelType),
+    growth_rate: number()
+      .integer()
+      .transform(numberEmptyValueTransform)
+      .min(1)
+      .max(99),
+    split_ratio: string().oneOf(splitRatio),
+    time_to_split: string(),
+    gender: string()
+      .required('This is a required field')
+      .oneOf(gender),
+    race: string()
+      .required('This is a required field')
+      .nullable(true)
+      .oneOf(race),
+    age_at_diagnosis: number()
+      .integer()
+      .transform(numberEmptyValueTransform)
+      .min(0)
+      .max(99),
+    age_at_sample_acquisition: number()
+      .integer()
+      .transform(numberEmptyValueTransform)
+      .min(0)
+      .max(99),
+    date_of_availability: date(),
+    primary_site: string()
+      .required('This is a required field')
+      .oneOf(primarySites),
+    tnm_stage: string(),
+    neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
+    chemotherapeutic_drugs: boolean().nullable(true),
+    disease_status: string().oneOf(diseaseStatus),
+    vital_status: string().oneOf(vitalStatus),
+    therapy: array()
+      .of(string())
+      .ensure()
+      .test(
+        'is-one-of',
+        `Therapy can only be one of: ${therapy.join(', ')}`,
+        arrItemIsOneOf(therapy),
       ),
-    ),
-  site_of_sample_acquisition: string()
-    .nullable(true)
-    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
-      makeClinicalTumorDiagnosisDependentSchema(
-        clinical_tumor_diagnosis,
-        'site of sample acquisition',
+    molecular_characterizations: array()
+      .of(string())
+      .ensure()
+      .test(
+        'is-one-of',
+        `Molecular Characterizations can only be one of: ${molecularCharacterizations.join(', ')}`,
+        arrItemIsOneOf(molecularCharacterizations),
       ),
-    ),
-  tumor_histological_grade: string()
-    .nullable(true)
-    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
-      makeClinicalTumorDiagnosisDependentSchema(
-        clinical_tumor_diagnosis,
-        'tumor histological grade',
+    tissue_type: string().oneOf(tissueTypes),
+    clinical_tumor_diagnosis: string()
+      .required('This is a required field')
+      .oneOf(clinicalTumorDiagnosis),
+    histological_type: string()
+      .nullable(true)
+      .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+        makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'histological type'),
       ),
-    ),
-  licensing_required: boolean(),
-  distributor_part_number: string(),
-  source_model_url: string().url(),
-  source_sequence_url: string().url(),
-  expanded: boolean(),
-  updatedBy: string(),
-  status: string(),
-  variants: array()
-    .of(modelVariantSchema)
-    .ensure(),
-  matched_models: array()
-    .of(matchedModelSchema)
-    .ensure(),
-});
+    clinical_stage_grouping: string()
+      .nullable(true)
+      .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+        makeClinicalTumorDiagnosisDependentSchema(
+          clinical_tumor_diagnosis,
+          'clinical stage grouping',
+        ),
+      ),
+    site_of_sample_acquisition: string()
+      .nullable(true)
+      .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+        makeClinicalTumorDiagnosisDependentSchema(
+          clinical_tumor_diagnosis,
+          'site of sample acquisition',
+        ),
+      ),
+    tumor_histological_grade: string()
+      .nullable(true)
+      .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+        makeClinicalTumorDiagnosisDependentSchema(
+          clinical_tumor_diagnosis,
+          'tumor histological grade',
+        ),
+      ),
+    licensing_required: boolean(),
+    distributor_part_number: string(),
+    source_model_url: string().url(),
+    source_sequence_url: string().url(),
+    somatic_maf_url: string().url(),
+    updatedBy: string(),
+    status: string(),
+    variants: array()
+      .of(modelVariantSchema)
+      .ensure(),
+    matched_models: array()
+      .of(matchedModelSchema)
+      .ensure(),
+  });
+
+export default publishSchema([]);
 
 // In order to save to ES, we do a minimal validation,
 // enforcing only the minimal set of conditions
 export const saveValidation = object().shape({
   name: string()
     .required('This is a required field')
-    .matches(
-      nameValidation,
-      'Name should follow the format HCM-[4-letter Center code]-[4 number model code].[ICD10]',
-    ),
+    .matches(nameRegex, nameRegexError),
   type: string().oneOf(modelType),
   expanded: boolean(),
   growth_rate: number()
@@ -244,6 +243,7 @@ export const saveValidation = object().shape({
   distributor_part_number: string(),
   source_model_url: string(),
   source_sequence_url: string(),
+  somatic_maf_url: string().url(),
   updatedBy: string(),
   status: string(),
   variants: array()

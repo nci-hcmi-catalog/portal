@@ -1,4 +1,5 @@
 import { ModelES } from './common/schemas/model';
+import Model from '../../schemas/model';
 import publishValidation from '../../validation/model';
 import { modelStatus } from '../../helpers/modelStatus';
 import MatchUtils from '../../helpers/matchedModels';
@@ -24,25 +25,21 @@ export const indexOneToES = filter => {
         if (err) {
           reject(err);
         }
-
-        // Need to populate and filter the matched models
-        if (doc.matchedModels) {
-          const matchedModels = await ModelES.find({
-            _id: { $in: doc.matchedModels.models || [] },
-          });
-          const matches = matchedModels.filter(model => {
-            return model.status === modelStatus.published && model.name !== doc.name;
-          });
-          doc.populatedMatches = matches;
-        } else {
-          doc.populatedMatches = [];
-        }
-
         // Validate doc against publish schema
         // for "on-demand" publishing
         publishValidation
           .validate(doc)
-          .then(
+          .then(async () => {
+            // Need to populate and filter the matched models
+            if (doc.matchedModels) {
+              const matchedModels = await ModelES.find({
+                _id: { $in: doc.matchedModels.models || [] },
+              });
+              const matches = matchedModels.filter(
+                model => model.status !== modelStatus.unpublished && model.name !== doc.name,
+              );
+              doc.populatedMatches = matches;
+            }
             doc.esIndex((err, res) => {
               err
                 ? reject(err)
@@ -51,7 +48,11 @@ export const indexOneToES = filter => {
                   resolve({
                     status: `Indexing successful with status: ${res.result}`,
                   });
-            }),
+            });
+          })
+          .then(
+            async () =>
+              await Model.updateOne({ name: doc.name }, { status: modelStatus.published }),
           )
           .catch(err => reject(err));
       });
@@ -87,30 +88,25 @@ export const indexMatchedModelsToES = async (filter, skipSelf = true) => {
   }
 
   await updateMatchedModelsToES({
-    _id: { $in: matchedModelIds.filter(id => !skipSelf || id.toString() !== model._id.toString()) },
+    _id: { $in: matchedModelIds.filter(id => id.toString() !== model._id.toString() || !skipSelf) },
   });
 
   if (model.updateOldMatchesOnPublish) {
     // Remove the updateMatchedModels list now that we've updated them.
-    model.updateOldMatchesOnPublish = [];
-    model.save();
+    await Model.updateOne(filter, { updateOldMatchesOnPublish: [] });
   }
 };
 
 export const updateMatchedModelsToES = async filter => {
-  console.log('filter', filter);
   const models = await ModelES.find(filter);
 
   // filter this list only to models that are published or published with changes
   const modelsToPublish = models.filter(model => model.status !== modelStatus.unpublished);
 
-  console.log('modelsToPublish', modelsToPublish.map(model => model.name));
-  for (let modelToPublish of modelsToPublish) {
+  console.log('Models to update for matched models:', modelsToPublish.map(model => model.name));
+  for (let model of modelsToPublish) {
     // Publish this model to ensure it has matchedModel updates, unless skepSelf is true and this model is the one named in the method argument name
-    console.log(`Publishing ${modelToPublish.name} in order to update Matched Models.`);
-    await indexOneToES({ name: modelToPublish.name });
-
-    modelToPublish.status = modelStatus.published;
-    await modelToPublish.save();
+    console.log(`Publishing ${model.name} in order to update Matched Models.`);
+    await indexOneToES({ name: model.name });
   }
 };

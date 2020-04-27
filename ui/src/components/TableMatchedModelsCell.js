@@ -1,9 +1,10 @@
 import React from 'react';
 import { stringify } from 'query-string';
 
-export default ({ row, sqon, savedSetsContext, state, value, history }) => {
-  const matchCount = row['matched_models.hits.total'];
-  return matchCount > 0 ? (
+export default ({ row, sqon, savedSetsContext, state, value, history, ...props }) => {
+  const matches = value.split(',');
+  const matchCount = matches.length;
+  return matchCount > 1 ? (
     <button
       className="clickable"
       css={`
@@ -12,7 +13,10 @@ export default ({ row, sqon, savedSetsContext, state, value, history }) => {
       `}
       onClick={async () => {
         const { setId } = await savedSetsContext.createSet({
-          sqon,
+          sqon: {
+            op: 'and',
+            content: [{ op: 'in', content: { field: 'name', value: matches } }],
+          },
           sort: [...state.sorted, { id: 'name', desc: false }].map(({ id, desc }) => ({
             field: id,
             order: desc ? 'desc' : 'asc',

@@ -2,6 +2,7 @@ import React from 'react';
 import Component from 'react-component-component';
 import { withFormik, Field } from 'formik';
 import { ModelSingleContext } from './ModelSingleController';
+import MatchedModelsFormComponent from './MatchedModelsFormComponent';
 import {
   FormComponent,
   FormInput,
@@ -13,7 +14,7 @@ import {
   FormLabelHeader,
 } from 'components/FormComponents';
 import { FormContainer, FormHeader, FormSection, FormCol } from 'theme/adminFormStyles';
-import publishValidation from '@hcmi-portal/cms/src/validation/model';
+import { publishSchema } from '@hcmi-portal/cms/src/validation/model';
 import { schemaObj } from '@hcmi-portal/cms/src/schemas/descriptions/model';
 import {
   clinicalTumorDiagnosisDependent,
@@ -74,11 +75,12 @@ const {
   distributor_part_number,
   source_model_url,
   source_sequence_url,
+  somatic_maf_url,
   expanded,
   updatedAt,
 } = schemaObj;
 
-const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
+const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched, otherModelOptions }) => (
   <ModelSingleContext.Consumer>
     {({
       state: {
@@ -162,17 +164,11 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
               </FormComponent>
             </FormCol>
             <FormCol>
-              <FormComponent
-                labelText="Link to Existing Model"
-                description="Start typing model name to look up existing models."
-              >
-                <Field
-                  name="modelToConnect"
-                  options={[]}
-                  errorText="No existing model with the given name"
-                  component={FormAutoComplete}
-                />
-              </FormComponent>
+              <MatchedModelsFormComponent
+                currentModel={values.name}
+                modelsData={otherModelOptions}
+                linkedModels={values.linkedModels}
+              />
             </FormCol>
           </FormSection>
 
@@ -431,6 +427,17 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
                   placeholder={`http://sequence_url.example.com`}
                 />
               </FormComponent>
+
+              <FormComponent
+                labelText={somatic_maf_url.displayName}
+                description="Please provide a url to GDC filtered on the open somatic MAF."
+              >
+                <Field
+                  name={somatic_maf_url.accessor}
+                  component={FormInput}
+                  placeholder={`http://maf_url.example.com`}
+                />
+              </FormComponent>
             </FormCol>
           </FormSection>
         </FormContainer>
@@ -441,9 +448,10 @@ const ModelFormTemplate = ({ values, touched, dirty, errors, setTouched }) => (
 
 export default withFormik({
   mapPropsToValues: ({ data }) => data || {},
-  validate: values => {
+  validate: (values, { otherModelOptions }) => {
     try {
-      publishValidation.validateSync(values, { abortEarly: false });
+      const excludeNames = otherModelOptions.map(option => option.name);
+      publishSchema(excludeNames).validateSync(values, { abortEarly: false });
     } catch (error) {
       return error.inner.reduce((acc, inner) => ({ ...acc, [inner.path]: inner.message }), {});
     }

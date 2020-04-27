@@ -30,7 +30,8 @@ export default props => (
         }}
         {...props}
       >
-        <AdminModelSaveIcon css={'margin-right: 8px;'} height={14} width={14} />Save
+        <AdminModelSaveIcon css={'margin-right: 8px;'} height={14} width={14} />
+        Save
       </HoverPill>
     )}
   </ModelSingleContext.Consumer>

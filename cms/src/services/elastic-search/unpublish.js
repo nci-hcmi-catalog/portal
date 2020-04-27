@@ -2,14 +2,22 @@
 
 import elasticClient from './common/client';
 import indexEsUpdate from './update';
+import Model from '../../schemas/model';
+import { indexMatchedModelsToES } from './publish';
+import { modelStatus } from '../../helpers/modelStatus';
 
 const index = process.env.ES_INDEX;
 
-export const unpublishOneFromES = name => {
+export const unpublishModel = async name => {
+  await unpublishOneFromES(name);
+  await indexMatchedModelsToES({ name });
+};
+
+export const unpublishOneFromES = async name => {
   // Not waiting for update promise to
   // resolve as this is just bookkeeping
   indexEsUpdate();
-  return elasticClient.deleteByQuery({
+  await elasticClient.deleteByQuery({
     index,
     body: {
       query: {
@@ -17,6 +25,12 @@ export const unpublishOneFromES = name => {
       },
     },
   });
+  await Model.updateOne(
+    {
+      name,
+    },
+    { status: modelStatus.unpublished },
+  );
 };
 
 export const unpublishManyFromES = nameArr => {

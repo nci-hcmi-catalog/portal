@@ -42,6 +42,7 @@ router.get('/images/:id', async (req, res) => {
         res.end();
       });
   } catch (err) {
+    console.log(err);
     const errorJson = err ? { error: 'Unknown Error occurred.' } : { error: err };
     return res.status(500).json(errorJson);
   }

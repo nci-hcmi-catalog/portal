@@ -49,3 +49,38 @@ export const attachVariants = async (baseUrl, sheetURL, overwrite, modelName) =>
     },
   });
 };
+
+export const getOtherModelsList = async (baseUrl, modelName, select = []) => {
+  const response = await fetchData({
+    url: `${baseUrl}/model?skip=0&limit=1000&sort=name&select=${select.join(',')}`,
+    data: '',
+    method: 'get',
+  });
+  const otherModelsList =
+    response.status === 200 ? response.data.filter(other => other.name !== modelName) : [];
+  return otherModelsList;
+};
+
+export const getMatchedModelSet = async (baseUrl, matchedModelId) => {
+  return await fetchData({
+    url: `${baseUrl}/matchedModels/${matchedModelId}?populate=models`,
+    data: '',
+    method: 'get',
+  });
+};
+
+export const connectModelToSet = async (baseUrl, modelName, matchName) => {
+  return await fetchData({
+    url: `${baseUrl}/matches/connect/${modelName}`,
+    data: { match: matchName },
+    method: 'post',
+  });
+};
+
+export const disconnectModelFromSets = async (baseUrl, modelName) => {
+  return await fetchData({
+    url: `${baseUrl}/matches/${modelName}`,
+    data: '',
+    method: 'delete',
+  });
+};

@@ -6,17 +6,23 @@ services:
     image: mongo
     restart: always
     ports:
-      - '27017:27017'
+      - 27017:27017
     volumes:
       - ./docker/mongo/data:/data/db
   elasticsearch:
-    image: 'elasticsearch:6.5.4'
+    image: 'elasticsearch:7.6.1'
     ports:
-      - '9200:9200'
-      - '9300:9300'
+      - 9200:9200
+      - 9300:9300
     volumes:
       - ./docker/elasticsearch/data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - cluster.name=workflow.elasticsearch
+      - 'ES_JAVA_OPTS=-Xms512m -Xmx2048m'
   kibana:
-    image: 'kibana:6.5.4'
+    image: 'kibana:7.6.1'
+    depends_on:
+      - elasticsearch
     ports:
       - 5601:5601

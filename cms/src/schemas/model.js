@@ -52,6 +52,7 @@ export const ModelSchema = new mongoose.Schema(
     distributor_part_number: { type: String, es_indexed: true },
     source_model_url: { type: String, es_indexed: true },
     source_sequence_url: { type: String, es_indexed: true },
+    somatic_maf_url: { type: String, es_indexed: true },
     expanded: { type: Boolean, es_indexed: true },
     files: { type: [FilesSchema], es_indexed: true },
     variants: { type: [VariantExpression], es_indexed: false },
@@ -101,14 +102,21 @@ export const ModelSchema = new mongoose.Schema(
       matched_models: {
         es_type: 'nested',
         es_value: doc =>
-          doc.populatedMatches.map(match => ({
+          (doc.populatedMatches || []).map(match => ({
             name: match.name,
             tissue_type: match.tissue_type,
           })),
       },
       has_matched_models: {
         es_type: 'boolean',
-        es_value: doc => doc.populatedMatches.length >= 1,
+        es_value: doc => (doc.populatedMatches ? doc.populatedMatches.length >= 1 : false),
+      },
+      matched_models_list: {
+        es_value: doc =>
+          (doc.populatedMatches || [])
+            .concat([doc])
+            .map(i => i.name)
+            .join(','),
       },
 
       createdAt: {
