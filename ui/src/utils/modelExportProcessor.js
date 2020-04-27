@@ -19,6 +19,7 @@ export default function modelExportProcessor(model) {
     }
   });
 
+  model = omit(model, ['edges']);
   // return processed model
   return model;
 }
