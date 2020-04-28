@@ -110,6 +110,12 @@ const base = {
     oldCopper: '#724c31',
     green: '#3f8342',
     redOrange: '#b55a36',
+    aquaSpring: '#ecf7f9',
+    alto: '#d8d8d8',
+    elm: '#1c8292',
+    whisper: '#f2f2f8',
+    seaBuckthorn: '#f5a528',
+    athensGray: '#f6f6f8',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',
@@ -207,4 +213,12 @@ export const softTransitionRolloverBkg = (baseColour, hoverColour, transitionSpe
     ${transitionRollover(transitionSpeed)};
     ${bkgRollover(baseColour, hoverColour)};
     ${svgRollover(baseColour, hoverColour)};
+  `;
+
+export const softTransitionRolloverBkgHover = (hoverColour, transitionSpeed) =>
+  css`
+    ${transitionRollover(transitionSpeed)};
+    &:hover {
+      background-color: ${hoverColour};
+    }
   `;

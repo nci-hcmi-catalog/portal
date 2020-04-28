@@ -4,14 +4,19 @@ import { LoginWithGoogle } from './services/GoogleLink';
 import { LoggedInUserPill } from './services/LoggedInUser';
 
 // Regex for URLs used in navigation
-const [base, manageUsers, modelUploadSingle] = [
+const [base, manageUsers, modelUploadSingle, manageDictionary] = [
   /\/admin\/?$/,
   /\/admin\/manage-users\/?$/,
   /\/admin\/model(\/.+)?\/?$/,
+  /\/admin\/data-dictionary\/?$/,
 ];
 
 // Nav paths to handle "nested pages"
-const [modelsNavPaths, usersNavPaths] = [[base, modelUploadSingle], [manageUsers]];
+const [modelsNavPaths, usersNavPaths, dictionaryNavPaths] = [
+  [base, modelUploadSingle],
+  [manageUsers],
+  [manageDictionary],
+];
 
 // Nav active state func
 const isNavLinkActive = (currentPath, navPaths) =>
@@ -21,6 +26,7 @@ const isNavLinkActive = (currentPath, navPaths) =>
 export const manageModelsUrlBase = '/admin';
 export const manageUsersUrlBase = '/admin/manage-users';
 export const modelEditUrlBase = '/admin/model';
+export const dataDictionaryUrlBase = '/admin/data-dictionary';
 
 export default ({ location: { pathname } }) => (
   <AdminNav>
@@ -36,6 +42,12 @@ export default ({ location: { pathname } }) => (
         to={manageUsersUrlBase}
       >
         User Management
+      </NavLink>
+      <NavLink
+        active={isNavLinkActive(pathname, dictionaryNavPaths) ? `true` : undefined}
+        to={dataDictionaryUrlBase}
+      >
+        Data Dictionary
       </NavLink>
     </div>
     <Account>

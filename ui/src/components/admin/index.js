@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom';
 import { NotificationsProvider } from './Notifications';
 
 import AdminNav from './AdminNav';
+import DataDictionary from './DataDictionary';
 import ModelsManager from './ModelsManager';
 import UsersManager from './UsersManager';
 import { ModelSingle } from './Model';
@@ -21,6 +22,7 @@ export default ({ location }) => (
           <Route exact path="/admin" component={ModelsManager} />
           <Route exact path="/admin/model/:name?" component={ModelSingle} />
           <Route exact path="/admin/manage-users" component={UsersManager} />
+          <Route exact path="/admin/data-dictionary" component={DataDictionary} />
         </AdminMain>
       </Col>
     </LoggedInUserProvider>
