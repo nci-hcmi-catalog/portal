@@ -9,13 +9,20 @@ import AdminModelSaveIcon from '../../../icons/AdminModelSaveIcon';
 import TabGroup from 'components/layout/VerticalTabs';
 import Tab from 'components/layout/VerticalTabs/Tab';
 import { HoverPill } from 'theme/adminControlsStyles';
-import { AdminDictionaryContent } from 'theme/adminDictionaryStyles';
+import {
+  AdminDictionaryContent,
+  disabledPill,
+  cancelPill,
+  actionPill,
+} from 'theme/adminDictionaryStyles';
 import { Row } from 'theme/system';
 
 const DataDictionary = () => {
-  // using state for now, will switch this to Context in a later ticket
+  // temporary use of state, will be using context for this eventually
   const [activeTab, setActiveTab] = useState('tab-0');
   const groupName = 'Editable Fields';
+  // temporary toggle for header buttons
+  const disableHeaderButtons = true;
 
   return (
     <AdminContainer>
@@ -25,16 +32,18 @@ const DataDictionary = () => {
         <AdminHeaderBlock>
           <HoverPill
             primary
-            disabled={true}
+            disabled={disableHeaderButtons}
             marginRight="10px"
+            css={disableHeaderButtons ? disabledPill : cancelPill}
             onClick={() => console.log('Data Dictionary: Cancel')}
           >
             Cancel
           </HoverPill>
           <HoverPill
             primary
-            disabled={true}
+            disabled={disableHeaderButtons}
             marginRight="10px"
+            css={disableHeaderButtons ? disabledPill : actionPill}
             onClick={() => console.log('Data Dictionary: Publish All Updates')}
           >
             <AdminModelPublishIcon width={16} height={16} css={'margin-right: 9px;'} />
@@ -42,8 +51,9 @@ const DataDictionary = () => {
           </HoverPill>
           <HoverPill
             primary
-            disabled={true}
+            disabled={disableHeaderButtons}
             marginRight="10px"
+            css={disableHeaderButtons ? disabledPill : actionPill}
             onClick={() => console.log('Data Dictionary: Save Draft')}
           >
             <AdminModelSaveIcon width={16} height={16} css={'margin-right: 9px;'} />

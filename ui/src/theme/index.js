@@ -116,6 +116,7 @@ const base = {
     whisper: '#f2f2f8',
     seaBuckthorn: '#f5a528',
     athensGray: '#f6f6f8',
+    deepIron: '#cecfd3',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',
