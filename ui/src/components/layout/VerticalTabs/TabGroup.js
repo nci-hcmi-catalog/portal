@@ -1,27 +1,12 @@
-import React, { useState } from 'react';
-import Tab from './Tab';
+import React from 'react';
 
 import { Divider, VerticalTabGroup } from 'theme/verticalTabStyles';
 
-const TabGroup = ({ groupName, tabs, initialActive }) => {
-  const [activeTab, setActiveTab] = useState(initialActive || null);
-
+const TabGroup = ({ children, groupName, width }) => {
   return (
-    <VerticalTabGroup width={280}>
+    <VerticalTabGroup width={width}>
       {groupName && <Divider>{groupName}</Divider>}
-      {tabs &&
-        tabs.map(tab => (
-          <Tab
-            key={tab.id}
-            heading={tab.heading}
-            subheading={tab.subheading}
-            icon={tab.icon}
-            dot={tab.dot}
-            active={activeTab === tab.id}
-            disabled={tab.disabled}
-            onClick={() => !tab.disabled && setActiveTab(tab.id)}
-          />
-        ))}
+      {children}
     </VerticalTabGroup>
   );
 };

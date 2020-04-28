@@ -2,6 +2,7 @@ import React from 'react';
 import Tooltip from '../ToolTip';
 
 import { ModelSingleContext } from './ModelSingleController';
+import TabGroup from 'components/layout/VerticalTabs';
 import {
   navItemIcon,
   navItemActive,
@@ -9,7 +10,7 @@ import {
   activeNavItemIconColor,
   disabledNavItemIconColor,
 } from 'theme/adminModelStyles';
-import { VerticalTabGroup, Tab, TabContents, TabLabel, TabHeading } from 'theme/verticalTabStyles';
+import { Tab, TabContents, TabLabel, TabHeading } from 'theme/verticalTabStyles';
 import AdminModelEditIcon from 'icons/AdminModelEditIcon';
 import AdminModelImageIcon from 'icons/AdminModelImageIcon';
 import AdminModelVariantsIcon from 'icons/AdminModelVariantsIcon';
@@ -26,7 +27,7 @@ export default () => (
       const modelExists = response.name || false;
 
       return (
-        <VerticalTabGroup width={164}>
+        <TabGroup width={164}>
           <Tab
             active={activeTab === 'edit'}
             onClick={() => setUIActiveTab('edit')}
@@ -104,7 +105,7 @@ export default () => (
           >
             Please add a name and save the model first
           </Tooltip>
-        </VerticalTabGroup>
+        </TabGroup>
       );
     }}
   </ModelSingleContext.Consumer>
