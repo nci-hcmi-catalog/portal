@@ -11,6 +11,9 @@ import Tab from 'components/layout/VerticalTabs/Tab';
 import { HoverPill } from 'theme/adminControlsStyles';
 import {
   AdminDictionaryContent,
+  FieldValues,
+  DependentValues,
+  DictionaryColumnHeading,
   disabledPill,
   cancelPill,
   actionPill,
@@ -94,7 +97,26 @@ const DataDictionary = () => {
             active={activeTab === 'tab-4'}
           />
         </TabGroup>
-        <AdminDictionaryContent>Dummy Content</AdminDictionaryContent>
+        <AdminDictionaryContent>
+          <FieldValues>
+            <DictionaryColumnHeading>Field Values</DictionaryColumnHeading>
+            <Row>
+              <form>
+                <input type="text" id="new-field" name="new-field" placeholder="Add a new value..." />
+                <button>Add</button>
+              </form>
+            </Row>
+            <ol>
+              <li>Value 1</li>
+              <li>Value 2</li>
+              <li>Value 3</li>
+              <li>Value 4</li>
+            </ol>
+          </FieldValues>
+          {/* <DependentValues>
+            <DictionaryColumnHeading>Dependent Field Values</DictionaryColumnHeading>
+          </DependentValues> */}
+        </AdminDictionaryContent>
       </Row>
     </AdminContainer>
   );
