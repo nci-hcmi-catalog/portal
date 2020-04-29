@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Field } from 'formik';
 
 import { ModelSingleContext } from './ModelSingleController';
@@ -83,8 +83,6 @@ const MatchedModelsFormComponent = ({
   modelsData,
   addMatchedModel,
 }) => {
-  const [matches, setMatches] = useState(linkedModels || []);
-
   const fetchMatchedModels = async selectedName => {
     const selected = modelsData.find(model => model.name === selectedName);
 

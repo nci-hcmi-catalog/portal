@@ -15,7 +15,7 @@ import { AdminContainer } from 'theme/adminStyles';
 import { AdminModelContent, Loading } from 'theme/adminModelStyles';
 import { Row } from 'theme/system';
 
-const renderTab = (tab, data, otherModelOptions) => {
+const renderTab = (tab, data, otherModelOptions, dictionary) => {
   const dataKey = JSON.stringify(data);
   switch (tab) {
     case 'images':
@@ -24,7 +24,16 @@ const renderTab = (tab, data, otherModelOptions) => {
       return <ModelVariants key={dataKey} data={data} />;
     case 'edit':
     default:
-      return <ModelForm key={dataKey} data={data} otherModelOptions={otherModelOptions} />;
+      return (
+        dictionary && (
+          <ModelForm
+            key={dataKey}
+            data={data}
+            otherModelOptions={otherModelOptions}
+            dictionary={dictionary}
+          />
+        )
+      );
   }
 };
 
@@ -36,6 +45,7 @@ export default ({ match }) => (
           ui: { activeTab },
           data: { isLoading, response },
           otherModelOptions,
+          dictionary,
         },
       }) => (
         <AdminContainer>
@@ -45,7 +55,7 @@ export default ({ match }) => (
           <Row>
             <AdminModelNav />
             <AdminModelContent>
-              {renderTab(activeTab, response, otherModelOptions)}
+              {renderTab(activeTab, response, otherModelOptions, dictionary)}
             </AdminModelContent>
           </Row>
           <ModelSingleFooter />

@@ -19,6 +19,7 @@ import {
   connectModelToSet,
   disconnectModelFromSets,
 } from '../helpers';
+import { getDictionary } from '../helpers/dictionary';
 
 import { modelStatus, computeModelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
 
@@ -104,9 +105,11 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             page: 0,
             pageSize: 10,
             isLoading: false,
+            initialized: false,
           },
           otherModelOptions: [],
           matchedModels: [],
+          dictionary: null,
         }}
         didMount={async ({ setState }) => {
           if (modelName) {
@@ -151,6 +154,15 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             setState(state => ({
               otherModelOptions,
             }));
+          }
+
+          try {
+            const dictionary = await getDictionary();
+            setState(state => ({
+              dictionary,
+            }));
+          } catch (e) {
+            console.error('Unable to load dictionary values for form:', e);
           }
         }}
       >
