@@ -15,6 +15,7 @@ import { data_sync_router } from './routes/sync-data';
 import {
   actionRouter,
   bulkRouter,
+  dictionaryRouter,
   imagesRouter,
   matchedModelsRouter as matchedModelsActionsRouter,
   templatesRouter,
@@ -106,6 +107,7 @@ app.get('/api/v1/loggedInUser', (req, res) => {
 
 app.use('/api/v1', data_sync_router);
 app.use('/api/v1/bulk', bulkRouter);
+app.use('/api/v1/dictionary', dictionaryRouter);
 app.use('/api/v1/images', imagesRouter);
 app.use('/api/v1/action', actionRouter);
 app.use('/api/v1/templates', templatesRouter);
