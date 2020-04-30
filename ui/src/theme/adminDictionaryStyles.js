@@ -6,8 +6,17 @@ import { AdminContent } from 'theme/adminStyles';
 import { Col } from 'theme/system';
 
 const {
-  fonts: { libreFranklin },
-  keyedPalette: { athensGray, deepIron, elm, mineShaft, pelorousapprox, porcelain, white },
+  fonts: { libreFranklin, openSans },
+  keyedPalette: {
+    aquaSpring,
+    athensGray,
+    deepIron,
+    elm,
+    mineShaft,
+    pelorousapprox,
+    porcelain,
+    white,
+  },
 } = base;
 
 const borderColour = porcelain;
@@ -45,6 +54,69 @@ export const DictionaryColumnHeading = styled('h2')`
   letter-spacing: normal;
 `;
 
+export const AddFieldForm = styled('form')`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-right: 18px;
+`;
+
+export const AddFieldInput = styled('input')`
+  height: 28px;
+  width: calc(100% - 72px);
+  border-radius: 4px;
+  border: solid 1px #b2b7c1;
+  padding: 6px 10px;
+  font-family: ${openSans};
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+
+  &::placeholder {
+    color: #525767;
+  }
+
+  &:active,
+  &:focus,
+  &:hover {
+    border-color: #4596de;
+  }
+`;
+
+export const disabledFieldButton = css`
+  color: ${white};
+  background-color: #cecfd3;
+
+  &:hover {
+    color: ${white};
+    background-color: #cecfd3;
+    cursor: not-allowed;
+  }
+`;
+
+export const AddFieldButton = styled('button')`
+  height: 28px;
+  width: 62px;
+  color: ${white};
+  background-color: ${elm};
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${pelorousapprox};
+  }
+
+  ${({ disabled }) => disabled && disabledFieldButton};
+`;
+
 export const disabledPill = css`
   background-color: ${deepIron};
   &:hover {
@@ -66,4 +138,98 @@ export const actionPill = css`
   &:hover {
     background-color: ${pelorousapprox};
   }
+`;
+
+export const FieldValueList = styled('ol')`
+  list-style: none;
+  counter-reset: item;
+  padding: 0;
+`;
+
+const fieldValueListItemHeight = 34;
+const activeItem = css`
+  background-color: ${aquaSpring};
+  border: solid 1px ${pelorousapprox};
+  border-left-width: 3px;
+  border-right: 0;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.08);
+  margin-right: 0;
+  padding-left: 29px;
+  padding-right: 18px;
+  /* Extending it over 1 pixel to match design (cover other border) */
+  z-index: 2;
+  position: relative;
+
+  &:hover {
+    background-color: ${aquaSpring};
+  }
+
+  /* Using pseudo-elements to create triangle that extends beyond div */
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+  }
+
+  &:before {
+    border-top: ${fieldValueListItemHeight / 2}px solid transparent;
+    border-bottom: ${fieldValueListItemHeight / 2}px solid transparent;
+    border-left: 13px solid ${pelorousapprox};
+    right: -13px;
+    top: -1px;
+  }
+
+  &:after {
+    border-top: ${fieldValueListItemHeight / 2 - 1}px solid transparent;
+    border-bottom: ${fieldValueListItemHeight / 2 - 1}px solid transparent;
+    border-left: 12px solid ${aquaSpring};
+    right: -12px;
+    top: 0px;
+  }
+`;
+
+export const FieldValueListItem = styled('li')`
+  counter-increment: item;
+  font-size: 12px;
+  position: relative;
+
+  &::before {
+    content: counters(item, '.') '. ';
+    color: #1c8292;
+    width: 18px;
+    text-align: right;
+    display: inline-block;
+    padding-bottom: 1px;
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    left: 8px;
+    transform: translateY(-50%);
+  }
+`;
+
+export const FieldValueListItemContents = styled('div')`
+  height: ${fieldValueListItemHeight}px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 18px;
+  padding-left: 32px;
+
+  &:hover {
+    background-color: #f6f6f8;
+  }
+
+  ${({ active }) => active && activeItem};
+  ${({ dirty }) => dirty && `border: 1px dashed #f5a528;`};
+`;
+
+export const FieldValueListItemLabel = styled('span')`
+  display: inline-block;
+  margin-right: auto;
+`;
+
+export const FieldValueListItemButton = styled('span')`
+  display: inline-block;
+  margin-right: 15px;
 `;
