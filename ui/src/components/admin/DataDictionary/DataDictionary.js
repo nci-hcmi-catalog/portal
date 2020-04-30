@@ -20,17 +20,53 @@ import {
   FieldValueList,
   DataDictionaryH1,
   DependentValues,
+  DependentValuesHeader,
   DictionaryColumnHeading,
-  disabledPill,
-  cancelPill,
   actionPill,
+  cancelPill,
+  disabledPill,
+  expandPill,
 } from 'theme/adminDictionaryStyles';
 import { Row } from 'theme/system';
+
+const DEPENDENT_FIELD_KEYS = {
+  histologicalType: 'histological type',
+  clinicalStageGrouping: 'clinical stage grouping',
+  siteOfSampleAcquisition: 'site of sample acquisition',
+  tumorHistologicalGrade: 'tumor histological grade',
+};
 
 // temporary hard-coded field values, will be replaced by API data
 const fieldValuesList = [
   {
     value: '2-D: Conditionally reprogrammed cells',
+    dependents: {
+      'histological type': [
+        'Adenocarcinoma',
+        'Adenocarcinoma with peculiar aspects',
+        'Hepatoid carcinoma',
+        'Medullary carcinoma',
+        'Mixed adenoneuroendocrine carcinoma',
+        'Moderately-differentiated neuroendocrine carcinoma',
+        'Neuroendocrine carcinoma, large cell',
+        'Neuroendocrine carcinoma, small cell',
+        'Undifferentiated carcinoma',
+        'Well-differentiated neuroendocrine carcinoma',
+      ],
+      'clinical stage grouping': ['0', 'IA', 'IB', 'IIA', 'IIB', 'IIIA', 'IIIB', 'IV'],
+      'site of sample acquisition': [
+        'Ampulla of Vater',
+        'Bone',
+        'Brain',
+        'Kidney',
+        'Liver',
+        'Lung',
+        'Lymph node',
+        'Peritoneum',
+        'Other',
+      ],
+      'tumor histological grade': ['G1', 'G2', 'G3', 'GX', 'GB'],
+    },
   },
   {
     value: '2-D: Other (e.g. neurosphere, air-liquid interface, etc.)',
@@ -59,6 +95,7 @@ const DataDictionary = () => {
   const [newFieldValue, setNewFieldValue] = useState('');
   const [fieldValues, setFieldValues] = useState(fieldValuesList);
   const [selectedField, setSelectedField] = useState('');
+  const [selectedDependents, setSelectedDependents] = useState({});
 
   const addNewField = e => {
     e.preventDefault();
@@ -191,6 +228,7 @@ const DataDictionary = () => {
                     active={selectedField === fieldValue.value}
                     onClick={() => {
                       setSelectedField(fieldValue.value);
+                      setSelectedDependents(fieldValue.dependents || {});
                     }}
                     removeFn={() => removeNewField(fieldValue.value)}
                   />
@@ -199,7 +237,48 @@ const DataDictionary = () => {
           </FieldValues>
           {selectedField !== '' ? (
             <DependentValues>
-              <DictionaryColumnHeading>Dependent Field Values</DictionaryColumnHeading>
+              <DependentValuesHeader>
+                <DictionaryColumnHeading>Dependent Field Values</DictionaryColumnHeading>
+                <HoverPill
+                  primary
+                  css={expandPill}
+                  onClick={() => console.log('Data Dictionary: Expand All Dependent Fields')}
+                >
+                  Expand All
+                </HoverPill>
+              </DependentValuesHeader>
+              <h3>Histological Subtype</h3>
+              {selectedDependents[DEPENDENT_FIELD_KEYS.histologicalType] && (
+                <FieldValueList>
+                  {selectedDependents[DEPENDENT_FIELD_KEYS.histologicalType].map(x => (
+                    <EditableFieldValue key={x} initialValue={x} />
+                  ))}
+                </FieldValueList>
+              )}
+              <h3>Clinical Stage Grouping</h3>
+              {selectedDependents[DEPENDENT_FIELD_KEYS.clinicalStageGrouping] && (
+                <FieldValueList>
+                  {selectedDependents[DEPENDENT_FIELD_KEYS.clinicalStageGrouping].map(x => (
+                    <EditableFieldValue key={x} initialValue={x} />
+                  ))}
+                </FieldValueList>
+              )}
+              <h3>Histological Grade</h3>
+              {selectedDependents[DEPENDENT_FIELD_KEYS.tumorHistologicalGrade] && (
+                <FieldValueList>
+                  {selectedDependents[DEPENDENT_FIELD_KEYS.tumorHistologicalGrade].map(x => (
+                    <EditableFieldValue key={x} initialValue={x} />
+                  ))}
+                </FieldValueList>
+              )}
+              <h3>Acquisition Site</h3>
+              {selectedDependents[DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition] && (
+                <FieldValueList>
+                  {selectedDependents[DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition].map(x => (
+                    <EditableFieldValue key={x} initialValue={x} />
+                  ))}
+                </FieldValueList>
+              )}
             </DependentValues>
           ) : null}
         </AdminDictionaryContent>

@@ -4,6 +4,7 @@ import base from 'theme';
 
 import { AdminContent, AdminHeaderH1 } from 'theme/adminStyles';
 import { Col } from 'theme/system';
+import { Row } from 'theme/system';
 
 const {
   fonts: { libreFranklin, openSans },
@@ -55,6 +56,10 @@ export const FieldValues = styled(AdminDictionaryContentColumn)`
 
 export const DependentValues = styled(AdminDictionaryContentColumn)`
   padding-left: 28px;
+`;
+
+export const DependentValuesHeader = styled(Row)`
+  justify-content: space-between;
 `;
 
 export const DictionaryColumnHeading = styled('h2')`
@@ -132,6 +137,7 @@ export const AddFieldButton = styled('button')`
 `;
 
 export const disabledPill = css`
+  font-weight: bold;
   background-color: ${deepIron};
   &:hover {
     background-color: ${deepIron};
@@ -139,6 +145,7 @@ export const disabledPill = css`
 `;
 
 export const cancelPill = css`
+  font-weight: bold;
   background-color: ${white};
   color: ${mineShaft};
   &:hover {
@@ -148,10 +155,20 @@ export const cancelPill = css`
 `;
 
 export const actionPill = css`
+  font-weight: bold;
   background-color: ${elm};
   &:hover {
     background-color: ${pelorousapprox};
   }
+`;
+
+export const expandPill = css`
+  ${cancelPill};
+  margin: 0;
+  padding: 5px 10px;
+  line-height: normal;
+  min-height: unset;
+  height: 28px;
 `;
 
 export const FieldValueList = styled('ol')`
