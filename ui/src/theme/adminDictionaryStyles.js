@@ -10,11 +10,15 @@ const {
   keyedPalette: {
     aquaSpring,
     athensGray,
+    bombay,
     deepIron,
     elm,
+    havelockBlue,
     mineShaft,
     pelorousapprox,
     porcelain,
+    seaBuckthorn,
+    trout,
     white,
   },
 } = base;
@@ -33,7 +37,7 @@ export const DataDictionaryH1 = styled(AdminHeaderH1)`
 export const AdminDictionaryContent = styled(AdminContent)`
   display: flex;
   flex-direction: row;
-  width: calc(100% - 280px);
+  ${({ tabWidth }) => tabWidth && `width: calc(100% - ${tabWidth}px)`};
   min-height: 416px;
   z-index: 1;
   padding: 24px 28px;
@@ -76,7 +80,7 @@ export const AddFieldInput = styled('input')`
   height: 28px;
   width: calc(100% - 72px);
   border-radius: 4px;
-  border: solid 1px #b2b7c1;
+  border: solid 1px ${bombay};
   padding: 6px 10px;
   font-family: ${openSans};
   font-size: 12px;
@@ -86,23 +90,23 @@ export const AddFieldInput = styled('input')`
   line-height: 1.33;
 
   &::placeholder {
-    color: #525767;
+    color: ${trout};
   }
 
   &:active,
   &:focus,
   &:hover {
-    border-color: #4596de;
+    border-color: ${havelockBlue};
   }
 `;
 
 export const disabledFieldButton = css`
   color: ${white};
-  background-color: #cecfd3;
+  background-color: ${deepIron};
 
   &:hover {
     color: ${white};
-    background-color: #cecfd3;
+    background-color: ${deepIron};
     cursor: not-allowed;
   }
 `;
@@ -205,7 +209,7 @@ export const FieldValueListItem = styled('li')`
 
   &::before {
     content: counters(item, '.') '. ';
-    color: #1c8292;
+    color: ${elm};
     width: 18px;
     text-align: right;
     display: inline-block;
@@ -226,7 +230,7 @@ export const FieldValueListItemContents = styled('div')`
   padding-left: 32px;
 
   &:hover {
-    background-color: #f6f6f8;
+    background-color: ${athensGray};
   }
 
   ${({ active }) => active && activeItem};
@@ -237,7 +241,7 @@ const dirtyItem = css`
     width: calc(100% + 28px);
     margin-left: -28px;
     padding-left: 28px;
-    border: 1px dashed #f5a528;
+    border: 1px dashed ${seaBuckthorn};
   }
 `;
 

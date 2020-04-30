@@ -117,6 +117,9 @@ const base = {
     seaBuckthorn: '#f5a528',
     athensGray: '#f6f6f8',
     deepIron: '#cecfd3',
+    bombay: '#b2b7c1',
+    trout: '#525767',
+    havelockBlue: '#4596de',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',

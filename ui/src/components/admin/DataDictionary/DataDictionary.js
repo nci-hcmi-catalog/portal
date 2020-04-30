@@ -49,6 +49,8 @@ const fieldValuesList = [
 // temporary toggle for header buttons, set to false to see active states
 const disableHeaderButtons = true;
 
+const mainTabWidth = 280;
+
 const DataDictionary = () => {
   const groupName = 'Editable Fields';
 
@@ -125,7 +127,7 @@ const DataDictionary = () => {
         </AdminHeaderBlock>
       </AdminHeader>
       <Row>
-        <TabGroup groupName={groupName} width={268}>
+        <TabGroup groupName={groupName} width={mainTabWidth}>
           <Tab
             heading="Active"
             subheading="Can set a tab to be active initially"
@@ -157,7 +159,7 @@ const DataDictionary = () => {
             active={activeTab === 'tab-4'}
           />
         </TabGroup>
-        <AdminDictionaryContent>
+        <AdminDictionaryContent tabWidth={mainTabWidth}>
           <FieldValues selected={selectedField}>
             <DictionaryColumnHeading>Field Values</DictionaryColumnHeading>
             <Row>
