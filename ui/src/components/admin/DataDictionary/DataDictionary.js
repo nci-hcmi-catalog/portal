@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import { AdminContainer, AdminHeader, AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
+import EditableFieldValue from './EditableFieldValue';
+import { AdminContainer, AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
 import { NotificationToaster } from '../Notifications';
 
-import AdminEditPencilIcon from '../../../icons/AdminEditPencilIcon';
 import AdminModelPublishIcon from '../../../icons/AdminModelPublishIcon';
 import AdminModelSaveIcon from '../../../icons/AdminModelSaveIcon';
 import AdminPlusIcon from '../../../icons/AdminPlusIcon';
@@ -18,10 +18,7 @@ import {
   AddFieldButton,
   FieldValues,
   FieldValueList,
-  FieldValueListItem,
-  FieldValueListItemLabel,
-  FieldValueListItemButton,
-  FieldValueListItemContents,
+  DataDictionaryH1,
   DependentValues,
   DictionaryColumnHeading,
   disabledPill,
@@ -31,18 +28,55 @@ import {
 import { Row } from 'theme/system';
 
 const DataDictionary = () => {
+  const groupName = 'Editable Fields';
+
   // temporary use of state, will be using context for this eventually
   const [activeTab, setActiveTab] = useState('tab-0');
-  const [newValue, setNewValue] = useState('');
-  const groupName = 'Editable Fields';
+  const [newFieldValue, setNewFieldValue] = useState('');
+
   // temporary toggle for header buttons
   const disableHeaderButtons = true;
+
+  // temporary hard-coded field values, will be replaced by API data
+  const fieldValuesList = [
+    {
+      value: '2-D: Conditionally reprogrammed cells',
+      active: true,
+    },
+    {
+      value: '2-D: Other (e.g. neurosphere, air-liquid interface, etc.)',
+    },
+    {
+      value: '2-D: Suspension',
+    },
+    {
+      value: '2-D: Vertically Adherent',
+    },
+    {
+      value: '3-D: Organoid',
+    },
+  ];
+  let [fieldValues, setFieldValues] = useState(fieldValuesList);
+
+  const addNewField = e => {
+    e.preventDefault();
+
+    setFieldValues([
+      ...fieldValues,
+      { value: newFieldValue, initialState: 'new', removeFn: removeNewField },
+    ]);
+    setNewFieldValue('');
+  };
+
+  const removeNewField = value => {
+    setFieldValues(fieldValues.filter(fieldValue => fieldValue.value !== value));
+  };
 
   return (
     <AdminContainer>
       <NotificationToaster />
       <AdminHeader>
-        <AdminHeaderH1>Data Dictionary</AdminHeaderH1>
+        <DataDictionaryH1>Data Dictionary</DataDictionaryH1>
         <AdminHeaderBlock>
           <HoverPill
             primary
@@ -112,79 +146,35 @@ const DataDictionary = () => {
           <FieldValues>
             <DictionaryColumnHeading>Field Values</DictionaryColumnHeading>
             <Row>
-              <AddFieldForm>
+              <AddFieldForm onSubmit={addNewField}>
                 <AddFieldInput
                   type="text"
                   id="new-field"
                   name="new-field"
                   placeholder="Add a new value..."
-                  value={newValue}
+                  value={newFieldValue}
                   onChange={e => {
                     e.preventDefault();
-                    setNewValue(e.target.value);
+                    setNewFieldValue(e.target.value);
                   }}
                 />
-                <AddFieldButton disabled={!newValue}>
+                <AddFieldButton disabled={!newFieldValue}>
                   <AdminPlusIcon width={12} height={12} css={'color: white;'} />
                   ADD
                 </AddFieldButton>
               </AddFieldForm>
             </Row>
             <FieldValueList>
-              <FieldValueListItem active={true}>
-                <FieldValueListItemContents active={true}>
-                  <FieldValueListItemLabel>Value 1</FieldValueListItemLabel>
-                  <FieldValueListItemButton>
-                    <AdminEditPencilIcon height={12} width={12} fill={'#33aabb'} />
-                  </FieldValueListItemButton>
-                </FieldValueListItemContents>
-              </FieldValueListItem>
-              <FieldValueListItem>
-                <FieldValueListItemContents dirty={true}>
-                  <FieldValueListItemLabel>Value 2</FieldValueListItemLabel>
-                  <span
-                    css={
-                      'font-size: 12px; font-weight: normal; font-stretch: normal; font-style: italic; margin-right: 12px;'
-                    }
-                  >
-                    edited
-                  </span>
-                  <FieldValueListItemButton>
-                    <AdminEditPencilIcon height={12} width={12} fill={'#33aabb'} />
-                  </FieldValueListItemButton>
-                </FieldValueListItemContents>
-              </FieldValueListItem>
-              <FieldValueListItem>
-                <FieldValueListItemContents dirty={true}>
-                  <FieldValueListItemLabel>Value 3</FieldValueListItemLabel>
-                  <span
-                    css={
-                      'font-size: 12px; font-weight: normal; font-stretch: normal; font-style: italic; margin-right: 12px;'
-                    }
-                  >
-                    new
-                  </span>
-                  <FieldValueListItemButton>
-                    <AdminEditPencilIcon height={12} width={12} fill={'#33aabb'} />
-                  </FieldValueListItemButton>
-                </FieldValueListItemContents>
-              </FieldValueListItem>
-              <FieldValueListItem>
-                <FieldValueListItemContents>
-                  {/* <FieldValueListItemLabel>Value 4</FieldValueListItemLabel> */}
-                  <AddFieldInput
-                    type="text"
-                    id="new-field"
-                    name="new-field"
-                    placeholder="Value 4"
-                    css={'margin-right: auto;'}
+              {fieldValues &&
+                fieldValues.map(fieldValue => (
+                  <EditableFieldValue
+                    key={fieldValue.value}
+                    initialValue={fieldValue.value}
+                    initialState={fieldValue.initialState}
+                    active={fieldValue.active}
+                    removeFn={fieldValue.removeFn}
                   />
-                  <FieldValueListItemButton>
-                    {/* <AdminEditPencilIcon height={12} width={12} fill={'#33aabb'} /> */}
-                    <AdminModelSaveIcon height={12} width={12} fill={'#33aabb'} />
-                  </FieldValueListItemButton>
-                </FieldValueListItemContents>
-              </FieldValueListItem>
+                ))}
             </FieldValueList>
           </FieldValues>
           <DependentValues>

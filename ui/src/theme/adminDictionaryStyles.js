@@ -2,7 +2,7 @@ import { css } from 'emotion';
 import styled from 'react-emotion';
 import base from 'theme';
 
-import { AdminContent } from 'theme/adminStyles';
+import { AdminContent, AdminHeaderH1 } from 'theme/adminStyles';
 import { Col } from 'theme/system';
 
 const {
@@ -21,6 +21,17 @@ const {
 
 const borderColour = porcelain;
 
+export const iconColor = pelorousapprox;
+
+export const DataDictionaryH1 = styled(AdminHeaderH1)`
+  font-size: 26px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  color: ${mineShaft};
+`;
+
 export const AdminDictionaryContent = styled(AdminContent)`
   display: flex;
   flex-direction: row;
@@ -36,7 +47,7 @@ export const AdminDictionaryContentColumn = styled(Col)`
 `;
 
 export const FieldValues = styled(AdminDictionaryContentColumn)`
-  border-right: 1px solid ${borderColour}
+  border-right: 1px solid ${borderColour};
 `;
 
 export const DependentValues = styled(AdminDictionaryContentColumn)`
@@ -156,7 +167,6 @@ const activeItem = css`
   margin-right: 0;
   padding-left: 29px;
   padding-right: 18px;
-  /* Extending it over 1 pixel to match design (cover other border) */
   z-index: 2;
   position: relative;
 
@@ -211,7 +221,6 @@ export const FieldValueListItem = styled('li')`
 export const FieldValueListItemContents = styled('div')`
   height: ${fieldValueListItemHeight}px;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
   margin-right: 18px;
   padding-left: 32px;
@@ -221,7 +230,25 @@ export const FieldValueListItemContents = styled('div')`
   }
 
   ${({ active }) => active && activeItem};
-  ${({ dirty }) => dirty && `border: 1px dashed #f5a528;`};
+`;
+
+const dirtyItem = css`
+    height: ${fieldValueListItemHeight - 4}px;
+    width: calc(100% + 28px);
+    margin-left: -28px;
+    padding-left: 28px;
+    border: 1px dashed #f5a528;
+  }
+`;
+
+export const FieldValueListItemContentsWrapper = styled('div')`
+  height: ${fieldValueListItemHeight}px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  ${({ dirty }) => dirty && dirtyItem};
 `;
 
 export const FieldValueListItemLabel = styled('span')`
@@ -231,5 +258,17 @@ export const FieldValueListItemLabel = styled('span')`
 
 export const FieldValueListItemButton = styled('span')`
   display: inline-block;
-  margin-right: 15px;
+  margin-right: 10px;
+`;
+
+export const EditFieldInput = styled(AddFieldInput)`
+  margin-right: auto;
+`;
+
+export const FieldStateLabel = styled('span')`
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: italic;
+  margin-right: 12px;
 `;
