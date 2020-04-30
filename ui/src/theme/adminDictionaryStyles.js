@@ -237,20 +237,18 @@ export const FieldValueListItemContents = styled('div')`
 `;
 
 const dirtyItem = css`
-    height: ${fieldValueListItemHeight - 4}px;
-    width: calc(100% + 28px);
-    margin-left: -28px;
-    padding-left: 28px;
-    border: 1px dashed ${seaBuckthorn};
-  }
+  border-color: ${seaBuckthorn};
 `;
 
 export const FieldValueListItemContentsWrapper = styled('div')`
-  height: ${fieldValueListItemHeight}px;
-  width: 100%;
+  height: ${fieldValueListItemHeight - 4}px;
+  width: calc(100% + 28px - 4px);
+  margin-left: -28px;
+  padding-left: 28px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  border: 1px dashed transparent;
 
   ${({ dirty }) => dirty && dirtyItem};
 `;
@@ -263,6 +261,7 @@ export const FieldValueListItemLabel = styled('span')`
 export const FieldValueListItemButton = styled('button')`
   display: flex;
   margin-right: 10px;
+  padding: 0;
   border: none;
   background: transparent;
   cursor: pointer;
