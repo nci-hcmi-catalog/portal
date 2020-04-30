@@ -5,8 +5,8 @@ import { AdminContainer, AdminHeader, AdminHeaderBlock } from 'theme/adminStyles
 import { NotificationToaster } from '../Notifications';
 
 import AdminModelPublishIcon from '../../../icons/AdminModelPublishIcon';
-import AdminModelSaveIcon from '../../../icons/AdminModelSaveIcon';
-import AdminPlusIcon from '../../../icons/AdminPlusIcon';
+import AdminDictionarySaveIcon from '../../../icons/AdminDictionarySaveIcon';
+import AdminDictionaryAddIcon from '../../../icons/AdminDictionaryAddIcon';
 
 import TabGroup from 'components/layout/VerticalTabs';
 import Tab from 'components/layout/VerticalTabs/Tab';
@@ -27,44 +27,54 @@ import {
 } from 'theme/adminDictionaryStyles';
 import { Row } from 'theme/system';
 
+// temporary hard-coded field values, will be replaced by API data
+const fieldValuesList = [
+  {
+    value: '2-D: Conditionally reprogrammed cells',
+  },
+  {
+    value: '2-D: Other (e.g. neurosphere, air-liquid interface, etc.)',
+  },
+  {
+    value: '2-D: Suspension',
+  },
+  {
+    value: '2-D: Vertically Adherent',
+  },
+  {
+    value: '3-D: Organoid',
+  },
+];
+
+// temporary toggle for header buttons, set to false to see active states
+const disableHeaderButtons = true;
+
 const DataDictionary = () => {
   const groupName = 'Editable Fields';
 
   // temporary use of state, will be using context for this eventually
   const [activeTab, setActiveTab] = useState('tab-0');
   const [newFieldValue, setNewFieldValue] = useState('');
-
-  // temporary toggle for header buttons
-  const disableHeaderButtons = true;
-
-  // temporary hard-coded field values, will be replaced by API data
-  const fieldValuesList = [
-    {
-      value: '2-D: Conditionally reprogrammed cells',
-      active: true,
-    },
-    {
-      value: '2-D: Other (e.g. neurosphere, air-liquid interface, etc.)',
-    },
-    {
-      value: '2-D: Suspension',
-    },
-    {
-      value: '2-D: Vertically Adherent',
-    },
-    {
-      value: '3-D: Organoid',
-    },
-  ];
-  let [fieldValues, setFieldValues] = useState(fieldValuesList);
+  const [fieldValues, setFieldValues] = useState(fieldValuesList);
+  const [selectedField, setSelectedField] = useState('');
 
   const addNewField = e => {
     e.preventDefault();
 
-    setFieldValues([
-      ...fieldValues,
-      { value: newFieldValue, initialState: 'new', removeFn: removeNewField },
-    ]);
+    setFieldValues(
+      [
+        ...fieldValues,
+        {
+          value: newFieldValue,
+          initialState: 'new',
+        },
+      ].sort((a, b) => {
+        if (a.value < b.value) return -1;
+        if (a.value > b.value) return 1;
+        return 0;
+      }),
+    );
+
     setNewFieldValue('');
   };
 
@@ -104,7 +114,12 @@ const DataDictionary = () => {
             css={disableHeaderButtons ? disabledPill : actionPill}
             onClick={() => console.log('Data Dictionary: Save Draft')}
           >
-            <AdminModelSaveIcon width={16} height={16} css={'margin-right: 9px;'} />
+            <AdminDictionarySaveIcon
+              width={16}
+              height={16}
+              fill={'#ffffff'}
+              css={'margin-right: 9px;'}
+            />
             Save Draft
           </HoverPill>
         </AdminHeaderBlock>
@@ -143,7 +158,7 @@ const DataDictionary = () => {
           />
         </TabGroup>
         <AdminDictionaryContent>
-          <FieldValues>
+          <FieldValues selected={selectedField}>
             <DictionaryColumnHeading>Field Values</DictionaryColumnHeading>
             <Row>
               <AddFieldForm onSubmit={addNewField}>
@@ -159,7 +174,7 @@ const DataDictionary = () => {
                   }}
                 />
                 <AddFieldButton disabled={!newFieldValue}>
-                  <AdminPlusIcon width={12} height={12} css={'color: white;'} />
+                  <AdminDictionaryAddIcon width={12} height={12} />
                   ADD
                 </AddFieldButton>
               </AddFieldForm>
@@ -171,15 +186,20 @@ const DataDictionary = () => {
                     key={fieldValue.value}
                     initialValue={fieldValue.value}
                     initialState={fieldValue.initialState}
-                    active={fieldValue.active}
-                    removeFn={fieldValue.removeFn}
+                    active={selectedField === fieldValue.value}
+                    onClick={() => {
+                      setSelectedField(fieldValue.value);
+                    }}
+                    removeFn={() => removeNewField(fieldValue.value)}
                   />
                 ))}
             </FieldValueList>
           </FieldValues>
-          <DependentValues>
-            <DictionaryColumnHeading>Dependent Field Values</DictionaryColumnHeading>
-          </DependentValues>
+          {selectedField !== '' ? (
+            <DependentValues>
+              <DictionaryColumnHeading>Dependent Field Values</DictionaryColumnHeading>
+            </DependentValues>
+          ) : null}
         </AdminDictionaryContent>
       </Row>
     </AdminContainer>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 import AdminDictionaryUndoIcon from '../../../icons/AdminDictionaryUndoIcon';
-import AdminEditPencilIcon from '../../../icons/AdminEditPencilIcon';
-import AdminModelSaveIcon from '../../../icons/AdminModelSaveIcon';
+import AdminDictionaryEditIcon from '../../../icons/AdminDictionaryEditIcon';
+import AdminDictionarySaveIcon from '../../../icons/AdminDictionarySaveIcon';
 
 import {
   FieldValueListItemContentsWrapper,
@@ -12,7 +12,6 @@ import {
   FieldValueListItemLabel,
   FieldValueListItemButton,
   FieldValueListItemContents,
-  iconColor,
 } from 'theme/adminDictionaryStyles';
 
 const EditableFieldValue = ({ active, initialValue, initialState, removeFn, ...props }) => {
@@ -37,11 +36,13 @@ const EditableFieldValue = ({ active, initialValue, initialState, removeFn, ...p
     setValue(e.target.value);
   };
 
-  const startEdit = () => {
+  const startEdit = e => {
+    e.stopPropagation();
     setFieldState('editing');
   };
 
-  const saveEdit = () => {
+  const saveEdit = e => {
+    e.stopPropagation();
     if (value !== initialValue) {
       setFieldState('edited');
     } else {
@@ -49,19 +50,28 @@ const EditableFieldValue = ({ active, initialValue, initialState, removeFn, ...p
     }
   };
 
-  const undoEdit = () => {
+  const undoEdit = e => {
+    e.stopPropagation();
     setValue(initialValue);
     setFieldState('default');
   };
 
-  const undoAddNew = () => {
-    removeFn(initialValue);
+  const undoAddNew = e => {
+    e.stopPropagation();
+    removeFn();
   };
 
   const renderFieldLabel = fieldState => {
     switch (fieldState) {
       case 'editing':
-        return <EditFieldInput type="text" value={value} onChange={changeHandler} />;
+        return (
+          <EditFieldInput
+            type="text"
+            value={value}
+            onChange={changeHandler}
+            onClick={e => e.stopPropagation()}
+          />
+        );
       default:
         return <FieldValueListItemLabel>{value}</FieldValueListItemLabel>;
     }
@@ -72,7 +82,7 @@ const EditableFieldValue = ({ active, initialValue, initialState, removeFn, ...p
       case 'editing':
         return (
           <FieldValueListItemButton>
-            <AdminModelSaveIcon height={12} width={12} fill={iconColor} onClick={saveEdit} />
+            <AdminDictionarySaveIcon height={12} width={12} onClick={saveEdit} />
           </FieldValueListItemButton>
         );
       case 'edited':
@@ -80,7 +90,7 @@ const EditableFieldValue = ({ active, initialValue, initialState, removeFn, ...p
           <>
             <FieldStateLabel>edited</FieldStateLabel>
             <FieldValueListItemButton>
-              <AdminDictionaryUndoIcon height={12} width={12} fill={iconColor} onClick={undoEdit} />
+              <AdminDictionaryUndoIcon height={12} width={12} onClick={undoEdit} />
             </FieldValueListItemButton>
           </>
         );
@@ -89,24 +99,18 @@ const EditableFieldValue = ({ active, initialValue, initialState, removeFn, ...p
           <>
             <FieldStateLabel>new</FieldStateLabel>
             <FieldValueListItemButton>
-              <AdminDictionaryUndoIcon
-                height={12}
-                width={12}
-                fill={iconColor}
-                onClick={undoAddNew}
-              />
+              <AdminDictionaryUndoIcon height={12} width={12} onClick={undoAddNew} />
             </FieldValueListItemButton>
           </>
         );
       default:
         return (
           <FieldValueListItemButton>
-            <AdminEditPencilIcon
+            <AdminDictionaryEditIcon
               height={12}
               width={12}
-              fill={iconColor}
-              css={!hovering ? 'visibility: hidden;' : ''}
               onClick={startEdit}
+              css={!hovering ? 'visibility: hidden;' : ''}
             />
           </FieldValueListItemButton>
         );

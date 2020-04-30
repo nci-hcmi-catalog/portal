@@ -21,8 +21,6 @@ const {
 
 const borderColour = porcelain;
 
-export const iconColor = pelorousapprox;
-
 export const DataDictionaryH1 = styled(AdminHeaderH1)`
   font-size: 26px;
   font-weight: bold;
@@ -47,7 +45,8 @@ export const AdminDictionaryContentColumn = styled(Col)`
 `;
 
 export const FieldValues = styled(AdminDictionaryContentColumn)`
-  border-right: 1px solid ${borderColour};
+  border-right: 1px solid transparent;
+  ${({ selected }) => selected && `border-color: ${borderColour}`};
 `;
 
 export const DependentValues = styled(AdminDictionaryContentColumn)`
@@ -202,6 +201,7 @@ export const FieldValueListItem = styled('li')`
   counter-increment: item;
   font-size: 12px;
   position: relative;
+  cursor: pointer;
 
   &::before {
     content: counters(item, '.') '. ';
@@ -252,13 +252,16 @@ export const FieldValueListItemContentsWrapper = styled('div')`
 `;
 
 export const FieldValueListItemLabel = styled('span')`
-  display: inline-block;
+  display: flex;
   margin-right: auto;
 `;
 
-export const FieldValueListItemButton = styled('span')`
-  display: inline-block;
+export const FieldValueListItemButton = styled('button')`
+  display: flex;
   margin-right: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
 `;
 
 export const EditFieldInput = styled(AddFieldInput)`
