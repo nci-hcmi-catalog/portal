@@ -284,8 +284,13 @@ export const FieldValueListItemButton = styled('button')`
   cursor: pointer;
 `;
 
+export const EditFieldForm = styled('form')`
+  width: 100%;
+`;
+
 export const EditFieldInput = styled(AddFieldInput)`
   margin-right: auto;
+  width: calc(100% - 40px);
 `;
 
 export const FieldStateLabel = styled('span')`
