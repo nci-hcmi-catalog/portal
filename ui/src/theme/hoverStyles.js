@@ -4,6 +4,7 @@ import base, {
   colourRollover,
   bkgRollover,
   softTransitionRollover,
+  softTransitionRolloverBkgHover,
 } from 'theme';
 
 const {
@@ -14,6 +15,7 @@ const {
     lightPorcelain,
     white,
     burntSienna,
+    whisper,
   },
 } = base;
 
@@ -43,3 +45,5 @@ export const adminPillHover = (colour, bkgColour) => css`
   ${bkgRollover(bkgColour.base, bkgColour.hover)};
   ${colourRollover(colour.base, colour.hover)};
 `;
+
+export const verticalTabHover = softTransitionRolloverBkgHover(whisper, 0);
