@@ -93,6 +93,10 @@ const DataDictionary = () => {
   // temporary use of state, will be using context for this eventually
   const [activeTab, setActiveTab] = useState('tab-0');
   const [newFieldValue, setNewFieldValue] = useState('');
+  const [newHistologicalSubtypeValue, setNewHistologicalSubtypeValue] = useState('');
+  const [newClinicalStageValue, setNewClinicalStageValue] = useState('');
+  const [newGradeValue, setNewGradeValue] = useState('');
+  const [newAcquisitionSiteValue, setNewAcquisitionSiteValue] = useState('');
   const [fieldValues, setFieldValues] = useState(fieldValuesList);
   const [selectedField, setSelectedField] = useState('');
   const [selectedDependents, setSelectedDependents] = useState({});
@@ -115,6 +119,55 @@ const DataDictionary = () => {
     );
 
     setNewFieldValue('');
+  };
+
+  const addNewDependentField = (e, fieldType) => {
+    e.preventDefault();
+
+    switch (fieldType) {
+      case DEPENDENT_FIELD_KEYS.histologicalType:
+        setSelectedDependents({
+          ...(selectedDependents || {}),
+          [DEPENDENT_FIELD_KEYS.histologicalType]: [
+            ...(selectedDependents[DEPENDENT_FIELD_KEYS.histologicalType] || []),
+            newHistologicalSubtypeValue,
+          ],
+        });
+        setNewHistologicalSubtypeValue('');
+        break;
+      case DEPENDENT_FIELD_KEYS.clinicalStageGrouping:
+        setSelectedDependents({
+          ...(selectedDependents || {}),
+          [DEPENDENT_FIELD_KEYS.clinicalStageGrouping]: [
+            ...(selectedDependents[DEPENDENT_FIELD_KEYS.clinicalStageGrouping] || []),
+            newClinicalStageValue,
+          ],
+        });
+        setNewClinicalStageValue('');
+        break;
+      case DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition:
+        setSelectedDependents({
+          ...(selectedDependents || {}),
+          [DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition]: [
+            ...(selectedDependents[DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition] || []),
+            newAcquisitionSiteValue,
+          ],
+        });
+        setNewAcquisitionSiteValue('');
+        break;
+      case DEPENDENT_FIELD_KEYS.tumorHistologicalGrade:
+        setSelectedDependents({
+          ...(selectedDependents || {}),
+          [DEPENDENT_FIELD_KEYS.tumorHistologicalGrade]: [
+            ...(selectedDependents[DEPENDENT_FIELD_KEYS.tumorHistologicalGrade] || []),
+            newGradeValue,
+          ],
+        });
+        setNewGradeValue('');
+        break;
+      default:
+        break;
+    }
   };
 
   const removeNewField = value => {
@@ -248,6 +301,27 @@ const DataDictionary = () => {
                 </HoverPill>
               </DependentValuesHeader>
               <h3>Histological Subtype</h3>
+              <Row>
+                <AddFieldForm
+                  onSubmit={e => addNewDependentField(e, DEPENDENT_FIELD_KEYS.histologicalType)}
+                >
+                  <AddFieldInput
+                    type="text"
+                    id="new-field"
+                    name="new-field"
+                    placeholder="Add a new value..."
+                    value={newHistologicalSubtypeValue}
+                    onChange={e => {
+                      e.preventDefault();
+                      setNewHistologicalSubtypeValue(e.target.value);
+                    }}
+                  />
+                  <AddFieldButton disabled={!newHistologicalSubtypeValue}>
+                    <AdminDictionaryAddIcon width={12} height={12} />
+                    ADD
+                  </AddFieldButton>
+                </AddFieldForm>
+              </Row>
               {selectedDependents[DEPENDENT_FIELD_KEYS.histologicalType] && (
                 <FieldValueList>
                   {selectedDependents[DEPENDENT_FIELD_KEYS.histologicalType].map(x => (
@@ -256,6 +330,29 @@ const DataDictionary = () => {
                 </FieldValueList>
               )}
               <h3>Clinical Stage Grouping</h3>
+              <Row>
+                <AddFieldForm
+                  onSubmit={e =>
+                    addNewDependentField(e, DEPENDENT_FIELD_KEYS.clinicalStageGrouping)
+                  }
+                >
+                  <AddFieldInput
+                    type="text"
+                    id="new-field"
+                    name="new-field"
+                    placeholder="Add a new value..."
+                    value={newClinicalStageValue}
+                    onChange={e => {
+                      e.preventDefault();
+                      setNewClinicalStageValue(e.target.value);
+                    }}
+                  />
+                  <AddFieldButton disabled={!newClinicalStageValue}>
+                    <AdminDictionaryAddIcon width={12} height={12} />
+                    ADD
+                  </AddFieldButton>
+                </AddFieldForm>
+              </Row>
               {selectedDependents[DEPENDENT_FIELD_KEYS.clinicalStageGrouping] && (
                 <FieldValueList>
                   {selectedDependents[DEPENDENT_FIELD_KEYS.clinicalStageGrouping].map(x => (
@@ -264,6 +361,29 @@ const DataDictionary = () => {
                 </FieldValueList>
               )}
               <h3>Histological Grade</h3>
+              <Row>
+                <AddFieldForm
+                  onSubmit={e =>
+                    addNewDependentField(e, DEPENDENT_FIELD_KEYS.tumorHistologicalGrade)
+                  }
+                >
+                  <AddFieldInput
+                    type="text"
+                    id="new-field"
+                    name="new-field"
+                    placeholder="Add a new value..."
+                    value={newGradeValue}
+                    onChange={e => {
+                      e.preventDefault();
+                      setNewGradeValue(e.target.value);
+                    }}
+                  />
+                  <AddFieldButton disabled={!newGradeValue}>
+                    <AdminDictionaryAddIcon width={12} height={12} />
+                    ADD
+                  </AddFieldButton>
+                </AddFieldForm>
+              </Row>
               {selectedDependents[DEPENDENT_FIELD_KEYS.tumorHistologicalGrade] && (
                 <FieldValueList>
                   {selectedDependents[DEPENDENT_FIELD_KEYS.tumorHistologicalGrade].map(x => (
@@ -272,6 +392,29 @@ const DataDictionary = () => {
                 </FieldValueList>
               )}
               <h3>Acquisition Site</h3>
+              <Row>
+                <AddFieldForm
+                  onSubmit={e =>
+                    addNewDependentField(e, DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition)
+                  }
+                >
+                  <AddFieldInput
+                    type="text"
+                    id="new-field"
+                    name="new-field"
+                    placeholder="Add a new value..."
+                    value={newAcquisitionSiteValue}
+                    onChange={e => {
+                      e.preventDefault();
+                      setNewAcquisitionSiteValue(e.target.value);
+                    }}
+                  />
+                  <AddFieldButton disabled={!newAcquisitionSiteValue}>
+                    <AdminDictionaryAddIcon width={12} height={12} />
+                    ADD
+                  </AddFieldButton>
+                </AddFieldForm>
+              </Row>
               {selectedDependents[DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition] && (
                 <FieldValueList>
                   {selectedDependents[DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition].map(x => (
