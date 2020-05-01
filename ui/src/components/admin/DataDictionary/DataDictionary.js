@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import EditableFieldValue from './EditableFieldValue';
+import DependentFieldValuesGroup from './DependentFieldValuesGroup';
 import { AdminContainer, AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
 import { NotificationToaster } from '../Notifications';
 
@@ -19,7 +20,6 @@ import {
   FieldValues,
   FieldValueList,
   DataDictionaryH1,
-  DependentFieldType,
   DependentValues,
   DependentValuesHeader,
   DictionaryColumnHeading,
@@ -101,6 +101,12 @@ const DataDictionary = () => {
   const [fieldValues, setFieldValues] = useState(fieldValuesList);
   const [selectedField, setSelectedField] = useState('');
   const [selectedDependents, setSelectedDependents] = useState({});
+  const [expanded, setExpanded] = useState({
+    [DEPENDENT_FIELD_KEYS.histologicalType]: true,
+    [DEPENDENT_FIELD_KEYS.clinicalStageGrouping]: false,
+    [DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition]: false,
+    [DEPENDENT_FIELD_KEYS.tumorHistologicalGrade]: false,
+  });
 
   const addNewField = e => {
     e.preventDefault();
@@ -122,48 +128,25 @@ const DataDictionary = () => {
     setNewFieldValue('');
   };
 
-  const addNewDependentField = (e, fieldType) => {
+  const addNewDependentField = (e, fieldType, newField) => {
     e.preventDefault();
+
+    setSelectedDependents({
+      ...(selectedDependents || {}),
+      [fieldType]: [...(selectedDependents[fieldType] || []), newField],
+    });
 
     switch (fieldType) {
       case DEPENDENT_FIELD_KEYS.histologicalType:
-        setSelectedDependents({
-          ...(selectedDependents || {}),
-          [DEPENDENT_FIELD_KEYS.histologicalType]: [
-            ...(selectedDependents[DEPENDENT_FIELD_KEYS.histologicalType] || []),
-            newHistologicalSubtypeValue,
-          ],
-        });
         setNewHistologicalSubtypeValue('');
         break;
       case DEPENDENT_FIELD_KEYS.clinicalStageGrouping:
-        setSelectedDependents({
-          ...(selectedDependents || {}),
-          [DEPENDENT_FIELD_KEYS.clinicalStageGrouping]: [
-            ...(selectedDependents[DEPENDENT_FIELD_KEYS.clinicalStageGrouping] || []),
-            newClinicalStageValue,
-          ],
-        });
         setNewClinicalStageValue('');
         break;
       case DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition:
-        setSelectedDependents({
-          ...(selectedDependents || {}),
-          [DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition]: [
-            ...(selectedDependents[DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition] || []),
-            newAcquisitionSiteValue,
-          ],
-        });
         setNewAcquisitionSiteValue('');
         break;
       case DEPENDENT_FIELD_KEYS.tumorHistologicalGrade:
-        setSelectedDependents({
-          ...(selectedDependents || {}),
-          [DEPENDENT_FIELD_KEYS.tumorHistologicalGrade]: [
-            ...(selectedDependents[DEPENDENT_FIELD_KEYS.tumorHistologicalGrade] || []),
-            newGradeValue,
-          ],
-        });
         setNewGradeValue('');
         break;
       default:
@@ -173,6 +156,23 @@ const DataDictionary = () => {
 
   const removeNewField = value => {
     setFieldValues(fieldValues.filter(fieldValue => fieldValue.value !== value));
+  };
+
+  const expandAll = e => {
+    e.preventDefault();
+    setExpanded({
+      [DEPENDENT_FIELD_KEYS.histologicalType]: true,
+      [DEPENDENT_FIELD_KEYS.clinicalStageGrouping]: true,
+      [DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition]: true,
+      [DEPENDENT_FIELD_KEYS.tumorHistologicalGrade]: true,
+    });
+  };
+
+  const toggleExpanded = key => {
+    setExpanded({
+      ...expanded,
+      [key]: !expanded[key],
+    });
   };
 
   return (
@@ -293,148 +293,54 @@ const DataDictionary = () => {
             <DependentValues>
               <DependentValuesHeader>
                 <DictionaryColumnHeading>Dependent Field Values</DictionaryColumnHeading>
-                <HoverPill
-                  primary
-                  css={expandPill}
-                  onClick={() => console.log('Data Dictionary: Expand All Dependent Fields')}
-                >
+                <HoverPill primary css={expandPill} onClick={expandAll}>
                   Expand All
                 </HoverPill>
               </DependentValuesHeader>
-              <DependentFieldType>
-                Histological Subtype (
-                {(selectedDependents[DEPENDENT_FIELD_KEYS.histologicalType] || []).length})
-              </DependentFieldType>
-              <Row>
-                <AddFieldForm
-                  onSubmit={e => addNewDependentField(e, DEPENDENT_FIELD_KEYS.histologicalType)}
-                >
-                  <AddFieldInput
-                    type="text"
-                    id="new-field"
-                    name="new-field"
-                    placeholder="Add a new value..."
-                    value={newHistologicalSubtypeValue}
-                    onChange={e => {
-                      e.preventDefault();
-                      setNewHistologicalSubtypeValue(e.target.value);
-                    }}
-                  />
-                  <AddFieldButton disabled={!newHistologicalSubtypeValue}>
-                    <AdminDictionaryAddIcon width={12} height={12} />
-                    ADD
-                  </AddFieldButton>
-                </AddFieldForm>
-              </Row>
-              {selectedDependents[DEPENDENT_FIELD_KEYS.histologicalType] && (
-                <FieldValueList>
-                  {selectedDependents[DEPENDENT_FIELD_KEYS.histologicalType].map(x => (
-                    <EditableFieldValue key={x} initialValue={x} />
-                  ))}
-                </FieldValueList>
-              )}
-              <DependentFieldType>
-                Clinical Stage Grouping (
-                {(selectedDependents[DEPENDENT_FIELD_KEYS.clinicalStageGrouping] || []).length})
-              </DependentFieldType>
-              <Row>
-                <AddFieldForm
-                  onSubmit={e =>
-                    addNewDependentField(e, DEPENDENT_FIELD_KEYS.clinicalStageGrouping)
-                  }
-                >
-                  <AddFieldInput
-                    type="text"
-                    id="new-field"
-                    name="new-field"
-                    placeholder="Add a new value..."
-                    value={newClinicalStageValue}
-                    onChange={e => {
-                      e.preventDefault();
-                      setNewClinicalStageValue(e.target.value);
-                    }}
-                  />
-                  <AddFieldButton disabled={!newClinicalStageValue}>
-                    <AdminDictionaryAddIcon width={12} height={12} />
-                    ADD
-                  </AddFieldButton>
-                </AddFieldForm>
-              </Row>
-              {selectedDependents[DEPENDENT_FIELD_KEYS.clinicalStageGrouping] && (
-                <FieldValueList>
-                  {selectedDependents[DEPENDENT_FIELD_KEYS.clinicalStageGrouping].map(x => (
-                    <EditableFieldValue key={x} initialValue={x} />
-                  ))}
-                </FieldValueList>
-              )}
-              <DependentFieldType>
-                Histological Grade (
-                {(selectedDependents[DEPENDENT_FIELD_KEYS.tumorHistologicalGrade] || []).length})
-              </DependentFieldType>
-              <Row>
-                <AddFieldForm
-                  onSubmit={e =>
-                    addNewDependentField(e, DEPENDENT_FIELD_KEYS.tumorHistologicalGrade)
-                  }
-                >
-                  <AddFieldInput
-                    type="text"
-                    id="new-field"
-                    name="new-field"
-                    placeholder="Add a new value..."
-                    value={newGradeValue}
-                    onChange={e => {
-                      e.preventDefault();
-                      setNewGradeValue(e.target.value);
-                    }}
-                  />
-                  <AddFieldButton disabled={!newGradeValue}>
-                    <AdminDictionaryAddIcon width={12} height={12} />
-                    ADD
-                  </AddFieldButton>
-                </AddFieldForm>
-              </Row>
-              {selectedDependents[DEPENDENT_FIELD_KEYS.tumorHistologicalGrade] && (
-                <FieldValueList>
-                  {selectedDependents[DEPENDENT_FIELD_KEYS.tumorHistologicalGrade].map(x => (
-                    <EditableFieldValue key={x} initialValue={x} />
-                  ))}
-                </FieldValueList>
-              )}
-              <DependentFieldType>
-                Acquisition Site (
-                {(selectedDependents[DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition] || []).length})
-              </DependentFieldType>
-              <Row>
-                <AddFieldForm
-                  onSubmit={e =>
-                    addNewDependentField(e, DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition)
-                  }
-                >
-                  <AddFieldInput
-                    type="text"
-                    id="new-field"
-                    name="new-field"
-                    placeholder="Add a new value..."
-                    value={newAcquisitionSiteValue}
-                    onChange={e => {
-                      e.preventDefault();
-                      setNewAcquisitionSiteValue(e.target.value);
-                    }}
-                  />
-                  <AddFieldButton disabled={!newAcquisitionSiteValue}>
-                    <AdminDictionaryAddIcon width={12} height={12} />
-                    ADD
-                  </AddFieldButton>
-                </AddFieldForm>
-              </Row>
-              {selectedDependents[DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition] && (
-                <FieldValueList>
-                  {selectedDependents[DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition].map(x => (
-                    <EditableFieldValue key={x} initialValue={x} />
-                  ))}
-                </FieldValueList>
-              )}
+
+              <DependentFieldValuesGroup
+                fieldName={'Histological Subtype'}
+                fieldKey={DEPENDENT_FIELD_KEYS.histologicalType}
+                fieldValues={selectedDependents[DEPENDENT_FIELD_KEYS.histologicalType]}
+                newFieldValue={newHistologicalSubtypeValue}
+                submitHandler={addNewDependentField}
+                changeHandler={setNewHistologicalSubtypeValue}
+                toggleHandler={toggleExpanded}
+                expanded={expanded[DEPENDENT_FIELD_KEYS.histologicalType]}
+              />
+
+              <DependentFieldValuesGroup
+                fieldName={'Clinical Stage Grouping'}
+                fieldKey={DEPENDENT_FIELD_KEYS.clinicalStageGrouping}
+                fieldValues={selectedDependents[DEPENDENT_FIELD_KEYS.clinicalStageGrouping]}
+                newFieldValue={newClinicalStageValue}
+                submitHandler={addNewDependentField}
+                changeHandler={setNewClinicalStageValue}
+                toggleHandler={toggleExpanded}
+                expanded={expanded[DEPENDENT_FIELD_KEYS.clinicalStageGrouping]}
+              />
+
+              <DependentFieldValuesGroup
+                fieldName={'Histological Grade'}
+                fieldKey={DEPENDENT_FIELD_KEYS.tumorHistologicalGrade}
+                fieldValues={selectedDependents[DEPENDENT_FIELD_KEYS.tumorHistologicalGrade]}
+                newFieldValue={newGradeValue}
+                submitHandler={addNewDependentField}
+                changeHandler={setNewGradeValue}
+                toggleHandler={toggleExpanded}
+                expanded={expanded[DEPENDENT_FIELD_KEYS.tumorHistologicalGrade]}
+              />
+
+              <DependentFieldValuesGroup
+                fieldName={'Acquisition Site'}
+                fieldKey={DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition}
+                fieldValues={selectedDependents[DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition]}
+                newFieldValue={newAcquisitionSiteValue}
+                submitHandler={addNewDependentField}
+                changeHandler={setNewAcquisitionSiteValue}
+                toggleHandler={toggleExpanded}
+                expanded={expanded[DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition]}
+              />
             </DependentValues>
           ) : null}
         </AdminDictionaryContent>

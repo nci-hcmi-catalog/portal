@@ -72,6 +72,8 @@ export const DependentFieldType = styled('h3')`
   line-height: 1.29;
   background-image: linear-gradient(to bottom, ${athensGray} 13%, ${athensLightGray} 88%);
   padding: 8px;
+  border-top: 1px solid ${borderColour};
+  cursor: pointer;
 `;
 
 export const DictionaryColumnHeading = styled('h2')`
