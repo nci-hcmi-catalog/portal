@@ -11,6 +11,7 @@ const {
   keyedPalette: {
     aquaSpring,
     athensGray,
+    athensLightGray,
     bombay,
     deepIron,
     elm,
@@ -60,6 +61,17 @@ export const DependentValues = styled(AdminDictionaryContentColumn)`
 
 export const DependentValuesHeader = styled(Row)`
   justify-content: space-between;
+`;
+
+export const DependentFieldType = styled('h3')`
+  font-family: ${libreFranklin};
+  font-size: 14px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.29;
+  background-image: linear-gradient(to bottom, ${athensGray} 13%, ${athensLightGray} 88%);
+  padding: 8px;
 `;
 
 export const DictionaryColumnHeading = styled('h2')`

@@ -19,6 +19,7 @@ import {
   FieldValues,
   FieldValueList,
   DataDictionaryH1,
+  DependentFieldType,
   DependentValues,
   DependentValuesHeader,
   DictionaryColumnHeading,
@@ -300,7 +301,10 @@ const DataDictionary = () => {
                   Expand All
                 </HoverPill>
               </DependentValuesHeader>
-              <h3>Histological Subtype</h3>
+              <DependentFieldType>
+                Histological Subtype (
+                {(selectedDependents[DEPENDENT_FIELD_KEYS.histologicalType] || []).length})
+              </DependentFieldType>
               <Row>
                 <AddFieldForm
                   onSubmit={e => addNewDependentField(e, DEPENDENT_FIELD_KEYS.histologicalType)}
@@ -329,7 +333,10 @@ const DataDictionary = () => {
                   ))}
                 </FieldValueList>
               )}
-              <h3>Clinical Stage Grouping</h3>
+              <DependentFieldType>
+                Clinical Stage Grouping (
+                {(selectedDependents[DEPENDENT_FIELD_KEYS.clinicalStageGrouping] || []).length})
+              </DependentFieldType>
               <Row>
                 <AddFieldForm
                   onSubmit={e =>
@@ -360,7 +367,10 @@ const DataDictionary = () => {
                   ))}
                 </FieldValueList>
               )}
-              <h3>Histological Grade</h3>
+              <DependentFieldType>
+                Histological Grade (
+                {(selectedDependents[DEPENDENT_FIELD_KEYS.tumorHistologicalGrade] || []).length})
+              </DependentFieldType>
               <Row>
                 <AddFieldForm
                   onSubmit={e =>
@@ -391,7 +401,10 @@ const DataDictionary = () => {
                   ))}
                 </FieldValueList>
               )}
-              <h3>Acquisition Site</h3>
+              <DependentFieldType>
+                Acquisition Site (
+                {(selectedDependents[DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition] || []).length})
+              </DependentFieldType>
               <Row>
                 <AddFieldForm
                   onSubmit={e =>

@@ -120,6 +120,7 @@ const base = {
     bombay: '#b2b7c1',
     trout: '#525767',
     havelockBlue: '#4596de',
+    athensLightGray: '#eaeaee',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',
