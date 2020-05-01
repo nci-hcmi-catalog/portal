@@ -22,8 +22,8 @@ const DependentFieldValuesGroup = ({
   submitHandler,
   changeHandler,
   toggleHandler,
+  deleteHandler,
   expanded = false,
-  ...props
 }) => {
   return (
     <>
@@ -59,7 +59,12 @@ const DependentFieldValuesGroup = ({
           {fieldValues && (
             <FieldValueList>
               {fieldValues.map(x => (
-                <EditableFieldValue key={x} initialValue={x} />
+                <EditableFieldValue
+                  key={x.value || x}
+                  initialValue={x.value || x}
+                  initialState={x.initialState}
+                  removeFn={() => deleteHandler(x.value, fieldKey)}
+                />
               ))}
             </FieldValueList>
           )}

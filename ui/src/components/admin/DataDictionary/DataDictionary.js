@@ -133,7 +133,10 @@ const DataDictionary = () => {
 
     setSelectedDependents({
       ...(selectedDependents || {}),
-      [fieldType]: [...(selectedDependents[fieldType] || []), newField],
+      [fieldType]: [
+        ...(selectedDependents[fieldType] || []),
+        { value: newField, initialState: 'new' },
+      ],
     });
 
     switch (fieldType) {
@@ -156,6 +159,14 @@ const DataDictionary = () => {
 
   const removeNewField = value => {
     setFieldValues(fieldValues.filter(fieldValue => fieldValue.value !== value));
+  };
+
+  const removeNewDependentField = (value, fieldType) => {
+    setFieldValues(fieldValues.filter(fieldValue => fieldValue.value !== value));
+    setSelectedDependents({
+      ...(selectedDependents || {}),
+      [fieldType]: [...(selectedDependents[fieldType] || []).filter(x => x.value !== value)],
+    });
   };
 
   const expandAll = e => {
@@ -306,6 +317,7 @@ const DataDictionary = () => {
                 submitHandler={addNewDependentField}
                 changeHandler={setNewHistologicalSubtypeValue}
                 toggleHandler={toggleExpanded}
+                deleteHandler={removeNewDependentField}
                 expanded={expanded[DEPENDENT_FIELD_KEYS.histologicalType]}
               />
 
@@ -317,6 +329,7 @@ const DataDictionary = () => {
                 submitHandler={addNewDependentField}
                 changeHandler={setNewClinicalStageValue}
                 toggleHandler={toggleExpanded}
+                deleteHandler={removeNewDependentField}
                 expanded={expanded[DEPENDENT_FIELD_KEYS.clinicalStageGrouping]}
               />
 
@@ -328,6 +341,7 @@ const DataDictionary = () => {
                 submitHandler={addNewDependentField}
                 changeHandler={setNewGradeValue}
                 toggleHandler={toggleExpanded}
+                deleteHandler={removeNewDependentField}
                 expanded={expanded[DEPENDENT_FIELD_KEYS.tumorHistologicalGrade]}
               />
 
@@ -339,6 +353,7 @@ const DataDictionary = () => {
                 submitHandler={addNewDependentField}
                 changeHandler={setNewAcquisitionSiteValue}
                 toggleHandler={toggleExpanded}
+                deleteHandler={removeNewDependentField}
                 expanded={expanded[DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition]}
               />
             </DependentValues>
