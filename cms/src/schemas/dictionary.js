@@ -1,8 +1,22 @@
 import mongoose from 'mongoose';
 
+export const Dependent = {
+  name: { type: String },
+  displayName: { type: String },
+  dependentValues: { type: [String] },
+  values: {
+    type: [
+      new mongoose.Schema({
+        value: { type: String },
+      }),
+    ],
+  },
+};
+const DictionaryDependentSchema = new mongoose.Schema(Dependent);
+
 export const DictionaryValue = {
   value: { type: String },
-  dependents: { type: [DictionarySchema] },
+  dependents: { type: [DictionaryDependentSchema] },
 };
 
 const DictionaryValueSchema = new mongoose.Schema(DictionaryValue);
