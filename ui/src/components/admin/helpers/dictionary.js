@@ -19,10 +19,13 @@ export const getDictionary = async () => {
 
   ctd.values.forEach(val => {
     const valueName = val.value;
-    for (const dependentName in val.dependents) {
-      const dependentValues = val.dependents[dependentName];
+
+    val.dependents.forEach(dependent => {
+      const dependentName = dependent.name;
+      const dependentValues = dependent.values.map(val => val.value);
+
       ctdDependentOptions[dependentName][valueName.toLowerCase()] = dependentValues;
-    }
+    });
   });
   output.clinicalTumorDiagnosisDependent = ctdDependentOptions;
 
