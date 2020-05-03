@@ -25,7 +25,6 @@ export const getDictionary = async () => {
     }
   });
   output.clinicalTumorDiagnosisDependent = ctdDependentOptions;
-  console.log(output);
 
   return output;
 };

@@ -1,15 +1,19 @@
 import mongoose from 'mongoose';
 
-const DictionaryValueSchema = new mongoose.Schema({
+export const DictionaryValue = {
   value: { type: String },
-  dependents: { type: Object },
-});
+  dependents: { type: [DictionarySchema] },
+};
 
-export const DictionarySchema = new mongoose.Schema({
+const DictionaryValueSchema = new mongoose.Schema(DictionaryValue);
+
+export const Dictionary = {
   name: { type: String, unique: true, required: true },
   displayName: { type: String, unique: true, required: true },
-  dependentValues: { type: [String], required: true },
+  dependentValues: { type: [String] },
   values: { type: [DictionaryValueSchema] },
-});
+};
+
+export const DictionarySchema = new mongoose.Schema(Dictionary);
 
 export default mongoose.model('Dictionary', DictionarySchema, 'dictionary');
