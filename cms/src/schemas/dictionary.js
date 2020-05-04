@@ -21,13 +21,20 @@ export const DictionaryValue = {
 
 const DictionaryValueSchema = new mongoose.Schema(DictionaryValue);
 
-export const Dictionary = {
-  name: { type: String, unique: true, required: true },
-  displayName: { type: String, unique: true, required: true },
+export const DictionaryField = {
+  name: { type: String, required: true },
+  displayName: { type: String, required: true },
   dependentValues: { type: [String] },
   values: { type: [DictionaryValueSchema] },
 };
 
-export const DictionarySchema = new mongoose.Schema(Dictionary);
+export const DictionaryFieldSchema = new mongoose.Schema(DictionaryField);
+
+export const Dictionary = {
+  fields: { type: [DictionaryFieldSchema] },
+};
+export const DictionarySchema = new mongoose.Schema(Dictionary, {
+  timestamps: { createdAt: 'created_at' },
+});
 
 export default mongoose.model('Dictionary', DictionarySchema, 'dictionary');

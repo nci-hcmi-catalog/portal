@@ -2,7 +2,7 @@
 
 import express from 'express';
 import Model from '../schemas/model';
-import publishValidation from '../validation/model';
+import getPublishValidation from '../validation/model';
 import { runYupValidatorFailSlow, modelStatus } from '../helpers';
 import { indexOneToES, indexMatchedModelsToES } from '../services/elastic-search/publish';
 import { unpublishManyFromES } from '../services/elastic-search/unpublish';
@@ -11,12 +11,13 @@ import { backupFields } from '../schemas/descriptions/model';
 const bulkRouter = express.Router();
 
 bulkRouter.post('/publish', async (req, res) => {
+  const validation = await getPublishValidation();
   let validationErrors;
   // Validate models for publishing
   Model.find({
     _id: { $in: req.body },
   })
-    .then(models => runYupValidatorFailSlow(publishValidation, models))
+    .then(models => runYupValidatorFailSlow(validation, models))
     .then(validated => {
       const validModelNames = validated
         .filter(({ success }) => success)

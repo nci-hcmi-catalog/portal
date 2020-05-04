@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Dictionary, DictionaryValue, Dependent } from './dictionary';
+import { DictionaryField, DictionaryValue, Dependent } from './dictionary';
 
 export const draftStatus = { published: 'published', edited: 'edited', new: 'new' };
 
@@ -12,7 +12,8 @@ DraftDependent.values = {
         enum: Object.values(draftStatus),
         default: draftStatus.published,
       },
-      value: String,
+      value: { type: String },
+      original: { type: String },
     }),
   ],
 };
@@ -30,12 +31,19 @@ DraftValue.dependents = { type: [DraftDependentSchema] };
 
 const DraftValueSchema = new mongoose.Schema(DraftValue);
 
-const Draft = Dictionary;
+const DraftStats = {
+  edited: { type: Number, default: 0 },
+  new: { type: Number, default: 0 },
+};
+const DraftStatsSchema = new mongoose.Schema(DraftStats);
+
+const Draft = DictionaryField;
 Draft.status = {
   type: String,
   enum: [draftStatus.published, draftStatus.edited],
   default: draftStatus.published,
 };
+Draft.stats = { type: DraftStatsSchema };
 Draft.values = { type: [DraftValueSchema] };
 
 export const DraftSchema = new mongoose.Schema(Draft);

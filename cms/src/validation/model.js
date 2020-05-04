@@ -2,24 +2,9 @@ import * as yup from 'yup';
 import moment from 'moment';
 import { arrItemIsOneOf } from './helpers';
 
-import {
-  clinicalTumorDiagnosisDependent,
-  primarySites,
-  clinicalTumorDiagnosis,
-  modelType,
-  molecularCharacterizations,
-  splitRatio,
-  gender,
-  race,
-  neoadjuvantTherapy,
-  diseaseStatus,
-  vitalStatus,
-  therapy,
-  tissueTypes,
-} from '../schemas/constants';
-
 import { modelVariantSchema } from './variant';
 import { matchedModelSchema } from './matchedModels';
+import { getDictionary } from '../helpers/dictionary';
 
 // Custom date validation parser
 yup.date().transform(function(value, originalValue) {
@@ -39,7 +24,11 @@ const { string, number, array, object, date, boolean } = yup;
 // related issue: https://github.com/jquense/yup/issues/298
 const numberEmptyValueTransform = value => (value === '' || isNaN(value) ? undefined : value);
 
-const makeClinicalTumorDiagnosisDependentSchema = (clinical_tumor_diagnosis = '', fieldName = '') =>
+const makeClinicalTumorDiagnosisDependentSchema = (
+  clinicalTumorDiagnosisDependent,
+  clinical_tumor_diagnosis = '',
+  fieldName = '',
+) =>
   string()
     .nullable(true)
     .oneOf(
@@ -55,28 +44,43 @@ const nameRegexError =
   'Name should follow the format HCM-[4-letter Center code]-[4 number model code]-[ICD10]-[1 optional multiple indicator letter]';
 //const tnmValidation = /T[0-5]N[0-4]M[0-2]/;
 
-export const publishSchema = excludedNames =>
-  object().shape({
+export const getPublishSchema = async (excludedNames, dictionary) => {
+  const {
+    clinicalTumorDiagnosisDependent,
+    clinicalTumorDiagnosisOptions,
+    primarySitesOptions,
+    modelTypeOptions,
+    molecularCharacterizationsOptions,
+    splitRatioOptions,
+    genderOptions,
+    raceOptions,
+    neoadjuvantTherapyOptions,
+    diseaseStatusOptions,
+    vitalStatusOptions,
+    therapyOptions,
+    tissueTypesOptions,
+  } = dictionary;
+  return object().shape({
     name: string()
       .required('This is a required field')
       .matches(nameRegex, nameRegexError)
       .notOneOf(excludedNames, 'This model already exists'),
     expanded: boolean(), // TODO: add required when expanded is released: .required('This is a required field'),
-    type: string().oneOf(modelType),
+    type: string().oneOf(modelTypeOptions),
     growth_rate: number()
       .integer()
       .transform(numberEmptyValueTransform)
       .min(1)
       .max(99),
-    split_ratio: string().oneOf(splitRatio),
+    split_ratio: string().oneOf(splitRatioOptions),
     time_to_split: string(),
     gender: string()
       .required('This is a required field')
-      .oneOf(gender),
+      .oneOf(genderOptions),
     race: string()
       .required('This is a required field')
       .nullable(true)
-      .oneOf(race),
+      .oneOf(raceOptions),
     age_at_diagnosis: number()
       .integer()
       .transform(numberEmptyValueTransform)
@@ -90,41 +94,48 @@ export const publishSchema = excludedNames =>
     date_of_availability: date(),
     primary_site: string()
       .required('This is a required field')
-      .oneOf(primarySites),
+      .oneOf(primarySitesOptions),
     tnm_stage: string(),
-    neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
+    neoadjuvant_therapy: string().oneOf(neoadjuvantTherapyOptions),
     chemotherapeutic_drugs: boolean().nullable(true),
-    disease_status: string().oneOf(diseaseStatus),
-    vital_status: string().oneOf(vitalStatus),
+    disease_status: string().oneOf(diseaseStatusOptions),
+    vital_status: string().oneOf(vitalStatusOptions),
     therapy: array()
       .of(string())
       .ensure()
       .test(
         'is-one-of',
-        `Therapy can only be one of: ${therapy.join(', ')}`,
-        arrItemIsOneOf(therapy),
+        `Therapy can only be one of: ${therapyOptions.join(', ')}`,
+        arrItemIsOneOf(therapyOptions),
       ),
     molecular_characterizations: array()
       .of(string())
       .ensure()
       .test(
         'is-one-of',
-        `Molecular Characterizations can only be one of: ${molecularCharacterizations.join(', ')}`,
-        arrItemIsOneOf(molecularCharacterizations),
+        `Molecular Characterizations can only be one of: ${molecularCharacterizationsOptions.join(
+          ', ',
+        )}`,
+        arrItemIsOneOf(molecularCharacterizationsOptions),
       ),
-    tissue_type: string().oneOf(tissueTypes),
+    tissue_type: string().oneOf(tissueTypesOptions),
     clinical_tumor_diagnosis: string()
       .required('This is a required field')
-      .oneOf(clinicalTumorDiagnosis),
+      .oneOf(clinicalTumorDiagnosisOptions),
     histological_type: string()
       .nullable(true)
       .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
-        makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'histological type'),
+        makeClinicalTumorDiagnosisDependentSchema(
+          clinicalTumorDiagnosisDependent,
+          clinical_tumor_diagnosis,
+          'histological type',
+        ),
       ),
     clinical_stage_grouping: string()
       .nullable(true)
       .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
         makeClinicalTumorDiagnosisDependentSchema(
+          clinicalTumorDiagnosisDependent,
           clinical_tumor_diagnosis,
           'clinical stage grouping',
         ),
@@ -133,6 +144,7 @@ export const publishSchema = excludedNames =>
       .nullable(true)
       .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
         makeClinicalTumorDiagnosisDependentSchema(
+          clinicalTumorDiagnosisDependent,
           clinical_tumor_diagnosis,
           'site of sample acquisition',
         ),
@@ -141,6 +153,7 @@ export const publishSchema = excludedNames =>
       .nullable(true)
       .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
         makeClinicalTumorDiagnosisDependentSchema(
+          clinicalTumorDiagnosisDependent,
           clinical_tumor_diagnosis,
           'tumor histological grade',
         ),
@@ -159,94 +172,127 @@ export const publishSchema = excludedNames =>
       .of(matchedModelSchema)
       .ensure(),
   });
+};
 
-export default publishSchema([]);
+export default async () => {
+  const dictionary = await getDictionary();
+  return await getPublishSchema([], dictionary);
+};
 
 // In order to save to ES, we do a minimal validation,
 // enforcing only the minimal set of conditions
-export const saveValidation = object().shape({
-  name: string()
-    .required('This is a required field')
-    .matches(nameRegex, nameRegexError),
-  type: string().oneOf(modelType),
-  expanded: boolean(),
-  growth_rate: number()
-    .integer()
-    .transform(numberEmptyValueTransform),
-  split_ratio: string().oneOf(splitRatio),
-  time_to_split: string(),
-  gender: string().oneOf(gender),
-  race: string()
-    .nullable(true)
-    .oneOf(race),
-  age_at_diagnosis: number().transform(numberEmptyValueTransform),
-  age_at_sample_acquisition: number().transform(numberEmptyValueTransform),
-  date_of_availability: date(),
-  primary_site: string().oneOf(primarySites),
-  tnm_stage: string(),
-  neoadjuvant_therapy: string().oneOf(neoadjuvantTherapy),
-  chemotherapeutic_drugs: boolean().nullable(true),
-  disease_status: string().oneOf(diseaseStatus),
-  vital_status: string().oneOf(vitalStatus),
-  therapy: array()
-    .of(string())
-    .ensure()
-    .test(
-      'is-one-of',
-      `Therapy can only be one of: ${therapy.join(', ')}`,
-      arrItemIsOneOf(therapy),
-    ),
-  molecular_characterizations: array()
-    .of(string())
-    .ensure()
-    .test(
-      'is-one-of',
-      `Molecular Characterizations can only be one of: ${molecularCharacterizations.join(', ')}`,
-      arrItemIsOneOf(molecularCharacterizations),
-    ),
-  clinical_tumor_diagnosis: string()
-    .nullable(true)
-    .notRequired()
-    .oneOf(clinicalTumorDiagnosis),
-  tissue_type: string().oneOf(tissueTypes),
-  histological_type: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
-    makeClinicalTumorDiagnosisDependentSchema(clinical_tumor_diagnosis, 'histological type'),
-  ),
-  clinical_stage_grouping: string()
-    .nullable(true)
-    .notRequired()
-    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+export const getSaveValidation = async () => {
+  const {
+    clinicalTumorDiagnosisDependent,
+    clinicalTumorDiagnosisOptions,
+    primarySitesOptions,
+    modelTypeOptions,
+    molecularCharacterizationsOptions,
+    splitRatioOptions,
+    genderOptions,
+    raceOptions,
+    neoadjuvantTherapyOptions,
+    diseaseStatusOptions,
+    vitalStatusOptions,
+    therapyOptions,
+    tissueTypesOptions,
+  } = await getDictionary();
+
+  console.log(modelTypeOptions);
+
+  return object().shape({
+    name: string()
+      .required('This is a required field')
+      .matches(nameRegex, nameRegexError),
+    type: string().oneOf(modelTypeOptions),
+    expanded: boolean(),
+    growth_rate: number()
+      .integer()
+      .transform(numberEmptyValueTransform),
+    split_ratio: string().oneOf(splitRatioOptions),
+    time_to_split: string(),
+    gender: string().oneOf(genderOptions),
+    race: string()
+      .nullable(true)
+      .oneOf(raceOptions),
+    age_at_diagnosis: number().transform(numberEmptyValueTransform),
+    age_at_sample_acquisition: number().transform(numberEmptyValueTransform),
+    date_of_availability: date(),
+    primary_site: string().oneOf(primarySitesOptions),
+    tnm_stage: string(),
+    neoadjuvant_therapy: string().oneOf(neoadjuvantTherapyOptions),
+    chemotherapeutic_drugs: boolean().nullable(true),
+    disease_status: string().oneOf(diseaseStatusOptions),
+    vital_status: string().oneOf(vitalStatusOptions),
+    therapy: array()
+      .of(string())
+      .ensure()
+      .test(
+        'is-one-of',
+        `Therapy can only be one of: ${therapyOptions.join(', ')}`,
+        arrItemIsOneOf(therapyOptions),
+      ),
+    molecular_characterizations: array()
+      .of(string())
+      .ensure()
+      .test(
+        'is-one-of',
+        `Molecular Characterizations can only be one of: ${molecularCharacterizationsOptions.join(
+          ', ',
+        )}`,
+        arrItemIsOneOf(molecularCharacterizationsOptions),
+      ),
+    clinical_tumor_diagnosis: string()
+      .nullable(true)
+      .notRequired()
+      .oneOf(clinicalTumorDiagnosisOptions),
+    tissue_type: string().oneOf(tissueTypesOptions),
+    histological_type: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
       makeClinicalTumorDiagnosisDependentSchema(
+        clinicalTumorDiagnosisDependent,
         clinical_tumor_diagnosis,
-        'clinical stage grouping',
+        'histological type',
       ),
     ),
-  site_of_sample_acquisition: string()
-    .nullable(true)
-    .notRequired()
-    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
-      makeClinicalTumorDiagnosisDependentSchema(
-        clinical_tumor_diagnosis,
-        'site of sample acquisition',
+    clinical_stage_grouping: string()
+      .nullable(true)
+      .notRequired()
+      .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+        makeClinicalTumorDiagnosisDependentSchema(
+          clinicalTumorDiagnosisDependent,
+          clinical_tumor_diagnosis,
+          'clinical stage grouping',
+        ),
       ),
-    ),
-  tumor_histological_grade: string()
-    .nullable(true)
-    .notRequired()
-    .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
-      makeClinicalTumorDiagnosisDependentSchema(
-        clinical_tumor_diagnosis,
-        'tumor histological grade',
+    site_of_sample_acquisition: string()
+      .nullable(true)
+      .notRequired()
+      .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+        makeClinicalTumorDiagnosisDependentSchema(
+          clinicalTumorDiagnosisDependent,
+          clinical_tumor_diagnosis,
+          'site of sample acquisition',
+        ),
       ),
-    ),
-  licensing_required: boolean().nullable(true),
-  distributor_part_number: string(),
-  source_model_url: string(),
-  source_sequence_url: string(),
-  somatic_maf_url: string().url(),
-  updatedBy: string(),
-  status: string(),
-  variants: array()
-    .of(modelVariantSchema)
-    .ensure(),
-});
+    tumor_histological_grade: string()
+      .nullable(true)
+      .notRequired()
+      .when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
+        makeClinicalTumorDiagnosisDependentSchema(
+          clinicalTumorDiagnosisDependent,
+          clinical_tumor_diagnosis,
+          'tumor histological grade',
+        ),
+      ),
+    licensing_required: boolean().nullable(true),
+    distributor_part_number: string(),
+    source_model_url: string(),
+    source_sequence_url: string(),
+    somatic_maf_url: string().url(),
+    updatedBy: string(),
+    status: string(),
+    variants: array()
+      .of(modelVariantSchema)
+      .ensure(),
+  });
+};

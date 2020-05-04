@@ -5,31 +5,32 @@ export const getDictionary = async () => {
   const url = `${config.urls.cmsBase}/dictionary`;
   const response = await fetchData({ url, method: 'get', data: '' });
   const dictionary = response.data;
+  return dictionary;
 
-  const output = dictionary.reduce((acc, field) => {
-    let { name, values } = field;
-    acc[`${name}Options`] = values.map(i => i.value);
-    return acc;
-  }, {});
-  const ctd = dictionary.find(i => i.name === 'clinicalTumorDiagnosis');
+  // const output = dictionary.reduce((acc, field) => {
+  //   let { name, values } = field;
+  //   acc[`${name}Options`] = values.map(i => i.value);
+  //   return acc;
+  // }, {});
+  // const ctd = dictionary.find(i => i.name === 'clinicalTumorDiagnosis');
 
-  const ctdDependentOptions = {};
+  // const ctdDependentOptions = {};
 
-  ctd.dependentValues.forEach(val => (ctdDependentOptions[val] = {}));
+  // ctd.dependentValues.forEach(val => (ctdDependentOptions[val] = {}));
 
-  ctd.values.forEach(val => {
-    const valueName = val.value;
+  // ctd.values.forEach(val => {
+  //   const valueName = val.value;
 
-    val.dependents.forEach(dependent => {
-      const dependentName = dependent.name;
-      const dependentValues = dependent.values.map(val => val.value);
+  //   val.dependents.forEach(dependent => {
+  //     const dependentName = dependent.name;
+  //     const dependentValues = dependent.values.map(val => val.value);
 
-      ctdDependentOptions[dependentName][valueName.toLowerCase()] = dependentValues;
-    });
-  });
-  output.clinicalTumorDiagnosisDependent = ctdDependentOptions;
+  //     ctdDependentOptions[dependentName][valueName.toLowerCase()] = dependentValues;
+  //   });
+  // });
+  // output.clinicalTumorDiagnosisDependent = ctdDependentOptions;
 
-  return output;
+  // return output;
 };
 
 export const emptyDictionary = {

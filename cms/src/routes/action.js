@@ -2,7 +2,7 @@
 
 import express from 'express';
 import Model from '../schemas/model';
-import publishValidation from '../validation/model';
+import getPublishValidation from '../validation/model';
 import { runYupValidatorFailFast, modelStatus } from '../helpers';
 import { publishModel, indexMatchedModelsToES } from '../services/elastic-search/publish';
 import { unpublishModel, unpublishOneFromES } from '../services/elastic-search/unpublish';
@@ -13,10 +13,11 @@ const actionRouter = express.Router();
 
 actionRouter.post('/publish/:name', async (req, res) => {
   const { name } = req.params;
+  const validation = await getPublishValidation();
   Model.find({
     name,
   })
-    .then(models => runYupValidatorFailFast(publishValidation, models))
+    .then(models => runYupValidatorFailFast(validation, models))
     .then(() => publishModel({ name }))
     .then(() => res.json({ success: `${name} has been successfully published` }))
     .catch(error => {
