@@ -14,7 +14,7 @@ dictionaryRouter.use('/draft', draftRouter);
 
 dictionaryRouter.get('/', async (req, res) => {
   try {
-    const dictionary = await DictionaryHelper.getDictionary();
+    const dictionary = await DictionaryHelper.getDictionaryOptions();
     res.json(dictionary);
   } catch (err) {
     console.log(err);
@@ -26,8 +26,9 @@ dictionaryRouter.get('/', async (req, res) => {
 
 draftRouter.get('/', async (req, res) => {
   try {
-    let draft = await Draft.find();
-    if (draft.length < 1) {
+    let draft = await DictionaryHelper.getDictionaryDraft();
+    if (!draft || draft.fields.length < 1) {
+      console.log('should be resettign');
       draft = await DictionaryHelper.resetDraft();
     }
     res.json(draft);
@@ -66,7 +67,8 @@ draftRouter.patch('/', async (req, res) => {
       return;
     }
 
-    const draft = await Draft.findOne({ name: field });
+    const draftDoc = await DictionaryHelper.getDictionaryDraft();
+    const draft = draftDoc.fields.find(i => i.name === field);
 
     if (!draft) {
       res.status(400).json({ err: `No dictionary field found named: ${field}` });
@@ -144,10 +146,10 @@ draftRouter.patch('/', async (req, res) => {
     }
 
     draft.stats = DictionaryHelper.countDraftStats(draft);
-    await Draft.updateOne({ name: draft.name }, draft);
+    await draftDoc.save();
 
-    const output = await Draft.find();
-    res.json(output);
+    // const output = await DictionaryHelper.getDictionaryDraft();
+    res.json(draftDoc);
   } catch (err) {
     console.log('err', err);
     res.status(500).json({ err: err.message });
@@ -174,7 +176,8 @@ draftRouter.post('/', async (req, res) => {
       return;
     }
 
-    const draft = await Draft.findOne({ name: field });
+    const draftDoc = await DictionaryHelper.getDictionaryDraft();
+    const draft = draftDoc.fields.find(i => i.name === field);
 
     if (!draft) {
       res.status(400).json({ err: `No dictionary field found named: ${field}` });
@@ -238,10 +241,10 @@ draftRouter.post('/', async (req, res) => {
       // draft.status = DictionaryHelper.checkDraftStatus(draft);
     }
     draft.stats = DictionaryHelper.countDraftStats(draft);
-    await Draft.updateOne({ name: draft.name }, draft);
+    await draftDoc.save();
 
-    const output = await Draft.find();
-    res.json(output);
+    // const output = await DictionaryHelper.getDictionaryDraft();
+    res.json(draftDoc);
   } catch (err) {
     console.log('err', err);
     res.status(500).json({ err: err.message });

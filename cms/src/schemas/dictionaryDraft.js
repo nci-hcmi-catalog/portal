@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { DictionaryField, DictionaryValue, Dependent } from './dictionary';
+import { Dictionary, DictionaryField, DictionaryValue, Dependent } from './dictionary';
 
 export const draftStatus = { published: 'published', edited: 'edited', new: 'new' };
 
@@ -37,15 +37,17 @@ const DraftStats = {
 };
 const DraftStatsSchema = new mongoose.Schema(DraftStats);
 
-const Draft = DictionaryField;
-Draft.status = {
+const DraftField = DictionaryField;
+DraftField.status = {
   type: String,
   enum: [draftStatus.published, draftStatus.edited],
   default: draftStatus.published,
 };
-Draft.stats = { type: DraftStatsSchema };
-Draft.values = { type: [DraftValueSchema] };
+DraftField.stats = { type: DraftStatsSchema };
+DraftField.values = { type: [DraftValueSchema] };
 
-export const DraftSchema = new mongoose.Schema(Draft);
+const DraftSchema = new mongoose.Schema(Dictionary, {
+  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+});
 
 export default mongoose.model('DictionaryDraft', DraftSchema, 'dictionaryDraft');

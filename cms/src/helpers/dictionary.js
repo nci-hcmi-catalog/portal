@@ -1,8 +1,14 @@
 import Dictionary from '../schemas/dictionary';
 import Draft, { draftStatus } from '../schemas/dictionaryDraft';
 
-export const getDictionary = async () => {
-  const result = await Dictionary.findOne({}, {}, { sort: { created_at: -1 } });
+export const getDictionary = async () =>
+  await Dictionary.findOne({}, {}, { sort: { created_at: -1 } });
+
+export const getDictionaryDraft = async () =>
+  await Draft.findOne({}, {}, { sort: { created_at: -1 } });
+
+export const getDictionaryOptions = async () => {
+  const result = await getDictionary();
   const dictionary = result.fields;
 
   const output = dictionary.reduce((acc, field) => {
@@ -32,17 +38,16 @@ export const getDictionary = async () => {
 };
 
 export const resetDraft = async () => {
-  await Draft.deleteMany();
-  const dictionaries = await Dictionary.findOne({}, {}, { sort: { created_at: -1 } });
-  await Draft.insertMany(dictionaries.fields);
-  return await Draft.find();
+  const dictionary = await Dictionary.findOne({}, {}, { sort: { created_at: -1 } });
+  const draft = new Draft({ fields: dictionary.fields });
+  await draft.save();
+  return await Draft.findOne({}, {}, { sort: { created_at: -1 } });
 };
 
 export const publishDraft = async () => {
-  const draftFields = await Draft.find();
-  const dictionary = new Dictionary({ fields: draftFields });
+  const draft = await getDictionaryDraft();
+  const dictionary = new Dictionary({ fields: draft.fields });
 
-  console.log(dictionary);
   await dictionary.save();
   return dictionary;
 };
