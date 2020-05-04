@@ -46,6 +46,11 @@ DraftField.status = {
 DraftField.stats = { type: DraftStatsSchema };
 DraftField.values = { type: [DraftValueSchema] };
 
+const Draft = Dictionary;
+Draft.fields = {
+  type: [DraftField],
+};
+
 const DraftSchema = new mongoose.Schema(Dictionary, {
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
 });

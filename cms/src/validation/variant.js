@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 
+// TODO: Get variant constants from dictionary
 import { variantTypes, variantAssessmentType, variantExpressionLevel } from '../schemas/constants';
 
 const { string, array, object } = yup;
