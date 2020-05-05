@@ -73,7 +73,6 @@ const removeNullKeys = data =>
 const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
 data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) => {
-  console.log('bulk model', 'entry');
   const { spreadsheetId, sheetId } = req.params;
 
   let { overwrite } = req.query;
@@ -101,7 +100,6 @@ data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) =>
       return runYupValidatorFailSlow(saveValidation, parsed);
     })
     .then(validated => {
-      console.log('bulk model', 'valid');
       const savePromises = validated
         .filter(({ success }) => success)
         .map(async ({ result }) => {
