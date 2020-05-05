@@ -52,57 +52,6 @@ export const publishDraft = async () => {
   return dictionary;
 };
 
-// TODO: Remove this comment section once we are sure we don't need it.
-//       Status for draft has been replaced with stats that count edited and new items
-// export const checkParentDraftStatus = (parent, dependentValues) => {
-//   if (parent.status === draftStatus.new) {
-//     return draftStatus.new;
-//   }
-//   for (let dependent of parent.dependents) {
-//     // Ensure we are only looking for edits in dependcies that are listed in the draft.dependentValues list
-//     if (dependentValues.includes(dependent.name)) {
-//       // Look for edits made to dependent values
-//       for (let dependentValue of dependent.values) {
-//         if (dependentValue.status !== draftStatus.published) {
-//           // Hard return so we can break this loop without any other considerations
-//           return draftStatus.edited;
-//         }
-//       }
-//     }
-//   }
-//   return draftStatus.published;
-// };
-
-// export const checkDraftStatus = draft => {
-//   const hasDependencies = draft.dependentValues && draft.dependentValues.length > 0;
-
-//   for (let value of draft.values) {
-//     // look for edits made to values
-//     if (value.status !== draftStatus.published) {
-//       // Hard return so we can break this loop without any other considerations
-//       return draftStatus.edited;
-//     }
-
-//     if (hasDependencies) {
-//       for (let dependent of value.dependents) {
-//         // Ensure we are only looking for edits in dependcies that are listed in the draft.dependentValues list
-//         if (draft.dependentValues.includes(dependent.name)) {
-//           // Look for edits made to dependent values
-//           for (let dependentValue of dependent.values) {
-//             if (dependentValue.status !== draftStatus.published) {
-//               // Hard return so we can break this loop without any other considerations
-//               return draftStatus.edited;
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-
-//   // If we didnt return above then there were no changes found
-//   return draftStatus.published;
-// };
-
 export const countDraftStats = draft => {
   const output = { edited: 0, new: 0 };
 

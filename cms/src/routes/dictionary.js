@@ -80,7 +80,7 @@ draftRouter.patch('/', async (req, res) => {
       const hasDependencies = draft.dependentValues && draft.dependentValues.length > 0;
       if (!hasDependencies) {
         res.status(400).json({
-          err: `Attempting to changge dependent value for a field that has no dependencies`,
+          err: `Attempting to change dependent value for a field that has no dependencies`,
         });
         return;
       }
