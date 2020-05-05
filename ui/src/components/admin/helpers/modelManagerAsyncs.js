@@ -7,7 +7,7 @@ import { getSheetObject } from '../helpers';
 export const uploadModelsFromSheet = async (sheetURL, overwrite) => {
   const { spreadsheetId, sheetId } = getSheetObject(sheetURL);
   const uploadURL =
-    config.urls.cmsBase + `/sync-mongo/${spreadsheetId}/${sheetId}?overwrite=${overwrite}`;
+    config.urls.cmsBase + `/bulk-models/${spreadsheetId}/${sheetId}?overwrite=${overwrite}`;
   const gapi = global.gapi;
   // TODO: this assumes user is already logged in - create a prompt to let user
   // know to login if not already logged in
