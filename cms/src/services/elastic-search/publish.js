@@ -1,6 +1,6 @@
 import { ModelES } from './common/schemas/model';
 import Model from '../../schemas/model';
-import publishValidation from '../../validation/model';
+import getPublishValidation from '../../validation/model';
 import { modelStatus } from '../../helpers/modelStatus';
 import MatchUtils from '../../helpers/matchedModels';
 import indexEsUpdate from './update';
@@ -25,9 +25,10 @@ export const indexOneToES = filter => {
         if (err) {
           reject(err);
         }
+        const validation = await getPublishValidation();
         // Validate doc against publish schema
         // for "on-demand" publishing
-        publishValidation
+        validation
           .validate(doc)
           .then(async () => {
             // Need to populate and filter the matched models

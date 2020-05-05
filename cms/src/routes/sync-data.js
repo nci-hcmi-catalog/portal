@@ -6,13 +6,15 @@ import { unionWith, uniqWith, isEqual } from 'lodash';
 import { toExcelHeaders, toExcelRowNumber } from '../schemas/constants';
 import Model, { ModelSchema } from '../schemas/model';
 import Variant from '../schemas/variant';
-import { saveValidation } from '../validation/model';
+import { getSaveValidation } from '../validation/model';
 import { modelVariantUploadSchema } from '../validation/variant';
 import { ensureAuth, computeModelStatus, runYupValidatorFailSlow } from '../helpers';
 import { getSheetData, typeToParser, NAtoNull } from '../services/import/SheetsToMongo';
 import { getLoggedInUser } from '../helpers/authorizeUserAccess';
 
 export const data_sync_router = express.Router();
+
+// 2020-05-05 Jon - Pretty sure this end point is not used anywhere, might consider removing.
 
 data_sync_router.get('/sheets-data/:spreadsheetId/:sheetId', async (req, res) => {
   const { spreadsheetId, sheetId } = req.params;
@@ -70,7 +72,7 @@ const removeNullKeys = data =>
 
 const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
-data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => {
+data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) => {
   const { spreadsheetId, sheetId } = req.params;
 
   let { overwrite } = req.query;
@@ -79,7 +81,7 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
 
   ensureAuth(req)
     .then(authClient => getSheetData({ authClient, spreadsheetId, sheetId }))
-    .then(data => {
+    .then(async data => {
       const parsed = data
         .filter(({ name }) => name)
         .map(d =>
@@ -95,7 +97,8 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
         )
         .filter(Boolean)
         .map(d => removeNullKeys(d));
-      return runYupValidatorFailSlow(saveValidation, parsed);
+      const validation = await getSaveValidation();
+      return runYupValidatorFailSlow(validation, parsed);
     })
     .then(validated => {
       const savePromises = validated
@@ -117,6 +120,9 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
           );
           if (prevModel) {
             if (overwrite && !isEqual(prevModel._doc, result)) {
+              // Prevent removing variants in overwrite
+              result.variants = prevModel._doc.variants || [];
+
               return new Promise((resolve, reject) => {
                 Model.findOneAndUpdate(
                   {
