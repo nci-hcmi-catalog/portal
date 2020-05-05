@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Row } from 'theme/system';
-import theme from 'theme';
 import ModelCarousel from 'components/ModelCarousel';
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 import Url from 'components/Url';

@@ -2,7 +2,7 @@ import React from 'react';
 import { stringify } from 'query-string';
 
 export default ({ row, sqon, savedSetsContext, state, value, history, ...props }) => {
-  const matches = value.split(',');
+  const matches = (value && value.split(',')) || 0;
   const matchCount = matches.length;
   return matchCount > 1 ? (
     <button

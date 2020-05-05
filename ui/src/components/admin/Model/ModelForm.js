@@ -14,7 +14,7 @@ import {
   FormLabelHeader,
 } from 'components/FormComponents';
 import { FormContainer, FormHeader, FormSection, FormCol } from 'theme/adminFormStyles';
-import { publishSchema } from '@hcmi-portal/cms/src/validation/model';
+import { getPublishSchema } from '@hcmi-portal/cms/src/validation/model';
 import { schemaObj } from '@hcmi-portal/cms/src/schemas/descriptions/model';
 import TabHeader from './TabHeader';
 const booleanChoice = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
@@ -461,10 +461,10 @@ const ModelFormTemplate = ({
 
 export default withFormik({
   mapPropsToValues: ({ data }) => data || {},
-  validate: (values, { otherModelOptions }) => {
+  validate: (values, { otherModelOptions, dictionary }) => {
     try {
       const excludeNames = otherModelOptions.map(option => option.name);
-      publishSchema(excludeNames).validateSync(values, { abortEarly: false });
+      getPublishSchema(excludeNames, dictionary).validateSync(values, { abortEarly: false });
     } catch (error) {
       return error.inner.reduce((acc, inner) => ({ ...acc, [inner.path]: inner.message }), {});
     }

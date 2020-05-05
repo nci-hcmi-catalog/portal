@@ -1,3 +1,4 @@
+// import {getDictionary} from '../dictionary';
 export const isFormReadyToSave = (dirty, errors) => dirty && !('name' in errors);
 
 export const isFormReadyToPublish = (values, dirty, errors) =>

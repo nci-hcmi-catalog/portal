@@ -1,8 +1,6 @@
 module.exports = {
   up(db) {
-    db.createCollection('dictionary').then(() =>
-      db.collection('dictionary').createIndex({ name: 1 }, { unique: true }),
-    );
+    db.createCollection('dictionary');
   },
 
   down(db) {
