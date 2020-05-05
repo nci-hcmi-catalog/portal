@@ -14,6 +14,8 @@ import { getLoggedInUser } from '../helpers/authorizeUserAccess';
 
 export const data_sync_router = express.Router();
 
+// 2020-05-05 Jon - Pretty sure this end point is not used anywhere, might consider removing.
+
 data_sync_router.get('/sheets-data/:spreadsheetId/:sheetId', async (req, res) => {
   const { spreadsheetId, sheetId } = req.params;
 
@@ -70,7 +72,7 @@ const removeNullKeys = data =>
 
 const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
-data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => {
+data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) => {
   const { spreadsheetId, sheetId } = req.params;
 
   let { overwrite } = req.query;
@@ -118,6 +120,9 @@ data_sync_router.get('/sync-mongo/:spreadsheetId/:sheetId', async (req, res) => 
           );
           if (prevModel) {
             if (overwrite && !isEqual(prevModel._doc, result)) {
+              // Prevent removing variants in overwrite
+              result.variants = prevModel._doc.variants || [];
+
               return new Promise((resolve, reject) => {
                 Model.findOneAndUpdate(
                   {
