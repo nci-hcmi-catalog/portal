@@ -198,8 +198,6 @@ export const getSaveValidation = async () => {
     tissueTypesOptions,
   } = await getDictionary();
 
-  console.log(modelTypeOptions);
-
   return object().shape({
     name: string()
       .required('This is a required field')

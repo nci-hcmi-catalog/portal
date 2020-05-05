@@ -28,7 +28,6 @@ draftRouter.get('/', async (req, res) => {
   try {
     let draft = await DictionaryHelper.getDictionaryDraft();
     if (!draft || draft.fields.length < 1) {
-      console.log('should be resettign');
       draft = await DictionaryHelper.resetDraft();
     }
     res.json(draft);
