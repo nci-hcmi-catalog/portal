@@ -50,13 +50,11 @@ export const AdminDictionaryContentColumn = styled(Col)`
   width: 50%;
 `;
 
-export const FieldValues = styled(AdminDictionaryContentColumn)`
-  border-right: 1px solid transparent;
-  ${({ selected }) => selected && `border-color: ${borderColour}`};
-`;
+export const FieldValues = styled(AdminDictionaryContentColumn)``;
 
 export const DependentValues = styled(AdminDictionaryContentColumn)`
   padding-left: 28px;
+  border-left: 1px solid ${borderColour};
 `;
 
 export const DependentValuesHeader = styled(Row)`

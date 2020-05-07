@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import DependentFieldValuesGroup from './DependentFieldValuesGroup';
 import { useDictionary } from './DictionaryController';
 
+import { CLINICAL_TUMOR_DIAGNOSIS, DEPENDENT_FIELD_KEYS } from './../helpers/dictionary';
+
 import { HoverPill } from 'theme/adminControlsStyles';
 import {
   DependentValues,
@@ -11,15 +13,8 @@ import {
   expandPill,
 } from 'theme/adminDictionaryStyles';
 
-const DEPENDENT_FIELD_KEYS = {
-  histologicalType: 'histological type',
-  clinicalStageGrouping: 'clinical stage grouping',
-  siteOfSampleAcquisition: 'site of sample acquisition',
-  tumorHistologicalGrade: 'tumor histological grade',
-};
-
 const DictionaryDependentFieldValues = () => {
-  const { activeValue, activeValueDependents } = useDictionary();
+  const { activeField, activeValue, activeValueDependents } = useDictionary();
 
   const [expanded, setExpanded] = useState({
     [DEPENDENT_FIELD_KEYS.histologicalType]: true,
@@ -52,8 +47,8 @@ const DictionaryDependentFieldValues = () => {
   };
 
   return (
-    activeValue &&
-    activeValueDependents && (
+    activeField === CLINICAL_TUMOR_DIAGNOSIS &&
+    activeValue && (
       <DependentValues>
         <DependentValuesHeader>
           <DictionaryColumnHeading>Dependent Field Values</DictionaryColumnHeading>
@@ -62,38 +57,24 @@ const DictionaryDependentFieldValues = () => {
           </HoverPill>
         </DependentValuesHeader>
 
-        {/* This is the ideal way to do it, however it fails in the case there are no dependents
-            since there is no way to add any */}
-        {/* {activeValueDependents.map(dependentGroup => (
-          <DependentFieldValuesGroup
-            key={dependentGroup.name}
-            fieldName={dependentGroup.displayName}
-            fieldValues={dependentGroup.values}
-            fieldKey={dependentGroup.name}
-          />
-        ))} */}
-
         <DependentFieldValuesGroup
           fieldName={'Histological Subtype'}
           fieldKey={DEPENDENT_FIELD_KEYS.histologicalType}
           fieldValues={getDependents(DEPENDENT_FIELD_KEYS.histologicalType)}
           isOpen={expanded[DEPENDENT_FIELD_KEYS.histologicalType]}
         />
-
         <DependentFieldValuesGroup
           fieldName={'Clinical Stage Grouping'}
           fieldKey={DEPENDENT_FIELD_KEYS.clinicalStageGrouping}
           fieldValues={getDependents(DEPENDENT_FIELD_KEYS.clinicalStageGrouping)}
           isOpen={expanded[DEPENDENT_FIELD_KEYS.clinicalStageGrouping]}
         />
-
         <DependentFieldValuesGroup
           fieldName={'Histological Grade'}
           fieldKey={DEPENDENT_FIELD_KEYS.tumorHistologicalGrade}
           fieldValues={getDependents(DEPENDENT_FIELD_KEYS.tumorHistologicalGrade)}
           isOpen={expanded[DEPENDENT_FIELD_KEYS.tumorHistologicalGrade]}
         />
-
         <DependentFieldValuesGroup
           fieldName={'Acquisition Site'}
           fieldKey={DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition}

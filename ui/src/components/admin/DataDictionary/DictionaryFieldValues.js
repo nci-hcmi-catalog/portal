@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useDictionary } from './DictionaryController';
 import EditableFieldValue from './EditableFieldValue';
 
+import { CLINICAL_TUMOR_DIAGNOSIS } from './../helpers/dictionary';
+
 import {
   AddFieldForm,
   AddFieldInput,
@@ -39,7 +41,7 @@ const DictionaryFieldValues = () => {
   };
 
   return (
-    <FieldValues selected={activeValue}>
+    <FieldValues>
       {activeField && (
         <>
           <DictionaryColumnHeading>{activeField} Values</DictionaryColumnHeading>
@@ -71,9 +73,13 @@ const DictionaryFieldValues = () => {
                   initialValue={fieldValue.value}
                   initialState={fieldValue.status}
                   active={activeValue === fieldValue.value}
-                  onClick={() => {
-                    setActiveValue(fieldValue.value, fieldValue.dependents);
-                  }}
+                  clickHandler={
+                    activeField === CLINICAL_TUMOR_DIAGNOSIS
+                      ? () => {
+                          setActiveValue(fieldValue.value, fieldValue.dependents);
+                        }
+                      : null
+                  }
                   removeFn={() => removeNewField(fieldValue.value)}
                 />
               ))}

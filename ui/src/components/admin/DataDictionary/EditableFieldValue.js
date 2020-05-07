@@ -15,7 +15,14 @@ import {
   FieldValueListItemContents,
 } from 'theme/adminDictionaryStyles';
 
-const EditableFieldValue = ({ active, initialValue, initialState, removeFn, ...props }) => {
+const EditableFieldValue = ({
+  active,
+  clickHandler,
+  initialValue,
+  initialState,
+  removeFn,
+  ...props
+}) => {
   let [hovering, setHovering] = useState(false);
   let [value, setValue] = useState(initialValue);
   let [fieldState, setFieldState] = useState(initialState);
@@ -63,6 +70,8 @@ const EditableFieldValue = ({ active, initialValue, initialState, removeFn, ...p
     e.stopPropagation();
     removeFn();
   };
+
+  const handleClick = clickHandler || startEdit;
 
   useEffect(() => {
     if (fieldState === 'editing' && editableFieldRef && editableFieldRef.current) {
@@ -135,6 +144,7 @@ const EditableFieldValue = ({ active, initialValue, initialState, removeFn, ...p
       onFocus={hoverHandler}
       onMouseOut={unhoverHandler}
       onBlur={unhoverHandler}
+      onClick={handleClick}
       {...props}
     >
       <FieldValueListItemContents active={active}>
