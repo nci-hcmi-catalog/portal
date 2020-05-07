@@ -4,12 +4,14 @@ import base from 'theme';
 
 import { AdminContent, AdminHeaderH1 } from 'theme/adminStyles';
 import { Col } from 'theme/system';
+import { Row } from 'theme/system';
 
 const {
   fonts: { libreFranklin, openSans },
   keyedPalette: {
     aquaSpring,
     athensGray,
+    athensLightGray,
     bombay,
     deepIron,
     elm,
@@ -48,13 +50,28 @@ export const AdminDictionaryContentColumn = styled(Col)`
   width: 50%;
 `;
 
-export const FieldValues = styled(AdminDictionaryContentColumn)`
-  border-right: 1px solid transparent;
-  ${({ selected }) => selected && `border-color: ${borderColour}`};
-`;
+export const FieldValues = styled(AdminDictionaryContentColumn)``;
 
 export const DependentValues = styled(AdminDictionaryContentColumn)`
   padding-left: 28px;
+  border-left: 1px solid ${borderColour};
+`;
+
+export const DependentValuesHeader = styled(Row)`
+  justify-content: space-between;
+`;
+
+export const DependentFieldType = styled('h3')`
+  font-family: ${libreFranklin};
+  font-size: 14px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.29;
+  background-image: linear-gradient(to bottom, ${athensGray} 13%, ${athensLightGray} 88%);
+  padding: 8px;
+  border-top: 1px solid ${borderColour};
+  cursor: pointer;
 `;
 
 export const DictionaryColumnHeading = styled('h2')`
@@ -132,6 +149,7 @@ export const AddFieldButton = styled('button')`
 `;
 
 export const disabledPill = css`
+  font-weight: bold;
   background-color: ${deepIron};
   &:hover {
     background-color: ${deepIron};
@@ -139,6 +157,7 @@ export const disabledPill = css`
 `;
 
 export const cancelPill = css`
+  font-weight: bold;
   background-color: ${white};
   color: ${mineShaft};
   &:hover {
@@ -148,10 +167,20 @@ export const cancelPill = css`
 `;
 
 export const actionPill = css`
+  font-weight: bold;
   background-color: ${elm};
   &:hover {
     background-color: ${pelorousapprox};
   }
+`;
+
+export const expandPill = css`
+  ${cancelPill};
+  margin: 0;
+  padding: 5px 10px;
+  line-height: normal;
+  min-height: unset;
+  height: 28px;
 `;
 
 export const FieldValueList = styled('ol')`
@@ -267,8 +296,13 @@ export const FieldValueListItemButton = styled('button')`
   cursor: pointer;
 `;
 
+export const EditFieldForm = styled('form')`
+  width: 100%;
+`;
+
 export const EditFieldInput = styled(AddFieldInput)`
   margin-right: auto;
+  width: calc(100% - 40px);
 `;
 
 export const FieldStateLabel = styled('span')`

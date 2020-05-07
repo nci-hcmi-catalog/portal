@@ -1,1 +1,1 @@
-export { default } from './DataDictionary';
+export { default } from './DictionaryManager';

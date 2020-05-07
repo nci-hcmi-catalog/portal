@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import AdminDictionaryUndoIcon from '../../../icons/AdminDictionaryUndoIcon';
 import AdminDictionaryEditIcon from '../../../icons/AdminDictionaryEditIcon';
@@ -6,6 +6,7 @@ import AdminDictionarySaveIcon from '../../../icons/AdminDictionarySaveIcon';
 
 import {
   FieldValueListItemContentsWrapper,
+  EditFieldForm,
   EditFieldInput,
   FieldStateLabel,
   FieldValueListItem,
@@ -14,10 +15,18 @@ import {
   FieldValueListItemContents,
 } from 'theme/adminDictionaryStyles';
 
-const EditableFieldValue = ({ active, initialValue, initialState, removeFn, ...props }) => {
+const EditableFieldValue = ({
+  active,
+  clickHandler,
+  initialValue,
+  initialState,
+  removeFn,
+  ...props
+}) => {
   let [hovering, setHovering] = useState(false);
   let [value, setValue] = useState(initialValue);
   let [fieldState, setFieldState] = useState(initialState);
+  let editableFieldRef = useRef(null);
 
   const isDirty = () => {
     return fieldState === 'edited' || fieldState === 'new';
@@ -42,6 +51,7 @@ const EditableFieldValue = ({ active, initialValue, initialState, removeFn, ...p
   };
 
   const saveEdit = e => {
+    e.preventDefault();
     e.stopPropagation();
     if (value !== initialValue) {
       setFieldState('edited');
@@ -61,16 +71,27 @@ const EditableFieldValue = ({ active, initialValue, initialState, removeFn, ...p
     removeFn();
   };
 
+  const handleClick = clickHandler || startEdit;
+
+  useEffect(() => {
+    if (fieldState === 'editing' && editableFieldRef && editableFieldRef.current) {
+      editableFieldRef.current.focus();
+    }
+  }, [fieldState]);
+
   const renderFieldLabel = fieldState => {
     switch (fieldState) {
       case 'editing':
         return (
-          <EditFieldInput
-            type="text"
-            value={value}
-            onChange={changeHandler}
-            onClick={e => e.stopPropagation()}
-          />
+          <EditFieldForm onSubmit={saveEdit}>
+            <EditFieldInput
+              type="text"
+              value={value}
+              onChange={changeHandler}
+              onClick={e => e.stopPropagation()}
+              innerRef={editableFieldRef}
+            />
+          </EditFieldForm>
         );
       default:
         return <FieldValueListItemLabel>{value}</FieldValueListItemLabel>;
@@ -123,6 +144,7 @@ const EditableFieldValue = ({ active, initialValue, initialState, removeFn, ...p
       onFocus={hoverHandler}
       onMouseOut={unhoverHandler}
       onBlur={unhoverHandler}
+      onClick={handleClick}
       {...props}
     >
       <FieldValueListItemContents active={active}>
