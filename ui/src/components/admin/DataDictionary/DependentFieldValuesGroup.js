@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { useDictionary } from './DictionaryController';
 import EditableFieldValue from './EditableFieldValue';
 
 import AdminDictionaryAddIcon from '../../../icons/AdminDictionaryAddIcon';
@@ -14,20 +15,30 @@ import {
 } from 'theme/adminDictionaryStyles';
 import { Row } from 'theme/system';
 
-const DependentFieldValuesGroup = ({
-  fieldName,
-  fieldKey,
-  fieldValues,
-  newFieldValue,
-  submitHandler,
-  changeHandler,
-  toggleHandler,
-  deleteHandler,
-  expanded = false,
-}) => {
+const DependentFieldValuesGroup = ({ fieldName, fieldKey, fieldValues, isOpen = false }) => {
+  const { addDependentField, removeDependentField } = useDictionary();
+  const [expanded, setExpanded] = useState(isOpen);
+  const [newFieldValue, setNewFieldValue] = useState('');
+
+  const addField = (e, fieldName, fieldType) => {
+    e.preventDefault();
+
+    addDependentField(fieldName, fieldType);
+
+    setNewFieldValue('');
+  };
+
+  const removeField = (fieldName, fieldType) => {
+    removeDependentField(fieldName, fieldType);
+  };
+
+  useEffect(() => {
+    setExpanded(isOpen);
+  }, [isOpen]);
+
   return (
     <>
-      <DependentFieldType onClick={() => toggleHandler(fieldKey)}>
+      <DependentFieldType onClick={() => setExpanded(!expanded)}>
         <AdminDictionaryArrowIcon
           height={12}
           width={12}
@@ -38,7 +49,7 @@ const DependentFieldValuesGroup = ({
       {expanded && (
         <>
           <Row>
-            <AddFieldForm onSubmit={e => submitHandler(e, fieldKey, newFieldValue)}>
+            <AddFieldForm onSubmit={e => addField(e, fieldKey, newFieldValue)}>
               <AddFieldInput
                 type="text"
                 id="new-field"
@@ -47,7 +58,7 @@ const DependentFieldValuesGroup = ({
                 value={newFieldValue}
                 onChange={e => {
                   e.preventDefault();
-                  changeHandler(e.target.value);
+                  setNewFieldValue(e.target.value);
                 }}
               />
               <AddFieldButton disabled={!newFieldValue}>
@@ -63,7 +74,7 @@ const DependentFieldValuesGroup = ({
                   key={x.value || x}
                   initialValue={x.value || x}
                   initialState={x.initialState}
-                  removeFn={() => deleteHandler(x.value, fieldKey)}
+                  removeFn={() => removeField(x.value, fieldKey)}
                 />
               ))}
             </FieldValueList>
