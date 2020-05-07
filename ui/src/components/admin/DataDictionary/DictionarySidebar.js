@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useDictionary } from './DictionaryController';
 
@@ -8,6 +8,18 @@ import Tab from 'components/layout/VerticalTabs/Tab';
 const DictionarySidebar = ({ width }) => {
   const label = 'Editable Fields';
   const { activeField, dictionary, setActiveField } = useDictionary();
+
+  useEffect(() => {
+    if (activeField === '' && dictionary && dictionary.fields && dictionary.fields.length > 0) {
+      let firstField = dictionary.fields.sort((a, b) => {
+        if (a.displayName < b.displayName) return -1;
+        if (a.displayName > b.displayName) return 1;
+        return 0;
+      })[0];
+
+      setActiveField(firstField.displayName);
+    }
+  }, [activeField, dictionary]);
 
   return (
     <TabGroup groupName={label} width={width}>
