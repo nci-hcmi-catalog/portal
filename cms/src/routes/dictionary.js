@@ -120,11 +120,7 @@ draftRouter.patch('/', async (req, res) => {
         res.status(400).json({ err: 'This value already exists in the specified field.' });
         return;
       }
-
-      editValue.original = editValue.original ? editValue.original : original;
-
-      editValue.value = updated;
-      editValue.status = editValue.value === original ? draftStatus.published : draftStatus.edited;
+      DictionaryHelper.editValue(editValue, original, updated);
     } else {
       // handle basic case
       const editValue = draft.values.find(val =>
@@ -138,10 +134,7 @@ draftRouter.patch('/', async (req, res) => {
         res.status(400).json({ err: 'This value already exists in the specified field.' });
         return;
       }
-      editValue.original = editValue.original ? editValue.original : original;
-
-      editValue.value = updated;
-      editValue.status = editValue.value === original ? draftStatus.published : draftStatus.edited;
+      DictionaryHelper.editValue(editValue, original, updated);
     }
 
     draft.stats = DictionaryHelper.countDraftStats(draft);
@@ -236,6 +229,102 @@ draftRouter.post('/', async (req, res) => {
         return;
       }
       draft.values.push(valueObject);
+
+      // draft.status = DictionaryHelper.checkDraftStatus(draft);
+    }
+    draft.stats = DictionaryHelper.countDraftStats(draft);
+    await draftDoc.save();
+
+    // const output = await DictionaryHelper.getDictionaryDraft();
+    res.json(draftDoc);
+  } catch (err) {
+    console.log('err', err);
+    res.status(500).json({ err: err.message });
+  }
+});
+
+// REMOVE NEW VALUE
+draftRouter.post('/remove', async (req, res) => {
+  try {
+    const { field, parent, dependentName, value } = req.body;
+
+    if (!(field && value)) {
+      res
+        .status(400)
+        .json({ err: `Missing required parameter(s): 'field', and 'value' are both mandatory.` });
+      return;
+    }
+    if (parent && !dependentName) {
+      res
+        .status(400)
+        .json({ err: `Value for parameter 'parent' was provided but no 'dependentName' value.` });
+      return;
+    }
+
+    const draftDoc = await DictionaryHelper.getDictionaryDraft();
+    const draft = draftDoc.fields.find(i => i.name === field);
+
+    if (!draft) {
+      res.status(400).json({ err: `No dictionary field found named: ${field}` });
+      return;
+    }
+
+    if (parent) {
+      // handle dependent field case
+
+      const hasDependencies = draft.dependentValues && draft.dependentValues.length > 0;
+      if (!hasDependencies) {
+        res.status(400).json({
+          err: `Attempting to changge dependent value for a field that has no dependencies`,
+        });
+        return;
+      }
+
+      if (!draft.dependentValues.includes(dependentName)) {
+        res.status(400).json({
+          err: `Specified field does not include dependents of the name: ${dependentName}`,
+        });
+        return;
+      }
+
+      const parentValue = draft.values.find(val =>
+        val.original ? val.original === parent : val.value === parent,
+      );
+
+      if (!parentValue) {
+        res.status(400).json({ err: `No value found that matches the provided parent value.` });
+        return;
+      }
+
+      let dependent = parentValue.dependents.find(dep => dep.name === dependentName);
+
+      if (!dependent) {
+        dependent = {
+          name: dependentName,
+          // displayName has a replace that does: To Title Case
+          displayName: dependentName.replace(/\w\S*/g, function(txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+          }),
+          values: [],
+          dependentValues: [],
+        };
+        parentValue.values.push(dependent);
+      }
+
+      try {
+        DictionaryHelper.removeValueIfNew(dependent.values, value);
+      } catch (e) {
+        res.status(400).json({ err: e.message });
+        return;
+      }
+    } else {
+      // handle basic field case
+      try {
+        DictionaryHelper.removeValueIfNew(draft.values, value);
+      } catch (e) {
+        res.status(400).json({ err: e.message });
+        return;
+      }
 
       // draft.status = DictionaryHelper.checkDraftStatus(draft);
     }

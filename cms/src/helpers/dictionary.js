@@ -83,6 +83,27 @@ export const countDraftStats = draft => {
   return output;
 };
 
+export const editValue = (target, original, updated) => {
+  target.value = updated;
+  if (target.status !== draftStatus.new) {
+    // Editing an existing value - New values shouldn't get original property or change status
+    target.original = target.original ? target.original : original;
+
+    target.status = target.value === original ? draftStatus.published : draftStatus.edited;
+  }
+};
+
 export const valueExists = (valuesList, value) => {
   return !!valuesList.find(val => val.value === value);
+};
+
+export const removeValueIfNew = (valueList, value) => {
+  const index = valueList.indexOf(
+    valueList.find(i => i.status === draftStatus.new && i.value === value),
+  );
+  if (index >= 0) {
+    valueList.splice(index, 1);
+  } else {
+    throw new Error(`Could not find this ${value} with 'new' status in list.`);
+  }
 };
