@@ -4,7 +4,7 @@ import { arrItemIsOneOf } from './helpers';
 
 import { modelVariantSchema } from './variant';
 import { matchedModelSchema } from './matchedModels';
-import { getDictionary } from '../helpers/dictionary';
+import { getDictionaryOptions } from '../helpers/dictionary';
 
 // Custom date validation parser
 yup.date().transform(function(value, originalValue) {
@@ -175,8 +175,8 @@ export const getPublishSchema = async (excludedNames, dictionary) => {
 };
 
 export default async () => {
-  const dictionary = await getDictionary();
-  return await getPublishSchema([], dictionary);
+  const dictionaryOptions = await getDictionaryOptions();
+  return await getPublishSchema([], dictionaryOptions);
 };
 
 // In order to save to ES, we do a minimal validation,
@@ -196,7 +196,7 @@ export const getSaveValidation = async () => {
     vitalStatusOptions,
     therapyOptions,
     tissueTypesOptions,
-  } = await getDictionary();
+  } = await getDictionaryOptions();
 
   return object().shape({
     name: string()

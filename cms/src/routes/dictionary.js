@@ -30,6 +30,7 @@ draftRouter.get('/', async (req, res) => {
     if (!draft || draft.fields.length < 1) {
       draft = await DictionaryHelper.resetDraft();
     }
+
     res.json(draft);
   } catch (err) {
     console.log(err);
@@ -343,6 +344,7 @@ draftRouter.post('/publish', async (req, res) => {
   try {
     const dictionary = await DictionaryHelper.publishDraft();
     const output = await DictionaryHelper.resetDraft();
+
     res.json(output);
   } catch (err) {
     console.log('err', err);

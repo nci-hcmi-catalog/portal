@@ -1,5 +1,24 @@
 import Dictionary from '../schemas/dictionary';
 import Draft, { draftStatus } from '../schemas/dictionaryDraft';
+import Model from '../schemas/model';
+import { modelStatus } from '../helpers/modelStatus';
+
+const fieldNameToModelPropertyMap = {
+  primarySites: 'primary_site',
+  modelType: 'type',
+  splitRatio: 'split_ratio',
+  gender: 'gender',
+  race: 'race',
+  neoadjuvantTherapy: 'neoadjuvant_therapy',
+  diseaseStatus: 'disease_status',
+  vitalStatus: 'vital_status',
+  tissueTypes: 'tissue_type',
+  clinicalTumorDiagnosis: 'clinical_tumor_diagnosis',
+  'histological type': 'histological_type',
+  'clinical stage grouping': 'clinical_stage_grouping',
+  'site of sample acquisition': 'site_of_sample_acquisition',
+  'tumor histological grade': 'tumor_histological_grade',
+};
 
 export const getDictionary = async () =>
   await Dictionary.findOne({}, {}, { sort: { created_at: -1 } });
@@ -46,9 +65,74 @@ export const resetDraft = async () => {
 
 export const publishDraft = async () => {
   const draft = await getDictionaryDraft();
-  const dictionary = new Dictionary({ fields: draft.fields });
 
+  // find edited values
+  const edits = [];
+  draft.fields.forEach(field => {
+    if (field.dependentValues.length > 0) {
+      // dependent field case
+      field.values.forEach(value => {
+        value.dependents.forEach(dependent => {
+          dependent.values.forEach(dependentValue => {
+            if (dependentValue.status === draftStatus.edited) {
+              edits.push({
+                field: field.name,
+                parent: value.value,
+                dependentName: dependent.name,
+                value: dependentValue.value,
+                original: dependentValue.original,
+              });
+            }
+          });
+        });
+      });
+    } else {
+      // basic field case
+      field.values.forEach(value => {
+        if (value.status === draftStatus.edited) {
+          edits.push({
+            field: field.name,
+            value: value.value,
+            original: value.original,
+          });
+        }
+      });
+    }
+  });
+
+  // TODO: do this in batches.
+  //       As written, it will load all models from mongo at same time.
+  //       This is fine today, but if we get too many models in the system
+  //       then this will take too much memory to be feasible.
+
+  const models = await Model.find({});
+
+  const dictionary = new Dictionary({ fields: draft.fields });
   await dictionary.save();
+
+  models.forEach(model => {
+    // Find these values in the models.
+    edits.forEach(edit => {
+      const editField = edit.dependentName ? edit.dependentName : edit.field;
+
+      // - update those models and change their status
+      if (editField === 'therapy' && model.therapy.includes(edit.original)) {
+        // special case, therapy is an array
+
+        model.therapy.splice(model.therapy.indexOf(val => val === edit.original), 1);
+        model.therapy.push(edit.value);
+      } else {
+        const modelField = fieldNameToModelPropertyMap[editField];
+        if (model[modelField] === edit.original) {
+          model[modelField] = edit.value;
+          model.status =
+            model.status === modelStatus.published ? modelStatus.unpublishedChanges : model.status;
+        }
+      }
+    });
+    model.save();
+  });
+
   return dictionary;
 };
 
