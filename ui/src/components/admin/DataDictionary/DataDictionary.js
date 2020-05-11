@@ -19,9 +19,28 @@ const DataDictionary = () => {
 
   useEffect(() => {
     getDictionaryDraft().then(dictionaryData => {
+      let isDraft = dictionaryData.created_at !== dictionaryData.updated_at,
+        totalEdits = 0,
+        totalNew = 0;
+
+      if (isDraft) {
+        dictionaryData.fields &&
+          dictionaryData.fields.forEach(field => {
+            if (field.stats && field.stats.edited) {
+              totalEdits += field.stats.edited;
+            }
+            if (field.stats && field.stats.new) {
+              totalNew += field.stats.new;
+            }
+          });
+      }
+
       setState({
         ...state,
         dictionary: dictionaryData,
+        isDraft,
+        totalEdits,
+        totalNew,
       });
     });
   }, []);

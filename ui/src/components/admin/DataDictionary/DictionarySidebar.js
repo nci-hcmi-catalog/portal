@@ -9,6 +9,12 @@ const DictionarySidebar = ({ width }) => {
   const label = 'Editable Fields';
   const { activeField, dictionary, setActiveField } = useDictionary();
 
+  const generateStatsString = field => {
+    return field && field.stats
+      ? `${field.stats.edited || 0} edit | ${field.stats.new || 0} new`
+      : null;
+  };
+
   useEffect(() => {
     if (activeField === '' && dictionary && dictionary.fields && dictionary.fields.length > 0) {
       let firstField = dictionary.fields.sort((a, b) => {
@@ -35,8 +41,8 @@ const DictionarySidebar = ({ width }) => {
             <Tab
               key={field.name}
               heading={field.displayName}
-              subheading={'0 edit | 0 new'} // TODO: edit/new per field
-              dot={true} // TODO: same as above
+              subheading={generateStatsString(field)}
+              dot={generateStatsString(field)}
               active={activeField === field.displayName}
               onClick={() => setActiveField(field.displayName)}
             />

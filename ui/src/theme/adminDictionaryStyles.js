@@ -36,6 +36,43 @@ export const DataDictionaryH1 = styled(AdminHeaderH1)`
   color: ${mineShaft};
 `;
 
+export const HeaderPill = styled('span')`
+  font-family: ${libreFranklin};
+  font-size: 11px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.27;
+  color: ${white};
+  background-color: ${seaBuckthorn};
+  border-radius: 8px;
+  padding: 3px 8px;
+  margin: auto 10px;
+`;
+
+export const DictionaryDraftPublished = styled('span')`
+  font-size: 11px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.27;
+  position: absolute;
+  top: 20px;
+  padding-left: 2px;
+`;
+
+export const DictionaryDraftUpdated = styled('span')`
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+
+  span {
+    margin: auto 10px;
+  }
+`;
+
 export const AdminDictionaryContent = styled(AdminContent)`
   display: flex;
   flex-direction: row;
