@@ -49,7 +49,7 @@ const DependentFieldValuesGroup = ({ fieldName, fieldKey, fieldValues, isOpen = 
       {expanded && (
         <>
           <Row>
-            <AddFieldForm onSubmit={e => addField(e, fieldKey, newFieldValue)}>
+            <AddFieldForm onSubmit={e => addField(e, newFieldValue, fieldKey)}>
               <AddFieldInput
                 type="text"
                 id="new-field"
@@ -71,9 +71,9 @@ const DependentFieldValuesGroup = ({ fieldName, fieldKey, fieldValues, isOpen = 
             <FieldValueList>
               {fieldValues.map(x => (
                 <EditableFieldValue
-                  key={x.value || x}
-                  initialValue={x.value || x}
-                  initialState={x.initialState}
+                  key={x._id}
+                  initialValue={x.value}
+                  initialState={x.status}
                   removeFn={() => removeField(x.value, fieldKey)}
                 />
               ))}

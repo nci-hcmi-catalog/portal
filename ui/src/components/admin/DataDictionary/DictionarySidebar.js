@@ -23,7 +23,7 @@ const DictionarySidebar = ({ width }) => {
         return 0;
       })[0];
 
-      setActiveField(firstField.displayName);
+      setActiveField(firstField.displayName, firstField.name);
     }
   }, [activeField, dictionary]);
 
@@ -39,12 +39,12 @@ const DictionarySidebar = ({ width }) => {
           })
           .map(field => (
             <Tab
-              key={field.name}
+              key={field._id}
               heading={field.displayName}
               subheading={generateStatsString(field)}
               dot={generateStatsString(field)}
               active={activeField === field.displayName}
-              onClick={() => setActiveField(field.displayName)}
+              onClick={() => setActiveField(field.displayName, field.name)}
             />
           ))}
     </TabGroup>

@@ -69,7 +69,7 @@ const DictionaryFieldValues = () => {
               activeFieldValues.length > 0 &&
               activeFieldValues.map(fieldValue => (
                 <EditableFieldValue
-                  key={fieldValue.value}
+                  key={fieldValue._id}
                   initialValue={fieldValue.value}
                   initialState={fieldValue.status}
                   active={activeValue === fieldValue.value}
