@@ -133,15 +133,21 @@ export const useDictionary = () => {
   };
 
   const reset = () => {
-    // TODO: implement reset draft modal
-    console.log('Data Dictionary: Reset Draft');
-    deleteDictionaryDraft();
+    deleteDictionaryDraft().then(updatedDictionary => {
+      setState({
+        ...state,
+        dictionary: updatedDictionary,
+      });
+    });
   };
 
   const publish = () => {
-    // TODO: implement publish draft modal
-    console.log('Data Dictionary: Publish All Updates');
-    publishDictionaryDraft();
+    publishDictionaryDraft().then(updatedDictionary => {
+      setState({
+        ...state,
+        dictionary: updatedDictionary,
+      });
+    });
   };
 
   const getActiveFieldValues = () => {
@@ -177,6 +183,34 @@ export const useDictionary = () => {
     return [];
   };
 
+  const getTotalEdits = () => {
+    let totalEdits = 0;
+
+    if (state.dictionary && state.dictionary.fields) {
+      state.dictionary.fields.forEach(field => {
+        if (field.stats && field.stats.edited) {
+          totalEdits += field.stats.edited;
+        }
+      });
+    }
+
+    return totalEdits;
+  };
+
+  const getTotalNew = () => {
+    let totalNew = 0;
+
+    if (state.dictionary && state.dictionary.fields) {
+      state.dictionary.fields.forEach(field => {
+        if (field.stats && field.stats.new) {
+          totalNew += field.stats.new;
+        }
+      });
+    }
+
+    return totalNew;
+  };
+
   const getLastPublished = () => {
     if (!state || !state.dictionary || !state.dictionary.created_at) return null;
     return moment
@@ -199,11 +233,11 @@ export const useDictionary = () => {
     activeValue: state.activeValue,
     activeValueDependents: getActiveValueDependents(),
     dictionary: state.dictionary,
-    isDraft: state.isDraft,
+    isDraft: state.dictionary.created_at !== state.dictionary.updated_at,
     lastPublished: getLastPublished(),
     lastUpdated: getLastUpdated(),
-    totalEdits: state.totalEdits,
-    totalNew: state.totalNew,
+    totalEdits: getTotalEdits(),
+    totalNew: getTotalNew(),
     setActiveField,
     setActiveValue,
     addField,
