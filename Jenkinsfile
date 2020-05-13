@@ -221,7 +221,7 @@ pipeline {
        environment name: 'BUILD_STEP_SUCCESS', value: 'yes'
        environment name: 'DEPLOY_TO_PRD', value: 'yes'
        expression {
-           return env.BRANCH_NAME == 'master';
+           return env.BRANCH_NAME == 'master' || ( tag != '' && env.BRANCH_NAME == tag);
        }
        expression {
            return tag != '';
