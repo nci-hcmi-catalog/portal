@@ -18,6 +18,7 @@ import {
 const EditableFieldValue = ({
   active,
   clickHandler,
+  editFn,
   initialValue,
   initialState,
   removeFn,
@@ -53,6 +54,9 @@ const EditableFieldValue = ({
   const saveEdit = e => {
     e.preventDefault();
     e.stopPropagation();
+
+    editFn(value);
+
     if (value !== initialValue) {
       setFieldState('edited');
     } else {

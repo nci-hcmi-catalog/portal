@@ -23,6 +23,7 @@ const DictionaryFieldValues = () => {
     activeFieldValues,
     activeValue,
     addField,
+    editField,
     removeField,
     setActiveValue,
   } = useDictionary();
@@ -34,6 +35,10 @@ const DictionaryFieldValues = () => {
     addField(newFieldValue);
 
     setNewFieldValue('');
+  };
+
+  const editNewField = (originalValue, updatedValue) => {
+    editField(originalValue, updatedValue);
   };
 
   const removeNewField = value => {
@@ -80,6 +85,7 @@ const DictionaryFieldValues = () => {
                         }
                       : null
                   }
+                  editFn={updatedValue => editNewField(fieldValue.value, updatedValue)}
                   removeFn={() => removeNewField(fieldValue.value)}
                 />
               ))}

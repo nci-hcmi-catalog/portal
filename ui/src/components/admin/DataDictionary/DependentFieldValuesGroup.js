@@ -16,7 +16,7 @@ import {
 import { Row } from 'theme/system';
 
 const DependentFieldValuesGroup = ({ fieldName, fieldKey, fieldValues, isOpen = false }) => {
-  const { addDependentField, removeDependentField } = useDictionary();
+  const { addDependentField, editDependentField, removeDependentField } = useDictionary();
   const [expanded, setExpanded] = useState(isOpen);
   const [newFieldValue, setNewFieldValue] = useState('');
 
@@ -26,6 +26,10 @@ const DependentFieldValuesGroup = ({ fieldName, fieldKey, fieldValues, isOpen = 
     addDependentField(fieldName, fieldType);
 
     setNewFieldValue('');
+  };
+
+  const editField = (originalValue, updatedValue, fieldType) => {
+    editDependentField(originalValue, updatedValue, fieldType);
   };
 
   const removeField = (fieldName, fieldType) => {
@@ -74,6 +78,7 @@ const DependentFieldValuesGroup = ({ fieldName, fieldKey, fieldValues, isOpen = 
                   key={x._id}
                   initialValue={x.value}
                   initialState={x.status}
+                  editFn={updatedValue => editField(x.value, updatedValue, fieldKey)}
                   removeFn={() => removeField(x.value, fieldKey)}
                 />
               ))}

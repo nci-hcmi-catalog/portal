@@ -1,4 +1,4 @@
-import { get, post } from '../services/Fetcher';
+import { get, patch, post } from '../services/Fetcher';
 import config from '../config';
 
 const DICTIONARY_URL = `${config.urls.cmsBase}/dictionary`;
@@ -32,6 +32,27 @@ export const addDictionaryDraftValue = async ({
     value,
   };
   const response = await post({ url, data });
+  // TODO: error handling from API
+  const dictionary = response.data;
+  return dictionary;
+};
+
+export const editDictionaryDraftValue = async ({
+  field = '',
+  parent = '',
+  dependentName = '',
+  original = '',
+  updated = '',
+}) => {
+  const url = DICTIONARY_DRAFT_URL;
+  const data = {
+    field,
+    parent,
+    dependentName,
+    original,
+    updated,
+  };
+  const response = await patch({ url, data });
   // TODO: error handling from API
   const dictionary = response.data;
   return dictionary;

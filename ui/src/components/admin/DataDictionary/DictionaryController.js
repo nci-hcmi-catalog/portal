@@ -1,7 +1,11 @@
 import React, { useState, useContext } from 'react';
 import moment from 'moment-timezone';
 
-import { addDictionaryDraftValue, removeDictionaryDraftValue } from './../helpers/dictionary';
+import {
+  addDictionaryDraftValue,
+  editDictionaryDraftValue,
+  removeDictionaryDraftValue,
+} from './../helpers/dictionary';
 
 export const DictionaryContext = React.createContext([{}, () => {}]);
 
@@ -58,6 +62,19 @@ export const useDictionary = () => {
     });
   };
 
+  const editField = (original, updated) => {
+    editDictionaryDraftValue({
+      field: state.activeFieldSlug,
+      original,
+      updated,
+    }).then(updatedDictionary => {
+      setState({
+        ...state,
+        dictionary: updatedDictionary,
+      });
+    });
+  };
+
   const removeField = fieldName => {
     removeDictionaryDraftValue({
       field: state.activeFieldSlug,
@@ -76,6 +93,21 @@ export const useDictionary = () => {
       parent: state.activeValue,
       dependentName: fieldType,
       value: fieldName,
+    }).then(updatedDictionary => {
+      setState({
+        ...state,
+        dictionary: updatedDictionary,
+      });
+    });
+  };
+
+  const editDependentField = (original, updated, fieldType) => {
+    editDictionaryDraftValue({
+      field: state.activeFieldSlug,
+      parent: state.activeValue,
+      dependentName: fieldType,
+      original,
+      updated,
     }).then(updatedDictionary => {
       setState({
         ...state,
@@ -171,8 +203,10 @@ export const useDictionary = () => {
     setActiveField,
     setActiveValue,
     addField,
+    editField,
     removeField,
     addDependentField,
+    editDependentField,
     removeDependentField,
     reset,
     publish,
