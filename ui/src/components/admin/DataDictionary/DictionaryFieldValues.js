@@ -32,7 +32,7 @@ const DictionaryFieldValues = () => {
   const addNewField = e => {
     e.preventDefault();
 
-    addField(newFieldValue);
+    addField(newFieldValue.trim());
 
     setNewFieldValue('');
   };
@@ -63,7 +63,7 @@ const DictionaryFieldValues = () => {
                   setNewFieldValue(e.target.value);
                 }}
               />
-              <AddFieldButton disabled={!newFieldValue}>
+              <AddFieldButton disabled={!newFieldValue.trim()}>
                 <AdminDictionaryAddIcon width={12} height={12} />
                 ADD
               </AddFieldButton>

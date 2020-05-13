@@ -23,7 +23,7 @@ const DependentFieldValuesGroup = ({ fieldName, fieldKey, fieldValues, isOpen = 
   const addField = (e, fieldName, fieldType) => {
     e.preventDefault();
 
-    addDependentField(fieldName, fieldType);
+    addDependentField(fieldName.trim(), fieldType);
 
     setNewFieldValue('');
   };
@@ -65,7 +65,7 @@ const DependentFieldValuesGroup = ({ fieldName, fieldKey, fieldValues, isOpen = 
                   setNewFieldValue(e.target.value);
                 }}
               />
-              <AddFieldButton disabled={!newFieldValue}>
+              <AddFieldButton disabled={!newFieldValue.trim()}>
                 <AdminDictionaryAddIcon width={12} height={12} />
                 ADD
               </AddFieldButton>
