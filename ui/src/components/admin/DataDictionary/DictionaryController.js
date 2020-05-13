@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import moment from 'moment-timezone';
 
-import { addDictionaryDraftValue } from './../helpers/dictionary';
+import { addDictionaryDraftValue, removeDictionaryDraftValue } from './../helpers/dictionary';
 
 export const DictionaryContext = React.createContext([{}, () => {}]);
 
@@ -59,17 +59,14 @@ export const useDictionary = () => {
   };
 
   const removeField = fieldName => {
-    // TODO: implement using API
-    setState({
-      ...state,
-      dictionary: {
-        ...state.dictionary,
-        fields: state.dictionary.fields.map(x =>
-          x.displayName === state.activeField
-            ? { ...x, values: x.values.filter(y => y.value !== fieldName) }
-            : x,
-        ),
-      },
+    removeDictionaryDraftValue({
+      field: state.activeFieldSlug,
+      value: fieldName,
+    }).then(updatedDictionary => {
+      setState({
+        ...state,
+        dictionary: updatedDictionary,
+      });
     });
   };
 
@@ -88,34 +85,16 @@ export const useDictionary = () => {
   };
 
   const removeDependentField = (fieldName, fieldType) => {
-    // TODO: FIX THIS... and/or switch to API
-    setState({
-      ...state,
-      dictionary: {
-        ...state.dictionary,
-        fields: state.dictionary.fields.map(x =>
-          x.displayName === state.activeField
-            ? {
-                ...x,
-                values: state.activeFieldValues.map(y =>
-                  y.value === state.activeValue
-                    ? {
-                        ...y,
-                        dependents: state.activeValueDependents.map(z =>
-                          z.name === fieldType
-                            ? {
-                                ...z,
-                                values: z.values.filter(a => a.value !== fieldName),
-                              }
-                            : z,
-                        ),
-                      }
-                    : y,
-                ),
-              }
-            : x,
-        ),
-      },
+    removeDictionaryDraftValue({
+      field: state.activeFieldSlug,
+      parent: state.activeValue,
+      dependentName: fieldType,
+      value: fieldName,
+    }).then(updatedDictionary => {
+      setState({
+        ...state,
+        dictionary: updatedDictionary,
+      });
     });
   };
 

@@ -37,6 +37,25 @@ export const addDictionaryDraftValue = async ({
   return dictionary;
 };
 
+export const removeDictionaryDraftValue = async ({
+  field = '',
+  parent = '',
+  dependentName = '',
+  value = '',
+}) => {
+  const url = `${DICTIONARY_DRAFT_URL}/remove`;
+  const data = {
+    field,
+    parent,
+    dependentName,
+    value,
+  };
+  const response = await post({ url, data });
+  // TODO: error handling from API
+  const dictionary = response.data;
+  return dictionary;
+};
+
 export const CLINICAL_TUMOR_DIAGNOSIS = 'Clinical Tumor Diagnosis';
 
 export const DEPENDENT_FIELD_KEYS = {
