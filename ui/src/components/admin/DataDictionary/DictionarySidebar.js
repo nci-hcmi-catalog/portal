@@ -18,8 +18,8 @@ const DictionarySidebar = ({ width }) => {
   useEffect(() => {
     if (activeField === '' && dictionary && dictionary.fields && dictionary.fields.length > 0) {
       let firstField = dictionary.fields.sort((a, b) => {
-        if (a.displayName < b.displayName) return -1;
-        if (a.displayName > b.displayName) return 1;
+        if (a.displayName.toLowerCase() < b.displayName.toLowerCase()) return -1;
+        if (a.displayName.toLowerCase() > b.displayName.toLowerCase()) return 1;
         return 0;
       })[0];
 
@@ -33,8 +33,8 @@ const DictionarySidebar = ({ width }) => {
         dictionary.fields &&
         dictionary.fields
           .sort((a, b) => {
-            if (a.displayName < b.displayName) return -1;
-            if (a.displayName > b.displayName) return 1;
+            if (a.displayName.toLowerCase() < b.displayName.toLowerCase()) return -1;
+            if (a.displayName.toLowerCase() > b.displayName.toLowerCase()) return 1;
             return 0;
           })
           .map(field => (

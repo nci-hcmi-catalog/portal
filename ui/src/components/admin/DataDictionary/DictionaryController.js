@@ -150,8 +150,8 @@ export const useDictionary = () => {
       let fieldObj = state.dictionary.fields.find(x => x.displayName === state.activeField);
       if (fieldObj) {
         return fieldObj.values.sort((a, b) => {
-          if (a.value < b.value) return -1;
-          if (a.value > b.value) return 1;
+          if (a.value.toLowerCase() < b.value.toLowerCase()) return -1;
+          if (a.value.toLowerCase() > b.value.toLowerCase()) return 1;
           return 0;
         });
       }
