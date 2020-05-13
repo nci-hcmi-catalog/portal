@@ -8,6 +8,13 @@ export const getDictionary = async () => {
   return dictionary;
 };
 
+export const getDictionaryDraft = async () => {
+  const url = `${config.urls.cmsBase}/dictionary/draft`;
+  const response = await fetchData({ url, method: 'get', data: '' });
+  const dictionary = response.data;
+  return dictionary;
+};
+
 export const CLINICAL_TUMOR_DIAGNOSIS = 'Clinical Tumor Diagnosis';
 
 export const DEPENDENT_FIELD_KEYS = {

@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import moment from 'moment-timezone';
 
 export const DictionaryContext = React.createContext([{}, () => {}]);
 
@@ -170,7 +171,11 @@ export const useDictionary = () => {
     ) {
       let fieldObj = state.dictionary.fields.find(x => x.displayName === state.activeField);
       if (fieldObj) {
-        return fieldObj.values;
+        return fieldObj.values.sort((a, b) => {
+          if (a.value < b.value) return -1;
+          if (a.value > b.value) return 1;
+          return 0;
+        });
       }
     }
 
@@ -190,6 +195,22 @@ export const useDictionary = () => {
     return [];
   };
 
+  const getLastPublished = () => {
+    if (!state || !state.dictionary || !state.dictionary.created_at) return null;
+    return moment
+      .utc(state.dictionary.created_at)
+      .local()
+      .format('MMM DD, YYYY');
+  };
+
+  const getLastUpdated = () => {
+    if (!state || !state.dictionary || !state.dictionary.updated_at) return null;
+    return moment
+      .utc(state.dictionary.updated_at)
+      .local()
+      .format('MMM DD, YYYY h:mm a');
+  };
+
   return {
     activeField: state.activeField,
     activeFieldValues: getActiveFieldValues(),
@@ -197,6 +218,10 @@ export const useDictionary = () => {
     activeValueDependents: getActiveValueDependents(),
     dictionary: state.dictionary,
     isDraft: state.isDraft,
+    lastPublished: getLastPublished(),
+    lastUpdated: getLastUpdated(),
+    totalEdits: state.totalEdits,
+    totalNew: state.totalNew,
     setActiveField,
     setActiveValue,
     addField,

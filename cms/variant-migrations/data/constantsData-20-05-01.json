@@ -545,7 +545,6 @@
         { "value": "ISH/CISH/FISH", "dependents": [] },
         { "value": "IHC", "dependents": [] },
         { "value": "Pyrosequencing/methylation-specific PCR", "dependents": [] },
-        { "value": "IHC", "dependents": [] },
         { "value": "PCR", "dependents": [] }
       ]
     },
@@ -560,7 +559,6 @@
         { "value": "Methylated", "dependents": [] },
         { "value": "Unmethylated", "dependents": [] },
         { "value": "Partially methylated", "dependents": [] },
-        { "value": "Indeterminate", "dependents": [] },
         { "value": "Not available", "dependents": [] },
         { "value": "Negative", "dependents": [] },
         { "value": "Positive", "dependents": [] },
@@ -1008,7 +1006,6 @@
               "dependentValues": [],
               "values": [
                 { "value": "Esophagus adenocarcinoma (NOS)", "dependents": [] },
-                { "value": "Other histology", "dependents": [] },
                 { "value": "Esophagus squamous cell carcinoma", "dependents": [] },
                 { "value": "Unknown", "dependents": [] },
                 { "value": "Other histology", "dependents": [] }

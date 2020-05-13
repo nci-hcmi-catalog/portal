@@ -40,7 +40,11 @@ const DictionaryDependentFieldValues = () => {
     let dependentsObj = activeValueDependents.find(x => x.name === dependentKey);
 
     if (dependentsObj && dependentsObj.values) {
-      return dependentsObj.values;
+      return dependentsObj.values.sort((a, b) => {
+        if (a.value < b.value) return -1;
+        if (a.value > b.value) return 1;
+        return 0;
+      });
     }
 
     return [];
