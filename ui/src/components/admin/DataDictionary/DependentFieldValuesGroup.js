@@ -78,8 +78,10 @@ const DependentFieldValuesGroup = ({ fieldName, fieldKey, fieldValues, isOpen = 
                   key={x._id}
                   initialValue={x.value}
                   initialState={x.status}
+                  original={x.original}
                   editFn={updatedValue => editField(x.value, updatedValue, fieldKey)}
                   removeFn={() => removeField(x.value, fieldKey)}
+                  resetFn={() => editField(x.original, x.original, fieldKey)}
                 />
               ))}
             </FieldValueList>

@@ -3,7 +3,9 @@ import moment from 'moment-timezone';
 
 import {
   addDictionaryDraftValue,
+  deleteDictionaryDraft,
   editDictionaryDraftValue,
+  publishDictionaryDraft,
   removeDictionaryDraftValue,
 } from './../helpers/dictionary';
 
@@ -131,13 +133,15 @@ export const useDictionary = () => {
   };
 
   const reset = () => {
-    // TODO: implement reset draft functionality
+    // TODO: implement reset draft modal
     console.log('Data Dictionary: Reset Draft');
+    deleteDictionaryDraft();
   };
 
   const publish = () => {
-    // TODO: implement publish draft functionality
+    // TODO: implement publish draft modal
     console.log('Data Dictionary: Publish All Updates');
+    publishDictionaryDraft();
   };
 
   const getActiveFieldValues = () => {

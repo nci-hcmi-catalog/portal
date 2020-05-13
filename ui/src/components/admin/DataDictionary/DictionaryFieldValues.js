@@ -77,6 +77,7 @@ const DictionaryFieldValues = () => {
                   key={fieldValue._id}
                   initialValue={fieldValue.value}
                   initialState={fieldValue.status}
+                  original={fieldValue.original}
                   active={activeValue === fieldValue.value}
                   clickHandler={
                     activeField === CLINICAL_TUMOR_DIAGNOSIS
@@ -87,6 +88,7 @@ const DictionaryFieldValues = () => {
                   }
                   editFn={updatedValue => editNewField(fieldValue.value, updatedValue)}
                   removeFn={() => removeNewField(fieldValue.value)}
+                  resetFn={() => editNewField(fieldValue.original, fieldValue.original)}
                 />
               ))}
           </FieldValueList>

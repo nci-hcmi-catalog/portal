@@ -1,8 +1,8 @@
-import { get, patch, post } from '../services/Fetcher';
+import { get, fetchData, patch, post } from '../services/Fetcher';
 import config from '../config';
 
 const DICTIONARY_URL = `${config.urls.cmsBase}/dictionary`;
-const DICTIONARY_DRAFT_URL = `${DICTIONARY_URL}/draft`
+const DICTIONARY_DRAFT_URL = `${DICTIONARY_URL}/draft`;
 
 export const getDictionary = async () => {
   const url = DICTIONARY_URL;
@@ -14,6 +14,20 @@ export const getDictionary = async () => {
 export const getDictionaryDraft = async () => {
   const url = DICTIONARY_DRAFT_URL;
   const response = await get({ url });
+  const dictionary = response.data;
+  return dictionary;
+};
+
+export const deleteDictionaryDraft = async () => {
+  const url = DICTIONARY_DRAFT_URL;
+  const response = await fetchData({ url, method: 'delete', data: '' });
+  const dictionary = response.data;
+  return dictionary;
+};
+
+export const publishDictionaryDraft = async () => {
+  const url = `${DICTIONARY_DRAFT_URL}/publish`;
+  const response = await post({ url, data: '' });
   const dictionary = response.data;
   return dictionary;
 };

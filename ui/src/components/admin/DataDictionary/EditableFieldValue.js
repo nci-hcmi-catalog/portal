@@ -21,7 +21,9 @@ const EditableFieldValue = ({
   editFn,
   initialValue,
   initialState,
+  original,
   removeFn,
+  resetFn,
   ...props
 }) => {
   let [hovering, setHovering] = useState(false);
@@ -66,7 +68,10 @@ const EditableFieldValue = ({
 
   const undoEdit = e => {
     e.stopPropagation();
-    setValue(initialValue);
+
+    resetFn();
+
+    setValue(original);
     setFieldState('default');
   };
 
