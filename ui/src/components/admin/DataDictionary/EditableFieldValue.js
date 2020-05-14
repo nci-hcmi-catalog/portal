@@ -57,9 +57,8 @@ const EditableFieldValue = ({
     e.preventDefault();
     e.stopPropagation();
 
-    editFn(value);
-
     if (value !== initialValue) {
+      editFn(value);
       setFieldState('edited');
     } else {
       setFieldState('default');
