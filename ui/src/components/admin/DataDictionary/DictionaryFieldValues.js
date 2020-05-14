@@ -23,6 +23,7 @@ const DictionaryFieldValues = () => {
     activeFieldValues,
     activeValue,
     addField,
+    editField,
     removeField,
     setActiveValue,
   } = useDictionary();
@@ -31,9 +32,13 @@ const DictionaryFieldValues = () => {
   const addNewField = e => {
     e.preventDefault();
 
-    addField(newFieldValue);
+    addField(newFieldValue.trim());
 
     setNewFieldValue('');
+  };
+
+  const editNewField = (originalValue, updatedValue) => {
+    editField(originalValue, updatedValue);
   };
 
   const removeNewField = value => {
@@ -58,7 +63,7 @@ const DictionaryFieldValues = () => {
                   setNewFieldValue(e.target.value);
                 }}
               />
-              <AddFieldButton disabled={!newFieldValue}>
+              <AddFieldButton disabled={!newFieldValue.trim()}>
                 <AdminDictionaryAddIcon width={12} height={12} />
                 ADD
               </AddFieldButton>
@@ -69,9 +74,10 @@ const DictionaryFieldValues = () => {
               activeFieldValues.length > 0 &&
               activeFieldValues.map(fieldValue => (
                 <EditableFieldValue
-                  key={fieldValue.value}
+                  key={fieldValue._id}
                   initialValue={fieldValue.value}
                   initialState={fieldValue.status}
+                  original={fieldValue.original}
                   active={activeValue === fieldValue.value}
                   clickHandler={
                     activeField === CLINICAL_TUMOR_DIAGNOSIS
@@ -80,7 +86,9 @@ const DictionaryFieldValues = () => {
                         }
                       : null
                   }
+                  editFn={updatedValue => editNewField(fieldValue.value, updatedValue)}
                   removeFn={() => removeNewField(fieldValue.value)}
+                  resetFn={() => editNewField(fieldValue.original, fieldValue.original)}
                 />
               ))}
           </FieldValueList>

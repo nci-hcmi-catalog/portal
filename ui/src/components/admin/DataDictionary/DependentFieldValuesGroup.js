@@ -16,16 +16,20 @@ import {
 import { Row } from 'theme/system';
 
 const DependentFieldValuesGroup = ({ fieldName, fieldKey, fieldValues, isOpen = false }) => {
-  const { addDependentField, removeDependentField } = useDictionary();
+  const { addDependentField, editDependentField, removeDependentField } = useDictionary();
   const [expanded, setExpanded] = useState(isOpen);
   const [newFieldValue, setNewFieldValue] = useState('');
 
   const addField = (e, fieldName, fieldType) => {
     e.preventDefault();
 
-    addDependentField(fieldName, fieldType);
+    addDependentField(fieldName.trim(), fieldType);
 
     setNewFieldValue('');
+  };
+
+  const editField = (originalValue, updatedValue, fieldType) => {
+    editDependentField(originalValue, updatedValue, fieldType);
   };
 
   const removeField = (fieldName, fieldType) => {
@@ -49,7 +53,7 @@ const DependentFieldValuesGroup = ({ fieldName, fieldKey, fieldValues, isOpen = 
       {expanded && (
         <>
           <Row>
-            <AddFieldForm onSubmit={e => addField(e, fieldKey, newFieldValue)}>
+            <AddFieldForm onSubmit={e => addField(e, newFieldValue, fieldKey)}>
               <AddFieldInput
                 type="text"
                 id="new-field"
@@ -61,7 +65,7 @@ const DependentFieldValuesGroup = ({ fieldName, fieldKey, fieldValues, isOpen = 
                   setNewFieldValue(e.target.value);
                 }}
               />
-              <AddFieldButton disabled={!newFieldValue}>
+              <AddFieldButton disabled={!newFieldValue.trim()}>
                 <AdminDictionaryAddIcon width={12} height={12} />
                 ADD
               </AddFieldButton>
@@ -71,10 +75,13 @@ const DependentFieldValuesGroup = ({ fieldName, fieldKey, fieldValues, isOpen = 
             <FieldValueList>
               {fieldValues.map(x => (
                 <EditableFieldValue
-                  key={x.value || x}
-                  initialValue={x.value || x}
-                  initialState={x.initialState}
+                  key={x._id}
+                  initialValue={x.value}
+                  initialState={x.status}
+                  original={x.original}
+                  editFn={updatedValue => editField(x.value, updatedValue, fieldKey)}
                   removeFn={() => removeField(x.value, fieldKey)}
+                  resetFn={() => editField(x.original, x.original, fieldKey)}
                 />
               ))}
             </FieldValueList>
