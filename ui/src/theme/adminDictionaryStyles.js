@@ -171,6 +171,7 @@ export const AddFieldButton = styled('button')`
   color: ${white};
   background-color: ${elm};
   border-radius: 10px;
+  border-color: transparent;
   font-size: 12px;
   font-weight: bold;
   display: flex;
