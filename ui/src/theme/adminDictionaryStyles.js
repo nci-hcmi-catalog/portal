@@ -228,6 +228,7 @@ export const FieldValueList = styled('ol')`
 
 const fieldValueListItemHeight = 34;
 const activeItem = css`
+  cursor: default;
   background-color: ${aquaSpring};
   border: solid 1px ${pelorousapprox};
   border-left-width: 3px;
@@ -271,7 +272,6 @@ export const FieldValueListItem = styled('li')`
   counter-increment: item;
   font-size: 12px;
   position: relative;
-  cursor: pointer;
 
   &::before {
     content: counters(item, '.') '. ';
@@ -294,6 +294,7 @@ export const FieldValueListItemContents = styled('div')`
   align-items: center;
   margin-right: 18px;
   padding-left: 32px;
+  cursor: pointer;
 
   &:hover {
     background-color: ${athensGray};
@@ -326,20 +327,21 @@ export const FieldValueListItemLabel = styled('span')`
 
 export const FieldValueListItemButton = styled('button')`
   display: flex;
-  margin-right: 10px;
-  padding: 0;
+  height: 100%;
+  padding: 8px;
   border: none;
   background: transparent;
   cursor: pointer;
 `;
 
 export const EditFieldForm = styled('form')`
-  width: 100%;
+  width: calc(100% - 68px);
+  margin-right: auto;
 `;
 
 export const EditFieldInput = styled(AddFieldInput)`
+  width: 100%;
   margin-right: auto;
-  width: calc(100% - 40px);
 `;
 
 export const FieldStateLabel = styled('span')`

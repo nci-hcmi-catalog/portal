@@ -59,9 +59,9 @@ const EditableFieldValue = ({
 
     if (value !== initialValue) {
       editFn(value);
-      setFieldState('edited');
+      initialState !== 'new' && setFieldState('edited');
     } else {
-      setFieldState('default');
+      setFieldState(initialState);
     }
   };
 
@@ -81,7 +81,7 @@ const EditableFieldValue = ({
 
   const handleClick = e => {
     clickHandler && clickHandler();
-    startEdit(e);
+    fieldState !== 'editing' && startEdit(e);
   };
 
   useEffect(() => {
@@ -99,7 +99,7 @@ const EditableFieldValue = ({
               type="text"
               value={value}
               onChange={changeHandler}
-              onClick={e => e.stopPropagation()}
+              onMouseDown={e => e.stopPropagation()}
               onBlur={saveEdit}
               innerRef={editableFieldRef}
             />
@@ -114,16 +114,16 @@ const EditableFieldValue = ({
     switch (fieldState) {
       case 'editing':
         return (
-          <FieldValueListItemButton>
-            <AdminDictionarySaveIcon height={12} width={12} onClick={saveEdit} />
+          <FieldValueListItemButton onMouseDown={saveEdit}>
+            <AdminDictionarySaveIcon height={12} width={12} />
           </FieldValueListItemButton>
         );
       case 'edited':
         return (
           <>
             <FieldStateLabel>edited</FieldStateLabel>
-            <FieldValueListItemButton>
-              <AdminDictionaryUndoIcon height={12} width={12} onClick={undoEdit} />
+            <FieldValueListItemButton onMouseDown={undoEdit}>
+              <AdminDictionaryUndoIcon height={12} width={12} />
             </FieldValueListItemButton>
           </>
         );
@@ -131,8 +131,8 @@ const EditableFieldValue = ({
         return (
           <>
             <FieldStateLabel>new</FieldStateLabel>
-            <FieldValueListItemButton>
-              <AdminDictionaryUndoIcon height={12} width={12} onClick={undoAddNew} />
+            <FieldValueListItemButton onMouseDown={undoAddNew}>
+              <AdminDictionaryUndoIcon height={12} width={12} />
             </FieldValueListItemButton>
           </>
         );
@@ -142,7 +142,7 @@ const EditableFieldValue = ({
             <AdminDictionaryEditIcon
               height={12}
               width={12}
-              onClick={startEdit}
+              onMouseDown={startEdit}
               css={!hovering ? 'visibility: hidden;' : ''}
             />
           </FieldValueListItemButton>
@@ -156,7 +156,7 @@ const EditableFieldValue = ({
       onFocus={hoverHandler}
       onMouseOut={unhoverHandler}
       onBlur={unhoverHandler}
-      onClick={handleClick}
+      onMouseDown={handleClick}
       {...props}
     >
       <FieldValueListItemContents active={active}>
