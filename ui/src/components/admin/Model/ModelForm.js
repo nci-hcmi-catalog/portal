@@ -79,7 +79,7 @@ const ModelFormTemplate = ({
     vitalStatusOptions,
     therapyOptions,
     primarySitesOptions,
-    tissueTypeOptions,
+    tissueTypesOptions,
   } = dictionary;
 
   const makeClinicalTumorDiagnosisDependentOptions = (
@@ -258,7 +258,7 @@ const ModelFormTemplate = ({
                   <Field
                     name={tissue_type.accessor}
                     component={FormSelect}
-                    options={tissueTypeOptions}
+                    options={tissueTypesOptions}
                   />
                 </FormComponent>
 
