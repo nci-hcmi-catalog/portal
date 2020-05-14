@@ -80,7 +80,10 @@ const EditableFieldValue = ({
     removeFn();
   };
 
-  const handleClick = clickHandler || startEdit;
+  const handleClick = e => {
+    clickHandler && clickHandler();
+    startEdit(e);
+  };
 
   useEffect(() => {
     if (fieldState === 'editing' && editableFieldRef && editableFieldRef.current) {
@@ -98,6 +101,7 @@ const EditableFieldValue = ({
               value={value}
               onChange={changeHandler}
               onClick={e => e.stopPropagation()}
+              onBlur={saveEdit}
               innerRef={editableFieldRef}
             />
           </EditFieldForm>
