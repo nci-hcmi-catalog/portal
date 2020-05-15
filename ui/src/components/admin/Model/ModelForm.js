@@ -465,7 +465,6 @@ export default withFormik({
     try {
       validator.validateSync(values, { abortEarly: false });
     } catch (error) {
-      console.log('validate error', error);
       return error.inner.reduce((acc, inner) => ({ ...acc, [inner.path]: inner.message }), {});
     }
   },

@@ -156,7 +156,6 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             const dictionary = await getDictionary();
             const excludeNames = otherModelOptions.map(option => option.name);
             const validator = await getPublishSchema(excludeNames, dictionary);
-            console.log('validator', validator);
             setState(state => ({
               otherModelOptions,
               dictionary,
