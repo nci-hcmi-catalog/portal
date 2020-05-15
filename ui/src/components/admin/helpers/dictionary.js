@@ -1,16 +1,92 @@
-import { fetchData } from '../services/Fetcher';
+import { get, fetchData, patch, post } from '../services/Fetcher';
 import config from '../config';
 
+const DICTIONARY_URL = `${config.urls.cmsBase}/dictionary`;
+const DICTIONARY_DRAFT_URL = `${DICTIONARY_URL}/draft`;
+
 export const getDictionary = async () => {
-  const url = `${config.urls.cmsBase}/dictionary`;
-  const response = await fetchData({ url, method: 'get', data: '' });
+  const url = DICTIONARY_URL;
+  const response = await get({ url });
   const dictionary = response.data;
   return dictionary;
 };
 
 export const getDictionaryDraft = async () => {
-  const url = `${config.urls.cmsBase}/dictionary/draft`;
-  const response = await fetchData({ url, method: 'get', data: '' });
+  const url = DICTIONARY_DRAFT_URL;
+  const response = await get({ url });
+  const dictionary = response.data;
+  return dictionary;
+};
+
+export const deleteDictionaryDraft = async () => {
+  const url = DICTIONARY_DRAFT_URL;
+  const response = await fetchData({ url, method: 'delete', data: '' });
+  const dictionary = response.data;
+  return dictionary;
+};
+
+export const publishDictionaryDraft = async () => {
+  const url = `${DICTIONARY_DRAFT_URL}/publish`;
+  const response = await post({ url, data: '' });
+  const dictionary = response.data;
+  return dictionary;
+};
+
+export const addDictionaryDraftValue = async ({
+  field = '',
+  parent = '',
+  dependentName = '',
+  value = '',
+}) => {
+  const url = DICTIONARY_DRAFT_URL;
+  const data = {
+    field,
+    parent,
+    dependentName,
+    value,
+  };
+  const response = await post({ url, data });
+  // TODO: error handling from API
+  const dictionary = response.data;
+  return dictionary;
+};
+
+export const editDictionaryDraftValue = async ({
+  field = '',
+  parent = '',
+  dependentName = '',
+  original = '',
+  updated = '',
+}) => {
+  const url = DICTIONARY_DRAFT_URL;
+  const data = {
+    field,
+    parent,
+    dependentName,
+    original,
+    updated,
+  };
+  const response = await patch({ url, data });
+  // TODO: error handling from API
+  const dictionary = response.data;
+  return dictionary;
+};
+
+export const removeDictionaryDraftValue = async ({
+  field = '',
+  parent = '',
+  dependentName = '',
+  value = '',
+}) => {
+  const url = `${DICTIONARY_DRAFT_URL}/remove`;
+  const data = {
+    field,
+    parent,
+    dependentName,
+    value,
+  };
+  const response = await post({ url, data });
+  // TODO: error handling from API
   const dictionary = response.data;
   return dictionary;
 };

@@ -175,8 +175,8 @@ export const getPublishSchema = async (excludedNames, dictionary) => {
 };
 
 export default async () => {
-  const dictionary = await getDictionaryOptions();
-  return await getPublishSchema([], dictionary);
+  const dictionaryOptions = await getDictionaryOptions();
+  return await getPublishSchema([], dictionaryOptions);
 };
 
 // In order to save to ES, we do a minimal validation,

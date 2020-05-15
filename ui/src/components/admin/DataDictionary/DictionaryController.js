@@ -1,12 +1,21 @@
 import React, { useState, useContext } from 'react';
 import moment from 'moment-timezone';
 
+import {
+  addDictionaryDraftValue,
+  deleteDictionaryDraft,
+  editDictionaryDraftValue,
+  publishDictionaryDraft,
+  removeDictionaryDraftValue,
+} from './../helpers/dictionary';
+
 export const DictionaryContext = React.createContext([{}, () => {}]);
 
 export const DictionaryProvider = props => {
   const [state, setState] = useState({
     dictionary: {},
     activeField: '',
+    activeFieldSlug: '',
     activeFieldValues: [],
     activeValue: '',
     activeValueDependents: [],
@@ -26,10 +35,11 @@ export const DictionaryProvider = props => {
 export const useDictionary = () => {
   const [state, setState] = useContext(DictionaryContext);
 
-  const setActiveField = fieldName => {
+  const setActiveField = (fieldName, fieldSlug) => {
     setState({
       ...state,
       activeField: fieldName,
+      activeFieldSlug: fieldSlug,
       activeValue: '',
     });
   };
@@ -43,123 +53,101 @@ export const useDictionary = () => {
   };
 
   const addField = fieldName => {
-    // TODO: implement using API
-    setState({
-      ...state,
-      dictionary: {
-        ...state.dictionary,
-        fields: state.dictionary.fields.map(x =>
-          x.displayName === state.activeField
-            ? {
-                ...x,
-                values: [...x.values, { value: fieldName, dependents: [], status: 'new' }].sort(
-                  (a, b) => {
-                    if (a.value < b.value) return -1;
-                    if (a.value > b.value) return 1;
-                    return 0;
-                  },
-                ),
-              }
-            : x,
-        ),
-      },
+    addDictionaryDraftValue({
+      field: state.activeFieldSlug,
+      value: fieldName,
+    }).then(updatedDictionary => {
+      setState({
+        ...state,
+        dictionary: updatedDictionary,
+      });
+    });
+  };
+
+  const editField = (original, updated) => {
+    editDictionaryDraftValue({
+      field: state.activeFieldSlug,
+      original,
+      updated,
+    }).then(updatedDictionary => {
+      setState({
+        ...state,
+        dictionary: updatedDictionary,
+      });
     });
   };
 
   const removeField = fieldName => {
-    // TODO: implement using API
-    setState({
-      ...state,
-      dictionary: {
-        ...state.dictionary,
-        fields: state.dictionary.fields.map(x =>
-          x.displayName === state.activeField
-            ? { ...x, values: x.values.filter(y => y.value !== fieldName) }
-            : x,
-        ),
-      },
+    removeDictionaryDraftValue({
+      field: state.activeFieldSlug,
+      value: fieldName,
+    }).then(updatedDictionary => {
+      setState({
+        ...state,
+        dictionary: updatedDictionary,
+      });
     });
   };
 
   const addDependentField = (fieldName, fieldType) => {
-    // TODO: FIX THIS... and/or switch to API
-    setState({
-      ...state,
-      dictionary: {
-        ...state.dictionary,
-        fields: state.dictionary.fields.map(x =>
-          x.displayName === state.activeField
-            ? {
-                ...x,
-                values: state.activeFieldValues.map(y =>
-                  y.value === state.activeValue
-                    ? {
-                        ...y,
-                        dependents: state.activeValueDependents.map(z =>
-                          z.name === fieldType
-                            ? {
-                                ...z,
-                                values: [
-                                  ...z.values,
-                                  { value: fieldName, dependents: [], status: 'new' },
-                                ].sort((a, b) => {
-                                  if (a.value < b.value) return -1;
-                                  if (a.value > b.value) return 1;
-                                  return 0;
-                                }),
-                              }
-                            : z,
-                        ),
-                      }
-                    : y,
-                ),
-              }
-            : x,
-        ),
-      },
+    addDictionaryDraftValue({
+      field: state.activeFieldSlug,
+      parent: state.activeValue,
+      dependentName: fieldType,
+      value: fieldName,
+    }).then(updatedDictionary => {
+      setState({
+        ...state,
+        dictionary: updatedDictionary,
+      });
+    });
+  };
+
+  const editDependentField = (original, updated, fieldType) => {
+    editDictionaryDraftValue({
+      field: state.activeFieldSlug,
+      parent: state.activeValue,
+      dependentName: fieldType,
+      original,
+      updated,
+    }).then(updatedDictionary => {
+      setState({
+        ...state,
+        dictionary: updatedDictionary,
+      });
     });
   };
 
   const removeDependentField = (fieldName, fieldType) => {
-    // TODO: FIX THIS... and/or switch to API
-    setState({
-      ...state,
-      dictionary: {
-        ...state.dictionary,
-        fields: state.dictionary.fields.map(x =>
-          x.displayName === state.activeField
-            ? {
-                ...x,
-                values: state.activeFieldValues.map(y =>
-                  y.value === state.activeValue
-                    ? {
-                        ...y,
-                        dependents: state.activeValueDependents.map(z =>
-                          z.name === fieldType
-                            ? {
-                                ...z,
-                                values: z.values.filter(a => a.value !== fieldName),
-                              }
-                            : z,
-                        ),
-                      }
-                    : y,
-                ),
-              }
-            : x,
-        ),
-      },
+    removeDictionaryDraftValue({
+      field: state.activeFieldSlug,
+      parent: state.activeValue,
+      dependentName: fieldType,
+      value: fieldName,
+    }).then(updatedDictionary => {
+      setState({
+        ...state,
+        dictionary: updatedDictionary,
+      });
     });
   };
 
   const reset = () => {
-    // TODO: implement reset draft functionality
-    console.log('Data Dictionary: Reset Draft');
+    deleteDictionaryDraft().then(updatedDictionary => {
+      setState({
+        ...state,
+        dictionary: updatedDictionary,
+      });
+    });
   };
 
   const publish = () => {
-    // TODO: implement publish draft functionality
-    console.log('Data Dictionary: Publish All Updates');
+    publishDictionaryDraft().then(updatedDictionary => {
+      setState({
+        ...state,
+        dictionary: updatedDictionary,
+      });
+    });
   };
 
   const getActiveFieldValues = () => {
@@ -172,8 +160,8 @@ export const useDictionary = () => {
       let fieldObj = state.dictionary.fields.find(x => x.displayName === state.activeField);
       if (fieldObj) {
         return fieldObj.values.sort((a, b) => {
-          if (a.value < b.value) return -1;
-          if (a.value > b.value) return 1;
+          if (a.value.toLowerCase() < b.value.toLowerCase()) return -1;
+          if (a.value.toLowerCase() > b.value.toLowerCase()) return 1;
           return 0;
         });
       }
@@ -193,6 +181,34 @@ export const useDictionary = () => {
     }
 
     return [];
+  };
+
+  const getTotalEdits = () => {
+    let totalEdits = 0;
+
+    if (state.dictionary && state.dictionary.fields) {
+      state.dictionary.fields.forEach(field => {
+        if (field.stats && field.stats.edited) {
+          totalEdits += field.stats.edited;
+        }
+      });
+    }
+
+    return totalEdits;
+  };
+
+  const getTotalNew = () => {
+    let totalNew = 0;
+
+    if (state.dictionary && state.dictionary.fields) {
+      state.dictionary.fields.forEach(field => {
+        if (field.stats && field.stats.new) {
+          totalNew += field.stats.new;
+        }
+      });
+    }
+
+    return totalNew;
   };
 
   const getLastPublished = () => {
@@ -217,16 +233,18 @@ export const useDictionary = () => {
     activeValue: state.activeValue,
     activeValueDependents: getActiveValueDependents(),
     dictionary: state.dictionary,
-    isDraft: state.isDraft,
+    isDraft: state.dictionary.created_at !== state.dictionary.updated_at,
     lastPublished: getLastPublished(),
     lastUpdated: getLastUpdated(),
-    totalEdits: state.totalEdits,
-    totalNew: state.totalNew,
+    totalEdits: getTotalEdits(),
+    totalNew: getTotalNew(),
     setActiveField,
     setActiveValue,
     addField,
+    editField,
     removeField,
     addDependentField,
+    editDependentField,
     removeDependentField,
     reset,
     publish,
