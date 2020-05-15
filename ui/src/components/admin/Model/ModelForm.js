@@ -461,11 +461,11 @@ const ModelFormTemplate = ({
 
 export default withFormik({
   mapPropsToValues: ({ data }) => data || {},
-  validate: (values, { otherModelOptions, dictionary }) => {
+  validate: (values, { validator }) => {
     try {
-      const excludeNames = otherModelOptions.map(option => option.name);
-      getPublishSchema(excludeNames, dictionary).validateSync(values, { abortEarly: false });
+      validator.validateSync(values, { abortEarly: false });
     } catch (error) {
+      console.log('validate error', error);
       return error.inner.reduce((acc, inner) => ({ ...acc, [inner.path]: inner.message }), {});
     }
   },
