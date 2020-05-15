@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useDictionary } from './DictionaryController';
 import EditableFieldValue from './EditableFieldValue';
@@ -15,9 +15,14 @@ import {
 } from 'theme/adminDictionaryStyles';
 import { Row } from 'theme/system';
 
-const DependentFieldValuesGroup = ({ fieldName, fieldKey, fieldValues, isOpen = false }) => {
+const DependentFieldValuesGroup = ({
+  expanded,
+  fieldName,
+  fieldKey,
+  fieldValues,
+  toggleHandler,
+}) => {
   const { addDependentField, editDependentField, removeDependentField } = useDictionary();
-  const [expanded, setExpanded] = useState(isOpen);
   const [newFieldValue, setNewFieldValue] = useState('');
 
   const addField = (e, fieldName, fieldType) => {
@@ -36,13 +41,9 @@ const DependentFieldValuesGroup = ({ fieldName, fieldKey, fieldValues, isOpen = 
     removeDependentField(fieldName, fieldType);
   };
 
-  useEffect(() => {
-    setExpanded(isOpen);
-  }, [isOpen]);
-
   return (
     <>
-      <DependentFieldType onClick={() => setExpanded(!expanded)}>
+      <DependentFieldType onClick={toggleHandler}>
         <AdminDictionaryArrowIcon
           height={12}
           width={12}

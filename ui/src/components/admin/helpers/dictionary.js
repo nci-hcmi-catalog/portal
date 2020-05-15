@@ -100,6 +100,19 @@ export const DEPENDENT_FIELD_KEYS = {
   tumorHistologicalGrade: 'tumor histological grade',
 };
 
+export const EDITABLE_FIELDS = [
+  'clinicalTumorDiagnosis',
+  'diseaseStatus',
+  'gender',
+  'modelType',
+  'neoadjuvantTherapy',
+  'primarySites',
+  'race',
+  'therapy',
+  'tissueTypes',
+  'vitalStatus',
+];
+
 export const emptyDictionary = {
   clinicalTumorDiagnosisDependent: {},
   clinicalTumorDiagnosisOptions: [],
