@@ -8,8 +8,8 @@ import { HoverPill } from 'theme/adminControlsStyles';
 import { AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
 import {
   DataDictionaryH1,
-  DictionaryDraftPublished,
-  DictionaryDraftUpdated,
+  DictionaryDraftTimestamp,
+  DictionaryDraftStats,
   HeaderPill,
   actionPill,
   cancelPill,
@@ -34,18 +34,24 @@ const DictionaryHeader = () => {
       <NotificationToaster />
       <AdminHeader>
         <AdminHeaderBlock>
-          <DictionaryDraftPublished>Last published: {lastPublished}</DictionaryDraftPublished>
+          <DictionaryDraftTimestamp>
+            Last published: {lastPublished}
+            {isDraft && (
+              <>
+                <br />
+                Last updated: {lastUpdated}
+              </>
+            )}
+          </DictionaryDraftTimestamp>
           <DataDictionaryH1>Data Dictionary</DataDictionaryH1>
           {isDraft && (
             <>
               <HeaderPill>Draft</HeaderPill>
-              <DictionaryDraftUpdated>
-                Last updated: {lastUpdated}
-                <span>|</span>
+              <DictionaryDraftStats>
                 {totalEdits} edited value{totalEdits !== 1 ? 's' : ''}
                 <span>|</span>
                 {totalNew} new value{totalNew !== 1 ? 's' : ''}
-              </DictionaryDraftUpdated>
+              </DictionaryDraftStats>
             </>
           )}
         </AdminHeaderBlock>

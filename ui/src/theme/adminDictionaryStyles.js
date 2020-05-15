@@ -50,18 +50,18 @@ export const HeaderPill = styled('span')`
   margin: auto 10px;
 `;
 
-export const DictionaryDraftPublished = styled('span')`
+export const DictionaryDraftTimestamp = styled('span')`
   font-size: 11px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.27;
+  line-height: 1.5;
   position: absolute;
-  top: 20px;
+  top: 18px;
   padding-left: 2px;
 `;
 
-export const DictionaryDraftUpdated = styled('span')`
+export const DictionaryDraftStats = styled('span')`
   font-size: 12px;
   font-weight: normal;
   font-stretch: normal;
