@@ -22,6 +22,7 @@ const DictionaryDependentFieldValues = () => {
     [DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition]: false,
     [DEPENDENT_FIELD_KEYS.tumorHistologicalGrade]: false,
   });
+  const [shouldExpand, setShouldExpand] = useState(true);
 
   const expandAll = e => {
     e.preventDefault();
@@ -31,7 +32,25 @@ const DictionaryDependentFieldValues = () => {
       [DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition]: true,
       [DEPENDENT_FIELD_KEYS.tumorHistologicalGrade]: true,
     });
-    console.log('Data Dictionary: Expand All');
+    setShouldExpand(false);
+  };
+
+  const collapseAll = e => {
+    e.preventDefault();
+    setExpanded({
+      [DEPENDENT_FIELD_KEYS.histologicalType]: false,
+      [DEPENDENT_FIELD_KEYS.clinicalStageGrouping]: false,
+      [DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition]: false,
+      [DEPENDENT_FIELD_KEYS.tumorHistologicalGrade]: false,
+    });
+    setShouldExpand(true);
+  };
+
+  const toggleExpanded = key => {
+    setExpanded({
+      ...expanded,
+      [key]: !expanded[key],
+    });
   };
 
   const getDependents = dependentKey => {
@@ -56,34 +75,38 @@ const DictionaryDependentFieldValues = () => {
       <DependentValues>
         <DependentValuesHeader>
           <DictionaryColumnHeading>Dependent Field Values</DictionaryColumnHeading>
-          <HoverPill primary css={expandPill} onClick={expandAll}>
-            Expand All
+          <HoverPill primary css={expandPill} onClick={shouldExpand ? expandAll : collapseAll}>
+            {shouldExpand ? 'Expand All' : 'Collapse All'}
           </HoverPill>
         </DependentValuesHeader>
 
         <DependentFieldValuesGroup
+          expanded={expanded[DEPENDENT_FIELD_KEYS.histologicalType]}
           fieldName={'Histological Subtype'}
           fieldKey={DEPENDENT_FIELD_KEYS.histologicalType}
           fieldValues={getDependents(DEPENDENT_FIELD_KEYS.histologicalType)}
-          isOpen={expanded[DEPENDENT_FIELD_KEYS.histologicalType]}
+          toggleHandler={() => toggleExpanded(DEPENDENT_FIELD_KEYS.histologicalType)}
         />
         <DependentFieldValuesGroup
+          expanded={expanded[DEPENDENT_FIELD_KEYS.clinicalStageGrouping]}
           fieldName={'Clinical Stage Grouping'}
           fieldKey={DEPENDENT_FIELD_KEYS.clinicalStageGrouping}
           fieldValues={getDependents(DEPENDENT_FIELD_KEYS.clinicalStageGrouping)}
-          isOpen={expanded[DEPENDENT_FIELD_KEYS.clinicalStageGrouping]}
+          toggleHandler={() => toggleExpanded(DEPENDENT_FIELD_KEYS.clinicalStageGrouping)}
         />
         <DependentFieldValuesGroup
+          expanded={expanded[DEPENDENT_FIELD_KEYS.tumorHistologicalGrade]}
           fieldName={'Histological Grade'}
           fieldKey={DEPENDENT_FIELD_KEYS.tumorHistologicalGrade}
           fieldValues={getDependents(DEPENDENT_FIELD_KEYS.tumorHistologicalGrade)}
-          isOpen={expanded[DEPENDENT_FIELD_KEYS.tumorHistologicalGrade]}
+          toggleHandler={() => toggleExpanded(DEPENDENT_FIELD_KEYS.tumorHistologicalGrade)}
         />
         <DependentFieldValuesGroup
+          expanded={expanded[DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition]}
           fieldName={'Acquisition Site'}
           fieldKey={DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition}
           fieldValues={getDependents(DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition)}
-          isOpen={expanded[DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition]}
+          toggleHandler={() => toggleExpanded(DEPENDENT_FIELD_KEYS.siteOfSampleAcquisition)}
         />
       </DependentValues>
     )
