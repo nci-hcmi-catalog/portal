@@ -4,7 +4,7 @@ import { arrItemIsOneOf } from './helpers';
 
 import { modelVariantSchema } from './variant';
 import { matchedModelSchema } from './matchedModels';
-import { getDictionary } from '../helpers/dictionary';
+import { getDictionaryOptions } from '../helpers/dictionary';
 
 // Custom date validation parser
 yup.date().transform(function(value, originalValue) {
@@ -175,7 +175,7 @@ export const getPublishSchema = async (excludedNames, dictionary) => {
 };
 
 export default async () => {
-  const dictionary = await getDictionary();
+  const dictionary = await getDictionaryOptions();
   return await getPublishSchema([], dictionary);
 };
 
@@ -196,7 +196,7 @@ export const getSaveValidation = async () => {
     vitalStatusOptions,
     therapyOptions,
     tissueTypesOptions,
-  } = await getDictionary();
+  } = await getDictionaryOptions();
 
   return object().shape({
     name: string()
