@@ -15,7 +15,7 @@ import { AdminContainer } from 'theme/adminStyles';
 import { AdminModelContent, Loading } from 'theme/adminModelStyles';
 import { Row } from 'theme/system';
 
-const renderTab = (tab, data, otherModelOptions, dictionary) => {
+const renderTab = (tab, data, otherModelOptions, dictionary, validator) => {
   const dataKey = JSON.stringify(data);
   switch (tab) {
     case 'images':
@@ -25,12 +25,15 @@ const renderTab = (tab, data, otherModelOptions, dictionary) => {
     case 'edit':
     default:
       return (
-        dictionary && (
+        // if validator is loaded that implies otherModelOptions and dictionary also loaded
+        // cannot render ModelForm until all these dependencies have been fetched.
+        validator && (
           <ModelForm
             key={dataKey}
             data={data}
             otherModelOptions={otherModelOptions}
             dictionary={dictionary}
+            validator={validator}
           />
         )
       );
@@ -46,6 +49,7 @@ export default ({ match }) => (
           data: { isLoading, response },
           otherModelOptions,
           dictionary,
+          validator,
         },
       }) => (
         <AdminContainer>
@@ -55,7 +59,7 @@ export default ({ match }) => (
           <Row>
             <AdminModelNav />
             <AdminModelContent>
-              {renderTab(activeTab, response, otherModelOptions, dictionary)}
+              {renderTab(activeTab, response, otherModelOptions, dictionary, validator)}
             </AdminModelContent>
           </Row>
           <ModelSingleFooter />

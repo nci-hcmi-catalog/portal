@@ -94,7 +94,7 @@ export const getPublishSchema = async (excludedNames, dictionary) => {
     date_of_availability: date(),
     primary_site: string()
       .required('This is a required field')
-      .oneOf(primarySitesOptions),
+      .oneOf(primarySitesOptions, 'Invalid entry for Primary Site'),
     tnm_stage: string(),
     neoadjuvant_therapy: string().oneOf(neoadjuvantTherapyOptions),
     chemotherapeutic_drugs: boolean().nullable(true),

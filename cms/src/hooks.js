@@ -16,7 +16,8 @@ export const validateYup = (req, res, next) => {
       });
     })
     .catch(error => {
-      res.status(400).json({
+      console.log(error);
+      res.status(500).json({
         error,
       });
     });
@@ -26,13 +27,15 @@ export const preModelDelete = (req, res, next) => {
   unpublishModel(req.params.id)
     .then(() => next())
     .catch(error => {
-      res.status(400).json({
+      console.log(error);
+      res.status(500).json({
         error,
       });
     });
 };
 
 export const preUpdate = (req, res, next) => {
+  console.log('preUpdate');
   getSaveValidation()
     .then(validation => {
       runYupValidatorFailFast(validation, [req.body])
@@ -61,7 +64,8 @@ export const preUpdate = (req, res, next) => {
         .then(() => next());
     })
     .catch(error => {
-      res.status(400).json({
+      console.log(error);
+      res.status(500).json({
         error,
       });
     });
@@ -118,7 +122,8 @@ export const validateUserRequest = (req, res, next) => {
       next();
     })
     .catch(error => {
-      res.status(400).json({
+      console.log(error);
+      res.status(500).json({
         error,
       });
     });

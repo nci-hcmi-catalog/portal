@@ -113,5 +113,5 @@ export const emptyDictionary = {
   vitalStatusOptions: [],
   therapyOptions: [],
   primarySitesOptions: [],
-  tissueTypeOptions: [],
+  tissueTypesOptions: [],
 };

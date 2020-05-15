@@ -79,7 +79,7 @@ const ModelFormTemplate = ({
     vitalStatusOptions,
     therapyOptions,
     primarySitesOptions,
-    tissueTypeOptions,
+    tissueTypesOptions,
   } = dictionary;
 
   const makeClinicalTumorDiagnosisDependentOptions = (
@@ -258,7 +258,7 @@ const ModelFormTemplate = ({
                   <Field
                     name={tissue_type.accessor}
                     component={FormSelect}
-                    options={tissueTypeOptions}
+                    options={tissueTypesOptions}
                   />
                 </FormComponent>
 
@@ -461,10 +461,9 @@ const ModelFormTemplate = ({
 
 export default withFormik({
   mapPropsToValues: ({ data }) => data || {},
-  validate: (values, { otherModelOptions, dictionary }) => {
+  validate: (values, { validator }) => {
     try {
-      const excludeNames = otherModelOptions.map(option => option.name);
-      getPublishSchema(excludeNames, dictionary).validateSync(values, { abortEarly: false });
+      validator.validateSync(values, { abortEarly: false });
     } catch (error) {
       return error.inner.reduce((acc, inner) => ({ ...acc, [inner.path]: inner.message }), {});
     }

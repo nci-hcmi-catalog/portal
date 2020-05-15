@@ -22,6 +22,7 @@ import {
 import { getDictionary } from '../helpers/dictionary';
 
 import { modelStatus, computeModelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
+import { getPublishSchema } from '@hcmi-portal/cms/src/validation/model';
 
 export const ModelSingleContext = React.createContext();
 
@@ -110,6 +111,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
           otherModelOptions: [],
           matchedModels: [],
           dictionary: null,
+          validator: null,
         }}
         didMount={async ({ setState }) => {
           if (modelName) {
@@ -124,7 +126,6 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             try {
               const modelDataResponse = await getModel(baseUrl, modelName);
               await addMatchedModelsToModelResponse(baseUrl, modelDataResponse);
-              const otherModelOptions = await getOtherModelOptions(baseUrl, modelName);
 
               setState(state => ({
                 data: {
@@ -137,7 +138,6 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   ...state.variantTable,
                   rowCount: (modelDataResponse.data.variants || []).length,
                 },
-                otherModelOptions,
                 matchedModels: modelDataResponse.data.linkedModels || [],
               }));
             } catch (err) {
@@ -149,17 +149,17 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 },
               }));
             }
-          } else {
-            const otherModelOptions = await getOtherModelOptions(baseUrl, '');
-            setState(state => ({
-              otherModelOptions,
-            }));
           }
 
           try {
+            const otherModelOptions = await getOtherModelOptions(baseUrl, modelName);
             const dictionary = await getDictionary();
+            const excludeNames = otherModelOptions.map(option => option.name);
+            const validator = await getPublishSchema(excludeNames, dictionary);
             setState(state => ({
+              otherModelOptions,
               dictionary,
+              validator,
             }));
           } catch (e) {
             console.error('Unable to load dictionary values for form:', e);
