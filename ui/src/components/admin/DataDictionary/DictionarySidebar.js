@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useDictionary } from './DictionaryController';
+import { EDITABLE_FIELDS } from './../helpers/dictionary';
 
 import TabGroup from 'components/layout/VerticalTabs';
 import Tab from 'components/layout/VerticalTabs/Tab';
@@ -32,6 +33,7 @@ const DictionarySidebar = ({ width }) => {
       {dictionary &&
         dictionary.fields &&
         dictionary.fields
+          .filter(field => EDITABLE_FIELDS.indexOf(field.name) > -1)
           .sort((a, b) => {
             if (a.displayName.toLowerCase() < b.displayName.toLowerCase()) return -1;
             if (a.displayName.toLowerCase() > b.displayName.toLowerCase()) return 1;
