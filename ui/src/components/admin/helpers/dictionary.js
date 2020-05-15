@@ -108,6 +108,7 @@ export const EDITABLE_FIELDS = [
   'neoadjuvantTherapy',
   'primarySites',
   'race',
+  'splitRatio',
   'therapy',
   'tissueTypes',
   'vitalStatus',
