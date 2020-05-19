@@ -86,7 +86,9 @@ const DictionaryFieldValues = () => {
                         }
                       : null
                   }
-                  editFn={updatedValue => editNewField(fieldValue.value, updatedValue)}
+                  editFn={updatedValue =>
+                    editNewField(fieldValue.original || fieldValue.value, updatedValue)
+                  }
                   removeFn={() => removeNewField(fieldValue.value)}
                   resetFn={() => editNewField(fieldValue.original, fieldValue.original)}
                 />
