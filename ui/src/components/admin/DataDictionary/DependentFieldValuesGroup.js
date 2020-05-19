@@ -80,7 +80,7 @@ const DependentFieldValuesGroup = ({
                   initialValue={x.value}
                   initialState={x.status}
                   original={x.original}
-                  editFn={updatedValue => edit(x.value, updatedValue, fieldKey)}
+                  editFn={updatedValue => edit(x.original || x.value, updatedValue, fieldKey)}
                   removeFn={() => remove(x.value, fieldKey)}
                   resetFn={() => edit(x.original, x.original, fieldKey)}
                 />
