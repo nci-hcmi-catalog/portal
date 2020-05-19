@@ -82,7 +82,11 @@ const DictionaryFieldValues = () => {
                   clickHandler={
                     activeField === CLINICAL_TUMOR_DIAGNOSIS
                       ? () => {
-                          setActiveValue(fieldValue.value, fieldValue.dependents);
+                          setActiveValue(
+                            fieldValue.value,
+                            fieldValue.dependents,
+                            fieldValue.original,
+                          );
                         }
                       : null
                   }

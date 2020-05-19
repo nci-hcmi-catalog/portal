@@ -21,6 +21,7 @@ export const DictionaryProvider = props => {
     activeFieldValues: [],
     activeValue: '',
     activeValueDependents: [],
+    activeValueOriginal: '',
     totalEdits: 0,
     totalNew: 0,
     lastPublished: '',
@@ -48,21 +49,23 @@ export const useDictionary = () => {
       activeField: fieldName,
       activeFieldSlug: fieldSlug,
       activeValue: '',
+      activeValueOriginal: '',
     });
   };
 
-  const setActiveValue = (valueName, valueDependents) => {
+  const setActiveValue = (valueName, valueDependents, valueOriginal) => {
     setState({
       ...state,
       activeValue: valueName,
       activeValueDependents: valueDependents,
+      activeValueOriginal: valueOriginal,
     });
   };
 
   const addField = (fieldName, fieldType = null) => {
     addDictionaryDraftValue({
       field: state.activeFieldSlug,
-      parent: fieldType ? state.activeValue : null,
+      parent: fieldType ? state.activeValueOriginal || state.activeValue : null,
       dependentName: fieldType,
       value: fieldName,
     }).then(response => {
@@ -85,7 +88,7 @@ export const useDictionary = () => {
   const editField = (original, updated, fieldType = null) => {
     editDictionaryDraftValue({
       field: state.activeFieldSlug,
-      parent: fieldType ? state.activeValue : null,
+      parent: fieldType ? state.activeValueOriginal || state.activeValue : null,
       dependentName: fieldType,
       original,
       updated,
@@ -109,7 +112,7 @@ export const useDictionary = () => {
   const removeField = (fieldName, fieldType = null) => {
     removeDictionaryDraftValue({
       field: state.activeFieldSlug,
-      parent: fieldType ? state.activeValue : null,
+      parent: fieldType ? state.activeValueOriginal || state.activeValue : null,
       dependentName: fieldType,
       value: fieldName,
     }).then(response => {
