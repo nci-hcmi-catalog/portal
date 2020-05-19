@@ -2,7 +2,7 @@ import { css } from 'emotion';
 import styled from 'react-emotion';
 import base from 'theme';
 
-import { AdminContent, AdminHeaderH1 } from 'theme/adminStyles';
+import { AdminContent, AdminHeader, AdminHeaderH1 } from 'theme/adminStyles';
 import { Col } from 'theme/system';
 import { Row } from 'theme/system';
 
@@ -26,6 +26,10 @@ const {
 } = base;
 
 const borderColour = porcelain;
+
+export const DataDictionaryHeader = styled(AdminHeader)`
+  position: relative;
+`;
 
 export const DataDictionaryH1 = styled(AdminHeaderH1)`
   font-size: 26px;
@@ -51,14 +55,17 @@ export const HeaderPill = styled('span')`
 `;
 
 export const DictionaryDraftTimestamp = styled('span')`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  padding-left: 2px;
+  height: 40px;
   font-size: 11px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
   line-height: 1.5;
-  position: absolute;
-  top: 18px;
-  padding-left: 2px;
 `;
 
 export const DictionaryDraftStats = styled('span')`

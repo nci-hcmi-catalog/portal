@@ -5,8 +5,9 @@ import { NotificationToaster } from './../Notifications';
 import useConfirmationModal from './../../modals/ConfirmationModal';
 
 import { HoverPill } from 'theme/adminControlsStyles';
-import { AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
+import { AdminHeaderBlock } from 'theme/adminStyles';
 import {
+  DataDictionaryHeader,
   DataDictionaryH1,
   DictionaryDraftTimestamp,
   DictionaryDraftStats,
@@ -32,7 +33,7 @@ const DictionaryHeader = () => {
   return (
     <>
       <NotificationToaster />
-      <AdminHeader>
+      <DataDictionaryHeader>
         <AdminHeaderBlock>
           <DictionaryDraftTimestamp>
             Last published: {lastPublished}
@@ -90,7 +91,7 @@ const DictionaryHeader = () => {
             </HoverPill>,
           )}
         </AdminHeaderBlock>
-      </AdminHeader>
+      </DataDictionaryHeader>
     </>
   );
 };

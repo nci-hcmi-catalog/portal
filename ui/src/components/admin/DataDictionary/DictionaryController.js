@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react';
 import moment from 'moment-timezone';
 
+import { NotificationsContext } from './../Notifications';
+
 import {
   addDictionaryDraftValue,
   deleteDictionaryDraft,
@@ -32,8 +34,13 @@ export const DictionaryProvider = props => {
   );
 };
 
+const getDictionaryErrorMessage = res => {
+  return res.err ? res.err : 'Unknown error has occurred.';
+};
+
 export const useDictionary = () => {
   const [state, setState] = useContext(DictionaryContext);
+  const { appendNotification } = useContext(NotificationsContext);
 
   const setActiveField = (fieldName, fieldSlug) => {
     setState({
@@ -52,101 +59,115 @@ export const useDictionary = () => {
     });
   };
 
-  const addField = fieldName => {
+  const addField = (fieldName, fieldType = null) => {
     addDictionaryDraftValue({
       field: state.activeFieldSlug,
-      value: fieldName,
-    }).then(updatedDictionary => {
-      setState({
-        ...state,
-        dictionary: updatedDictionary,
-      });
-    });
-  };
-
-  const editField = (original, updated) => {
-    editDictionaryDraftValue({
-      field: state.activeFieldSlug,
-      original,
-      updated,
-    }).then(updatedDictionary => {
-      setState({
-        ...state,
-        dictionary: updatedDictionary,
-      });
-    });
-  };
-
-  const removeField = fieldName => {
-    removeDictionaryDraftValue({
-      field: state.activeFieldSlug,
-      value: fieldName,
-    }).then(updatedDictionary => {
-      setState({
-        ...state,
-        dictionary: updatedDictionary,
-      });
-    });
-  };
-
-  const addDependentField = (fieldName, fieldType) => {
-    addDictionaryDraftValue({
-      field: state.activeFieldSlug,
-      parent: state.activeValue,
+      parent: fieldType ? state.activeValue : null,
       dependentName: fieldType,
       value: fieldName,
-    }).then(updatedDictionary => {
-      setState({
-        ...state,
-        dictionary: updatedDictionary,
-      });
+    }).then(response => {
+      if (response.err) {
+        appendNotification({
+          type: 'error',
+          message: 'Add Dictionary Field Error.',
+          details: getDictionaryErrorMessage(response),
+          timeout: false,
+        });
+      } else {
+        setState({
+          ...state,
+          dictionary: response,
+        });
+      }
     });
   };
 
-  const editDependentField = (original, updated, fieldType) => {
+  const editField = (original, updated, fieldType = null) => {
     editDictionaryDraftValue({
       field: state.activeFieldSlug,
-      parent: state.activeValue,
+      parent: fieldType ? state.activeValue : null,
       dependentName: fieldType,
       original,
       updated,
-    }).then(updatedDictionary => {
-      setState({
-        ...state,
-        dictionary: updatedDictionary,
-      });
+    }).then(response => {
+      if (response.err) {
+        appendNotification({
+          type: 'error',
+          message: 'Edit Dictionary Field Error.',
+          details: getDictionaryErrorMessage(response),
+          timeout: false,
+        });
+      } else {
+        setState({
+          ...state,
+          dictionary: response,
+        });
+      }
     });
   };
 
-  const removeDependentField = (fieldName, fieldType) => {
+  const removeField = (fieldName, fieldType = null) => {
     removeDictionaryDraftValue({
       field: state.activeFieldSlug,
-      parent: state.activeValue,
+      parent: fieldType ? state.activeValue : null,
       dependentName: fieldType,
       value: fieldName,
-    }).then(updatedDictionary => {
-      setState({
-        ...state,
-        dictionary: updatedDictionary,
-      });
+    }).then(response => {
+      if (response.err) {
+        appendNotification({
+          type: 'error',
+          message: 'Remove Dictionary Field Error.',
+          details: getDictionaryErrorMessage(response),
+          timeout: false,
+        });
+      } else {
+        setState({
+          ...state,
+          dictionary: response,
+        });
+      }
     });
   };
 
   const reset = () => {
-    deleteDictionaryDraft().then(updatedDictionary => {
-      setState({
-        ...state,
-        dictionary: updatedDictionary,
-      });
+    deleteDictionaryDraft().then(response => {
+      if (response.err) {
+        appendNotification({
+          type: 'error',
+          message: 'Reset Dictionary Draft Error.',
+          details: getDictionaryErrorMessage(response),
+          timeout: false,
+        });
+      } else {
+        setState({
+          ...state,
+          dictionary: response,
+        });
+      }
     });
   };
 
   const publish = () => {
-    publishDictionaryDraft().then(updatedDictionary => {
-      setState({
-        ...state,
-        dictionary: updatedDictionary,
-      });
+    publishDictionaryDraft().then(response => {
+      if (response.err) {
+        appendNotification({
+          type: 'error',
+          message: 'Publish Dictionary Draft Error.',
+          details: getDictionaryErrorMessage(response),
+          timeout: false,
+        });
+      } else {
+        setState({
+          ...state,
+          dictionary: response,
+        });
+        appendNotification({
+          type: 'success',
+          message: `The data dictionary updates have been published and applied to ${
+            response.updatedModels
+          } model${response.updatedModels !== 1 ? 's' : ''}.`,
+        });
+      }
     });
   };
 
@@ -243,9 +264,6 @@ export const useDictionary = () => {
     addField,
     editField,
     removeField,
-    addDependentField,
-    editDependentField,
-    removeDependentField,
     reset,
     publish,
   };
