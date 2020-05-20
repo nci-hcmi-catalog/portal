@@ -154,6 +154,9 @@ export const useDictionary = () => {
         setState({
           ...state,
           dictionary: response,
+          activeValue: '',
+          activeValueDependents: [],
+          activeValueOriginal: '',
         });
       }
     });
