@@ -37,12 +37,21 @@ const DictionaryFieldValues = () => {
     setNewFieldValue('');
   };
 
-  const editNewField = (originalValue, updatedValue) => {
-    editField(originalValue, updatedValue);
+  const editNewField = (originalValue, updatedValue, isParent) => {
+    editField(originalValue, updatedValue, null, isParent);
   };
 
   const removeNewField = value => {
     removeField(value);
+  };
+
+  const hasDirtyDependents = dependents => {
+    if (activeField !== CLINICAL_TUMOR_DIAGNOSIS) return false;
+
+    return (
+      dependents &&
+      dependents.some(dependent => dependent.values.some(value => value.status !== 'published'))
+    );
   };
 
   return (
@@ -79,6 +88,7 @@ const DictionaryFieldValues = () => {
                   initialState={fieldValue.status}
                   original={fieldValue.original}
                   active={activeValue === fieldValue.value}
+                  dirtyDependents={hasDirtyDependents(fieldValue.dependents)}
                   clickHandler={
                     activeField === CLINICAL_TUMOR_DIAGNOSIS
                       ? () => {
@@ -91,10 +101,20 @@ const DictionaryFieldValues = () => {
                       : null
                   }
                   editFn={updatedValue =>
-                    editNewField(fieldValue.original || fieldValue.value, updatedValue)
+                    editNewField(
+                      fieldValue.original || fieldValue.value,
+                      updatedValue,
+                      activeField === CLINICAL_TUMOR_DIAGNOSIS,
+                    )
                   }
                   removeFn={() => removeNewField(fieldValue.value)}
-                  resetFn={() => editNewField(fieldValue.original, fieldValue.original)}
+                  resetFn={() =>
+                    editNewField(
+                      fieldValue.original,
+                      fieldValue.original,
+                      activeField === CLINICAL_TUMOR_DIAGNOSIS,
+                    )
+                  }
                 />
               ))}
           </FieldValueList>

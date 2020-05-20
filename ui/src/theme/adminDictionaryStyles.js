@@ -2,7 +2,7 @@ import { css } from 'emotion';
 import styled from 'react-emotion';
 import base from 'theme';
 
-import { AdminContent, AdminHeader, AdminHeaderH1 } from 'theme/adminStyles';
+import { AdminContainer, AdminContent, AdminHeader, AdminHeaderH1 } from 'theme/adminStyles';
 import { Col } from 'theme/system';
 import { Row } from 'theme/system';
 
@@ -26,6 +26,10 @@ const {
 } = base;
 
 const borderColour = porcelain;
+
+export const DictionaryContainer = styled(AdminContainer)`
+  margin-bottom: 40px;
+`;
 
 export const DataDictionaryHeader = styled(AdminHeader)`
   position: relative;
@@ -66,6 +70,10 @@ export const DictionaryDraftTimestamp = styled('span')`
   font-stretch: normal;
   font-style: normal;
   line-height: 1.5;
+
+  span {
+    margin: auto 10px;
+  }
 `;
 
 export const DictionaryDraftStats = styled('span')`
@@ -331,6 +339,7 @@ export const FieldValueListItemContentsWrapper = styled('div')`
 export const FieldValueListItemLabel = styled('span')`
   display: flex;
   margin-right: auto;
+  align-items: center;
 `;
 
 export const FieldValueListItemButton = styled('button')`

@@ -71,10 +71,13 @@ const DictionaryDependentFieldValues = () => {
 
   return (
     activeField === CLINICAL_TUMOR_DIAGNOSIS &&
-    activeValue && (
+    activeValue &&
+    activeValueDependents && (
       <DependentValues>
         <DependentValuesHeader>
-          <DictionaryColumnHeading>Dependent Field Values</DictionaryColumnHeading>
+          <DictionaryColumnHeading>
+            Dependent Field Values for {activeValue}
+          </DictionaryColumnHeading>
           <HoverPill primary css={expandPill} onClick={shouldExpand ? expandAll : collapseAll}>
             {shouldExpand ? 'Expand All' : 'Collapse All'}
           </HoverPill>

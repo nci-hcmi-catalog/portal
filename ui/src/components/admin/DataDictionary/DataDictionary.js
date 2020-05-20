@@ -8,8 +8,7 @@ import DictionaryDependentFieldValues from './DictionaryDependentFieldValues';
 
 import { getDictionaryDraft } from './../helpers/dictionary';
 
-import { AdminContainer } from 'theme/adminStyles';
-import { AdminDictionaryContent } from 'theme/adminDictionaryStyles';
+import { AdminDictionaryContent, DictionaryContainer } from 'theme/adminDictionaryStyles';
 import { Row } from 'theme/system';
 
 const mainTabWidth = 280;
@@ -27,7 +26,7 @@ const DataDictionary = () => {
   }, []);
 
   return (
-    <AdminContainer>
+    <DictionaryContainer>
       <DictionaryHeader />
       <Row>
         <DictionarySidebar width={mainTabWidth} />
@@ -36,7 +35,7 @@ const DataDictionary = () => {
           <DictionaryDependentFieldValues />
         </AdminDictionaryContent>
       </Row>
-    </AdminContainer>
+    </DictionaryContainer>
   );
 };
 

@@ -85,7 +85,7 @@ export const useDictionary = () => {
     });
   };
 
-  const editField = (original, updated, fieldType = null) => {
+  const editField = (original, updated, fieldType = null, isParent = false) => {
     editDictionaryDraftValue({
       field: state.activeFieldSlug,
       parent: fieldType ? state.activeValueOriginal || state.activeValue : null,
@@ -101,10 +101,19 @@ export const useDictionary = () => {
           timeout: false,
         });
       } else {
-        setState({
-          ...state,
-          dictionary: response,
-        });
+        if (isParent) {
+          setState({
+            ...state,
+            dictionary: response,
+            activeValue: updated,
+            activeValueOriginal: original,
+          });
+        } else {
+          setState({
+            ...state,
+            dictionary: response,
+          });
+        }
       }
     });
   };
@@ -145,6 +154,9 @@ export const useDictionary = () => {
         setState({
           ...state,
           dictionary: response,
+          activeValue: '',
+          activeValueDependents: [],
+          activeValueOriginal: '',
         });
       }
     });

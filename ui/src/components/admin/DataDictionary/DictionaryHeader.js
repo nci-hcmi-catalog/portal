@@ -39,7 +39,7 @@ const DictionaryHeader = () => {
             Last published: {lastPublished}
             {isDraft && (
               <>
-                <br />
+                <span>|</span>
                 Last updated: {lastUpdated}
               </>
             )}
@@ -76,7 +76,7 @@ const DictionaryHeader = () => {
           {useConfirmationModal({
             title: 'Are you sure you want to publish dictionary updates?',
             message:
-              'These updates will be applied to all applicable models in any state, including published models.',
+              'These updates will be applied to all applicable models in any state. Any published models that have been affected will switch to "Changes not yet published". You can republish them in the model management section.',
             confirmLabel: 'Yes, Publish All Updates',
             onConfirm: publish,
           })(

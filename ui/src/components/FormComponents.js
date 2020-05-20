@@ -29,11 +29,13 @@ const normalizeOption = option => (option === 'true' ? true : option === 'false'
 
 // Map simple string/number options to keyed objects
 const processOptions = options =>
-  options.map(option =>
-    typeof option === 'object' && option.constructor === Object
-      ? option
-      : { label: option, value: normalizeOption(option) },
-  );
+  options
+    .sort()
+    .map(option =>
+      typeof option === 'object' && option.constructor === Object
+        ? option
+        : { label: option, value: normalizeOption(option) },
+    );
 
 export const FormComponent = ({
   children,
