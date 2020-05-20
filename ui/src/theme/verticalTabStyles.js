@@ -150,7 +150,7 @@ export const StatusIndicator = styled('span')`
   height: ${({ size }) => size || '7'}px;
   border-radius: 50%;
   background-color: ${seaBuckthorn};
-  margin-right: 4px;
+  margin-right: ${({ margin }) => margin || '4'}px;
 `;
 
 export const Divider = styled('div')`

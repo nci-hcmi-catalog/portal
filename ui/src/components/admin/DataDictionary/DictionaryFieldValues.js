@@ -45,6 +45,15 @@ const DictionaryFieldValues = () => {
     removeField(value);
   };
 
+  const hasDirtyDependents = dependents => {
+    if (activeField !== CLINICAL_TUMOR_DIAGNOSIS) return false;
+
+    return (
+      dependents &&
+      dependents.some(dependent => dependent.values.some(value => value.status !== 'published'))
+    );
+  };
+
   return (
     <FieldValues>
       {activeField && (
@@ -79,6 +88,7 @@ const DictionaryFieldValues = () => {
                   initialState={fieldValue.status}
                   original={fieldValue.original}
                   active={activeValue === fieldValue.value}
+                  dirtyDependents={hasDirtyDependents(fieldValue.dependents)}
                   clickHandler={
                     activeField === CLINICAL_TUMOR_DIAGNOSIS
                       ? () => {

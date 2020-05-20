@@ -14,10 +14,12 @@ import {
   FieldValueListItemButton,
   FieldValueListItemContents,
 } from 'theme/adminDictionaryStyles';
+import { StatusIndicator } from 'theme/verticalTabStyles';
 
 const EditableFieldValue = ({
   active,
   clickHandler,
+  dirtyDependents,
   editFn,
   initialValue,
   initialState,
@@ -114,7 +116,12 @@ const EditableFieldValue = ({
           </EditFieldForm>
         );
       default:
-        return <FieldValueListItemLabel>{value}</FieldValueListItemLabel>;
+        return (
+          <FieldValueListItemLabel>
+            {dirtyDependents && <StatusIndicator margin={8} />}
+            {value}
+          </FieldValueListItemLabel>
+        );
     }
   };
 
