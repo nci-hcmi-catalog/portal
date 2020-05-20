@@ -342,10 +342,10 @@ draftRouter.post('/remove', async (req, res) => {
 
 draftRouter.post('/publish', async (req, res) => {
   try {
-    const dictionary = await DictionaryHelper.publishDraft();
+    const { dictionary, updatedModels } = await DictionaryHelper.publishDraft();
     const output = await DictionaryHelper.resetDraft();
 
-    res.json(output);
+    res.json({ ...output.toObject(), updatedModels });
   } catch (err) {
     console.log('err', err);
     res.status(500).json({ err: err.message });

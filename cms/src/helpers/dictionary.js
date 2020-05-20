@@ -63,6 +63,10 @@ export const resetDraft = async () => {
   return await Draft.findOne({}, {}, { sort: { created_at: -1 } });
 };
 
+/**
+ * Publishes the currently saved draft to the dictionary
+ * Return object includes the number of models updated
+ */
 export const publishDraft = async () => {
   const draft = await getDictionaryDraft();
 
@@ -105,6 +109,8 @@ export const publishDraft = async () => {
   //       This is fine today, but if we get too many models in the system
   //       then this will take too much memory to be feasible.
 
+  let updatedModels = 0;
+
   const models = await Model.find({});
 
   const dictionary = new Dictionary({ fields: draft.fields });
@@ -112,6 +118,7 @@ export const publishDraft = async () => {
 
   models.forEach(model => {
     // Find these values in the models.
+    let edited = false;
     edits.forEach(edit => {
       const editField = edit.dependentName ? edit.dependentName : edit.field;
 
@@ -121,19 +128,26 @@ export const publishDraft = async () => {
 
         model.therapy.splice(model.therapy.indexOf(val => val === edit.original), 1);
         model.therapy.push(edit.value);
+        model.status =
+          model.status === modelStatus.published ? modelStatus.unpublishedChanges : model.status;
+        edited = true;
       } else {
         const modelField = fieldNameToModelPropertyMap[editField];
         if (model[modelField] === edit.original) {
           model[modelField] = edit.value;
           model.status =
             model.status === modelStatus.published ? modelStatus.unpublishedChanges : model.status;
+          edited = true;
         }
       }
     });
     model.save();
+    if (edited) {
+      updatedModels += 1;
+    }
   });
 
-  return dictionary;
+  return { dictionary, updatedModels };
 };
 
 export const countDraftStats = draft => {
