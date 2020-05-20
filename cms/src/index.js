@@ -41,7 +41,7 @@ const userRouter = express.Router();
 
 // Handle "unhandled" promise rejections
 process.on('unhandledRejection', (reason, promise) => {
-  console.log('Unhandled Rejection at:', reason.stack || reason);
+  console.log('Unhandled Rejection at:', JSON.stringify(reason.stack || reason));
   console.log('------------------------------------------------');
   console.log('For promise:', promise);
 });
