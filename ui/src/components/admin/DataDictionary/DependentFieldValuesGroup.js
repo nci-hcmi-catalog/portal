@@ -34,7 +34,7 @@ const DependentFieldValuesGroup = ({
   };
 
   const edit = (originalValue, updatedValue, fieldType) => {
-    editField(originalValue, updatedValue, fieldType);
+    return editField(originalValue, updatedValue, fieldType);
   };
 
   const remove = (fieldName, fieldType) => {

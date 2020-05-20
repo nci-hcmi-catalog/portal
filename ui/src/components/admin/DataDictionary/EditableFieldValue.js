@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useContext, useRef, useState } from 'react';
+
+import { NotificationsContext } from './../Notifications';
 
 import AdminDictionaryUndoIcon from '../../../icons/AdminDictionaryUndoIcon';
 import AdminDictionaryEditIcon from '../../../icons/AdminDictionaryEditIcon';
@@ -32,9 +34,14 @@ const EditableFieldValue = ({
   let [value, setValue] = useState(initialValue);
   let [fieldState, setFieldState] = useState(initialState);
   let editableFieldRef = useRef(null);
+  const { appendNotification } = useContext(NotificationsContext);
 
   const isDirty = () => {
-    return fieldState === 'edited' || fieldState === 'new';
+    return fieldState === 'edited' || fieldState === 'error' || fieldState === 'new';
+  };
+
+  const isError = () => {
+    return fieldState === 'error';
   };
 
   const hoverHandler = () => {
@@ -50,18 +57,36 @@ const EditableFieldValue = ({
     setValue(e.target.value);
   };
 
+  const clearError = e => {
+    e.preventDefault();
+    setFieldState(initialState);
+    setValue(initialValue);
+  };
+
   const startEdit = e => {
-    e.stopPropagation();
     setFieldState('editing');
   };
 
   const saveEdit = e => {
     e.preventDefault();
-    e.stopPropagation();
 
-    if (value !== initialValue) {
-      editFn(value);
-      initialState !== 'new' && setFieldState('edited');
+    if (!value || !value.trim()) {
+      appendNotification({
+        type: 'error',
+        message: 'Warning:',
+        details: 'Blank values will not be saved to the dictionary.',
+        timeout: false,
+      });
+      setFieldState('error');
+    } else if (value !== initialValue) {
+      editFn(value).then(success => {
+        if (success) {
+          setFieldState(initialState === 'new' ? initialState : 'edited');
+        } else {
+          setValue(initialValue);
+          setFieldState(initialState);
+        }
+      });
     } else {
       setFieldState(initialState);
     }
@@ -142,6 +167,15 @@ const EditableFieldValue = ({
             </FieldValueListItemButton>
           </>
         );
+      case 'error':
+        return (
+          <>
+            <FieldStateLabel>error</FieldStateLabel>
+            <FieldValueListItemButton onMouseDown={clearError}>
+              <AdminDictionaryUndoIcon height={12} width={12} />
+            </FieldValueListItemButton>
+          </>
+        );
       case 'new':
         return (
           <>
@@ -175,7 +209,7 @@ const EditableFieldValue = ({
       {...props}
     >
       <FieldValueListItemContents active={active}>
-        <FieldValueListItemContentsWrapper dirty={isDirty()}>
+        <FieldValueListItemContentsWrapper dirty={isDirty()} error={isError()}>
           {renderFieldLabel(fieldState)}
           {renderFieldState(fieldState)}
         </FieldValueListItemContentsWrapper>

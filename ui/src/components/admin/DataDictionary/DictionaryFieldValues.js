@@ -38,7 +38,7 @@ const DictionaryFieldValues = () => {
   };
 
   const editNewField = (originalValue, updatedValue, isParent) => {
-    editField(originalValue, updatedValue, null, isParent);
+    return editField(originalValue, updatedValue, null, isParent);
   };
 
   const removeNewField = value => {
