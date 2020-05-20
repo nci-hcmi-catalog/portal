@@ -90,18 +90,17 @@ export const publishDraft = async () => {
           });
         });
       });
-    } else {
-      // basic field case
-      field.values.forEach(value => {
-        if (value.status === draftStatus.edited) {
-          edits.push({
-            field: field.name,
-            value: value.value,
-            original: value.original,
-          });
-        }
-      });
     }
+    // basic field case
+    field.values.forEach(value => {
+      if (value.status === draftStatus.edited) {
+        edits.push({
+          field: field.name,
+          value: value.value,
+          original: value.original,
+        });
+      }
+    });
   });
 
   // TODO: do this in batches.
