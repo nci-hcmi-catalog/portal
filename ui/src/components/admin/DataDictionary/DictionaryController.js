@@ -85,37 +85,38 @@ export const useDictionary = () => {
     });
   };
 
-  const editField = (original, updated, fieldType = null, isParent = false) => {
-    editDictionaryDraftValue({
+  const editField = async (original, updated, fieldType = null, isParent = false) => {
+    const response = await editDictionaryDraftValue({
       field: state.activeFieldSlug,
       parent: fieldType ? state.activeValueOriginal || state.activeValue : null,
       dependentName: fieldType,
       original,
       updated,
-    }).then(response => {
-      if (response.err) {
-        appendNotification({
-          type: 'error',
-          message: 'Edit Dictionary Field Error.',
-          details: getDictionaryErrorMessage(response),
-          timeout: false,
+    });
+
+    if (response.err) {
+      appendNotification({
+        type: 'error',
+        message: 'Edit Dictionary Field Error.',
+        details: getDictionaryErrorMessage(response),
+        timeout: false,
+      });
+    } else {
+      if (isParent) {
+        setState({
+          ...state,
+          dictionary: response,
+          activeValue: updated,
+          activeValueOriginal: original,
         });
       } else {
-        if (isParent) {
-          setState({
-            ...state,
-            dictionary: response,
-            activeValue: updated,
-            activeValueOriginal: original,
-          });
-        } else {
-          setState({
-            ...state,
-            dictionary: response,
-          });
-        }
+        setState({
+          ...state,
+          dictionary: response,
+        });
       }
-    });
+      return 'success';
+    }
   };
 
   const removeField = (fieldName, fieldType = null) => {

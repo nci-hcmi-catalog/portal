@@ -13,6 +13,7 @@ const {
     athensGray,
     athensLightGray,
     bombay,
+    brandPrimary,
     deepIron,
     elm,
     havelockBlue,
@@ -323,6 +324,10 @@ const dirtyItem = css`
   border-color: ${seaBuckthorn};
 `;
 
+const errorItem = css`
+  border-color: ${brandPrimary};
+`;
+
 export const FieldValueListItemContentsWrapper = styled('div')`
   height: ${fieldValueListItemHeight - 4}px;
   width: calc(100% + 28px - 4px);
@@ -334,6 +339,7 @@ export const FieldValueListItemContentsWrapper = styled('div')`
   border: 1px dashed transparent;
 
   ${({ dirty }) => dirty && dirtyItem};
+  ${({ error }) => error && errorItem};
 `;
 
 export const FieldValueListItemLabel = styled('span')`
