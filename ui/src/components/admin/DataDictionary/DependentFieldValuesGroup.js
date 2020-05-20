@@ -22,23 +22,23 @@ const DependentFieldValuesGroup = ({
   fieldValues,
   toggleHandler,
 }) => {
-  const { addDependentField, editDependentField, removeDependentField } = useDictionary();
+  const { addField, editField, removeField } = useDictionary();
   const [newFieldValue, setNewFieldValue] = useState('');
 
-  const addField = (e, fieldName, fieldType) => {
+  const add = (e, fieldName, fieldType) => {
     e.preventDefault();
 
-    addDependentField(fieldName.trim(), fieldType);
+    addField(fieldName.trim(), fieldType);
 
     setNewFieldValue('');
   };
 
-  const editField = (originalValue, updatedValue, fieldType) => {
-    editDependentField(originalValue, updatedValue, fieldType);
+  const edit = (originalValue, updatedValue, fieldType) => {
+    editField(originalValue, updatedValue, fieldType);
   };
 
-  const removeField = (fieldName, fieldType) => {
-    removeDependentField(fieldName, fieldType);
+  const remove = (fieldName, fieldType) => {
+    removeField(fieldName, fieldType);
   };
 
   return (
@@ -54,7 +54,7 @@ const DependentFieldValuesGroup = ({
       {expanded && (
         <>
           <Row>
-            <AddFieldForm onSubmit={e => addField(e, newFieldValue, fieldKey)}>
+            <AddFieldForm onSubmit={e => add(e, newFieldValue, fieldKey)}>
               <AddFieldInput
                 type="text"
                 id="new-field"
@@ -80,9 +80,9 @@ const DependentFieldValuesGroup = ({
                   initialValue={x.value}
                   initialState={x.status}
                   original={x.original}
-                  editFn={updatedValue => editField(x.value, updatedValue, fieldKey)}
-                  removeFn={() => removeField(x.value, fieldKey)}
-                  resetFn={() => editField(x.original, x.original, fieldKey)}
+                  editFn={updatedValue => edit(x.original || x.value, updatedValue, fieldKey)}
+                  removeFn={() => remove(x.value, fieldKey)}
+                  resetFn={() => edit(x.original, x.original, fieldKey)}
                 />
               ))}
             </FieldValueList>

@@ -90,6 +90,14 @@ const EditableFieldValue = ({
     }
   }, [fieldState]);
 
+  useEffect(() => {
+    setFieldState(initialState);
+  }, [initialState]);
+
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
   const renderFieldLabel = fieldState => {
     switch (fieldState) {
       case 'editing':

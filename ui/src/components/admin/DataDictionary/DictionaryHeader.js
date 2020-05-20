@@ -5,11 +5,12 @@ import { NotificationToaster } from './../Notifications';
 import useConfirmationModal from './../../modals/ConfirmationModal';
 
 import { HoverPill } from 'theme/adminControlsStyles';
-import { AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
+import { AdminHeaderBlock } from 'theme/adminStyles';
 import {
+  DataDictionaryHeader,
   DataDictionaryH1,
-  DictionaryDraftPublished,
-  DictionaryDraftUpdated,
+  DictionaryDraftTimestamp,
+  DictionaryDraftStats,
   HeaderPill,
   actionPill,
   cancelPill,
@@ -32,20 +33,26 @@ const DictionaryHeader = () => {
   return (
     <>
       <NotificationToaster />
-      <AdminHeader>
+      <DataDictionaryHeader>
         <AdminHeaderBlock>
-          <DictionaryDraftPublished>Last published: {lastPublished}</DictionaryDraftPublished>
+          <DictionaryDraftTimestamp>
+            Last published: {lastPublished}
+            {isDraft && (
+              <>
+                <br />
+                Last updated: {lastUpdated}
+              </>
+            )}
+          </DictionaryDraftTimestamp>
           <DataDictionaryH1>Data Dictionary</DataDictionaryH1>
           {isDraft && (
             <>
               <HeaderPill>Draft</HeaderPill>
-              <DictionaryDraftUpdated>
-                Last updated: {lastUpdated}
-                <span>|</span>
+              <DictionaryDraftStats>
                 {totalEdits} edited value{totalEdits !== 1 ? 's' : ''}
                 <span>|</span>
                 {totalNew} new value{totalNew !== 1 ? 's' : ''}
-              </DictionaryDraftUpdated>
+              </DictionaryDraftStats>
             </>
           )}
         </AdminHeaderBlock>
@@ -84,7 +91,7 @@ const DictionaryHeader = () => {
             </HoverPill>,
           )}
         </AdminHeaderBlock>
-      </AdminHeader>
+      </DataDictionaryHeader>
     </>
   );
 };

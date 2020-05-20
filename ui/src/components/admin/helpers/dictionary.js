@@ -13,21 +13,42 @@ export const getDictionary = async () => {
 
 export const getDictionaryDraft = async () => {
   const url = DICTIONARY_DRAFT_URL;
-  const response = await get({ url });
+  const response = await get({ url })
+    .then(res => {
+      return res;
+    })
+    .catch(err => {
+      return err.response;
+    });
+
   const dictionary = response.data;
   return dictionary;
 };
 
 export const deleteDictionaryDraft = async () => {
   const url = DICTIONARY_DRAFT_URL;
-  const response = await fetchData({ url, method: 'delete', data: '' });
+  const response = await fetchData({ url, method: 'delete', data: '' })
+    .then(res => {
+      return res;
+    })
+    .catch(err => {
+      return err.response;
+    });
+
   const dictionary = response.data;
   return dictionary;
 };
 
 export const publishDictionaryDraft = async () => {
   const url = `${DICTIONARY_DRAFT_URL}/publish`;
-  const response = await post({ url, data: '' });
+  const response = await post({ url, data: '' })
+    .then(res => {
+      return res;
+    })
+    .catch(err => {
+      return err.response;
+    });
+
   const dictionary = response.data;
   return dictionary;
 };
@@ -45,8 +66,14 @@ export const addDictionaryDraftValue = async ({
     dependentName,
     value,
   };
-  const response = await post({ url, data });
-  // TODO: error handling from API
+  const response = await post({ url, data })
+    .then(res => {
+      return res;
+    })
+    .catch(err => {
+      return err.response;
+    });
+
   const dictionary = response.data;
   return dictionary;
 };
@@ -66,8 +93,14 @@ export const editDictionaryDraftValue = async ({
     original,
     updated,
   };
-  const response = await patch({ url, data });
-  // TODO: error handling from API
+  const response = await patch({ url, data })
+    .then(res => {
+      return res;
+    })
+    .catch(err => {
+      return err.response;
+    });
+
   const dictionary = response.data;
   return dictionary;
 };
@@ -85,8 +118,14 @@ export const removeDictionaryDraftValue = async ({
     dependentName,
     value,
   };
-  const response = await post({ url, data });
-  // TODO: error handling from API
+  const response = await post({ url, data })
+    .then(res => {
+      return res;
+    })
+    .catch(err => {
+      return err.response;
+    });
+
   const dictionary = response.data;
   return dictionary;
 };
@@ -108,6 +147,7 @@ export const EDITABLE_FIELDS = [
   'neoadjuvantTherapy',
   'primarySites',
   'race',
+  'splitRatio',
   'therapy',
   'tissueTypes',
   'vitalStatus',

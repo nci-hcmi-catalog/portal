@@ -82,11 +82,17 @@ const DictionaryFieldValues = () => {
                   clickHandler={
                     activeField === CLINICAL_TUMOR_DIAGNOSIS
                       ? () => {
-                          setActiveValue(fieldValue.value, fieldValue.dependents);
+                          setActiveValue(
+                            fieldValue.value,
+                            fieldValue.dependents,
+                            fieldValue.original,
+                          );
                         }
                       : null
                   }
-                  editFn={updatedValue => editNewField(fieldValue.value, updatedValue)}
+                  editFn={updatedValue =>
+                    editNewField(fieldValue.original || fieldValue.value, updatedValue)
+                  }
                   removeFn={() => removeNewField(fieldValue.value)}
                   resetFn={() => editNewField(fieldValue.original, fieldValue.original)}
                 />

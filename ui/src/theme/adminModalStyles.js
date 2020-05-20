@@ -74,6 +74,7 @@ const closeStyles = css`
   top: 18px;
   right: 20px;
   margin: 0;
+  cursor: pointer;
 `;
 
 export const CloseModal = props => (

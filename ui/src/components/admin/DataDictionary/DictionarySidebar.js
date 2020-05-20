@@ -12,7 +12,7 @@ const DictionarySidebar = ({ width }) => {
 
   const generateStatsString = field => {
     return field && field.stats
-      ? `${field.stats.edited || 0} edit | ${field.stats.new || 0} new`
+      ? `${field.stats.edited || 0} edited | ${field.stats.new || 0} new`
       : null;
   };
 
