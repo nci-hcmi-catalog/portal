@@ -138,6 +138,10 @@ export const DictionaryColumnHeading = styled('h2')`
   letter-spacing: normal;
 `;
 
+export const DependentColumnHeading = styled(DictionaryColumnHeading)`
+  max-width: calc(100% - 120px);
+`;
+
 export const AddFieldForm = styled('form')`
   display: flex;
   flex-direction: row;
