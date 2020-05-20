@@ -37,8 +37,8 @@ const DictionaryFieldValues = () => {
     setNewFieldValue('');
   };
 
-  const editNewField = (originalValue, updatedValue) => {
-    editField(originalValue, updatedValue);
+  const editNewField = (originalValue, updatedValue, isParent) => {
+    editField(originalValue, updatedValue, null, isParent);
   };
 
   const removeNewField = value => {
@@ -91,10 +91,20 @@ const DictionaryFieldValues = () => {
                       : null
                   }
                   editFn={updatedValue =>
-                    editNewField(fieldValue.original || fieldValue.value, updatedValue)
+                    editNewField(
+                      fieldValue.original || fieldValue.value,
+                      updatedValue,
+                      activeField === CLINICAL_TUMOR_DIAGNOSIS,
+                    )
                   }
                   removeFn={() => removeNewField(fieldValue.value)}
-                  resetFn={() => editNewField(fieldValue.original, fieldValue.original)}
+                  resetFn={() =>
+                    editNewField(
+                      fieldValue.original,
+                      fieldValue.original,
+                      activeField === CLINICAL_TUMOR_DIAGNOSIS,
+                    )
+                  }
                 />
               ))}
           </FieldValueList>
