@@ -14,7 +14,6 @@ import {
   FormLabelHeader,
 } from 'components/FormComponents';
 import { FormContainer, FormHeader, FormSection, FormCol } from 'theme/adminFormStyles';
-import { getPublishSchema } from '@hcmi-portal/cms/src/validation/model';
 import { schemaObj } from '@hcmi-portal/cms/src/schemas/descriptions/model';
 import TabHeader from './TabHeader';
 const booleanChoice = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
