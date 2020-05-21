@@ -46,62 +46,66 @@ export default () => (
 
           <Tooltip
             trigger={() => (
-              <Tab
-                active={activeTab === 'images'}
-                disabled={!modelExists}
-                onClick={() => modelExists && setUIActiveTab('images')}
-                css={activeTab === 'images' && navItemActive}
-              >
-                <TabContents>
-                  <AdminModelImageIcon
-                    fill={
-                      !modelExists
-                        ? disabledNavItemIconColor
-                        : activeTab === 'images'
-                        ? activeNavItemIconColor
-                        : brandPrimary
-                    }
-                    css={navItemIcon}
-                  />
-                  <TabLabel>
-                    <TabHeading>Images</TabHeading>
-                  </TabLabel>
-                </TabContents>
-              </Tab>
+              <div>
+                <Tab
+                  active={activeTab === 'images'}
+                  disabled={!modelExists}
+                  onClick={() => modelExists && setUIActiveTab('images')}
+                  css={activeTab === 'images' && navItemActive}
+                >
+                  <TabContents>
+                    <AdminModelImageIcon
+                      fill={
+                        !modelExists
+                          ? disabledNavItemIconColor
+                          : activeTab === 'images'
+                          ? activeNavItemIconColor
+                          : brandPrimary
+                      }
+                      css={navItemIcon}
+                    />
+                    <TabLabel>
+                      <TabHeading>Images</TabHeading>
+                    </TabLabel>
+                  </TabContents>
+                </Tab>
+              </div>
             )}
             disabled={modelExists}
-            offsetY={-16}
+            position={'right center'}
           >
             Please add a name and save the model first
           </Tooltip>
 
           <Tooltip
             trigger={() => (
-              <Tab
-                active={activeTab === 'variants'}
-                disabled={!modelExists}
-                onClick={() => modelExists && setUIActiveTab('variants')}
-                css={activeTab === 'variants' && navItemActive}
-              >
-                <TabContents>
-                  <AdminModelVariantsIcon
-                    fill={
-                      !modelExists
-                        ? disabledNavItemIconColor
-                        : activeTab === 'variants'
-                        ? activeNavItemIconColor
-                        : brandPrimary
-                    }
-                    css={navItemIcon}
-                  />
-                  <TabLabel>
-                    <TabHeading>Variants</TabHeading>
-                  </TabLabel>
-                </TabContents>
-              </Tab>
+              <div>
+                <Tab
+                  active={activeTab === 'variants'}
+                  disabled={!modelExists}
+                  onClick={() => modelExists && setUIActiveTab('variants')}
+                  css={activeTab === 'variants' && navItemActive}
+                >
+                  <TabContents>
+                    <AdminModelVariantsIcon
+                      fill={
+                        !modelExists
+                          ? disabledNavItemIconColor
+                          : activeTab === 'variants'
+                          ? activeNavItemIconColor
+                          : brandPrimary
+                      }
+                      css={navItemIcon}
+                    />
+                    <TabLabel>
+                      <TabHeading>Variants</TabHeading>
+                    </TabLabel>
+                  </TabContents>
+                </Tab>
+              </div>
             )}
             disabled={modelExists}
-            offsetY={-16}
+            position={'right center'}
           >
             Please add a name and save the model first
           </Tooltip>
