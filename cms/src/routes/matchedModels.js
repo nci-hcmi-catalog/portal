@@ -18,6 +18,7 @@ actionRouter.post('/connect/:name', async (req, res) => {
       matchedModels,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       error: error.message,
     });
@@ -35,6 +36,7 @@ actionRouter.delete('/:name', async (req, res) => {
       matchedModels,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       error: error.message,
     });

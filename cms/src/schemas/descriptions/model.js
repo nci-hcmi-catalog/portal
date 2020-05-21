@@ -10,7 +10,7 @@ export const schemaArr = [
     accessor: 'expanded',
   },
   {
-    displayName: 'Type',
+    displayName: 'Model Type',
     accessor: 'type',
   },
   {

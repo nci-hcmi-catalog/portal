@@ -15,6 +15,10 @@ export const post = async ({ url, data, headers }) => {
   return await fetchData({ url, data, method: 'post', headers });
 };
 
+export const patch = async ({ url, data, headers }) => {
+  return await fetchData({ url, data, method: 'patch', headers });
+};
+
 export const Fetcher = ({ url, data, method, children }) => (
   <Component
     initialState={{

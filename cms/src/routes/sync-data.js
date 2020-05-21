@@ -6,7 +6,7 @@ import { unionWith, uniqWith, isEqual } from 'lodash';
 import { toExcelHeaders, toExcelRowNumber } from '../schemas/constants';
 import Model, { ModelSchema } from '../schemas/model';
 import Variant from '../schemas/variant';
-import { saveValidation } from '../validation/model';
+import { getSaveValidation } from '../validation/model';
 import { modelVariantUploadSchema } from '../validation/variant';
 import { modelStatus, ensureAuth, computeModelStatus, runYupValidatorFailSlow } from '../helpers';
 import { getSheetData, typeToParser, NAtoNull } from '../services/import/SheetsToMongo';
@@ -81,7 +81,7 @@ data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) =>
 
   ensureAuth(req)
     .then(authClient => getSheetData({ authClient, spreadsheetId, sheetId }))
-    .then(data => {
+    .then(async data => {
       const parsed = data
         .filter(({ name }) => name)
         .map(d =>
@@ -97,7 +97,8 @@ data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) =>
         )
         .filter(Boolean)
         .map(d => removeNullKeys(d));
-      return runYupValidatorFailSlow(saveValidation, parsed);
+      const validation = await getSaveValidation();
+      return runYupValidatorFailSlow(validation, parsed);
     })
     .then(validated => {
       const savePromises = validated

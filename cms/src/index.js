@@ -15,6 +15,7 @@ import { data_sync_router } from './routes/sync-data';
 import {
   actionRouter,
   bulkRouter,
+  dictionaryRouter,
   imagesRouter,
   matchedModelsRouter as matchedModelsActionsRouter,
   templatesRouter,
@@ -40,7 +41,7 @@ const userRouter = express.Router();
 
 // Handle "unhandled" promise rejections
 process.on('unhandledRejection', (reason, promise) => {
-  console.log('Unhandled Rejection at:', reason.stack || reason);
+  console.log('Unhandled Rejection at:', JSON.stringify(reason.stack || reason));
   console.log('------------------------------------------------');
   console.log('For promise:', promise);
 });
@@ -106,6 +107,7 @@ app.get('/api/v1/loggedInUser', (req, res) => {
 
 app.use('/api/v1', data_sync_router);
 app.use('/api/v1/bulk', bulkRouter);
+app.use('/api/v1/dictionary', dictionaryRouter);
 app.use('/api/v1/images', imagesRouter);
 app.use('/api/v1/action', actionRouter);
 app.use('/api/v1/templates', templatesRouter);

@@ -9,12 +9,11 @@ import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 
 const {
   fonts: { libreFranklin },
-  keyedPalette: { brandPrimary, porcelain, white, mineShaft, silver },
+  keyedPalette: { brandPrimary, elm, mineShaft, silver },
   transparency: { white70 },
 } = base;
 
-const borderColour = porcelain;
-const activeNavItemIconColor = mineShaft;
+const activeNavItemIconColor = elm;
 const disabledNavItemIconColor = silver;
 
 export { brandPrimary, activeNavItemIconColor, disabledNavItemIconColor };
@@ -24,63 +23,20 @@ export const AdminModelNav = styled(Col)`
   label: admin-model-nav;
 `;
 
-const activeNavItem = css`
-  color: ${mineShaft};
-  background: ${white};
-  border: solid 1px ${borderColour};
-  border-right-color: ${white};
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  /* Extending it over 1 pixel to match design (cover other border) */
-  z-index: 2;
-  position: relative;
-  width: 165px;
-  label: admin-model-nav-item-active;
-
-  &:hover {
-    color: ${mineShaft};
-  }
-`;
-
-const disabledNavItem = css`
-  color: ${disabledNavItemIconColor};
-  cursor: not-allowed;
-  label: admin-model-nav-item-disabled;
-`;
-
-export const NavItem = styled('div')`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 19px 15px;
-  font-family: ${libreFranklin};
-  font-size: 14px;
-  font-weight: 600;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.57;
-  letter-spacing: normal;
-  text-align: left;
-  text-transform: uppercase;
-  cursor: pointer;
-  label: admin-model-nav-item;
-  ${brandPrimaryHighlightHover};
-  ${({ active }) => active && activeNavItem};
-  ${({ disabled }) => disabled && disabledNavItem};
-`;
-
 export const navItemIcon = css`
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   margin-right: 9px;
   fill: ${brandPrimary};
   label: admin-model-nav-item-icon;
 `;
 
-export const navItemIconActive = css`
-  ${navItemIcon};
-  fill: ${activeNavItemIconColor};
-  label: admin-model-nav-item-icon-active;
+export const navItemActive = css`
+  color: ${mineShaft};
+
+  &:hover {
+    color: ${mineShaft};
+  }
 `;
 
 export const AdminModelContent = styled(AdminContent)`
