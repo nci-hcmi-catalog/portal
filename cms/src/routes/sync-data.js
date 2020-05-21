@@ -8,7 +8,7 @@ import Model, { ModelSchema } from '../schemas/model';
 import Variant from '../schemas/variant';
 import { getSaveValidation } from '../validation/model';
 import { modelVariantUploadSchema } from '../validation/variant';
-import { ensureAuth, computeModelStatus, runYupValidatorFailSlow } from '../helpers';
+import { modelStatus, ensureAuth, computeModelStatus, runYupValidatorFailSlow } from '../helpers';
 import { getSheetData, typeToParser, NAtoNull } from '../services/import/SheetsToMongo';
 import { getLoggedInUser } from '../helpers/authorizeUserAccess';
 
@@ -115,13 +115,17 @@ data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) =>
               updatedAt: false,
               files: false,
               createdAt: false,
-              status: false,
             }, //omit mongoose generated fields
           );
           if (prevModel) {
             if (overwrite && !isEqual(prevModel._doc, result)) {
               // Prevent removing variants in overwrite
               result.variants = prevModel._doc.variants || [];
+
+              result.status =
+                prevModel._doc.status === modelStatus.published
+                  ? modelStatus.unpublishedChanges
+                  : prevModel._doc.status;
 
               return new Promise((resolve, reject) => {
                 Model.findOneAndUpdate(
