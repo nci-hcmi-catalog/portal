@@ -6,7 +6,7 @@ import { Col } from 'theme/system';
 import { verticalTabHover } from 'theme/hoverStyles';
 
 const {
-  fonts: { libreFranklin, openSans },
+  fonts: { openSans },
   keyedPalette: {
     alto,
     aquaSpring,
@@ -89,7 +89,7 @@ export const Tab = styled('div')`
   flex-direction: row;
   align-items: center;
   height: ${verticalTabHeight}px;
-  font-family: ${libreFranklin};
+  font-family: ${openSans};
   font-size: 15px;
   font-weight: 600;
   font-style: normal;
@@ -120,7 +120,7 @@ export const TabLabel = styled('div')`
 `;
 
 export const TabHeading = styled('span')`
-  font-family: ${libreFranklin};
+  font-family: ${openSans};
   font-size: 15px;
   font-weight: 600;
   font-style: normal;
@@ -160,7 +160,7 @@ export const Divider = styled('div')`
   padding: 0 10px;
   background-color: ${athensGray};
   border: 1px solid ${alto};
-  font-family: ${libreFranklin};
+  font-family: ${openSans};
   font-size: 14px;
   font-weight: 600;
   font-style: normal;

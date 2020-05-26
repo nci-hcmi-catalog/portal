@@ -7,7 +7,7 @@ import { Row } from 'theme/system';
 import { whiteHover } from 'theme/hoverStyles';
 
 const {
-  fonts: { libreFranklin, openSans },
+  fonts: { openSans },
   transparency: { brandPrimary70 },
   keyedPalette: { athensGray, black, bombay, brandPrimary, valencia, porcelain },
   buttons: { pillBase },
@@ -17,7 +17,7 @@ const navBackgroundColour = brandPrimary70;
 const navOnState = valencia;
 
 export const AdminNav = styled(Row)`
-  font-family: ${libreFranklin};
+  font-family: ${openSans};
   background-color: ${navBackgroundColour};
   color: white;
   display: flex;
@@ -47,7 +47,7 @@ export const NavLink = styled(Link)`
   display: inline-block;
   position: relative;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
@@ -55,7 +55,6 @@ export const NavLink = styled(Link)`
   text-align: center;
   line-height: 50px;
   padding: 0 22px;
-  text-transform: uppercase;
   ${whiteHover};
   ${props => props.active && activeNavLink};
 `;

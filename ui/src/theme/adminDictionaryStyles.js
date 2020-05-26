@@ -7,7 +7,7 @@ import { Col } from 'theme/system';
 import { Row } from 'theme/system';
 
 const {
-  fonts: { libreFranklin, openSans },
+  fonts: { openSans },
   keyedPalette: {
     aquaSpring,
     athensGray,
@@ -46,7 +46,7 @@ export const DataDictionaryH1 = styled(AdminHeaderH1)`
 `;
 
 export const HeaderPill = styled('span')`
-  font-family: ${libreFranklin};
+  font-family: ${openSans};
   font-size: 11px;
   font-weight: bold;
   font-stretch: normal;
@@ -115,7 +115,7 @@ export const DependentValuesHeader = styled(Row)`
 `;
 
 export const DependentFieldType = styled('h3')`
-  font-family: ${libreFranklin};
+  font-family: ${openSans};
   font-size: 14px;
   font-weight: bold;
   font-stretch: normal;
@@ -129,7 +129,7 @@ export const DependentFieldType = styled('h3')`
 
 export const DictionaryColumnHeading = styled('h2')`
   margin-top: 0;
-  font-family: ${libreFranklin};
+  font-family: ${openSans};
   font-size: 14px;
   font-weight: 600;
   font-style: normal;
@@ -192,6 +192,7 @@ export const AddFieldButton = styled('button')`
   background-color: ${elm};
   border-radius: 10px;
   border-color: transparent;
+  font-family: ${openSans};
   font-size: 12px;
   font-weight: bold;
   display: flex;
@@ -207,6 +208,7 @@ export const AddFieldButton = styled('button')`
 `;
 
 export const disabledPill = css`
+  font-family: ${openSans};
   font-weight: bold;
   background-color: ${deepIron};
   &:hover {
@@ -215,6 +217,7 @@ export const disabledPill = css`
 `;
 
 export const cancelPill = css`
+  font-family: ${openSans};
   font-weight: bold;
   background-color: ${white};
   color: ${mineShaft};
@@ -225,6 +228,7 @@ export const cancelPill = css`
 `;
 
 export const actionPill = css`
+  font-family: ${openSans};
   font-weight: bold;
   background-color: ${elm};
   &:hover {
@@ -236,6 +240,7 @@ export const expandPill = css`
   ${cancelPill};
   margin: 0;
   padding: 5px 10px;
+  font-family: ${openSans};
   line-height: normal;
   min-height: unset;
   height: 28px;

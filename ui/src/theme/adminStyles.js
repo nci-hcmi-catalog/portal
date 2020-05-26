@@ -3,7 +3,7 @@ import base from 'theme';
 import { Row, Col } from 'theme/system';
 
 const {
-  fonts: { libreFranklin, openSans },
+  fonts: { openSans },
   keyedPalette: { brandPrimary, lightPorcelain, porcelain, white, mineShaft },
 } = base;
 
@@ -43,7 +43,7 @@ export const AdminHeaderH1 = styled('h1')`
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-family: ${libreFranklin};
+  font-family: ${openSans};
   line-height: 1;
   color: ${brandPrimary};
   font-size: 28px;

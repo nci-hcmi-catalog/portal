@@ -52,6 +52,8 @@ export const LoggedInUserPill = () => (
                       size={12}
                       css={`
                         margin-right: 5px;
+                        position: relative;
+                        top: -1px;
                       `}
                       fill={black}
                     />
