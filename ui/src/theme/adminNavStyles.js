@@ -9,7 +9,7 @@ import { whiteHover } from 'theme/hoverStyles';
 const {
   fonts: { libreFranklin, openSans },
   transparency: { brandPrimary70 },
-  keyedPalette: { brandPrimary, valencia, porcelain },
+  keyedPalette: { athensGray, black, bombay, brandPrimary, valencia, porcelain },
   buttons: { pillBase },
 } = base;
 
@@ -78,18 +78,42 @@ export const HoverPill = styled(Pill)`
   ${adminPillHover({ base: brandPrimary, hover: valencia }, { base: '#ffffff', hover: porcelain })};
 `;
 
-export const User = styled(Pill)`
+export const UserDropdown = styled(HoverPill)`
   font-family: ${openSans};
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
   line-height: 2;
   letter-spacing: normal;
   text-align: center;
-  color: ${brandPrimary};
-  border: none;
-  padding: 1px 15px;
+  color: ${black};
+  border: 1px solid ${bombay};
+  border-radius: 10px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  background-color: ${props => props.isOpen && athensGray};
+
+  &:hover {
+    color: ${black};
+  }
 `;
 
-export const AnchorTag = User.withComponent('a');
+export const DropdownItem = styled('a')`
+  text-align: left;
+  font-family: ${openSans};
+  padding: 5px 9px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.71;
+  color: ${black};
+  display: block;
+  text-decoration: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: ${porcelain};
+  }
+`;
