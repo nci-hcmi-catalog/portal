@@ -227,3 +227,11 @@ export const softTransitionRolloverBkgHover = (hoverColour, transitionSpeed) =>
       background-color: ${hoverColour};
     }
   `;
+
+export const visuallyHidden = css`
+  position: absolute;
+  height: 0;
+  width: 0;
+  top: -9999px;
+  left: -9999px;
+`;
