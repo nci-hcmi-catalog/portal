@@ -121,6 +121,9 @@ const base = {
     trout: '#525767',
     havelockBlue: '#4596de',
     athensLightGray: '#eaeaee',
+    hotCinnamon: '#dd6624',
+    texasRose: '#fec152',
+    orangeRough: '#cf5a1a',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',
