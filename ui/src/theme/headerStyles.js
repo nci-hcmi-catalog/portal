@@ -3,7 +3,7 @@ import styled from 'react-emotion';
 
 import { Link } from 'react-router-dom';
 
-import bannerPath from 'assets/hcmi-dna-banner.jpg';
+import bannerPath from 'assets/hcmi-catalog-banner.jpg';
 import base from 'theme';
 
 const {
