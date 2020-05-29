@@ -85,9 +85,15 @@ export const createModelUploadTemplate = async authClient => {
 
   const sheets = google.sheets({ version: 'v4', auth: authClient });
 
+  // Date formatted like: May-29-2020-13:51:42
+  const dateStamp = Date()
+    .split(' ')
+    .splice(1, 4)
+    .join('-');
+
   const spreadsheet = {
     resource: {
-      properties: { title: 'HCMI Bulk Upload Models Template' },
+      properties: { title: `${dateStamp} HCMI Bulk Upload Models Template` },
       sheets: [
         {
           properties: { title: 'Models', index: 0 },
