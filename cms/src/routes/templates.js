@@ -35,7 +35,7 @@ templatesRouter.get('/models', async (req, res) => {
     res.json({ url });
   } catch (err) {
     console.log(err);
-    res.status(500);
+    res.status(500).json({ err: err.message });
   }
 });
 
