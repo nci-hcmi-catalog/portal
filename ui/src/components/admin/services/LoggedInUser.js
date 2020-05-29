@@ -3,13 +3,13 @@ import config from '../config';
 import { Fetcher } from './Fetcher';
 import UserIcon from 'icons/UserIcon';
 import CollapsibleArrow from 'icons/CollapsibleArrow';
-import { User, AnchorTag } from 'theme/adminNavStyles';
+import { UserDropdown, DropdownItem } from 'theme/adminNavStyles';
 import Popup from 'reactjs-popup';
 import Component from 'react-component-component';
 import base from 'theme';
 
 const {
-  keyedPalette: { brandPrimary },
+  keyedPalette: { black },
 } = base;
 
 export const LoggedInUserContext = React.createContext();
@@ -35,6 +35,7 @@ export const LoggedInUserPill = () => (
           <div
             css={`
               margin-left: 20px;
+              position: relative;
             `}
           >
             <Popup
@@ -46,50 +47,41 @@ export const LoggedInUserPill = () => (
                     postion: relative;
                   `}
                 >
-                  <User onClick={() => setState({ isOpen: !isOpen })}>
-                    <div
+                  <UserDropdown onClick={() => setState({ isOpen: !isOpen })} isOpen>
+                    <UserIcon
+                      size={12}
                       css={`
-                        padding-top: 1px;
-                        padding-bottom: 1px;
+                        margin-right: 5px;
+                        position: relative;
+                        top: -1px;
                       `}
-                    >
-                      <UserIcon
-                        width={12}
-                        heigh={13}
-                        css={`
-                          position: relative;
-                          top: 2px;
-                          margin-right: 5px;
-                        `}
-                        fill={brandPrimary}
-                      />
-                      <span
-                        css={`
-                          padding: 2px;
-                          height: 30px;
-                        `}
-                      >
-                        {user.email}
-                      </span>
-                      {CollapsibleArrow({ isOpen })}
-                    </div>
-                  </User>
+                      fill={black}
+                    />
+                    {user.email}
+                    <CollapsibleArrow
+                      isOpen={isOpen}
+                      colour={'#000'}
+                      weight={4}
+                      css={`
+                        margin-left: 4px;
+                      `}
+                    />
+                  </UserDropdown>
                 </div>
               )}
-              position="bottom center"
               offset={0}
               open={isOpen}
               arrow={false}
               contentStyle={{
                 padding: '0px',
-                border: 'none',
-                borderBottomLeftRadius: '10px',
-                borderBottomRightRadius: '10px',
-                width: 'max-content',
-                minWidth: '152px',
+                border: '1px solid #b2b7c1',
+                borderRadius: '4px',
+                width: '100%',
+                position: 'absolute',
               }}
+              onClose={() => setState({ isOpen: false })}
             >
-              <AnchorTag href={`${config.urls.logoutUrl}`}>Logout</AnchorTag>
+              <DropdownItem href={`${config.urls.logoutUrl}`}>Logout</DropdownItem>
             </Popup>
           </div>
         )}
