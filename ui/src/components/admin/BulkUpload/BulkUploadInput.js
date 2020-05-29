@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Spinner from 'react-spinkit';
+import Popup from 'reactjs-popup';
 
 import {
   BulkUploadContent,
   BulkUploadContentBlock,
   BulkUploadTemplateLink,
+  BulkUploadTemplateLinkDisabled,
   GoogleSheetsUpload,
   GoogleSheetsLogo,
   UploadContentHeading,
@@ -14,11 +16,14 @@ import {
 import { Input, RadioSelect } from 'theme/formComponentsStyles';
 import { getUploadTemplate } from '../helpers/googleSheets';
 
+import { googleSDK } from '../services/GoogleLink';
+
 import ErrorIcon from 'icons/ErrorIcon';
 import ExportIcon from 'icons/ExportIcon';
 import ExternalLinkIcon from 'icons/ExternalLinkIcon';
 import googleSheetsLogo from 'assets/logo-googlesheets.png';
 import config from '../config';
+
 const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
 // Map simple string/number options to keyed objects
@@ -44,14 +49,32 @@ export default ({
 }) => {
   const [templateUrl, setTemplateUrl] = useState(null);
   const [generating, setGenerating] = useState(false);
+  const [signedIn, setSignedIn] = useState(false);
+
+  const checkGoogleStatus = async () => {
+    const googleAuth = await googleSDK();
+    if (googleAuth.isSignedIn.get()) {
+      setSignedIn(true);
+    }
+  };
+  useEffect(() => {
+    checkGoogleStatus();
+  }, []);
 
   const renderTemplateLink = templateUrl => {
-    return templateUrl ? (
+    return generating ? (
+      // Spinner while generating
+      <BulkUploadTemplateLink>
+        <Spinner fadeIn="none" name="circle" color="#a9adc0" style={{ width: 15, height: 15 }} />
+      </BulkUploadTemplateLink>
+    ) : templateUrl ? (
+      // URL to sheet once generated
       <BulkUploadTemplateLink href={templateUrl} target="_blank">
         <ExternalLinkIcon height={10} width={10} />
         Bulk Upload Template
       </BulkUploadTemplateLink>
     ) : (
+      // Prompt to generate sheet for default state
       <BulkUploadTemplateLink
         onClick={async () => {
           setGenerating(true);
@@ -71,17 +94,14 @@ export default ({
     <BulkUploadContent>
       <BulkUploadContentBlock>
         <div>{`Submit your ${type} data by uploading a google sheet.`}</div>
-        {generating ? (
-          <BulkUploadTemplateLink>
-            <Spinner
-              fadeIn="none"
-              name="circle"
-              color="#a9adc0"
-              style={{ width: 15, height: 15 }}
-            />
-          </BulkUploadTemplateLink>
-        ) : (
+        {signedIn ? (
           renderTemplateLink(templateUrl)
+        ) : (
+          <BulkUploadTemplateLinkDisabled>
+            <Popup arrow={false} trigger={() => <div>Generate New Bulk Upload Template</div>}>
+              Connect to Google to enable generating template sheets.
+            </Popup>
+          </BulkUploadTemplateLinkDisabled>
         )}
       </BulkUploadContentBlock>
       <BulkUploadContentBlock>
