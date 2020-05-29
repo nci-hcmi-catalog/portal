@@ -6,6 +6,7 @@ import SplitPane from 'react-split-pane';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
 
+import AdminDictionaryArrowIcon from './../icons/AdminDictionaryArrowIcon';
 import LastUpdatedDate from './LastUpdatedDate';
 import ModelNameSearch from 'components/ModelNameSearch';
 import PrimarySiteChart from 'components/charts/PrimarySiteChart';
@@ -78,8 +79,10 @@ export default ({
         >
           <Row
             css={`
-              background-color: #fff;
+              background-color: #f6f6f8;
+              border: 1px solid #d9d9df;
               align-items: center;
+              min-height: 45px;
             `}
           >
             {!sqon && (
@@ -90,12 +93,12 @@ export default ({
                   flex: 1;
                 `}
               >
-                <span
-                  className="sqon-field no-sqon-message"
-                  css={`
-                    font-size: 12px;
-                  `}
-                >
+                <span className="sqon-field no-sqon-message">
+                  <AdminDictionaryArrowIcon
+                    height={12}
+                    width={12}
+                    css={'transform: rotate(180deg);'}
+                  />
                   Use the filter panel on the left to customize your model search.
                 </span>
               </Row>
@@ -115,8 +118,9 @@ export default ({
           <Row
             bg="white"
             css={`
-              padding: 0 16px 0 16px;
+              margin: 8px 0;
               justify-content: space-around;
+              border: 1px solid #d9d9df;
             `}
           >
             <Component shouldUpdate={() => stable}>

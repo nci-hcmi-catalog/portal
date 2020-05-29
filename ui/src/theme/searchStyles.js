@@ -1,8 +1,12 @@
 import { css } from 'emotion';
 import styled from 'react-emotion';
 import facetarrow from 'assets/icon-facetarrow.svg';
+import downloadIcon from 'assets/icon-download.svg';
+import chevron from 'assets/icon-chevron-down.svg';
+import doubleChevron from 'assets/icon-chevron-double-down.svg';
 
 import base from 'theme';
+import { HEADER_HEIGHT } from 'theme/headerStyles';
 import {
   brandPrimaryColourHover,
   brandPrimaryHighlightHover,
@@ -10,23 +14,47 @@ import {
 } from 'theme/hoverStyles';
 
 const {
-  fonts: { libreFranklin, openSans },
-  keyedPalette: { brandPrimary, lightBlack },
+  fonts: { openSans },
+  keyedPalette: {
+    aquaSpring,
+    athensGray,
+    athensLightGray,
+    black,
+    bombay,
+    brandPrimary,
+    dustyGray,
+    elm,
+    graySuit,
+    lightBlack,
+    lightPorcelain,
+    mischka,
+    sandyBeach,
+    trout,
+    white,
+  },
 } = base;
-
-const headerHeight = '94px'; // 88px + 6px border-bottom
-const grey = '#f4f5f7';
 
 export default css`
   .ReactTable {
     flex: 1;
+    border: none;
+    background: transparent;
+  }
+
+  .ReactTable .rt-table {
+    border: 1px solid ${mischka};
+  }
+
+  .ReactTable .rt-table input[type='checkbox'] {
+    cursor: pointer;
   }
 
   .ReactTable .rt-td {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    padding: 13px 5px;
+    padding: 4px 8px 4px 4px;
+    border-color: ${mischka};
   }
 
   /* Additional padding for scroll bars */
@@ -35,42 +63,122 @@ export default css`
   }
 
   .ReactTable .rt-resizable-header {
-    padding: 13px 5px;
+    padding: 4px 8px;
   }
 
   .ReactTable .rt-resizable-header-content {
-    color: #353535;
-    text-transform: uppercase;
+    color: ${black};
+    text-transform: capitalize;
     text-align: left;
-    font-family: ${libreFranklin};
-    font-size: 13px;
-    line-height: 13px;
-    font-weight: 500;
+    font-family: ${openSans};
+    font-size: 12px;
+    font-weight: bold;
+    overflow-wrap: break-word;
+    white-space: normal;
   }
 
   .ReactTable a {
     ${brandPrimaryColourHover};
   }
 
-  .ReactTable.-striped .rt-thead {
-    background-color: #fef7eb;
+  .ReactTable .rt-thead {
+    background-color: #ffffff;
+  }
+
+  .ReactTable .rt-thead .rt-tr .rt-th {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-color: ${mischka};
+    align-items: baseline;
+
+    &:hover {
+      background-color: ${lightPorcelain};
+    }
+  }
+
+  .ReactTable .rt-thead .rt-th.-sort-asc,
+  .ReactTable .rt-thead .rt-td.-sort-asc {
+    box-shadow: inset 0 3px 0 0 rgba(51, 170, 187, 1);
+  }
+
+  .ReactTable .rt-thead .rt-th.-sort-desc,
+  .ReactTable .rt-thead .rt-td.-sort-desc {
+    box-shadow: inset 0 -3px 0 0 rgba(51, 170, 187, 1);
   }
 
   .ReactTable.-striped .rt-tr.-odd {
-    background-color: #f9fafd;
+    background-color: ${white};
   }
 
-  .ReactTable .rt-thead {
-    background-color: #ffffff;
+  .ReactTable.-striped .rt-tr.-even {
+    background-color: ${athensGray};
+  }
+
+  .ReactTable.-highlight .rt-tbody .rt-tr:not(.-padRow):hover {
+    background-color: ${lightPorcelain};
   }
 
   .ReactTable .rt-tr-group {
     flex: none;
   }
 
+  .ReactTable .pagination-bottom {
+    height: auto;
+    background: transparent;
+    padding: 4px 0 0;
+  }
+
   .ReactTable .-pagination {
     font-family: ${openSans};
     box-shadow: none;
+    border: none;
+    height: auto;
+    padding: 0;
+  }
+
+  .ReactTable .-pagination .select-wrap.-pageSizeOptions {
+    font-size: 12px;
+    color: ${trout};
+    margin: 0;
+  }
+
+  .ReactTable .-pagination .select-wrap.-pageSizeOptions select {
+    border-radius: 4px;
+    border-color: ${bombay};
+    font-family: ${openSans};
+    appearance: none;
+    width: 60px;
+    box-sizing: border-box;
+    background-color: ${white};
+    background-image: url(${chevron}),
+      linear-gradient(
+        90deg,
+        transparent 0%,
+        transparent 59%,
+        ${bombay} 59%,
+        ${bombay} 60%,
+        transparent 60%,
+        transparent 100%
+      );
+    background-repeat: no-repeat;
+    background-size: 10px, contain;
+    background-position: 42px 9px, 0 0;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+
+    &:hover {
+      background-color: ${lightPorcelain};
+      background-image: url(${chevron}),
+        linear-gradient(
+          90deg,
+          transparent 0%,
+          transparent 59%,
+          ${bombay} 59%,
+          ${bombay} 60%,
+          transparent 60%,
+          transparent 100%
+        );
+    }
   }
 
   .ReactTable .-pagination_button {
@@ -78,9 +186,89 @@ export default css`
     ${whiteButtonHover};
   }
 
+  .ReactTable .-pagination .-pageJump,
+  .ReactTable .-pagination .-pageJump .-pagination_button {
+    border-color: ${graySuit};
+  }
+
+  .ReactTable .-pagination .-pageJump {
+    border-radius: 10px;
+    color: ${black};
+  }
+
   .ReactTable .-pagination_button.-current {
-    color: ${brandPrimary};
-    background: #e6e6e6;
+    color: ${black};
+    background: ${aquaSpring};
+  }
+
+  .ReactTable .-pagination .-pageJump .-pagination_button.-toStart,
+  .ReactTable .-pagination .-pageJump .-pagination_button.-previous,
+  .ReactTable .-pagination .-pageJump .-pagination_button.-next,
+  .ReactTable .-pagination .-pageJump .-pagination_button.-toEnd {
+    color: transparent;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .ReactTable .-pagination .-pageJump .-pagination_button.-toStart.-disabled,
+  .ReactTable .-pagination .-pageJump .-pagination_button.-previous.-disabled,
+  .ReactTable .-pagination .-pageJump .-pagination_button.-next.-disabled,
+  .ReactTable .-pagination .-pageJump .-pagination_button.-toEnd.-disabled {
+    cursor: not-allowed;
+    opacity: 80%;
+    background-color: ${white};
+
+    &:hover {
+      background-color: ${white};
+    }
+  }
+
+  .ReactTable .-pagination .-pageJump .-pagination_button.-previous::after {
+    content: '';
+    background: url(${chevron}) no-repeat;
+    background-size: 8px;
+    background-position: center;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform: rotate(90deg);
+    position: absolute;
+  }
+
+  .ReactTable .-pagination .-pageJump .-pagination_button.-next::after {
+    content: '';
+    background: url(${chevron}) no-repeat;
+    background-size: 8px;
+    background-position: center;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    position: absolute;
+  }
+
+  .ReactTable .-pagination .-pageJump .-pagination_button.-toStart::after {
+    content: '';
+    background: url(${doubleChevron}) no-repeat;
+    background-size: 8px;
+    background-position: center;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform: rotate(90deg);
+    position: absolute;
+  }
+
+  .ReactTable .-pagination .-pageJump .-pagination_button.-toEnd::after {
+    content: '';
+    background: url(${doubleChevron}) no-repeat;
+    background-size: 8px;
+    background-position: center;
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    position: absolute;
   }
 
   .input-range__track.input-range__track--active {
@@ -89,101 +277,160 @@ export default css`
 
   .showMore-wrapper.more,
   .showMore-wrapper.less {
+    display: flex;
     justify-content: normal;
+    align-items: center;
+    padding: 2px 10px 6px;
+    margin: 0;
+    font-size: 11px;
   }
 
   .showMore-wrapper.more::before {
     content: '+';
-    border: 1px solid #990000;
-    border-radius: 100px;
-    padding: 1px 5px;
-    transform: scale(0.65);
-    font-weight: bold;
-    margin-right: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    color: ${white};
+    background-color: #ed494c;
+    font-size: 11px;
+    font-weight: normal;
+    margin-right: 4px;
+    margin-top: 0;
   }
 
   .showMore-wrapper.less::before {
     content: '-';
-    border: 1px solid #990000;
-    border-radius: 100px;
-    padding: 1px 5px;
-    transform: scale(0.65);
-    font-weight: bold;
-    margin-right: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    color: ${white};
+    background-color: #ed494c;
+    font-size: 11px;
+    font-weight: normal;
+    margin-right: 4px;
+    margin-top: 0;
+    padding-bottom: 1px;
+    margin-bottom: -1px;
   }
 
   .sqon-view {
-    background-color: #ffffff;
     border: none;
     padding: 4px 19px 14px;
     flex: 1;
   }
 
   .sqon-value {
-    background-color: #d3494d;
-    color: #fff;
-    padding: 0 7px 0 12px;
+    background-color: ${elm};
+    color: ${white};
+    font-family: ${openSans};
+    padding: 0 8px 2px;
     margin-right: 4px;
     cursor: pointer;
   }
 
   .sqon-clear {
-    background-color: #f3f6f7;
-    color: #724c31;
+    background-color: ${white};
+    color: ${black};
+    font-size: 12px;
     font-weight: bold;
+    border-radius: 10px;
+    border: 1px solid ${bombay};
+    height: 26px;
+  }
+
+  .sqon-field,
+  .sqon-op {
+    color: ${black};
+    font-weight: normal;
+    font-size: 12px;
+  }
+
+  .sqon-field.sqon-field--chart-title {
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: capitalize;
+  }
+
+  .sqon-field.pie-center {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-10px);
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+
+    div {
+      font-size: 10px;
+      font-weight: normal;
+      text-align: center;
+      text-transform: capitalize;
+    }
   }
 
   .sqon-value-group {
-    color: #323232;
+    color: ${elm};
+    margin-top: 4px;
   }
 
   .search-header-actions {
     position: relative;
     display: flex;
     flex-direction: row;
-    height: 36px;
-    padding: 0 20px;
+    height: 28px;
+    padding: 0 8px;
     border-left: 1px solid #d4d6dd;
   }
 
   .search-header-actions .pill {
-    padding: 0 15px;
-    height: 36px;
+    padding: 0 10px;
+    height: 26px;
     border-radius: 10px;
-    border: solid 1px #cacbcf;
-    font-family: 'Libre Franklin';
+    border: solid 1px ${bombay};
+    font-family: ${openSans};
     font-size: 12px;
-    font-weight: 500;
+    font-weight: bold;
     font-style: normal;
-    font-stretch: normal;
-    line-height: 1.67;
-    letter-spacing: normal;
-    text-align: center;
     text-transform: uppercase;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     ${whiteButtonHover};
+    color: ${black};
+    background-color: ${white};
+
+    &:hover {
+      color: ${black};
+    }
   }
 
   .search-results-wrapper {
-    background-color: ${grey};
+    padding: 16px 18px 0;
   }
 
   .search-split-pane,
   .search-results-wrapper,
   .aggregations-wrapper {
     /* important to override react-split-pane inline style */
-    height: calc(100vh - ${headerHeight}) !important;
+    height: calc(100vh - ${HEADER_HEIGHT}) !important;
     overflow-y: auto;
     position: relative !important;
   }
 
+  .search-split-pane .Pane1 {
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.08);
+  }
+
   .aggregations-wrapper .arrow {
     display: block;
-    width: 10px;
-    height: 9px;
+    width: 8px;
+    height: 8px;
     margin-right: 5px;
     color: ${brandPrimary};
   }
@@ -192,16 +439,14 @@ export default css`
     content: '';
     display: block;
     background: url(${facetarrow}) no-repeat;
-    width: 10px;
-    height: 9px;
-  }
-
-  .aggregation-card .header .title-wrapper .title {
-    margin: 0;
+    width: 8px;
+    height: 8px;
   }
 
   .aggregation-card .header .title-wrapper {
-    padding: 6px 11px;
+    padding: 10px;
+    background-image: linear-gradient(to bottom, ${athensGray} 9%, ${athensLightGray} 91%);
+    border-bottom: none;
   }
 
   .aggregation-card .header .title-wrapper > div {
@@ -210,48 +455,26 @@ export default css`
     align-items: center;
   }
 
-  .aggregation-card .header .title-wrapper .action-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 24px;
-    height: 24px;
-    border-radius: 12px;
-    background: #fff;
-    border: solid 1px #cacbcf;
-  }
-
   .aggregation-card .header .title-wrapper .action-icon svg {
-    fill: #724c31;
-    width: 12px;
-    heigth: 12px;
+    fill: ${bombay};
+    width: 14px;
+    heigth: 14px;
+    transition: background 0.25s ease;
+
+    &:hover {
+      fill: ${dustyGray};
+    }
   }
 
   .aggregation-card .filter {
     padding: 10px 11px;
   }
 
-  .aggregation-card .bucket {
-    padding: 0 7px;
-  }
-
   .no-sqon-message {
     text-transform: none;
-    color: #676767;
+    color: #000;
+    font-size: 14px;
     font-weight: normal;
-  }
-
-  .search-results-wrapper > * + * {
-    margin-top: 10px;
-  }
-
-  .search-results-wrapper .ReactTable {
-    margin-top: 0;
-    border-top: none;
-  }
-
-  .search-results-wrapper > * {
-    border: 1px solid #d6d6d6;
   }
 
   .aggregations {
@@ -264,19 +487,18 @@ export default css`
   }
 
   .aggregation-card .title-wrapper .title {
-    font-weight: bolder;
-    font-size: 0.9rem;
-    font-family: Open Sans, sans-serif;
-    text-transform: uppercase;
-    color: #900000;
-  }
-
-  .aggregation-card .title-wrapper .title-control .title {
-    ${brandPrimaryHighlightHover};
+    font-family: ${openSans};
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1.38;
+    text-transform: capitalize;
+    color: ${black};
   }
 
   .aggregation-card {
     border-left: none;
+    border-top: none;
+    border-color: ${mischka};
     padding: 0px !important;
     margin: 0px !important;
   }
@@ -286,25 +508,85 @@ export default css`
   }
 
   .aggregation-card .bucket {
+    padding: 0;
+  }
+
+  .aggregation-card .bucket .bucket-item {
+    padding: 2px 6px;
+    display: flex;
+    align-items: baseline;
+
+    &:hover {
+      background-color: ${lightPorcelain};
+    }
+  }
+
+  .aggregation-card .bucket-item .bucket-link {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .aggregation-card .bucket-item .bucket-link input[type='checkbox'] {
+    margin-right: 6px;
+  }
+
+  .aggregation-card .bucket-item .bucket-link .textHighlight {
+    font-size: 12px;
+    margin-top: 1px;
+  }
+
+  .aggregation-card .bucket-item .bucket-count,
+  .aggregation-card .toggle-button .toggle-button-option .bucket-count {
+    border-radius: 6px;
+    background-color: ${sandyBeach};
+    color: ${black};
+    min-width: 20px;
+    height: 18px;
+    font-family: ${openSans};
+    font-size: 10px;
+    line-height: 1.4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
     padding: 4px;
   }
 
-  .aggregation-card .bucket-item .bucket-count {
-    border-radius: 5px;
-    background-color: #fef7eb;
-    color: #343434;
-    padding-left: 10px;
-    padding-right: 10px;
-    font-family: Open Sans, sans-serif;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-align: center;
-    align-items: center;
-    margin-left: auto;
+  .aggregation-card .bucket .toggle-button {
+    margin: 4px 10px;
+    border-radius: 10px;
+    border: 1px solid ${graySuit};
+    overflow: hidden;
   }
 
-  .aggregation-card .toggle-button .bucket-count {
-    background-color: #fef7eb;
+  .aggregation-card .bucket .toggle-button .toggle-button-option {
+    font-size: 12px;
+    border-color: ${graySuit};
+    border-width: 0;
+    border-right-width: 1px;
+
+    &:not(.active):hover {
+      background-color: ${lightPorcelain};
+    }
+  }
+
+  .aggregation-card .bucket .toggle-button .toggle-button-option .textHighlight {
+    margin-right: 2px;
+  }
+
+  .aggregation-card .bucket .toggle-button .toggle-button-option:first-child {
+    border-top-left-radius: unset;
+    border-bottom-left-radius: unset;
+  }
+
+  .aggregation-card .bucket .toggle-button .toggle-button-option:last-child {
+    border-top-right-radius: unset;
+    border-bottom-right-radius: unset;
+    border-right-width: 0 !important;
+  }
+
+  .aggregation-card .bucket .toggle-button .toggle-button-option.active {
+    background-color: ${aquaSpring};
   }
 
   .model-name-search-wrapper .title-wrapper {
@@ -321,6 +603,37 @@ export default css`
     color: #545454;
     margin-right: 16px;
     font-size: 14px;
+  }
+
+  .model-name-search-content-wrapper {
+    padding: 4px 8px;
+  }
+
+  .model-name-search-content .quick-search .inputWrapper {
+    border-radius: 10px;
+    border: solid 1px ${bombay};
+    padding: 5px 25px 5px 10px;
+  }
+
+  .model-name-search-content .quick-search .inputWrapper .inputIcon,
+  .search-results-wrapper .tableToolbar .group .inputWrapper .inputIcon {
+    margin-right: 6px;
+    padding-bottom: 1px;
+    color: ${bombay};
+  }
+
+  .search-results-wrapper .tableToolbar .group .inputWrapper .inputIcon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .model-name-search-content .quick-search .inputWrapper input,
+  .search-results-wrapper .tableToolbar .group .inputWrapper input {
+    font-family: ${openSans};
+    font-size: 12px;
+    font-weight: normal;
+    color: ${trout};
+    padding: 0;
   }
 
   .quick-search-result-entity-1 {
@@ -388,22 +701,69 @@ export default css`
     border-color: transparent;
   }
 
+  .search-results-wrapper .tableToolbar {
+    padding: 10px 0 8px;
+    font-size: 12px;
+    align-items: flex-end;
+  }
+
+  .search-results-wrapper .tableToolbar .group,
+  .tableToolbar .buttonWrapper {
+    margin-left: 8px;
+  }
+
   .tableToolbar button {
     background: none;
     text-transform: uppercase;
-    font-family: ${libreFranklin};
+    font-family: ${openSans};
     font-size: 12px;
-    font-weight: 500;
-    line-height: 1.67;
-    ${brandPrimaryColourHover};
+    font-weight: bold;
+    align-items: center;
+    ${whiteButtonHover};
+    color: ${black};
+    fill: ${black} !important;
+
+    &:hover {
+      color: ${black};
+      fill: ${black} !important;
+    }
+  }
+
+  .tableToolbar .dropDownHeader,
+  .tableToolbar .buttonWrapper {
+    border: none;
+    padding: 0;
+  }
+
+  .tableToolbar .dropDownHeader button,
+  .tableToolbar .buttonWrapper button {
+    height: 28px;
+    border-radius: 10px;
+    border: 1px solid ${bombay};
+    align-items: center;
+    padding: 0 10px;
   }
 
   .tableToolbar .dropDownButtonContent {
-    font-family: ${libreFranklin};
+    font-family: ${openSans};
+    margin-right: 5px;
   }
 
   .tableToolbar .dropDownButton svg {
-    stroke: '#724c31';
+    stroke: ${trout};
+    stroke-width: 3px;
+    width: 12px;
+    height: 12px;
+  }
+
+  .tableToolbar .buttonWrapper button::before {
+    content: '';
+    display: block;
+    background: url(${downloadIcon}) no-repeat;
+    background-size: contain;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
   }
 
   .dropDownHeader .dropDownContent {

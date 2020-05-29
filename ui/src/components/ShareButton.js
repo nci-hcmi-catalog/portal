@@ -15,18 +15,24 @@ import base from 'theme';
 import { Row, Col } from 'theme/system';
 
 const {
-  keyedPalette: { lightBlack },
+  keyedPalette: { elm, lightBlack, lightPorcelain },
   fonts: { openSans },
 } = base;
 
 let Bubble = p => (
   <span
     css={`
-      background-color: rgba(144, 0, 0, 0.7);
+      display: inline-block;
+      background-color: ${elm};
       color: white;
-      padding: 4px 6px;
+      padding: 2px 4px;
       border-radius: 100%;
       margin-right: 10px;
+
+      svg {
+        width: 12px;
+        height: 12px;
+      }
     `}
     {...p}
   />
@@ -36,12 +42,13 @@ const ItemRow = ({ xcss = '', ...props }) => (
   <Row
     css={`
       display: flex;
-      min-height: 37px;
       padding: 0 10px;
+      min-height: 28px;
       align-items: center;
       cursor: pointer;
+      font-size: 12px;
       &:hover {
-        background-color: rgb(240, 240, 240);
+        background-color: ${lightPorcelain};
       }
       ${xcss};
     `}
@@ -49,7 +56,7 @@ const ItemRow = ({ xcss = '', ...props }) => (
   />
 );
 
-export default ({ link, error, quote, leftOffset = '-121px' }) => (
+export default ({ link, error, quote, leftOffset = '-135px' }) => (
   <Component initialState={{ copied: false }}>
     {({ state, setState }) => (
       <Downshift
@@ -63,7 +70,7 @@ export default ({ link, error, quote, leftOffset = '-121px' }) => (
               className="pill"
               onClick={() => toggleMenu({}, () => setState({ copied: false }))}
             >
-              <ShareIcon height={13} />Share
+              <ShareIcon height={12} fill={'#000'} />Share
             </button>
             {isOpen && (
               <Col
@@ -105,7 +112,7 @@ export default ({ link, error, quote, leftOffset = '-121px' }) => (
                           <Bubble>
                             <ChainIcon />
                           </Bubble>
-                          <span>{state.copied ? <span>Copied!</span> : <span>copy URL</span>}</span>
+                          <span>{state.copied ? <span>Copied!</span> : <span>Copy URL</span>}</span>
                         </span>
                       </CopyToClipboard>
                     </ItemRow>
@@ -114,7 +121,7 @@ export default ({ link, error, quote, leftOffset = '-121px' }) => (
                         <Bubble>
                           <FBIcon />
                         </Bubble>
-                        <span>share on facebook</span>
+                        <span>Share on Facebook</span>
                       </FacebookShareButton>
                     </ItemRow>
                     <ItemRow>
@@ -122,7 +129,7 @@ export default ({ link, error, quote, leftOffset = '-121px' }) => (
                         <TwitterIcon />
                       </Bubble>
                       <TwitterShareButton title={quote} url={link}>
-                        <span>share on twitter</span>
+                        <span>Share on Twitter</span>
                       </TwitterShareButton>
                     </ItemRow>
                     <ItemRow>
@@ -130,7 +137,7 @@ export default ({ link, error, quote, leftOffset = '-121px' }) => (
                         <Bubble>
                           <LIIcon />
                         </Bubble>
-                        <span>share on linkedin</span>
+                        <span>Share on Linkedin</span>
                       </LinkedinShareButton>
                     </ItemRow>
                   </React.Fragment>

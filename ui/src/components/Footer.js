@@ -9,34 +9,14 @@ import cancerResearchUKPath from 'assets/logo-cancer-research-UK.svg';
 const Footer = () => (
   <footer
     css={`
-      height: 70px;
+      height: 56px;
       background-color: #ffffff;
-      box-shadow: 0 0 5.9px 0.1px rgba(160, 160, 163, 0.93);
-      margin-top: 6px;
-      color: #fff;
-      font-family: 'Open Sans';
-      font-size: 14px;
+      border-top: 1px solid #dcdde1;
       display: flex;
       justify-content: center;
-
-      a:link,
-      a:visited {
-        font-family: 'Open Sans';
-        font-size: 14px;
-        color: #fff;
-        text-decoration: none;
-      }
-
-      span {
-        margin-top: 10px;
-      }
-
-      .tagline {
-        color: #dfd4cf;
-      }
     `}
   >
-    <Row alignItems="center" justifyContent="space-between" minWidth={147} width="50%">
+    <Row alignItems="center" justifyContent="space-between" minWidth={147} width="80%">
       <img
         src={nihPath}
         alt="NIH"

@@ -22,46 +22,26 @@ const palette = [
 const growthChartPalette = ['#29818e', '#d9373c', '#636aab'];
 
 const chartsPalette = [
-  '#851330', // 0
-  '#f09f32', // 1
-  '#de3337', // 2
-  '#cddc3a', // 3
-  '#4caf53', // 4
-  '#f77679', // 5
-  '#f8a85f', // 6
-  '#7cced9', // 7
-  '#64b79c', // 8
-  '#266574', // 9
-  '#dfc4ac', // 10
-  '#e3703e', // 11
-  '#fee83b', // 12
-  '#e13331', // 13
-  '#edbb48', // 14
-  '#81a856', // 15
-  '#785548', // 16
-  '#df9966', // 17
-  '#ea5153', // 18
-  '#84d0c5', // 19
-  '#9b2620', // 20
-  '#7dc274', // 21
-  '#f9da6d', // 22
-  '#009689', // 23
-  '#fd7747', // 24
-  '#6368ad', // 25
-  '#edcbc1',
-  '#1b9fb2',
-  '#fdaa42',
-  '#f25e46',
-  '#4dac9e',
-  '#f0458b',
-  '#8ac14a',
-  '#f4d494',
-  '#8f93cb',
-  '#fdc009',
-  '#f34336',
-  '#02bbd4',
-  '#fe9802',
-  '#de376f',
+  '#f5a528', // 0
+  '#33aabb', // 1
+  '#f49394', // 2
+  '#1c8292', // 3
+  '#c1b2f0', // 4
+  '#284ca0', // 5
+  '#feda97', // 6
+  '#cd0d32', // 7
+  '#7bccfc', // 8
+  '#c8e8ed', // 9
+  '#53467a', // 10
+  '#fec152', // 11
+  '#5d85e3', // 12
+  '#fa8564', // 13
+  '#4198cc', // 14
+  '#ecf7f9', // 15
+  '#ed494c', // 16
+  '#b9b5c6', // 17
+  '#e36a48', // 18
+  '#89a8f2', // 19
 ];
 
 const base = {
@@ -77,7 +57,6 @@ const base = {
     cherry: palette[0],
     brandPrimary: palette[1],
     brandPrimaryHighlight: palette[11],
-    crimson: palette[2],
     carnation: palette[3],
     froly: palette[4],
     flamingo: palette[5],
@@ -109,7 +88,7 @@ const base = {
     oldLace: '#FDF4E9',
     oldCopper: '#724c31',
     green: '#3f8342',
-    redOrange: '#b55a36',
+    redOrange: '#be541a',
     aquaSpring: '#ecf7f9',
     alto: '#d8d8d8',
     elm: '#1c8292',
@@ -124,6 +103,10 @@ const base = {
     hotCinnamon: '#dd6624',
     texasRose: '#fec152',
     orangeRough: '#cf5a1a',
+    mischka: '#d9d9df',
+    sandyBeach: '#ffe9c3',
+    graySuit: '#b9b5c6',
+    crimson: '#cd0d32',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',

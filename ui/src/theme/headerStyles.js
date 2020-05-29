@@ -11,7 +11,7 @@ const {
   keyedPalette: { hotCinnamon, orangeRough, texasRose, white, lightBlack },
 } = base;
 
-const HEADER_HEIGHT = '64px';
+export const HEADER_HEIGHT = '64px';
 
 export const Header = styled('header')`
   display: flex;

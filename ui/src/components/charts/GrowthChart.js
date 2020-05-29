@@ -22,15 +22,10 @@ export default ({ sqon, setSQON }) => (
           height: 185px;
           width: 48%; /* 25% when there are three charts */
           max-width: 360px;
-          padding: 16px 0 16px 0;
+          padding: 12px 0 4px;
         `}
       >
-        <span
-          className="sqon-field"
-          css={`
-            font-size: 12px;
-          `}
-        >
+        <span className="sqon-field sqon-field--chart-title">
           2D versus 3D Growth
         </span>
         <AggregationQuery sqon={sqon} field="type">
