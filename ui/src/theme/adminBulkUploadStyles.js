@@ -142,6 +142,7 @@ export const BulkUploadTemplateLink = styled('a')`
   text-transform: uppercase;
   ${brandPrimaryHighlightHover};
   label: bulk-upload-template-link;
+  cursor: pointer;
 `;
 
 export const GoogleSheetsUpload = styled('div')`

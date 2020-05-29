@@ -1,4 +1,6 @@
 // @ts-check
+import { ensureAuth } from '../helpers';
+import { createModelUploadTemplate } from '../helpers/uploadTemplate';
 
 import express from 'express';
 import fs from 'fs';
@@ -24,7 +26,17 @@ const streamServerFile = (filePath, response) => {
 };
 
 templatesRouter.get('/models', async (req, res) => {
-  streamServerFile('../../templates/bulk-model-upload.xlsx', res);
+  try {
+    const authClient = await ensureAuth(req);
+    const createResponse = await createModelUploadTemplate(authClient);
+
+    const url = createResponse.spreadsheetUrl;
+
+    res.json({ url });
+  } catch (err) {
+    console.log(err);
+    res.status(500);
+  }
 });
 
 templatesRouter.get('/variants', async (req, res) => {
