@@ -103,14 +103,13 @@ export const LoginWithGoogle = ({ children }) => {
   const initGoogleSignIn = async () => {
     try {
       const googleAuth = await googleSDK();
-      if (!googleAuth.isSignedIn.get()) {
-        attachGoogleSignIn(
-          'googleSignin',
-          googleAuth,
-          async successResponse => signInSuccess(successResponse),
-          err => authError(err.details),
-        );
-      } else {
+      attachGoogleSignIn(
+        'googleSignin',
+        googleAuth,
+        async successResponse => signInSuccess(successResponse),
+        err => authError(err.details),
+      );
+      if (googleAuth.isSignedIn.get()) {
         setState({
           loggedIn: true,
           googleAuth: googleAuth,

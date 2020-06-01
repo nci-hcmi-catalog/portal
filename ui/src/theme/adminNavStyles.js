@@ -109,6 +109,7 @@ export const DropdownItem = styled('a')`
   color: ${black};
   display: block;
   text-decoration: none;
+  cursor: pointer;
 
   &:hover,
   &:focus,
