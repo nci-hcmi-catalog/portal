@@ -36,7 +36,6 @@ const {
 
 export default css`
   .ReactTable {
-    flex: 1;
     border: none;
     background: transparent;
   }
@@ -649,6 +648,7 @@ export default css`
     ${brandPrimaryHighlightHover};
     cursor: pointer;
     text-decoration: underline;
+    padding: 0;
   }
 
   .Resizer {
