@@ -70,7 +70,8 @@ export default ({ link, error, quote, leftOffset = '-135px' }) => (
               className="pill"
               onClick={() => toggleMenu({}, () => setState({ copied: false }))}
             >
-              <ShareIcon height={12} fill={'#000'} />Share
+              <ShareIcon height={12} fill={'#000'} />
+              Share
             </button>
             {isOpen && (
               <Col

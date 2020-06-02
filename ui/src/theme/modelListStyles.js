@@ -37,16 +37,17 @@ export default css`
   }
   .search-header-model-list.model-list-icon {
     background: url(${modelListDefaultBlue}) no-repeat;
-    width: 24px;
-    height: 28px;
-    background-size: 18px auto;
+    width: 28px;
+    height: 32px;
+    background-size: 21px auto;
     margin-left: 8px;
   }
   .search-header-model-list.model-list-icon.not-empty {
     background: url(${modelListNotEmptyBlue}) no-repeat;
+    background-size: 28px auto;
   }
 
   .search-header-model-list.model-list-icon span.count {
-    right: -2px;
+    right: -1px;
   }
 `;
