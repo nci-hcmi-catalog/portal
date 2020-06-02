@@ -30,6 +30,7 @@ const {
     mischka,
     sandyBeach,
     trout,
+    whisper,
     white,
   },
 } = base;
@@ -114,7 +115,7 @@ export default css`
   }
 
   .ReactTable.-highlight .rt-tbody .rt-tr:not(.-padRow):hover {
-    background-color: ${lightPorcelain};
+    background-color: ${whisper};
   }
 
   .ReactTable .rt-tr-group {
