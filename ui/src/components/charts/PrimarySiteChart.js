@@ -12,9 +12,8 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
     alignItems="center"
     css={`
       position: relative;
-      width: 48%; /* 25% when there are three charts */
-      max-width: 360px;
       height: 185px;
+      width: 33%;
       padding: 12px 0 4px;
     `}
   >
@@ -38,6 +37,7 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
                 bottom: 12,
                 left: 12,
               }}
+              height={156}
               data={state.buckets.map((x, i) => ({
                 id: x.key,
                 label: x.key,
