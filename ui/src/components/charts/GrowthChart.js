@@ -20,17 +20,11 @@ export default ({ sqon, setSQON }) => (
         css={`
           position: relative;
           height: 185px;
-          width: 48%; /* 25% when there are three charts */
-          max-width: 360px;
-          padding: 16px 0 16px 0;
+          width: 33%;
+          padding: 12px 0 4px;
         `}
       >
-        <span
-          className="sqon-field"
-          css={`
-            font-size: 12px;
-          `}
-        >
+        <span className="sqon-field sqon-field--chart-title">
           2D versus 3D Growth
         </span>
         <AggregationQuery sqon={sqon} field="type">
@@ -94,6 +88,7 @@ export default ({ sqon, setSQON }) => (
                     bottom: 12,
                     left: 12,
                   }}
+                  height={156}
                   data={[
                     data.find(({ id }) => id === '3-D') || { id: '3-D', value: 0 },
                     data.find(({ id }) => id === '2-D') || { id: '2-D', value: 0 },

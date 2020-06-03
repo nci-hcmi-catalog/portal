@@ -12,18 +12,12 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
     alignItems="center"
     css={`
       position: relative;
-      width: 48%; /* 25% when there are three charts */
-      max-width: 360px;
       height: 185px;
-      padding: 16px 0 16px 0;
+      width: 33%;
+      padding: 12px 0 4px;
     `}
   >
-    <span
-      className="sqon-field"
-      css={`
-        font-size: 12px;
-      `}
-    >
+    <span className="sqon-field sqon-field--chart-title">
       Has Multiple Models
     </span>
     <AggregationQuery sqon={sqon} field="has_matched_models">
@@ -39,6 +33,7 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
                 bottom: 12,
                 left: 12,
               }}
+              height={156}
               data={state.buckets.map((x, i) => {
                 return {
                   id: x.key,

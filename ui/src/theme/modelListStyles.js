@@ -1,10 +1,15 @@
 import { css } from 'emotion';
 import modelListDefaultWhite from 'assets/icon-modellist-empty-white.svg';
 import modelListNotEmptyWhite from 'assets/icon-modellist-full-white.svg';
-import modelListDefaultRed from 'assets/icon-modellist-empty-red.svg';
-import modelListNotEmptyRed from 'assets/icon-modellist-full-red.svg';
+import modelListDefaultBlue from 'assets/icon-modellist-empty-blue.svg';
+import modelListNotEmptyBlue from 'assets/icon-modellist-full-blue.svg';
 
 export default css`
+  .model-list-icon__wrapper {
+    display: flex;
+    align-items: center;
+  }
+
   .model-list-icon {
     position: relative;
     display: block;
@@ -31,13 +36,18 @@ export default css`
     color: #fff;
   }
   .search-header-model-list.model-list-icon {
-    background: url(${modelListDefaultRed}) no-repeat;
-    width: 32px;
-    height: 36px;
-    background-size: 24px auto;
-    margin-left: 20px;
+    background: url(${modelListDefaultBlue}) no-repeat;
+    width: 28px;
+    height: 32px;
+    background-size: 21px auto;
+    margin-left: 8px;
   }
   .search-header-model-list.model-list-icon.not-empty {
-    background: url(${modelListNotEmptyRed}) no-repeat;
+    background: url(${modelListNotEmptyBlue}) no-repeat;
+    background-size: 28px auto;
+  }
+
+  .search-header-model-list.model-list-icon span.count {
+    right: -1px;
   }
 `;

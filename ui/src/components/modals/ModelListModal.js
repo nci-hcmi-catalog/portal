@@ -16,14 +16,14 @@ import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 import DoubleArrowRightIcon from 'icons/DoubleArrowRightIcon';
 import ModelPlaceholderIcon from 'icons/ModelPlaceholderIcon';
 import TrashIcon from 'icons/TrashIcon';
-import DownloadIconWhite from 'icons/DownloadIconWhite';
-import modelListEmptyRedPlus from 'assets/icon-modellist-empty-red.svg';
+import DownloadIcon from 'icons/DownloadIcon';
+import modelListEmptyBlue from 'assets/icon-modellist-empty-blue.svg';
 
 import { imgPath } from 'utils/constants';
 
 const EmptyList = () => (
   <div className="empty-list">
-    <img src={modelListEmptyRedPlus} alt="Add to list icon" width="26" height="30" />
+    <img src={modelListEmptyBlue} alt="Empty list icon" width="26" height="30" />
     <p>You don’t have any models selected.</p>
   </div>
 );
@@ -144,13 +144,15 @@ export default () => (
                             )
                           }
                         >
-                          <DownloadIconWhite
+                          <DownloadIcon
+                            fill={'#fff'}
                             width={12}
-                            height={14}
+                            height={12}
                             css={`
-                              margin-right: 14px;
+                              margin-right: 4px;
                             `}
-                          />Download TSV
+                          />
+                          Download TSV
                         </button>
                       </div>
                     </>
