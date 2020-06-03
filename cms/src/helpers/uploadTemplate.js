@@ -211,7 +211,7 @@ export const createVariantUploadTemplate = async authClient => {
   const response = await new Promise((resolve, reject) => {
     sheets.spreadsheets.create(spreadsheet, (err, data) => {
       if (err) {
-        console.log('Error occured creating google sheet for models bulk upload template.');
+        console.log('Error occured creating google sheet for variants bulk upload template.');
         reject(err);
       } else {
         resolve(data);
