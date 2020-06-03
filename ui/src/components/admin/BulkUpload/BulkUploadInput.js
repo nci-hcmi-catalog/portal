@@ -78,7 +78,7 @@ export default ({
       <BulkUploadTemplateLink
         onClick={async () => {
           setGenerating(true);
-          const response = await getUploadTemplate();
+          const response = await getUploadTemplate(type);
           setGenerating(false);
           if (response.url) {
             setTemplateUrl(response.url);
