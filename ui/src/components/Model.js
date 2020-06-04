@@ -79,6 +79,7 @@ const MultipleModelContent = match => {
         margin-bottom: 10px;
         display: flex;
       `}
+      key={match.name}
     >
       <div
         css={`
