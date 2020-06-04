@@ -21,8 +21,6 @@ import ExternalSourcesIcon from 'icons/ExternalSourcesIcon';
 import VariantsIcon from 'icons/VariantsIcon';
 import VariantTables from 'components/VariantTables';
 import ExternalLink from 'components/ExternalLink';
-import ShareButton from 'components/ShareButton';
-import { SelectedModelsContext } from 'providers/SelectedModels';
 import { imgPath } from 'utils/constants';
 
 const HorizontalTable = ({
@@ -163,32 +161,6 @@ export default ({ modelName }) => (
                     Patient Details
                   </h3>
                 </Col>
-                <Row
-                  className="model-actions"
-                  css={`
-                    width: 30%;
-                    justify-content: flex-end;
-                  `}
-                >
-                  <ShareButton
-                    link={`${window.location.origin}/model/${queryState.model.name}`}
-                    quote={`HCMI Model ${queryState.model.name}`}
-                  />
-                  <SelectedModelsContext.Consumer>
-                    {selected => {
-                      const isSelected = selected.state.modelIds.includes(queryState.model.id);
-                      return (
-                        <button
-                          onClick={() => selected.toggleModel(queryState.model.id)}
-                          className={`pill select-model ${isSelected ? 'selected' : ''}`}
-                          style={{ marginLeft: '10px' }}
-                        >
-                          {isSelected ? 'Selected for download' : 'Add model to my list'}
-                        </button>
-                      );
-                    }}
-                  </SelectedModelsContext.Consumer>
-                </Row>
               </Row>
               <Row className="row">
                 <Col className="three-col">

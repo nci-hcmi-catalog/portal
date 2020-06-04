@@ -5,63 +5,53 @@ import ModelCarousel from 'components/ModelCarousel';
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 import Url from 'components/Url';
 import BackToSearch from 'components/links/BackToSearch';
+import ShareButton from 'components/ShareButton';
+import { SelectedModelsContext } from 'providers/SelectedModels';
 import ModelList from 'components/ModelList';
 
-//TODO: Uncomment when expanded is available
-// const ExpandedPill = ({ isExpanded }) => {
-//   return (
-//     <div
-//       css={`
-//         margin-left: 30px;
-//         color: ${isExpanded ? theme.keyedPalette.green : theme.keyedPalette.redOrange};
-//         font-size: 13px;
-//         font-weight: bold;
-//         font-family: Helvetica;
-//         font-weight: bold;
-//         line-height: 1.9;
-//         letter-spacing: 0.2px;
-//         background-color: white;
-//         border-radius: 10px;
-//         border: solid 2px ${isExpanded ? '#72bb74' : '#ff9752'};
-//         padding: 0px 11px;
-//         margin-top: 0px;
-//       `}
-//     >
-//       {isExpanded ? 'EXPANDED' : 'UNEXPANDED'}
-//     </div>
-//   );
-// };
+const ExpandedPill = ({ isExpanded }) => {
+  return (
+    <div className={`model-bar__pill model-bar__pill--${isExpanded ? 'expanded' : 'unexpanded'}`}>
+      {isExpanded ? 'EXPANDED' : 'UNEXPANDED'}
+    </div>
+  );
+};
 
-export default ({ name, isExpanded }) => (
+export default ({ name, id, isExpanded }) => (
   <Url
     render={({ sqon, history }) => (
-      <Row
-        className="model-bar"
-        css={`
-          align-items: center;
-          justify-content: space-between;
-        `}
-      >
-        <div
-          css={`
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-          `}
-        >
-          <h2>Model {name}</h2>
-          {/* TODO: Remove comment when isExpanded is available
-          isExpanded === null || isExpanded === undefined ? null : (
-            <ExpandedPill isExpanded={isExpanded} />
-          )*/}
+      <Row className="model-bar">
+        <div className="model-bar__group">
+          <h2 className="model-bar__heading">
+            Model: <strong>{name}</strong>
+          </h2>
+          <ExpandedPill isExpanded={isExpanded} />
         </div>
 
         {sqon && <ModelCarousel modelName={name} sqon={sqon} />}
 
-        <div className="model-bar-actions">
+        <div className="model-bar__group">
           <BackToSearch sqon={sqon} history={history}>
             <ArrowLeftIcon /> BACK TO SEARCH
           </BackToSearch>
+          <ShareButton
+            link={`${window.location.origin}/model/${name}`}
+            quote={`HCMI Model ${name}`}
+          />
+          <SelectedModelsContext.Consumer>
+            {selected => {
+              const isSelected = selected.state.modelIds.includes(id);
+              return (
+                <button
+                  onClick={() => selected.toggleModel(id)}
+                  className={`pill select-model ${isSelected ? 'selected' : ''}`}
+                  style={{ marginLeft: '10px' }}
+                >
+                  {isSelected ? 'Selected for download' : 'Add model to my list'}
+                </button>
+              );
+            }}
+          </SelectedModelsContext.Consumer>
           <ModelList className="model-bar-model-list" />
         </div>
       </Row>

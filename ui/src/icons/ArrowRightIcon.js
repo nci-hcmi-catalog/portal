@@ -1,11 +1,11 @@
 import React from 'react';
 import { InlineSvg } from 'icons';
 
-export default props =>
+export default ({ width = '6px', height = '8px', viewBox = '0 0 75 100', ...props }) =>
   InlineSvg({
-    viewBox: '0 0 55.83 90.93',
-    width: '5px',
-    height: '9px',
+    viewBox,
+    width,
+    height,
     path: (
       <path
         class="cls-1"

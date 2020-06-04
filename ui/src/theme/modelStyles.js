@@ -8,74 +8,122 @@ import {
 } from 'theme/hoverStyles';
 import plusWhite from 'assets/icon-plus-white.svg';
 import selectedModel from 'assets/icon-selected-model.svg';
+import base from 'theme';
+
+const {
+  fonts: { openSans },
+  keyedPalette: {
+    athensGray,
+    black,
+    brandPrimary,
+    green,
+    mischka,
+    redOrange,
+    lightPorcelain,
+    white,
+  },
+} = base;
 
 export default css`
   .model-bar {
-    background-color: rgba(144, 0, 0, 0.7);
-    color: #ffffff;
+    background-color: ${athensGray};
+    color: ${black};
+    border: 1px solid ${mischka};
     align-items: center;
     justify-content: space-between;
-    padding: 0 35px;
-  }
+    padding: 10px 18px;
 
-  .model-bar h2 {
-    font-family: 'Libre Franklin';
-    font-size: 23px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 0.86;
-    letter-spacing: normal;
-    text-align: left;
-    min-width: 250px;
-  }
+    &__group {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
 
-  .model-bar .clickable {
-    cursor: pointer;
-    ${whiteHover};
-    text-decoration: none;
-    font-family: 'Libre Franklin';
-    font-size: 12px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.67;
-    letter-spacing: normal;
-    text-align: left;
-  }
+    &__heading {
+      font-family: ${openSans};
+      font-size: 26px;
+      font-weight: normal;
+      line-height: 1.15;
+      margin: 0;
+    }
 
-  .model-bar .model-bar-actions {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    &__pill {
+      margin-left: 18px;
+      font-family: ${openSans};
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 1;
+      background-color: ${white};
+      border-radius: 8px;
+      border: 1px solid ${green};
+      color: ${green};
+      padding: 2px 8px;
+
+      &--unexpanded {
+        border-color: ${redOrange};
+        color: ${redOrange};
+      }
+    }
+
+    .clickable {
+      cursor: pointer;
+      ${whiteHover};
+      text-decoration: none;
+      font-family: 'Libre Franklin';
+      font-size: 12px;
+      font-weight: 500;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.67;
+      letter-spacing: normal;
+      text-align: left;
+    }
   }
 
   .pagination {
     display: flex;
     flex-direction: row;
-    background: #fff;
-    border-radius: 10px;
-    background-color: #ffffff;
-    border: solid 1px #cacbcf;
-    margin: 0 16px;
     align-items: center;
-    font-family: 'Open Sans';
-    font-size: 12px;
+    border-radius: 10px;
+    background-color: ${athensGray};
+    border: solid 1px ${mischka};
+    font-family: ${openSans};
+    font-size: 11px;
     font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.68;
-    letter-spacing: normal;
-    text-align: left;
-    color: #323232;
-  }
+    line-height: 1.27;
+    color: ${black};
+    overflow: hidden;
 
-  .pagination a {
-    text-decoration: none;
-    font-family: 'Libre Franklin';
-    font-size: 12px;
-    padding: 6px 12px;
-    ${brandPrimaryColourHover};
+    &__item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__link {
+      text-decoration: none;
+      font-family: ${openSans};
+      font-size: 11px;
+      color: ${brandPrimary};
+      background-color: ${white};
+      width: 78px;
+      height: 28px;
+      transition: 0.25s background-color ease;
+
+      &:hover {
+        background-color: ${lightPorcelain};
+      }
+    }
+
+    &__status {
+      height: 28px;
+      border: 1px solid ${mischka};
+      border-top: 0;
+      border-bottom: 0;
+      transition: opacity 0.5s ease-in;
+      flex: 1 1 auto;
+      padding: 0 12px;
+    }
   }
 
   .model-section {
