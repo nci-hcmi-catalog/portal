@@ -2,9 +2,8 @@ import { css } from 'emotion';
 import {
   brandPrimaryHighlightHover,
   brandPrimaryColourHover,
-  whiteHover,
-  whiteButtonHover,
   brandPrimaryButtonHover,
+  whiteButtonHover,
 } from 'theme/hoverStyles';
 import plusWhite from 'assets/icon-plus-white.svg';
 import selectedModel from 'assets/icon-selected-model.svg';
@@ -16,10 +15,13 @@ const {
     athensGray,
     black,
     brandPrimary,
+    crimson,
+    elm,
     green,
     mischka,
     redOrange,
     lightPorcelain,
+    pelorousapprox,
     white,
   },
 } = base;
@@ -65,18 +67,46 @@ export default css`
       }
     }
 
-    .clickable {
-      cursor: pointer;
-      ${whiteHover};
+    &__back {
       text-decoration: none;
-      font-family: 'Libre Franklin';
+      font-family: ${openSans};
       font-size: 12px;
-      font-weight: 500;
+      font-weight: 600;
+      color: ${black};
+      margin-right: 8px;
+    }
+
+    &__action {
+      padding: 0 10px;
+      height: 26px;
+      border-radius: 10px;
+      border-width: 0;
+      font-family: ${openSans};
+      font-size: 12px;
+      font-weight: bold;
       font-style: normal;
-      font-stretch: normal;
-      line-height: 1.67;
-      letter-spacing: normal;
-      text-align: left;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      ${whiteButtonHover};
+      color: ${white};
+      background-color: ${elm};
+      margin-left: 8px;
+
+      &:hover {
+        color: ${white};
+        background-color: ${pelorousapprox};
+      }
+
+      &--selected {
+        background-color: ${crimson};
+
+        &:hover {
+          background-color: ${brandPrimary};
+        }
+      }
     }
   }
 
@@ -109,6 +139,10 @@ export default css`
       width: 78px;
       height: 28px;
       transition: 0.25s background-color ease;
+
+      span {
+        padding-bottom: 2px;
+      }
 
       &:hover {
         background-color: ${lightPorcelain};
@@ -289,29 +323,6 @@ export default css`
 
   .model-actions {
     position: relative;
-  }
-
-  .pill {
-    padding: 0 15px;
-    height: 30px;
-    border-radius: 10px;
-    background-color: #ffffff;
-    border: solid 1px #cacbcf;
-    font-family: 'Libre Franklin';
-    font-size: 12px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.67;
-    letter-spacing: normal;
-    text-align: center;
-    color: #734d32;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    ${whiteButtonHover};
   }
 
   .toolbar {

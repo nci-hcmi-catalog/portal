@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { stringify } from 'query-string';
 
 import { Row } from 'theme/system';
 import ModelCarousel from 'components/ModelCarousel';
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 import Url from 'components/Url';
-import BackToSearch from 'components/links/BackToSearch';
 import ShareButton from 'components/ShareButton';
+import { SavedSetsContext } from 'providers/SavedSets';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 import ModelList from 'components/ModelList';
+
+import AdminDictionaryAddIcon from './../icons/AdminDictionaryAddIcon';
+import CheckmarkIcon from './../icons/CheckmarkIcon';
 
 const ExpandedPill = ({ isExpanded }) => {
   return (
@@ -17,44 +22,80 @@ const ExpandedPill = ({ isExpanded }) => {
   );
 };
 
-export default ({ name, id, isExpanded }) => (
-  <Url
-    render={({ sqon, history }) => (
-      <Row className="model-bar">
-        <div className="model-bar__group">
-          <h2 className="model-bar__heading">
-            Model: <strong>{name}</strong>
-          </h2>
-          <ExpandedPill isExpanded={isExpanded} />
-        </div>
+export default ({ name, id, isExpanded }) => {
+  const {
+    state: { sets },
+  } = useContext(SavedSetsContext);
+  const {
+    state: { modelIds },
+    toggleModel,
+  } = useContext(SelectedModelsContext);
+  const isSelected = modelIds.includes(id);
 
-        {sqon && <ModelCarousel modelName={name} sqon={sqon} />}
+  const getBackRoute = sqon => {
+    // need to avoid empty sqon object
+    return sqon &&
+      sqon.content &&
+      sqon.content.value &&
+      sets[sqon.content.value] &&
+      sets[sqon.content.value].sqon &&
+      Object.keys(sets[sqon.content.value].sqon).length !== 0
+      ? {
+          pathname: '/',
+          search: stringify({ sqon: JSON.stringify(sets[sqon.content.value].sqon) }),
+        }
+      : '/';
+  };
 
-        <div className="model-bar__group">
-          <BackToSearch sqon={sqon} history={history}>
-            <ArrowLeftIcon /> BACK TO SEARCH
-          </BackToSearch>
-          <ShareButton
-            link={`${window.location.origin}/model/${name}`}
-            quote={`HCMI Model ${name}`}
-          />
-          <SelectedModelsContext.Consumer>
-            {selected => {
-              const isSelected = selected.state.modelIds.includes(id);
-              return (
-                <button
-                  onClick={() => selected.toggleModel(id)}
-                  className={`pill select-model ${isSelected ? 'selected' : ''}`}
-                  style={{ marginLeft: '10px' }}
-                >
-                  {isSelected ? 'Selected for download' : 'Add model to my list'}
-                </button>
-              );
-            }}
-          </SelectedModelsContext.Consumer>
-          <ModelList className="model-bar-model-list" />
-        </div>
-      </Row>
-    )}
-  />
-);
+  return (
+    <Url
+      render={({ sqon }) => (
+        <Row className="model-bar">
+          <div className="model-bar__group">
+            <h2 className="model-bar__heading">
+              Model: <strong>{name}</strong>
+            </h2>
+            <ExpandedPill isExpanded={isExpanded} />
+          </div>
+
+          {sqon && <ModelCarousel modelName={name} sqon={sqon} />}
+
+          <div className="model-bar__group">
+            <Link className="model-bar__back" to={getBackRoute(sqon)}>
+              <ArrowLeftIcon
+                css={`
+                  margin-right: 5px;
+                `}
+              />
+              BACK TO SEARCH
+            </Link>
+
+            <ShareButton
+              link={`${window.location.origin}/model/${name}`}
+              quote={`HCMI Model ${name}`}
+            />
+
+            <button
+              onClick={() => toggleModel(id)}
+              className={`model-bar__action ${isSelected ? 'model-bar__action--selected' : ''}`}
+            >
+              {isSelected ? (
+                <>
+                  <CheckmarkIcon width={12} height={12} />
+                  Selected for Download
+                </>
+              ) : (
+                <>
+                  <AdminDictionaryAddIcon width={12} height={12} />
+                  Add Model to My List
+                </>
+              )}
+            </button>
+
+            <ModelList className="model-bar-model-list" />
+          </div>
+        </Row>
+      )}
+    />
+  );
+};

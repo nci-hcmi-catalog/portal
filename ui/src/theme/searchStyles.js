@@ -387,29 +387,6 @@ export default css`
     border-left: 1px solid #d4d6dd;
   }
 
-  .search-header-actions .pill {
-    padding: 0 10px;
-    height: 26px;
-    border-radius: 10px;
-    border: solid 1px ${bombay};
-    font-family: ${openSans};
-    font-size: 12px;
-    font-weight: bold;
-    font-style: normal;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    ${whiteButtonHover};
-    color: ${black};
-    background-color: ${white};
-
-    &:hover {
-      color: ${black};
-    }
-  }
-
   .search-results-wrapper {
     padding: 16px 18px 0;
   }
