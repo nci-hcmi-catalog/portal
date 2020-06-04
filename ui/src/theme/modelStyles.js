@@ -299,26 +299,10 @@ export default css`
   }
 
   .model-footer-bar {
-    background-color: #ebf1f3;
-    color: #724c31;
+    background-color: ${white};
     align-items: center;
-    justify-content: space-between;
-    padding: 35px 30px;
-  }
-
-  .model-footer-bar .clickable {
-    cursor: pointer;
-    font-family: 'Libre Franklin';
-    font-size: 12px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.67;
-    letter-spacing: normal;
-    text-align: left;
-    ${brandPrimaryColourHover};
-    text-decoration: none;
-    text-transform: uppercase;
+    justify-content: center;
+    padding: 12px 0;
   }
 
   .model-actions {

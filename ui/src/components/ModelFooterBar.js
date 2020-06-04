@@ -6,14 +6,9 @@ import ModelCarousel from 'components/ModelCarousel';
 
 export default ({ name }) => (
   <Url
-    render={({ sqon, history }) => (
+    render={({ sqon }) => (
       <Row className="model-footer-bar">
         {sqon && <ModelCarousel modelName={name} sqon={sqon} />}
-        <div
-          css={`
-            width: 30%;
-          `}
-        />
       </Row>
     )}
   />
