@@ -62,7 +62,7 @@ export default ({ link, error, quote, leftOffset = '-135px' }) => {
                       style={{
                         width: 15,
                         height: 15,
-                        marginRight: 9,
+                        margin: '0 auto',
                       }}
                     />
                   )}

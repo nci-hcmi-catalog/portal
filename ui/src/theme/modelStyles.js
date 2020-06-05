@@ -1,7 +1,6 @@
 import { css } from 'emotion';
 import {
   brandPrimaryHighlightHover,
-  brandPrimaryColourHover,
   brandPrimaryButtonHover,
   whiteButtonHover,
 } from 'theme/hoverStyles';

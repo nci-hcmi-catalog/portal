@@ -13,15 +13,15 @@ import { Row, Col } from 'theme/system';
 import styles from 'theme/modelStyles';
 import theme from 'theme';
 import { ModelSlider, ModelSlide, LeftArrow, RightArrow } from 'theme/carouselStyles';
-import AdminIcon from 'icons/AdminIcon';
 import ModelIcon from 'icons/ModelIcon';
-import PatientIcon from 'icons/PatientIcon';
-import CameraIcon from 'icons/CameraIcon';
-import ExternalSourcesIcon from 'icons/ExternalSourcesIcon';
-import VariantsIcon from 'icons/VariantsIcon';
 import VariantTables from 'components/VariantTables';
 import ExternalLink from 'components/ExternalLink';
 import { imgPath } from 'utils/constants';
+import base from 'theme';
+
+const {
+  keyedPalette: { brandPrimary },
+} = base;
 
 const HorizontalTable = ({
   fieldNames,
@@ -142,29 +142,10 @@ export default ({ modelName }) => (
         />
         {queryState.model ? (
           [
-            <section
-              key="model-details"
-              className="model-section"
-              css={`
-                background-color: #f3f6f7;
-              `}
-            >
-              <Row className="model-details-header">
-                <Col className="three-col">
-                  <h3>
-                    <ModelIcon height={50} width={50} />
-                    Model Details
-                  </h3>
-                </Col>
-                <Col className="three-col">
-                  <h3>
-                    <PatientIcon height={50} width={50} />
-                    Patient Details
-                  </h3>
-                </Col>
-              </Row>
+            <section key="model-details" className="model-section">
               <Row className="row">
                 <Col className="three-col">
+                  {/* Model Details */}
                   <HorizontalTable
                     rawData={queryState.model}
                     extended={queryState.extended}
@@ -173,24 +154,26 @@ export default ({ modelName }) => (
                       'split_ratio',
                       'time_to_split',
                       'growth_rate',
-                      'molecular_characterizations',
                       'tissue_type',
-                      'matched_models.name',
+                      // 'matched_models.name',
                     ]}
                     customUnits={{ growth_rate: ' days' }}
-                    customValue={{
-                      'matched_models.name': val => (
-                        <MultipleModelsList
-                          matches={queryState.model.matched_models.hits.edges.map(
-                            match => match.node,
-                          )}
-                        />
-                      ),
-                    }}
+                    // customValue={{
+                    //   'matched_models.name': val => (
+                    //     // ============================================================== Multiple Models
+                    //     <MultipleModelsList
+                    //       matches={queryState.model.matched_models.hits.edges.map(
+                    //         match => match.node,
+                    //       )}
+                    //     />
+                    //     // ============================================================== Multiple Models
+                    //   ),
+                    // }}
                   />
                 </Col>
 
                 <Col className="three-col">
+                  {/* Patient Details */}
                   <HorizontalTable
                     rawData={queryState.model}
                     extended={queryState.extended}
@@ -203,22 +186,12 @@ export default ({ modelName }) => (
                       'vital_status',
                       'neoadjuvant_therapy',
                       'therapy',
-                      // 'primary_site',
-                      // 'tnm_stage',
-                      // 'chemotherapeutic_drugs',
-                    ]}
-                  />
-                </Col>
-                <Col className="three-col">
-                  <HorizontalTable
-                    rawData={queryState.model}
-                    extended={queryState.extended}
-                    fieldNames={[
                       'chemotherapeutic_drugs',
                       'clinical_diagnosis.clinical_tumor_diagnosis',
                       'clinical_diagnosis.histological_type',
                       'primary_site',
                       'clinical_diagnosis.site_of_sample_acquisition',
+                      'tissue_type',
                       'tnm_stage',
                       'clinical_diagnosis.clinical_stage_grouping',
                       'clinical_diagnosis.tumor_histological_grade',
@@ -227,25 +200,10 @@ export default ({ modelName }) => (
                 </Col>
               </Row>
             </section>,
-            <section
-              key="patient-details"
-              className="model-section"
-              css={`
-                background-color: #ebf1f3;
-              `}
-            >
+            <section key="patient-details" className="model-section">
               <Row className="row">
                 <Col className={modelImages ? 'three-col' : 'two-col'}>
-                  <h3>
-                    <AdminIcon
-                      height={50}
-                      width={50}
-                      css={`
-                        fill: #900000;
-                      `}
-                    />
-                    Repository Status
-                  </h3>
+                  {/* Repository Status */}
                   <HorizontalTable
                     rawData={queryState.model}
                     extended={queryState.extended}
@@ -259,16 +217,7 @@ export default ({ modelName }) => (
                 </Col>
 
                 <Col className={modelImages ? 'three-col' : 'two-col'}>
-                  <h3>
-                    <ExternalSourcesIcon
-                      height={50}
-                      width={50}
-                      css={`
-                        fill: #900000;
-                      `}
-                    />
-                    External Resources
-                  </h3>
+                  {/* External Resources */}
                   <HorizontalTable
                     rawData={queryState.model}
                     extended={queryState.extended}
@@ -310,87 +259,67 @@ export default ({ modelName }) => (
                 </Col>
                 {modelImages && (
                   <Col className="three-col">
-                    <h3>
-                      <CameraIcon
-                        height={50}
-                        width={50}
-                        css={`
-                          fill: #900000;
-                        `}
-                      />
-                      Model Image{modelImages.length > 1 && 's'}
-                    </h3>
-                    <Col
-                      css={`
-                        color: #323232;
-                        background: #fff;
-                        border: solid 1px #cacbcf;
-                      `}
+                    {/* Model Images */}
+                    <ModelSlider
+                      LeftArrow={<LeftArrow />}
+                      RightArrow={<RightArrow />}
+                      autoSlide={false}
+                      showDots={false}
+                      cardsToShow={1}
                     >
-                      <ModelSlider
-                        LeftArrow={<LeftArrow />}
-                        RightArrow={<RightArrow />}
-                        autoSlide={false}
-                        showDots={false}
-                        cardsToShow={1}
-                      >
-                        {modelImages.map(
-                          ({
-                            file_id,
-                            file_name,
-                            scale_bar_length,
-                            magnification,
-                            passage_number,
-                          }) => (
-                            <ModelSlide>
-                              <img src={`${imgPath}/${file_id}`} alt={`File name: ${file_name}`} />
-                              {(scale_bar_length || magnification || passage_number) && (
-                                <div
-                                  css={`
-                                    border-top: solid 1px #cacbcf;
-                                    width: 100%;
-                                    text-align: left;
-                                    padding: 12px 0;
-                                  `}
-                                >
-                                  {scale_bar_length && (
-                                    <span className="image-caption">
-                                      Scale-bar length: {scale_bar_length} μm
-                                    </span>
-                                  )}
-                                  {magnification && (
-                                    <span className="image-caption">
-                                      Magnification: {magnification} x
-                                    </span>
-                                  )}
-                                  {passage_number && (
-                                    <span className="image-caption">
-                                      Passage Number: {passage_number}
-                                    </span>
-                                  )}
-                                </div>
-                              )}
-                            </ModelSlide>
-                          ),
-                        )}
-                      </ModelSlider>
-                    </Col>
+                      {modelImages.map(
+                        ({
+                          file_id,
+                          file_name,
+                          scale_bar_length,
+                          magnification,
+                          passage_number,
+                        }) => (
+                          <ModelSlide>
+                            <img
+                              src={
+                                'https://hcmi-searchable-catalog.nci.nih.gov/api/data/images/5ed11d11dca0696d0801bb25'
+                              }
+                              alt={`File name: ${file_name}`}
+                            />
+                            {/* <img src={`${imgPath}/${file_id}`} alt={`File name: ${file_name}`} /> */}
+                            {(scale_bar_length || magnification || passage_number) && (
+                              <div
+                                css={`
+                                  border-top: solid 1px #cacbcf;
+                                  width: 100%;
+                                  text-align: left;
+                                  padding: 12px 0;
+                                `}
+                              >
+                                {scale_bar_length && (
+                                  <span className="image-caption">
+                                    Scale-bar length: {scale_bar_length} μm
+                                  </span>
+                                )}
+                                {magnification && (
+                                  <span className="image-caption">
+                                    Magnification: {magnification} x
+                                  </span>
+                                )}
+                                {passage_number && (
+                                  <span className="image-caption">
+                                    Passage Number: {passage_number}
+                                  </span>
+                                )}
+                              </div>
+                            )}
+                          </ModelSlide>
+                        ),
+                      )}
+                    </ModelSlider>
                   </Col>
                 )}
               </Row>
             </section>,
-            <section
-              key="variants"
-              className="model-section"
-              css={`
-                background-color: #f3f6f7;
-              `}
-            >
-              <h3>
-                <VariantsIcon height={50} width={50} />
-                Variants
-              </h3>
+            <section key="variants" className="model-section">
               <Col>
+                {/* Variants */}
                 <VariantTables modelName={modelName} />
               </Col>
             </section>,
@@ -399,10 +328,12 @@ export default ({ modelName }) => (
           <Row justifyContent="center">
             <Spinner
               fadeIn="full"
-              name="ball-pulse-sync"
+              name="circle"
               style={{
-                margin: 45,
-                width: 90,
+                margin: 64,
+                width: 48,
+                height: 48,
+                color: brandPrimary,
               }}
             />
           </Row>

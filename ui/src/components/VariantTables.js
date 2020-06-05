@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { get, isEqual, uniqBy } from 'lodash';
 import ReactTable from 'react-table';
 import Component from 'react-component-component';
@@ -6,20 +6,23 @@ import { Link } from 'react-router-dom';
 import { stringify } from 'query-string';
 
 import TextInput from '@arranger/components/dist/Input';
-import Tabs from '@arranger/components/dist/Tabs';
 import { api } from '@arranger/components';
 import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
 
-import searchStyles from 'theme/searchStyles';
-import globals from 'utils/globals';
-import tsvDownloader from 'utils/tsvDownloader';
-import { Row, Col } from 'theme/system';
+import SparkMeter from 'components/SparkMeter';
+import TabGroup from 'components/layout/VerticalTabs';
+import Tab from 'components/layout/VerticalTabs/Tab';
 
 import FilterIcon from 'icons/FilterIcon';
 import ExportIcon from 'icons/ExportIcon';
-import SparkMeter from 'components/SparkMeter';
-import base from 'theme';
+
 import { AdminHeaderH3 } from 'theme/adminStyles';
+import searchStyles from 'theme/searchStyles';
+import { Row, Col } from 'theme/system';
+import base from 'theme';
+
+import globals from 'utils/globals';
+import tsvDownloader from 'utils/tsvDownloader';
 
 const {
   keyedPalette: { lightPorcelain, frenchGrey },
@@ -304,175 +307,199 @@ const VariantTable = ({ type, modelName, columns }) => (
   </Component>
 );
 
-export default ({ modelName }) => (
-  <Tabs
-    tabs={[
-      {
-        title: <span>Clinical Sequencing</span>,
-        key: 'clinical',
-        content: (
-          <VariantTable
-            modelName={modelName}
-            columns={[
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'name',
-                id: 'variantName',
-                accessor: 'name',
-                Header: 'Name',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'genes',
-                id: 'genes',
-                accessor: 'genes',
-                Header: 'Gene(s)',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'category',
-                id: 'category',
-                accessor: 'category',
-                Header: 'Type',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'frequency',
-                id: 'frequency',
-                accessor: 'frequency.display',
-                Header: 'Frequency',
-              },
-            ]}
-            type="clinical"
-          />
-        ),
-      },
-      {
-        title: <span>Histopathological Biomarkers</span>,
-        key: 'Histopathological',
-        content: (
-          <VariantTable
-            modelName={modelName}
-            type="histopathological biomarker"
-            columns={[
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'name',
-                id: 'variantName',
-                accessor: 'name',
-                Header: 'Name',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'genes',
-                id: 'genes',
-                accessor: 'genes',
-                Header: 'Gene(s)',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'assessment_type',
-                id: 'assessment_type',
-                accessor: 'assessment_type',
-                Header: 'Assessment Type',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'expression_level',
-                id: 'expression_level',
-                accessor: 'expression_level',
-                Header: 'Expression Level',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'frequency',
-                id: 'frequency',
-                accessor: 'frequency.display',
-                Header: 'Frequency',
-              },
-            ]}
-          />
-        ),
-      },
-      {
-        title: <span>Genomic Sequencing</span>,
-        key: 'genomic',
-        content: (
-          <VariantTable
-            modelName={modelName}
-            type="genomic_sequencing"
-            columns={[
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'name',
-                id: 'variantName',
-                accessor: 'name',
-                Header: 'Name',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'genes',
-                id: 'genes',
-                accessor: 'genes',
-                Header: 'Gene(s)',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'category',
-                id: 'category',
-                accessor: 'category',
-                Header: 'Type',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'frequency',
-                id: 'frequency',
-                accessor: 'frequency.display',
-                Header: 'Frequency',
-              },
-            ]}
-          />
-        ),
-      },
-    ]}
-  />
-);
+const renderTable = (activeTab, modelName) => {
+  switch (activeTab) {
+    case 'clinical':
+      return (
+        <VariantTable
+          modelName={modelName}
+          columns={[
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'name',
+              id: 'variantName',
+              accessor: 'name',
+              Header: 'Name',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'genes',
+              id: 'genes',
+              accessor: 'genes',
+              Header: 'Gene(s)',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'category',
+              id: 'category',
+              accessor: 'category',
+              Header: 'Type',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'frequency',
+              id: 'frequency',
+              accessor: 'frequency.display',
+              Header: 'Frequency',
+            },
+          ]}
+          type="clinical"
+        />
+      );
+    case 'histopathological':
+      return (
+        <VariantTable
+          modelName={modelName}
+          type="histopathological biomarker"
+          columns={[
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'name',
+              id: 'variantName',
+              accessor: 'name',
+              Header: 'Name',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'genes',
+              id: 'genes',
+              accessor: 'genes',
+              Header: 'Gene(s)',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'assessment_type',
+              id: 'assessment_type',
+              accessor: 'assessment_type',
+              Header: 'Assessment Type',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'expression_level',
+              id: 'expression_level',
+              accessor: 'expression_level',
+              Header: 'Expression Level',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'frequency',
+              id: 'frequency',
+              accessor: 'frequency.display',
+              Header: 'Frequency',
+            },
+          ]}
+        />
+      );
+    case 'genomic':
+      return (
+        <VariantTable
+          modelName={modelName}
+          type="genomic_sequencing"
+          columns={[
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'name',
+              id: 'variantName',
+              accessor: 'name',
+              Header: 'Name',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'genes',
+              id: 'genes',
+              accessor: 'genes',
+              Header: 'Gene(s)',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'category',
+              id: 'category',
+              accessor: 'category',
+              Header: 'Type',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'frequency',
+              id: 'frequency',
+              accessor: 'frequency.display',
+              Header: 'Frequency',
+            },
+          ]}
+        />
+      );
+    default:
+      return null;
+  }
+};
+
+export default ({ modelName }) => {
+  const [activeTab, setActiveTab] = useState('clinical');
+  return (
+    <Row>
+      <TabGroup width={171}>
+        <Tab
+          active={activeTab === 'clinical'}
+          heading={'Clinical Sequencing'}
+          onClick={() => setActiveTab('clinical')}
+        />
+        <Tab
+          active={activeTab === 'histopathological'}
+          heading={'Histopathological Biomarkers'}
+          onClick={() => setActiveTab('histopathological')}
+        />
+        <Tab
+          active={activeTab === 'genomic'}
+          heading={'Genomic Sequencing'}
+          onClick={() => setActiveTab('genomic')}
+        />
+      </TabGroup>
+      <div
+        css={`
+          width: calc(100% - 171px);
+          padding-left: 18px;
+        `}
+      >
+        {renderTable(activeTab, modelName)}
+      </div>
+    </Row>
+  );
+};

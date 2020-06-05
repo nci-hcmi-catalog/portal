@@ -7,6 +7,12 @@ import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 import ArrowRightIcon from 'icons/ArrowRightIcon';
 import { SavedSetsContext } from 'providers/SavedSets';
 
+import base from 'theme';
+
+const {
+  keyedPalette: { brandPrimary },
+} = base;
+
 export default ({ modelName, sqon }) => {
   const {
     fetchSets,
@@ -46,7 +52,7 @@ export default ({ modelName, sqon }) => {
           css={`
             opacity: ${loading ? '0.5' : '1'};
           `}
-          fill={'#990000'}
+          fill={brandPrimary}
         />
         <span>Previous</span>
       </Link>
@@ -77,7 +83,7 @@ export default ({ modelName, sqon }) => {
             margin-right: 0;
             opacity: ${loading ? '0.5' : '1'};
           `}
-          fill={'#990000'}
+          fill={brandPrimary}
         />
       </Link>
     </Row>
