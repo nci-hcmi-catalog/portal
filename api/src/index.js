@@ -4,6 +4,7 @@ import { Server } from 'http';
 import Arranger from '@arranger/server';
 import cors from 'cors';
 import lastUpdatedRouter from './lastUpdated';
+import healthRouter from './health';
 import dataExportRouter from './dataExport';
 import cmsDataRouter from './cmsData';
 import helmet from 'helmet';
@@ -33,6 +34,7 @@ app.use('/data', cmsDataRouter);
 
 Arranger().then(router => {
   app.use('/last-updated', lastUpdatedRouter);
+  app.use('/health', healthRouter);
   app.use('/export', dataExportRouter);
   app.use(router);
 
