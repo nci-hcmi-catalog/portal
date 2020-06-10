@@ -185,15 +185,14 @@ const VariantTable = ({ type, modelName, columns }) => (
                 width={47}
                 percentage={get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)}
               />
-              {(get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0) * 100).toFixed(
+              {((get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)) * 100).toFixed(
                 2,
               )}
               %
             </div>
           ),
           export: `${(
-            get(freqs, d.name, 0) /
-            get(freqsData, 'data.models.all.total', 0) *
+            (get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)) *
             100
           ).toFixed(2)}%`,
           raw: get(freqs, d.name, 0),
@@ -216,9 +215,57 @@ const VariantTable = ({ type, modelName, columns }) => (
       from = state.page * state.pageSize + 1,
       to = state.page * state.pageSize + state.pageSize,
       sortedData = state.filteredData.slice().sort((a, b) => b.frequency.raw - a.frequency.raw),
-    }) =>
-      sortedData.length === 0 ? (
-        <Col>
+    }) => (
+      <Col>
+        {state.data && state.data.length > 0 ? (
+          <Row className="toolbar" justifyContent="space-between">
+            <div>
+              {!state.loading &&
+                `Showing ${from} - ${to <= sortedData.length ? to : sortedData.length} of
+            ${sortedData.length} Variants`}
+            </div>
+            <Row justifyContent="flex-end">
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  overflow: 'hidden',
+                }}
+                className="inputWrapper"
+              >
+                <span className="inputIcon">
+                  <FilterIcon height={10} width={10} css={'margin: 0 0 0 5px;'} />
+                </span>
+                <input
+                  type="text"
+                  placeholder="Filter"
+                  value={state.filterValue}
+                  onChange={({ target: { value } }) => {
+                    setState({
+                      filterValue: value,
+                    });
+                  }}
+                  style={{
+                    border: 'none',
+                    flex: 1,
+                  }}
+                />
+              </div>
+
+              <button
+                className="pill"
+                disabled={sortedData.length === 0}
+                style={{ marginLeft: '10px' }}
+                onClick={() => tsvDownloader(`${modelName}-${type}`, state.filteredData)}
+              >
+                <ExportIcon height={10} width={10} />
+                TSV
+              </button>
+            </Row>
+          </Row>
+        ) : null}
+        {sortedData.length === 0 ? (
           <Row
             justifyContent="center"
             css={`
@@ -242,38 +289,7 @@ const VariantTable = ({ type, modelName, columns }) => (
               </AdminHeaderH3>
             </div>
           </Row>
-        </Col>
-      ) : (
-        <Col>
-          <Row className="toolbar" justifyContent="space-between">
-            <div>
-              {!state.loading &&
-                `Showing ${from} - ${to <= sortedData.length ? to : sortedData.length} of
-            ${sortedData.length} Variants`}
-            </div>
-            <Row justifyContent="flex-end">
-              <TextInput
-                icon={<FilterIcon height={10} width={10} css={'margin: 0 0 0 5px;'} />}
-                type="text"
-                placeholder="Filter"
-                value={state.filterValue}
-                onChange={({ target: { value } }) => {
-                  setState({
-                    filterValue: value,
-                  });
-                }}
-              />
-              <button
-                className="pill"
-                disabled={sortedData.length === 0}
-                style={{ marginLeft: '10px' }}
-                onClick={() => tsvDownloader(`${modelName}-${type}`, state.filteredData)}
-              >
-                <ExportIcon height={10} width={10} />
-                TSV
-              </button>
-            </Row>
-          </Row>
+        ) : (
           <div css={searchStyles}>
             <ReactTable
               className="-striped"
@@ -298,9 +314,9 @@ const VariantTable = ({ type, modelName, columns }) => (
               }}
             />
           </div>
-        </Col>
-      )
-    }
+        )}
+      </Col>
+    )}
   </Component>
 );
 
