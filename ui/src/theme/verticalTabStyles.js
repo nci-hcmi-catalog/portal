@@ -10,6 +10,7 @@ const {
   keyedPalette: {
     alto,
     aquaSpring,
+    black,
     brandPrimary,
     elm,
     mineShaft,
@@ -167,4 +168,15 @@ export const Divider = styled('div')`
   font-stretch: normal;
   line-height: 1.71;
   letter-spacing: normal;
+`;
+
+export const variantTab = css`
+  font-size: 12px;
+  font-weight: normal;
+`;
+
+export const variantTabActive = css`
+  font-size: 12px;
+  font-weight: bold;
+  color: ${black};
 `;

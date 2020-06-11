@@ -586,14 +586,16 @@ export default css`
     padding: 4px 8px;
   }
 
-  .model-name-search-content .quick-search .inputWrapper {
+  .model-name-search-content .quick-search .inputWrapper,
+  .toolbar .inputWrapper {
     border-radius: 10px;
     border: solid 1px ${bombay};
     padding: 5px 25px 5px 10px;
   }
 
   .model-name-search-content .quick-search .inputWrapper .inputIcon,
-  .search-results-wrapper .tableToolbar .group .inputWrapper .inputIcon {
+  .search-results-wrapper .tableToolbar .group .inputWrapper .inputIcon,
+  .toolbar .inputWrapper .inputIcon {
     margin-right: 6px;
     padding-bottom: 1px;
     color: ${bombay};
@@ -605,7 +607,8 @@ export default css`
   }
 
   .model-name-search-content .quick-search .inputWrapper input,
-  .search-results-wrapper .tableToolbar .group .inputWrapper input {
+  .search-results-wrapper .tableToolbar .group .inputWrapper input,
+  .toolbar .inputWrapper input {
     font-family: ${openSans};
     font-size: 12px;
     font-weight: normal;
@@ -690,7 +693,8 @@ export default css`
     margin-left: 8px;
   }
 
-  .tableToolbar button {
+  .tableToolbar button,
+  .toolbar button {
     background: none;
     text-transform: uppercase;
     font-family: ${openSans};
@@ -700,10 +704,22 @@ export default css`
     ${whiteButtonHover};
     color: ${black};
     fill: ${black} !important;
+    cursor: pointer;
 
     &:hover {
       color: ${black};
       fill: ${black} !important;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.8;
+
+      &:hover {
+        color: ${black};
+        fill: ${black} !important;
+        background-color: ${white};
+      }
     }
   }
 
@@ -714,7 +730,8 @@ export default css`
   }
 
   .tableToolbar .dropDownHeader button,
-  .tableToolbar .buttonWrapper button {
+  .tableToolbar .buttonWrapper button,
+  .toolbar button {
     height: 28px;
     border-radius: 10px;
     border: 1px solid ${bombay};
