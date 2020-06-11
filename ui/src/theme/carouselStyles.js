@@ -3,7 +3,7 @@ import StyledSlider from 'react-styled-carousel';
 import base from 'theme';
 
 const {
-  keyedPalette: { brandPrimary, frenchGrey },
+  keyedPalette: { brandPrimary, deepIron },
 } = base;
 
 export const ModelSlider = styled(StyledSlider)`
@@ -16,12 +16,11 @@ export const ModelSlide = styled('div')`
 
   > img {
     display: block;
-    padding: 20px 0 16px;
     height: 100%;
     width: 100%;
     object-fit: contain;
     margin: 0 auto;
-    max-height: 366px;
+    max-height: 220px;
   }
 `;
 
@@ -32,10 +31,10 @@ const PaddedArrow = styled('button')`
   align-items: center;
   color: ${brandPrimary};
   position: absolute;
-  width: 30px;
-  height: 60px;
+  width: 12px;
+  height: 12px;
   background-color: transparent;
-  top: calc(50% - 30px);
+  top: calc(50% - 24px);
   border: 0;
   margin: 0;
   padding: 0;
@@ -44,10 +43,10 @@ const PaddedArrow = styled('button')`
   z-index: 1;
   &:before {
     content: '';
-    width: 10px;
-    height: 10px;
-    border-top: solid 2px ${({ disabled }) => (disabled ? frenchGrey : brandPrimary)};
-    border-right: solid 2px ${({ disabled }) => (disabled ? frenchGrey : brandPrimary)};
+    width: 6px;
+    height: 6px;
+    border-top: solid 2px ${({ disabled }) => (disabled ? deepIron : brandPrimary)};
+    border-right: solid 2px ${({ disabled }) => (disabled ? deepIron : brandPrimary)};
   }
   &:after {
     content: '';

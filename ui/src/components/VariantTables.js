@@ -15,18 +15,13 @@ import Tab from 'components/layout/VerticalTabs/Tab';
 
 import FilterIcon from 'icons/FilterIcon';
 import ExportIcon from 'icons/ExportIcon';
+import VariantsIcon from 'icons/VariantsIcon';
 
-import { AdminHeaderH3 } from 'theme/adminStyles';
 import searchStyles from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
-import base from 'theme';
 
 import globals from 'utils/globals';
 import tsvDownloader from 'utils/tsvDownloader';
-
-const {
-  keyedPalette: { lightPorcelain, frenchGrey },
-} = base;
 
 const VariantTable = ({ type, modelName, columns }) => (
   <Component
@@ -221,31 +216,18 @@ const VariantTable = ({ type, modelName, columns }) => (
       sortedData = state.filteredData.slice().sort((a, b) => b.frequency.raw - a.frequency.raw),
     }) =>
       sortedData.length === 0 ? (
-        <Col>
-          <Row
-            justifyContent="center"
-            css={`
-              border: solid 1px ${frenchGrey};
-              background: white;
-            `}
-          >
-            <div
-              css={`
-                flex-grow: 0;
-                margin: 50px;
-              `}
-            >
-              <AdminHeaderH3
-                css={`
-                  background: ${lightPorcelain};
-                  padding: 20px;
-                `}
-              >
-                No variants available.
-              </AdminHeaderH3>
-            </div>
-          </Row>
-        </Col>
+        <div
+          className="model-details model-details--empty"
+          css={`
+            position: absolute;
+            width: 100%;
+            left: 0;
+            z-index: -1;
+          `}
+        >
+          <VariantsIcon fill={'#b2b7c1'} height={30} width={30} />
+          <p className="model-details__empty-message">No variants available.</p>
+        </div>
       ) : (
         <Col>
           <Row className="toolbar" justifyContent="space-between">
@@ -474,7 +456,11 @@ const renderTable = (activeTab, modelName) => {
 export default ({ modelName }) => {
   const [activeTab, setActiveTab] = useState('clinical');
   return (
-    <Row>
+    <Row
+      css={`
+        position: relative;
+      `}
+    >
       <TabGroup width={171}>
         <Tab
           active={activeTab === 'clinical'}

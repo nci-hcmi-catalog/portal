@@ -107,6 +107,7 @@ const base = {
     sandyBeach: '#ffe9c3',
     graySuit: '#b9b5c6',
     crimson: '#cd0d32',
+    goldenGlow: '#feda97',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',

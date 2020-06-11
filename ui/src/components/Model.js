@@ -11,16 +11,18 @@ import ModelFooterBar from 'components/ModelFooterBar';
 
 import { Row, Col } from 'theme/system';
 import styles from 'theme/modelStyles';
-import theme from 'theme';
 import { ModelSlider, ModelSlide, LeftArrow, RightArrow } from 'theme/carouselStyles';
+import CameraIcon from 'icons/CameraIcon';
+import CheckmarkIcon from 'icons/CheckmarkIcon';
+import ExternalLinkIcon from 'icons/ExternalLinkIcon';
 import ModelIcon from 'icons/ModelIcon';
+import ShoppingCartIcon from 'icons/ShoppingCartIcon';
+import XIcon from 'icons/XIcon';
 import VariantTables from 'components/VariantTables';
-import ExternalLink from 'components/ExternalLink';
-import { imgPath } from 'utils/constants';
 import base from 'theme';
 
 const {
-  keyedPalette: { brandPrimary },
+  keyedPalette: { bombay, brandPrimary, pelorousapprox, white },
 } = base;
 
 const HorizontalTable = ({
@@ -50,7 +52,7 @@ const HorizontalTable = ({
     }, {}),
 }) => {
   return (
-    <table className="entity-horizontal-table" css={css}>
+    <table className="entity-horizontal-table" cellPadding="0" cellSpacing="0" css={css}>
       <tbody>
         {Object.keys(data).map(field => {
           const { key, value } = data[field];
@@ -58,11 +60,17 @@ const HorizontalTable = ({
             <tr key={key}>
               <td className="heading">{key}</td>
               <td className="content">
-                {Object.keys(customValue).includes(field)
-                  ? customValue[field](value)
-                  : Array.isArray(value)
-                  ? value.map((val, idx) => <div key={idx}>{`${val}`}</div>)
-                  : value}
+                {Object.keys(customValue).includes(field) ? (
+                  customValue[field](value)
+                ) : Array.isArray(value) ? (
+                  <ul>
+                    {value.map((val, idx) => (
+                      <li key={idx}>{`• ${val}`}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  value
+                )}
               </td>
             </tr>
           );
@@ -74,54 +82,134 @@ const HorizontalTable = ({
 
 const MultipleModelContent = match => {
   return (
-    <div
-      css={`
-        margin-bottom: 10px;
-        display: flex;
-      `}
-      key={match.name}
-    >
-      <div
-        css={`
-          padding-top: 2px;
-        `}
-      >
-        <ModelIcon height={18} width={18} />
+    <div className="multiple-models__model" key={match.name}>
+      <div className="multiple-models__model-icon">
+        <ModelIcon height={30} width={30} />
       </div>
-      <div>
+      <div className="multiple-models__model-text">
         <Link
+          className="model-text__name"
           to={{
             pathname: `/model/${match.name}`,
           }}
-          href=""
-          css={`
-            color: ${theme.keyedPalette.brandPrimary};
-          `}
         >
           {match.name}
         </Link>
-        <br />
-        <span
-          css={`
-            font-size: 12px;
-          `}
-        >
-          Tissue Type: {match.tissue_type || 'N/A'}
+        <span className="model-text__type">
+          Tissue Type: <strong>{match.tissue_type || 'N/A'}</strong>
         </span>
-        <br />
       </div>
     </div>
   );
 };
 
 const MultipleModelsList = ({ matches }) => {
-  console.log('matches', matches);
-  switch (true) {
-    case matches.length > 0:
-      return matches.map(MultipleModelContent);
-    default:
-      return 'There are no other models from this patient';
+  if (matches.length > 0) {
+    return <div className="multiple-models">{matches.map(MultipleModelContent)}</div>;
+  } else {
+    return (
+      <div className="model-details model-details--empty">
+        <ModelIcon fill={bombay} height={30} width={30} />
+        <p className="model-details__empty-message">There are no other models from this patient.</p>
+      </div>
+    );
   }
+};
+
+const MolecularCharacterizationsCell = ({ isAvailable }) => {
+  return isAvailable ? (
+    <CheckmarkIcon
+      width={18}
+      height={18}
+      style={`
+        background-color: ${pelorousapprox};
+        border-radius: 100%;
+        padding: 4px;
+      `}
+      title="Available"
+    />
+  ) : (
+    <XIcon width={10} height={10} title="Not Available" />
+  );
+};
+
+const MolecularCharacterizationsTable = ({ characterizations }) => {
+  const CHARS = ['WGS', 'WXS', 'Targeted-seq', 'RNA-seq'];
+  const TYPES = ['parent tumor', 'normal', 'model'];
+
+  return (
+    <table className="molecular-characterizations-table">
+      <tbody>
+        <tr>
+          <th />
+          <th>Tumor</th>
+          <th>Normal</th>
+          <th>Model</th>
+        </tr>
+        {CHARS.map(characterization => (
+          <tr key={characterization}>
+            <th>{characterization}</th>
+            {TYPES.map(type => (
+              <td key={`${characterization} of ${type}`}>
+                <MolecularCharacterizationsCell
+                  isAvailable={characterizations.includes(`${characterization} of ${type}`)}
+                />
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+
+const ExternalResourceLink = ({ url, children }) => (
+  <a
+    className={`external-resources__link ${!url && 'external-resources__link--disabled'}`}
+    href={url}
+    role={!url ? 'button' : null}
+    disabled={!url}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    {children}
+  </a>
+);
+
+const ExternalResourcesContent = ({
+  distributorPartNumber,
+  sourceModelUrl,
+  sourceSequenceUrl,
+  somaticMafUrl,
+}) => {
+  const sequencingFilesLink = sourceSequenceUrl !== 'N/A' ? sourceSequenceUrl : null;
+  const modelSourceLink = sourceModelUrl !== 'N/A' ? sourceModelUrl : null;
+  const somaticMafLink = somaticMafUrl !== 'N/A' ? somaticMafUrl : null;
+  const purchaseLink =
+    distributorPartNumber && `https://www.atcc.org/products/all/${distributorPartNumber}`;
+
+  return (
+    <div className="external-resources">
+      <ExternalResourceLink url={sequencingFilesLink}>
+        <ExternalLinkIcon fill={white} height={12} width={12} />
+        Sequencing Files
+      </ExternalResourceLink>
+      <ExternalResourceLink url={modelSourceLink}>
+        <ExternalLinkIcon fill={white} height={12} width={12} />
+        Model Source
+      </ExternalResourceLink>
+      <ExternalResourceLink url={somaticMafLink}>
+        <ExternalLinkIcon fill={white} height={12} width={12} />
+        Masked Somatic MAF
+      </ExternalResourceLink>
+      {purchaseLink && (
+        <ExternalResourceLink url={purchaseLink}>
+          <ShoppingCartIcon fill={white} height={12} width={12} />
+          Visit {distributorPartNumber} to Purchase
+        </ExternalResourceLink>
+      )}
+    </div>
+  );
 };
 
 export default ({ modelName }) => (
@@ -141,189 +229,178 @@ export default ({ modelName }) => (
           isExpanded={queryState.model ? queryState.model.expanded : null}
         />
         {queryState.model ? (
-          [
+          <>
             <section key="model-details" className="model-section">
               <Row className="row">
+
                 <Col className="three-col">
-                  {/* Model Details */}
-                  <HorizontalTable
-                    rawData={queryState.model}
-                    extended={queryState.extended}
-                    fieldNames={[
-                      'type',
-                      'split_ratio',
-                      'time_to_split',
-                      'growth_rate',
-                      'tissue_type',
-                      // 'matched_models.name',
-                    ]}
-                    customUnits={{ growth_rate: ' days' }}
-                    // customValue={{
-                    //   'matched_models.name': val => (
-                    //     // ============================================================== Multiple Models
-                    //     <MultipleModelsList
-                    //       matches={queryState.model.matched_models.hits.edges.map(
-                    //         match => match.node,
-                    //       )}
-                    //     />
-                    //     // ============================================================== Multiple Models
-                    //   ),
-                    // }}
-                  />
+                  <div className="model-section__card">
+                    <h3 className="model-section__card-title">Model Details</h3>
+                    <HorizontalTable
+                      rawData={queryState.model}
+                      extended={queryState.extended}
+                      fieldNames={[
+                        'type',
+                        'split_ratio',
+                        'time_to_split',
+                        'growth_rate',
+                        'tissue_type',
+                      ]}
+                      customUnits={{ growth_rate: ' days' }}
+                    />
+                  </div>
+
+                  <div className="model-section__card">
+                    <h3 className="model-section__card-title">
+                      Multiple Models From This Patient (
+                      {queryState.model.matched_models.hits.edges.length || '0'})
+                    </h3>
+                    <MultipleModelsList
+                      matches={queryState.model.matched_models.hits.edges.map(match => match.node)}
+                    />
+                  </div>
+
+                  <div className="model-section__card">
+                    <h3 className="model-section__card-title">
+                      Available Molecular Characterizations (
+                      {get(queryState.model, 'molecular_characterizations').length || '0'})
+                    </h3>
+                    <MolecularCharacterizationsTable
+                      characterizations={get(queryState.model, 'molecular_characterizations')}
+                    />
+                  </div>
                 </Col>
 
                 <Col className="three-col">
-                  {/* Patient Details */}
-                  <HorizontalTable
-                    rawData={queryState.model}
-                    extended={queryState.extended}
-                    fieldNames={[
-                      'gender',
-                      'race',
-                      'age_at_diagnosis',
-                      'age_at_sample_acquisition',
-                      'disease_status',
-                      'vital_status',
-                      'neoadjuvant_therapy',
-                      'therapy',
-                      'chemotherapeutic_drugs',
-                      'clinical_diagnosis.clinical_tumor_diagnosis',
-                      'clinical_diagnosis.histological_type',
-                      'primary_site',
-                      'clinical_diagnosis.site_of_sample_acquisition',
-                      'tissue_type',
-                      'tnm_stage',
-                      'clinical_diagnosis.clinical_stage_grouping',
-                      'clinical_diagnosis.tumor_histological_grade',
-                    ]}
-                  />
-                </Col>
-              </Row>
-            </section>,
-            <section key="patient-details" className="model-section">
-              <Row className="row">
-                <Col className={modelImages ? 'three-col' : 'two-col'}>
-                  {/* Repository Status */}
-                  <HorizontalTable
-                    rawData={queryState.model}
-                    extended={queryState.extended}
-                    fieldNames={[
-                      'updatedAt',
-                      'date_of_availability',
-                      'licensing_required',
-                      'createdAt',
-                    ]}
-                  />
+                  <div className="model-section__card">
+                    <h3 className="model-section__card-title">Patient Details</h3>
+                    <HorizontalTable
+                      rawData={queryState.model}
+                      extended={queryState.extended}
+                      fieldNames={[
+                        'gender',
+                        'race',
+                        'age_at_diagnosis',
+                        'age_at_sample_acquisition',
+                        'disease_status',
+                        'vital_status',
+                        'neoadjuvant_therapy',
+                        'therapy',
+                        'chemotherapeutic_drugs',
+                        'clinical_diagnosis.clinical_tumor_diagnosis',
+                        'clinical_diagnosis.histological_type',
+                        'primary_site',
+                        'clinical_diagnosis.site_of_sample_acquisition',
+                        'tissue_type',
+                        'tnm_stage',
+                        'clinical_diagnosis.clinical_stage_grouping',
+                        'clinical_diagnosis.tumor_histological_grade',
+                      ]}
+                    />
+                  </div>
                 </Col>
 
-                <Col className={modelImages ? 'three-col' : 'two-col'}>
-                  {/* External Resources */}
-                  <HorizontalTable
-                    rawData={queryState.model}
-                    extended={queryState.extended}
-                    fieldNames={[
-                      'source_model_url',
-                      'source_sequence_url',
-                      'somatic_maf_url',
-                      'distributor_part_number',
-                    ]}
-                    customValue={{
-                      distributor_part_number: val =>
-                        val !== 'N/A' ? (
-                          <ExternalLink href={`https://www.atcc.org/products/all/${val}`}>
-                            {val}
-                          </ExternalLink>
-                        ) : (
-                          'N/A'
-                        ),
-                      source_model_url: val =>
-                        val !== 'N/A' ? (
-                          <ExternalLink href={val}>Link to Source</ExternalLink>
-                        ) : (
-                          'N/A'
-                        ),
-                      source_sequence_url: val =>
-                        val !== 'N/A' ? (
-                          <ExternalLink href={val}>Link to Source</ExternalLink>
-                        ) : (
-                          'N/A'
-                        ),
-                      somatic_maf_url: val =>
-                        val !== 'N/A' ? (
-                          <ExternalLink href={val}>Link to Source</ExternalLink>
-                        ) : (
-                          'N/A'
-                        ),
-                    }}
-                  />
+                <Col className="three-col">
+                  <div className="model-section__card">
+                    <h3 className="model-section__card-title">
+                      Model Images ({(modelImages && modelImages.length) || '0'})
+                    </h3>
+                    {modelImages ? (
+                      <ModelSlider
+                        LeftArrow={<LeftArrow />}
+                        RightArrow={<RightArrow />}
+                        autoSlide={false}
+                        showDots={false}
+                        cardsToShow={1}
+                      >
+                        {modelImages.map(
+                          ({
+                            file_id,
+                            file_name,
+                            scale_bar_length,
+                            magnification,
+                            passage_number,
+                          }) => (
+                            <ModelSlide key={file_id}>
+                              {/* TODO: replace hardcoded image before PR */}
+                              <img
+                                src={
+                                  'https://hcmi-searchable-catalog.nci.nih.gov/api/data/images/5ed11d11dca0696d0801bb25'
+                                }
+                                alt={`File name: ${file_name}`}
+                              />
+                              {/* <img src={`${imgPath}/${file_id}`} alt={`File name: ${file_name}`} /> */}
+                              {(scale_bar_length || magnification || passage_number) && (
+                                <div
+                                  css={`
+                                    text-align: center;
+                                  `}
+                                >
+                                  {scale_bar_length && (
+                                    <span className="image-caption">
+                                      Scale-bar length: {scale_bar_length} μm
+                                    </span>
+                                  )}
+                                  {magnification && (
+                                    <span className="image-caption">
+                                      Magnification: {magnification} x
+                                    </span>
+                                  )}
+                                  {passage_number && (
+                                    <span className="image-caption">
+                                      Passage Number: {passage_number}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+                            </ModelSlide>
+                          ),
+                        )}
+                      </ModelSlider>
+                    ) : (
+                      <div className="model-details model-details--empty">
+                        <CameraIcon fill={bombay} height={30} width={30} />
+                        <p className="model-details__empty-message">No images available.</p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="model-section__card">
+                    <h3 className="model-section__card-title">Repository Status</h3>
+                    <HorizontalTable
+                      rawData={queryState.model}
+                      extended={queryState.extended}
+                      fieldNames={[
+                        'updatedAt',
+                        'date_of_availability',
+                        'licensing_required',
+                        'createdAt',
+                      ]}
+                    />
+                  </div>
+
+                  <div className="model-section__card">
+                    <h3 className="model-section__card-title">External Resources</h3>
+                    <ExternalResourcesContent
+                      distributorPartNumber={get(queryState.model, 'distributor_part_number')}
+                      sourceModelUrl={get(queryState.model, 'source_model_url')}
+                      sourceSequenceUrl={get(queryState.model, 'source_sequence_url')}
+                      somaticMafUrl={get(queryState.model, 'somatic_maf_url')}
+                    />
+                  </div>
                 </Col>
-                {modelImages && (
-                  <Col className="three-col">
-                    {/* Model Images */}
-                    <ModelSlider
-                      LeftArrow={<LeftArrow />}
-                      RightArrow={<RightArrow />}
-                      autoSlide={false}
-                      showDots={false}
-                      cardsToShow={1}
-                    >
-                      {modelImages.map(
-                        ({
-                          file_id,
-                          file_name,
-                          scale_bar_length,
-                          magnification,
-                          passage_number,
-                        }) => (
-                          <ModelSlide>
-                            <img
-                              src={
-                                'https://hcmi-searchable-catalog.nci.nih.gov/api/data/images/5ed11d11dca0696d0801bb25'
-                              }
-                              alt={`File name: ${file_name}`}
-                            />
-                            {/* <img src={`${imgPath}/${file_id}`} alt={`File name: ${file_name}`} /> */}
-                            {(scale_bar_length || magnification || passage_number) && (
-                              <div
-                                css={`
-                                  border-top: solid 1px #cacbcf;
-                                  width: 100%;
-                                  text-align: left;
-                                  padding: 12px 0;
-                                `}
-                              >
-                                {scale_bar_length && (
-                                  <span className="image-caption">
-                                    Scale-bar length: {scale_bar_length} μm
-                                  </span>
-                                )}
-                                {magnification && (
-                                  <span className="image-caption">
-                                    Magnification: {magnification} x
-                                  </span>
-                                )}
-                                {passage_number && (
-                                  <span className="image-caption">
-                                    Passage Number: {passage_number}
-                                  </span>
-                                )}
-                              </div>
-                            )}
-                          </ModelSlide>
-                        ),
-                      )}
-                    </ModelSlider>
-                  </Col>
-                )}
               </Row>
-            </section>,
+            </section>
+
             <section key="variants" className="model-section">
               <Col>
-                {/* Variants */}
-                <VariantTables modelName={modelName} />
+                <div className="model-section__card">
+                  <h3 className="model-section__card-title">Variants</h3>
+                  <VariantTables modelName={modelName} />
+                </div>
               </Col>
-            </section>,
-          ]
+            </section>
+          </>
         ) : (
           <Row justifyContent="center">
             <Spinner
