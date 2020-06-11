@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import ModelQuery from 'components/queries/ModelQuery';
 import modelImageProcessor from 'utils/modelImageProcessor';
 import apiDataProcessor from 'utils/apiDataProcessor';
+import { imgPath } from 'utils/constants';
 import ModelBar from 'components/ModelBar';
 import ModelCarouselBar from 'components/ModelCarouselBar';
 
@@ -322,14 +323,7 @@ export default ({ modelName }) => (
                             passage_number,
                           }) => (
                             <ModelSlide key={file_id}>
-                              {/* TODO: replace hardcoded image before PR */}
-                              <img
-                                src={
-                                  'https://hcmi-searchable-catalog.nci.nih.gov/api/data/images/5ed11d11dca0696d0801bb25'
-                                }
-                                alt={`File name: ${file_name}`}
-                              />
-                              {/* <img src={`${imgPath}/${file_id}`} alt={`File name: ${file_name}`} /> */}
+                              <img src={`${imgPath}/${file_id}`} alt={`File name: ${file_name}`} />
                               {(scale_bar_length || magnification || passage_number) && (
                                 <div
                                   css={`
