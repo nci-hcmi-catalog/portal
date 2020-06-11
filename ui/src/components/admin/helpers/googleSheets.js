@@ -15,7 +15,7 @@ export const getSheetObject = sheetURL => {
     sheetId: sheetUrlParts[2] || '',
   };
 };
-export const getUploadTemplate = async () => {
+export const getUploadTemplate = async type => {
   const gapi = global.gapi;
 
   // TODO: this assumes user is already logged in - create a prompt to let user
@@ -24,7 +24,7 @@ export const getUploadTemplate = async () => {
   const googleAuthResponse = currentUser.getAuthResponse();
 
   const response = await fetchData({
-    url: `${config.urls.cmsBase}/templates/models`,
+    url: `${config.urls.cmsBase}/templates/${type}`,
     method: 'get',
     headers: {
       Authorization: JSON.stringify(googleAuthResponse),

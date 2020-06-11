@@ -183,15 +183,14 @@ const VariantTable = ({ type, modelName, columns }) => (
                 width={47}
                 percentage={get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)}
               />
-              {(get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0) * 100).toFixed(
+              {((get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)) * 100).toFixed(
                 2,
               )}
               %
             </div>
           ),
           export: `${(
-            get(freqs, d.name, 0) /
-            get(freqsData, 'data.models.all.total', 0) *
+            (get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)) *
             100
           ).toFixed(2)}%`,
           raw: get(freqs, d.name, 0),
@@ -214,22 +213,9 @@ const VariantTable = ({ type, modelName, columns }) => (
       from = state.page * state.pageSize + 1,
       to = state.page * state.pageSize + state.pageSize,
       sortedData = state.filteredData.slice().sort((a, b) => b.frequency.raw - a.frequency.raw),
-    }) =>
-      sortedData.length === 0 ? (
-        <div
-          className="model-details model-details--empty"
-          css={`
-            position: absolute;
-            width: 100%;
-            left: 0;
-            z-index: -1;
-          `}
-        >
-          <VariantsIcon fill={'#b2b7c1'} height={30} width={30} />
-          <p className="model-details__empty-message">No variants available.</p>
-        </div>
-      ) : (
-        <Col>
+    }) => (
+      <Col>
+        {state.data && state.data.length > 0 ? (
           <Row className="toolbar" justifyContent="space-between">
             <div>
               {!state.loading &&
@@ -237,17 +223,34 @@ const VariantTable = ({ type, modelName, columns }) => (
             ${sortedData.length} Variants`}
             </div>
             <Row justifyContent="flex-end">
-              <TextInput
-                icon={<FilterIcon height={10} width={10} css={'margin: 0 0 0 5px;'} />}
-                type="text"
-                placeholder="Filter"
-                value={state.filterValue}
-                onChange={({ target: { value } }) => {
-                  setState({
-                    filterValue: value,
-                  });
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  overflow: 'hidden',
                 }}
-              />
+                className="inputWrapper"
+              >
+                <span className="inputIcon">
+                  <FilterIcon height={10} width={10} css={'margin: 0 0 0 5px;'} />
+                </span>
+                <input
+                  type="text"
+                  placeholder="Filter"
+                  value={state.filterValue}
+                  onChange={({ target: { value } }) => {
+                    setState({
+                      filterValue: value,
+                    });
+                  }}
+                  style={{
+                    border: 'none',
+                    flex: 1,
+                  }}
+                />
+              </div>
+
               <button
                 className="pill"
                 disabled={sortedData.length === 0}
@@ -259,6 +262,21 @@ const VariantTable = ({ type, modelName, columns }) => (
               </button>
             </Row>
           </Row>
+        ) : null}
+        {sortedData.length === 0 ? (
+          <div
+            className="model-details model-details--empty"
+            css={`
+              position: absolute;
+              width: 100%;
+              left: 0;
+              z-index: -1;
+            `}
+          >
+            <VariantsIcon fill={'#b2b7c1'} height={30} width={30} />
+            <p className="model-details__empty-message">No variants available.</p>
+          </div>
+        ) : (
           <div css={searchStyles}>
             <ReactTable
               className="-striped"
@@ -283,9 +301,9 @@ const VariantTable = ({ type, modelName, columns }) => (
               }}
             />
           </div>
-        </Col>
-      )
-    }
+        )}
+      </Col>
+    )}
   </Component>
 );
 
