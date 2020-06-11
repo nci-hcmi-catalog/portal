@@ -314,7 +314,7 @@ const renderTable = (activeTab, modelName) => {
               field: 'genes',
               id: 'genes',
               accessor: 'genes',
-              Header: 'Gene(s)',
+              Header: 'Genes',
             },
             {
               show: true,
@@ -364,7 +364,7 @@ const renderTable = (activeTab, modelName) => {
               field: 'genes',
               id: 'genes',
               accessor: 'genes',
-              Header: 'Gene(s)',
+              Header: 'Genes',
             },
             {
               show: true,
@@ -423,7 +423,7 @@ const renderTable = (activeTab, modelName) => {
               field: 'genes',
               id: 'genes',
               accessor: 'genes',
-              Header: 'Gene(s)',
+              Header: 'Genes',
             },
             {
               show: true,

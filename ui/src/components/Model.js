@@ -7,7 +7,7 @@ import ModelQuery from 'components/queries/ModelQuery';
 import modelImageProcessor from 'utils/modelImageProcessor';
 import apiDataProcessor from 'utils/apiDataProcessor';
 import ModelBar from 'components/ModelBar';
-import ModelFooterBar from 'components/ModelFooterBar';
+import ModelCarouselBar from 'components/ModelCarouselBar';
 
 import { Row, Col } from 'theme/system';
 import styles from 'theme/modelStyles';
@@ -228,11 +228,11 @@ export default ({ modelName }) => (
           id={(queryState.model || { id: '' }).id}
           isExpanded={queryState.model ? queryState.model.expanded : null}
         />
+        <ModelCarouselBar name={modelName} className="model-carousel-bar--top" />
         {queryState.model ? (
           <>
             <section key="model-details" className="model-section">
               <Row className="row">
-
                 <Col className="three-col">
                   <div className="model-section__card">
                     <h3 className="model-section__card-title">Model Details</h3>
@@ -416,7 +416,7 @@ export default ({ modelName }) => (
           </Row>
         )}
 
-        <ModelFooterBar name={modelName} />
+        <ModelCarouselBar name={modelName} className="model-carousel-bar--bottom" />
       </div>
     )}
   </ModelQuery>

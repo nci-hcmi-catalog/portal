@@ -3,10 +3,8 @@ import { Link } from 'react-router-dom';
 import { stringify } from 'query-string';
 
 import { Row } from 'theme/system';
-import ModelCarousel from 'components/ModelCarousel';
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 import Url from 'components/Url';
-import ShareButton from 'components/ShareButton';
 import { SavedSetsContext } from 'providers/SavedSets';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 import ModelList from 'components/ModelList';
@@ -58,8 +56,6 @@ export default ({ name, id, isExpanded }) => {
             <ExpandedPill isExpanded={isExpanded} />
           </div>
 
-          {sqon && <ModelCarousel modelName={name} sqon={sqon} />}
-
           <div className="model-bar__group">
             <Link className="model-bar__back" to={getBackRoute(sqon)}>
               <ArrowLeftIcon
@@ -69,11 +65,6 @@ export default ({ name, id, isExpanded }) => {
               />
               BACK TO SEARCH
             </Link>
-
-            <ShareButton
-              link={`${window.location.origin}/model/${name}`}
-              quote={`HCMI Model ${name}`}
-            />
 
             <button
               onClick={() => toggleModel(id)}

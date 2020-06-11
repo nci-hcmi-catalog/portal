@@ -194,6 +194,7 @@ export default css`
       position: absolute;
       bottom: calc(100% - 10px);
       text-transform: uppercase;
+      max-width: calc(100% - 32px);
     }
   }
 
@@ -381,11 +382,18 @@ export default css`
     }
   }
 
-  .model-footer-bar {
+  .model-carousel-bar {
     background-color: ${white};
     align-items: center;
     justify-content: center;
-    padding: 12px 0;
+
+    &--top {
+      margin-top: 12px;
+    }
+
+    &--bottom {
+      margin-bottom: 12px;
+    }
   }
 
   .model-actions {
@@ -393,21 +401,13 @@ export default css`
   }
 
   .toolbar {
-    background-color: #ffffff;
-    border-right: solid 1px #cacbcf;
-    border-top: solid 1px #cacbcf;
-    border-left: solid 1px #cacbcf;
-    border-bottom: 0;
-    padding: 20px 24px;
-    font-family: 'Open Sans';
+    font-family: ${openSans};
     font-size: 12px;
     font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 2.17;
-    letter-spacing: normal;
-    text-align: left;
-    color: #64666a;
+    line-height: 1.33;
+    color: ${black};
     z-index: 1;
+    padding-bottom: 8px;
+    align-items: flex-end;
   }
 `;
