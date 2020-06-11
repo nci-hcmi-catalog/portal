@@ -22,7 +22,6 @@ import ErrorIcon from 'icons/ErrorIcon';
 import ExportIcon from 'icons/ExportIcon';
 import ExternalLinkIcon from 'icons/ExternalLinkIcon';
 import googleSheetsLogo from 'assets/logo-googlesheets.png';
-import config from '../config';
 
 const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
