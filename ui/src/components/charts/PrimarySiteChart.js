@@ -94,7 +94,13 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
                   ),
                 )
               }
-            />
+              onMouseEnter={(_data, event) => {
+                event.currentTarget.style.cursor = 'pointer'
+              }}
+              onMouseLeave={(_data, event) => {
+                event.currentTarget.style.cursor = 'auto'
+              }}
+        />
           </>
         );
       }}
