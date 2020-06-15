@@ -7,13 +7,11 @@ import ModelCarousel from 'components/ModelCarousel';
 export default ({ name, className }) => (
   <Url
     render={({ sqon }) => {
-      return (
-        sqon && (
-          <Row className={`model-carousel-bar ${className}`}>
-            <ModelCarousel modelName={name} sqon={sqon} />
-          </Row>
-        )
-      );
+      return sqon ? (
+        <Row className={`model-carousel-bar ${className}`}>
+          <ModelCarousel modelName={name} sqon={sqon} />
+        </Row>
+      ) : null;
     }}
   />
 );
