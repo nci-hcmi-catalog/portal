@@ -179,7 +179,7 @@ export const createVariantUploadTemplate = async authClient => {
     'Model Name',
     'Variant Name',
     'Variant Type',
-    'Assesment Type ',
+    'Assessment Type',
     'Expression Level',
   ];
 
