@@ -1,4 +1,4 @@
-import { get, fetchData, patch, post } from '../services/Fetcher';
+import { fetchData } from '../services/Fetcher';
 import config from '../config';
 
 export const getSheetObject = sheetURL => {
