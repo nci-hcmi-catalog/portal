@@ -121,6 +121,12 @@ export default ({ sqon, setSQON }) => (
                       ),
                     )
                   }
+                  onMouseEnter={(_data, event) => {
+                    event.currentTarget.style.cursor = 'pointer'
+                  }}
+                  onMouseLeave={(_data, event) => {
+                    event.currentTarget.style.cursor = 'auto'
+                  }}
                 />
                 {/* {size.width > HAS_LABELS_WIDTH && (
                   <Col
