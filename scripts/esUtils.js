@@ -6,9 +6,16 @@ const columnsState = require('./arranger_metadata/columns-state.json');
 const extended = require('./arranger_metadata/extended.json');
 const matchboxState = require('./arranger_metadata/matchbox-state.json');
 
+const pm2Path = process.env.CMS_CONFIG || '../cms/pm2.config.js';
+const pm2Env = process.env.ENV || 'prd';
+const pm2Config = require(pm2Path);
+const pm2 =
+  (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0][`env_${pm2Env}`]) || {};
+module.exports.config = pm2;
+
 /** Search index settings and mappings **/
 const indexSetup = require('./searchIndex.json');
-const searchIndex = process.env.ES_INDEX || 'hcmi';
+const searchIndex = process.env.ES_INDEX || pm2Config.apps[0][`env_${pm2Env}`].ES_INDEX || 'hcmi';
 const arrangerProject = process.env.PROJECT_ID || 'hcmi';
 const esHost = process.env.ES_HOST || 'http://localhost:9200';
 
@@ -17,7 +24,7 @@ const client = new es.Client({
 });
 const date = new Date();
 
-module.exports.createSearchIndex = async () => {
+const createSearchIndex = async () => {
   try {
     console.log(`\nCreating search index: ${searchIndex}`);
     await client.indices.create({
@@ -29,6 +36,15 @@ module.exports.createSearchIndex = async () => {
     console.log('Unable to create index:', searchIndex);
     console.log(e);
   }
+};
+
+module.exports.createSearchIndex = createSearchIndex;
+
+module.exports.deleteSearchIndex = async () => {
+  try {
+    console.log(`\nDeleting existing index (if present): ${arrangerProject}`);
+    await client.indices.delete({ index: `${arrangerProject}` });
+  } catch (e) {}
 };
 
 module.exports.updateSearchIndexMapping = async () => {

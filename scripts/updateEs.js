@@ -1,7 +1,7 @@
-const esConfig = require('./esConfig');
+const esUtils = require('./esConfig');
 const run = async () => {
-  await esConfig.updateSearchIndexMapping();
-  await esConfig.updateArrangerProject();
+  await esUtils.updateSearchIndexMapping();
+  await esUtils.updateArrangerProject();
 };
 
 run();
