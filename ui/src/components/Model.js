@@ -143,16 +143,16 @@ const MolecularCharacterizationsCell = ({ isAvailable }) => {
 
 const MolecularCharacterizationsTable = ({ characterizations }) => {
   const CHARS = ['WGS', 'WXS', 'Targeted-seq', 'RNA-seq'];
-  const TYPES = ['parent tumor', 'normal', 'model'];
+  const TYPES = ['model', 'parent tumor', 'normal'];
 
   return (
     <table className="molecular-characterizations-table">
       <tbody>
         <tr>
           <th />
+          <th>Model</th>
           <th>Tumor</th>
           <th>Normal</th>
-          <th>Model</th>
         </tr>
         {CHARS.map(characterization => (
           <tr key={characterization}>
