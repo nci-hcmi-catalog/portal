@@ -7,6 +7,7 @@ import {
   FormBlock,
   FormBlockLabel,
   FormFieldDesc,
+  FormWarningLabel,
   Input,
   Select,
   AutoCompleteWrapper,
@@ -22,6 +23,7 @@ import {
 } from 'theme/formComponentsStyles';
 import FormFieldErrorIcon from 'icons/FormFieldErrorIcon';
 import ClearXIcon from 'icons/ClearXIcon';
+import WarningIcon from 'icons/WarningIcon';
 
 const hasErrors = (errors, touched, fieldName) => touched[fieldName] && errors[fieldName];
 
@@ -222,6 +224,8 @@ export const FormAutoComplete = ({
   form: { touched, errors, setFieldValue, setFieldTouched },
   options,
   errorText,
+  warning = false,
+  warningText = null,
   clearable = false,
   onSelect = () => {},
 }) => {
@@ -230,9 +234,23 @@ export const FormAutoComplete = ({
     setFieldValue(name, value);
   };
   return (
-    <AutoCompleteWrapper>
+    <AutoCompleteWrapper warning={warning}>
       {hasErrors(errors, touched, name) && (
         <FormFieldError>{errorText || errors[name]}</FormFieldError>
+      )}
+      {warning && warningText && (
+        <>
+          <FormWarningLabel>{warningText}</FormWarningLabel>
+          <WarningIcon
+            width={23}
+            height={23}
+            style={`
+              position: absolute;
+              right: -34px;
+              bottom: 6px;
+            `}
+          />
+        </>
       )}
       <ReactAutocomplete
         type="search"
