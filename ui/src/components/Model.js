@@ -130,7 +130,14 @@ const MolecularCharacterizationsCell = ({ isAvailable }) => {
       title="Available"
     />
   ) : (
-    <XIcon width={10} height={10} title="Not Available" />
+    <XIcon
+      width={18}
+      height={18}
+      title="Not Available"
+      style={`
+        padding: 4px;
+      `}
+    />
   );
 };
 
