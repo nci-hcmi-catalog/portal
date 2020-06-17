@@ -180,6 +180,7 @@ export default css`
       padding: 18px;
       margin: 8px;
       border: 2px solid ${athensLightGray};
+      min-height: 92px;
     }
 
     &__card-title {
@@ -204,7 +205,8 @@ export default css`
 
     &--empty {
       align-items: center;
-      padding: 25px 0;
+      margin-bottom: -5px;
+      padding-top: 5px;
     }
 
     &__empty-message {
