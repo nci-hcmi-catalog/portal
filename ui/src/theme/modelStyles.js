@@ -337,7 +337,7 @@ export default css`
       &.heading {
         padding-left: 10px;
         padding-right: 10px;
-        min-width: 120px;
+        width: 180px;
       }
 
       ul {
