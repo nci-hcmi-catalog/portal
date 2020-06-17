@@ -21,7 +21,8 @@
     "lint:ui": "eslint ui/src/**/*.js",
     "initializeEs": "node scripts/initializeEs.js",
     "updateEs": "node scripts/updateEs.js",
-    "republish": "cd cms && node republish.js"
+    "repairEs": "node scripts/repairEs.js",
+    "republish": "node scripts/republish.js"
   },
   "repository": {
     "type": "git",
