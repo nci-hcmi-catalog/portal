@@ -47,12 +47,13 @@ module.exports.deleteSearchIndex = async () => {
   } catch (e) {}
 };
 
-module.exports.updateSearchIndexMapping = async () => {
+module.exports.updateSearchIndex = async () => {
   try {
     await client.indices.close({
       index: searchIndex,
     });
 
+    await client.indices.putSettings({ index: searchIndex, body: indexSetup.settings });
     await client.indices.putMapping({ index: searchIndex, body: indexSetup.mappings });
 
     await client.indices.open({
