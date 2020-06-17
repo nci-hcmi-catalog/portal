@@ -33,13 +33,13 @@
   resolved "https://registry.yarnpkg.com/@apollographql/graphql-playground-html/-/graphql-playground-html-1.6.24.tgz#3ce939cb127fb8aaa3ffc1e90dff9b8af9f2e3dc"
   integrity sha512-8GqG48m1XqyXh4mIZrtB5xOhUwSsh1WsrrsaZQOEYYql3YN9DEu9OOSg0ILzXHZo/h2Q74777YE4YzlArQzQEQ==
 
-"@arranger/admin@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@arranger/admin/-/admin-2.1.1.tgz#05a4dae370b9a51ecb23a4a9302133d376eda112"
-  integrity sha512-8pKBVgz1Yb0RGZZuNSVvXNg5NgSpMnfuPwsM5QLQAQK1AH+6v4weQPiZorqWh/taG//5siPWCh2kdOVq3+I/Dg==
+"@arranger/admin@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@arranger/admin/-/admin-2.2.3.tgz#e4f0a00b5ac012f48f95acfdfe3d26d8b4c18923"
+  integrity sha512-YZ4OrjYeNwQhQ1Lx2+E39RkIZxcg/X0Tz//sP5svE5cpXZdxTqZFRAm/YOvwBc5TwY2O52AzyBpTeRNR2s64+g==
   dependencies:
-    "@arranger/mapping-utils" "^2.1.1"
-    "@arranger/schema" "^2.1.1"
+    "@arranger/mapping-utils" "^2.2.3"
+    "@arranger/schema" "^2.2.3"
     "@elastic/elasticsearch" "7.5.0"
     apollo-link-http "^1.5.5"
     apollo-server "^2.1.0"
@@ -57,12 +57,12 @@
     ramda "^0.26.1"
     tslib "^1.10.0"
 
-"@arranger/components@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-2.1.1.tgz#8bfe2da256e99f264612e5eb43625b76f4db91bf"
-  integrity sha512-JjgYSTFY+mFoPgBzUh5RylEdXUnOb9TZM2xr7oWKfPfuBSGSS6mJN6zZ0Gd50AuCLhRLrY6n+dXX+jtW4fhKsQ==
+"@arranger/components@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-2.2.3.tgz#9dd19669df08d689109c773db4ff65e496ca860a"
+  integrity sha512-I4UT+FJUJygWkoQobnL0pxWAa2hA2Bg+9kmdXZr8BTcDeRUgKEcuhLh4JbNwpXuo8kwBbLKaohvcT4G9g461bA==
   dependencies:
-    "@arranger/mapping-utils" "^2.1.1"
+    "@arranger/mapping-utils" "^2.2.3"
     ajv "^6.1.1"
     babel-polyfill "^6.26.0"
     classnames "^2.2.5"
@@ -98,22 +98,22 @@
     url-parse "^1.2.0"
     uuid "^3.2.1"
 
-"@arranger/mapping-utils@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-2.1.1.tgz#0385d81a6729f499abe543302bac89a3d4d3612d"
-  integrity sha512-B29k96WpcNIqoCqhM5M+Tpwce0rdpV+NFzYAWCp42WRoXsNA7CrlGG5AmsXJzESl4q5rbRZt9gl5cPrhPvjD8A==
+"@arranger/mapping-utils@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-2.2.3.tgz#9ec63f59858346e1d742172a7a9e20194fc24f95"
+  integrity sha512-FBwqtc6JZeF15bAmwJlpowwtQo26C9xR77QX+i1vmR7TGzCcjU1DgULo2XOnzssu5CR6Q2UoL0fBNADQOcxpCw==
   dependencies:
-    "@arranger/middleware" "^2.1.1"
+    "@arranger/middleware" "^2.2.3"
     babel-polyfill "^6.26.0"
     graphql-fields "^1.0.2"
     lodash "^4.17.15"
     node-fetch "^2.2.0"
     uuid "^3.2.1"
 
-"@arranger/middleware@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-2.1.1.tgz#d57c06e8f5a8fd58a31999012eddeda19045a50a"
-  integrity sha512-nTcorcsrHBulafbhCCouH1OOLSIfXnVwLCiIMvJfIYRFN8qMZ+QCEtToIX88EpRVEA3JV01DdNUkKRr7jR4K6w==
+"@arranger/middleware@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-2.2.3.tgz#325bce5c9bfa2883b970e759b629545116ad2f53"
+  integrity sha512-eEDfs65Gc7AE9V3v+tjzXuza4CXSjbIcUEBI7W5fnKUyHN37DeFTn95pj7gIeGQfil6Bta5UttE3iYTPEIjyig==
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
@@ -124,13 +124,13 @@
     utf8 "^3.0.0"
     winston "^2.4.0"
 
-"@arranger/schema@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@arranger/schema/-/schema-2.1.1.tgz#1df53046a1d3e641861376a3a3126c93e8eb4187"
-  integrity sha512-bFGoHpVCfn9CkMyrQkIDkDNTRoCGyMjTpPNiGJrHFgzmA5CU/w1JlhG1gH/dygRwvBF5H+LBIBABy/bWURgq8g==
+"@arranger/schema@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@arranger/schema/-/schema-2.2.3.tgz#3df3621356af3bfe66032568ca081004154c0d78"
+  integrity sha512-qRa/fo2ClukBvFfT7ji44O8mHzT875oRky0TQVqlsPJ/+2uEnBDl/oUHZqyHiCs3uneo2dhIMygCbNp8T/09ww==
   dependencies:
-    "@arranger/mapping-utils" "^2.1.1"
-    "@arranger/middleware" "^2.1.1"
+    "@arranger/mapping-utils" "^2.2.3"
+    "@arranger/middleware" "^2.2.3"
     babel-polyfill "^6.26.0"
     graphql-middleware "1.3.1"
     graphql-scalars "^0.1.5"
@@ -140,15 +140,15 @@
     paralleljs "^0.2.1"
     uuid "^3.2.1"
 
-"@arranger/server@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-2.1.1.tgz#6a30159505b43036559dd1d0acc8465326d31b78"
-  integrity sha512-Hwzfytmkl0ZqR2qMGoV04Mu8LhtgPY8o19lEZvr4WtcKGKMnSlaWrpr/XBjlUGkkbpU/aUoCUTHXCNit5XBp4Q==
+"@arranger/server@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-2.2.3.tgz#83e10f9b599a826c2db59e8f5eae6766c0ad510b"
+  integrity sha512-ZLTLplo9z48bCuhSGUl3UoSRSckfNBQk4ug5fiZWBKB1i/hnFpZiuTl0HhdBfVrpTBG3inNgArVRd3sUpBqtdA==
   dependencies:
-    "@arranger/admin" "^2.1.1"
-    "@arranger/mapping-utils" "^2.1.1"
-    "@arranger/middleware" "^2.1.1"
-    "@arranger/schema" "^2.1.1"
+    "@arranger/admin" "^2.2.3"
+    "@arranger/mapping-utils" "^2.2.3"
+    "@arranger/middleware" "^2.2.3"
+    "@arranger/schema" "^2.2.3"
     "@elastic/elasticsearch" "^7.5.0"
     apollo-server-core "1.3.2"
     apollo-server-express "^2.1.0"
