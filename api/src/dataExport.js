@@ -44,6 +44,7 @@ dataExportRouter.post('/:projectId/models', async (req, res) => {
         console.timeEnd('download');
       });
   } catch (err) {
+    console.log('Failure exporting models:', err);
     res.status(400).send(err.message || err.details || 'An unknown error occurred.');
   }
 });
