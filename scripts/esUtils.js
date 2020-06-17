@@ -18,9 +18,9 @@ module.exports.config = pm2;
 
 /** Search index settings and mappings **/
 const indexSetup = require('./searchIndex.json');
-const searchIndex = process.env.ES_INDEX || pm2Config.apps[0][`env_${pm2Env}`].ES_INDEX || 'hcmi';
-const arrangerProject = process.env.PROJECT_ID || 'hcmi';
-const esHost = process.env.ES_HOST || 'http://localhost:9200';
+const searchIndex = process.env.ES_INDEX || pm2.ES_INDEX || 'hcmi';
+const arrangerProject = process.env.PROJECT_ID || pm2.ES_INDEX || 'hcmi';
+const esHost = process.env.ES_HOST || `${pm2.ES_HOST}:${pm2.ES_PORT}`;
 
 const client = new es.Client({
   node: esHost,
