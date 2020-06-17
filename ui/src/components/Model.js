@@ -313,13 +313,16 @@ export default ({ modelName }) => (
                     <h3 className="model-section__card-title">
                       Model Images ({(modelImages && modelImages.length) || '0'})
                     </h3>
-                    {modelImages ? (
+                    {modelImages && modelImages.length ? (
                       <ModelSlider
                         LeftArrow={<LeftArrow />}
                         RightArrow={<RightArrow />}
                         autoSlide={false}
                         showDots={false}
                         cardsToShow={1}
+                        // adding a key to force re-render of the slider
+                        // ensures arrow buttons are present when needed
+                        key={`model-slider-${modelImages.length}`}
                       >
                         {modelImages.map(
                           ({
