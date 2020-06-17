@@ -7,7 +7,10 @@ const extended = require('./arranger_metadata/extended.json');
 const matchboxState = require('./arranger_metadata/matchbox-state.json');
 
 const pm2Path = process.env.CMS_CONFIG || '../cms/pm2.config.js';
-const pm2Env = process.env.ENV || 'prd';
+const pm2Env = process.env.ENV;
+if (!pm2Env) {
+  throw new Error('No ENV value provided!');
+}
 const pm2Config = require(pm2Path);
 const pm2 =
   (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0][`env_${pm2Env}`]) || {};
