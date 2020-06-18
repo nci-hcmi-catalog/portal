@@ -1,10 +1,10 @@
-const esConfig = require('./esConfig');
+const esUtils = require('./esUtils');
 const run = async () => {
   /** initialize search index */
-  await esConfig.createSearchIndex();
-  await esConfig.createArrangerProjectList();
-  await esConfig.createArrangerProject();
-  await esConfig.configureArrangerSets();
+  await esUtils.createSearchIndex();
+  await esUtils.createArrangerProjectList();
+  await esUtils.createArrangerProject();
+  await esUtils.configureArrangerSets();
 };
 
 run();

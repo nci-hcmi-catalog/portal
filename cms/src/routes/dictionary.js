@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import express from 'express';
 
 import * as DictionaryHelper from '../helpers/dictionary';

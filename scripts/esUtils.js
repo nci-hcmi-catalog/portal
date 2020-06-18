@@ -6,18 +6,28 @@ const columnsState = require('./arranger_metadata/columns-state.json');
 const extended = require('./arranger_metadata/extended.json');
 const matchboxState = require('./arranger_metadata/matchbox-state.json');
 
+const pm2Path = process.env.CMS_CONFIG || '../cms/pm2.config.js';
+const pm2Env = process.env.ENV;
+if (!pm2Env) {
+  throw new Error('No ENV value provided!');
+}
+const pm2Config = require(pm2Path);
+const pm2 =
+  (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0][`env_${pm2Env}`]) || {};
+module.exports.config = pm2;
+
 /** Search index settings and mappings **/
 const indexSetup = require('./searchIndex.json');
-const searchIndex = process.env.ES_INDEX || 'hcmi';
-const arrangerProject = process.env.PROJECT_ID || 'hcmi';
-const esHost = process.env.ES_HOST || 'http://localhost:9200';
+const searchIndex = process.env.ES_INDEX || pm2.ES_INDEX || 'hcmi';
+const arrangerProject = process.env.PROJECT_ID || pm2.ES_INDEX || 'hcmi';
+const esHost = process.env.ES_HOST || `${pm2.ES_HOST}:${pm2.ES_PORT}`;
 
 const client = new es.Client({
   node: esHost,
 });
 const date = new Date();
 
-module.exports.createSearchIndex = async () => {
+const createSearchIndex = async () => {
   try {
     console.log(`\nCreating search index: ${searchIndex}`);
     await client.indices.create({
@@ -31,12 +41,22 @@ module.exports.createSearchIndex = async () => {
   }
 };
 
-module.exports.updateSearchIndexMapping = async () => {
+module.exports.createSearchIndex = createSearchIndex;
+
+module.exports.deleteSearchIndex = async () => {
+  try {
+    console.log(`\nDeleting existing index (if present): ${arrangerProject}`);
+    await client.indices.delete({ index: `${arrangerProject}` });
+  } catch (e) {}
+};
+
+module.exports.updateSearchIndex = async () => {
   try {
     await client.indices.close({
       index: searchIndex,
     });
 
+    await client.indices.putSettings({ index: searchIndex, body: indexSetup.settings });
     await client.indices.putMapping({ index: searchIndex, body: indexSetup.mappings });
 
     await client.indices.open({

@@ -1,4 +1,6 @@
 // @ts-check
+import { ensureAuth } from '../helpers';
+import { createModelUploadTemplate, createVariantUploadTemplate } from '../helpers/uploadTemplate';
 
 import express from 'express';
 import fs from 'fs';
@@ -23,11 +25,31 @@ const streamServerFile = (filePath, response) => {
   });
 };
 
-templatesRouter.get('/models', async (req, res) => {
-  streamServerFile('../../templates/bulk-model-upload.xlsx', res);
+templatesRouter.get('/model', async (req, res) => {
+  try {
+    const authClient = await ensureAuth(req);
+    const createResponse = await createModelUploadTemplate(authClient);
+
+    const url = createResponse.spreadsheetUrl;
+
+    res.json({ url });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err: err.message });
+  }
 });
 
-templatesRouter.get('/variants', async (req, res) => {
-  streamServerFile('../../templates/bulk-variant-upload.xlsx', res);
+templatesRouter.get('/variant', async (req, res) => {
+  try {
+    const authClient = await ensureAuth(req);
+    const createResponse = await createVariantUploadTemplate(authClient);
+
+    const url = createResponse.spreadsheetUrl;
+
+    res.json({ url });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err: err.message });
+  }
 });
 export default templatesRouter;

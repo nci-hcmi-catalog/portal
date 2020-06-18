@@ -15,6 +15,8 @@ const {
     shuttleGrey,
     frenchGrey,
     dodgerBlue,
+    sandyBeach,
+    seaBuckthorn,
     silverChalice,
     dawnPink,
   },
@@ -65,8 +67,36 @@ export const FormFieldDesc = styled('div')`
   color: ${fieldDescColour};
 `;
 
+export const FormWarningLabel = styled('div')`
+  font-family: ${openSans};
+  font-size: 12px;
+  font-weight: normal;
+  color: ${black};
+  background-color: ${sandyBeach};
+  border-radius: 6px;
+  padding: 2px 10px;
+  margin-bottom: 4px;
+  position: relative;
+
+  &::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 3px solid ${sandyBeach};
+    position: absolute;
+    bottom: -3px;
+    left: 12px;
+  }
+`;
+
 const fieldErrorStyles = css`
   border-color: ${brandPrimary};
+`;
+
+const fieldWarningStyles = css`
+  border-color: ${seaBuckthorn};
 `;
 
 const inputSelectSharedStyles = css`
@@ -127,6 +157,7 @@ export const AutoCompleteWrapper = styled('div')`
     ${inputSelectSharedStyles};
     width: ${props => props.width || '100%'};
     ${props => !!props.errors && fieldErrorStyles};
+    ${props => !!props.warning && fieldWarningStyles};
   }
 `;
 

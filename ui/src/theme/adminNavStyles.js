@@ -7,9 +7,9 @@ import { Row } from 'theme/system';
 import { whiteHover } from 'theme/hoverStyles';
 
 const {
-  fonts: { libreFranklin, openSans },
+  fonts: { openSans },
   transparency: { brandPrimary70 },
-  keyedPalette: { brandPrimary, valencia, porcelain },
+  keyedPalette: { athensGray, black, bombay, brandPrimary, valencia, porcelain },
   buttons: { pillBase },
 } = base;
 
@@ -17,7 +17,7 @@ const navBackgroundColour = brandPrimary70;
 const navOnState = valencia;
 
 export const AdminNav = styled(Row)`
-  font-family: ${libreFranklin};
+  font-family: ${openSans};
   background-color: ${navBackgroundColour};
   color: white;
   display: flex;
@@ -47,7 +47,7 @@ export const NavLink = styled(Link)`
   display: inline-block;
   position: relative;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
@@ -55,7 +55,6 @@ export const NavLink = styled(Link)`
   text-align: center;
   line-height: 50px;
   padding: 0 22px;
-  text-transform: uppercase;
   ${whiteHover};
   ${props => props.active && activeNavLink};
 `;
@@ -78,18 +77,43 @@ export const HoverPill = styled(Pill)`
   ${adminPillHover({ base: brandPrimary, hover: valencia }, { base: '#ffffff', hover: porcelain })};
 `;
 
-export const User = styled(Pill)`
+export const UserDropdown = styled(HoverPill)`
   font-family: ${openSans};
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   font-style: normal;
   font-stretch: normal;
   line-height: 2;
   letter-spacing: normal;
   text-align: center;
-  color: ${brandPrimary};
-  border: none;
-  padding: 1px 15px;
+  color: ${black};
+  border: 1px solid ${bombay};
+  border-radius: 10px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  background-color: ${props => props.isOpen && athensGray};
+
+  &:hover {
+    color: ${black};
+  }
 `;
 
-export const AnchorTag = User.withComponent('a');
+export const DropdownItem = styled('a')`
+  text-align: left;
+  font-family: ${openSans};
+  padding: 5px 9px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.71;
+  color: ${black};
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: ${porcelain};
+  }
+`;

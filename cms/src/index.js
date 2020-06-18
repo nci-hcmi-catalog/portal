@@ -14,6 +14,7 @@ import helmet from 'helmet';
 import { data_sync_router } from './routes/sync-data';
 import {
   actionRouter,
+  healthRouter,
   bulkRouter,
   dictionaryRouter,
   imagesRouter,
@@ -110,6 +111,7 @@ app.use('/api/v1/bulk', bulkRouter);
 app.use('/api/v1/dictionary', dictionaryRouter);
 app.use('/api/v1/images', imagesRouter);
 app.use('/api/v1/action', actionRouter);
+app.use('/api/v1/health', healthRouter);
 app.use('/api/v1/templates', templatesRouter);
 app.use('/api/v1/matches', matchedModelsActionsRouter);
 app.use(matchedModelsRestifyRouter);

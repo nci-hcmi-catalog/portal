@@ -121,6 +121,7 @@ const base = {
     trout: '#525767',
     havelockBlue: '#4596de',
     athensLightGray: '#eaeaee',
+    sandyBeach: '#ffe9c3',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',
@@ -227,3 +228,11 @@ export const softTransitionRolloverBkgHover = (hoverColour, transitionSpeed) =>
       background-color: ${hoverColour};
     }
   `;
+
+export const visuallyHidden = css`
+  position: absolute;
+  height: 0;
+  width: 0;
+  top: -9999px;
+  left: -9999px;
+`;

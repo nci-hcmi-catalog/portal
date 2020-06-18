@@ -1,3 +1,6 @@
+import { get, fetchData, patch, post } from '../services/Fetcher';
+import config from '../config';
+
 export const getSheetObject = sheetURL => {
   // example sheeturl:
   // https://docs.google.com/spreadsheets/d/18ZWXfsadfasdfP8NV5g_flmEhBkXgsKEJT6y9
@@ -11,4 +14,22 @@ export const getSheetObject = sheetURL => {
     spreadsheetId: sheetUrlParts[1] || '',
     sheetId: sheetUrlParts[2] || '',
   };
+};
+export const getUploadTemplate = async type => {
+  const gapi = global.gapi;
+
+  // TODO: this assumes user is already logged in - create a prompt to let user
+  // know to login if not already logged in
+  const currentUser = gapi.auth2.getAuthInstance().currentUser.get();
+  const googleAuthResponse = currentUser.getAuthResponse();
+
+  const response = await fetchData({
+    url: `${config.urls.cmsBase}/templates/${type}`,
+    method: 'get',
+    headers: {
+      Authorization: JSON.stringify(googleAuthResponse),
+    },
+  });
+
+  return response.data;
 };
