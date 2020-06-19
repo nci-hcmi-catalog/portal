@@ -1,26 +1,30 @@
 import React from 'react';
 import { get } from 'lodash';
-import Spinner from 'react-spinkit';
 import { Link } from 'react-router-dom';
+import Spinner from 'react-spinkit';
 
 import ModelQuery from 'components/queries/ModelQuery';
-import modelImageProcessor from 'utils/modelImageProcessor';
-import apiDataProcessor from 'utils/apiDataProcessor';
-import { imgPath } from 'utils/constants';
 import ModelBar from 'components/ModelBar';
 import ModelCarouselBar from 'components/ModelCarouselBar';
+import VariantTables from 'components/VariantTables';
 
-import { Row, Col } from 'theme/system';
-import styles from 'theme/modelStyles';
-import { ModelSlider, ModelSlide, LeftArrow, RightArrow } from 'theme/carouselStyles';
 import CameraIcon from 'icons/CameraIcon';
 import CheckmarkIcon from 'icons/CheckmarkIcon';
 import ExternalLinkIcon from 'icons/ExternalLinkIcon';
 import ModelIcon from 'icons/ModelIcon';
 import ShoppingCartIcon from 'icons/ShoppingCartIcon';
 import XIcon from 'icons/XIcon';
-import VariantTables from 'components/VariantTables';
+
+import { VariantsProvider } from 'providers/Variants';
+
+import { ModelSlider, ModelSlide, LeftArrow, RightArrow } from 'theme/carouselStyles';
+import styles from 'theme/modelStyles';
+import { Row, Col } from 'theme/system';
 import base from 'theme';
+
+import modelImageProcessor from 'utils/modelImageProcessor';
+import apiDataProcessor from 'utils/apiDataProcessor';
+import { imgPath } from 'utils/constants';
 
 const {
   keyedPalette: { bombay, brandPrimary, pelorousapprox, white },
@@ -400,7 +404,9 @@ export default ({ modelName }) => (
               <Col>
                 <div className="model-section__card">
                   <h3 className="model-section__card-title">Variants</h3>
-                  <VariantTables modelName={modelName} />
+                  <VariantsProvider>
+                    <VariantTables modelName={modelName} />
+                  </VariantsProvider>
                 </div>
               </Col>
             </section>

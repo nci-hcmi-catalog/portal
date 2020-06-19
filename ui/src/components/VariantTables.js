@@ -1,13 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { get, uniqBy } from 'lodash';
 import ReactTable from 'react-table';
-import { Link } from 'react-router-dom';
-import { stringify } from 'query-string';
 
-import { api } from '@arranger/components';
 import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
 
-import SparkMeter from 'components/SparkMeter';
 import TabGroup from 'components/layout/VerticalTabs';
 
 import DownloadIcon from 'icons/DownloadIcon';
@@ -15,195 +10,64 @@ import FilterIcon from 'icons/FilterIcon';
 import VariantsIcon from 'icons/VariantsIcon';
 import XIcon from 'icons/XIcon';
 
-import { visuallyHidden } from 'theme';
+import { useVariants } from 'providers/Variants';
+
 import searchStyles from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
 import { Tab, TabHeading, variantTab, variantTabActive } from 'theme/verticalTabStyles';
+import { visuallyHidden } from 'theme';
 
-import globals from 'utils/globals';
 import tsvDownloader from 'utils/tsvDownloader';
 
-const sortFilteredData = (a, b) => {
-  if (!a || !a.frequency || !a.frequency.raw || !b || !b.frequency || !b.frequency.raw) {
-    return false;
-  }
-  return b.frequency.raw - a.frequency.raw;
+const VARIANT_TYPES = {
+  clinical: 'clinical',
+  histopathological: 'histopathological biomarker',
+  genomic: 'genomic_sequencing',
 };
 
 const VariantTable = React.memo(({ type, modelName, columns }) => {
+  const {
+    data,
+    filteredData,
+    loading,
+    page,
+    pageSize,
+    setData,
+    setFilteredData,
+    setLoading,
+    setPage,
+    setPageSize,
+    fetchData,
+    sortFilteredData,
+  } = useVariants();
   const didMountRef = useRef(false);
-
   const [filterValue, setFilterValue] = useState('');
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [filteredData, setFilteredData] = useState([]);
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
 
-  const from = page * pageSize + 1;
+  const from = filteredData.length === 0 ? 0 : page * pageSize + 1;
   const to = page * pageSize + pageSize;
   const sortedData = useMemo(() => filteredData.slice().sort((a, b) => sortFilteredData(a, b)));
 
-  const fetchData = async () => {
-    setData([]);
-    setLoading(true);
-
-    const variantsData = await api({
-      endpoint: `/${globals.VERSION}/graphql`,
-      body: {
-        query: `query($modelsSqon: JSON) {
-                    models {
-                      hits(filters: $modelsSqon, first: 1) {
-                        edges {
-                          node {
-                          name
-                            variants {
-                              hits {
-                                edges {
-                                  node {
-                                    name
-                                    category
-                                    assessment_type
-                                    type
-                                    expression_level
-                                    genes
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                `,
-        variables: {
-          modelsSqon: { op: 'in', content: { field: 'name', value: modelName } },
-        },
-      },
-    });
-
-    const data = get(variantsData, `data.models.hits.edges[0].node.variants.hits.edges`, [])
-      .map(({ node }) => node)
-      .filter(node => node.type && node.type.toLowerCase() === type.toLowerCase());
-
-    const variantNames = uniqBy(
-      data.map(({ name }) => ({ name, safe: name.replace(/ |-|\.|\(|\)/g, '') })),
-      ({ name }) => name,
-    );
-
-    const freqsData = variantNames.length
-      ? await api({
-          endpoint: `/${globals.VERSION}/graphql`,
-          body: {
-            query: `query(${variantNames.map(({ safe }) => '$' + safe + ': JSON').join(',')}) {
-                    models {
-                    all: hits(first: 0) {
-                      total
-                    }
-                    ${variantNames.map(
-                      ({ safe }) => `${safe} : hits(filters: ${'$' + safe}, first: 0) {
-                        total
-                      }`,
-                    )}
-                    }
-                  }
-                `,
-            variables: variantNames.reduce(
-              (acc, { name, safe }) => ({
-                ...acc,
-                [safe]: {
-                  op: 'in',
-                  content: { field: 'variants.name', value: name },
-                },
-              }),
-              {},
-            ),
-          },
-        })
-      : { data: { models: [] } };
-
-    const freqs = Object.keys(freqsData.data.models).reduce(
-      (acc, key) => ({
-        ...acc,
-        [variantNames.reduce(
-          (found, { name, safe }) => (safe === key ? name : found),
-          '',
-        )]: freqsData.data.models[key].total,
-      }),
-      {},
-    );
-
-    const dataWithFreqs = data.map(d => ({
-      ...d,
-      genes: (d.genes || '').join(', '),
-      frequency: {
-        display: (
-          <div
-            css={`
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-            `}
-          >
-            <Link
-              style={{ display: 'inline-block', width: '23px' }}
-              to={{
-                pathname: '/',
-                search: stringify({
-                  sqon: JSON.stringify({
-                    op: 'and',
-                    content: [
-                      {
-                        op: 'in',
-                        content: { field: 'variants.name', value: d.name },
-                      },
-                    ],
-                  }),
-                }),
-              }}
-            >
-              {get(freqs, d.name, 0)}
-            </Link>
-            <SparkMeter
-              width={47}
-              percentage={get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)}
-            />
-            {((get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)) * 100).toFixed(
-              2,
-            )}
-            %
-          </div>
-        ),
-        export: `${(
-          (get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)) *
-          100
-        ).toFixed(2)}%`,
-        raw: get(freqs, d.name, 0),
-      },
-    }));
-
-    setData(dataWithFreqs);
-    setLoading(false);
-    setFilteredData(dataWithFreqs);
-    setPageSize(10);
-    setPage(0);
-
-    return dataWithFreqs;
-  };
-
-  const getData = async () => {
-    await fetchData();
-  };
-
   useEffect(() => {
+    const getData = async () => {
+      setData([]);
+      setLoading(true);
+
+      const dataWithFreqs = await fetchData({ modelName, type });
+
+      setData(dataWithFreqs);
+      setFilteredData(dataWithFreqs);
+      setLoading(false);
+      setPage(0);
+      setPageSize(10);
+    };
+
     getData();
   }, [type, modelName]);
 
   useEffect(() => {
     // using a ref to mimic 'componentDidUpdate' behaviour (avoids running this on initial mount)
-    if (didMountRef.current && data) {
-      const filteredData = data.filter(
+    if (didMountRef && didMountRef.current && data) {
+      const newFilteredData = data.filter(
         d =>
           Object.values(d)
             .filter(d => typeof d === 'string')
@@ -211,8 +75,8 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
             .filter(v => v).length > 0,
       );
 
-      setFilteredData(filteredData);
-      setPageSize(filteredData.length > 10 ? 10 : filteredData.length);
+      setFilteredData(newFilteredData);
+      setPageSize(newFilteredData.length > 10 ? 10 : newFilteredData.length);
     } else {
       didMountRef.current = true;
     }
@@ -318,12 +182,14 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
         {sortedData.length === 0 && (
           <div
             className="model-details model-details--empty"
-            css={`
-              position: absolute;
-              width: 100%;
-              left: 0;
-              z-index: -1;
-            `}
+            style={{
+              position: 'absolute',
+              width: '100%',
+              left: 0,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: -1,
+            }}
           >
             <VariantsIcon fill={'#b2b7c1'} height={30} width={30} />
             <p className="model-details__empty-message">No variants available.</p>
@@ -336,10 +202,11 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
 
 const renderTable = (activeTab, modelName) => {
   switch (activeTab) {
-    case 'clinical':
+    case VARIANT_TYPES.clinical:
       return (
         <VariantTable
           modelName={modelName}
+          type={VARIANT_TYPES.clinical}
           columns={[
             {
               show: true,
@@ -382,14 +249,13 @@ const renderTable = (activeTab, modelName) => {
               Header: 'Frequency',
             },
           ]}
-          type="clinical"
         />
       );
-    case 'histopathological':
+    case VARIANT_TYPES.histopathological:
       return (
         <VariantTable
           modelName={modelName}
-          type="histopathological biomarker"
+          type={VARIANT_TYPES.histopathological}
           columns={[
             {
               show: true,
@@ -444,11 +310,11 @@ const renderTable = (activeTab, modelName) => {
           ]}
         />
       );
-    case 'genomic':
+    case VARIANT_TYPES.genomic:
       return (
         <VariantTable
           modelName={modelName}
-          type="genomic_sequencing"
+          type={VARIANT_TYPES.genomic}
           columns={[
             {
               show: true,
@@ -499,7 +365,26 @@ const renderTable = (activeTab, modelName) => {
 };
 
 export default ({ modelName }) => {
-  const [activeTab, setActiveTab] = useState('clinical');
+  const [activeTab, setActiveTab] = useState(VARIANT_TYPES.clinical);
+  const { fetchData } = useVariants();
+
+  useEffect(() => {
+    const checkClinicalVariants = async () => {
+      const clinicalVariants = await fetchData({
+        modelName,
+        type: VARIANT_TYPES.clinical,
+      });
+
+      if (clinicalVariants.length > 0) {
+        setActiveTab(VARIANT_TYPES.clinical);
+      } else {
+        setActiveTab(VARIANT_TYPES.histopathological);
+      }
+    };
+
+    checkClinicalVariants();
+  }, [modelName]);
+
   return (
     <Row
       css={`
@@ -507,21 +392,29 @@ export default ({ modelName }) => {
       `}
     >
       <TabGroup width={171}>
-        <Tab active={activeTab === 'clinical'} onClick={() => setActiveTab('clinical')}>
-          <TabHeading css={activeTab === 'clinical' ? variantTabActive : variantTab}>
+        <Tab
+          active={activeTab === VARIANT_TYPES.clinical}
+          onClick={() => setActiveTab(VARIANT_TYPES.clinical)}
+        >
+          <TabHeading css={activeTab === VARIANT_TYPES.clinical ? variantTabActive : variantTab}>
             Clinical Sequencing
           </TabHeading>
         </Tab>
         <Tab
-          active={activeTab === 'histopathological'}
-          onClick={() => setActiveTab('histopathological')}
+          active={activeTab === VARIANT_TYPES.histopathological}
+          onClick={() => setActiveTab(VARIANT_TYPES.histopathological)}
         >
-          <TabHeading css={activeTab === 'histopathological' ? variantTabActive : variantTab}>
+          <TabHeading
+            css={activeTab === VARIANT_TYPES.histopathological ? variantTabActive : variantTab}
+          >
             Histopathological Biomarkers
           </TabHeading>
         </Tab>
-        <Tab active={activeTab === 'genomic'} onClick={() => setActiveTab('genomic')}>
-          <TabHeading css={activeTab === 'genomic' ? variantTabActive : variantTab}>
+        <Tab
+          active={activeTab === VARIANT_TYPES.genomic}
+          onClick={() => setActiveTab(VARIANT_TYPES.genomic)}
+        >
+          <TabHeading css={activeTab === VARIANT_TYPES.genomic ? variantTabActive : variantTab}>
             Genomic Sequencing
           </TabHeading>
         </Tab>
