@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { get, isEqual, uniqBy } from 'lodash';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { get, uniqBy } from 'lodash';
 import ReactTable from 'react-table';
-import Component from 'react-component-component';
 import { Link } from 'react-router-dom';
 import { stringify } from 'query-string';
 
@@ -18,73 +17,55 @@ import VariantsIcon from 'icons/VariantsIcon';
 import searchStyles from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
 import { Tab, TabHeading, variantTab, variantTabActive } from 'theme/verticalTabStyles';
+import { visuallyHidden } from 'theme';
 
 import globals from 'utils/globals';
 import tsvDownloader from 'utils/tsvDownloader';
 
-const VariantTable = ({ type, modelName, columns }) => (
-  <Component
-    initialState={{
-      data: [],
-      loading: false,
-      filterValue: '',
-      filteredData: [],
-      page: 0,
-      pageSize: 10,
-    }}
-    type={type}
-    modelName={modelName}
-    didMount={async ({ props: { fetchData }, setState }) => {
-      await fetchData({ setState });
-    }}
-    shouldUpdate={({ props, nextProps, state, nextState }) => {
-      return (
-        props.type !== nextProps.type ||
-        props.modelName !== nextProps.modelName ||
-        !isEqual(state, nextState)
-      );
-    }}
-    didUpdate={async ({ props: { type, fetchData }, setState, prevProps, prevState, state }) => {
-      if (type !== prevProps.type || modelName !== prevProps.modelName) {
-        await fetchData({ setState });
-      }
-      if (state.filterValue !== prevState.filterValue) {
-        const filteredData = state.data.filter(
-          d =>
-            Object.values(d)
-              .filter(d => typeof d === 'string')
-              .map(d => d.toLowerCase().includes(state.filterValue.toLowerCase()))
-              .filter(v => v).length > 0,
-        );
+const sortFilteredData = (a, b) => {
+  if (!a || !a.frequency || !a.frequency.raw || !b || !b.frequency || !b.frequency.raw) {
+    return false;
+  }
+  return b.frequency.raw - a.frequency.raw;
+};
 
-        setState({
-          filteredData,
-          pageSize: filteredData.lenth > 10 ? 10 : filteredData.length,
-        });
-      }
-    }}
-    fetchData={async ({ setState }) => {
-      setState({ data: [], loading: true });
-      const variantsData = await api({
-        endpoint: `/${globals.VERSION}/graphql`,
-        body: {
-          query: `query($modelsSqon: JSON) {
-                      models {
-                        hits(filters: $modelsSqon, first: 1) {
-                          edges {
-                            node {
-                            name
-                              variants {
-                                hits {
-                                  edges {
-                                    node {
-                                      name
-                                      category
-                                      assessment_type
-                                      type
-                                      expression_level
-                                      genes
-                                    }
+const VariantTable = React.memo(({ type, modelName, columns }) => {
+  const didMountRef = useRef(false);
+
+  const [filterValue, setFilterValue] = useState('');
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [filteredData, setFilteredData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+
+  const from = page * pageSize + 1;
+  const to = page * pageSize + pageSize;
+  const sortedData = useMemo(() => filteredData.slice().sort((a, b) => sortFilteredData(a, b)));
+
+  const fetchData = async () => {
+    setData([]);
+    setLoading(true);
+
+    const variantsData = await api({
+      endpoint: `/${globals.VERSION}/graphql`,
+      body: {
+        query: `query($modelsSqon: JSON) {
+                    models {
+                      hits(filters: $modelsSqon, first: 1) {
+                        edges {
+                          node {
+                          name
+                            variants {
+                              hits {
+                                edges {
+                                  node {
+                                    name
+                                    category
+                                    assessment_type
+                                    type
+                                    expression_level
+                                    genes
                                   }
                                 }
                               }
@@ -93,175 +74,215 @@ const VariantTable = ({ type, modelName, columns }) => (
                         }
                       }
                     }
-                  `,
-          variables: {
-            modelsSqon: { op: 'in', content: { field: 'name', value: modelName } },
-          },
+                  }
+                `,
+        variables: {
+          modelsSqon: { op: 'in', content: { field: 'name', value: modelName } },
         },
-      });
-      const data = get(variantsData, `data.models.hits.edges[0].node.variants.hits.edges`, [])
-        .map(({ node }) => node)
-        .filter(node => node.type && node.type.toLowerCase() === type.toLowerCase());
+      },
+    });
 
-      const variantNames = uniqBy(
-        data.map(({ name }) => ({ name, safe: name.replace(/ |-|\.|\(|\)/g, '') })),
-        ({ name }) => name,
-      );
-      const freqsData = variantNames.length
-        ? await api({
-            endpoint: `/${globals.VERSION}/graphql`,
-            body: {
-              query: `query(${variantNames.map(({ safe }) => '$' + safe + ': JSON').join(',')}) {
-                      models {
-                      all: hits(first: 0) {
-                        total
-                      }
-                      ${variantNames.map(
-                        ({ safe }) => `${safe} : hits(filters: ${'$' + safe}, first: 0) {
-                          total
-                        }`,
-                      )}
-                      }
+    const data = get(variantsData, `data.models.hits.edges[0].node.variants.hits.edges`, [])
+      .map(({ node }) => node)
+      .filter(node => node.type && node.type.toLowerCase() === type.toLowerCase());
+
+    const variantNames = uniqBy(
+      data.map(({ name }) => ({ name, safe: name.replace(/ |-|\.|\(|\)/g, '') })),
+      ({ name }) => name,
+    );
+
+    const freqsData = variantNames.length
+      ? await api({
+          endpoint: `/${globals.VERSION}/graphql`,
+          body: {
+            query: `query(${variantNames.map(({ safe }) => '$' + safe + ': JSON').join(',')}) {
+                    models {
+                    all: hits(first: 0) {
+                      total
                     }
-                  `,
-              variables: variantNames.reduce(
-                (acc, { name, safe }) => ({
-                  ...acc,
-                  [safe]: {
-                    op: 'in',
-                    content: { field: 'variants.name', value: name },
-                  },
-                }),
-                {},
-              ),
-            },
-          })
-        : { data: { models: [] } };
-      const freqs = Object.keys(freqsData.data.models).reduce(
-        (acc, key) => ({
-          ...acc,
-          [variantNames.reduce(
-            (found, { name, safe }) => (safe === key ? name : found),
-            '',
-          )]: freqsData.data.models[key].total,
-        }),
-        {},
-      );
-      const dataWithFreqs = data.map(d => ({
-        ...d,
-        genes: (d.genes || '').join(', '),
-        frequency: {
-          display: (
-            <div
-              css={`
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-              `}
-            >
-              <Link
-                style={{ display: 'inline-block', width: '23px' }}
-                to={{
-                  pathname: '/',
-                  search: stringify({
-                    sqon: JSON.stringify({
-                      op: 'and',
-                      content: [
-                        {
-                          op: 'in',
-                          content: { field: 'variants.name', value: d.name },
-                        },
-                      ],
-                    }),
-                  }),
-                }}
-              >
-                {get(freqs, d.name, 0)}
-              </Link>
-              <SparkMeter
-                width={47}
-                percentage={get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)}
-              />
-              {((get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)) * 100).toFixed(
-                2,
-              )}
-              %
-            </div>
-          ),
-          export: `${(
-            (get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)) *
-            100
-          ).toFixed(2)}%`,
-          raw: get(freqs, d.name, 0),
-        },
-      }));
-      setState({
-        data: dataWithFreqs,
-        loading: false,
-        filteredData: dataWithFreqs,
-        pageSize: 10,
-        page: 0,
-      });
-      return dataWithFreqs;
-    }}
-  >
-    {({
-      state,
-      setState,
-      props: { type },
-      from = state.page * state.pageSize + 1,
-      to = state.page * state.pageSize + state.pageSize,
-      sortedData = state.filteredData.slice().sort((a, b) => b.frequency.raw - a.frequency.raw),
-    }) => (
-      <Col css={searchStyles}>
-        {state.data && state.data.length > 0 ? (
-          <Row className="toolbar" justifyContent="space-between">
-            <div>
-              {!state.loading &&
-                `Showing ${from} - ${to <= sortedData.length ? to : sortedData.length} of
-            ${sortedData.length} Variants`}
-            </div>
-            <Row justifyContent="flex-end">
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  overflow: 'hidden',
-                }}
-                className="inputWrapper"
-              >
-                <span className="inputIcon">
-                  <FilterIcon height={16} width={16} />
-                </span>
-                <input
-                  type="text"
-                  placeholder="Filter"
-                  value={state.filterValue}
-                  onChange={({ target: { value } }) => {
-                    setState({
-                      filterValue: value,
-                    });
-                  }}
-                  style={{
-                    border: 'none',
-                    flex: 1,
-                  }}
-                />
-              </div>
+                    ${variantNames.map(
+                      ({ safe }) => `${safe} : hits(filters: ${'$' + safe}, first: 0) {
+                        total
+                      }`,
+                    )}
+                    }
+                  }
+                `,
+            variables: variantNames.reduce(
+              (acc, { name, safe }) => ({
+                ...acc,
+                [safe]: {
+                  op: 'in',
+                  content: { field: 'variants.name', value: name },
+                },
+              }),
+              {},
+            ),
+          },
+        })
+      : { data: { models: [] } };
 
-              <button
-                disabled={sortedData.length === 0}
-                style={{ marginLeft: '8px' }}
-                onClick={() => tsvDownloader(`${modelName}-${type}`, state.filteredData)}
-              >
-                <DownloadIcon height={12} width={12} fill={'#000'} />
-                TSV
-              </button>
-            </Row>
+    const freqs = Object.keys(freqsData.data.models).reduce(
+      (acc, key) => ({
+        ...acc,
+        [variantNames.reduce(
+          (found, { name, safe }) => (safe === key ? name : found),
+          '',
+        )]: freqsData.data.models[key].total,
+      }),
+      {},
+    );
+
+    const dataWithFreqs = data.map(d => ({
+      ...d,
+      genes: (d.genes || '').join(', '),
+      frequency: {
+        display: (
+          <div
+            css={`
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+            `}
+          >
+            <Link
+              style={{ display: 'inline-block', width: '23px' }}
+              to={{
+                pathname: '/',
+                search: stringify({
+                  sqon: JSON.stringify({
+                    op: 'and',
+                    content: [
+                      {
+                        op: 'in',
+                        content: { field: 'variants.name', value: d.name },
+                      },
+                    ],
+                  }),
+                }),
+              }}
+            >
+              {get(freqs, d.name, 0)}
+            </Link>
+            <SparkMeter
+              width={47}
+              percentage={get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)}
+            />
+            {((get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)) * 100).toFixed(
+              2,
+            )}
+            %
+          </div>
+        ),
+        export: `${(
+          (get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)) *
+          100
+        ).toFixed(2)}%`,
+        raw: get(freqs, d.name, 0),
+      },
+    }));
+
+    setData(dataWithFreqs);
+    setLoading(false);
+    setFilteredData(dataWithFreqs);
+    setPageSize(10);
+    setPage(0);
+
+    return dataWithFreqs;
+  };
+
+  const getData = async () => {
+    await fetchData();
+  };
+
+  useEffect(() => {
+    getData();
+  }, [type, modelName]);
+
+  useEffect(() => {
+    // using a ref to mimic 'componentDidUpdate' behaviour (avoids running this on initial mount)
+    if (didMountRef.current && data) {
+      const filteredData = data.filter(
+        d =>
+          Object.values(d)
+            .filter(d => typeof d === 'string')
+            .map(d => d.toLowerCase().includes(filterValue.toLowerCase()))
+            .filter(v => v).length > 0,
+      );
+
+      setFilteredData(filteredData);
+      setPageSize(filteredData.length > 10 ? 10 : filteredData.length);
+    } else {
+      didMountRef.current = true;
+    }
+  }, [filterValue]);
+
+  return (
+    <Col css={searchStyles}>
+      {data && data.length > 0 ? (
+        <Row className="toolbar" justifyContent="space-between">
+          <div>
+            {!loading &&
+              `Showing ${from} - ${to <= sortedData.length ? to : sortedData.length} of
+          ${sortedData.length} Variants`}
+          </div>
+          <Row justifyContent="flex-end">
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                overflow: 'hidden',
+              }}
+              className="inputWrapper"
+            >
+              <span className="inputIcon">
+                <FilterIcon height={16} width={16} />
+              </span>
+              <input
+                type="text"
+                placeholder="Filter"
+                value={filterValue}
+                onChange={({ target: { value } }) => {
+                  setFilterValue(value);
+                }}
+                style={{
+                  border: 'none',
+                  flex: 1,
+                }}
+              />
+            </div>
+
+            <button
+              disabled={sortedData.length === 0}
+              style={{ marginLeft: '8px' }}
+              onClick={() => tsvDownloader(`${modelName}-${type}`, filteredData)}
+            >
+              <DownloadIcon height={12} width={12} fill={'#000'} />
+              TSV
+            </button>
           </Row>
-        ) : null}
-        {sortedData.length === 0 ? (
+        </Row>
+      ) : null}
+      <div css={searchStyles}>
+        <ReactTable
+          className="-striped"
+          css={sortedData.length === 0 && visuallyHidden}
+          data={sortedData}
+          columns={columns}
+          loading={loading}
+          showPagination={sortedData.length > 10}
+          defaultPageSize={pageSize}
+          minRows={0}
+          page={page}
+          PaginationComponent={props => {
+            setPageSize(props.pageSize);
+            setPage(props.page);
+            return <CustomPagination {...props} maxPagesOptions={10} />;
+          }}
+          onPageChange={newPage => setPage(newPage)}
+        />
+        {sortedData.length === 0 && (
           <div
             className="model-details model-details--empty"
             css={`
@@ -274,36 +295,11 @@ const VariantTable = ({ type, modelName, columns }) => (
             <VariantsIcon fill={'#b2b7c1'} height={30} width={30} />
             <p className="model-details__empty-message">No variants available.</p>
           </div>
-        ) : (
-          <div css={searchStyles}>
-            <ReactTable
-              className="-striped"
-              data={sortedData}
-              columns={columns}
-              loading={state.loading}
-              showPagination={sortedData.length > 10}
-              defaultPageSize={state.pageSize}
-              minRows={0}
-              page={state.page}
-              PaginationComponent={props => {
-                setState({
-                  pageSize: props.pageSize,
-                  page: props.page,
-                });
-                return <CustomPagination {...props} maxPagesOptions={10} />;
-              }}
-              onPageChange={newPage => {
-                setState({
-                  page: newPage,
-                });
-              }}
-            />
-          </div>
         )}
-      </Col>
-    )}
-  </Component>
-);
+      </div>
+    </Col>
+  );
+});
 
 const renderTable = (activeTab, modelName) => {
   switch (activeTab) {
