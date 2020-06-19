@@ -10,14 +10,15 @@ import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPa
 import SparkMeter from 'components/SparkMeter';
 import TabGroup from 'components/layout/VerticalTabs';
 
-import FilterIcon from 'icons/FilterIcon';
 import DownloadIcon from 'icons/DownloadIcon';
+import FilterIcon from 'icons/FilterIcon';
 import VariantsIcon from 'icons/VariantsIcon';
+import XIcon from 'icons/XIcon';
 
+import { visuallyHidden } from 'theme';
 import searchStyles from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
 import { Tab, TabHeading, variantTab, variantTabActive } from 'theme/verticalTabStyles';
-import { visuallyHidden } from 'theme';
 
 import globals from 'utils/globals';
 import tsvDownloader from 'utils/tsvDownloader';
@@ -233,6 +234,7 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 overflow: 'hidden',
+                position: 'relative',
               }}
               className="inputWrapper"
             >
@@ -251,6 +253,37 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
                   flex: 1,
                 }}
               />
+              {filterValue && filterValue.length > 0 && (
+                <button
+                  className="inputIcon"
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    margin: '0 6px 0 0',
+                    padding: 0,
+                    border: 'none',
+                    height: 'unset',
+                    width: 'unset',
+                  }}
+                  onClick={e => {
+                    e.preventDefault();
+                    setFilterValue('');
+                  }}
+                >
+                  <XIcon
+                    height={16}
+                    width={16}
+                    fill={'#64666a'}
+                    style={{
+                      margin: 0,
+                      padding: '4px',
+                      border: '1px solid #64666a',
+                      borderRadius: '100%',
+                      cursor: 'pointer',
+                    }}
+                  />
+                </button>
+              )}
             </div>
 
             <button
