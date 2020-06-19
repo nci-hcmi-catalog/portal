@@ -12,8 +12,13 @@ if (!pm2Env) {
   throw new Error('No ENV value provided!');
 }
 const pm2Config = require(pm2Path);
-const pm2 =
+const pm2ConfigGeneric =
+  (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0].env) || {};
+const pm2ConfigForEnv =
   (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0][`env_${pm2Env}`]) || {};
+
+const pm2 = { ...pm2ConfigGeneric, ...pm2ConfigForEnv };
+
 module.exports.config = pm2;
 
 /** Search index settings and mappings **/
