@@ -9,6 +9,7 @@ module.exports = {
       script: 'index.js',
       env: {
         PORT: 8080,
+        ES_UPDATE_INDEX: 'hcmi-update',
       },
       env_dev: {
         NODE_ENV: 'dev',
@@ -34,7 +35,6 @@ module.exports = {
         MONGO_USER_COLLECTION: 'users',
         MONGODB_URI: 'mongodb://localhost:27017/hcmi',
         ES_INDEX: 'hcmi',
-        ES_UPDATE_INDEX: 'hcmi-update',
         ES_HOST: 'http://localhost',
         ES_PORT: 9200,
         ES_API_VERSION: 6.1,
