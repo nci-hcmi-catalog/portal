@@ -1,316 +1,212 @@
-import React, { useState } from 'react';
-import { get, isEqual, uniqBy } from 'lodash';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ReactTable from 'react-table';
-import Component from 'react-component-component';
-import { Link } from 'react-router-dom';
-import { stringify } from 'query-string';
 
-import { api } from '@arranger/components';
 import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
 
-import SparkMeter from 'components/SparkMeter';
 import TabGroup from 'components/layout/VerticalTabs';
 
-import FilterIcon from 'icons/FilterIcon';
 import DownloadIcon from 'icons/DownloadIcon';
+import FilterIcon from 'icons/FilterIcon';
 import VariantsIcon from 'icons/VariantsIcon';
+import XIcon from 'icons/XIcon';
+
+import { useVariants } from 'providers/Variants';
 
 import searchStyles from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
 import { Tab, TabHeading, variantTab, variantTabActive } from 'theme/verticalTabStyles';
+import { visuallyHidden } from 'theme';
 
-import globals from 'utils/globals';
 import tsvDownloader from 'utils/tsvDownloader';
 
-const VariantTable = ({ type, modelName, columns }) => (
-  <Component
-    initialState={{
-      data: [],
-      loading: false,
-      filterValue: '',
-      filteredData: [],
-      page: 0,
-      pageSize: 10,
-    }}
-    type={type}
-    modelName={modelName}
-    didMount={async ({ props: { fetchData }, setState }) => {
-      await fetchData({ setState });
-    }}
-    shouldUpdate={({ props, nextProps, state, nextState }) => {
-      return (
-        props.type !== nextProps.type ||
-        props.modelName !== nextProps.modelName ||
-        !isEqual(state, nextState)
-      );
-    }}
-    didUpdate={async ({ props: { type, fetchData }, setState, prevProps, prevState, state }) => {
-      if (type !== prevProps.type || modelName !== prevProps.modelName) {
-        await fetchData({ setState });
-      }
-      if (state.filterValue !== prevState.filterValue) {
-        const filteredData = state.data.filter(
-          d =>
-            Object.values(d)
-              .filter(d => typeof d === 'string')
-              .map(d => d.toLowerCase().includes(state.filterValue.toLowerCase()))
-              .filter(v => v).length > 0,
-        );
+const VARIANT_TYPES = {
+  clinical: 'clinical',
+  histopathological: 'histopathological biomarker',
+  genomic: 'genomic_sequencing',
+};
 
-        setState({
-          filteredData,
-          pageSize: filteredData.lenth > 10 ? 10 : filteredData.length,
-        });
-      }
-    }}
-    fetchData={async ({ setState }) => {
-      setState({ data: [], loading: true });
-      const variantsData = await api({
-        endpoint: `/${globals.VERSION}/graphql`,
-        body: {
-          query: `query($modelsSqon: JSON) {
-                      models {
-                        hits(filters: $modelsSqon, first: 1) {
-                          edges {
-                            node {
-                            name
-                              variants {
-                                hits {
-                                  edges {
-                                    node {
-                                      name
-                                      category
-                                      assessment_type
-                                      type
-                                      expression_level
-                                      genes
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  `,
-          variables: {
-            modelsSqon: { op: 'in', content: { field: 'name', value: modelName } },
-          },
-        },
-      });
-      const data = get(variantsData, `data.models.hits.edges[0].node.variants.hits.edges`, [])
-        .map(({ node }) => node)
-        .filter(node => node.type && node.type.toLowerCase() === type.toLowerCase());
+const VariantTable = React.memo(({ type, modelName, columns }) => {
+  const {
+    data,
+    filteredData,
+    loading,
+    page,
+    pageSize,
+    setData,
+    setFilteredData,
+    setLoading,
+    setPage,
+    setPageSize,
+    fetchData,
+    sortFilteredData,
+  } = useVariants();
+  const didMountRef = useRef(false);
+  const [filterValue, setFilterValue] = useState('');
 
-      const variantNames = uniqBy(
-        data.map(({ name }) => ({ name, safe: name.replace(/ |-|\.|\(|\)/g, '') })),
-        ({ name }) => name,
+  const from = filteredData.length === 0 ? 0 : page * pageSize + 1;
+  const to = page * pageSize + pageSize;
+  const sortedData = useMemo(() => filteredData.slice().sort((a, b) => sortFilteredData(a, b)));
+
+  useEffect(() => {
+    const getData = async () => {
+      setData([]);
+      setLoading(true);
+
+      const dataWithFreqs = await fetchData({ modelName, type });
+
+      setData(dataWithFreqs);
+      setFilteredData(dataWithFreqs);
+      setLoading(false);
+      setPage(0);
+      setPageSize(10);
+    };
+
+    getData();
+  }, [type, modelName]);
+
+  useEffect(() => {
+    // using a ref to mimic 'componentDidUpdate' behaviour (avoids running this on initial mount)
+    if (didMountRef && didMountRef.current && data) {
+      const newFilteredData = data.filter(
+        d =>
+          Object.values(d)
+            .filter(d => typeof d === 'string')
+            .map(d => d.toLowerCase().includes(filterValue.toLowerCase()))
+            .filter(v => v).length > 0,
       );
-      const freqsData = variantNames.length
-        ? await api({
-            endpoint: `/${globals.VERSION}/graphql`,
-            body: {
-              query: `query(${variantNames.map(({ safe }) => '$' + safe + ': JSON').join(',')}) {
-                      models {
-                      all: hits(first: 0) {
-                        total
-                      }
-                      ${variantNames.map(
-                        ({ safe }) => `${safe} : hits(filters: ${'$' + safe}, first: 0) {
-                          total
-                        }`,
-                      )}
-                      }
-                    }
-                  `,
-              variables: variantNames.reduce(
-                (acc, { name, safe }) => ({
-                  ...acc,
-                  [safe]: {
-                    op: 'in',
-                    content: { field: 'variants.name', value: name },
-                  },
-                }),
-                {},
-              ),
-            },
-          })
-        : { data: { models: [] } };
-      const freqs = Object.keys(freqsData.data.models).reduce(
-        (acc, key) => ({
-          ...acc,
-          [variantNames.reduce(
-            (found, { name, safe }) => (safe === key ? name : found),
-            '',
-          )]: freqsData.data.models[key].total,
-        }),
-        {},
-      );
-      const dataWithFreqs = data.map(d => ({
-        ...d,
-        genes: (d.genes || '').join(', '),
-        frequency: {
-          display: (
+
+      setFilteredData(newFilteredData);
+      setPageSize(newFilteredData.length > 10 ? 10 : newFilteredData.length);
+    } else {
+      didMountRef.current = true;
+    }
+  }, [filterValue]);
+
+  return (
+    <Col css={searchStyles}>
+      {data && data.length > 0 ? (
+        <Row className="toolbar" justifyContent="space-between">
+          <div>
+            {!loading &&
+              `Showing ${from} - ${to <= sortedData.length ? to : sortedData.length} of
+          ${sortedData.length} Variants`}
+          </div>
+          <Row justifyContent="flex-end">
             <div
-              css={`
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-              `}
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                overflow: 'hidden',
+                position: 'relative',
+              }}
+              className="inputWrapper"
             >
-              <Link
-                style={{ display: 'inline-block', width: '23px' }}
-                to={{
-                  pathname: '/',
-                  search: stringify({
-                    sqon: JSON.stringify({
-                      op: 'and',
-                      content: [
-                        {
-                          op: 'in',
-                          content: { field: 'variants.name', value: d.name },
-                        },
-                      ],
-                    }),
-                  }),
+              <span className="inputIcon">
+                <FilterIcon height={16} width={16} />
+              </span>
+              <input
+                type="text"
+                placeholder="Filter"
+                value={filterValue}
+                onChange={({ target: { value } }) => {
+                  setFilterValue(value);
                 }}
-              >
-                {get(freqs, d.name, 0)}
-              </Link>
-              <SparkMeter
-                width={47}
-                percentage={get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)}
-              />
-              {((get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)) * 100).toFixed(
-                2,
-              )}
-              %
-            </div>
-          ),
-          export: `${(
-            (get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)) *
-            100
-          ).toFixed(2)}%`,
-          raw: get(freqs, d.name, 0),
-        },
-      }));
-      setState({
-        data: dataWithFreqs,
-        loading: false,
-        filteredData: dataWithFreqs,
-        pageSize: 10,
-        page: 0,
-      });
-      return dataWithFreqs;
-    }}
-  >
-    {({
-      state,
-      setState,
-      props: { type },
-      from = state.page * state.pageSize + 1,
-      to = state.page * state.pageSize + state.pageSize,
-      sortedData = state.filteredData.slice().sort((a, b) => b.frequency.raw - a.frequency.raw),
-    }) => (
-      <Col css={searchStyles}>
-        {state.data && state.data.length > 0 ? (
-          <Row className="toolbar" justifyContent="space-between">
-            <div>
-              {!state.loading &&
-                `Showing ${from} - ${to <= sortedData.length ? to : sortedData.length} of
-            ${sortedData.length} Variants`}
-            </div>
-            <Row justifyContent="flex-end">
-              <div
                 style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  overflow: 'hidden',
+                  border: 'none',
+                  flex: 1,
                 }}
-                className="inputWrapper"
-              >
-                <span className="inputIcon">
-                  <FilterIcon height={16} width={16} />
-                </span>
-                <input
-                  type="text"
-                  placeholder="Filter"
-                  value={state.filterValue}
-                  onChange={({ target: { value } }) => {
-                    setState({
-                      filterValue: value,
-                    });
-                  }}
+              />
+              {filterValue && filterValue.length > 0 && (
+                <button
+                  className="inputIcon"
                   style={{
+                    position: 'absolute',
+                    right: 0,
+                    margin: '0 6px 0 0',
+                    padding: 0,
                     border: 'none',
-                    flex: 1,
+                    height: 'unset',
+                    width: 'unset',
                   }}
-                />
-              </div>
+                  onClick={e => {
+                    e.preventDefault();
+                    setFilterValue('');
+                  }}
+                >
+                  <XIcon
+                    height={16}
+                    width={16}
+                    fill={'#64666a'}
+                    style={{
+                      margin: 0,
+                      padding: '4px',
+                      border: '1px solid #64666a',
+                      borderRadius: '100%',
+                      cursor: 'pointer',
+                    }}
+                  />
+                </button>
+              )}
+            </div>
 
-              <button
-                disabled={sortedData.length === 0}
-                style={{ marginLeft: '8px' }}
-                onClick={() => tsvDownloader(`${modelName}-${type}`, state.filteredData)}
-              >
-                <DownloadIcon height={12} width={12} fill={'#000'} />
-                TSV
-              </button>
-            </Row>
+            <button
+              disabled={sortedData.length === 0}
+              style={{ marginLeft: '8px' }}
+              onClick={() => tsvDownloader(`${modelName}-${type}`, filteredData)}
+            >
+              <DownloadIcon height={12} width={12} fill={'#000'} />
+              TSV
+            </button>
           </Row>
-        ) : null}
-        {sortedData.length === 0 ? (
+        </Row>
+      ) : null}
+      <div css={searchStyles}>
+        <ReactTable
+          className="-striped"
+          css={sortedData.length === 0 && visuallyHidden}
+          data={sortedData}
+          columns={columns}
+          loading={loading}
+          showPagination={sortedData.length > 10}
+          defaultPageSize={pageSize}
+          minRows={0}
+          page={page}
+          PaginationComponent={props => {
+            setPageSize(props.pageSize);
+            setPage(props.page);
+            return <CustomPagination {...props} maxPagesOptions={10} />;
+          }}
+          onPageChange={newPage => setPage(newPage)}
+        />
+        {sortedData.length === 0 && (
           <div
             className="model-details model-details--empty"
-            css={`
-              position: absolute;
-              width: 100%;
-              left: 0;
-              z-index: -1;
-            `}
+            style={{
+              position: 'absolute',
+              width: '100%',
+              left: 0,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: -1,
+            }}
           >
             <VariantsIcon fill={'#b2b7c1'} height={30} width={30} />
             <p className="model-details__empty-message">No variants available.</p>
           </div>
-        ) : (
-          <div css={searchStyles}>
-            <ReactTable
-              className="-striped"
-              data={sortedData}
-              columns={columns}
-              loading={state.loading}
-              showPagination={sortedData.length > 10}
-              defaultPageSize={state.pageSize}
-              minRows={0}
-              page={state.page}
-              PaginationComponent={props => {
-                setState({
-                  pageSize: props.pageSize,
-                  page: props.page,
-                });
-                return <CustomPagination {...props} maxPagesOptions={10} />;
-              }}
-              onPageChange={newPage => {
-                setState({
-                  page: newPage,
-                });
-              }}
-            />
-          </div>
         )}
-      </Col>
-    )}
-  </Component>
-);
+      </div>
+    </Col>
+  );
+});
 
 const renderTable = (activeTab, modelName) => {
   switch (activeTab) {
-    case 'clinical':
+    case VARIANT_TYPES.clinical:
       return (
         <VariantTable
           modelName={modelName}
+          type={VARIANT_TYPES.clinical}
           columns={[
             {
               show: true,
@@ -353,14 +249,13 @@ const renderTable = (activeTab, modelName) => {
               Header: 'Frequency',
             },
           ]}
-          type="clinical"
         />
       );
-    case 'histopathological':
+    case VARIANT_TYPES.histopathological:
       return (
         <VariantTable
           modelName={modelName}
-          type="histopathological biomarker"
+          type={VARIANT_TYPES.histopathological}
           columns={[
             {
               show: true,
@@ -415,11 +310,11 @@ const renderTable = (activeTab, modelName) => {
           ]}
         />
       );
-    case 'genomic':
+    case VARIANT_TYPES.genomic:
       return (
         <VariantTable
           modelName={modelName}
-          type="genomic_sequencing"
+          type={VARIANT_TYPES.genomic}
           columns={[
             {
               show: true,
@@ -470,7 +365,26 @@ const renderTable = (activeTab, modelName) => {
 };
 
 export default ({ modelName }) => {
-  const [activeTab, setActiveTab] = useState('clinical');
+  const [activeTab, setActiveTab] = useState(VARIANT_TYPES.clinical);
+  const { fetchData } = useVariants();
+
+  useEffect(() => {
+    const checkClinicalVariants = async () => {
+      const clinicalVariants = await fetchData({
+        modelName,
+        type: VARIANT_TYPES.clinical,
+      });
+
+      if (clinicalVariants.length > 0) {
+        setActiveTab(VARIANT_TYPES.clinical);
+      } else {
+        setActiveTab(VARIANT_TYPES.histopathological);
+      }
+    };
+
+    checkClinicalVariants();
+  }, [modelName]);
+
   return (
     <Row
       css={`
@@ -478,21 +392,29 @@ export default ({ modelName }) => {
       `}
     >
       <TabGroup width={171}>
-        <Tab active={activeTab === 'clinical'} onClick={() => setActiveTab('clinical')}>
-          <TabHeading css={activeTab === 'clinical' ? variantTabActive : variantTab}>
+        <Tab
+          active={activeTab === VARIANT_TYPES.clinical}
+          onClick={() => setActiveTab(VARIANT_TYPES.clinical)}
+        >
+          <TabHeading css={activeTab === VARIANT_TYPES.clinical ? variantTabActive : variantTab}>
             Clinical Sequencing
           </TabHeading>
         </Tab>
         <Tab
-          active={activeTab === 'histopathological'}
-          onClick={() => setActiveTab('histopathological')}
+          active={activeTab === VARIANT_TYPES.histopathological}
+          onClick={() => setActiveTab(VARIANT_TYPES.histopathological)}
         >
-          <TabHeading css={activeTab === 'histopathological' ? variantTabActive : variantTab}>
+          <TabHeading
+            css={activeTab === VARIANT_TYPES.histopathological ? variantTabActive : variantTab}
+          >
             Histopathological Biomarkers
           </TabHeading>
         </Tab>
-        <Tab active={activeTab === 'genomic'} onClick={() => setActiveTab('genomic')}>
-          <TabHeading css={activeTab === 'genomic' ? variantTabActive : variantTab}>
+        <Tab
+          active={activeTab === VARIANT_TYPES.genomic}
+          onClick={() => setActiveTab(VARIANT_TYPES.genomic)}
+        >
+          <TabHeading css={activeTab === VARIANT_TYPES.genomic ? variantTabActive : variantTab}>
             Genomic Sequencing
           </TabHeading>
         </Tab>

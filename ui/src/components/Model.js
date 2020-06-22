@@ -1,26 +1,30 @@
 import React from 'react';
 import { get } from 'lodash';
-import Spinner from 'react-spinkit';
 import { Link } from 'react-router-dom';
+import Spinner from 'react-spinkit';
 
 import ModelQuery from 'components/queries/ModelQuery';
-import modelImageProcessor from 'utils/modelImageProcessor';
-import apiDataProcessor from 'utils/apiDataProcessor';
-import { imgPath } from 'utils/constants';
 import ModelBar from 'components/ModelBar';
 import ModelCarouselBar from 'components/ModelCarouselBar';
+import VariantTables from 'components/VariantTables';
 
-import { Row, Col } from 'theme/system';
-import styles from 'theme/modelStyles';
-import { ModelSlider, ModelSlide, LeftArrow, RightArrow } from 'theme/carouselStyles';
 import CameraIcon from 'icons/CameraIcon';
 import CheckmarkIcon from 'icons/CheckmarkIcon';
 import ExternalLinkIcon from 'icons/ExternalLinkIcon';
 import ModelIcon from 'icons/ModelIcon';
 import ShoppingCartIcon from 'icons/ShoppingCartIcon';
 import XIcon from 'icons/XIcon';
-import VariantTables from 'components/VariantTables';
+
+import { VariantsProvider } from 'providers/Variants';
+
+import { ModelSlider, ModelSlide, LeftArrow, RightArrow } from 'theme/carouselStyles';
+import styles from 'theme/modelStyles';
+import { Row, Col } from 'theme/system';
 import base from 'theme';
+
+import modelImageProcessor from 'utils/modelImageProcessor';
+import apiDataProcessor from 'utils/apiDataProcessor';
+import { imgPath } from 'utils/constants';
 
 const {
   keyedPalette: { bombay, brandPrimary, pelorousapprox, white },
@@ -130,22 +134,29 @@ const MolecularCharacterizationsCell = ({ isAvailable }) => {
       title="Available"
     />
   ) : (
-    <XIcon width={10} height={10} title="Not Available" />
+    <XIcon
+      width={18}
+      height={18}
+      title="Not Available"
+      style={`
+        padding: 4px;
+      `}
+    />
   );
 };
 
 const MolecularCharacterizationsTable = ({ characterizations }) => {
   const CHARS = ['WGS', 'WXS', 'Targeted-seq', 'RNA-seq'];
-  const TYPES = ['parent tumor', 'normal', 'model'];
+  const TYPES = ['model', 'parent tumor', 'normal'];
 
   return (
     <table className="molecular-characterizations-table">
       <tbody>
         <tr>
           <th />
+          <th>Model</th>
           <th>Tumor</th>
           <th>Normal</th>
-          <th>Model</th>
         </tr>
         {CHARS.map(characterization => (
           <tr key={characterization}>
@@ -306,13 +317,16 @@ export default ({ modelName }) => (
                     <h3 className="model-section__card-title">
                       Model Images ({(modelImages && modelImages.length) || '0'})
                     </h3>
-                    {modelImages ? (
+                    {modelImages && modelImages.length ? (
                       <ModelSlider
                         LeftArrow={<LeftArrow />}
                         RightArrow={<RightArrow />}
                         autoSlide={false}
                         showDots={false}
                         cardsToShow={1}
+                        // adding a key to force re-render of the slider
+                        // ensures arrow buttons are present when needed
+                        key={`model-slider-${modelImages.length}`}
                       >
                         {modelImages.map(
                           ({
@@ -390,7 +404,9 @@ export default ({ modelName }) => (
               <Col>
                 <div className="model-section__card">
                   <h3 className="model-section__card-title">Variants</h3>
-                  <VariantTables modelName={modelName} />
+                  <VariantsProvider>
+                    <VariantTables modelName={modelName} />
+                  </VariantsProvider>
                 </div>
               </Col>
             </section>

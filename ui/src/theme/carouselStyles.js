@@ -16,11 +16,10 @@ export const ModelSlide = styled('div')`
 
   > img {
     display: block;
-    height: 100%;
-    width: 100%;
+    height: 220px;
+    width: auto;
     object-fit: contain;
     margin: 0 auto;
-    max-height: 220px;
   }
 `;
 

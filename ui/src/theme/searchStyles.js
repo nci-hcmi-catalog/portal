@@ -321,8 +321,12 @@ export default css`
 
   .sqon-view {
     border: none;
-    padding: 4px 19px 14px;
+    padding: 4px 19px 12px;
     flex: 1;
+
+    .sqon-group > * {
+      margin-top: 8px;
+    }
   }
 
   .sqon-value {

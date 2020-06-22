@@ -82,7 +82,7 @@ export default ({
               background-color: #f6f6f8;
               border: 1px solid #d9d9df;
               align-items: center;
-              min-height: 45px;
+              min-height: 50px;
             `}
           >
             {!sqon && (
