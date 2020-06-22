@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Field } from 'formik';
 
 import { ModelSingleContext } from './ModelSingleController';
@@ -83,6 +83,7 @@ const MatchedModelsFormComponent = ({
   modelsData,
   addMatchedModel,
 }) => {
+  const [warning, setWarning] = useState(false);
   const fetchMatchedModels = async selectedName => {
     const selected = modelsData.find(model => model.name === selectedName);
 
@@ -119,12 +120,16 @@ const MatchedModelsFormComponent = ({
               errorText="No existing model with the given name"
               component={FormAutoComplete}
               clearable={true}
+              warning={warning}
+              warningText={'Warning: the model you are linking to is from a different center.'}
               onSelect={async value => {
                 if (value) {
                   const response = await fetchMatchedModels(value);
                   setMatchedModels(response);
+                  setWarning(currentModel.split('-')[1] !== value.split('-')[1]);
                 } else {
                   setMatchedModels([]);
+                  setWarning(false);
                 }
               }}
             />
