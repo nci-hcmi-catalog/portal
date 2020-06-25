@@ -108,9 +108,11 @@ const base = {
     graySuit: '#b9b5c6',
     crimson: '#cd0d32',
     goldenGlow: '#feda97',
+    cinnabar: '#ed494c',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',
+    brandPrimary80: 'rgba(144,0,0,0.8)',
     brandPrimary20: 'rgba(144,0,0,0.2)',
     yellowOrange20: 'rgba(253,171,64,0.2)',
     white70: 'rgba(255,255,255, 0.7)',

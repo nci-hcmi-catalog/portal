@@ -8,13 +8,13 @@ import { whiteHover } from 'theme/hoverStyles';
 
 const {
   fonts: { openSans },
-  transparency: { brandPrimary70 },
-  keyedPalette: { athensGray, black, bombay, brandPrimary, valencia, porcelain },
+  transparency: { brandPrimary80 },
+  keyedPalette: { athensGray, black, bombay, brandPrimary, cinnabar, valencia, porcelain },
   buttons: { pillBase },
 } = base;
 
-const navBackgroundColour = brandPrimary70;
-const navOnState = valencia;
+const navBackgroundColour = brandPrimary80;
+const navOnState = cinnabar;
 
 export const AdminNav = styled(Row)`
   font-family: ${openSans};
