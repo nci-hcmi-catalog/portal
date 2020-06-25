@@ -7,7 +7,7 @@ const {
   keyedPalette: { brandPrimary, lightPorcelain, porcelain, white, mineShaft },
 } = base;
 
-const bkgColour = lightPorcelain;
+const bkgColour = white;
 const borderColour = porcelain;
 
 export const AdminMain = styled(Row)`
