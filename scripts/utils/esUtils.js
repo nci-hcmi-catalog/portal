@@ -1,10 +1,10 @@
 const es = require('@elastic/elasticsearch');
 
 /** Arranger metadatas: **/
-const aggsState = require('./arranger_metadata/aggs-state.json');
-const columnsState = require('./arranger_metadata/columns-state.json');
-const extended = require('./arranger_metadata/extended.json');
-const matchboxState = require('./arranger_metadata/matchbox-state.json');
+const aggsState = require('../../elasticsearch/arranger_metadata/aggs-state.json');
+const columnsState = require('../../elasticsearch/arranger_metadata/columns-state.json');
+const extended = require('../../elasticsearch/arranger_metadata/extended.json');
+const matchboxState = require('../../elasticsearch/arranger_metadata/matchbox-state.json');
 
 const pm2Path = process.env.CMS_CONFIG || '../cms/pm2.config.js';
 const pm2Env = process.env.ENV;
@@ -22,7 +22,7 @@ const pm2 = { ...pm2ConfigGeneric, ...pm2ConfigForEnv };
 module.exports.config = pm2;
 
 /** Search index settings and mappings **/
-const indexSetup = require('./searchIndex.json');
+const indexSetup = require('../../elasticsearch/modelsIndex.json');
 const searchIndex = process.env.ES_INDEX || pm2.ES_INDEX || 'hcmi';
 const arrangerProject = process.env.PROJECT_ID || pm2.ES_INDEX || 'hcmi';
 const esHost = process.env.ES_HOST || `${pm2.ES_HOST}:${pm2.ES_PORT}`;

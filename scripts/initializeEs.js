@@ -1,4 +1,4 @@
-const esUtils = require('./esUtils');
+const esUtils = require('./utils/esUtils');
 const run = async () => {
   /** initialize search index */
   await esUtils.createSearchIndex();

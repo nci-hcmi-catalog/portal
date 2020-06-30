@@ -653,6 +653,31 @@
   },
 
   {
+    "field": "genomic_variants",
+    "type": "nested",
+    "displayName": "Genomic Variants",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "variants.type",
+    "type": "keyword",
+    "displayName": "Variants Type",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+
+  {
     "field": "autocomplete",
     "type": "text",
     "displayName": "Autocomplete",
