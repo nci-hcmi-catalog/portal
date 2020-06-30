@@ -12,14 +12,14 @@ require('@babel/register')({
   ],
 });
 const mongoose = require('mongoose');
-const { publishModel } = require('../cms/src/services/elastic-search/publish');
-const { ModelES } = require('../cms/src/services/elastic-search/common/schemas/model');
-require('../cms/src/schemas/variant');
-require('../cms/src/schemas/matchedModels');
+const { publishModel } = require('../../cms/src/services/elastic-search/publish');
+const { ModelES } = require('../../cms/src/services/elastic-search/common/schemas/model');
+require('../../cms/src/schemas/variant');
+require('../../cms/src/schemas/matchedModels');
 
-const { modelStatus } = require('../cms/src/helpers/modelStatus');
+const { modelStatus } = require('../../cms/src/helpers/modelStatus');
 
-const indexEsUpdate = require('../cms/src/services/elastic-search/update.js');
+const indexEsUpdate = require('../../cms/src/services/elastic-search/update.js');
 
 module.exports.republishModels = async () => {
   console.log('Connecting to MongoDB...');

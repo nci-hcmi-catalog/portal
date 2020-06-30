@@ -203,6 +203,54 @@
           }
         }
       },
+      "genes": { "type": "keyword" },
+      "genomic_variant_names": { "type": "keyword" },
+      "genomic_variants": {
+        "type": "nested",
+        "properties": {
+          "gene": {
+            "type": "keyword",
+            "copy_to": ["genes"]
+          },
+          "change": {
+            "type": "keyword"
+          },
+          "transcript_id": {
+            "type": "keyword"
+          },
+          "consequence_type": {
+            "type": "keyword"
+          },
+          "class": {
+            "type": "keyword"
+          },
+          "type": {
+            "type": "keyword"
+          },
+          "chromosome": {
+            "type": "keyword"
+          },
+          "start_position": {
+            "type": "keyword"
+          },
+          "end_position": {
+            "type": "keyword"
+          },
+          "specific_change": {
+            "type": "keyword"
+          },
+          "classification": {
+            "type": "keyword"
+          },
+          "id": {
+            "type": "keyword"
+          },
+          "name": {
+            "type": "keyword",
+            "copy_to": ["genomic_variant_names"]
+          }
+        }
+      },
       "vital_status": {
         "type": "keyword"
       }
