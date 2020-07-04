@@ -11,7 +11,6 @@ import {
   FormRadioSelect,
   FormMultiCheckbox,
   FormAutoComplete,
-  FormLabelHeader,
 } from 'components/FormComponents';
 import { FormContainer, FormHeader, FormSection, FormCol } from 'theme/adminFormStyles';
 import { schemaObj } from '@hcmi-portal/cms/src/schemas/descriptions/model';
@@ -148,7 +147,7 @@ const ModelFormTemplate = ({
         >
           <FormContainer>
             <TabHeader
-              title={`Model Name`}
+              title={`Model Admin`}
               updatedAt={
                 Object.keys(values).length > 0 && values[updatedAt.accessor]
                   ? values[updatedAt.accessor]
@@ -174,7 +173,7 @@ const ModelFormTemplate = ({
                   />
                 </FormComponent>
               </FormCol>
-              <FormCol>
+              <FormCol noBorder>
                 <MatchedModelsFormComponent
                   currentModel={values.name}
                   modelsData={otherModelOptions}
@@ -210,30 +209,6 @@ const ModelFormTemplate = ({
                 >
                   <Field name={growth_rate.accessor} component={FormInput} type="number" step={1} />
                 </FormComponent>
-
-                <FormComponent
-                  labelText={primary_site.displayName}
-                  description="Start typing for valid options"
-                >
-                  <Field
-                    name={primary_site.accessor}
-                    component={FormAutoComplete}
-                    options={primarySitesOptions}
-                    errorText="Values must match a predefined primary site"
-                  />
-                </FormComponent>
-
-                <FormComponent labelText={neoadjuvant_therapy.displayName}>
-                  <Field
-                    name={neoadjuvant_therapy.accessor}
-                    component={FormRadioSelect}
-                    options={neoadjuvantTherapyOptions}
-                  />
-                </FormComponent>
-
-                <FormComponent labelText={tnm_stage.displayName}>
-                  <Field name={tnm_stage.accessor} component={FormInput} />
-                </FormComponent>
               </FormCol>
 
               <FormCol>
@@ -244,78 +219,6 @@ const ModelFormTemplate = ({
                     options={molecularCharacterizationsOptions}
                   />
                 </FormComponent>
-
-                <FormComponent labelText={chemotherapeutic_drugs.displayName}>
-                  <Field
-                    name={chemotherapeutic_drugs.accessor}
-                    component={FormRadioSelect}
-                    options={booleanChoice}
-                  />
-                </FormComponent>
-
-                <FormComponent labelText={tissue_type.displayName}>
-                  <Field
-                    name={tissue_type.accessor}
-                    component={FormSelect}
-                    options={tissueTypesOptions}
-                  />
-                </FormComponent>
-
-                <FormComponent labelText={clinical_tumor_diagnosis.displayName}>
-                  <Field
-                    name={clinical_tumor_diagnosis.accessor}
-                    component={FormSelect}
-                    options={clinicalTumorDiagnosisOptions}
-                  />
-                </FormComponent>
-
-                <FormComponent labelText={site_of_sample_acquisition.displayName}>
-                  <Field
-                    name={site_of_sample_acquisition.accessor}
-                    component={FormSelect}
-                    disabled={isClinicalTumorDiagnosisSelected(values)}
-                    options={makeClinicalTumorDiagnosisDependentOptions(
-                      values.clinical_tumor_diagnosis,
-                      'site of sample acquisition',
-                    )}
-                  />
-                </FormComponent>
-
-                <FormComponent labelText={histological_type.displayName}>
-                  <Field
-                    name={histological_type.accessor}
-                    component={FormSelect}
-                    disabled={isClinicalTumorDiagnosisSelected(values)}
-                    options={makeClinicalTumorDiagnosisDependentOptions(
-                      values.clinical_tumor_diagnosis,
-                      'histological type',
-                    )}
-                  />
-                </FormComponent>
-
-                <FormComponent labelText={tumor_histological_grade.displayName}>
-                  <Field
-                    name={tumor_histological_grade.accessor}
-                    component={FormSelect}
-                    disabled={isClinicalTumorDiagnosisSelected(values)}
-                    options={makeClinicalTumorDiagnosisDependentOptions(
-                      values.clinical_tumor_diagnosis,
-                      'tumor histological grade',
-                    )}
-                  />
-                </FormComponent>
-
-                <FormComponent labelText={clinical_stage_grouping.displayName}>
-                  <Field
-                    name={clinical_stage_grouping.accessor}
-                    component={FormSelect}
-                    disabled={isClinicalTumorDiagnosisSelected(values)}
-                    options={makeClinicalTumorDiagnosisDependentOptions(
-                      values.clinical_tumor_diagnosis,
-                      'clinical stage grouping',
-                    )}
-                  />
-                </FormComponent>
               </FormCol>
             </FormSection>
 
@@ -324,6 +227,18 @@ const ModelFormTemplate = ({
             </FormHeader>
             <FormSection>
               <FormCol>
+                <FormComponent labelText={gender.displayName}>
+                  <Field
+                    name={gender.accessor}
+                    component={genderOptions.length > 5 ? FormSelect : FormRadioSelect}
+                    options={genderOptions}
+                  />
+                </FormComponent>
+
+                <FormComponent labelText={race.displayName}>
+                  <Field name={race.accessor} component={FormSelect} options={raceOptions} />
+                </FormComponent>
+
                 <FormComponent labelText={age_at_diagnosis.displayName}>
                   <Field
                     name={age_at_diagnosis.accessor}
@@ -342,6 +257,14 @@ const ModelFormTemplate = ({
                   />
                 </FormComponent>
 
+                <FormComponent labelText={disease_status.displayName}>
+                  <Field
+                    name={disease_status.accessor}
+                    component={FormRadioSelect}
+                    options={diseaseStatusOptions}
+                  />
+                </FormComponent>
+
                 <FormComponent labelText={vital_status.displayName}>
                   <Field
                     name={vital_status.accessor}
@@ -350,34 +273,110 @@ const ModelFormTemplate = ({
                   />
                 </FormComponent>
 
-                <FormComponent labelText={disease_status.displayName}>
+                <FormComponent labelText={neoadjuvant_therapy.displayName}>
                   <Field
-                    name={disease_status.accessor}
+                    name={neoadjuvant_therapy.accessor}
                     component={FormRadioSelect}
-                    options={diseaseStatusOptions}
+                    options={neoadjuvantTherapyOptions}
+                  />
+                </FormComponent>
+
+                <FormComponent labelText={chemotherapeutic_drugs.displayName}>
+                  <Field
+                    name={chemotherapeutic_drugs.accessor}
+                    component={FormRadioSelect}
+                    options={booleanChoice}
                   />
                 </FormComponent>
               </FormCol>
 
               <FormCol>
-                <FormComponent labelText={gender.displayName}>
-                  <Field
-                    name={gender.accessor}
-                    component={genderOptions.length > 5 ? FormSelect : FormRadioSelect}
-                    options={genderOptions}
-                  />
-                </FormComponent>
-
-                <FormComponent labelText={race.displayName}>
-                  <Field name={race.accessor} component={FormSelect} options={raceOptions} />
-                </FormComponent>
-
                 <FormComponent labelText={therapy.displayName}>
                   <Field
                     name={therapy.accessor}
                     component={FormMultiCheckbox}
                     options={therapyOptions}
                   />
+                </FormComponent>
+
+                <FormComponent labelText={clinical_tumor_diagnosis.displayName}>
+                  <Field
+                    name={clinical_tumor_diagnosis.accessor}
+                    component={FormSelect}
+                    options={clinicalTumorDiagnosisOptions}
+                  />
+                </FormComponent>
+
+                <FormComponent labelText={histological_type.displayName}>
+                  <Field
+                    name={histological_type.accessor}
+                    component={FormSelect}
+                    disabled={isClinicalTumorDiagnosisSelected(values)}
+                    options={makeClinicalTumorDiagnosisDependentOptions(
+                      values.clinical_tumor_diagnosis,
+                      'histological type',
+                    )}
+                  />
+                </FormComponent>
+
+                <FormComponent labelText={clinical_stage_grouping.displayName}>
+                  <Field
+                    name={clinical_stage_grouping.accessor}
+                    component={FormSelect}
+                    disabled={isClinicalTumorDiagnosisSelected(values)}
+                    options={makeClinicalTumorDiagnosisDependentOptions(
+                      values.clinical_tumor_diagnosis,
+                      'clinical stage grouping',
+                    )}
+                  />
+                </FormComponent>
+
+                <FormComponent labelText={tumor_histological_grade.displayName}>
+                  <Field
+                    name={tumor_histological_grade.accessor}
+                    component={FormSelect}
+                    disabled={isClinicalTumorDiagnosisSelected(values)}
+                    options={makeClinicalTumorDiagnosisDependentOptions(
+                      values.clinical_tumor_diagnosis,
+                      'tumor histological grade',
+                    )}
+                  />
+                </FormComponent>
+
+                <FormComponent labelText={site_of_sample_acquisition.displayName}>
+                  <Field
+                    name={site_of_sample_acquisition.accessor}
+                    component={FormSelect}
+                    disabled={isClinicalTumorDiagnosisSelected(values)}
+                    options={makeClinicalTumorDiagnosisDependentOptions(
+                      values.clinical_tumor_diagnosis,
+                      'site of sample acquisition',
+                    )}
+                  />
+                </FormComponent>
+
+                <FormComponent labelText={tissue_type.displayName}>
+                  <Field
+                    name={tissue_type.accessor}
+                    component={FormSelect}
+                    options={tissueTypesOptions}
+                  />
+                </FormComponent>
+
+                <FormComponent
+                  labelText={primary_site.displayName}
+                  description="Start typing for valid options"
+                >
+                  <Field
+                    name={primary_site.accessor}
+                    component={FormAutoComplete}
+                    options={primarySitesOptions}
+                    errorText="Values must match a predefined primary site"
+                  />
+                </FormComponent>
+
+                <FormComponent labelText={tnm_stage.displayName}>
+                  <Field name={tnm_stage.accessor} component={FormInput} />
                 </FormComponent>
               </FormCol>
             </FormSection>
@@ -390,7 +389,9 @@ const ModelFormTemplate = ({
                 <FormComponent labelText={date_of_availability.displayName}>
                   <Field name={date_of_availability.accessor} component={FormDateInput} />
                 </FormComponent>
+              </FormCol>
 
+              <FormCol>
                 <FormComponent labelText={licensing_required.displayName}>
                   <Field
                     name={licensing_required.accessor}
@@ -399,10 +400,12 @@ const ModelFormTemplate = ({
                   />
                 </FormComponent>
               </FormCol>
-
+            </FormSection>
+            <FormHeader>
+              <h2>External Resources</h2>
+            </FormHeader>
+            <FormSection>
               <FormCol>
-                <FormLabelHeader labelText="External Resources" />
-
                 <FormComponent
                   labelText={distributor_part_number.displayName}
                   description="Please provide the ATCC ID, e.g. PDM-146"
@@ -427,7 +430,9 @@ const ModelFormTemplate = ({
                     placeholder={`http://model_url.example.com`}
                   />
                 </FormComponent>
+              </FormCol>
 
+              <FormCol>
                 <FormComponent
                   labelText={source_sequence_url.displayName}
                   description="Please provide a url to GDC or EGA"
