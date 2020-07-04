@@ -1,5 +1,4 @@
-import React from 'react';
-import Component from 'react-component-component';
+import React, { useState } from 'react';
 import Popup from 'reactjs-popup';
 import CollapsibleArrow from 'icons/CollapsibleArrow';
 import withDeleteModal from '../DeleteModal';
@@ -13,7 +12,6 @@ import {
 } from 'theme/adminTableStyles';
 
 import { HoverPill } from 'theme/adminControlsStyles';
-
 const [publishAction, unpublishAction, deleteAction] = ['Publish', 'Unpublish', 'Delete'];
 
 const onApplyClick = ({ action, onPublishClick, onUnpublishClick, reset }) => {
@@ -28,101 +26,113 @@ const onApplyClick = ({ action, onPublishClick, onUnpublishClick, reset }) => {
   }
 };
 
-export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection }) => (
-  <Component
-    initialState={{
-      isOpen: false,
-      selectedAction: '',
-    }}
-  >
-    {({ setState, state: { isOpen, selectedAction } }) => (
-      <ToolbarSection>
-        <Popup
-          trigger={() => (
-            <div
-              css={`
-                align-items: center;
-                display: inline-flex;
-                postion: relative;
-              `}
-            >
-              <ToolbarText>Bulk Actions :</ToolbarText>
-              <ToolbarControl onClick={() => setState({ isOpen: !isOpen })}>
-                <span>{selectedAction ? `-- ${selectedAction} --` : '-- Select An Action --'}</span>
-                {CollapsibleArrow({ isOpen })}
-              </ToolbarControl>
-            </div>
-          )}
-          position="bottom right"
-          offset={0}
-          open={isOpen}
-          contentStyle={{
-            padding: '0px',
-            border: 'none',
-            borderBottomLeftRadius: '10px',
-            borderBottomRightRadius: '10px',
-            width: 'max-content',
-            minWidth: '172px',
-          }}
-          arrow={false}
-        >
-          <ActionsMenu>
-            <ActionsMenuItem
-              onClick={() => setState({ isOpen: false, selectedAction: publishAction })}
-            >
-              {publishAction}
-            </ActionsMenuItem>
-            <ActionsMenuItem
-              onClick={() => setState({ isOpen: false, selectedAction: unpublishAction })}
-            >
-              {unpublishAction}
-            </ActionsMenuItem>
-            <ActionsMenuItem
-              onClick={() => setState({ isOpen: false, selectedAction: deleteAction })}
-            >
-              {deleteAction}
-            </ActionsMenuItem>
-          </ActionsMenu>
-        </Popup>
-        {selectedAction === deleteAction ? (
-          withDeleteModal({
-            next: () => {
-              if (!hasSelection) {
-                return;
-              }
-              setState({ isOpen: false, selectedAction: '' });
-              onDeleteClick();
-            },
-            target: 'multiple models',
-            onCancel: () => setState({ isOpen: false, selectedAction: '' }),
-          })(
-            <HoverPill
-              marginLeft="8px"
-              secondary
-              disabled={!hasSelection || selectedAction.length === 0}
-            >
-              Apply
-            </HoverPill>,
-          )
-        ) : (
-          <HoverPill
-            onClick={() =>
-              hasSelection &&
-              onApplyClick({
-                action: selectedAction,
-                onPublishClick,
-                onUnpublishClick,
-                reset: () => setState({ isOpen: false, selectedAction: '' }),
-              })
+export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedAction, setSelectedAction] = useState('');
+
+  return (
+    <ToolbarSection>
+      <Popup
+        trigger={() => (
+          <div
+            css={`
+              align-items: center;
+              display: inline-flex;
+              postion: relative;
+            `}
+          >
+            <ToolbarText>Bulk Actions:</ToolbarText>
+            <ToolbarControl onClick={() => setIsOpen(!isOpen)}>
+              <span>{selectedAction ? `-- ${selectedAction} --` : '-- Select An Action --'}</span>
+              {CollapsibleArrow({ isOpen })}
+            </ToolbarControl>
+          </div>
+        )}
+        position="bottom right"
+        offset={0}
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        contentStyle={{
+          padding: '0px',
+          border: 'none',
+          borderRadius: '4px',
+          width: 'max-content',
+          minWidth: '172px',
+        }}
+        arrow={false}
+      >
+        <ActionsMenu>
+          <ActionsMenuItem
+            onClick={() => {
+              setIsOpen(false);
+              setSelectedAction(publishAction);
+            }}
+          >
+            {publishAction}
+          </ActionsMenuItem>
+          <ActionsMenuItem
+            onClick={() => {
+              setIsOpen(false);
+              setSelectedAction(unpublishAction);
+            }}
+          >
+            {unpublishAction}
+          </ActionsMenuItem>
+          <ActionsMenuItem
+            onClick={() => {
+              setIsOpen(false);
+              setSelectedAction(deleteAction);
+            }}
+          >
+            {deleteAction}
+          </ActionsMenuItem>
+        </ActionsMenu>
+      </Popup>
+      {selectedAction === deleteAction ? (
+        withDeleteModal({
+          next: () => {
+            if (!hasSelection) {
+              return;
             }
-            marginLeft="8px"
+            setIsOpen(false);
+            setSelectedAction('');
+            onDeleteClick();
+          },
+          target: 'multiple models',
+          onCancel: () => {
+            setIsOpen(false);
+            setSelectedAction('');
+          },
+        })(
+          <HoverPill
             secondary
+            marginLeft="8px"
             disabled={!hasSelection || selectedAction.length === 0}
           >
             Apply
-          </HoverPill>
-        )}
-      </ToolbarSection>
-    )}
-  </Component>
-);
+          </HoverPill>,
+        )
+      ) : (
+        <HoverPill
+          secondary
+          onClick={() =>
+            hasSelection &&
+            onApplyClick({
+              action: selectedAction,
+              onPublishClick,
+              onUnpublishClick,
+              reset: () => {
+                setIsOpen(false);
+                setSelectedAction('');
+              },
+            })
+          }
+          marginLeft="8px"
+          disabled={!hasSelection || selectedAction.length === 0}
+        >
+          Apply
+        </HoverPill>
+      )}
+    </ToolbarSection>
+  );
+};
