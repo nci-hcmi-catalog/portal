@@ -1,7 +1,7 @@
 import React from 'react';
 import { ModelSingleContext } from '../ModelSingleController';
 import { HoverPill } from 'theme/adminControlsStyles';
-import AdminModelSaveIcon from 'icons/AdminModelSaveIcon';
+import SaveIcon from 'icons/SaveIcon';
 
 export default props => (
   <ModelSingleContext.Consumer>
@@ -30,7 +30,7 @@ export default props => (
         }}
         {...props}
       >
-        <AdminModelSaveIcon css={'margin-right: 8px;'} height={14} width={14} />
+        <SaveIcon height={11} width={11} fill={'#fff'} />
         Save
       </HoverPill>
     )}

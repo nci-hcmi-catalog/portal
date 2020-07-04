@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDictionary } from './DictionaryController';
 import EditableFieldValue from './EditableFieldValue';
 
-import AdminDictionaryAddIcon from '../../../icons/AdminDictionaryAddIcon';
+import PlusIcon from '../../../icons/PlusIcon';
 import AdminDictionaryArrowIcon from '../../../icons/AdminDictionaryArrowIcon';
 
 import {
@@ -67,7 +67,7 @@ const DependentFieldValuesGroup = ({
                 }}
               />
               <AddFieldButton disabled={!newFieldValue.trim()}>
-                <AdminDictionaryAddIcon width={12} height={12} />
+                <PlusIcon width={12} height={12} />
                 ADD
               </AddFieldButton>
             </AddFieldForm>

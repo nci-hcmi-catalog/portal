@@ -7,7 +7,7 @@ import BulkUploader from '../BulkUpload';
 import { Toolbar, DataTable } from '../AdminTable';
 import { ModelVariantColumns as tableColumns } from './ModelVariantColumns';
 
-import AdminPlusIcon from '../../../icons/AdminPlusIcon';
+import PlusIcon from '../../../icons/PlusIcon';
 
 import { AdminContainer, AdminHeader, AdminHeaderH3, AdminHeaderBlock } from 'theme/adminStyles';
 import { HoverPill } from 'theme/adminControlsStyles';
@@ -70,8 +70,8 @@ export default ({ data: { name, variants, updatedAt } }) => {
                         })
                       }
                     >
-                      <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add
-                      Variants
+                      <PlusIcon width={16} height={16} css={'margin-right: 9px;'} />
+                      Add Variants
                     </HoverPill>
                   )}
                 </ModalStateContext.Consumer>

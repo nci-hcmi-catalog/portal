@@ -15,7 +15,7 @@ import { FormInput } from 'components/FormComponents';
 import DragNDropIcon from 'icons/DragNDrop';
 import PlusIcon from 'icons/PlusIcon';
 import TrashIcon from 'icons/TrashIcon';
-import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
+import EditIcon from 'icons/EditIcon';
 import config from '../config';
 import TabHeader from './TabHeader';
 const {
@@ -81,7 +81,9 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
           opacity: ${queuedForDelete ? 0.5 : 1};
         `}
         onMouseOver={() => setState({ showControls: true })}
+        onFocus={() => setState({ showControls: true })}
         onMouseOut={() => setState({ showControls: false })}
+        onBlur={() => setState({ showControls: false })}
       >
         <img
           src={file.preview ? file.preview : `${config.urls.cmsBase}/images/${file.file_id}`}
@@ -108,7 +110,7 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
                 margin-right: 5px;
               `}
             >
-              <AdminEditPencilIcon
+              <EditIcon
                 css={`
                   margin-right: 0;
                   height: 17px;
@@ -271,7 +273,8 @@ export default ({ data: { updatedAt } }) => (
                   css={`
                     height: 16px;
                   `}
-                />Add Images
+                />
+                Add Images
               </HoverPill>
             )}
           </Row>

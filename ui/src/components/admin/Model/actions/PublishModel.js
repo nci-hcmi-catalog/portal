@@ -32,7 +32,7 @@ export default ({ close, ...props }) => (
             })(
               <div>
                 <HoverPill disabled={disabled} {...props}>
-                  <AdminModelPublishIcon css={'margin-right: 10px;'} height={16} width={15} />
+                  <AdminModelPublishIcon height={11} width={11} />
                   Publish
                 </HoverPill>
               </div>,

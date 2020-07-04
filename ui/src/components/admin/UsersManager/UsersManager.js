@@ -1,8 +1,7 @@
 import React from 'react';
 import Component from 'react-component-component';
 import { NotificationToaster } from '../Notifications';
-import UserIcon from '../../../icons/PatientIcon';
-import AdminPlusIcon from '../../../icons/AdminPlusIcon';
+import PlusIcon from '../../../icons/PlusIcon';
 import { AdminContainer, AdminHeader, AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
 import { HoverPill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
@@ -75,21 +74,12 @@ const content = () => {
               <AdminContainer>
                 <NotificationToaster />
                 <AdminHeader>
-                  <AdminHeaderH1>
-                    <UserIcon
-                      height={35}
-                      width={35}
-                      css={`
-                        margin-right: 13px;
-                      `}
-                    />User Management
-                  </AdminHeaderH1>
+                  <AdminHeaderH1>User Management</AdminHeaderH1>
                   <AdminHeaderBlock>
                     <ModalStateContext.Consumer>
                       {modalState => (
                         <HoverPill
                           primary
-                          marginRight="10px"
                           onClick={() =>
                             modalState.setModalState({
                               component: <UserForm type={'add'} saveUser={saveFormUser} />,
@@ -98,8 +88,8 @@ const content = () => {
                             })
                           }
                         >
-                          <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add A
-                          User
+                          <PlusIcon width={12} height={12} />
+                          Add A User
                         </HoverPill>
                       )}
                     </ModalStateContext.Consumer>

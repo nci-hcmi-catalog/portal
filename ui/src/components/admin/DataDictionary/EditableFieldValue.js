@@ -2,9 +2,9 @@ import React, { useEffect, useContext, useRef, useState } from 'react';
 
 import { NotificationsContext } from './../Notifications';
 
-import AdminDictionaryUndoIcon from '../../../icons/AdminDictionaryUndoIcon';
-import AdminDictionaryEditIcon from '../../../icons/AdminDictionaryEditIcon';
-import AdminDictionarySaveIcon from '../../../icons/AdminDictionarySaveIcon';
+import UndoIcon from '../../../icons/UndoIcon';
+import EditIcon from '../../../icons/EditIcon';
+import SaveIcon from '../../../icons/SaveIcon';
 
 import {
   FieldValueListItemContentsWrapper,
@@ -155,7 +155,7 @@ const EditableFieldValue = ({
       case 'editing':
         return (
           <FieldValueListItemButton onMouseDown={saveEdit}>
-            <AdminDictionarySaveIcon height={12} width={12} />
+            <SaveIcon height={12} width={12} />
           </FieldValueListItemButton>
         );
       case 'edited':
@@ -163,7 +163,7 @@ const EditableFieldValue = ({
           <>
             <FieldStateLabel>edited</FieldStateLabel>
             <FieldValueListItemButton onMouseDown={undoEdit}>
-              <AdminDictionaryUndoIcon height={12} width={12} />
+              <UndoIcon height={12} width={12} />
             </FieldValueListItemButton>
           </>
         );
@@ -172,7 +172,7 @@ const EditableFieldValue = ({
           <>
             <FieldStateLabel>error</FieldStateLabel>
             <FieldValueListItemButton onMouseDown={clearError}>
-              <AdminDictionaryUndoIcon height={12} width={12} />
+              <UndoIcon height={12} width={12} />
             </FieldValueListItemButton>
           </>
         );
@@ -181,14 +181,14 @@ const EditableFieldValue = ({
           <>
             <FieldStateLabel>new</FieldStateLabel>
             <FieldValueListItemButton onMouseDown={undoAddNew}>
-              <AdminDictionaryUndoIcon height={12} width={12} />
+              <UndoIcon height={12} width={12} />
             </FieldValueListItemButton>
           </>
         );
       default:
         return (
           <FieldValueListItemButton>
-            <AdminDictionaryEditIcon
+            <EditIcon
               height={12}
               width={12}
               onMouseDown={startEdit}

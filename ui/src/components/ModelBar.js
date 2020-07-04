@@ -9,7 +9,7 @@ import { SavedSetsContext } from 'providers/SavedSets';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 import ModelList from 'components/ModelList';
 
-import AdminDictionaryAddIcon from './../icons/AdminDictionaryAddIcon';
+import PlusIcon from './../icons/PlusIcon';
 import CheckmarkIcon from './../icons/CheckmarkIcon';
 
 const ExpandedPill = ({ isExpanded }) => {
@@ -77,7 +77,7 @@ export default ({ name, id, isExpanded }) => {
                 </>
               ) : (
                 <>
-                  <AdminDictionaryAddIcon width={12} height={12} />
+                  <PlusIcon width={12} height={12} />
                   Add Model to My List
                 </>
               )}
