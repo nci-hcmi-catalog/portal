@@ -48,8 +48,13 @@ const modelMoreOptions = (data = null) =>
     <Popup
       trigger={
         <div>
-          <HoverPill secondary marginLeft="10px">
-            <AdminModelMoreOptionsIcon css={'margin: 0;'} width={15} height={3} />
+          <HoverPill secondary marginLeft="8px">
+            <AdminModelMoreOptionsIcon
+              css={'margin: 0;'}
+              width={18}
+              height={17}
+              fill={'currentColor'}
+            />
           </HoverPill>
         </div>
       }
@@ -81,31 +86,42 @@ export default ({ modelName }) => (
       },
     }) => (
       <>
-        <ModelHeaderBackLink
-          css={`
-            padding-top: 20px;
-          `}
-          to={manageModelsUrlBase}
-        >
-          <ArrowLeftIcon /> Back to List
-        </ModelHeaderBackLink>
         <AdminHeader>
-          <AdminHeaderBlock>
+          <AdminHeaderBlock
+            css={`
+              position: relative;
+            `}
+          >
             {headerText(modelName, error)}
             {response.status && modelStatusPill(response)}
+            <ModelHeaderBackLink
+              to={manageModelsUrlBase}
+              css={`
+                position: absolute;
+                left: 0;
+                bottom: 40px;
+              `}
+            >
+              <ArrowLeftIcon /> Back to List
+            </ModelHeaderBackLink>
           </AdminHeaderBlock>
           <AdminHeaderBlock>
             {response.status &&
             (response.status === modelStatus.published ||
               response.status === modelStatus.unpublishedChanges) ? (
               <ModelHeaderBackLink to={`/model/${modelName}`} target="_blank">
-                <ExternalLinkIcon height={10} width={10} css={'margin-right: 8px;'} />
-                View in catalog
+                <ExternalLinkIcon
+                  height={10}
+                  width={10}
+                  css={'margin-right: 8px;'}
+                  fill={'currentColor'}
+                />
+                View in Catalog
               </ModelHeaderBackLink>
             ) : (
               ''
             )}
-            <PublishModel marginLeft="21px" marginRight="10px" />
+            <PublishModel marginLeft="18px" marginRight="8px" />
             <SaveModel />
             {modelMoreOptions(response || null)}
           </AdminHeaderBlock>

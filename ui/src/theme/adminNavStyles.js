@@ -2,9 +2,8 @@ import { css } from 'emotion';
 import styled from 'react-emotion';
 import { Link } from 'react-router-dom';
 import base from 'theme';
-import { adminPillHover } from 'theme/hoverStyles';
 import { Row } from 'theme/system';
-import { whiteHover } from 'theme/hoverStyles';
+import { adminPillHover, whiteHover } from 'theme/hoverStyles';
 
 const {
   fonts: { openSans },

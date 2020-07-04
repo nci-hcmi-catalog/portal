@@ -72,7 +72,7 @@ const base = {
     white: '#ffffff',
     mineShaft: '#323232',
     sienna: '#d57046',
-    burntSienna: '#EC595D',
+    burntSienna: '#e58550',
     pelorousapprox: '#45b3c3',
     dustyGray: '#969696',
     iron: '#cdd4d9',
@@ -128,7 +128,7 @@ const base = {
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-family: ${libreFranklin};
+      font-family: ${openSans};
       background-color: #ffffff;
       color: #734d32;
       font-size: 12px;
