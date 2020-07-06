@@ -16,10 +16,11 @@ import DragNDropIcon from 'icons/DragNDrop';
 import PlusIcon from 'icons/PlusIcon';
 import TrashIcon from 'icons/TrashIcon';
 import EditIcon from 'icons/EditIcon';
+import SaveIcon from 'icons/SaveIcon';
 import config from '../config';
 import TabHeader from './TabHeader';
 const {
-  keyedPalette: { frenchGrey, lightPorcelain, mineShaft, porcelain, silver },
+  keyedPalette: { crimson, frenchGrey, lightPorcelain, mineShaft, mischka, silver, white },
   fonts: { libreFranklin, openSans },
 } = base;
 
@@ -36,10 +37,16 @@ const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) =
       setPreviewState({ editing: !editing });
     }}
     render={({ handleSubmit }) => (
-      <FormContainer>
+      <FormContainer
+        css={`
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+        `}
+      >
         <ul>
           <li>
-            {!editing ? <b>{file.file_name}</b> : <b>Description:</b>}
+            {!editing ? <b>{file.file_name}</b> : 'Description:'}
             {editing && <Field name="file_name" component={FormInput} />}
           </li>
           <li>
@@ -59,7 +66,18 @@ const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) =
             )}
           </li>
         </ul>
-        {editing && <NavPill onClick={handleSubmit}>Save</NavPill>}
+        {editing && (
+          <HoverPill
+            primary
+            css={`
+              margin-right: 10px;
+            `}
+            onClick={handleSubmit}
+          >
+            <SaveIcon width={11} height={11} fill={white} />
+            Save
+          </HoverPill>
+        )}
       </FormContainer>
     )}
   />
@@ -70,13 +88,13 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
       <Col
         css={`
           font: ${openSans};
-          font-size: 13px;
-          border: 1px solid ${porcelain};
-          width: 260px;
+          font-size: 12px;
+          border: 1px solid ${mischka};
+          width: 225px;
           align-items: center;
           padding: 5px;
           margin-right: 15px;
-          margin-top: 15px;
+          margin-bottom: 15px;
           position: relative;
           opacity: ${queuedForDelete ? 0.5 : 1};
         `}
@@ -88,8 +106,8 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
         <img
           src={file.preview ? file.preview : `${config.urls.cmsBase}/images/${file.file_id}`}
           alt={`File: ${file.file_name}`}
-          height="155"
-          width="250"
+          height="163"
+          width="215"
         />
         <Row
           css={`
@@ -102,55 +120,42 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
           `}
         >
           {!queuedForDelete && (
-            <NavPill
+            <HoverPill
+              secondary
               css={`
-                padding: 0;
-                width: 32px;
-                height: 32px;
-                margin-right: 5px;
+                margin-right: 10px;
+                padding: 5px 10px;
               `}
             >
               <EditIcon
-                css={`
-                  margin-right: 0;
-                  height: 17px;
-                `}
+                width={14}
+                height={14}
+                style={`margin: 0;`}
                 onClick={() => setState({ editing: !editing })}
               />
-            </NavPill>
+            </HoverPill>
           )}
-          <NavPill
+          <HoverPill
+            secondary
             css={`
-              padding: 0;
-              width: 32px;
-              height: 32px;
+              padding: 5px 10px;
             `}
             onClick={() => onDelete(file.file_id)}
           >
             {queuedForDelete ? (
-              <PlusIcon
-                fill="#900000"
-                css={`
-                  margin-right: 0;
-                  height: 17px;
-                `}
-              />
+              <PlusIcon fill={crimson} width={14} height={14} style={`margin: 0;`} />
             ) : (
-              <TrashIcon
-                css={`
-                  ${brandPrimaryHighlightHover};
-                  margin-right: 0;
-                `}
-              />
+              <TrashIcon width={14} height={14} style={`margin: 0;`} />
             )}
-          </NavPill>
+          </HoverPill>
         </Row>
         <Col
           css={`
             align-self: start;
             ul {
               list-style: none;
-              padding-left: 0;
+              margin: 0;
+              padding: 10px;
             }
           `}
         >
@@ -162,7 +167,8 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
           />
           <div
             css={`
-              color: ${silver};
+              color: ${crimson};
+              padding-left: 10px;
             `}
           >
             {queuedForDelete && 'Will delete on publish'}
