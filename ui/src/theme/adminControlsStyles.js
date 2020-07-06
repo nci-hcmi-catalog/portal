@@ -95,7 +95,7 @@ const PillBase = styled('div')`
 
 export const SmallPill = styled(PillBase)`
   font-size: 11px;
-  font-weight: bold;
+  font-weight: 600;
   border-radius: 8px;
   padding: 2px 8px;
   text-transform: capitalize;

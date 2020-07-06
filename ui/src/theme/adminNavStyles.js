@@ -9,7 +9,7 @@ import { HoverPill } from 'theme/adminControlsStyles';
 const {
   fonts: { openSans },
   transparency: { brandPrimary80 },
-  keyedPalette: { athensGray, black, cinnabar, porcelain },
+  keyedPalette: { black, cinnabar, porcelain },
 } = base;
 
 const navBackgroundColour = brandPrimary80;
@@ -66,7 +66,7 @@ export const Account = styled('div')`
 `;
 
 export const UserDropdown = styled(HoverPill)`
-  background: ${props => props.isOpen && athensGray};
+  font-weight: 600;
 `;
 
 export const DropdownItem = styled('a')`

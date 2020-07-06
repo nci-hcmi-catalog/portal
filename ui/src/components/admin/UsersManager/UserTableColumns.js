@@ -3,7 +3,7 @@ import Moment from 'react-moment';
 import Popup from 'reactjs-popup';
 import withDeleteModal from '../DeleteModal';
 import EditIcon from 'icons/EditIcon';
-import DeleteIcon from 'icons/TrashIcon';
+import TrashIcon from 'icons/TrashIcon';
 import { ModalStateContext } from 'providers/ModalState';
 import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/user';
 import UserForm from './UserForm';
@@ -120,7 +120,7 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
             target: `${name}(${email})`,
           })(
             <ActionPill secondary marginRight="6px">
-              <DeleteIcon width={12} height={12} fill={'currentColor'} />
+              <TrashIcon width={12} height={12} fill={'currentColor'} />
               Delete
             </ActionPill>,
           )}

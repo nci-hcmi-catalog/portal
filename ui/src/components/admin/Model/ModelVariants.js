@@ -41,8 +41,12 @@ export default ({ data: { name, variants, updatedAt } }) => {
             toggleAll,
           },
         }) => (
-          <AdminContainer p="18px 42px">
-            <AdminHeader>
+          <AdminContainer p={'0'}>
+            <AdminHeader
+              css={`
+                padding: 24px 10px 22px;
+              `}
+            >
               <AdminHeaderH3>
                 {data.length > 0
                   ? 'Variant Data'
@@ -53,7 +57,6 @@ export default ({ data: { name, variants, updatedAt } }) => {
                   {modalState => (
                     <HoverPill
                       primary
-                      marginRight="10px"
                       onClick={() =>
                         modalState.setModalState({
                           component: (
@@ -70,7 +73,7 @@ export default ({ data: { name, variants, updatedAt } }) => {
                         })
                       }
                     >
-                      <PlusIcon width={16} height={16} css={'margin-right: 9px;'} />
+                      <PlusIcon width={11} height={11} css={'margin-right: 5px;'} />
                       Add Variants
                     </HoverPill>
                   )}
