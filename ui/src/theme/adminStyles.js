@@ -35,7 +35,7 @@ export const AdminHeader = styled(Row)`
 export const AdminFooter = styled(AdminHeader)`
   width: calc(100% - 164px);
   align-self: flex-end;
-  padding: 30px 0 52px;
+  padding: 22px 0 25px;
   label: admin-footer;
 `;
 

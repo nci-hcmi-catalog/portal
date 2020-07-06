@@ -253,9 +253,11 @@ export default ({ data: { updatedAt } }) => (
       }) => (
         <>
           <Row
-            p={'18px 42px'}
+            p={'24px 10px 22px'}
             css={`
               justify-content: space-between;
+              align-items: center;
+              font-size: 14px;
             `}
           >
             <div>Upload images in jpeg, tiff, png or svg formats.</div>
@@ -269,17 +271,13 @@ export default ({ data: { updatedAt } }) => (
                   dropzoneRef.open();
                 }}
               >
-                <PlusIcon
-                  css={`
-                    height: 16px;
-                  `}
-                />
+                <PlusIcon width={11} height={11} />
                 Add Images
               </HoverPill>
             )}
           </Row>
           <Row
-            p={'18px 42px'}
+            p={'0 10px'}
             css={`
               flex-wrap: wrap;
             `}
