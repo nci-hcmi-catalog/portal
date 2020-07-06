@@ -3,11 +3,9 @@ import Dropzone from 'react-dropzone';
 import Component from 'react-component-component';
 
 import { ModelSingleContext } from './ModelSingleController';
-import { Pill as NavPill } from 'theme/adminNavStyles';
 import { HoverPill } from 'theme/adminControlsStyles';
 import base from 'theme';
 import { Row, Col } from 'theme/system';
-import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 import { FormContainer } from 'theme/adminFormStyles';
 import { Field, Formik } from 'formik';
 import { FormInput } from 'components/FormComponents';
@@ -20,8 +18,8 @@ import SaveIcon from 'icons/SaveIcon';
 import config from '../config';
 import TabHeader from './TabHeader';
 const {
-  keyedPalette: { crimson, frenchGrey, lightPorcelain, mineShaft, mischka, silver, white },
-  fonts: { libreFranklin, openSans },
+  keyedPalette: { athensGray, black, crimson, frenchGrey, mischka, white },
+  fonts: { openSans },
 } = base;
 
 const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) => (
@@ -213,32 +211,34 @@ const ImageDropper = ({ onDrop, display }) => (
   >
     <Col
       css={`
-        background: ${lightPorcelain};
+        background: ${athensGray};
         height: 100%;
-        font-family: ${libreFranklin};
-        font-weight: 500;
-        color: ${mineShaft};
-        font-size: 20px;
+        font-family: ${openSans};
+        font-weight: bold;
+        color: ${black};
+        font-size: 14px;
+        line-height: 1.71;
         align-items: center;
         justify-content: center;
+        text-align: center;
       `}
     >
       <DragNDropIcon
+        fill={'currentColor'}
+        height={36}
         css={`
-          height: 53px;
-          padding-bottom: 10px;
+          margin-bottom: 8px;
         `}
       />
-      Drag and drop your image(s) here
-      <span
+      Drag and drop your image(s) here <br /> or
+      <HoverPill
+        secondary
         css={`
-          font-size: 14px;
-          padding: 10px 0;
+          margin-top: 8px;
         `}
       >
-        or
-      </span>
-      <NavPill>Browse Your Files</NavPill>
+        Browse Your Files
+      </HoverPill>
     </Col>
   </Dropzone>
 );
@@ -267,20 +267,18 @@ export default ({ data: { updatedAt } }) => (
             `}
           >
             <div>Upload images in jpeg, tiff, png or svg formats.</div>
-            {!!files.length && (
-              <HoverPill
-                css={`
-                  align-self: right;
-                `}
-                primary
-                onClick={() => {
-                  dropzoneRef.open();
-                }}
-              >
-                <PlusIcon width={11} height={11} />
-                Add Images
-              </HoverPill>
-            )}
+            <HoverPill
+              css={`
+                align-self: right;
+              `}
+              primary
+              onClick={() => {
+                dropzoneRef.open();
+              }}
+            >
+              <PlusIcon width={11} height={11} />
+              Add Images
+            </HoverPill>
           </Row>
           <Row
             p={'0 10px'}

@@ -140,7 +140,7 @@ export const LoginWithGoogle = ({ children }) => {
           <Popup
             trigger={() => (
               <div>
-                <UserDropdown onClick={() => setIsOpen(!isOpen)} isOpen>
+                <UserDropdown secondary onClick={() => setIsOpen(!isOpen)} isOpen>
                   <GoogleLogo
                     css={`
                       margin-right: 4px;
@@ -177,6 +177,7 @@ export const LoginWithGoogle = ({ children }) => {
       <UserDropdown
         key="google"
         id="googleSignin"
+        secondary
         // visually-hidden when logged in instead of removed from the virtual DOM to maintain binding
         css={state.loggedIn && visuallyHidden}
       >

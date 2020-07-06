@@ -31,7 +31,7 @@ export default ({ close, ...props }) => (
                 .map(i => i.name),
             })(
               <div>
-                <HoverPill disabled={disabled} {...props}>
+                <HoverPill primary disabled={disabled} {...props}>
                   <AdminModelPublishIcon height={11} width={11} />
                   Publish
                 </HoverPill>
