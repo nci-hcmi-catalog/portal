@@ -4,6 +4,7 @@ import { scroller } from 'react-scroll';
 import Spinner from 'react-spinkit';
 
 import { NotificationsContext } from './NotificationsController';
+import { NOTIFICATION_TYPES } from './../Notifications';
 
 import CheckmarkIcon from 'icons/CheckmarkIcon';
 import ClearXIcon from 'icons/ClearXIcon';
@@ -41,7 +42,7 @@ const renderIcon = type => {
   }
 
   switch (type) {
-    case 'success':
+    case NOTIFICATION_TYPES.SUCCESS:
       return (
         <CheckmarkIcon
           width={30}
@@ -54,7 +55,7 @@ const renderIcon = type => {
           `}
         />
       );
-    case 'loading':
+    case NOTIFICATION_TYPES.LOADING:
       return (
         <Spinner
           fadeIn="none"
@@ -66,7 +67,7 @@ const renderIcon = type => {
           }}
         />
       );
-    case 'error':
+    case NOTIFICATION_TYPES.ERROR:
       return (
         <ErrorIcon
           width={30}
@@ -77,7 +78,7 @@ const renderIcon = type => {
           `}
         />
       );
-    case 'warning':
+    case NOTIFICATION_TYPES.WARNING:
       return (
         <ErrorIcon
           width={30}
@@ -152,13 +153,15 @@ export default () => (
                   </MessageLink>
                 )}
               </Col>
-              <ClearXIcon
-                width={17}
-                height={17}
-                fill={trout}
-                style={closeIcon}
-                onClick={() => clearNotification(notification.id)}
-              />
+              {notification.type !== NOTIFICATION_TYPES.LOADING && (
+                <ClearXIcon
+                  width={17}
+                  height={17}
+                  fill={trout}
+                  style={closeIcon}
+                  onClick={() => clearNotification(notification.id)}
+                />
+              )}
             </Notification>
           ))}
         </NotificationsToaster>

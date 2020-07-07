@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import moment from 'moment-timezone';
 
-import { NotificationsContext } from './../Notifications';
+import { NotificationsContext, NOTIFICATION_TYPES } from './../Notifications';
 
 import {
   addDictionaryDraftValue,
@@ -71,7 +71,7 @@ export const useDictionary = () => {
     }).then(response => {
       if (response.err) {
         appendNotification({
-          type: 'error',
+          type: NOTIFICATION_TYPES.ERROR,
           message: 'Add Dictionary Field Error.',
           details: getDictionaryErrorMessage(response),
           timeout: false,
@@ -96,7 +96,7 @@ export const useDictionary = () => {
 
     if (response.err) {
       appendNotification({
-        type: 'error',
+        type: NOTIFICATION_TYPES.ERROR,
         message: 'Edit Dictionary Field Error.',
         details: getDictionaryErrorMessage(response),
         timeout: false,
@@ -128,7 +128,7 @@ export const useDictionary = () => {
     }).then(response => {
       if (response.err) {
         appendNotification({
-          type: 'error',
+          type: NOTIFICATION_TYPES.ERROR,
           message: 'Remove Dictionary Field Error.',
           details: getDictionaryErrorMessage(response),
           timeout: false,
@@ -146,7 +146,7 @@ export const useDictionary = () => {
     deleteDictionaryDraft().then(response => {
       if (response.err) {
         appendNotification({
-          type: 'error',
+          type: NOTIFICATION_TYPES.ERROR,
           message: 'Reset Dictionary Draft Error.',
           details: getDictionaryErrorMessage(response),
           timeout: false,
@@ -167,7 +167,7 @@ export const useDictionary = () => {
     publishDictionaryDraft().then(response => {
       if (response.err) {
         appendNotification({
-          type: 'error',
+          type: NOTIFICATION_TYPES.ERROR,
           message: 'Publish Dictionary Draft Error.',
           details: getDictionaryErrorMessage(response),
           timeout: false,
@@ -178,7 +178,7 @@ export const useDictionary = () => {
           dictionary: response,
         });
         appendNotification({
-          type: 'success',
+          type: NOTIFICATION_TYPES.SUCCESS,
           message: `The data dictionary updates have been published and applied to ${
             response.updatedModels
           } model${response.updatedModels !== 1 ? 's' : ''}.`,

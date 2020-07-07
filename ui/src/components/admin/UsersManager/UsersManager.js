@@ -1,6 +1,5 @@
 import React from 'react';
 import Component from 'react-component-component';
-import { NotificationToaster } from '../Notifications';
 import PlusIcon from '../../../icons/PlusIcon';
 import { AdminContainer, AdminHeader, AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
 import { HoverPill } from 'theme/adminControlsStyles';
@@ -9,7 +8,7 @@ import { ModalStateContext } from 'providers/ModalState';
 import UserManagerTable from './UserManagerTable';
 import UserForm from './UserForm';
 import { AdminModalStyle } from 'theme/adminModalStyles';
-import { NotificationsContext } from '../Notifications';
+import { NotificationsContext, NotificationToaster, NOTIFICATION_TYPES } from '../Notifications';
 import config from '../config';
 import { fetchData } from '../services/Fetcher';
 
@@ -25,14 +24,14 @@ export const saveUser = async (values, isUpdate, setState, appendNotification) =
       method: isUpdate ? 'patch' : 'post',
     });
     await appendNotification({
-      type: 'success',
+      type: NOTIFICATION_TYPES.SUCCESS,
       message: 'Save Successful!',
       details: 'User has been successfully saved.',
     });
     setState({ isTableDataSynced: false, isCreate: !isUpdate });
   } catch (err) {
     appendNotification({
-      type: 'error',
+      type: NOTIFICATION_TYPES.ERROR,
       message: 'User save error.',
       details: err.details || 'Unknown error has occurred.',
     });
@@ -47,14 +46,14 @@ export const deleteUser = async (userId, setState, appendNotification) => {
       method: 'delete',
     });
     await appendNotification({
-      type: 'success',
+      type: NOTIFICATION_TYPES.SUCCESS,
       message: 'Delete Successful!',
       details: 'User has been successfully deleted.',
     });
     setState({ isTableDataSynced: false });
   } catch (err) {
     appendNotification({
-      type: 'error',
+      type: NOTIFICATION_TYPES.ERROR,
       message: 'User delete error.',
       details: err.details || 'Unknown error has occurred.',
     });

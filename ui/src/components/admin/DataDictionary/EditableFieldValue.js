@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useRef, useState } from 'react';
 
-import { NotificationsContext } from './../Notifications';
+import { NotificationsContext, NOTIFICATION_TYPES } from './../Notifications';
 
 import UndoIcon from '../../../icons/UndoIcon';
 import EditIcon from '../../../icons/EditIcon';
@@ -72,7 +72,7 @@ const EditableFieldValue = ({
 
     if (!value || !value.trim()) {
       appendNotification({
-        type: 'error',
+        type: NOTIFICATION_TYPES.ERROR,
         message: 'Warning:',
         details: 'Blank values will not be saved to the dictionary.',
         timeout: false,

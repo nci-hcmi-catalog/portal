@@ -3,6 +3,8 @@ import { css } from 'emotion';
 import { Link } from 'react-router-dom';
 import { Element } from 'react-scroll';
 
+import { NOTIFICATION_TYPES } from './../components/admin/Notifications';
+
 import base from 'theme';
 import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 
@@ -39,9 +41,9 @@ export const Notification = styled('div')`
   align-items: flex-start;
   width: 100%;
   background: ${({ type }) => {
-    if (type === 'error') {
+    if (type === NOTIFICATION_TYPES.ERROR) {
       return errorBkgColour;
-    } else if (type === 'warning') {
+    } else if (type === NOTIFICATION_TYPES.WARNING) {
       return warningBkgColour;
     } else {
       return successBkgColour;
@@ -49,9 +51,9 @@ export const Notification = styled('div')`
   }};
   border: 2px solid;
   border-color: ${({ type }) => {
-    if (type === 'error') {
+    if (type === NOTIFICATION_TYPES.ERROR) {
       return errorColour;
-    } else if (type === 'warning') {
+    } else if (type === NOTIFICATION_TYPES.WARNING) {
       return warningColour;
     } else {
       return successColour;
