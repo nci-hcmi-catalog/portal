@@ -3,27 +3,28 @@ import { css } from 'emotion';
 import { Link } from 'react-router-dom';
 import { Element } from 'react-scroll';
 
-import base, { softTransitionRollover } from 'theme';
+import base from 'theme';
+import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 
 const {
   fonts: { openSans },
-  keyedPalette: { brandPrimary, burntSienna, pelorousapprox, mineShaft, yellowOrange },
-  transparency: { brandPrimary20, pelorousapprox20, yellowOrange20 },
+  keyedPalette: { aquaSpring, black, cinderella, mauvelous, morningGlory, yellowOrange },
+  transparency: { yellowOrange20 },
 } = base;
 
-const successBkgColour = pelorousapprox20;
-const successColour = pelorousapprox;
-const errorBkgColour = brandPrimary20;
+const successBkgColour = aquaSpring;
+const successColour = morningGlory;
+const errorBkgColour = cinderella;
 const warningBkgColour = yellowOrange20;
-const errorColour = brandPrimary;
+const errorColour = mauvelous;
 const warningColour = yellowOrange;
-const textColour = mineShaft;
+const textColour = black;
 
 export const NotificationsToaster = styled(Element)`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin: 15px 0 0;
+  margin: 10px 0 5px;
   label: notifications-toaster;
 `;
 
@@ -56,15 +57,15 @@ export const Notification = styled('div')`
       return successColour;
     }
   }};
-  border-radius: 5px;
-  padding: 14px;
-  margin-bottom: 7px;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
   font-family: ${openSans};
   font-size: 14px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
-  line-height: 1.86;
+  line-height: 1.71;
   letter-spacing: normal;
   text-align: left;
   color: ${textColour};
@@ -79,12 +80,10 @@ export const Notification = styled('div')`
 
 export const Message = styled('span')`
   font-weight: bold;
-  margin-right: 6px;
   label: notification-message;
 `;
 
 export const Details = styled('span')`
-  margin-right: 6px;
   label: notification-details;
 `;
 
@@ -130,21 +129,13 @@ export const ErrorText = styled('span')`
 `;
 
 export const MessageLink = styled(Link)`
-  font-weight: bold;
+  ${brandPrimaryHighlightHover}
   text-decoration: underline;
-  ${({ type }) => {
-    if (type === 'error') {
-      return softTransitionRollover(errorColour, burntSienna);
-    } else {
-      return softTransitionRollover(successColour, '#0b6d7b');
-    }
-  }};
   label: notification-message-link;
 `;
 
 export const closeIcon = css`
-  width: 24px;
-  height: 24px;
   margin-right: 0;
   margin-left: auto;
+  cursor: pointer;
 `;

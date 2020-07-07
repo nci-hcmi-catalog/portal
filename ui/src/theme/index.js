@@ -109,6 +109,10 @@ const base = {
     crimson: '#cd0d32',
     goldenGlow: '#feda97',
     cinnabar: '#ed494c',
+    morningGlory: '#8fd1db',
+    mauvelous: '#f49394',
+    cinderella: '#fce3e4',
+    alizarinCrimson: '#df1b42',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',
