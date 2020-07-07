@@ -1,0 +1,63 @@
+{
+  "settings": {
+    "mapping": {
+      "nested_fields": {
+        "limit": "100"
+      }
+    },
+    "max_ngram_diff": "20",
+    "max_result_window": "100000000",
+    "analysis": {
+      "filter": {
+        "edge_ngram": {
+          "min_gram": "1",
+          "side": "front",
+          "type": "edge_ngram",
+          "max_gram": "20",
+          "custom_token_chars": "-,/:()'+"
+        }
+      },
+      "tokenizer": {
+        "ngram_tokenizer": {
+          "type": "ngram",
+          "min_gram": 1,
+          "max_gram": 20,
+          "token_chars": ["letter", "digit", "custom"],
+          "custom_token_chars": "-,/:()'+"
+        }
+      },
+      "analyzer": {
+        "search_analyzer": {
+          "filter": ["lowercase"],
+          "tokenizer": "ngram_tokenizer"
+        }
+      }
+    }
+  },
+
+  "mappings": {
+    "properties": {
+      "search": {
+        "type": "text",
+        "analyzer": "search_analyzer",
+        "search_analyzer": "search_analyzer"
+      },
+      "symbol": {
+        "type": "keyword",
+        "copy_to": ["search"]
+      },
+      "ensemble_id": {
+        "type": "keyword",
+        "copy_to": ["search"]
+      },
+      "name": {
+        "type": "text",
+        "copy_to": ["search"]
+      },
+      "synonyms": {
+        "type": "keyword",
+        "copy_to": ["search"]
+      }
+    }
+  }
+}
