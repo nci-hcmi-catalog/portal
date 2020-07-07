@@ -113,6 +113,7 @@ const base = {
     mauvelous: '#f49394',
     cinderella: '#fce3e4',
     alizarinCrimson: '#df1b42',
+    ironApprox: '#dcdde1',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',
