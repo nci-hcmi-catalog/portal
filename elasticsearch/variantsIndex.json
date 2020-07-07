@@ -1,0 +1,48 @@
+{
+  "settings": {
+    "mapping": {
+      "nested_fields": {
+        "limit": "100"
+      }
+    },
+    "max_result_window": "100000000",
+    "analysis": {
+      "filter": {
+        "edge_ngram": {
+          "min_gram": "1",
+          "side": "front",
+          "type": "edge_ngram",
+          "max_gram": "20",
+          "custom_token_chars": "-:.>"
+        }
+      },
+      "analyzer": {
+        "search_analyzer": {
+          "filter": ["lowercase", "edge_ngram"],
+          "tokenizer": "whitespace"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "search": {
+        "type": "text",
+        "analyzer": "search_analyzer",
+        "search_analyzer": "search_analyzer"
+      },
+      "transcipt_id": {
+        "type": "keyword",
+        "copy_to": ["search"]
+      },
+      "name": {
+        "type": "keyword",
+        "copy_to": ["search"]
+      },
+      "variant_id": {
+        "type": "keyword",
+        "copy_to": ["search"]
+      }
+    }
+  }
+}
