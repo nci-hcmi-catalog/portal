@@ -72,7 +72,7 @@ const base = {
     white: '#ffffff',
     mineShaft: '#323232',
     sienna: '#d57046',
-    burntSienna: '#EC595D',
+    burntSienna: '#e58550',
     pelorousapprox: '#45b3c3',
     dustyGray: '#969696',
     iron: '#cdd4d9',
@@ -108,9 +108,16 @@ const base = {
     graySuit: '#b9b5c6',
     crimson: '#cd0d32',
     goldenGlow: '#feda97',
+    cinnabar: '#ed494c',
+    morningGlory: '#8fd1db',
+    mauvelous: '#f49394',
+    cinderella: '#fce3e4',
+    alizarinCrimson: '#df1b42',
+    ironApprox: '#dcdde1',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',
+    brandPrimary80: 'rgba(144,0,0,0.8)',
     brandPrimary20: 'rgba(144,0,0,0.2)',
     yellowOrange20: 'rgba(253,171,64,0.2)',
     white70: 'rgba(255,255,255, 0.7)',
@@ -126,7 +133,7 @@ const base = {
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-family: ${libreFranklin};
+      font-family: ${openSans};
       background-color: #ffffff;
       color: #734d32;
       font-size: 12px;

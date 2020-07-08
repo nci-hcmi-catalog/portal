@@ -8,7 +8,7 @@ import { ModelManagerContext } from './ModelManagerController';
 import { modelEditUrlBase } from '../AdminNav';
 import withDeleteModal from '../DeleteModal';
 
-import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
+import EditIcon from 'icons/EditIcon';
 import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
 
 import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/model';
@@ -132,24 +132,19 @@ const modelManagerCustomColumns = [
       return (
         <Actions>
           <ActionLinkPill secondary={`true`} to={modelEditUrlBase + '/' + name}>
-            <AdminEditPencilIcon
-              css={`
-                width: 12px;
-                height: 12px;
-              `}
-            />
+            <EditIcon width={12} height={12} fill={'currentColor'} />
             Edit
           </ActionLinkPill>
           <Popup
             trigger={
               <div>
-                <ActionPill
-                  secondary
-                  css={`
-                    height: 26px;
-                  `}
-                >
-                  <AdminModelMoreOptionsIcon css={'margin: 0;'} width={15} height={3} />
+                <ActionPill secondary>
+                  <AdminModelMoreOptionsIcon
+                    fill={'currentColor'}
+                    css={'margin: 0;'}
+                    width={18}
+                    height={17}
+                  />
                 </ActionPill>
               </div>
             }

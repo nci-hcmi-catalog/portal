@@ -17,7 +17,7 @@ const {
     mischka,
     white,
   },
-  fonts: { libreFranklin, openSans },
+  fonts: { openSans },
 } = base;
 
 export default css`
@@ -29,7 +29,7 @@ export default css`
   width: 314px;
   height: 100vh;
   box-sizing: border-box;
-  font-family: ${libreFranklin};
+  font-family: ${openSans};
   font-size: 16px;
   font-weight: normal;
   font-style: normal;

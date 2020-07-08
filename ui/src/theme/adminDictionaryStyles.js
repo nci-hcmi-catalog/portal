@@ -2,7 +2,7 @@ import { css } from 'emotion';
 import styled from 'react-emotion';
 import base from 'theme';
 
-import { AdminContainer, AdminContent, AdminHeader, AdminHeaderH1 } from 'theme/adminStyles';
+import { AdminContainer, AdminContent, AdminHeader } from 'theme/adminStyles';
 import { Col } from 'theme/system';
 import { Row } from 'theme/system';
 
@@ -17,7 +17,6 @@ const {
     deepIron,
     elm,
     havelockBlue,
-    mineShaft,
     pelorousapprox,
     porcelain,
     seaBuckthorn,
@@ -34,15 +33,7 @@ export const DictionaryContainer = styled(AdminContainer)`
 
 export const DataDictionaryHeader = styled(AdminHeader)`
   position: relative;
-`;
-
-export const DataDictionaryH1 = styled(AdminHeaderH1)`
-  font-size: 26px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.15;
-  color: ${mineShaft};
+  padding-top: 32px;
 `;
 
 export const HeaderPill = styled('span')`
@@ -205,45 +196,6 @@ export const AddFieldButton = styled('button')`
   }
 
   ${({ disabled }) => disabled && disabledFieldButton};
-`;
-
-export const disabledPill = css`
-  font-family: ${openSans};
-  font-weight: bold;
-  background-color: ${deepIron};
-  &:hover {
-    background-color: ${deepIron};
-  }
-`;
-
-export const cancelPill = css`
-  font-family: ${openSans};
-  font-weight: bold;
-  background-color: ${white};
-  color: ${mineShaft};
-  &:hover {
-    background-color: ${athensGray};
-    color: ${mineShaft};
-  }
-`;
-
-export const actionPill = css`
-  font-family: ${openSans};
-  font-weight: bold;
-  background-color: ${elm};
-  &:hover {
-    background-color: ${pelorousapprox};
-  }
-`;
-
-export const expandPill = css`
-  ${cancelPill};
-  margin: 0;
-  padding: 5px 10px;
-  font-family: ${openSans};
-  line-height: normal;
-  min-height: unset;
-  height: 28px;
 `;
 
 export const FieldValueList = styled('ol')`

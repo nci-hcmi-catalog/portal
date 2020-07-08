@@ -47,7 +47,7 @@ export const LoggedInUserPill = () => (
                     postion: relative;
                   `}
                 >
-                  <UserDropdown onClick={() => setState({ isOpen: !isOpen })} isOpen>
+                  <UserDropdown secondary onClick={() => setState({ isOpen: !isOpen })} isOpen>
                     <UserIcon
                       size={12}
                       css={`

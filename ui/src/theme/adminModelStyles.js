@@ -5,11 +5,10 @@ import { Link } from 'react-router-dom';
 import base from 'theme';
 import { Col } from 'theme/system';
 import { AdminContent, AdminHeaderH1 } from 'theme/adminStyles';
-import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 
 const {
-  fonts: { libreFranklin },
-  keyedPalette: { brandPrimary, elm, mineShaft, silver },
+  fonts: { openSans },
+  keyedPalette: { black, brandPrimary, elm, mineShaft, silver },
   transparency: { white70 },
 } = base;
 
@@ -45,7 +44,7 @@ export const AdminModelContent = styled(AdminContent)`
   width: calc(100% - 164px);
   min-height: 416px;
   z-index: 1;
-  padding: 7px 8px;
+  padding: 16px 16px 16px 18px;
   label: admin-model-content;
 `;
 
@@ -55,18 +54,22 @@ export const ModelHeaderH1 = styled(AdminHeaderH1)`
 `;
 
 export const ModelHeaderBackLink = styled(Link)`
-  ${brandPrimaryHighlightHover};
-  font-family: ${libreFranklin};
+  color: ${black};
+  font-family: ${openSans};
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   font-style: normal;
   font-stretch: normal;
-  line-height: 1;
+  line-height: normal;
   letter-spacing: normal;
   text-align: left;
   text-decoration: none;
   text-transform: uppercase;
   label: admin-model-header-back-link;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const Loading = styled('div')`

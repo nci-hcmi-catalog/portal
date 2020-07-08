@@ -26,21 +26,17 @@ const DeleteModal = ({ next, target, onCancel = () => false }) => (
           <Title>Delete</Title>
           <CloseModal onClick={() => modalState.setModalState({ component: null })} />
         </Header>
-        <Content
-          css={`
-            line-height: 2;
-          `}
-        >
+        <Content>
           <span>
             Are you sure you want to delete <strong>{target}</strong>? This action cannot be undone.
           </span>
         </Content>
         <Footer>
+          <HoverPill primary marginRight={'10px'} onClick={doThenClose(next, modalState)}>
+            Delete
+          </HoverPill>
           <HoverPill secondary onClick={doThenClose(onCancel, modalState)}>
             Cancel
-          </HoverPill>
-          <HoverPill primary onClick={doThenClose(next, modalState)}>
-            Delete
           </HoverPill>
         </Footer>
       </ModalWrapper>

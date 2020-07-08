@@ -4,64 +4,72 @@ import base from 'theme';
 import { adminPillHover } from 'theme/hoverStyles';
 
 const {
-  fonts: { libreFranklin, openSans },
+  fonts: { openSans },
   keyedPalette: {
-    brandPrimary,
+    black,
+    bombay,
     burntSienna,
+    deepIron,
+    elm,
+    frenchGrey,
+    iron,
+    lightBlack,
+    lightPorcelain,
+    mystic,
     pelorousapprox,
-    valencia,
     sienna,
     white,
-    frenchGrey,
-    lightBlack,
-    iron,
-    mystic,
-    black,
-    dustyGray,
-    lightPorcelain,
   },
 } = base;
 
-const pillBlue = pelorousapprox;
-const pillRed = valencia;
-const pillBlueDisabled = '#AADBE3';
-const pillRedDisabled = '#E8AFB2';
-const pillOrange = sienna;
-const pillGrey = dustyGray;
-const pillBorderColour = frenchGrey;
+const pillBlue = elm;
+const pillBlueHighlight = pelorousapprox;
+const pillDisabled = deepIron;
+const pillOrange = burntSienna;
+const pillGrey = bombay;
 
 const actionsMenuHighlight = lightBlack;
 const actionsMenuHover = mystic;
 
 const pillColour = ({ secondary, disabled }) => {
-  if (secondary && disabled) {
-    return { base: brandPrimary, hover: brandPrimary };
+  if (disabled) {
+    return { base: white, hover: white };
   } else if (secondary) {
-    return { base: brandPrimary, hover: valencia };
+    return { base: black, hover: black };
   } else {
     return { base: white, hover: white };
   }
 };
 
 const pillBackgroundColour = ({ primary, warning, secondary, disabled, info }) => {
-  if (primary && disabled) {
-    return { base: pillRedDisabled, hover: pillRedDisabled };
+  if (disabled) {
+    return { base: pillDisabled, hover: pillDisabled };
   } else if (primary) {
-    return { base: pillRed, hover: burntSienna };
-  } else if (warning && disabled) {
-    return { base: pillOrange, hover: sienna };
+    return { base: pillBlue, hover: pillBlueHighlight };
   } else if (warning) {
-    return { base: pillOrange, hover: '#D9805A' };
-  } else if (secondary && disabled) {
-    return { base: white, hover: white };
+    return { base: pillOrange, hover: sienna };
   } else if (secondary) {
     return { base: white, hover: lightPorcelain };
   } else if (info) {
-    return { base: pillGrey, hover: '#A2A2A2' };
-  } else if (disabled) {
-    return { base: pillBlueDisabled, hover: pillBlueDisabled };
+    return { base: pillGrey, hover: frenchGrey };
   } else {
-    return { base: pillBlue, hover: '#58BAC9' };
+    return { base: pillBlueHighlight, hover: elm };
+  }
+};
+
+const pillBorderColour = ({ primary, warning, secondary, disabled, info }) => {
+  if (disabled) {
+    return pillDisabled;
+  } else if (primary) {
+    return pillBlue;
+  } else if (warning) {
+    return pillOrange;
+  } else if (secondary) {
+    return pillGrey;
+  } else if (info) {
+    return pillGrey;
+  } else {
+    return pillBlueHighlight;
   }
 };
 
@@ -69,14 +77,14 @@ const PillBase = styled('div')`
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-family: ${libreFranklin};
+  font-family: ${openSans};
   text-transform: uppercase;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
   text-align: center;
   text-decoration: none;
-  opacity: ${({ secondary, disabled }) => (secondary && disabled ? '0.5' : '1')};
+  opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   border: solid 1px ${pillBorderColour};
   color: ${props => pillColour(props).base};
@@ -86,21 +94,19 @@ const PillBase = styled('div')`
 `;
 
 export const SmallPill = styled(PillBase)`
-  font-size: 10px;
-  line-height: 22px;
-  min-height: 24px;
-  border-radius: 11px;
-  padding: 0 12px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 2px 8px;
+  text-transform: capitalize;
   label: admin-pill-small;
 `;
 
 export const Pill = styled(PillBase)`
   font-size: 12px;
-  font-weight: 500;
-  line-height: 35px;
-  min-height: 37px;
+  font-weight: bold;
   border-radius: 10px;
-  padding: 0 18px;
+  padding: 4px 10px;
   label: admin-pill;
 `;
 

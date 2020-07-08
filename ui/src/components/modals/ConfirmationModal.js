@@ -33,19 +33,15 @@ const ConfirmationModal = ({
           <Title>{title}</Title>
           <CloseModal onClick={() => modalState.setModalState({ component: null })} />
         </Header>
-        <Content
-          css={`
-            line-height: 2;
-          `}
-        >
+        <Content>
           <span>{message}</span>
         </Content>
         <Footer>
+          <HoverPill primary marginRight={'10px'} onClick={doThenClose(onConfirm, modalState)}>
+            {confirmLabel}
+          </HoverPill>
           <HoverPill secondary onClick={doThenClose(onCancel, modalState)}>
             {cancelLabel}
-          </HoverPill>
-          <HoverPill primary onClick={doThenClose(onConfirm, modalState)}>
-            {confirmLabel}
           </HoverPill>
         </Footer>
       </ModalWrapper>

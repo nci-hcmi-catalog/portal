@@ -15,7 +15,7 @@ import {
 } from 'theme/adminDictionaryStyles';
 import { Row } from 'theme/system';
 
-import AdminDictionaryAddIcon from '../../../icons/AdminDictionaryAddIcon';
+import PlusIcon from '../../../icons/PlusIcon';
 
 const DictionaryFieldValues = () => {
   const {
@@ -73,7 +73,7 @@ const DictionaryFieldValues = () => {
                 }}
               />
               <AddFieldButton disabled={!newFieldValue.trim()}>
-                <AdminDictionaryAddIcon width={12} height={12} />
+                <PlusIcon width={12} height={12} />
                 ADD
               </AddFieldButton>
             </AddFieldForm>

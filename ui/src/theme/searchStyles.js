@@ -7,11 +7,7 @@ import doubleChevron from 'assets/icon-chevron-double-down.svg';
 
 import base from 'theme';
 import { HEADER_HEIGHT } from 'theme/headerStyles';
-import {
-  brandPrimaryColourHover,
-  brandPrimaryHighlightHover,
-  whiteButtonHover,
-} from 'theme/hoverStyles';
+import { brandPrimaryHighlightHover, whiteButtonHover } from 'theme/hoverStyles';
 
 const {
   fonts: { openSans },
@@ -25,6 +21,7 @@ const {
     dustyGray,
     elm,
     graySuit,
+    havelockBlue,
     lightBlack,
     lightPorcelain,
     mischka,
@@ -34,6 +31,70 @@ const {
     white,
   },
 } = base;
+
+export const inputWrapperStyle = css`
+  border-radius: 10px;
+  border: solid 1px ${bombay};
+  padding: 5px 25px 5px 10px;
+
+  &:active,
+  &:focus,
+  &:hover {
+    border-color: ${havelockBlue};
+  }
+`;
+
+export const inputIconStyle = css`
+  display: flex;
+  padding-bottom: 1px;
+  color: ${bombay};
+`;
+
+export const inputStyle = css`
+  font-family: ${openSans};
+  font-size: 12px;
+  font-weight: normal;
+  color: ${trout};
+  padding: 0;
+`;
+
+export const inputButtonStyle = css`
+  display: flex;
+  background: none;
+  text-transform: uppercase;
+  font-family: ${openSans};
+  font-size: 12px;
+  font-weight: bold;
+  align-items: center;
+  ${whiteButtonHover};
+  color: ${black};
+  fill: ${black} !important;
+  cursor: pointer;
+
+  &:hover {
+    color: ${black};
+    fill: ${black} !important;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+
+    &:hover {
+      color: ${black};
+      fill: ${black} !important;
+      background-color: ${white};
+    }
+  }
+`;
+
+export const inputDropdownButtonStyle = css`
+  height: 28px;
+  border-radius: 10px;
+  border: 1px solid ${bombay};
+  align-items: center;
+  padding: 0 10px;
+`;
 
 export default css`
   .ReactTable {
@@ -77,8 +138,12 @@ export default css`
     white-space: normal;
   }
 
-  .ReactTable a {
-    ${brandPrimaryColourHover};
+  .ReactTable .rt-td > a,
+  .clickable {
+    ${brandPrimaryHighlightHover};
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
   }
 
   .ReactTable .rt-thead {
@@ -142,6 +207,7 @@ export default css`
     margin: 0;
   }
 
+  // TODO: refactor shared Select/Dropdown styles into a component
   .ReactTable .-pagination .select-wrap.-pageSizeOptions select {
     border-radius: 4px;
     border-color: ${bombay};
@@ -154,15 +220,15 @@ export default css`
       linear-gradient(
         90deg,
         transparent 0%,
-        transparent 59%,
-        ${bombay} 59%,
-        ${bombay} 60%,
-        transparent 60%,
+        transparent calc(100% - 25px),
+        ${bombay} calc(100% - 25px),
+        ${bombay} calc(100% - 24px),
+        transparent calc(100% - 24px),
         transparent 100%
       );
     background-repeat: no-repeat;
     background-size: 10px, contain;
-    background-position: 42px 9px, 0 0;
+    background-position: bottom 8px right 8px, 0 0;
     cursor: pointer;
     transition: background-color 0.25s ease;
 
@@ -172,10 +238,10 @@ export default css`
         linear-gradient(
           90deg,
           transparent 0%,
-          transparent 59%,
-          ${bombay} 59%,
-          ${bombay} 60%,
-          transparent 60%,
+          transparent calc(100% - 25px),
+          ${bombay} calc(100% - 25px),
+          ${bombay} calc(100% - 24px),
+          transparent calc(100% - 24px),
           transparent 100%
         );
     }
@@ -592,17 +658,14 @@ export default css`
 
   .model-name-search-content .quick-search .inputWrapper,
   .toolbar .inputWrapper {
-    border-radius: 10px;
-    border: solid 1px ${bombay};
-    padding: 5px 25px 5px 10px;
+    ${inputWrapperStyle};
   }
 
   .model-name-search-content .quick-search .inputWrapper .inputIcon,
   .search-results-wrapper .tableToolbar .group .inputWrapper .inputIcon,
-  .toolbar .inputWrapper .inputIcon {
-    margin-right: 6px;
-    padding-bottom: 1px;
-    color: ${bombay};
+  .toolbar .inputWrapper .inputIcon,
+  .filter .inputWrapper .inputIcon {
+    ${inputIconStyle};
   }
 
   .search-results-wrapper .tableToolbar .group .inputWrapper .inputIcon svg {
@@ -613,11 +676,7 @@ export default css`
   .model-name-search-content .quick-search .inputWrapper input,
   .search-results-wrapper .tableToolbar .group .inputWrapper input,
   .toolbar .inputWrapper input {
-    font-family: ${openSans};
-    font-size: 12px;
-    font-weight: normal;
-    color: ${trout};
-    padding: 0;
+    ${inputStyle}
   }
 
   .quick-search-result-entity-1 {
@@ -627,13 +686,6 @@ export default css`
 
   .showMore-wrapper {
     color: ${brandPrimary};
-  }
-
-  .clickable {
-    ${brandPrimaryHighlightHover};
-    cursor: pointer;
-    text-decoration: underline;
-    padding: 0;
   }
 
   .Resizer {
@@ -699,32 +751,7 @@ export default css`
 
   .tableToolbar button,
   .toolbar button {
-    background: none;
-    text-transform: uppercase;
-    font-family: ${openSans};
-    font-size: 12px;
-    font-weight: bold;
-    align-items: center;
-    ${whiteButtonHover};
-    color: ${black};
-    fill: ${black} !important;
-    cursor: pointer;
-
-    &:hover {
-      color: ${black};
-      fill: ${black} !important;
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-      opacity: 0.8;
-
-      &:hover {
-        color: ${black};
-        fill: ${black} !important;
-        background-color: ${white};
-      }
-    }
+    ${inputButtonStyle};
   }
 
   .tableToolbar .dropDownHeader,
@@ -736,11 +763,7 @@ export default css`
   .tableToolbar .dropDownHeader button,
   .tableToolbar .buttonWrapper button,
   .toolbar button {
-    height: 28px;
-    border-radius: 10px;
-    border: 1px solid ${bombay};
-    align-items: center;
-    padding: 0 10px;
+    ${inputDropdownButtonStyle};
   }
 
   .tableToolbar .dropDownButtonContent {

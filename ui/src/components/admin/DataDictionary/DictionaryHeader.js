@@ -5,16 +5,12 @@ import { NotificationToaster } from './../Notifications';
 import useConfirmationModal from './../../modals/ConfirmationModal';
 
 import { HoverPill } from 'theme/adminControlsStyles';
-import { AdminHeaderBlock } from 'theme/adminStyles';
+import { AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
 import {
   DataDictionaryHeader,
-  DataDictionaryH1,
   DictionaryDraftTimestamp,
   DictionaryDraftStats,
   HeaderPill,
-  actionPill,
-  cancelPill,
-  disabledPill,
 } from 'theme/adminDictionaryStyles';
 
 import AdminModelPublishIcon from '../../../icons/AdminModelPublishIcon';
@@ -44,7 +40,7 @@ const DictionaryHeader = () => {
               </>
             )}
           </DictionaryDraftTimestamp>
-          <DataDictionaryH1>Data Dictionary</DataDictionaryH1>
+          <AdminHeaderH1>Data Dictionary</AdminHeaderH1>
           {isDraft && (
             <>
               <HeaderPill>Draft</HeaderPill>
@@ -64,12 +60,7 @@ const DictionaryHeader = () => {
             confirmLabel: 'Yes, Reset',
             onConfirm: reset,
           })(
-            <HoverPill
-              primary
-              disabled={!isDraft}
-              marginRight="10px"
-              css={!isDraft ? disabledPill : cancelPill}
-            >
+            <HoverPill secondary disabled={!isDraft} marginRight="10px">
               Reset
             </HoverPill>,
           )}
@@ -80,12 +71,7 @@ const DictionaryHeader = () => {
             confirmLabel: 'Yes, Publish All Updates',
             onConfirm: publish,
           })(
-            <HoverPill
-              primary
-              disabled={!isDraft}
-              marginRight="10px"
-              css={!isDraft ? disabledPill : actionPill}
-            >
+            <HoverPill primary disabled={!isDraft} marginRight="10px">
               <AdminModelPublishIcon width={16} height={16} css={'margin-right: 9px;'} />
               Publish All Updates
             </HoverPill>,

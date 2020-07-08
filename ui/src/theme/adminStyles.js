@@ -4,10 +4,10 @@ import { Row, Col } from 'theme/system';
 
 const {
   fonts: { openSans },
-  keyedPalette: { brandPrimary, lightPorcelain, porcelain, white, mineShaft },
+  keyedPalette: { black, porcelain, white, mineShaft },
 } = base;
 
-const bkgColour = lightPorcelain;
+const bkgColour = white;
 const borderColour = porcelain;
 
 export const AdminMain = styled(Row)`
@@ -26,7 +26,7 @@ export const AdminContainer = styled(Col)`
 
 export const AdminHeader = styled(Row)`
   width: 100%;
-  padding: 36px 0 28px;
+  padding: 32px 0 20px;
   justify-content: space-between;
   align-items: center;
   label: admin-header;
@@ -35,7 +35,7 @@ export const AdminHeader = styled(Row)`
 export const AdminFooter = styled(AdminHeader)`
   width: calc(100% - 164px);
   align-self: flex-end;
-  padding: 30px 0 52px;
+  padding: 22px 0 25px;
   label: admin-footer;
 `;
 
@@ -44,10 +44,10 @@ export const AdminHeaderH1 = styled('h1')`
   flex-direction: row;
   align-items: center;
   font-family: ${openSans};
-  line-height: 1;
-  color: ${brandPrimary};
-  font-size: 28px;
-  font-weight: 500;
+  line-height: 1.15;
+  color: ${black};
+  font-size: 26px;
+  font-weight: bold;
   font-style: normal;
   font-stretch: normal;
   margin: 0;

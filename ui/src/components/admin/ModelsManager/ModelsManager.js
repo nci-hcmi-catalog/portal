@@ -8,8 +8,7 @@ import ModelManagerTable from './ModelManagerTable';
 import { modelEditUrlBase } from '../AdminNav';
 import BulkUploader from '../BulkUpload';
 
-import ModelIcon from '../../../icons/ModelIcon';
-import AdminPlusIcon from '../../../icons/AdminPlusIcon';
+import PlusIcon from './../../../icons/PlusIcon';
 
 import { AdminContainer, AdminHeader, AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
 import { HoverPill, LinkPill } from 'theme/adminControlsStyles';
@@ -24,15 +23,7 @@ const content = () => {
       <AdminContainer>
         <NotificationToaster />
         <AdminHeader>
-          <AdminHeaderH1>
-            <ModelIcon
-              height={35}
-              width={35}
-              css={`
-                margin-right: 13px;
-              `}
-            />Model Management
-          </AdminHeaderH1>
+          <AdminHeaderH1>Model Management</AdminHeaderH1>
           <AdminHeaderBlock>
             <ModelManagerContext.Consumer>
               {({ uploadModelsFromSheet }) => (
@@ -40,7 +31,7 @@ const content = () => {
                   {modalState => (
                     <HoverPill
                       primary
-                      marginRight="10px"
+                      marginRight="8px"
                       onClick={() =>
                         modalState.setModalState({
                           component: (
@@ -55,14 +46,16 @@ const content = () => {
                         })
                       }
                     >
-                      <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add Bulk
+                      <PlusIcon width={12} height={12} />
+                      Add Bulk
                     </HoverPill>
                   )}
                 </ModalStateContext.Consumer>
               )}
             </ModelManagerContext.Consumer>
             <LinkPill primary={`true`} to={modelEditUrlBase}>
-              <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add A Model
+              <PlusIcon width={12} height={12} />
+              Add A Model
             </LinkPill>
           </AdminHeaderBlock>
         </AdminHeader>

@@ -4,10 +4,9 @@ import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/modelVarian
 import { ModelSingleContext } from './ModelSingleController';
 import withDeleteModal from '../DeleteModal';
 
-import DeleteIcon from 'icons/TrashIcon';
+import TrashIcon from 'icons/TrashIcon';
 
 import { ActionPill, Actions } from 'theme/adminTableStyles';
-import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 
 const selectedColumns = ['variant_name', 'variant_type', 'assessment_type', 'expression_level'];
 
@@ -31,15 +30,8 @@ const modelVariantCustomColumns = [
                 next: () => deleteVariant(_id),
                 target: `${variant_name}-${variant_type}`,
               })(
-                <ActionPill secondary marginRight="6px">
-                  <DeleteIcon
-                    css={`
-                      width: 12px;
-                      height: 12px;
-                      font-weight: normal;
-                      ${brandPrimaryHighlightHover};
-                    `}
-                  />
+                <ActionPill secondary>
+                  <TrashIcon fill={'currentColor'} width={12} height={12} />
                   Delete
                 </ActionPill>,
               )}

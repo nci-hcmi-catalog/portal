@@ -3,11 +3,9 @@ import Dropzone from 'react-dropzone';
 import Component from 'react-component-component';
 
 import { ModelSingleContext } from './ModelSingleController';
-import { Pill as NavPill } from 'theme/adminNavStyles';
 import { HoverPill } from 'theme/adminControlsStyles';
 import base from 'theme';
 import { Row, Col } from 'theme/system';
-import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 import { FormContainer } from 'theme/adminFormStyles';
 import { Field, Formik } from 'formik';
 import { FormInput } from 'components/FormComponents';
@@ -15,12 +13,13 @@ import { FormInput } from 'components/FormComponents';
 import DragNDropIcon from 'icons/DragNDrop';
 import PlusIcon from 'icons/PlusIcon';
 import TrashIcon from 'icons/TrashIcon';
-import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
+import EditIcon from 'icons/EditIcon';
+import SaveIcon from 'icons/SaveIcon';
 import config from '../config';
 import TabHeader from './TabHeader';
 const {
-  keyedPalette: { frenchGrey, lightPorcelain, mineShaft, porcelain, silver },
-  fonts: { libreFranklin, openSans },
+  keyedPalette: { athensGray, black, crimson, frenchGrey, mischka, white },
+  fonts: { openSans },
 } = base;
 
 const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) => (
@@ -36,10 +35,16 @@ const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) =
       setPreviewState({ editing: !editing });
     }}
     render={({ handleSubmit }) => (
-      <FormContainer>
+      <FormContainer
+        css={`
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+        `}
+      >
         <ul>
           <li>
-            {!editing ? <b>{file.file_name}</b> : <b>Description:</b>}
+            {!editing ? <b>{file.file_name}</b> : 'Description:'}
             {editing && <Field name="file_name" component={FormInput} />}
           </li>
           <li>
@@ -59,7 +64,18 @@ const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) =
             )}
           </li>
         </ul>
-        {editing && <NavPill onClick={handleSubmit}>Save</NavPill>}
+        {editing && (
+          <HoverPill
+            primary
+            css={`
+              margin-right: 10px;
+            `}
+            onClick={handleSubmit}
+          >
+            <SaveIcon width={11} height={11} fill={white} />
+            Save
+          </HoverPill>
+        )}
       </FormContainer>
     )}
   />
@@ -70,24 +86,26 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
       <Col
         css={`
           font: ${openSans};
-          font-size: 13px;
-          border: 1px solid ${porcelain};
-          width: 260px;
+          font-size: 12px;
+          border: 1px solid ${mischka};
+          width: 225px;
           align-items: center;
           padding: 5px;
           margin-right: 15px;
-          margin-top: 15px;
+          margin-bottom: 15px;
           position: relative;
           opacity: ${queuedForDelete ? 0.5 : 1};
         `}
         onMouseOver={() => setState({ showControls: true })}
+        onFocus={() => setState({ showControls: true })}
         onMouseOut={() => setState({ showControls: false })}
+        onBlur={() => setState({ showControls: false })}
       >
         <img
           src={file.preview ? file.preview : `${config.urls.cmsBase}/images/${file.file_id}`}
           alt={`File: ${file.file_name}`}
-          height="155"
-          width="250"
+          height="163"
+          width="215"
         />
         <Row
           css={`
@@ -100,55 +118,42 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
           `}
         >
           {!queuedForDelete && (
-            <NavPill
+            <HoverPill
+              secondary
               css={`
-                padding: 0;
-                width: 32px;
-                height: 32px;
-                margin-right: 5px;
+                margin-right: 10px;
+                padding: 5px 10px;
               `}
             >
-              <AdminEditPencilIcon
-                css={`
-                  margin-right: 0;
-                  height: 17px;
-                `}
+              <EditIcon
+                width={14}
+                height={14}
+                style={`margin: 0;`}
                 onClick={() => setState({ editing: !editing })}
               />
-            </NavPill>
+            </HoverPill>
           )}
-          <NavPill
+          <HoverPill
+            secondary
             css={`
-              padding: 0;
-              width: 32px;
-              height: 32px;
+              padding: 5px 10px;
             `}
             onClick={() => onDelete(file.file_id)}
           >
             {queuedForDelete ? (
-              <PlusIcon
-                fill="#900000"
-                css={`
-                  margin-right: 0;
-                  height: 17px;
-                `}
-              />
+              <PlusIcon fill={crimson} width={14} height={14} style={`margin: 0;`} />
             ) : (
-              <TrashIcon
-                css={`
-                  ${brandPrimaryHighlightHover};
-                  margin-right: 0;
-                `}
-              />
+              <TrashIcon width={14} height={14} style={`margin: 0;`} />
             )}
-          </NavPill>
+          </HoverPill>
         </Row>
         <Col
           css={`
             align-self: start;
             ul {
               list-style: none;
-              padding-left: 0;
+              margin: 0;
+              padding: 10px;
             }
           `}
         >
@@ -160,7 +165,8 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
           />
           <div
             css={`
-              color: ${silver};
+              color: ${crimson};
+              padding-left: 10px;
             `}
           >
             {queuedForDelete && 'Will delete on publish'}
@@ -205,32 +211,34 @@ const ImageDropper = ({ onDrop, display }) => (
   >
     <Col
       css={`
-        background: ${lightPorcelain};
+        background: ${athensGray};
         height: 100%;
-        font-family: ${libreFranklin};
-        font-weight: 500;
-        color: ${mineShaft};
-        font-size: 20px;
+        font-family: ${openSans};
+        font-weight: bold;
+        color: ${black};
+        font-size: 14px;
+        line-height: 1.71;
         align-items: center;
         justify-content: center;
+        text-align: center;
       `}
     >
       <DragNDropIcon
+        fill={'currentColor'}
+        height={36}
         css={`
-          height: 53px;
-          padding-bottom: 10px;
+          margin-bottom: 8px;
         `}
       />
-      Drag and drop your image(s) here
-      <span
+      Drag and drop your image(s) here <br /> or
+      <HoverPill
+        secondary
         css={`
-          font-size: 14px;
-          padding: 10px 0;
+          margin-top: 8px;
         `}
       >
-        or
-      </span>
-      <NavPill>Browse Your Files</NavPill>
+        Browse Your Files
+      </HoverPill>
     </Col>
   </Dropzone>
 );
@@ -251,32 +259,29 @@ export default ({ data: { updatedAt } }) => (
       }) => (
         <>
           <Row
-            p={'18px 42px'}
+            p={'24px 10px 22px'}
             css={`
               justify-content: space-between;
+              align-items: center;
+              font-size: 14px;
             `}
           >
             <div>Upload images in jpeg, tiff, png or svg formats.</div>
-            {!!files.length && (
-              <HoverPill
-                css={`
-                  align-self: right;
-                `}
-                primary
-                onClick={() => {
-                  dropzoneRef.open();
-                }}
-              >
-                <PlusIcon
-                  css={`
-                    height: 16px;
-                  `}
-                />Add Images
-              </HoverPill>
-            )}
+            <HoverPill
+              css={`
+                align-self: right;
+              `}
+              primary
+              onClick={() => {
+                dropzoneRef.open();
+              }}
+            >
+              <PlusIcon width={11} height={11} />
+              Add Images
+            </HoverPill>
           </Row>
           <Row
-            p={'18px 42px'}
+            p={'0 10px'}
             css={`
               flex-wrap: wrap;
             `}

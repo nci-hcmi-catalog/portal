@@ -10,7 +10,6 @@ import {
   DependentColumnHeading,
   DependentValues,
   DependentValuesHeader,
-  expandPill,
 } from 'theme/adminDictionaryStyles';
 
 const DictionaryDependentFieldValues = () => {
@@ -76,7 +75,13 @@ const DictionaryDependentFieldValues = () => {
       <DependentValues>
         <DependentValuesHeader>
           <DependentColumnHeading>Dependent Field Values for {activeValue}</DependentColumnHeading>
-          <HoverPill primary css={expandPill} onClick={shouldExpand ? expandAll : collapseAll}>
+          <HoverPill
+            secondary
+            onClick={shouldExpand ? expandAll : collapseAll}
+            css={`
+              height: 28px;
+            `}
+          >
             {shouldExpand ? 'Expand All' : 'Collapse All'}
           </HoverPill>
         </DependentValuesHeader>

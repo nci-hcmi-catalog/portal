@@ -3,12 +3,11 @@ import ReactTable from 'react-table';
 
 import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
 
+import Filter from 'components/input/Filter';
 import TabGroup from 'components/layout/VerticalTabs';
 
 import DownloadIcon from 'icons/DownloadIcon';
-import FilterIcon from 'icons/FilterIcon';
 import VariantsIcon from 'icons/VariantsIcon';
-import XIcon from 'icons/XIcon';
 
 import { useVariants } from 'providers/Variants';
 
@@ -92,63 +91,7 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
           ${sortedData.length} Variants`}
           </div>
           <Row justifyContent="flex-end">
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                overflow: 'hidden',
-                position: 'relative',
-              }}
-              className="inputWrapper"
-            >
-              <span className="inputIcon">
-                <FilterIcon height={16} width={16} />
-              </span>
-              <input
-                type="text"
-                placeholder="Filter"
-                value={filterValue}
-                onChange={({ target: { value } }) => {
-                  setFilterValue(value);
-                }}
-                style={{
-                  border: 'none',
-                  flex: 1,
-                }}
-              />
-              {filterValue && filterValue.length > 0 && (
-                <button
-                  className="inputIcon"
-                  style={{
-                    position: 'absolute',
-                    right: 0,
-                    margin: '0 6px 0 0',
-                    padding: 0,
-                    border: 'none',
-                    height: 'unset',
-                    width: 'unset',
-                  }}
-                  onClick={e => {
-                    e.preventDefault();
-                    setFilterValue('');
-                  }}
-                >
-                  <XIcon
-                    height={16}
-                    width={16}
-                    fill={'#64666a'}
-                    style={{
-                      margin: 0,
-                      padding: '4px',
-                      border: '1px solid #64666a',
-                      borderRadius: '100%',
-                      cursor: 'pointer',
-                    }}
-                  />
-                </button>
-              )}
-            </div>
+            <Filter onFilterValueChange={setFilterValue} />
 
             <button
               disabled={sortedData.length === 0}

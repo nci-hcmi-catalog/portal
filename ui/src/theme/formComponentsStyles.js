@@ -2,42 +2,43 @@ import { css } from 'emotion';
 import styled from 'react-emotion';
 import base from 'theme';
 import CalendarIcon from 'assets/icon-calendar.svg';
+import chevron from 'assets/icon-chevron-down.svg';
 
 const {
-  fonts: { libreFranklin, openSans },
+  fonts: { openSans },
   keyedPalette: {
-    brandPrimary,
+    athensGray,
+    athensLightGray,
     black,
-    white,
-    mineShaft,
-    lightPorcelain,
-    silver,
-    shuttleGrey,
-    frenchGrey,
+    bombay,
+    brandPrimary,
+    dawnPink,
     dodgerBlue,
+    lightPorcelain,
+    mineShaft,
     sandyBeach,
     seaBuckthorn,
-    silverChalice,
-    dawnPink,
+    trout,
+    white,
   },
 } = base;
 
-const inputPrimaryColour = mineShaft;
-const inputBorderColour = frenchGrey;
-const checkBoxRadioBorderColour = silver;
+const inputPrimaryColour = black;
+const inputBorderColour = bombay;
+const checkBoxRadioBorderColour = bombay;
 const checkboxBlue = dodgerBlue;
 const radioColour = dodgerBlue;
-const fieldDescColour = shuttleGrey;
-const disabledBkgColour = lightPorcelain;
-const disabledTextColour = silverChalice;
+const fieldDescColour = trout;
+const disabledBkgColour = athensGray;
+const disabledBorderColour = athensLightGray;
+const disabledTextColour = trout;
 const errorBkgColour = dawnPink;
 
 const baseText = css`
-  font-size: 13px;
-  line-height: 2;
+  font-family: ${openSans};
+  font-size: 14px;
   font-style: normal;
-  font-stretch: normal;
-  letter-spacing: normal;
+  color: ${black};
 `;
 
 export const FormBlock = styled('div')`
@@ -45,7 +46,7 @@ export const FormBlock = styled('div')`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  font-family: ${libreFranklin};
+  font-family: ${openSans};
   margin-bottom: 16px;
 
   &:last-child {
@@ -55,15 +56,15 @@ export const FormBlock = styled('div')`
 
 export const FormBlockLabel = styled('label')`
   ${baseText};
-  color: ${black};
-  font-weight: 500;
-  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 4px;
 `;
 
 export const FormFieldDesc = styled('div')`
   ${baseText};
-  font-family: ${openSans};
+  font-size: 12px;
   font-style: italic;
+  margin-bottom: 4px;
   color: ${fieldDescColour};
 `;
 
@@ -73,7 +74,7 @@ export const FormWarningLabel = styled('div')`
   font-weight: normal;
   color: ${black};
   background-color: ${sandyBeach};
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 2px 10px;
   margin-bottom: 4px;
   position: relative;
@@ -102,7 +103,7 @@ const fieldWarningStyles = css`
 const inputSelectSharedStyles = css`
   height: 36px;
   padding: 0 12px;
-  border-radius: 10px;
+  border-radius: 4px;
   background-color: ${white};
   border: solid 1px ${inputBorderColour};
   font-family: ${openSans};
@@ -121,7 +122,9 @@ const inputSelectSharedStyles = css`
 
   &:disabled {
     background: ${disabledBkgColour};
+    border-color: ${disabledBorderColour};
     color: ${disabledTextColour};
+    cursor: not-allowed;
   }
 `;
 
@@ -140,9 +143,46 @@ export const Input = styled('input')`
   }
 `;
 
+// TODO: refactor shared Select/Dropdown styles into a component
 export const Select = styled('select')`
   ${inputSelectSharedStyles};
   width: ${props => props.width || '100%'};
+
+  appearance: none;
+  box-sizing: border-box;
+  background-color: ${white};
+  background-image: url(${chevron}),
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      transparent calc(100% - 37px),
+      ${bombay} calc(100% - 37px),
+      ${bombay} calc(100% - 36px),
+      transparent calc(100% - 36px),
+      transparent 100%
+    );
+  background-repeat: no-repeat;
+  background-size: 10px, contain;
+  background-position: bottom 12px right 12px, 0 0;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+
+  &:not(:disabled) {
+    &:hover {
+      background-color: ${lightPorcelain};
+      background-image: url(${chevron}),
+        linear-gradient(
+          90deg,
+          transparent 0%,
+          transparent calc(100% - 37px),
+          ${bombay} calc(100% - 37px),
+          ${bombay} calc(100% - 36px),
+          transparent calc(100% - 36px),
+          transparent 100%
+        );
+    }
+  }
+
   ${props => !!props.errors && fieldErrorStyles};
 `;
 
@@ -283,7 +323,7 @@ export const CheckBoxes = styled('fieldset')`
   }
 
   span {
-    border-radius: 3px;
+    border-radius: 2px;
 
     &::after {
       left: 4px;
@@ -330,7 +370,7 @@ export const FormFieldError = styled('div')`
   line-height: 1.5;
   padding: 2px 6px;
   color: ${brandPrimary};
-  border-radius: 5px;
+  border-radius: 4px;
   background-color: ${errorBkgColour};
   margin-bottom: 6px;
 
