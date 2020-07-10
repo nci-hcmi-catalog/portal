@@ -1,4 +1,6 @@
 import React from 'react';
+import uuid from 'uuid/v4';
+
 import Component from 'react-component-component';
 import ReactAutocomplete from 'react-autocomplete';
 import moment from 'moment-timezone';
@@ -158,11 +160,13 @@ export const FormRadioSelect = ({
       {processOptions(options).map((option, idx) => {
         const formValue = normalizeOption(value);
         const optionValue = normalizeOption(option.value);
+        const optionId = uuid();
         return (
-          <label key={idx}>
+          <label key={idx} htmlFor={`radio-option-${optionId}`}>
             {option.label}
             <input
               type="radio"
+              id={`radio-option-${optionId}`}
               {...field}
               value={optionValue}
               checked={formValue === optionValue}
@@ -194,11 +198,13 @@ export const FormMultiCheckbox = ({
         {processOptions(props.options).map((option, idx) => {
           const name = option.label;
           const value = option.value;
+          const optionId = uuid();
           return (
-            <label key={idx}>
+            <label key={idx} htmlFor={`checkbox-option-${optionId}`}>
               {name}
               <input
                 type="checkbox"
+                id={`checkbox-option-${optionId}`}
                 value={value}
                 checked={fieldValues.includes(value)}
                 name={fieldName}

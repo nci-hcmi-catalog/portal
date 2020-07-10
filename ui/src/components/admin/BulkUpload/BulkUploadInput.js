@@ -126,10 +126,11 @@ export default ({
               let formValue = normalizeOption(overwrite);
               const optionValue = normalizeOption(option.value);
               return (
-                <label key={idx}>
+                <label key={idx} htmlFor={`overwrite-option-${idx}`}>
                   {option.label}
                   <input
                     type="radio"
+                    id={`overwrite-option-${idx}`}
                     value={optionValue}
                     checked={formValue === optionValue}
                     onChange={e => {
