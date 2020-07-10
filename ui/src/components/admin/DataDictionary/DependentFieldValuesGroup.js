@@ -9,10 +9,10 @@ import AdminDictionaryArrowIcon from '../../../icons/AdminDictionaryArrowIcon';
 import {
   AddFieldForm,
   AddFieldInput,
-  AddFieldButton,
   FieldValueList,
   DependentFieldType,
 } from 'theme/adminDictionaryStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 import { Row } from 'theme/system';
 
 const DependentFieldValuesGroup = ({
@@ -66,10 +66,9 @@ const DependentFieldValuesGroup = ({
                   setNewFieldValue(e.target.value);
                 }}
               />
-              <AddFieldButton disabled={!newFieldValue.trim()}>
-                <PlusIcon width={12} height={12} />
+              <ButtonPill primary disabled={!newFieldValue.trim()}>
                 ADD
-              </AddFieldButton>
+              </ButtonPill>
             </AddFieldForm>
           </Row>
           {fieldValues && (

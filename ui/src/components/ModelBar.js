@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { stringify } from 'query-string';
 
 import { Row } from 'theme/system';
+import { ButtonPill } from 'theme/adminControlsStyles';
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 import Url from 'components/Url';
 import { SavedSetsContext } from 'providers/SavedSets';
@@ -66,7 +67,9 @@ export default ({ name, id, isExpanded }) => {
               BACK TO SEARCH
             </Link>
 
-            <button
+            <ButtonPill
+              primary
+              marginLeft={'8px'}
               onClick={() => toggleModel(id)}
               className={`model-bar__action ${isSelected ? 'model-bar__action--selected' : ''}`}
             >
@@ -81,7 +84,7 @@ export default ({ name, id, isExpanded }) => {
                   Add Model to My List
                 </>
               )}
-            </button>
+            </ButtonPill>
 
             <ModelList className="model-bar-model-list" />
           </div>

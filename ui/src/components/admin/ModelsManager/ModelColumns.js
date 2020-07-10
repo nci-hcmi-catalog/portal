@@ -131,8 +131,8 @@ const modelManagerCustomColumns = [
     Cell: ({ original: { name, status } }) => {
       return (
         <Actions>
-          <ActionLinkPill secondary={`true`} to={modelEditUrlBase + '/' + name}>
-            <EditIcon width={12} height={12} fill={'currentColor'} />
+          <ActionLinkPill secondary to={modelEditUrlBase + '/' + name}>
+            <EditIcon width={'12px'} height={'12px'} />
             Edit
           </ActionLinkPill>
           <Popup
@@ -172,7 +172,7 @@ const modelManagerCustomColumns = [
                       </ActionsMenuItem>
                     )}
                     {withDeleteModal({
-                      next: actionAndClose(() => alert(name)),
+                      next: actionAndClose(() => deleteOne(name), close),
                       target: name,
                       onCancel: close,
                     })(<ActionsMenuItem>Delete</ActionsMenuItem>)}

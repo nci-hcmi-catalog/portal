@@ -11,7 +11,7 @@ import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
 
 import { AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
 import { ModelHeaderH1, ModelHeaderBackLink } from 'theme/adminModelStyles';
-import { HoverPill } from 'theme/adminControlsStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 import { modelStatusPill } from '../ModelsManager/ModelColumns';
 import ExternalLinkIcon from 'icons/ExternalLinkIcon';
 import { modelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
@@ -48,14 +48,8 @@ const modelMoreOptions = (data = null) =>
     <Popup
       trigger={
         <div>
-          <HoverPill secondary marginLeft="8px">
-            <AdminModelMoreOptionsIcon
-              css={'margin: 0;'}
-              width={18}
-              height={17}
-              fill={'currentColor'}
-            />
-          </HoverPill>
+          <ButtonPill secondary disabled={!data || Object.keys(data).length === 0} marginLeft="8px">
+          </ButtonPill>
         </div>
       }
       position="bottom right"
@@ -71,6 +65,7 @@ const modelMoreOptions = (data = null) =>
         width: 'max-content',
       }}
       arrow={false}
+      disabled={!data || Object.keys(data).length === 0}
     >
       {close => {
         return <ActionsMenu close={close} />;

@@ -2,6 +2,7 @@ import { css } from 'emotion';
 import styled from 'react-emotion';
 import base from 'theme';
 
+import { SmallPill } from 'theme/adminControlsStyles';
 import { AdminContainer, AdminContent, AdminHeader } from 'theme/adminStyles';
 import { Col } from 'theme/system';
 import { Row } from 'theme/system';
@@ -14,14 +15,13 @@ const {
     athensLightGray,
     bombay,
     brandPrimary,
-    deepIron,
     elm,
     havelockBlue,
     pelorousapprox,
     porcelain,
     seaBuckthorn,
+    tiaMaria,
     trout,
-    white,
   },
 } = base;
 
@@ -36,17 +36,9 @@ export const DataDictionaryHeader = styled(AdminHeader)`
   padding-top: 32px;
 `;
 
-export const HeaderPill = styled('span')`
-  font-family: ${openSans};
-  font-size: 11px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.27;
-  color: ${white};
-  background-color: ${seaBuckthorn};
-  border-radius: 8px;
-  padding: 3px 8px;
+export const HeaderPill = styled(SmallPill)`
+  background-color: ${tiaMaria};
+  border-color: ${tiaMaria};
   margin: auto 10px;
 `;
 
@@ -163,39 +155,6 @@ export const AddFieldInput = styled('input')`
   &:hover {
     border-color: ${havelockBlue};
   }
-`;
-
-export const disabledFieldButton = css`
-  color: ${white};
-  background-color: ${deepIron};
-
-  &:hover {
-    color: ${white};
-    background-color: ${deepIron};
-    cursor: not-allowed;
-  }
-`;
-
-export const AddFieldButton = styled('button')`
-  height: 28px;
-  width: 62px;
-  color: ${white};
-  background-color: ${elm};
-  border-radius: 10px;
-  border-color: transparent;
-  font-family: ${openSans};
-  font-size: 12px;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-
-  &:hover {
-    background-color: ${pelorousapprox};
-  }
-
-  ${({ disabled }) => disabled && disabledFieldButton};
 `;
 
 export const FieldValueList = styled('ol')`
@@ -315,6 +274,7 @@ export const FieldValueListItemButton = styled('button')`
   padding: 8px;
   border: none;
   background: transparent;
+  color: ${elm};
   cursor: pointer;
 `;
 

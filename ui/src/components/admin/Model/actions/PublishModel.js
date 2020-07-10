@@ -3,8 +3,7 @@ import Tooltip from '../../ToolTip';
 
 import { ModelSingleContext } from '../ModelSingleController';
 
-import { HoverPill } from 'theme/adminControlsStyles';
-import AdminModelPublishIcon from 'icons/AdminModelPublishIcon';
+import { ButtonPill } from 'theme/adminControlsStyles';
 
 import withPublishConfirmModal from '../../PublishLinkedModelsModal/PublishLinkedModelsModal';
 
@@ -31,10 +30,9 @@ export default ({ close, ...props }) => (
                 .map(i => i.name),
             })(
               <div>
-                <HoverPill primary disabled={disabled} {...props}>
-                  <AdminModelPublishIcon height={11} width={11} />
+                <ButtonPill primary disabled={disabled} {...props}>
                   Publish
-                </HoverPill>
+                </ButtonPill>
               </div>,
             )
           }

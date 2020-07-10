@@ -17,6 +17,7 @@ import XIcon from 'icons/XIcon';
 
 import { VariantsProvider } from 'providers/Variants';
 
+import { ExternalLinkPill } from 'theme/adminControlsStyles';
 import { ModelSlider, ModelSlide, LeftArrow, RightArrow } from 'theme/carouselStyles';
 import styles from 'theme/modelStyles';
 import { Row, Col } from 'theme/system';
@@ -27,7 +28,7 @@ import apiDataProcessor from 'utils/apiDataProcessor';
 import { imgPath } from 'utils/constants';
 
 const {
-  keyedPalette: { bombay, brandPrimary, pelorousapprox, white },
+  keyedPalette: { bombay, brandPrimary, pelorousapprox },
 } = base;
 
 const HorizontalTable = ({
@@ -176,7 +177,8 @@ const MolecularCharacterizationsTable = ({ characterizations }) => {
 };
 
 const ExternalResourceLink = ({ url, children }) => (
-  <a
+  <ExternalLinkPill
+    primary
     className={`external-resources__link ${!url && 'external-resources__link--disabled'}`}
     href={url}
     role={!url ? 'button' : null}
@@ -185,7 +187,7 @@ const ExternalResourceLink = ({ url, children }) => (
     rel="noopener noreferrer"
   >
     {children}
-  </a>
+  </ExternalLinkPill>
 );
 
 const ExternalResourcesContent = ({

@@ -11,7 +11,7 @@ import {
   ToolbarText,
 } from 'theme/adminTableStyles';
 
-import { HoverPill } from 'theme/adminControlsStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 const [publishAction, unpublishAction, deleteAction] = ['Publish', 'Unpublish', 'Delete'];
 
 const onApplyClick = ({ action, onPublishClick, onUnpublishClick, reset }) => {
@@ -104,16 +104,16 @@ export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection 
             setSelectedAction('');
           },
         })(
-          <HoverPill
+          <ButtonPill
             secondary
             marginLeft="8px"
             disabled={!hasSelection || selectedAction.length === 0}
           >
             Apply
-          </HoverPill>,
+          </ButtonPill>,
         )
       ) : (
-        <HoverPill
+        <ButtonPill
           secondary
           onClick={() =>
             hasSelection &&
@@ -131,7 +131,7 @@ export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection 
           disabled={!hasSelection || selectedAction.length === 0}
         >
           Apply
-        </HoverPill>
+        </ButtonPill>
       )}
     </ToolbarSection>
   );

@@ -11,7 +11,7 @@ import { SelectedModelsContext } from 'providers/SelectedModels';
 import { ModalStateContext } from 'providers/ModalState';
 
 import { Row } from 'theme/system';
-import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 
 import DoubleArrowRightIcon from 'icons/DoubleArrowRightIcon';
 import ModelPlaceholderIcon from 'icons/ModelPlaceholderIcon';
@@ -67,19 +67,28 @@ export default () => (
                   return (
                     <>
                       <div className="model-list-drawer-header">
-                        <h2 onClick={() => modalState.setModalState({ component: null })}>
-                          <DoubleArrowRightIcon />
-                          My Model List{hasSelected && (
-                            <span className="count">{selectedCount}</span>
-                          )}
-                        </h2>
-                        <button
+                        <Row alignItems="baseline">
+                          <button
+                            onClick={() => modalState.setModalState({ component: null })}
+                            css={`
+                              border: none;
+                              cursor: pointer;
+                            `}
+                          >
+                            <DoubleArrowRightIcon />
+                          </button>
+                          <h2>
+                            My Model List
+                            {hasSelected && <span className="count">{selectedCount}</span>}
+                          </h2>
+                        </Row>
+                        <ButtonPill
+                          secondary
                           disabled={!hasSelected}
                           onClick={() => selected.clearModels()}
-                          className="clear"
                         >
                           Clear
-                        </button>
+                        </ButtonPill>
                       </div>
                       {hasSelected && loading && <Loading />}
                       {hasSelected && !loading ? (
@@ -119,10 +128,10 @@ export default () => (
                                   </div>
                                   <TrashIcon
                                     onClick={() => selected.toggleModel(model.id)}
+                                    fill={'#000'}
                                     css={`
                                       cursor: pointer;
                                       margin: 0 0 0 10px;
-                                      ${brandPrimaryHighlightHover};
                                     `}
                                   />
                                 </div>
@@ -134,8 +143,8 @@ export default () => (
                         <EmptyList />
                       )}
                       <div className="download-tsv">
-                        <button
-                          className="download-tsv-btn"
+                        <ButtonPill
+                          primary
                           disabled={!hasSelected}
                           onClick={() =>
                             tsvDownloader(
@@ -153,7 +162,7 @@ export default () => (
                             `}
                           />
                           Download TSV
-                        </button>
+                        </ButtonPill>
                       </div>
                     </>
                   );

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { HoverPill } from 'theme/adminControlsStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 import { Footer } from 'theme/adminModalStyles';
 
 export default ({ onUploadClick, modalState }) => (
@@ -9,11 +9,11 @@ export default ({ onUploadClick, modalState }) => (
       margin-bottom: 12px;
     `}
   >
-    <HoverPill primary marginRight={`10px`} onClick={onUploadClick}>
+    <ButtonPill primary marginRight={`10px`} onClick={onUploadClick}>
       Upload
-    </HoverPill>
-    <HoverPill secondary onClick={() => modalState.setModalState({ component: null })}>
+    </ButtonPill>
+    <ButtonPill secondary onClick={() => modalState.setModalState({ component: null })}>
       Cancel
-    </HoverPill>
+    </ButtonPill>
   </Footer>
 );

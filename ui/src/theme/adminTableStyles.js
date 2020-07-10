@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import base from 'theme';
 import { Row } from 'theme/system';
-import { SmallHoverPill } from 'theme/adminControlsStyles';
+import { SmallButtonPill } from 'theme/adminControlsStyles';
 
 const {
   keyedPalette: { bombay, white, black, lightBlack, trout, lightPorcelain },
@@ -18,7 +18,7 @@ export const Table = styled('div')`
   label: models-table-main;
 `;
 
-export const ActionPill = styled(SmallHoverPill)`
+export const ActionPill = styled(SmallButtonPill)`
   font-size: 12px;
   font-weight: bold;
   border-radius: 10px;

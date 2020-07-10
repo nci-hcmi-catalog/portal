@@ -9,7 +9,7 @@ import { LinkPill } from 'theme/adminControlsStyles';
 export default () => (
   <AdminFooter>
     <AdminFooterBlock>
-      <LinkPill to={manageModelsUrlBase} secondary={`true`}>
+      <LinkPill to={manageModelsUrlBase} secondary>
         Cancel
       </LinkPill>
     </AdminFooterBlock>

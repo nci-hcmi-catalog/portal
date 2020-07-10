@@ -11,6 +11,7 @@ import VariantsIcon from 'icons/VariantsIcon';
 
 import { useVariants } from 'providers/Variants';
 
+import { ButtonPill } from 'theme/adminControlsStyles';
 import searchStyles from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
 import { Tab, TabHeading, variantTab, variantTabActive } from 'theme/verticalTabStyles';
@@ -93,14 +94,15 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
           <Row justifyContent="flex-end">
             <Filter onFilterValueChange={setFilterValue} />
 
-            <button
+            <ButtonPill
+              secondary
               disabled={sortedData.length === 0}
               style={{ marginLeft: '8px' }}
               onClick={() => tsvDownloader(`${modelName}-${type}`, filteredData)}
             >
               <DownloadIcon height={12} width={12} fill={'#000'} />
               TSV
-            </button>
+            </ButtonPill>
           </Row>
         </Row>
       ) : null}

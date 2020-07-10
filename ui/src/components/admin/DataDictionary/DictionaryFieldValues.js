@@ -8,11 +8,11 @@ import { CLINICAL_TUMOR_DIAGNOSIS } from './../helpers/dictionary';
 import {
   AddFieldForm,
   AddFieldInput,
-  AddFieldButton,
   FieldValues,
   FieldValueList,
   DictionaryColumnHeading,
 } from 'theme/adminDictionaryStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 import { Row } from 'theme/system';
 
 import PlusIcon from '../../../icons/PlusIcon';
@@ -72,10 +72,9 @@ const DictionaryFieldValues = () => {
                   setNewFieldValue(e.target.value);
                 }}
               />
-              <AddFieldButton disabled={!newFieldValue.trim()}>
-                <PlusIcon width={12} height={12} />
+              <ButtonPill primary disabled={!newFieldValue.trim()}>
                 ADD
-              </AddFieldButton>
+              </ButtonPill>
             </AddFieldForm>
           </Row>
           <FieldValueList>

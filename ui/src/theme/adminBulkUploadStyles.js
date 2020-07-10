@@ -52,7 +52,7 @@ export const BulkUploadContentBlock = styled('div')`
 
 export const BulkUploadTemplateLink = styled('a')`
   margin-left: auto;
-  font-family: ${libreFranklin};
+  font-family: ${openSans};
   font-size: 12px;
   font-weight: 500;
   text-decoration: none;

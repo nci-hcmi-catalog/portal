@@ -3,20 +3,7 @@ import base from 'theme';
 import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 
 const {
-  keyedPalette: {
-    alto,
-    athensGray,
-    athensLightGray,
-    black,
-    bombay,
-    crimson,
-    deepIron,
-    elm,
-    lightPorcelain,
-    pelorousapprox,
-    mischka,
-    white,
-  },
+  keyedPalette: { alto, athensGray, athensLightGray, black, crimson, mischka, white },
   fonts: { openSans },
 } = base;
 
@@ -46,6 +33,12 @@ export default css`
     border-bottom: 1px solid ${mischka};
   }
 
+  .model-list-drawer-header button {
+    svg {
+      fill: ${crimson};
+    }
+  }
+
   .model-list-drawer-header h2 {
     display: flex;
     align-items: center;
@@ -54,12 +47,7 @@ export default css`
     font-size: 20px;
     font-weight: bold;
     margin: 0;
-    cursor: pointer;
     color: ${black};
-
-    svg {
-      fill: ${crimson};
-    }
   }
 
   .model-list-drawer-header .count {
@@ -75,48 +63,6 @@ export default css`
     background-color: ${crimson};
     border-radius: 100%;
     margin-left: 10px;
-  }
-
-  .model-list-drawer-header .clear,
-  .download-tsv-btn {
-    font-family: ${openSans};
-    font-size: 12px;
-    font-weight: bold;
-    text-align: center;
-    color: ${black};
-    border-radius: 10px;
-    background-color: ${white};
-    border: solid 1px ${bombay};
-    height: 28px;
-    line-height: 28px;
-    padding: 0 10px;
-    cursor: pointer;
-    text-transform: uppercase;
-
-    &:not([disabled]):hover {
-      background-color: ${lightPorcelain};
-    }
-  }
-
-  .download-tsv-btn:not([disabled]) {
-    color: ${white};
-    background-color: ${elm};
-    border-color: ${elm};
-    transition: background 0.25s ease;
-
-    &:hover {
-      color: ${white};
-      background-color: ${pelorousapprox};
-      border-color: ${pelorousapprox};
-    }
-  }
-
-  .model-list-drawer-header .clear:disabled,
-  .download-tsv-btn:disabled {
-    cursor: not-allowed;
-    color: ${white};
-    background-color: ${deepIron};
-    border-color: ${deepIron};
   }
 
   .empty-list {

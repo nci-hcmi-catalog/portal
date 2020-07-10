@@ -11,7 +11,7 @@ import {
   Content,
   Footer,
 } from 'theme/adminModalStyles';
-import { HoverPill } from 'theme/adminControlsStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 
 const doThenClose = (next, modalState) => () => {
   next();
@@ -32,12 +32,12 @@ const DeleteModal = ({ next, target, onCancel = () => false }) => (
           </span>
         </Content>
         <Footer>
-          <HoverPill primary marginRight={'10px'} onClick={doThenClose(next, modalState)}>
+          <ButtonPill primary marginRight={'10px'} onClick={doThenClose(next, modalState)}>
             Delete
-          </HoverPill>
-          <HoverPill secondary onClick={doThenClose(onCancel, modalState)}>
+          </ButtonPill>
+          <ButtonPill secondary onClick={doThenClose(onCancel, modalState)}>
             Cancel
-          </HoverPill>
+          </ButtonPill>
         </Footer>
       </ModalWrapper>
     )}
