@@ -17,13 +17,13 @@ import DoubleArrowRightIcon from 'icons/DoubleArrowRightIcon';
 import ModelPlaceholderIcon from 'icons/ModelPlaceholderIcon';
 import TrashIcon from 'icons/TrashIcon';
 import DownloadIcon from 'icons/DownloadIcon';
-import modelListEmptyBlue from 'assets/icon-modellist-empty-blue.svg';
+import modelListEmptyOrange from 'assets/icon-modellist-empty-orange.svg';
 
 import { imgPath } from 'utils/constants';
 
 const EmptyList = () => (
   <div className="empty-list">
-    <img src={modelListEmptyBlue} alt="Empty list icon" width="26" height="30" />
+    <img src={modelListEmptyOrange} alt="Empty list icon" width="26" height="30" />
     <p>You don’t have any models selected.</p>
   </div>
 );
