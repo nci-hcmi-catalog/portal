@@ -73,7 +73,7 @@ export default ({ data: { name, variants, updatedAt } }) => {
                         })
                       }
                     >
-                      <PlusIcon width={11} height={11} css={'margin-right: 5px;'} />
+                      <PlusIcon css={'margin-right: 5px;'} />
                       Add Variants
                     </ButtonPill>
                   )}

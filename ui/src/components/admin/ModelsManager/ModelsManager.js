@@ -46,7 +46,7 @@ const content = () => {
                         })
                       }
                     >
-                      <PlusIcon width={12} height={12} />
+                      <PlusIcon />
                       Add Bulk
                     </ButtonPill>
                   )}
@@ -54,6 +54,7 @@ const content = () => {
               )}
             </ModelManagerContext.Consumer>
             <LinkPill primary to={modelEditUrlBase}>
+              <PlusIcon />
               Add A Model
             </LinkPill>
           </AdminHeaderBlock>

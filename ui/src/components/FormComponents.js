@@ -23,9 +23,8 @@ import {
   inputSelectErrorIcon,
   checkboxRadioErrorIcon,
 } from 'theme/formComponentsStyles';
-import FormFieldErrorIcon from 'icons/FormFieldErrorIcon';
-import ClearXIcon from 'icons/ClearXIcon';
-import WarningIcon from 'icons/WarningIcon';
+import ErrorCircleIcon from 'icons/ErrorCircleIcon';
+import CrossCircleIcon from 'icons/CrossCircleIcon';
 
 const hasErrors = (errors, touched, fieldName) => touched[fieldName] && errors[fieldName];
 
@@ -68,7 +67,7 @@ export const FormInput = ({ field, form: { touched, errors }, type = 'text', ...
       aria-label={`${field.name}`}
       errors={hasErrors(errors, touched, field.name)}
     />
-    {hasErrors(errors, touched, field.name) && <FormFieldErrorIcon css={inputSelectErrorIcon} />}
+    {hasErrors(errors, touched, field.name) && <ErrorCircleIcon css={inputSelectErrorIcon} />}
   </>
 );
 
@@ -86,7 +85,7 @@ export const FormDateInput = ({ field, form: { touched, errors }, ...props }) =>
       {...props}
       errors={hasErrors(errors, touched, field.name)}
     />
-    {hasErrors(errors, touched, field.name) && <FormFieldErrorIcon css={inputSelectErrorIcon} />}
+    {hasErrors(errors, touched, field.name) && <ErrorCircleIcon css={inputSelectErrorIcon} />}
   </>
 );
 
@@ -132,9 +131,7 @@ export const FormSelect = ({
             </option>
           ))}
         </Select>
-        {hasErrors(errors, touched, field.name) && (
-          <FormFieldErrorIcon css={inputSelectErrorIcon} />
-        )}
+        {hasErrors(errors, touched, field.name) && <ErrorCircleIcon css={inputSelectErrorIcon} />}
       </>
     )}
   </Component>
@@ -153,7 +150,7 @@ export const FormRadioSelect = ({
         {/* Radio Select will only ever error when they are required so we
             will simplify the messaging for the front-end */}
         {errors[name]}
-        <FormFieldErrorIcon css={checkboxRadioErrorIcon} />
+        <ErrorCircleIcon css={checkboxRadioErrorIcon} />
       </FormFieldError>
     )}
     <RadioSelect {...props}>
@@ -191,7 +188,7 @@ export const FormMultiCheckbox = ({
       {hasErrors(errors, touched, fieldName) && (
         <FormFieldError>
           {errors[fieldName]}
-          <FormFieldErrorIcon css={checkboxRadioErrorIcon} />
+          <ErrorCircleIcon css={checkboxRadioErrorIcon} />
         </FormFieldError>
       )}
       <CheckBoxes {...props}>
@@ -247,9 +244,10 @@ export const FormAutoComplete = ({
       {warning && warningText && (
         <>
           <FormWarningLabel>{warningText}</FormWarningLabel>
-          <WarningIcon
-            width={23}
-            height={23}
+          <ErrorCircleIcon
+            width={'23px'}
+            height={'23px'}
+            fill={'#F5A528'}
             style={`
               position: absolute;
               right: -34px;
@@ -288,7 +286,7 @@ export const FormAutoComplete = ({
       />
       {value && clearable && (
         <AutoCompleteClearButton onClick={() => select('')}>
-          <ClearXIcon />
+          <CrossCircleIcon />
         </AutoCompleteClearButton>
       )}
     </AutoCompleteWrapper>

@@ -75,12 +75,12 @@ export default ({ name, id, isExpanded }) => {
             >
               {isSelected ? (
                 <>
-                  <CheckmarkIcon width={12} height={12} />
+                  <CheckmarkIcon />
                   Selected for Download
                 </>
               ) : (
                 <>
-                  <PlusIcon width={12} height={12} />
+                  <PlusIcon />
                   Add Model to My List
                 </>
               )}

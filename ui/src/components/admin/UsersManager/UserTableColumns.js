@@ -110,7 +110,7 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
                   })
                 }
               >
-                <EditIcon width={12} height={12} fill={'currentColor'} />
+                <EditIcon width={'12px'} height={'12px'} />
                 Edit
               </ActionPill>
             )}
@@ -120,7 +120,7 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
             target: `${name}(${email})`,
           })(
             <ActionPill secondary marginRight="6px">
-              <TrashIcon width={12} height={12} fill={'currentColor'} />
+              <TrashIcon fill={'currentColor'} />
               Delete
             </ActionPill>,
           )}

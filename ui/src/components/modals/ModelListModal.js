@@ -14,7 +14,7 @@ import { Row } from 'theme/system';
 import { ButtonPill } from 'theme/adminControlsStyles';
 
 import DoubleArrowRightIcon from 'icons/DoubleArrowRightIcon';
-import ModelPlaceholderIcon from 'icons/ModelPlaceholderIcon';
+import ModelIcon from 'icons/ModelIcon';
 import TrashIcon from 'icons/TrashIcon';
 import DownloadIcon from 'icons/DownloadIcon';
 import modelListEmptyOrange from 'assets/icon-modellist-empty-orange.svg';
@@ -110,7 +110,7 @@ export default () => (
                                     />
                                   ) : (
                                     <div className="model-placeholder-image">
-                                      <ModelPlaceholderIcon width={47} height={47} />
+                                      <ModelIcon fill={'#b7bbbe'} width={'47px'} height={'47px'} />
                                     </div>
                                   )}
 
@@ -154,9 +154,8 @@ export default () => (
                           }
                         >
                           <DownloadIcon
-                            fill={'#fff'}
-                            width={12}
-                            height={12}
+                            width={'12px'}
+                            height={'12px'}
                             css={`
                               margin-right: 4px;
                             `}

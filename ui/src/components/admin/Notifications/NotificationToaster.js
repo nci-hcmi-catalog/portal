@@ -7,8 +7,8 @@ import { NotificationsContext } from './NotificationsController';
 import { NOTIFICATION_TYPES } from './../Notifications';
 
 import CheckmarkIcon from 'icons/CheckmarkIcon';
-import ClearXIcon from 'icons/ClearXIcon';
-import ErrorIcon from 'icons/ErrorIcon';
+import CrossCircleIcon from 'icons/CrossCircleIcon';
+import ErrorTriangleIcon from 'icons/ErrorTriangleIcon';
 
 import {
   NotificationsToaster,
@@ -45,8 +45,8 @@ const renderIcon = type => {
     case NOTIFICATION_TYPES.SUCCESS:
       return (
         <CheckmarkIcon
-          width={30}
-          height={30}
+          width={'30px'}
+          height={'30px'}
           style={`
             background-color: ${pelorousapprox};
             border-radius: 100%;
@@ -69,9 +69,7 @@ const renderIcon = type => {
       );
     case NOTIFICATION_TYPES.ERROR:
       return (
-        <ErrorIcon
-          width={30}
-          height={30}
+        <ErrorTriangleIcon
           fill={alizarinCrimson}
           style={`
             margin-right: 12px;
@@ -80,9 +78,7 @@ const renderIcon = type => {
       );
     case NOTIFICATION_TYPES.WARNING:
       return (
-        <ErrorIcon
-          width={30}
-          height={30}
+        <ErrorTriangleIcon
           fill={yellowOrange}
           style={`
             margin-right: 12px;
@@ -154,9 +150,9 @@ export default () => (
                 )}
               </Col>
               {notification.type !== NOTIFICATION_TYPES.LOADING && (
-                <ClearXIcon
-                  width={17}
-                  height={17}
+                <CrossCircleIcon
+                  width={'17px'}
+                  height={'17px'}
                   fill={trout}
                   style={closeIcon}
                   onClick={() => clearNotification(notification.id)}

@@ -1,11 +1,19 @@
 import React from 'react';
 import { InlineSvg } from 'icons';
 
-export default props =>
+export default ({
+  fill = '#cd0d32',
+  viewBox = '0 0 99.84 90.94',
+  width = '18px',
+  height = '15px',
+  ...props
+}) =>
   InlineSvg({
-    viewBox: '0 0 99.84 90.94',
-    width: '18px',
-    height: '15px',
+    alt: 'Double Right Arrow Icon',
+    viewBox,
+    width,
+    height,
+    fill,
     path: (
       <>
         <path

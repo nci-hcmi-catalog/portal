@@ -30,7 +30,7 @@ export default props => (
         }}
         {...props}
       >
-        <SaveIcon height={11} width={11} fill={'#fff'} />
+        <SaveIcon />
         Save
       </ButtonPill>
     )}

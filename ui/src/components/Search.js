@@ -6,7 +6,7 @@ import SplitPane from 'react-split-pane';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
 
-import AdminDictionaryArrowIcon from './../icons/AdminDictionaryArrowIcon';
+import ArrowIcon from './../icons/ArrowIcon';
 import LastUpdatedDate from './LastUpdatedDate';
 import ModelNameSearch from 'components/ModelNameSearch';
 import PrimarySiteChart from 'components/charts/PrimarySiteChart';
@@ -94,11 +94,7 @@ export default ({
                 `}
               >
                 <span className="sqon-field no-sqon-message">
-                  <AdminDictionaryArrowIcon
-                    height={12}
-                    width={12}
-                    css={'transform: rotate(180deg);'}
-                  />
+                  <ArrowIcon css={'transform: rotate(180deg);'} />
                   Use the filter panel on the left to customize your model search.
                 </span>
               </Row>

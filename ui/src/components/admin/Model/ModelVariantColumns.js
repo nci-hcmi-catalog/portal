@@ -31,7 +31,7 @@ const modelVariantCustomColumns = [
                 target: `${variant_name}-${variant_type}`,
               })(
                 <ActionPill secondary>
-                  <TrashIcon fill={'currentColor'} width={12} height={12} />
+                  <TrashIcon fill={'currentColor'} />
                   Delete
                 </ActionPill>,
               )}

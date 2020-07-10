@@ -18,7 +18,7 @@ import { getUploadTemplate } from '../helpers/googleSheets';
 
 import { googleSDK } from '../services/GoogleLink';
 
-import ErrorIcon from 'icons/ErrorIcon';
+import ErrorTriangleIcon from 'icons/ErrorTriangleIcon';
 import ExportIcon from 'icons/ExportIcon';
 import ExternalLinkIcon from 'icons/ExternalLinkIcon';
 import googleSheetsLogo from 'assets/logo-googlesheets.png';
@@ -69,7 +69,7 @@ export default ({
     ) : templateUrl ? (
       // URL to sheet once generated
       <BulkUploadTemplateLink href={templateUrl} target="_blank">
-        <ExternalLinkIcon height={10} width={10} />
+        <ExternalLinkIcon height={'10px'} width={'10px'} />
         Bulk Upload Template
       </BulkUploadTemplateLink>
     ) : (
@@ -146,11 +146,16 @@ export default ({
             })}
             {normalizeOption(overwrite) && (
               <OverwriteWarning>
-                <ErrorIcon width={24} height={20} css={'margin-right: 10px;'} fill={'#f3ae4c'} />
+                <ErrorTriangleIcon
+                  width={'24px'}
+                  height={'20px'}
+                  css={'margin-right: 10px;'}
+                  fill={'#f3ae4c'}
+                />
                 <div>
                   It is recommend that you{' '}
                   <a href={backupURL}>
-                    <ExportIcon width={10} height={12} css={'margin: 0 5px 0 2px'} />
+                    <ExportIcon width={'10px'} height={'12px'} css={'margin: 0 5px 0 2px'} />
                     download a backup
                   </a>{' '}
                   {`of the current ${type}s before overwriting data.`}

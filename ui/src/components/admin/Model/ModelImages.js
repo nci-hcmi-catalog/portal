@@ -72,7 +72,7 @@ const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) =
             `}
             onClick={handleSubmit}
           >
-            <SaveIcon width={11} height={11} fill={white} />
+            <SaveIcon />
             Save
           </ButtonPill>
         )}
@@ -126,9 +126,12 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
               `}
             >
               <EditIcon
-                width={14}
-                height={14}
-                style={`margin: 0;`}
+                width={'14px'}
+                height={'14px'}
+                fill={elm}
+                css={`
+                  margin: 0;
+                `}
                 onClick={() => setState({ editing: !editing })}
               />
             </ButtonPill>
@@ -141,9 +144,16 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
             onClick={() => onDelete(file.file_id)}
           >
             {queuedForDelete ? (
-              <PlusIcon fill={crimson} width={14} height={14} style={`margin: 0;`} />
+              <PlusIcon
+                fill={crimson}
+                width={'14px'}
+                height={'14px'}
+                css={`
+                  margin: 0;
+                `}
+              />
             ) : (
-              <TrashIcon width={14} height={14} style={`margin: 0;`} />
+              <TrashIcon width={'14px'} height={'14px'} style={`margin: 0;`} />
             )}
           </ButtonPill>
         </Row>
@@ -224,8 +234,7 @@ const ImageDropper = ({ onDrop, display }) => (
       `}
     >
       <DragNDropIcon
-        fill={'currentColor'}
-        height={36}
+        height={'36px'}
         css={`
           margin-bottom: 8px;
         `}
@@ -276,7 +285,7 @@ export default ({ data: { updatedAt } }) => (
                 dropzoneRef.open();
               }}
             >
-              <PlusIcon width={11} height={11} />
+              <PlusIcon />
               Add Images
             </ButtonPill>
           </Row>

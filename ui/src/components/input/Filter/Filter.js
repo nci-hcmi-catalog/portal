@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import FilterIcon from 'icons/FilterIcon';
-import XIcon from 'icons/XIcon';
+import CrossIcon from 'icons/CrossIcon';
 
 import {
   inputWrapperStyle,
@@ -36,7 +36,7 @@ export default ({ onFilterValueChange }) => {
       css={inputWrapperStyle}
     >
       <span css={inputIconStyle}>
-        <FilterIcon fill={'#b2b7c1'} height={16} width={16} />
+        <FilterIcon />
       </span>
       <input
         type="text"
@@ -72,9 +72,9 @@ export default ({ onFilterValueChange }) => {
             setFilterValue('');
           }}
         >
-          <XIcon
-            height={16}
-            width={16}
+          <CrossIcon
+            height={'16px'}
+            width={'16px'}
             fill={'#64666a'}
             style={{
               margin: 0,

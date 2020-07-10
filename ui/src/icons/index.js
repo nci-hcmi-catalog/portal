@@ -9,8 +9,8 @@ export const BaseSvg = ({ alt = '', height, width, svg, style, className, ...pro
     src={`data:image/svg+xml;utf8,${encodeSVG(svg)}`}
     alt={alt}
     css={`
-      width: ${width}px;
-      height: ${height}px;
+      width: ${width};
+      height: ${height};
       margin-right: 5px;
       ${className};
       ${style};

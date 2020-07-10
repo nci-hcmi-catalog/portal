@@ -13,7 +13,7 @@ import {
   HeaderPill,
 } from 'theme/adminDictionaryStyles';
 
-import AdminModelPublishIcon from '../../../icons/AdminModelPublishIcon';
+import PublishIcon from '../../../icons/PublishIcon';
 
 const DictionaryHeader = () => {
   const {
@@ -72,6 +72,7 @@ const DictionaryHeader = () => {
             onConfirm: publish,
           })(
             <ButtonPill primary disabled={!isDraft} marginRight="10px">
+              <PublishIcon width={'16px'} height={'16px'} css={'margin-right: 9px;'} />
               Publish All Updates
             </ButtonPill>,
           )}

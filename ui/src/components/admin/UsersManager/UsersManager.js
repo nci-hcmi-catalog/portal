@@ -87,7 +87,7 @@ const content = () => {
                             })
                           }
                         >
-                          <PlusIcon width={12} height={12} />
+                          <PlusIcon />
                           Add A User
                         </ButtonPill>
                       )}

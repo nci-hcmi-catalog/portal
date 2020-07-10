@@ -7,7 +7,7 @@ import { manageModelsUrlBase } from '../AdminNav';
 import { SaveModel, PublishModel, ActionsMenu } from './actions';
 
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
-import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
+import MoreOptionsIcon from 'icons/MoreOptionsIcon';
 
 import { AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
 import { ModelHeaderH1, ModelHeaderBackLink } from 'theme/adminModelStyles';
@@ -49,6 +49,7 @@ const modelMoreOptions = (data = null) =>
       trigger={
         <div>
           <ButtonPill secondary disabled={!data || Object.keys(data).length === 0} marginLeft="8px">
+            <MoreOptionsIcon css={'margin: 0;'} />
           </ButtonPill>
         </div>
       }
@@ -106,8 +107,8 @@ export default ({ modelName }) => (
               response.status === modelStatus.unpublishedChanges) ? (
               <ModelHeaderBackLink to={`/model/${modelName}`} target="_blank">
                 <ExternalLinkIcon
-                  height={10}
-                  width={10}
+                  height={'10px'}
+                  width={'10px'}
                   css={'margin-right: 8px;'}
                   fill={'currentColor'}
                 />

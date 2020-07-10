@@ -4,7 +4,7 @@ import { useDictionary } from './DictionaryController';
 import EditableFieldValue from './EditableFieldValue';
 
 import PlusIcon from '../../../icons/PlusIcon';
-import AdminDictionaryArrowIcon from '../../../icons/AdminDictionaryArrowIcon';
+import ArrowIcon from '../../../icons/ArrowIcon';
 
 import {
   AddFieldForm,
@@ -44,11 +44,7 @@ const DependentFieldValuesGroup = ({
   return (
     <>
       <DependentFieldType onClick={toggleHandler}>
-        <AdminDictionaryArrowIcon
-          height={12}
-          width={12}
-          css={expanded && 'transform: rotate(90deg);'}
-        />
+        <ArrowIcon css={expanded && 'transform: rotate(90deg);'} />
         {fieldName} ({(fieldValues || []).length})
       </DependentFieldType>
       {expanded && (
@@ -67,6 +63,7 @@ const DependentFieldValuesGroup = ({
                 }}
               />
               <ButtonPill primary disabled={!newFieldValue.trim()}>
+                <PlusIcon />
                 ADD
               </ButtonPill>
             </AddFieldForm>

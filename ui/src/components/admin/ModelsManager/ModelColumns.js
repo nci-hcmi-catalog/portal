@@ -9,7 +9,7 @@ import { modelEditUrlBase } from '../AdminNav';
 import withDeleteModal from '../DeleteModal';
 
 import EditIcon from 'icons/EditIcon';
-import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
+import MoreOptionsIcon from 'icons/MoreOptionsIcon';
 
 import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/model';
 import { ActionPill, ActionLinkPill, Actions, ToolbarText } from '../../../theme/adminTableStyles';
@@ -139,12 +139,7 @@ const modelManagerCustomColumns = [
             trigger={
               <div>
                 <ActionPill secondary>
-                  <AdminModelMoreOptionsIcon
-                    fill={'currentColor'}
-                    css={'margin: 0;'}
-                    width={18}
-                    height={17}
-                  />
+                  <MoreOptionsIcon css={'margin: 0;'} />
                 </ActionPill>
               </div>
             }

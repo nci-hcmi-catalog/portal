@@ -73,6 +73,7 @@ const DictionaryFieldValues = () => {
                 }}
               />
               <ButtonPill primary disabled={!newFieldValue.trim()}>
+                <PlusIcon />
                 ADD
               </ButtonPill>
             </AddFieldForm>

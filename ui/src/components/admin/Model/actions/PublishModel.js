@@ -4,6 +4,7 @@ import Tooltip from '../../ToolTip';
 import { ModelSingleContext } from '../ModelSingleController';
 
 import { ButtonPill } from 'theme/adminControlsStyles';
+import PublishIcon from 'icons/PublishIcon';
 
 import withPublishConfirmModal from '../../PublishLinkedModelsModal/PublishLinkedModelsModal';
 
@@ -31,6 +32,7 @@ export default ({ close, ...props }) => (
             })(
               <div>
                 <ButtonPill primary disabled={disabled} {...props}>
+                  <PublishIcon />
                   Publish
                 </ButtonPill>
               </div>,

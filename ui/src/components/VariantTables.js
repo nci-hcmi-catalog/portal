@@ -100,7 +100,7 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
               style={{ marginLeft: '8px' }}
               onClick={() => tsvDownloader(`${modelName}-${type}`, filteredData)}
             >
-              <DownloadIcon height={12} width={12} fill={'#000'} />
+              <DownloadIcon height={'12px'} width={'12px'} />
               TSV
             </ButtonPill>
           </Row>
@@ -136,7 +136,7 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
               zIndex: -1,
             }}
           >
-            <VariantsIcon fill={'#b2b7c1'} height={30} width={30} />
+            <VariantsIcon />
             <p className="model-details__empty-message">No variants available.</p>
           </div>
         )}
