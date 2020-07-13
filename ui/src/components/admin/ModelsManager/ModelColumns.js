@@ -131,7 +131,7 @@ const modelManagerCustomColumns = [
     Cell: ({ original: { name, status } }) => {
       return (
         <Actions>
-          <ActionLinkPill secondary to={modelEditUrlBase + '/' + name}>
+          <ActionLinkPill secondary={'true'} to={modelEditUrlBase + '/' + name}>
             <EditIcon width={'12px'} height={'12px'} />
             Edit
           </ActionLinkPill>

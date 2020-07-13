@@ -53,7 +53,7 @@ const content = () => {
                 </ModalStateContext.Consumer>
               )}
             </ModelManagerContext.Consumer>
-            <LinkPill primary to={modelEditUrlBase}>
+            <LinkPill primary={`true`} to={modelEditUrlBase}>
               <PlusIcon />
               Add A Model
             </LinkPill>
