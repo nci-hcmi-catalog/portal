@@ -168,6 +168,9 @@ export const LoginWithGoogle = ({ children }) => {
               width: '100%',
               position: 'absolute',
             }}
+            overlayStyle={{
+              zIndex: '1',
+            }}
             onClose={() => setIsOpen(false)}
           >
             <DropdownItem onClick={googleSignOut}>Disconnect</DropdownItem>

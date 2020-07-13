@@ -78,6 +78,9 @@ export const LoggedInUserPill = () => (
                 width: '100%',
                 position: 'absolute',
               }}
+              overlayStyle={{
+                zIndex: '1',
+              }}
               onClose={() => setState({ isOpen: false })}
             >
               <DropdownItem href={`${config.urls.logoutUrl}`}>Logout</DropdownItem>
