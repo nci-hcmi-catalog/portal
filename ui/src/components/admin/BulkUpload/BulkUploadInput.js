@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Spinner from 'react-spinkit';
 import Popup from 'reactjs-popup';
 
@@ -15,8 +15,6 @@ import {
 } from 'theme/adminBulkUploadStyles';
 import { Input, RadioSelect } from 'theme/formComponentsStyles';
 import { getUploadTemplate } from '../helpers/googleSheets';
-
-import { googleSDK } from '../services/GoogleLink';
 
 import ErrorTriangleIcon from 'icons/ErrorTriangleIcon';
 import ExportIcon from 'icons/ExportIcon';
@@ -45,20 +43,10 @@ export default ({
   backupURL,
   overwrite,
   onOverwriteChange,
+  signedIn,
 }) => {
   const [templateUrl, setTemplateUrl] = useState(null);
   const [generating, setGenerating] = useState(false);
-  const [signedIn, setSignedIn] = useState(false);
-
-  const checkGoogleStatus = async () => {
-    const googleAuth = await googleSDK();
-    if (googleAuth.isSignedIn.get()) {
-      setSignedIn(true);
-    }
-  };
-  useEffect(() => {
-    checkGoogleStatus();
-  }, []);
 
   const renderTemplateLink = templateUrl => {
     return generating ? (
