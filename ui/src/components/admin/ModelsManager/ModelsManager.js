@@ -11,7 +11,7 @@ import BulkUploader from '../BulkUpload';
 import PlusIcon from './../../../icons/PlusIcon';
 
 import { AdminContainer, AdminHeader, AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
-import { HoverPill, LinkPill } from 'theme/adminControlsStyles';
+import { ButtonPill, LinkPill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 
@@ -29,7 +29,7 @@ const content = () => {
               {({ uploadModelsFromSheet }) => (
                 <ModalStateContext.Consumer>
                   {modalState => (
-                    <HoverPill
+                    <ButtonPill
                       primary
                       marginRight="8px"
                       onClick={() =>
@@ -46,15 +46,15 @@ const content = () => {
                         })
                       }
                     >
-                      <PlusIcon width={12} height={12} />
+                      <PlusIcon />
                       Add Bulk
-                    </HoverPill>
+                    </ButtonPill>
                   )}
                 </ModalStateContext.Consumer>
               )}
             </ModelManagerContext.Consumer>
             <LinkPill primary={`true`} to={modelEditUrlBase}>
-              <PlusIcon width={12} height={12} />
+              <PlusIcon />
               Add A Model
             </LinkPill>
           </AdminHeaderBlock>

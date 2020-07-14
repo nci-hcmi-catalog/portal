@@ -2,7 +2,7 @@ import React from 'react';
 import Component from 'react-component-component';
 import PlusIcon from '../../../icons/PlusIcon';
 import { AdminContainer, AdminHeader, AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
-import { HoverPill } from 'theme/adminControlsStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
 import { ModalStateContext } from 'providers/ModalState';
 import UserManagerTable from './UserManagerTable';
@@ -77,7 +77,7 @@ const content = () => {
                   <AdminHeaderBlock>
                     <ModalStateContext.Consumer>
                       {modalState => (
-                        <HoverPill
+                        <ButtonPill
                           primary
                           onClick={() =>
                             modalState.setModalState({
@@ -87,9 +87,9 @@ const content = () => {
                             })
                           }
                         >
-                          <PlusIcon width={12} height={12} />
+                          <PlusIcon />
                           Add A User
-                        </HoverPill>
+                        </ButtonPill>
                       )}
                     </ModalStateContext.Consumer>
                   </AdminHeaderBlock>

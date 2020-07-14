@@ -155,7 +155,7 @@ const EditableFieldValue = ({
       case 'editing':
         return (
           <FieldValueListItemButton onMouseDown={saveEdit}>
-            <SaveIcon height={12} width={12} />
+            <SaveIcon height={'12px'} width={'12px'} />
           </FieldValueListItemButton>
         );
       case 'edited':
@@ -163,7 +163,7 @@ const EditableFieldValue = ({
           <>
             <FieldStateLabel>edited</FieldStateLabel>
             <FieldValueListItemButton onMouseDown={undoEdit}>
-              <UndoIcon height={12} width={12} />
+              <UndoIcon />
             </FieldValueListItemButton>
           </>
         );
@@ -172,7 +172,7 @@ const EditableFieldValue = ({
           <>
             <FieldStateLabel>error</FieldStateLabel>
             <FieldValueListItemButton onMouseDown={clearError}>
-              <UndoIcon height={12} width={12} />
+              <UndoIcon />
             </FieldValueListItemButton>
           </>
         );
@@ -181,7 +181,7 @@ const EditableFieldValue = ({
           <>
             <FieldStateLabel>new</FieldStateLabel>
             <FieldValueListItemButton onMouseDown={undoAddNew}>
-              <UndoIcon height={12} width={12} />
+              <UndoIcon />
             </FieldValueListItemButton>
           </>
         );
@@ -189,8 +189,8 @@ const EditableFieldValue = ({
         return (
           <FieldValueListItemButton>
             <EditIcon
-              height={12}
-              width={12}
+              height={'12px'}
+              width={'12px'}
               onMouseDown={startEdit}
               css={!hovering ? 'visibility: hidden;' : ''}
             />

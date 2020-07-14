@@ -9,7 +9,7 @@ import { modelEditUrlBase } from '../AdminNav';
 import withDeleteModal from '../DeleteModal';
 
 import EditIcon from 'icons/EditIcon';
-import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
+import MoreOptionsIcon from 'icons/MoreOptionsIcon';
 
 import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/model';
 import { ActionPill, ActionLinkPill, Actions, ToolbarText } from '../../../theme/adminTableStyles';
@@ -131,20 +131,15 @@ const modelManagerCustomColumns = [
     Cell: ({ original: { name, status } }) => {
       return (
         <Actions>
-          <ActionLinkPill secondary={`true`} to={modelEditUrlBase + '/' + name}>
-            <EditIcon width={12} height={12} fill={'currentColor'} />
+          <ActionLinkPill secondary={'true'} to={modelEditUrlBase + '/' + name}>
+            <EditIcon width={'12px'} height={'12px'} />
             Edit
           </ActionLinkPill>
           <Popup
             trigger={
               <div>
                 <ActionPill secondary>
-                  <AdminModelMoreOptionsIcon
-                    fill={'currentColor'}
-                    css={'margin: 0;'}
-                    width={18}
-                    height={17}
-                  />
+                  <MoreOptionsIcon css={'margin: 0;'} />
                 </ActionPill>
               </div>
             }
@@ -172,7 +167,7 @@ const modelManagerCustomColumns = [
                       </ActionsMenuItem>
                     )}
                     {withDeleteModal({
-                      next: actionAndClose(() => alert(name)),
+                      next: actionAndClose(() => deleteOne(name), close),
                       target: name,
                       onCancel: close,
                     })(<ActionsMenuItem>Delete</ActionsMenuItem>)}

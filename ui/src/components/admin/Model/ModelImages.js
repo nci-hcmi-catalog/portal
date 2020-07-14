@@ -3,7 +3,7 @@ import Dropzone from 'react-dropzone';
 import Component from 'react-component-component';
 
 import { ModelSingleContext } from './ModelSingleController';
-import { HoverPill } from 'theme/adminControlsStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 import base from 'theme';
 import { Row, Col } from 'theme/system';
 import { FormContainer } from 'theme/adminFormStyles';
@@ -18,7 +18,7 @@ import SaveIcon from 'icons/SaveIcon';
 import config from '../config';
 import TabHeader from './TabHeader';
 const {
-  keyedPalette: { athensGray, black, crimson, frenchGrey, mischka, white },
+  keyedPalette: { athensGray, black, crimson, elm, frenchGrey, mischka },
   fonts: { openSans },
 } = base;
 
@@ -65,16 +65,16 @@ const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) =
           </li>
         </ul>
         {editing && (
-          <HoverPill
+          <ButtonPill
             primary
             css={`
               margin-right: 10px;
             `}
             onClick={handleSubmit}
           >
-            <SaveIcon width={11} height={11} fill={white} />
+            <SaveIcon />
             Save
-          </HoverPill>
+          </ButtonPill>
         )}
       </FormContainer>
     )}
@@ -118,7 +118,7 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
           `}
         >
           {!queuedForDelete && (
-            <HoverPill
+            <ButtonPill
               secondary
               css={`
                 margin-right: 10px;
@@ -126,14 +126,17 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
               `}
             >
               <EditIcon
-                width={14}
-                height={14}
-                style={`margin: 0;`}
+                width={'14px'}
+                height={'14px'}
+                fill={elm}
+                css={`
+                  margin: 0;
+                `}
                 onClick={() => setState({ editing: !editing })}
               />
-            </HoverPill>
+            </ButtonPill>
           )}
-          <HoverPill
+          <ButtonPill
             secondary
             css={`
               padding: 5px 10px;
@@ -141,11 +144,18 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
             onClick={() => onDelete(file.file_id)}
           >
             {queuedForDelete ? (
-              <PlusIcon fill={crimson} width={14} height={14} style={`margin: 0;`} />
+              <PlusIcon
+                fill={crimson}
+                width={'14px'}
+                height={'14px'}
+                css={`
+                  margin: 0;
+                `}
+              />
             ) : (
-              <TrashIcon width={14} height={14} style={`margin: 0;`} />
+              <TrashIcon width={'14px'} height={'14px'} style={`margin: 0;`} />
             )}
-          </HoverPill>
+          </ButtonPill>
         </Row>
         <Col
           css={`
@@ -224,21 +234,20 @@ const ImageDropper = ({ onDrop, display }) => (
       `}
     >
       <DragNDropIcon
-        fill={'currentColor'}
-        height={36}
+        height={'36px'}
         css={`
           margin-bottom: 8px;
         `}
       />
       Drag and drop your image(s) here <br /> or
-      <HoverPill
+      <ButtonPill
         secondary
         css={`
           margin-top: 8px;
         `}
       >
         Browse Your Files
-      </HoverPill>
+      </ButtonPill>
     </Col>
   </Dropzone>
 );
@@ -267,7 +276,7 @@ export default ({ data: { updatedAt } }) => (
             `}
           >
             <div>Upload images in jpeg, tiff, png or svg formats.</div>
-            <HoverPill
+            <ButtonPill
               css={`
                 align-self: right;
               `}
@@ -276,9 +285,9 @@ export default ({ data: { updatedAt } }) => (
                 dropzoneRef.open();
               }}
             >
-              <PlusIcon width={11} height={11} />
+              <PlusIcon />
               Add Images
-            </HoverPill>
+            </ButtonPill>
           </Row>
           <Row
             p={'0 10px'}

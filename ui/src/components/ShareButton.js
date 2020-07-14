@@ -41,7 +41,7 @@ export default ({ link, error, quote, leftOffset = '-135px' }) => {
             className="share-button__button"
             onClick={() => toggleMenu({}, () => setCopied(false))}
           >
-            <ShareIcon height={12} fill={'#000'} />
+            <ShareIcon fill={'#000'} />
             Share
           </button>
           {isOpen && (

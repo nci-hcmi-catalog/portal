@@ -1,6 +1,6 @@
 import { css } from 'emotion';
-import modelListDefaultBlue from 'assets/icon-modellist-empty-blue.svg';
-import modelListNotEmptyBlue from 'assets/icon-modellist-full-blue.svg';
+import modelListDefault from 'assets/icon-modellist-empty-orange.svg';
+import modelListNotEmpty from 'assets/icon-modellist-full-orange.svg';
 
 export default css`
   .model-list-icon__wrapper {
@@ -14,12 +14,12 @@ export default css`
     width: 28px;
     height: 32px;
     margin-left: 8px;
-    background: url(${modelListDefaultBlue}) no-repeat;
+    background: url(${modelListDefault}) no-repeat;
     background-size: 21px auto;
     cursor: pointer;
   }
   .model-list-icon.not-empty {
-    background: url(${modelListNotEmptyBlue}) no-repeat;
+    background: url(${modelListNotEmpty}) no-repeat;
     background-size: 28px auto;
   }
   .model-list-icon span.count {

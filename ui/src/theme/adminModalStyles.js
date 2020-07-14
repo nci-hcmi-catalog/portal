@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'react-emotion';
 import { css } from 'emotion';
 
-import XIcon from 'icons/XIcon';
+import CrossIcon from 'icons/CrossIcon';
 
 import base from 'theme';
 import { Row } from 'theme/system';
@@ -72,9 +72,7 @@ const closeStyles = css`
   cursor: pointer;
 `;
 
-export const CloseModal = props => (
-  <XIcon width={13} height={13} fill={trout} style={closeStyles} {...props} />
-);
+export const CloseModal = props => <CrossIcon fill={trout} style={closeStyles} {...props} />;
 
 export const Content = styled('div')`
   display: flex;

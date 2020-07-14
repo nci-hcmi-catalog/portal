@@ -2,7 +2,7 @@ import React from 'react';
 import { ModalStateContext } from 'providers/ModalState';
 import { ModalWrapper, Header, Title, CloseModal, Content, Footer } from 'theme/adminModalStyles';
 import { FormContainer, FormCol } from 'theme/adminFormStyles';
-import { HoverPill } from 'theme/adminControlsStyles';
+import { ButtonPill, HoverPill } from 'theme/adminControlsStyles';
 import { withFormik, Field } from 'formik';
 import { schemaObj } from '@hcmi-portal/cms/src/schemas/descriptions/user';
 import { FormComponent, FormInput, FormRadioSelect } from 'components/FormComponents';
@@ -11,8 +11,6 @@ import validationSchema from '@hcmi-portal/cms/src/validation/user';
 
 // All labels/keys from model schema
 const { name, email, status } = schemaObj;
-
-const SubmitFormPill = HoverPill.withComponent('button');
 
 const UserFormTemplate = ({ closeModal }) => {
   return (
@@ -35,9 +33,9 @@ const UserFormTemplate = ({ closeModal }) => {
         </FormComponent>
       </FormCol>
       <Footer>
-        <SubmitFormPill type={'submit'} primary marginRight={'10px'}>
+        <ButtonPill type={'submit'} primary marginRight={'10px'}>
           Save
-        </SubmitFormPill>
+        </ButtonPill>
         <HoverPill secondary onClick={closeModal}>
           Cancel
         </HoverPill>

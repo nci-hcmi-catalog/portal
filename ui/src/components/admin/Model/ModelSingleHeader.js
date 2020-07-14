@@ -7,11 +7,11 @@ import { manageModelsUrlBase } from '../AdminNav';
 import { SaveModel, PublishModel, ActionsMenu } from './actions';
 
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
-import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
+import MoreOptionsIcon from 'icons/MoreOptionsIcon';
 
 import { AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
 import { ModelHeaderH1, ModelHeaderBackLink } from 'theme/adminModelStyles';
-import { HoverPill } from 'theme/adminControlsStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 import { modelStatusPill } from '../ModelsManager/ModelColumns';
 import ExternalLinkIcon from 'icons/ExternalLinkIcon';
 import { modelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
@@ -48,14 +48,9 @@ const modelMoreOptions = (data = null) =>
     <Popup
       trigger={
         <div>
-          <HoverPill secondary marginLeft="8px">
-            <AdminModelMoreOptionsIcon
-              css={'margin: 0;'}
-              width={18}
-              height={17}
-              fill={'currentColor'}
-            />
-          </HoverPill>
+          <ButtonPill secondary disabled={!data || Object.keys(data).length === 0} marginLeft="8px">
+            <MoreOptionsIcon css={'margin: 0;'} />
+          </ButtonPill>
         </div>
       }
       position="bottom right"
@@ -71,6 +66,7 @@ const modelMoreOptions = (data = null) =>
         width: 'max-content',
       }}
       arrow={false}
+      disabled={!data || Object.keys(data).length === 0}
     >
       {close => {
         return <ActionsMenu close={close} />;
@@ -111,8 +107,8 @@ export default ({ modelName }) => (
               response.status === modelStatus.unpublishedChanges) ? (
               <ModelHeaderBackLink to={`/model/${modelName}`} target="_blank">
                 <ExternalLinkIcon
-                  height={10}
-                  width={10}
+                  height={'10px'}
+                  width={'10px'}
                   css={'margin-right: 8px;'}
                   fill={'currentColor'}
                 />

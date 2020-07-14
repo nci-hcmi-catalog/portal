@@ -10,7 +10,7 @@ import { ModelVariantColumns as tableColumns } from './ModelVariantColumns';
 import PlusIcon from '../../../icons/PlusIcon';
 
 import { AdminContainer, AdminHeader, AdminHeaderH3, AdminHeaderBlock } from 'theme/adminStyles';
-import { HoverPill } from 'theme/adminControlsStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 import config from '../config';
@@ -55,7 +55,7 @@ export default ({ data: { name, variants, updatedAt } }) => {
               <AdminHeaderBlock>
                 <ModalStateContext.Consumer>
                   {modalState => (
-                    <HoverPill
+                    <ButtonPill
                       primary
                       onClick={() =>
                         modalState.setModalState({
@@ -73,9 +73,9 @@ export default ({ data: { name, variants, updatedAt } }) => {
                         })
                       }
                     >
-                      <PlusIcon width={11} height={11} css={'margin-right: 5px;'} />
+                      <PlusIcon css={'margin-right: 5px;'} />
                       Add Variants
-                    </HoverPill>
+                    </ButtonPill>
                   )}
                 </ModalStateContext.Consumer>
               </AdminHeaderBlock>

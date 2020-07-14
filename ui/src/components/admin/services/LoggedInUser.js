@@ -49,7 +49,6 @@ export const LoggedInUserPill = () => (
                 >
                   <UserDropdown secondary onClick={() => setState({ isOpen: !isOpen })} isOpen>
                     <UserIcon
-                      size={12}
                       css={`
                         margin-right: 5px;
                         position: relative;
@@ -78,6 +77,9 @@ export const LoggedInUserPill = () => (
                 borderRadius: '4px',
                 width: '100%',
                 position: 'absolute',
+              }}
+              overlayStyle={{
+                zIndex: '1',
               }}
               onClose={() => setState({ isOpen: false })}
             >

@@ -5,7 +5,7 @@ export default ({ sqon, savedSetsContext, state, value, history }) => {
   return (
     <span
       css={`
-        color: ${value ? theme.keyedPalette.green : theme.keyedPalette.redOrange};
+        color: ${value ? theme.keyedPalette.elm : theme.keyedPalette.tiaMaria};
       `}
     >
       {value ? 'EXPANDED'.toUpperCase() : value === null ? '' : 'UNEXPANDED'}

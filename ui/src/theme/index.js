@@ -19,29 +19,44 @@ const palette = [
   '#e1e5e7', // 13  - porcelain
 ];
 
-const growthChartPalette = ['#29818e', '#d9373c', '#636aab'];
+const growthChartPalette = ['#ef5350', '#80deea'];
+
+const multipleModelsChartPalette = ['#d4e157', '#0277bd'];
+
+const mutatedGenesChartPalette = [
+  '#ff6f00',
+  '#26c6da',
+  '#ba68c8',
+  '#ffc400',
+  '#00b0ff',
+  '#00e676',
+  '#ff4081',
+  '#3949ab',
+  '#26a69a',
+  '#ff8a80',
+];
 
 const chartsPalette = [
-  '#f5a528', // 0
-  '#33aabb', // 1
-  '#f49394', // 2
-  '#1c8292', // 3
-  '#c1b2f0', // 4
-  '#284ca0', // 5
-  '#feda97', // 6
-  '#cd0d32', // 7
-  '#7bccfc', // 8
-  '#c8e8ed', // 9
-  '#53467a', // 10
-  '#fec152', // 11
-  '#5d85e3', // 12
-  '#fa8564', // 13
-  '#4198cc', // 14
-  '#ecf7f9', // 15
-  '#ed494c', // 16
-  '#b9b5c6', // 17
-  '#e36a48', // 18
-  '#89a8f2', // 19
+  '#448aff', // 0
+  '#fdd835', // 1
+  '#f06292', // 2
+  '#aeea00', // 3
+  '#7e57c2', // 4
+  '#80deea', // 5
+  '#ff9100', // 6
+  '#8c9eff', // 7
+  '#c51162', // 8
+  '#81d4fa', // 9
+  '#ffff00', // 10
+  '#388e3c', // 11
+  '#f8bbd0', // 12
+  '#2962ff', // 13
+  '#d1c4e9', // 14
+  '#d81b60', // 15
+  '#5d4037', // 16
+  '#80cbc4', // 17
+  '#ff5722', // 18
+  '#90a4ae', // 19
 ];
 
 const base = {
@@ -52,6 +67,8 @@ const base = {
   palette,
   chartsPalette,
   growthChartPalette,
+  multipleModelsChartPalette,
+  mutatedGenesChartPalette,
   keyedPalette: {
     // Colour names from http://chir.ag/projects/name-that-color/
     cherry: palette[0],
@@ -114,6 +131,9 @@ const base = {
     cinderella: '#fce3e4',
     alizarinCrimson: '#df1b42',
     ironApprox: '#dcdde1',
+    tiaMaria: '#d54215',
+    redDamask: '#e06944',
+    linen: '#fbece7',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',

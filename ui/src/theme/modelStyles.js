@@ -1,6 +1,5 @@
 import { css } from 'emotion';
 
-import { whiteButtonHover } from 'theme/hoverStyles';
 import base from 'theme';
 
 const {
@@ -12,14 +11,11 @@ const {
     bombay,
     brandPrimary,
     crimson,
-    deepIron,
     elm,
-    goldenGlow,
-    green,
     mischka,
-    redOrange,
     lightPorcelain,
-    pelorousapprox,
+    sandyBeach,
+    tiaMaria,
     white,
   },
 } = base;
@@ -55,13 +51,13 @@ export default css`
       line-height: 1;
       background-color: ${white};
       border-radius: 8px;
-      border: 1px solid ${green};
-      color: ${green};
+      border: 1px solid ${elm};
+      color: ${elm};
       padding: 2px 8px;
 
       &--unexpanded {
-        border-color: ${redOrange};
-        color: ${redOrange};
+        border-color: ${tiaMaria};
+        color: ${tiaMaria};
       }
     }
 
@@ -75,34 +71,14 @@ export default css`
     }
 
     &__action {
-      padding: 0 10px;
-      height: 26px;
-      border-radius: 10px;
-      border-width: 0;
-      font-family: ${openSans};
-      font-size: 12px;
-      font-weight: bold;
-      font-style: normal;
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      ${whiteButtonHover};
-      color: ${white};
-      background-color: ${elm};
-      margin-left: 8px;
-
-      &:hover {
-        color: ${white};
-        background-color: ${pelorousapprox};
-      }
-
       &--selected {
         background-color: ${crimson};
+        border-color: ${crimson};
+        color: ${white};
 
         &:hover {
           background-color: ${brandPrimary};
+          color: ${white};
         }
       }
     }
@@ -185,7 +161,7 @@ export default css`
 
     &__card-title {
       color: ${black};
-      background-color: ${goldenGlow};
+      background-color: ${sandyBeach};
       border-radius: 8px;
       font-size: 14px;
       font-weight: bold;
@@ -350,37 +326,8 @@ export default css`
 
   .external-resources {
     &__link {
-      padding: 0 10px;
-      height: 26px;
-      border-radius: 10px;
-      border-width: 0;
-      font-family: ${openSans};
-      font-size: 12px;
-      font-weight: bold;
-      font-style: normal;
-      text-transform: uppercase;
       display: inline-block;
-      line-height: 26px;
-      cursor: pointer;
-      ${whiteButtonHover};
-      color: ${white};
-      background-color: ${elm};
       margin: 4px 4px 0 0;
-
-      &:hover {
-        color: ${white};
-        background-color: ${pelorousapprox};
-      }
-
-      &--disabled {
-        background-color: ${deepIron};
-        cursor: not-allowed;
-
-        &:hover {
-          color: ${white};
-          background-color: ${deepIron};
-        }
-      }
     }
   }
 

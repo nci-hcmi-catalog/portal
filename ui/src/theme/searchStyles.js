@@ -12,20 +12,21 @@ import { brandPrimaryHighlightHover, whiteButtonHover } from 'theme/hoverStyles'
 const {
   fonts: { openSans },
   keyedPalette: {
-    aquaSpring,
     athensGray,
     athensLightGray,
     black,
     bombay,
     brandPrimary,
     dustyGray,
-    elm,
     graySuit,
     havelockBlue,
     lightBlack,
     lightPorcelain,
+    linen,
     mischka,
     sandyBeach,
+    seaBuckthorn,
+    tiaMaria,
     trout,
     whisper,
     white,
@@ -163,12 +164,12 @@ export default css`
 
   .ReactTable .rt-thead .rt-th.-sort-asc,
   .ReactTable .rt-thead .rt-td.-sort-asc {
-    box-shadow: inset 0 3px 0 0 rgba(51, 170, 187, 1);
+    box-shadow: inset 0 3px 0 0 ${seaBuckthorn};
   }
 
   .ReactTable .rt-thead .rt-th.-sort-desc,
   .ReactTable .rt-thead .rt-td.-sort-desc {
-    box-shadow: inset 0 -3px 0 0 rgba(51, 170, 187, 1);
+    box-shadow: inset 0 -3px 0 0 ${seaBuckthorn};
   }
 
   .ReactTable.-striped .rt-tr.-odd {
@@ -264,7 +265,7 @@ export default css`
 
   .ReactTable .-pagination_button.-current {
     color: ${black};
-    background: ${aquaSpring};
+    background: ${linen};
   }
 
   .ReactTable .-pagination .-pageJump .-pagination_button.-toStart,
@@ -396,7 +397,7 @@ export default css`
   }
 
   .sqon-value {
-    background-color: ${elm};
+    background-color: ${tiaMaria};
     color: ${white};
     font-family: ${openSans};
     padding: 0 8px 2px;
@@ -444,7 +445,7 @@ export default css`
   }
 
   .sqon-value-group {
-    color: ${elm};
+    color: ${tiaMaria};
     margin-top: 4px;
   }
 
@@ -633,7 +634,7 @@ export default css`
   }
 
   .aggregation-card .bucket .toggle-button .toggle-button-option.active {
-    background-color: ${aquaSpring};
+    background-color: ${linen};
   }
 
   .model-name-search-wrapper .title-wrapper {

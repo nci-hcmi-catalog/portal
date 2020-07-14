@@ -13,10 +13,11 @@ import CheckmarkIcon from 'icons/CheckmarkIcon';
 import ExternalLinkIcon from 'icons/ExternalLinkIcon';
 import ModelIcon from 'icons/ModelIcon';
 import ShoppingCartIcon from 'icons/ShoppingCartIcon';
-import XIcon from 'icons/XIcon';
+import CrossIcon from 'icons/CrossIcon';
 
 import { VariantsProvider } from 'providers/Variants';
 
+import { ExternalLinkPill } from 'theme/adminControlsStyles';
 import { ModelSlider, ModelSlide, LeftArrow, RightArrow } from 'theme/carouselStyles';
 import styles from 'theme/modelStyles';
 import { Row, Col } from 'theme/system';
@@ -27,7 +28,7 @@ import apiDataProcessor from 'utils/apiDataProcessor';
 import { imgPath } from 'utils/constants';
 
 const {
-  keyedPalette: { bombay, brandPrimary, pelorousapprox, white },
+  keyedPalette: { bombay, brandPrimary, pelorousapprox },
 } = base;
 
 const HorizontalTable = ({
@@ -89,7 +90,7 @@ const MultipleModelContent = match => {
   return (
     <div className="multiple-models__model" key={match.name}>
       <div className="multiple-models__model-icon">
-        <ModelIcon height={30} width={30} />
+        <ModelIcon />
       </div>
       <div className="multiple-models__model-text">
         <Link
@@ -114,7 +115,7 @@ const MultipleModelsList = ({ matches }) => {
   } else {
     return (
       <div className="model-details model-details--empty">
-        <ModelIcon fill={bombay} height={30} width={30} />
+        <ModelIcon fill={bombay} />
         <p className="model-details__empty-message">There are no other models from this patient.</p>
       </div>
     );
@@ -124,8 +125,8 @@ const MultipleModelsList = ({ matches }) => {
 const MolecularCharacterizationsCell = ({ isAvailable }) => {
   return isAvailable ? (
     <CheckmarkIcon
-      width={18}
-      height={18}
+      width={'18px'}
+      height={'18px'}
       style={`
         background-color: ${pelorousapprox};
         border-radius: 100%;
@@ -134,9 +135,9 @@ const MolecularCharacterizationsCell = ({ isAvailable }) => {
       title="Available"
     />
   ) : (
-    <XIcon
-      width={18}
-      height={18}
+    <CrossIcon
+      width={'18px'}
+      height={'18px'}
       title="Not Available"
       style={`
         padding: 4px;
@@ -176,7 +177,8 @@ const MolecularCharacterizationsTable = ({ characterizations }) => {
 };
 
 const ExternalResourceLink = ({ url, children }) => (
-  <a
+  <ExternalLinkPill
+    primary
     className={`external-resources__link ${!url && 'external-resources__link--disabled'}`}
     href={url}
     role={!url ? 'button' : null}
@@ -185,7 +187,7 @@ const ExternalResourceLink = ({ url, children }) => (
     rel="noopener noreferrer"
   >
     {children}
-  </a>
+  </ExternalLinkPill>
 );
 
 const ExternalResourcesContent = ({
@@ -203,20 +205,20 @@ const ExternalResourcesContent = ({
   return (
     <div className="external-resources">
       <ExternalResourceLink url={sequencingFilesLink}>
-        <ExternalLinkIcon fill={white} height={12} width={12} />
+        <ExternalLinkIcon />
         Sequencing Files
       </ExternalResourceLink>
       <ExternalResourceLink url={modelSourceLink}>
-        <ExternalLinkIcon fill={white} height={12} width={12} />
+        <ExternalLinkIcon />
         Model Source
       </ExternalResourceLink>
       <ExternalResourceLink url={somaticMafLink}>
-        <ExternalLinkIcon fill={white} height={12} width={12} />
+        <ExternalLinkIcon />
         Masked Somatic MAF
       </ExternalResourceLink>
       {purchaseLink && (
         <ExternalResourceLink url={purchaseLink}>
-          <ShoppingCartIcon fill={white} height={12} width={12} />
+          <ShoppingCartIcon />
           Visit {distributorPartNumber} to Purchase
         </ExternalResourceLink>
       )}
@@ -367,7 +369,7 @@ export default ({ modelName }) => (
                       </ModelSlider>
                     ) : (
                       <div className="model-details model-details--empty">
-                        <CameraIcon fill={bombay} height={30} width={30} />
+                        <CameraIcon fill={bombay} />
                         <p className="model-details__empty-message">No images available.</p>
                       </div>
                     )}

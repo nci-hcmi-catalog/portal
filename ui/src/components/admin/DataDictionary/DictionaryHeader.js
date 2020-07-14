@@ -4,7 +4,7 @@ import { useDictionary } from './DictionaryController';
 import { NotificationToaster } from './../Notifications';
 import useConfirmationModal from './../../modals/ConfirmationModal';
 
-import { HoverPill } from 'theme/adminControlsStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 import { AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
 import {
   DataDictionaryHeader,
@@ -13,7 +13,7 @@ import {
   HeaderPill,
 } from 'theme/adminDictionaryStyles';
 
-import AdminModelPublishIcon from '../../../icons/AdminModelPublishIcon';
+import PublishIcon from '../../../icons/PublishIcon';
 
 const DictionaryHeader = () => {
   const {
@@ -60,9 +60,9 @@ const DictionaryHeader = () => {
             confirmLabel: 'Yes, Reset',
             onConfirm: reset,
           })(
-            <HoverPill secondary disabled={!isDraft} marginRight="10px">
+            <ButtonPill secondary disabled={!isDraft} marginRight="10px">
               Reset
-            </HoverPill>,
+            </ButtonPill>,
           )}
           {useConfirmationModal({
             title: 'Are you sure you want to publish dictionary updates?',
@@ -71,10 +71,10 @@ const DictionaryHeader = () => {
             confirmLabel: 'Yes, Publish All Updates',
             onConfirm: publish,
           })(
-            <HoverPill primary disabled={!isDraft} marginRight="10px">
-              <AdminModelPublishIcon width={16} height={16} css={'margin-right: 9px;'} />
+            <ButtonPill primary disabled={!isDraft} marginRight="10px">
+              <PublishIcon width={'16px'} height={'16px'} css={'margin-right: 9px;'} />
               Publish All Updates
-            </HoverPill>,
+            </ButtonPill>,
           )}
         </AdminHeaderBlock>
       </DataDictionaryHeader>

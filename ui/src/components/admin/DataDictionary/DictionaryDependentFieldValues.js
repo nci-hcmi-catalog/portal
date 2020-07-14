@@ -5,7 +5,7 @@ import { useDictionary } from './DictionaryController';
 
 import { CLINICAL_TUMOR_DIAGNOSIS, DEPENDENT_FIELD_KEYS } from './../helpers/dictionary';
 
-import { HoverPill } from 'theme/adminControlsStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 import {
   DependentColumnHeading,
   DependentValues,
@@ -75,7 +75,7 @@ const DictionaryDependentFieldValues = () => {
       <DependentValues>
         <DependentValuesHeader>
           <DependentColumnHeading>Dependent Field Values for {activeValue}</DependentColumnHeading>
-          <HoverPill
+          <ButtonPill
             secondary
             onClick={shouldExpand ? expandAll : collapseAll}
             css={`
@@ -83,7 +83,7 @@ const DictionaryDependentFieldValues = () => {
             `}
           >
             {shouldExpand ? 'Expand All' : 'Collapse All'}
-          </HoverPill>
+          </ButtonPill>
         </DependentValuesHeader>
 
         <DependentFieldValuesGroup

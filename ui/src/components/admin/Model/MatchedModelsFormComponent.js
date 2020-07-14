@@ -17,7 +17,7 @@ const LinkedModelsText = ({ children }) => (
       margin-bottom: 15px;
     `}
   >
-    <ModelIcon height={24} width={24} />
+    <ModelIcon height={'24px'} width={'24px'} />
     <span
       css={`
         font-size: 14px;

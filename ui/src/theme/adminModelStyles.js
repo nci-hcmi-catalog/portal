@@ -8,11 +8,11 @@ import { AdminContent, AdminHeaderH1 } from 'theme/adminStyles';
 
 const {
   fonts: { openSans },
-  keyedPalette: { black, brandPrimary, elm, mineShaft, silver },
+  keyedPalette: { black, brandPrimary, silver },
   transparency: { white70 },
 } = base;
 
-const activeNavItemIconColor = elm;
+const activeNavItemIconColor = black;
 const disabledNavItemIconColor = silver;
 
 export { brandPrimary, activeNavItemIconColor, disabledNavItemIconColor };
@@ -31,10 +31,10 @@ export const navItemIcon = css`
 `;
 
 export const navItemActive = css`
-  color: ${mineShaft};
+  color: ${black};
 
   &:hover {
-    color: ${mineShaft};
+    color: ${black};
   }
 `;
 
