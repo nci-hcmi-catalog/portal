@@ -37,11 +37,11 @@ const actionsMenuHover = mystic;
 
 const pillColour = ({ primary, secondary, disabled }) => {
   switch (true) {
-    case disabled:
+    case !!disabled:
       return { base: white, hover: white };
-    case secondary:
+    case !!secondary:
       return { base: black, hover: black };
-    case primary:
+    case !!primary:
       return { base: black, hover: black };
     default:
       return { base: white, hover: white };
@@ -50,15 +50,15 @@ const pillColour = ({ primary, secondary, disabled }) => {
 
 const pillBackgroundColour = ({ primary, warning, secondary, disabled, info }) => {
   switch (true) {
-    case disabled:
+    case !!disabled:
       return { base: pillDisabled, hover: pillDisabled };
-    case primary:
+    case !!primary:
       return { base: pillPrimary, hover: pillPrimaryHighlight };
-    case warning:
+    case !!warning:
       return { base: pillOrange, hover: sienna };
-    case secondary:
+    case !!secondary:
       return { base: white, hover: lightPorcelain };
-    case info:
+    case !!info:
       return { base: pillGrey, hover: frenchGrey };
     default:
       return { base: pillBlueHighlight, hover: pillBlue };
@@ -67,15 +67,15 @@ const pillBackgroundColour = ({ primary, warning, secondary, disabled, info }) =
 
 const pillBorderColour = ({ primary, warning, secondary, disabled, info }) => {
   switch (true) {
-    case disabled:
+    case !!disabled:
       return pillDisabled;
-    case primary:
+    case !!primary:
       return pillPrimary;
-    case warning:
+    case !!warning:
       return pillOrange;
-    case secondary:
+    case !!secondary:
       return pillGrey;
-    case info:
+    case !!info:
       return pillGrey;
     default:
       return pillBlueHighlight;
