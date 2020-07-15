@@ -10,6 +10,10 @@ const {
 const bkgColour = white;
 const borderColour = porcelain;
 
+export const AdminWrapper = styled(Col)`
+  flex: 1 0 auto;
+`;
+
 export const AdminMain = styled(Row)`
   background: ${bkgColour};
   label: admin-main;

@@ -17,13 +17,13 @@ export const Header = styled('header')`
   display: flex;
   background-image: url(${bannerPath}),
     linear-gradient(to left, ${hotCinnamon} 0%, ${texasRose} 60%, ${orangeRough} 80%);
-  height: ${HEADER_HEIGHT};
+  min-height: ${HEADER_HEIGHT};
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 0 16px 12px 13px;
+  padding: 12px 16px 12px 13px;
 `;
 
 export const HeaderLink = styled(Link)`
