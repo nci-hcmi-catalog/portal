@@ -388,7 +388,7 @@ export default css`
 
   .sqon-view {
     border: none;
-    padding: 4px 19px 12px;
+    padding: 4px 19px 10px;
     flex: 1;
 
     .sqon-group > * {
