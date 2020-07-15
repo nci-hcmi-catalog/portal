@@ -20,6 +20,7 @@ const {
     dustyGray,
     graySuit,
     havelockBlue,
+    ironApprox,
     lightBlack,
     lightPorcelain,
     linen,
@@ -813,4 +814,62 @@ export const Toggle = styled('div')`
   text-align: right;
   font-style: italic;
   margin: 6px 0 0 0;
+`;
+
+export const Footer = styled('footer')`
+  height: 56px;
+  background-color: ${white};
+  border-top: 1px solid ${ironApprox};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 16px;
+
+  @media screen and (max-width: 1200px) {
+    height: 90px;
+    flex-direction: column-reverse;
+    justify-content: space-around;
+  }
+`;
+
+export const FooterNav = styled('ul')`
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+`;
+
+export const FooterNavItem = styled('li')`
+  height: 16px;
+  padding: 0 8px;
+  border-right: 1px solid ${black};
+
+  &:last-child {
+    padding-right: 0;
+    border-right: none;
+  }
+`;
+
+export const FooterImg = styled('img')`
+  padding-left: 32px;
+
+  &:first-child {
+    padding-left: 0;
+  }
+`;
+
+export const CopyrightText = styled('p')`
+  margin: 0;
+  padding: 0;
+  color: ${black}
+  font-family: ${openSans};
+  font-size: 12px;
+`;
+
+export const CopyrightLink = styled('a')`
+  ${brandPrimaryHighlightHover};
+  font-size: 12px;
+  display: block;
 `;
