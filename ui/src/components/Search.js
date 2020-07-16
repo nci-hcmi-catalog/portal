@@ -88,7 +88,6 @@ export default ({
             {!sqon && (
               <Row
                 css={`
-                  line-height: 50px;
                   padding: 0 14px;
                   flex: 1;
                 `}

@@ -17,7 +17,7 @@ export const Header = styled('header')`
   display: flex;
   background-image: url(${bannerPath}),
     linear-gradient(to left, ${hotCinnamon} 0%, ${texasRose} 60%, ${orangeRough} 80%);
-  height: ${HEADER_HEIGHT};
+  min-height: ${HEADER_HEIGHT};
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;

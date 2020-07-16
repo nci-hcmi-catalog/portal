@@ -94,10 +94,6 @@ export default () => (
   <NotificationsContext.Consumer>
     {({ state: { notifications }, clearNotification }) => (
       <Component
-        didMount={() => {
-          // Scroll to top on initial load of notifications component
-          scrollIntoView();
-        }}
         notifications={notifications}
         didUpdate={({ props, prevProps }) => {
           // If we have new notifications (do not scroll on removal)
