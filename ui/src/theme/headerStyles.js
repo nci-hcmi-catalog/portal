@@ -23,7 +23,7 @@ export const Header = styled('header')`
   background-size: cover;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 12px 16px 12px 13px;
+  padding: 0 16px 12px 13px;
 `;
 
 export const HeaderLink = styled(Link)`
