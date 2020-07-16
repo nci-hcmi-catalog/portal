@@ -389,7 +389,7 @@ export default css`
 
   .sqon-view {
     border: none;
-    padding: 4px 19px 12px;
+    padding: 4px 19px 10px;
     flex: 1;
 
     .sqon-group > * {
@@ -817,7 +817,7 @@ export const Toggle = styled('div')`
 `;
 
 export const Footer = styled('footer')`
-  height: 56px;
+  min-height: 64px;
   background-color: ${white};
   border-top: 1px solid ${ironApprox};
   display: flex;
@@ -827,7 +827,7 @@ export const Footer = styled('footer')`
   padding: 0 16px;
 
   @media screen and (max-width: 1200px) {
-    height: 90px;
+    min-height: 90px;
     flex-direction: column-reverse;
     justify-content: space-around;
   }
@@ -839,6 +839,7 @@ export const FooterNav = styled('ul')`
   list-style: none;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 `;
 
 export const FooterNavItem = styled('li')`
@@ -868,7 +869,7 @@ export const CopyrightText = styled('p')`
   font-size: 12px;
 `;
 
-export const CopyrightLink = styled('a')`
+export const FooterLink = styled('a')`
   ${brandPrimaryHighlightHover};
   font-size: 12px;
   display: block;
