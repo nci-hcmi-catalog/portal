@@ -869,7 +869,7 @@ export const CopyrightText = styled('p')`
   font-size: 12px;
 `;
 
-export const CopyrightLink = styled('a')`
+export const FooterLink = styled('a')`
   ${brandPrimaryHighlightHover};
   font-size: 12px;
   display: block;

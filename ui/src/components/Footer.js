@@ -6,7 +6,7 @@ import {
   FooterNavItem,
   FooterImg,
   CopyrightText,
-  CopyrightLink,
+  FooterLink,
 } from 'theme/searchStyles';
 import { Col, Row } from 'theme/system';
 import nihPath from 'assets/logo-NIH-NCI.svg';
@@ -23,31 +23,27 @@ export default () => (
         </CopyrightText>
         <FooterNav>
           <FooterNavItem>
-            <CopyrightLink
+            <FooterLink
               href="https://ocg.cancer.gov/programs/HCMI"
               target="_blank"
               rel="noopener noreferrer"
             >
               ocg.cancer.gov
-            </CopyrightLink>
+            </FooterLink>
           </FooterNavItem>
           <FooterNavItem>
-            <CopyrightLink
-              href="https://ocg.cancer.gov/programs/hcmi/hcmi-tutorials"
+            <FooterLink
+              href="https://ocg.cancer.gov/programs/hcmi/frequently-asked-questions"
               target="_blank"
               rel="noopener noreferrer"
             >
               Help
-            </CopyrightLink>
+            </FooterLink>
           </FooterNavItem>
           <FooterNavItem>
-            <CopyrightLink
-              href="mailto:ocg@mail.nih.gov"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <FooterLink href="mailto:ocg@mail.nih.gov" target="_blank" rel="noopener noreferrer">
               Contact Us
-            </CopyrightLink>
+            </FooterLink>
           </FooterNavItem>
         </FooterNav>
       </Row>
