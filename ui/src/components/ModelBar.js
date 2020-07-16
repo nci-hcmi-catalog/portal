@@ -1,70 +1,95 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { stringify } from 'query-string';
 
 import { Row } from 'theme/system';
-import ModelCarousel from 'components/ModelCarousel';
+import { ButtonPill } from 'theme/adminControlsStyles';
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
 import Url from 'components/Url';
-import BackToSearch from 'components/links/BackToSearch';
+import { SavedSetsContext } from 'providers/SavedSets';
+import { SelectedModelsContext } from 'providers/SelectedModels';
 import ModelList from 'components/ModelList';
 
-//TODO: Uncomment when expanded is available
-// const ExpandedPill = ({ isExpanded }) => {
-//   return (
-//     <div
-//       css={`
-//         margin-left: 30px;
-//         color: ${isExpanded ? theme.keyedPalette.green : theme.keyedPalette.redOrange};
-//         font-size: 13px;
-//         font-weight: bold;
-//         font-family: Helvetica;
-//         font-weight: bold;
-//         line-height: 1.9;
-//         letter-spacing: 0.2px;
-//         background-color: white;
-//         border-radius: 10px;
-//         border: solid 2px ${isExpanded ? '#72bb74' : '#ff9752'};
-//         padding: 0px 11px;
-//         margin-top: 0px;
-//       `}
-//     >
-//       {isExpanded ? 'EXPANDED' : 'UNEXPANDED'}
-//     </div>
-//   );
-// };
+import PlusIcon from './../icons/PlusIcon';
+import CheckmarkIcon from './../icons/CheckmarkIcon';
 
-export default ({ name, isExpanded }) => (
-  <Url
-    render={({ sqon, history }) => (
-      <Row
-        className="model-bar"
-        css={`
-          align-items: center;
-          justify-content: space-between;
-        `}
-      >
-        <div
-          css={`
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-          `}
-        >
-          <h2>Model {name}</h2>
-          {/* TODO: Remove comment when isExpanded is available
-          isExpanded === null || isExpanded === undefined ? null : (
+const ExpandedPill = ({ isExpanded }) => {
+  return (
+    <div className={`model-bar__pill model-bar__pill--${isExpanded ? 'expanded' : 'unexpanded'}`}>
+      {isExpanded ? 'EXPANDED' : 'UNEXPANDED'}
+    </div>
+  );
+};
+
+export default ({ name, id, isExpanded }) => {
+  const {
+    state: { sets },
+  } = useContext(SavedSetsContext);
+  const {
+    state: { modelIds },
+    toggleModel,
+  } = useContext(SelectedModelsContext);
+  const isSelected = modelIds.includes(id);
+
+  const getBackRoute = sqon => {
+    // need to avoid empty sqon object
+    return sqon &&
+      sqon.content &&
+      sqon.content.value &&
+      sets[sqon.content.value] &&
+      sets[sqon.content.value].sqon &&
+      Object.keys(sets[sqon.content.value].sqon).length !== 0
+      ? {
+          pathname: '/',
+          search: stringify({ sqon: JSON.stringify(sets[sqon.content.value].sqon) }),
+        }
+      : '/';
+  };
+
+  return (
+    <Url
+      render={({ sqon }) => (
+        <Row className="model-bar">
+          <div className="model-bar__group">
+            <h2 className="model-bar__heading">
+              Model: <strong>{name}</strong>
+            </h2>
             <ExpandedPill isExpanded={isExpanded} />
-          )*/}
-        </div>
+          </div>
 
-        {sqon && <ModelCarousel modelName={name} sqon={sqon} />}
+          <div className="model-bar__group">
+            <Link className="model-bar__back" to={getBackRoute(sqon)}>
+              <ArrowLeftIcon
+                css={`
+                  margin-right: 5px;
+                `}
+              />
+              BACK TO SEARCH
+            </Link>
 
-        <div className="model-bar-actions">
-          <BackToSearch sqon={sqon} history={history}>
-            <ArrowLeftIcon /> BACK TO SEARCH
-          </BackToSearch>
-          <ModelList className="model-bar-model-list" />
-        </div>
-      </Row>
-    )}
-  />
-);
+            <ButtonPill
+              primary
+              marginLeft={'8px'}
+              onClick={() => toggleModel(id)}
+              className={`model-bar__action ${isSelected ? 'model-bar__action--selected' : ''}`}
+            >
+              {isSelected ? (
+                <>
+                  <CheckmarkIcon />
+                  Selected for Download
+                </>
+              ) : (
+                <>
+                  <PlusIcon />
+                  Add Model to My List
+                </>
+              )}
+            </ButtonPill>
+
+            <ModelList className="model-bar-model-list" />
+          </div>
+        </Row>
+      )}
+    />
+  );
+};

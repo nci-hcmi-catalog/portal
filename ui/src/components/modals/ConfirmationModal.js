@@ -11,7 +11,7 @@ import {
   Content,
   Footer,
 } from 'theme/adminModalStyles';
-import { HoverPill } from 'theme/adminControlsStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 
 const doThenClose = (next, modalState) => () => {
   next();
@@ -33,20 +33,16 @@ const ConfirmationModal = ({
           <Title>{title}</Title>
           <CloseModal onClick={() => modalState.setModalState({ component: null })} />
         </Header>
-        <Content
-          css={`
-            line-height: 2;
-          `}
-        >
+        <Content>
           <span>{message}</span>
         </Content>
         <Footer>
-          <HoverPill secondary onClick={doThenClose(onCancel, modalState)}>
-            {cancelLabel}
-          </HoverPill>
-          <HoverPill primary onClick={doThenClose(onConfirm, modalState)}>
+          <ButtonPill primary marginRight={'10px'} onClick={doThenClose(onConfirm, modalState)}>
             {confirmLabel}
-          </HoverPill>
+          </ButtonPill>
+          <ButtonPill secondary onClick={doThenClose(onCancel, modalState)}>
+            {cancelLabel}
+          </ButtonPill>
         </Footer>
       </ModalWrapper>
     )}

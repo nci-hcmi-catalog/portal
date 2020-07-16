@@ -11,19 +11,19 @@ import { SelectedModelsContext } from 'providers/SelectedModels';
 import { ModalStateContext } from 'providers/ModalState';
 
 import { Row } from 'theme/system';
-import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 
 import DoubleArrowRightIcon from 'icons/DoubleArrowRightIcon';
-import ModelPlaceholderIcon from 'icons/ModelPlaceholderIcon';
+import ModelIcon from 'icons/ModelIcon';
 import TrashIcon from 'icons/TrashIcon';
-import DownloadIconWhite from 'icons/DownloadIconWhite';
-import modelListEmptyRedPlus from 'assets/icon-modellist-empty-red.svg';
+import DownloadIcon from 'icons/DownloadIcon';
+import modelListEmptyOrange from 'assets/icon-modellist-empty-orange.svg';
 
 import { imgPath } from 'utils/constants';
 
 const EmptyList = () => (
   <div className="empty-list">
-    <img src={modelListEmptyRedPlus} alt="Add to list icon" width="26" height="30" />
+    <img src={modelListEmptyOrange} alt="Empty list icon" width="26" height="30" />
     <p>You don’t have any models selected.</p>
   </div>
 );
@@ -67,19 +67,28 @@ export default () => (
                   return (
                     <>
                       <div className="model-list-drawer-header">
-                        <h2 onClick={() => modalState.setModalState({ component: null })}>
-                          <DoubleArrowRightIcon />
-                          My Model List{hasSelected && (
-                            <span className="count">{selectedCount}</span>
-                          )}
-                        </h2>
-                        <button
+                        <Row alignItems="baseline">
+                          <button
+                            onClick={() => modalState.setModalState({ component: null })}
+                            css={`
+                              border: none;
+                              cursor: pointer;
+                            `}
+                          >
+                            <DoubleArrowRightIcon />
+                          </button>
+                          <h2>
+                            My Model List
+                            {hasSelected && <span className="count">{selectedCount}</span>}
+                          </h2>
+                        </Row>
+                        <ButtonPill
+                          secondary
                           disabled={!hasSelected}
                           onClick={() => selected.clearModels()}
-                          className="clear"
                         >
                           Clear
-                        </button>
+                        </ButtonPill>
                       </div>
                       {hasSelected && loading && <Loading />}
                       {hasSelected && !loading ? (
@@ -101,7 +110,7 @@ export default () => (
                                     />
                                   ) : (
                                     <div className="model-placeholder-image">
-                                      <ModelPlaceholderIcon width={47} height={47} />
+                                      <ModelIcon fill={'#b7bbbe'} width={'47px'} height={'47px'} />
                                     </div>
                                   )}
 
@@ -119,10 +128,10 @@ export default () => (
                                   </div>
                                   <TrashIcon
                                     onClick={() => selected.toggleModel(model.id)}
+                                    fill={'#000'}
                                     css={`
                                       cursor: pointer;
                                       margin: 0 0 0 10px;
-                                      ${brandPrimaryHighlightHover};
                                     `}
                                   />
                                 </div>
@@ -134,8 +143,8 @@ export default () => (
                         <EmptyList />
                       )}
                       <div className="download-tsv">
-                        <button
-                          className="download-tsv-btn"
+                        <ButtonPill
+                          primary
                           disabled={!hasSelected}
                           onClick={() =>
                             tsvDownloader(
@@ -144,14 +153,15 @@ export default () => (
                             )
                           }
                         >
-                          <DownloadIconWhite
-                            width={12}
-                            height={14}
+                          <DownloadIcon
+                            width={'12px'}
+                            height={'12px'}
                             css={`
-                              margin-right: 14px;
+                              margin-right: 4px;
                             `}
-                          />Download TSV
-                        </button>
+                          />
+                          Download TSV
+                        </ButtonPill>
                       </div>
                     </>
                   );

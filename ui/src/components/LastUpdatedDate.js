@@ -13,10 +13,12 @@ export default () => (
           font-weight: normal;
           font-style: normal;
           font-stretch: normal;
-          line-height: 2.17;
+          line-height: 1.33;
           letter-spacing: normal;
+          color: #000;
           text-align: center;
-          color: #64666a;
+          margin-top: -25px;
+          padding-bottom: 25px;
         `}
       >
         Updated: {moment(date).format('MMMM D, YYYY')}

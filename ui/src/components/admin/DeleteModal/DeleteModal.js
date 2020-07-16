@@ -11,7 +11,7 @@ import {
   Content,
   Footer,
 } from 'theme/adminModalStyles';
-import { HoverPill } from 'theme/adminControlsStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 
 const doThenClose = (next, modalState) => () => {
   next();
@@ -26,22 +26,18 @@ const DeleteModal = ({ next, target, onCancel = () => false }) => (
           <Title>Delete</Title>
           <CloseModal onClick={() => modalState.setModalState({ component: null })} />
         </Header>
-        <Content
-          css={`
-            line-height: 2;
-          `}
-        >
+        <Content>
           <span>
             Are you sure you want to delete <strong>{target}</strong>? This action cannot be undone.
           </span>
         </Content>
         <Footer>
-          <HoverPill secondary onClick={doThenClose(onCancel, modalState)}>
-            Cancel
-          </HoverPill>
-          <HoverPill primary onClick={doThenClose(next, modalState)}>
+          <ButtonPill primary marginRight={'10px'} onClick={doThenClose(next, modalState)}>
             Delete
-          </HoverPill>
+          </ButtonPill>
+          <ButtonPill secondary onClick={doThenClose(onCancel, modalState)}>
+            Cancel
+          </ButtonPill>
         </Footer>
       </ModalWrapper>
     )}

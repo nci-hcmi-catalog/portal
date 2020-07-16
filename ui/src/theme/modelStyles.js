@@ -1,346 +1,362 @@
 import { css } from 'emotion';
-import {
-  brandPrimaryHighlightHover,
-  brandPrimaryColourHover,
-  whiteHover,
-  whiteButtonHover,
-  brandPrimaryButtonHover,
-} from 'theme/hoverStyles';
-import plusWhite from 'assets/icon-plus-white.svg';
-import selectedModel from 'assets/icon-selected-model.svg';
+
+import base from 'theme';
+
+const {
+  fonts: { openSans },
+  keyedPalette: {
+    athensGray,
+    athensLightGray,
+    black,
+    bombay,
+    brandPrimary,
+    crimson,
+    elm,
+    mischka,
+    lightPorcelain,
+    sandyBeach,
+    tiaMaria,
+    white,
+  },
+} = base;
 
 export default css`
   .model-bar {
-    background-color: rgba(144, 0, 0, 0.7);
-    color: #ffffff;
+    background-color: ${athensGray};
+    color: ${black};
+    border: 1px solid ${mischka};
     align-items: center;
     justify-content: space-between;
-    padding: 0 35px;
-  }
+    padding: 10px 18px;
 
-  .model-bar h2 {
-    font-family: 'Libre Franklin';
-    font-size: 23px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 0.86;
-    letter-spacing: normal;
-    text-align: left;
-    min-width: 250px;
-  }
+    &__group {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
 
-  .model-bar .clickable {
-    cursor: pointer;
-    ${whiteHover};
-    text-decoration: none;
-    font-family: 'Libre Franklin';
-    font-size: 12px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.67;
-    letter-spacing: normal;
-    text-align: left;
-  }
+    &__heading {
+      font-family: ${openSans};
+      font-size: 26px;
+      font-weight: normal;
+      line-height: 1.15;
+      margin: 0;
+    }
 
-  .model-bar .model-bar-actions {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    &__pill {
+      margin-left: 18px;
+      font-family: ${openSans};
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 1;
+      background-color: ${white};
+      border-radius: 8px;
+      border: 1px solid ${elm};
+      color: ${elm};
+      padding: 2px 8px;
+
+      &--unexpanded {
+        border-color: ${tiaMaria};
+        color: ${tiaMaria};
+      }
+    }
+
+    &__back {
+      text-decoration: none;
+      font-family: ${openSans};
+      font-size: 12px;
+      font-weight: 600;
+      color: ${black};
+      margin-right: 8px;
+    }
+
+    &__action {
+      &--selected {
+        background-color: ${crimson};
+        border-color: ${crimson};
+        color: ${white};
+
+        &:hover {
+          background-color: ${brandPrimary};
+          color: ${white};
+        }
+      }
+    }
   }
 
   .pagination {
     display: flex;
     flex-direction: row;
-    background: #fff;
-    border-radius: 10px;
-    background-color: #ffffff;
-    border: solid 1px #cacbcf;
-    margin: 0 16px;
     align-items: center;
-    font-family: 'Open Sans';
-    font-size: 12px;
+    border-radius: 10px;
+    background-color: ${athensGray};
+    border: solid 1px ${mischka};
+    font-family: ${openSans};
+    font-size: 11px;
     font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.68;
-    letter-spacing: normal;
-    text-align: left;
-    color: #323232;
-  }
+    line-height: 1.27;
+    color: ${black};
+    overflow: hidden;
 
-  .pagination a {
-    text-decoration: none;
-    font-family: 'Libre Franklin';
-    font-size: 12px;
-    padding: 6px 12px;
-    ${brandPrimaryColourHover};
+    &__item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__link {
+      text-decoration: none;
+      font-family: ${openSans};
+      font-size: 11px;
+      color: ${brandPrimary};
+      background-color: ${white};
+      width: 78px;
+      height: 28px;
+      transition: 0.25s background-color ease;
+
+      span {
+        padding-bottom: 2px;
+      }
+
+      &:hover {
+        background-color: ${lightPorcelain};
+      }
+    }
+
+    &__status {
+      height: 28px;
+      border: 1px solid ${mischka};
+      border-top: 0;
+      border-bottom: 0;
+      transition: opacity 0.5s ease-in;
+      flex: 1 1 auto;
+      padding: 0 12px;
+    }
   }
 
   .model-section {
-    font-family: 'Libre Franklin';
-    padding: 22px 35px;
-    margin: 6px 0 10px 0;
+    padding: 0 8px;
+    margin-top: 16px;
+
+    .row {
+      justify-content: space-between;
+      align-items: start;
+    }
+
+    .two-col {
+      width: 50%;
+    }
+
+    .three-col {
+      width: calc(100% / 3);
+    }
+
+    &__card {
+      position: relative;
+      padding: 18px;
+      margin: 8px;
+      border: 2px solid ${athensLightGray};
+      min-height: 92px;
+    }
+
+    &__card-title {
+      color: ${black};
+      background-color: ${sandyBeach};
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      margin: 0;
+      display: inline-block;
+      padding: 2px 15px;
+      position: absolute;
+      bottom: calc(100% - 10px);
+      text-transform: uppercase;
+      max-width: calc(100% - 32px);
+    }
   }
 
-  .model-section h3 {
-    font-size: 20px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.2;
-    letter-spacing: normal;
-    text-align: left;
-    color: #900000;
+  .model-details {
     display: flex;
-    align-items: center;
-    margin-top: 0;
+    flex-direction: column;
+
+    &--empty {
+      align-items: center;
+      margin-bottom: -5px;
+      padding-top: 5px;
+    }
+
+    &__empty-message {
+      font-family: ${openSans};
+      font-size: 12px;
+      font-weight: normal;
+      color: ${black};
+      margin: 5px 0 0;
+    }
   }
 
-  .model-section .row {
-    justify-content: space-between;
-    align-items: start;
+  .multiple-models {
+    display: flex;
+    flex-direction: column;
+
+    &__model {
+      display: flex;
+      padding: 10px 0;
+      border-bottom: 1px solid ${mischka};
+
+      &:last-of-type {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+    }
+
+    &__model-icon {
+      margin-right: 5px;
+    }
+
+    &__model-text {
+      height: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
   }
 
-  .model-section .three-col {
-    width: 31%;
-    min-width: 440px;
+  .model-text {
+    &__name {
+      color: ${brandPrimary};
+      font-family: ${openSans};
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    &__type {
+      color: ${black};
+      font-family: ${openSans};
+      font-size: 11px;
+      font-weight: normal;
+    }
   }
 
-  .model-section .two-col {
-    width: 48%;
-    min-width: 440px;
-  }
+  .molecular-characterizations-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
 
-  .model-section .model-details-header {
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
+    tr th,
+    tr td {
+      border-bottom: 1px solid ${bombay};
+      border-right: 1px solid ${bombay};
+      font-family: ${openSans};
+      font-size: 12px;
+      font-weight: normal;
+      padding: 4px;
+    }
 
-  .model-section .model-details-header h3 {
-    margin: 0;
-  }
+    th:last-child,
+    td:last-child {
+      border-right: none;
+    }
 
-  .model-details-header .select-model {
-    background: url(${plusWhite}) no-repeat;
-    background-size: 16px 16px;
-    background-position: 23px center;
-    padding: 0 24px 0 46px;
-    border: solid 1px #cacbcf;
-    ${brandPrimaryButtonHover};
-  }
+    tr:last-child {
+      td,
+      th {
+        border-bottom: none;
+      }
+    }
 
-  .model-details-header .select-model.selected {
-    background: url(${selectedModel}) no-repeat;
-    background-size: 12px 12px;
-    background-position: 15px center;
-    padding: 0 15px 0 34px;
-    background-color: #45b3c3;
+    th:first-child {
+      text-align: left;
+    }
   }
 
   .image-caption {
-    font-family: 'Open Sans';
+    font-family: ${openSans};
     font-size: 11px;
-    font-weight: normal;
-    font-stretch: normal;
-    line-height: 13px;
-    height: 13px;
-    letter-spacing: normal;
-    text-align: left;
-    color: #323232;
-  }
+    font-weight: bold;
+    color: ${black};
 
-  .image-caption:not(:first-child) {
-    padding-left: 8px;
-  }
+    &:not(:first-child) {
+      padding-left: 8px;
+    }
 
-  .image-caption:not(:last-child) {
-    border-right: 1px solid #323232;
-    padding-right: 8px;
+    &:not(:last-child) {
+      border-right: 1px solid ${black};
+      padding-right: 8px;
+    }
   }
 
   .entity-horizontal-table {
-    color: #323232;
-    border: solid 1px #cacbcf;
-    border-collapse: collapse;
+    color: ${black};
     width: 100%;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.71;
-    letter-spacing: normal;
     text-align: left;
+
+    tr:nth-child(even) {
+      background: ${white};
+    }
+
+    tr:nth-child(odd) {
+      background: ${athensGray};
+    }
+
+    td {
+      font-size: 13px;
+      font-weight: normal;
+      line-height: 1.54;
+      font-family: ${openSans};
+      padding: 1px;
+
+      &.content {
+        font-weight: bold;
+        padding-right: 10px;
+      }
+
+      &.heading {
+        padding-left: 10px;
+        padding-right: 10px;
+        width: 180px;
+      }
+
+      ul {
+        padding-inline-start: 0;
+        margin: 0;
+        list-style: none;
+      }
+    }
   }
 
-  .entity-horizontal-table tr:nth-child(even) {
-    background: #ffffff;
+  .external-resources {
+    &__link {
+      display: inline-block;
+      margin: 4px 4px 0 0;
+    }
   }
 
-  .entity-horizontal-table tr:nth-child(odd) {
-    background: #f8fafb;
-  }
-
-  .entity-horizontal-table td {
-    padding: 10px;
-    font-size: 12px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.57;
-    font-family: 'Open Sans';
-    font-size: 14px;
-    border: 0;
-  }
-
-  .entity-horizontal-table td.content {
-    border-left: 0;
-    border-top: solid 1px #cacbcf;
-    border-bottom: solid 1px #cacbcf;
-    border-right: solid 1px #cacbcf;
-  }
-
-  .entity-horizontal-table td.heading {
-    border-left: solid 1px #cacbcf;
-    border-top: solid 1px #cacbcf;
-    border-bottom: solid 1px #cacbcf;
-    border-right: 0;
-    color: #64666a;
-    text-transform: uppercase;
-    font-size: 12px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    width: 200px;
-    font-family: 'Libre Franklin';
-  }
-
-  .model-footer-bar {
-    background-color: #ebf1f3;
-    color: #724c31;
+  .model-carousel-bar {
+    background-color: ${white};
     align-items: center;
-    justify-content: space-between;
-    padding: 35px 30px;
-  }
+    justify-content: center;
 
-  .model-footer-bar .clickable {
-    cursor: pointer;
-    font-family: 'Libre Franklin';
-    font-size: 12px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.67;
-    letter-spacing: normal;
-    text-align: left;
-    ${brandPrimaryColourHover};
-    text-decoration: none;
-    text-transform: uppercase;
+    &--top {
+      margin-top: 12px;
+    }
+
+    &--bottom {
+      margin-bottom: 12px;
+    }
   }
 
   .model-actions {
     position: relative;
   }
 
-  .pill {
-    padding: 0 15px;
-    height: 30px;
-    border-radius: 10px;
-    background-color: #ffffff;
-    border: solid 1px #cacbcf;
-    font-family: 'Libre Franklin';
-    font-size: 12px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.67;
-    letter-spacing: normal;
-    text-align: center;
-    color: #734d32;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    ${whiteButtonHover};
-  }
-
   .toolbar {
-    background-color: #ffffff;
-    border-right: solid 1px #cacbcf;
-    border-top: solid 1px #cacbcf;
-    border-left: solid 1px #cacbcf;
-    border-bottom: 0;
-    padding: 20px 24px;
-    font-family: 'Open Sans';
+    font-family: ${openSans};
     font-size: 12px;
     font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 2.17;
-    letter-spacing: normal;
-    text-align: left;
-    color: #64666a;
+    line-height: 1.33;
+    color: ${black};
     z-index: 1;
-  }
-
-  .tabs-title {
-    border: solid 1px #cacbcf;
-    cursor: pointer;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    padding: 18px 40px;
-    margin-right: 10px;
-    background-color: #ebf1f3;
-    font-family: 'Libre Franklin';
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    border-bottom: 0;
-    border-top: solid 1px #cacbcf;
-    border-left: solid 1px #cacbcf;
-    border-right: solid 1px #cacbcf;
-    position: relative;
-    top: 1px;
-    z-index: 0;
-    ${brandPrimaryHighlightHover};
-  }
-
-  .tabs-title.active-tab {
-    border-top: solid 1px #cacbcf;
-    border-left: solid 1px #cacbcf;
-    border-right: solid 1px #cacbcf;
-    border-bottom: 0;
-    background-color: #fff;
-    z-index: 2;
-    color: #000;
-  }
-
-  .ReactTable {
-    border-right: 1px solid #cacbcf;
-    border-top: 1px solid #cacbcf;
-    border-left: 1px solid #cacbcf;
-    border-bottom: 0;
-  }
-
-  .ReactTable .rt-tbody .rt-td {
-    border-right: 0;
-    border-bottom: 1px solid #cacbcf;
-  }
-
-  .ReactTable.-striped .rt-th {
-    border-right: 0;
-    border-top: 0;
-    border-left: 0;
-    border-bottom: 1px solid #cacbcf;
-  }
-
-  .ReactTable a {
-    ${brandPrimaryHighlightHover};
-  }
-
-  a.external-link {
-    ${brandPrimaryHighlightHover};
+    padding-bottom: 8px;
+    align-items: flex-end;
   }
 `;

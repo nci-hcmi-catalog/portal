@@ -3,16 +3,16 @@ import React, { useState } from 'react';
 import { useDictionary } from './DictionaryController';
 import EditableFieldValue from './EditableFieldValue';
 
-import AdminDictionaryAddIcon from '../../../icons/AdminDictionaryAddIcon';
-import AdminDictionaryArrowIcon from '../../../icons/AdminDictionaryArrowIcon';
+import PlusIcon from '../../../icons/PlusIcon';
+import ArrowIcon from '../../../icons/ArrowIcon';
 
 import {
   AddFieldForm,
   AddFieldInput,
-  AddFieldButton,
   FieldValueList,
   DependentFieldType,
 } from 'theme/adminDictionaryStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 import { Row } from 'theme/system';
 
 const DependentFieldValuesGroup = ({
@@ -44,11 +44,7 @@ const DependentFieldValuesGroup = ({
   return (
     <>
       <DependentFieldType onClick={toggleHandler}>
-        <AdminDictionaryArrowIcon
-          height={12}
-          width={12}
-          css={expanded && 'transform: rotate(90deg);'}
-        />
+        <ArrowIcon css={expanded && 'transform: rotate(90deg);'} />
         {fieldName} ({(fieldValues || []).length})
       </DependentFieldType>
       {expanded && (
@@ -66,10 +62,10 @@ const DependentFieldValuesGroup = ({
                   setNewFieldValue(e.target.value);
                 }}
               />
-              <AddFieldButton disabled={!newFieldValue.trim()}>
-                <AdminDictionaryAddIcon width={12} height={12} />
+              <ButtonPill primary disabled={!newFieldValue.trim()}>
+                <PlusIcon />
                 ADD
-              </AddFieldButton>
+              </ButtonPill>
             </AddFieldForm>
           </Row>
           {fieldValues && (

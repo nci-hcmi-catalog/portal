@@ -21,7 +21,7 @@ export default () => (
           left: 0px;
           right: 0px;
           bottom: 0px;
-          background-color: rgba(0, 0, 0, 0.5);
+          background-color: rgba(0, 0, 0, 0.75);
           display: block;
           z-index: 1000;
         `}
