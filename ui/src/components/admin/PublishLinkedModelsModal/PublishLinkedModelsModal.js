@@ -11,7 +11,7 @@ import {
   Content,
   Footer,
 } from 'theme/adminModalStyles';
-import { HoverPill } from 'theme/adminControlsStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 
 const doThenClose = (next, modalState) => () => {
   next();
@@ -35,7 +35,7 @@ const PublishLinkedModelsModal = ({ next, modelNames, onCancel = () => false }) 
             Publishing this model will also publish changes to the following models:
             <ul>
               {modelNames.map(model => (
-                <li>
+                <li key={model}>
                   <strong>{model}</strong>
                 </li>
               ))}
@@ -43,12 +43,12 @@ const PublishLinkedModelsModal = ({ next, modelNames, onCancel = () => false }) 
           </span>
         </Content>
         <Footer>
-          <HoverPill secondary onClick={doThenClose(onCancel, modalState)}>
-            Cancel
-          </HoverPill>
-          <HoverPill primary onClick={doThenClose(next, modalState)}>
+          <ButtonPill primary marginRight={'10px'} onClick={doThenClose(next, modalState)}>
             Yes, Publish All
-          </HoverPill>
+          </ButtonPill>
+          <ButtonPill secondary onClick={doThenClose(onCancel, modalState)}>
+            Cancel
+          </ButtonPill>
         </Footer>
       </ModalWrapper>
     )}

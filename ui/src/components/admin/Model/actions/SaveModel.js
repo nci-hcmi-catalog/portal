@@ -1,7 +1,7 @@
 import React from 'react';
 import { ModelSingleContext } from '../ModelSingleController';
-import { HoverPill } from 'theme/adminControlsStyles';
-import AdminModelSaveIcon from 'icons/AdminModelSaveIcon';
+import { ButtonPill } from 'theme/adminControlsStyles';
+import SaveIcon from 'icons/SaveIcon';
 
 export default props => (
   <ModelSingleContext.Consumer>
@@ -12,7 +12,7 @@ export default props => (
       },
       saveForm,
     }) => (
-      <HoverPill
+      <ButtonPill
         primary
         disabled={!isReadyToSave}
         onClick={async () => {
@@ -30,9 +30,9 @@ export default props => (
         }}
         {...props}
       >
-        <AdminModelSaveIcon css={'margin-right: 8px;'} height={14} width={14} />
+        <SaveIcon />
         Save
-      </HoverPill>
+      </ButtonPill>
     )}
   </ModelSingleContext.Consumer>
 );

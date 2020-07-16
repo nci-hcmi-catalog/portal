@@ -1,9 +1,8 @@
 import React from 'react';
 
-import TextInput from '@arranger/components/dist/Input';
 import BulkActions from './BulkActions';
 
-import FilterIcon from 'icons/FilterIcon';
+import Filter from 'components/input/Filter';
 
 import { ToolbarMain, ToolbarSection, ToolbarText } from 'theme/adminTableStyles';
 
@@ -15,9 +14,21 @@ export default ({
   onUnpublishClick,
   onDeleteClick,
 }) => {
-  const [from, to] = [page * pageSize + 1, page * pageSize + pageSize];
+  const [from, to] = [rowCount === 0 ? 0 : page * pageSize + 1, page * pageSize + pageSize];
   return (
     <ToolbarMain>
+      <ToolbarSection>
+        <ToolbarText
+          css={`
+            font-size: 12px;
+            margin-right: 10px;
+          `}
+        >
+          {!isLoading &&
+            `Showing ${from} - ${to <= rowCount ? to : rowCount} of ${rowCount} ${type}`}
+        </ToolbarText>
+        <Filter onFilterValueChange={onFilterValueChange} />
+      </ToolbarSection>
       {type === 'Models' && (
         <BulkActions
           {...{
@@ -28,30 +39,6 @@ export default ({
           }}
         />
       )}
-      <ToolbarSection>
-        <TextInput
-          icon={<FilterIcon height={10} width={10} css={'margin: 0 0 0 5px;'} />}
-          type="text"
-          placeholder="Filter"
-          value={filterValue}
-          onChange={({ target: { value } }) => onFilterValueChange(value)}
-          css={`
-            height: 37px;
-            line-height: 37px;
-          `}
-          aria-label={`Data filter`}
-        />
-        <ToolbarText
-          css={`
-            line-height: 37px;
-            padding-left: 28px;
-            color: #64666a;
-          `}
-        >
-          {!isLoading &&
-            `Showing ${from} - ${to <= rowCount ? to : rowCount} of ${rowCount} ${type}`}
-        </ToolbarText>
-      </ToolbarSection>
     </ToolbarMain>
   );
 };

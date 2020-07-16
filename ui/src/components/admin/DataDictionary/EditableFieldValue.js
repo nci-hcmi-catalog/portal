@@ -1,10 +1,10 @@
 import React, { useEffect, useContext, useRef, useState } from 'react';
 
-import { NotificationsContext } from './../Notifications';
+import { NotificationsContext, NOTIFICATION_TYPES } from './../Notifications';
 
-import AdminDictionaryUndoIcon from '../../../icons/AdminDictionaryUndoIcon';
-import AdminDictionaryEditIcon from '../../../icons/AdminDictionaryEditIcon';
-import AdminDictionarySaveIcon from '../../../icons/AdminDictionarySaveIcon';
+import UndoIcon from '../../../icons/UndoIcon';
+import EditIcon from '../../../icons/EditIcon';
+import SaveIcon from '../../../icons/SaveIcon';
 
 import {
   FieldValueListItemContentsWrapper,
@@ -72,7 +72,7 @@ const EditableFieldValue = ({
 
     if (!value || !value.trim()) {
       appendNotification({
-        type: 'error',
+        type: NOTIFICATION_TYPES.ERROR,
         message: 'Warning:',
         details: 'Blank values will not be saved to the dictionary.',
         timeout: false,
@@ -155,7 +155,7 @@ const EditableFieldValue = ({
       case 'editing':
         return (
           <FieldValueListItemButton onMouseDown={saveEdit}>
-            <AdminDictionarySaveIcon height={12} width={12} />
+            <SaveIcon height={'12px'} width={'12px'} />
           </FieldValueListItemButton>
         );
       case 'edited':
@@ -163,7 +163,7 @@ const EditableFieldValue = ({
           <>
             <FieldStateLabel>edited</FieldStateLabel>
             <FieldValueListItemButton onMouseDown={undoEdit}>
-              <AdminDictionaryUndoIcon height={12} width={12} />
+              <UndoIcon />
             </FieldValueListItemButton>
           </>
         );
@@ -172,7 +172,7 @@ const EditableFieldValue = ({
           <>
             <FieldStateLabel>error</FieldStateLabel>
             <FieldValueListItemButton onMouseDown={clearError}>
-              <AdminDictionaryUndoIcon height={12} width={12} />
+              <UndoIcon />
             </FieldValueListItemButton>
           </>
         );
@@ -181,16 +181,16 @@ const EditableFieldValue = ({
           <>
             <FieldStateLabel>new</FieldStateLabel>
             <FieldValueListItemButton onMouseDown={undoAddNew}>
-              <AdminDictionaryUndoIcon height={12} width={12} />
+              <UndoIcon />
             </FieldValueListItemButton>
           </>
         );
       default:
         return (
           <FieldValueListItemButton>
-            <AdminDictionaryEditIcon
-              height={12}
-              width={12}
+            <EditIcon
+              height={'12px'}
+              width={'12px'}
               onMouseDown={startEdit}
               css={!hovering ? 'visibility: hidden;' : ''}
             />

@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react';
 import Popup from 'reactjs-popup';
 
-import { NotificationsContext } from '../Notifications';
+import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
 import config from '../config';
 
 import { UserDropdown, DropdownItem } from 'theme/adminNavStyles';
@@ -42,7 +42,7 @@ export const LoginWithGoogle = ({ children }) => {
 
   const authError = errorDetails => {
     appendNotification({
-      type: 'error',
+      type: NOTIFICATION_TYPES.ERROR,
       message: 'Google Auth Error.',
       timeout: 20000,
       details:
@@ -68,7 +68,7 @@ export const LoginWithGoogle = ({ children }) => {
           });
           setIsOpen(false);
           appendNotification({
-            type: 'success',
+            type: NOTIFICATION_TYPES.SUCCESS,
             message: 'Google Auth Success.',
             details: 'Account has been successfully disconnected.',
           });
@@ -94,7 +94,7 @@ export const LoginWithGoogle = ({ children }) => {
     });
 
     appendNotification({
-      type: 'success',
+      type: NOTIFICATION_TYPES.SUCCESS,
       message: 'Google Auth Success.',
       details: 'Account has been successfully connected.',
     });
@@ -140,7 +140,7 @@ export const LoginWithGoogle = ({ children }) => {
           <Popup
             trigger={() => (
               <div>
-                <UserDropdown onClick={() => setIsOpen(!isOpen)} isOpen>
+                <UserDropdown secondary onClick={() => setIsOpen(!isOpen)} isOpen>
                   <GoogleLogo
                     css={`
                       margin-right: 4px;
@@ -168,6 +168,9 @@ export const LoginWithGoogle = ({ children }) => {
               width: '100%',
               position: 'absolute',
             }}
+            overlayStyle={{
+              zIndex: '1',
+            }}
             onClose={() => setIsOpen(false)}
           >
             <DropdownItem onClick={googleSignOut}>Disconnect</DropdownItem>
@@ -177,6 +180,7 @@ export const LoginWithGoogle = ({ children }) => {
       <UserDropdown
         key="google"
         id="googleSignin"
+        secondary
         // visually-hidden when logged in instead of removed from the virtual DOM to maintain binding
         css={state.loggedIn && visuallyHidden}
       >

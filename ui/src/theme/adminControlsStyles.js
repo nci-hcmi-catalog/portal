@@ -4,64 +4,81 @@ import base from 'theme';
 import { adminPillHover } from 'theme/hoverStyles';
 
 const {
-  fonts: { libreFranklin, openSans },
+  fonts: { openSans },
   keyedPalette: {
-    brandPrimary,
-    burntSienna,
-    pelorousapprox,
-    valencia,
-    sienna,
-    white,
-    frenchGrey,
-    lightBlack,
-    iron,
-    mystic,
     black,
-    dustyGray,
+    bombay,
+    deepIron,
+    elm,
+    frenchGrey,
+    goldenGlow,
+    iron,
+    lightBlack,
     lightPorcelain,
+    mystic,
+    pelorousapprox,
+    redDamask,
+    sienna,
+    texasRose,
+    white,
   },
 } = base;
 
-const pillBlue = pelorousapprox;
-const pillRed = valencia;
-const pillBlueDisabled = '#AADBE3';
-const pillRedDisabled = '#E8AFB2';
-const pillOrange = sienna;
-const pillGrey = dustyGray;
-const pillBorderColour = frenchGrey;
+const pillBlue = elm;
+const pillBlueHighlight = pelorousapprox;
+const pillPrimary = texasRose;
+const pillPrimaryHighlight = goldenGlow;
+const pillDisabled = deepIron;
+const pillOrange = redDamask;
+const pillGrey = bombay;
 
 const actionsMenuHighlight = lightBlack;
 const actionsMenuHover = mystic;
 
-const pillColour = ({ secondary, disabled }) => {
-  if (secondary && disabled) {
-    return { base: brandPrimary, hover: brandPrimary };
-  } else if (secondary) {
-    return { base: brandPrimary, hover: valencia };
-  } else {
-    return { base: white, hover: white };
+const pillColour = ({ primary, secondary, disabled }) => {
+  switch (true) {
+    case !!disabled:
+      return { base: white, hover: white };
+    case !!secondary:
+      return { base: black, hover: black };
+    case !!primary:
+      return { base: black, hover: black };
+    default:
+      return { base: white, hover: white };
   }
 };
 
 const pillBackgroundColour = ({ primary, warning, secondary, disabled, info }) => {
-  if (primary && disabled) {
-    return { base: pillRedDisabled, hover: pillRedDisabled };
-  } else if (primary) {
-    return { base: pillRed, hover: burntSienna };
-  } else if (warning && disabled) {
-    return { base: pillOrange, hover: sienna };
-  } else if (warning) {
-    return { base: pillOrange, hover: '#D9805A' };
-  } else if (secondary && disabled) {
-    return { base: white, hover: white };
-  } else if (secondary) {
-    return { base: white, hover: lightPorcelain };
-  } else if (info) {
-    return { base: pillGrey, hover: '#A2A2A2' };
-  } else if (disabled) {
-    return { base: pillBlueDisabled, hover: pillBlueDisabled };
-  } else {
-    return { base: pillBlue, hover: '#58BAC9' };
+  switch (true) {
+    case !!disabled:
+      return { base: pillDisabled, hover: pillDisabled };
+    case !!primary:
+      return { base: pillPrimary, hover: pillPrimaryHighlight };
+    case !!warning:
+      return { base: pillOrange, hover: sienna };
+    case !!secondary:
+      return { base: white, hover: lightPorcelain };
+    case !!info:
+      return { base: pillGrey, hover: frenchGrey };
+    default:
+      return { base: pillBlueHighlight, hover: pillBlue };
+  }
+};
+
+const pillBorderColour = ({ primary, warning, secondary, disabled, info }) => {
+  switch (true) {
+    case !!disabled:
+      return pillDisabled;
+    case !!primary:
+      return pillPrimary;
+    case !!warning:
+      return pillOrange;
+    case !!secondary:
+      return pillGrey;
+    case !!info:
+      return pillGrey;
+    default:
+      return pillBlueHighlight;
   }
 };
 
@@ -69,14 +86,14 @@ const PillBase = styled('div')`
   display: flex;
   flex-direction: row;
   align-items: center;
-  font-family: ${libreFranklin};
+  font-family: ${openSans};
   text-transform: uppercase;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
   text-align: center;
   text-decoration: none;
-  opacity: ${({ secondary, disabled }) => (secondary && disabled ? '0.5' : '1')};
+  opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   border: solid 1px ${pillBorderColour};
   color: ${props => pillColour(props).base};
@@ -86,26 +103,26 @@ const PillBase = styled('div')`
 `;
 
 export const SmallPill = styled(PillBase)`
-  font-size: 10px;
-  line-height: 22px;
-  min-height: 24px;
-  border-radius: 11px;
-  padding: 0 12px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 2px 8px;
+  text-transform: uppercase;
+  cursor: default;
   label: admin-pill-small;
 `;
 
 export const Pill = styled(PillBase)`
   font-size: 12px;
-  font-weight: 500;
-  line-height: 35px;
-  min-height: 37px;
+  font-weight: bold;
   border-radius: 10px;
-  padding: 0 18px;
+  padding: 4px 10px;
   label: admin-pill;
 `;
 
 export const SmallHoverPill = styled(SmallPill)`
   ${props => adminPillHover(pillColour(props), pillBackgroundColour(props))};
+  cursor: pointer;
 `;
 
 export const HoverPill = styled(Pill)`
@@ -114,7 +131,13 @@ export const HoverPill = styled(Pill)`
 
 export const SmallLinkPill = SmallHoverPill.withComponent(Link);
 
+export const SmallButtonPill = SmallHoverPill.withComponent('button');
+
 export const LinkPill = HoverPill.withComponent(Link);
+
+export const ButtonPill = HoverPill.withComponent('button');
+
+export const ExternalLinkPill = HoverPill.withComponent('a');
 
 export const ActionsMenu = styled('div')`
   display: flex;

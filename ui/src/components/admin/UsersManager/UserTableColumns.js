@@ -2,14 +2,13 @@ import React from 'react';
 import Moment from 'react-moment';
 import Popup from 'reactjs-popup';
 import withDeleteModal from '../DeleteModal';
-import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
-import DeleteIcon from 'icons/TrashIcon';
+import EditIcon from 'icons/EditIcon';
+import TrashIcon from 'icons/TrashIcon';
 import { ModalStateContext } from 'providers/ModalState';
 import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/user';
 import UserForm from './UserForm';
 import { ActionPill, Actions, ToolbarText } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
-import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 import { filters } from '@hcmi-portal/cms/src/helpers/dataFilters';
 
 const selectedColumns = ['name', 'email', 'status', 'createdAt', 'updatedAt', 'updatedBy'];
@@ -96,7 +95,7 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
             {modalState => (
               <ActionPill
                 secondary
-                marginRight="6px"
+                marginRight="8px"
                 onClick={() =>
                   modalState.setModalState({
                     component: (
@@ -111,12 +110,7 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
                   })
                 }
               >
-                <AdminEditPencilIcon
-                  css={`
-                    width: 12px;
-                    height: 12px;
-                  `}
-                />
+                <EditIcon width={'12px'} height={'12px'} />
                 Edit
               </ActionPill>
             )}
@@ -126,14 +120,7 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
             target: `${name}(${email})`,
           })(
             <ActionPill secondary marginRight="6px">
-              <DeleteIcon
-                css={`
-                  width: 12px;
-                  height: 12px;
-                  font-weight: normal;
-                  ${brandPrimaryHighlightHover};
-                `}
-              />
+              <TrashIcon fill={'currentColor'} />
               Delete
             </ActionPill>,
           )}

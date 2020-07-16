@@ -9,11 +9,11 @@ const {
   fonts: { openSans },
   keyedPalette: {
     alto,
-    aquaSpring,
+    black,
     brandPrimary,
-    elm,
+    linen,
     mineShaft,
-    pelorousapprox,
+    redDamask,
     silver,
     white,
     seaBuckthorn,
@@ -21,8 +21,9 @@ const {
   },
 } = base;
 
-const borderColour = pelorousapprox;
-const activeTabIconColor = elm;
+const backgroundColour = linen;
+const borderColour = redDamask;
+const activeTabIconColor = black;
 const disabledTabIconColor = silver;
 const verticalTabHeight = 40;
 
@@ -35,7 +36,7 @@ export const VerticalTabGroup = styled(Col)`
 `;
 
 const activeTab = css`
-  background-color: ${aquaSpring};
+  background-color: ${backgroundColour};
   border: solid 1px ${borderColour};
   border-left-width: 3px;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.08);
@@ -46,7 +47,7 @@ const activeTab = css`
   label: vertical-tabs__tab--active;
 
   &:hover {
-    background-color: ${aquaSpring};
+    background-color: ${backgroundColour};
   }
 
   /* Using pseudo-elements to create triangle that extends beyond div */
@@ -67,7 +68,7 @@ const activeTab = css`
   &:after {
     border-top: ${verticalTabHeight / 2 - 1}px solid transparent;
     border-bottom: ${verticalTabHeight / 2 - 1}px solid transparent;
-    border-left: 12px solid ${aquaSpring};
+    border-left: 12px solid ${backgroundColour};
     right: -12px;
     top: 0px;
   }
@@ -167,4 +168,15 @@ export const Divider = styled('div')`
   font-stretch: normal;
   line-height: 1.71;
   letter-spacing: normal;
+`;
+
+export const variantTab = css`
+  font-size: 12px;
+  font-weight: normal;
+`;
+
+export const variantTabActive = css`
+  font-size: 12px;
+  font-weight: bold;
+  color: ${black};
 `;

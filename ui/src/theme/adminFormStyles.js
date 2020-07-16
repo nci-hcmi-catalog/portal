@@ -4,11 +4,11 @@ import base from 'theme';
 import { Row, Col } from 'theme/system';
 
 const {
-  fonts: { libreFranklin },
-  keyedPalette: { brandPrimary, lightPorcelain, porcelain },
+  fonts: { openSans },
+  keyedPalette: { athensLightGray, black, porcelain },
 } = base;
 
-const bkgColour = lightPorcelain;
+const bkgColour = athensLightGray;
 const borderColour = porcelain;
 
 export const FormContainer = styled(Form)`
@@ -24,32 +24,34 @@ export const FormContainer = styled(Form)`
 export const FormHeader = styled(Row)`
   width: 100%;
   background-color: ${bkgColour};
-  padding: 18px 42px;
+  padding: 4px 15px;
+  align-items: center;
 
   h2 {
-    font-family: ${libreFranklin};
-    font-size: 22px;
-    font-weight: normal;
+    font-family: ${openSans};
+    font-size: 14px;
+    font-weight: bold;
     font-style: normal;
     font-stretch: normal;
-    line-height: 1.09;
+    line-height: 1.71;
     letter-spacing: normal;
     text-align: left;
-    color: ${brandPrimary};
+    text-transform: uppercase;
+    color: ${black};
     margin: 0;
   }
 `;
 
 export const FormSection = styled(Row)`
-  padding: 32px 20px 40px;
+  padding: 16px 8px;
 `;
 
 export const FormCol = styled(Col)`
   width: 50%;
-  padding: 8px 48px 8px 24px;
+  padding: 0 48px 0 0;
 
   &:last-child {
-    border-left: 1px solid ${borderColour};
-    padding: 8px 24px 8px 48px;
+    border-left: 1px solid ${props => (props.noBorder ? 'transparent' : borderColour)};
+    padding: 0 20px 0 32px;
   }
 `;

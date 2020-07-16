@@ -1,14 +1,13 @@
 import styled from 'react-emotion';
-import { css } from 'emotion';
 import { Link } from 'react-router-dom';
 
 import base from 'theme';
 import { Row } from 'theme/system';
-import { SmallHoverPill } from 'theme/adminControlsStyles';
+import { SmallButtonPill } from 'theme/adminControlsStyles';
 
 const {
-  keyedPalette: { white, shuttleGrey, iron, mystic, black, lightBlack, mineShaft, frenchGrey },
-  fonts: { openSans, libreFranklin },
+  keyedPalette: { bombay, white, black, lightBlack, trout, lightPorcelain },
+  fonts: { openSans },
 } = base;
 
 export const Table = styled('div')`
@@ -19,31 +18,19 @@ export const Table = styled('div')`
   label: models-table-main;
 `;
 
-const tableStatusBase = css`
-  font-family: ${libreFranklin};
-  font-size: 10px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 2.6;
-  letter-spacing: 0.2px;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 5px 10px;
-  text-transform: uppercase;
-  color: ${white};
-`;
-
-export const ActionPill = styled(SmallHoverPill)`
+export const ActionPill = styled(SmallButtonPill)`
   font-size: 12px;
   font-weight: bold;
-  line-height: 26px;
-  padding: 0 13px;
+  border-radius: 10px;
+  padding: 1px 8px;
+  color: ${black} !important;
+  text-transform: uppercase;
   label: model-table-action-pill;
 `;
 
-export const ActionLinkPill = ActionPill.withComponent(Link);
+export const ActionLinkPill = styled(ActionPill)`
+  margin-right: 8px;
+`.withComponent(Link);
 
 export const Actions = styled('div')`
   display: flex;
@@ -55,9 +42,9 @@ export const Actions = styled('div')`
 export const ActionsMenu = styled('div')`
   width: 100%;
   box-shadow: 1px 1.7px 4px 0 ${lightBlack};
-  border: solid 1px ${iron};
+  border: solid 1px ${bombay};
   display: flex;
-  border-radius: 10px;
+  border-radius: 4px;
   flex-direction: column;
   label: actions-menu;
 `;
@@ -67,31 +54,37 @@ export const ActionsMenuItem = styled('div')`
   padding: 0 3px;
   line-height: 22px;
   background-color: ${white};
-  :active {
-    background-color: ${lightBlack};
-  }
-  :hover {
-    background-color: ${mystic};
-  }
-  ${tableStatusBase};
   font-family: ${openSans};
   color: ${black};
-  font-size: 13px;
+  font-size: 12px;
   text-align: left;
   text-transform: none;
   label: actions-menu-item;
 
+  &:active,
+  &:hover {
+    background-color: ${lightPorcelain};
+  }
+
+  &:first-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+
   &:last-child {
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
   }
 `;
 
 export const ToolbarMain = styled(Row)`
   width: 100%;
+  flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 22px 20px;
+  padding: 2px 8px;
+  border: 1px solid #d4d7dd;
+  border-bottom-width: 0;
   label: toolbar-main;
 `;
 
@@ -104,18 +97,15 @@ export const ToolbarSection = styled('div')`
 `;
 
 export const ToolbarText = styled('span')`
-  font-family: ${libreFranklin};
-  font-size: 13px;
-  line-height: 37px;
-  font-weight: 500;
-  font-stretch: normal;
-  letter-spacing: normal;
-  text-align: left;
-  color: ${mineShaft};
-  margin-right: 9px;
+  font-family: ${openSans};
+  font-size: 14px;
+  font-weight: normal;
+  color: ${black};
+  margin-right: 4px;
   label: toolbar-text;
 `;
 
+// TODO: refactor shared Select/Dropdown styles into a component
 export const ToolbarControl = styled('div')`
   display: flex;
   flex-direction: row;
@@ -123,20 +113,43 @@ export const ToolbarControl = styled('div')`
   width: max-content;
   font-family: ${openSans};
   min-width: 172px;
-  font-size: 14px;
-  line-height: 37px;
+  font-size: 12px;
   font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: normal;
   text-align: left;
-  color: ${shuttleGrey};
+  color: ${trout};
   align-items: center;
   text-transform: none;
   background-color: ${white};
-  border: solid 1px ${frenchGrey};
-  border-radius: 10px;
-  padding: 0 8px;
+  border: solid 1px ${bombay};
+  border-radius: 4px;
+  padding: 4px 8px;
   cursor: pointer;
   label: toolbar-control;
+
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent calc(100% - 29px),
+    ${bombay} calc(100% - 29px),
+    ${bombay} calc(100% - 28px),
+    transparent calc(100% - 28px),
+    transparent 100%
+  );
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+
+  &:hover {
+    background-color: ${lightPorcelain};
+    background-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      transparent calc(100% - 29px),
+      ${bombay} calc(100% - 29px),
+      ${bombay} calc(100% - 28px),
+      transparent calc(100% - 28px),
+      transparent 100%
+    );
+  }
 `;

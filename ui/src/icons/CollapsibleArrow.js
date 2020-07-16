@@ -12,6 +12,7 @@ export default ({ isOpen, size = 10, weight = 2, colour = '#64666A', ...props })
       transform={isOpen ? 'rotate(180)' : null}
       {...props}
     >
+      <title>{isOpen ? 'Click to close' : 'Click to open'}</title>
       <path d="M1,6 L10,15 L19,6" />
     </svg>
   );

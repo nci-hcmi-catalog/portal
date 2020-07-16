@@ -7,10 +7,10 @@ import BulkUploader from '../BulkUpload';
 import { Toolbar, DataTable } from '../AdminTable';
 import { ModelVariantColumns as tableColumns } from './ModelVariantColumns';
 
-import AdminPlusIcon from '../../../icons/AdminPlusIcon';
+import PlusIcon from '../../../icons/PlusIcon';
 
 import { AdminContainer, AdminHeader, AdminHeaderH3, AdminHeaderBlock } from 'theme/adminStyles';
-import { HoverPill } from 'theme/adminControlsStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 import config from '../config';
@@ -41,8 +41,12 @@ export default ({ data: { name, variants, updatedAt } }) => {
             toggleAll,
           },
         }) => (
-          <AdminContainer p="18px 42px">
-            <AdminHeader>
+          <AdminContainer p={'0'}>
+            <AdminHeader
+              css={`
+                padding: 24px 10px 22px;
+              `}
+            >
               <AdminHeaderH3>
                 {data.length > 0
                   ? 'Variant Data'
@@ -51,9 +55,8 @@ export default ({ data: { name, variants, updatedAt } }) => {
               <AdminHeaderBlock>
                 <ModalStateContext.Consumer>
                   {modalState => (
-                    <HoverPill
+                    <ButtonPill
                       primary
-                      marginRight="10px"
                       onClick={() =>
                         modalState.setModalState({
                           component: (
@@ -70,9 +73,9 @@ export default ({ data: { name, variants, updatedAt } }) => {
                         })
                       }
                     >
-                      <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add
-                      Variants
-                    </HoverPill>
+                      <PlusIcon css={'margin-right: 5px;'} />
+                      Add Variants
+                    </ButtonPill>
                   )}
                 </ModalStateContext.Consumer>
               </AdminHeaderBlock>

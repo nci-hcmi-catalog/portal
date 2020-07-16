@@ -39,7 +39,8 @@
     "react-table": "6.8.6",
     "reactjs-popup": "^1.1.1",
     "styled-system": "^2.2.1",
-    "url-join": "^4.0.0"
+    "url-join": "^4.0.0",
+    "uuid": "^8.2.0"
   },
   "scripts": {
     "boom": "yarn 💥",

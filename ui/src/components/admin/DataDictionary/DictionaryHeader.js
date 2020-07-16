@@ -4,20 +4,16 @@ import { useDictionary } from './DictionaryController';
 import { NotificationToaster } from './../Notifications';
 import useConfirmationModal from './../../modals/ConfirmationModal';
 
-import { HoverPill } from 'theme/adminControlsStyles';
-import { AdminHeaderBlock } from 'theme/adminStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
+import { AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
 import {
   DataDictionaryHeader,
-  DataDictionaryH1,
   DictionaryDraftTimestamp,
   DictionaryDraftStats,
   HeaderPill,
-  actionPill,
-  cancelPill,
-  disabledPill,
 } from 'theme/adminDictionaryStyles';
 
-import AdminModelPublishIcon from '../../../icons/AdminModelPublishIcon';
+import PublishIcon from '../../../icons/PublishIcon';
 
 const DictionaryHeader = () => {
   const {
@@ -44,7 +40,7 @@ const DictionaryHeader = () => {
               </>
             )}
           </DictionaryDraftTimestamp>
-          <DataDictionaryH1>Data Dictionary</DataDictionaryH1>
+          <AdminHeaderH1>Data Dictionary</AdminHeaderH1>
           {isDraft && (
             <>
               <HeaderPill>Draft</HeaderPill>
@@ -64,14 +60,9 @@ const DictionaryHeader = () => {
             confirmLabel: 'Yes, Reset',
             onConfirm: reset,
           })(
-            <HoverPill
-              primary
-              disabled={!isDraft}
-              marginRight="10px"
-              css={!isDraft ? disabledPill : cancelPill}
-            >
+            <ButtonPill secondary disabled={!isDraft} marginRight="10px">
               Reset
-            </HoverPill>,
+            </ButtonPill>,
           )}
           {useConfirmationModal({
             title: 'Are you sure you want to publish dictionary updates?',
@@ -80,15 +71,10 @@ const DictionaryHeader = () => {
             confirmLabel: 'Yes, Publish All Updates',
             onConfirm: publish,
           })(
-            <HoverPill
-              primary
-              disabled={!isDraft}
-              marginRight="10px"
-              css={!isDraft ? disabledPill : actionPill}
-            >
-              <AdminModelPublishIcon width={16} height={16} css={'margin-right: 9px;'} />
+            <ButtonPill primary disabled={!isDraft} marginRight="10px">
+              <PublishIcon width={'16px'} height={'16px'} css={'margin-right: 9px;'} />
               Publish All Updates
-            </HoverPill>,
+            </ButtonPill>,
           )}
         </AdminHeaderBlock>
       </DataDictionaryHeader>

@@ -1,10 +1,10 @@
 import { css } from 'emotion';
-import base, { transitionRollover, bkgRollover, colourRollover } from 'theme';
-import { brandPrimaryHighlightHover, whiteHover } from 'theme/hoverStyles';
+import base from 'theme';
+import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
 
 const {
-  keyedPalette: { brandPrimary },
-  fonts: { libreFranklin, openSans },
+  keyedPalette: { alto, athensGray, athensLightGray, black, crimson, mischka, white },
+  fonts: { openSans },
 } = base;
 
 export default css`
@@ -16,7 +16,7 @@ export default css`
   width: 314px;
   height: 100vh;
   box-sizing: border-box;
-  font-family: ${libreFranklin};
+  font-family: ${openSans};
   font-size: 16px;
   font-weight: normal;
   font-style: normal;
@@ -28,61 +28,41 @@ export default css`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 16px;
-    background-color: rgba(144, 0, 0, 0.7);
+    padding: 18px 10px;
+    background-image: linear-gradient(to bottom, ${athensGray} 9%, ${athensLightGray} 91%);
+    border-bottom: 1px solid ${mischka};
+  }
+
+  .model-list-drawer-header button {
+    svg {
+      fill: ${crimson};
+    }
   }
 
   .model-list-drawer-header h2 {
+    display: flex;
+    align-items: center;
     position: relative;
+    font-family: ${openSans};
     font-size: 20px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
+    font-weight: bold;
     margin: 0;
-    line-height: 1.2;
-    letter-spacing: normal;
-    ${whiteHover}
-    cursor: pointer;
+    color: ${black};
   }
 
   .model-list-drawer-header .count {
-    position: absolute;
-    right: -28px;
-    bottom: 6px;
-    width: 20px;
-    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
     font-family: ${openSans};
-    font-weight: 500;
-    font-size: 11px;
-    line-height: 20px;
-    text-align: center;
-    color: #ffffff;
-    background-color: #45b3c3;
-    border: solid 1px #ffffff;
-    border-radius: 10px;
-  }
-
-  .model-list-drawer-header .clear {
-    font-size: 11px;
-    font-weight: 500;
-    text-align: center;
-    color: #724c31;
-    border-radius: 11px;
-    background-color: #f3f6f7;
-    border: solid 1px #cacbcf;
-    height: 21px;
-    line-height: 21px;
-    padding: 0 8px;
-  }
-
-  .model-list-drawer-header .clear:disabled {
-    opacity: 0.5;
-  }
-
-  .model-list-drawer-header .clear:not([disabled]) {
-    ${transitionRollover()}
-    ${bkgRollover('#f3f6f7', '#ebf1f3')}
-    ${colourRollover('#724c31', brandPrimary)}
+    font-weight: bold;
+    font-size: 10px;
+    color: ${white};
+    background-color: ${crimson};
+    border-radius: 100%;
+    margin-left: 10px;
   }
 
   .empty-list {
@@ -91,14 +71,10 @@ export default css`
     align-items: center;
     padding: 36px 16px;
     font-family: ${openSans};
-    font-size: 15px;
-    line-height: 1.73;
+    font-size: 12px;
+    line-height: 1.67;
     text-align: center;
-    color: #64666a;
-  }
-
-  .empty-list p {
-    margin: 24px 0 1em;
+    color: ${black};
   }
 
   .empty-list a {
@@ -121,8 +97,8 @@ export default css`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 10px 10px 12px;
-    border-bottom: solid 1px #cacbcf;
+    padding: 8px 10px 8px 8px;
+    border-bottom: solid 1px ${alto};
   }
 
   .model-list-model:last-of-type {
@@ -147,63 +123,32 @@ export default css`
     width: 162px;
   }
 
-  .model-list-model-content h3 {
-    font-family: ${libreFranklin};
-    font-size: 13px;
-    line-height: 1.38;
-    color: ${brandPrimary};
-    margin: 0 0 0.5em;
-  }
-
-  .model-list-model-content p {
-    margin: 0;
+  .model-list-model-content h3,
+  .model-list-model-content .available-date {
+    font-family: ${openSans};
+    font-size: 12px;
+    line-height: 1.5;
+    color: ${black};
+    font-weight: bold;
+    margin: 0 0 4px;
   }
 
   .model-list-model-content .available-label {
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.83;
-    color: #64666a;
-    text-transform: uppercase;
-  }
-
-  .model-list-model-content .available-date {
     font-family: ${openSans};
-    font-size: 14px;
-    line-height: 1.57;
-    color: #323232;
+    font-size: 12px;
+    line-height: 1.5;
+    color: ${black};
+    font-weight: normal;
+    margin: 0 0 2px;
   }
 
   .download-tsv {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    background-color: #f3f6f7;
-    border-top: solid 1px #cacbcf;
-    border-bottom: solid 1px #cacbcf;
-    padding: 14px 10px;
-  }
-
-  .download-tsv-btn {
-    width: 100%;
-    line-height: 42px;
-    border-radius: 10px;
-    background-color: #45b3c3;
-    border: solid 1px #cacbcf;
-    color: #fff;
-    font-size: 15.5px;
-    font-weight: 500;
-    text-align: center;
-    text-transform: uppercase;
-  }
-
-  .download-tsv-btn:disabled {
-    opacity: 0.4;
-  }
-
-  .download-tsv-btn:not([disabled]) {
-    ${transitionRollover()}
-    ${bkgRollover('#45b3c3', '#38BCCF')}
+    background-image: linear-gradient(to bottom, ${athensGray} 9%, ${athensLightGray} 91%);
+    border-bottom: 1px solid ${mischka};
+    padding: 8px 0;
   }
 
   .close {

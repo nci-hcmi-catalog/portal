@@ -8,11 +8,10 @@ import ModelManagerTable from './ModelManagerTable';
 import { modelEditUrlBase } from '../AdminNav';
 import BulkUploader from '../BulkUpload';
 
-import ModelIcon from '../../../icons/ModelIcon';
-import AdminPlusIcon from '../../../icons/AdminPlusIcon';
+import PlusIcon from './../../../icons/PlusIcon';
 
 import { AdminContainer, AdminHeader, AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
-import { HoverPill, LinkPill } from 'theme/adminControlsStyles';
+import { ButtonPill, LinkPill } from 'theme/adminControlsStyles';
 import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 
@@ -24,23 +23,15 @@ const content = () => {
       <AdminContainer>
         <NotificationToaster />
         <AdminHeader>
-          <AdminHeaderH1>
-            <ModelIcon
-              height={35}
-              width={35}
-              css={`
-                margin-right: 13px;
-              `}
-            />Model Management
-          </AdminHeaderH1>
+          <AdminHeaderH1>Model Management</AdminHeaderH1>
           <AdminHeaderBlock>
             <ModelManagerContext.Consumer>
               {({ uploadModelsFromSheet }) => (
                 <ModalStateContext.Consumer>
                   {modalState => (
-                    <HoverPill
+                    <ButtonPill
                       primary
-                      marginRight="10px"
+                      marginRight="8px"
                       onClick={() =>
                         modalState.setModalState({
                           component: (
@@ -55,14 +46,16 @@ const content = () => {
                         })
                       }
                     >
-                      <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add Bulk
-                    </HoverPill>
+                      <PlusIcon />
+                      Add Bulk
+                    </ButtonPill>
                   )}
                 </ModalStateContext.Consumer>
               )}
             </ModelManagerContext.Consumer>
             <LinkPill primary={`true`} to={modelEditUrlBase}>
-              <AdminPlusIcon width={16} height={16} css={'margin-right: 9px;'} />Add A Model
+              <PlusIcon />
+              Add A Model
             </LinkPill>
           </AdminHeaderBlock>
         </AdminHeader>

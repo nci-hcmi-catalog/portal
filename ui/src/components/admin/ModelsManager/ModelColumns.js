@@ -8,8 +8,8 @@ import { ModelManagerContext } from './ModelManagerController';
 import { modelEditUrlBase } from '../AdminNav';
 import withDeleteModal from '../DeleteModal';
 
-import AdminEditPencilIcon from 'icons/AdminEditPencilIcon';
-import AdminModelMoreOptionsIcon from 'icons/AdminModelMoreOptionsIcon';
+import EditIcon from 'icons/EditIcon';
+import MoreOptionsIcon from 'icons/MoreOptionsIcon';
 
 import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/model';
 import { ActionPill, ActionLinkPill, Actions, ToolbarText } from '../../../theme/adminTableStyles';
@@ -131,25 +131,15 @@ const modelManagerCustomColumns = [
     Cell: ({ original: { name, status } }) => {
       return (
         <Actions>
-          <ActionLinkPill secondary={`true`} to={modelEditUrlBase + '/' + name}>
-            <AdminEditPencilIcon
-              css={`
-                width: 12px;
-                height: 12px;
-              `}
-            />
+          <ActionLinkPill secondary={'true'} to={modelEditUrlBase + '/' + name}>
+            <EditIcon width={'12px'} height={'12px'} />
             Edit
           </ActionLinkPill>
           <Popup
             trigger={
               <div>
-                <ActionPill
-                  secondary
-                  css={`
-                    height: 26px;
-                  `}
-                >
-                  <AdminModelMoreOptionsIcon css={'margin: 0;'} width={15} height={3} />
+                <ActionPill secondary>
+                  <MoreOptionsIcon css={'margin: 0;'} />
                 </ActionPill>
               </div>
             }
@@ -177,7 +167,7 @@ const modelManagerCustomColumns = [
                       </ActionsMenuItem>
                     )}
                     {withDeleteModal({
-                      next: actionAndClose(() => alert(name)),
+                      next: actionAndClose(() => deleteOne(name), close),
                       target: name,
                       onCancel: close,
                     })(<ActionsMenuItem>Delete</ActionsMenuItem>)}

@@ -1,7 +1,7 @@
 import React from 'react';
 import Component from 'react-component-component';
 import { uniqBy, isEqual, get } from 'lodash';
-import { NotificationsContext } from '../Notifications';
+import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
 import { fetchData } from '../services/Fetcher';
 import {
   isFormReadyToSave,
@@ -287,7 +287,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   }));
 
                   await appendNotification({
-                    type: 'error',
+                    type: NOTIFICATION_TYPES.ERROR,
                     message: 'Save Error.',
                     details:
                       err.msg || get(err, 'response.data.message', 'Unknown error has occurred.'),
@@ -354,7 +354,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   }));
 
                   await appendNotification({
-                    type: 'success',
+                    type: NOTIFICATION_TYPES.SUCCESS,
                     message: 'Publish Successful!',
                     details: `${name} has been successfully published. View it live here: `,
                     link: `/model/${modelDataResponse.data.name}`,
@@ -370,7 +370,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   }));
 
                   await appendNotification({
-                    type: 'error',
+                    type: NOTIFICATION_TYPES.ERROR,
                     message: 'Publish Error.',
                     details:
                       err.msg || get(err, 'response.data.message', 'Unknown error has occurred.'),
@@ -417,7 +417,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   }));
 
                   await appendNotification({
-                    type: 'success',
+                    type: NOTIFICATION_TYPES.SUCCESS,
                     message: 'Unpublish Successful!',
                     details: `${name} has been successfully unpublished and will no longer appear on the public portal.`,
                   });
@@ -431,7 +431,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   }));
 
                   await appendNotification({
-                    type: 'error',
+                    type: NOTIFICATION_TYPES.ERROR,
                     message: 'Unpublish Error.',
                     details:
                       err.msg || get(err, 'response.data.message', 'Unknown error has occurred.'),
@@ -460,7 +460,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   }));
 
                   await appendNotification({
-                    type: 'error',
+                    type: NOTIFICATION_TYPES.ERROR,
                     message: 'Delete Error.',
                     details:
                       err.msg || get(err, 'response.data.message', 'Unknown error has occurred.'),
@@ -508,7 +508,10 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                         : `Bulk Upload of variants has successfully completed. New variants or updated fields are saved but not yet published.`;
 
                       await appendNotification({
-                        type: result.errors.length > 0 ? 'warning' : 'success',
+                        type:
+                          result.errors.length > 0
+                            ? NOTIFICATION_TYPES.WARNING
+                            : NOTIFICATION_TYPES.SUCCESS,
                         message: notificationMessage,
                         details: anyUpdatesDone ? '' : extractResultText(result, 'variant'),
                         bulkErrors: result.errors,
@@ -527,7 +530,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     }));
 
                     await appendNotification({
-                      type: 'error',
+                      type: NOTIFICATION_TYPES.ERROR,
                       message: 'Variants Upload Error.',
                       details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
                     });
@@ -583,7 +586,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   }));
 
                   await appendNotification({
-                    type: 'success',
+                    type: NOTIFICATION_TYPES.SUCCESS,
                     message: 'Variant Deleted Successful!',
                     details: 'Model variant relation has been successfully deleted.',
                   });
@@ -597,7 +600,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   }));
 
                   await appendNotification({
-                    type: 'error',
+                    type: NOTIFICATION_TYPES.ERROR,
                     message: 'Variant Delete Error.',
                     details:
                       err.msg || get(err, 'response.data.message', 'Unknown error has occurred.'),

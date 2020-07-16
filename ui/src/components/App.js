@@ -39,25 +39,47 @@ const ProvidedRoutes = () => (
       >
         {({ state }) => (
           <>
-            <Header />
             <Switch>
               <Route
                 path="/"
                 exact
-                render={() => <Search version={state.version} index="models" />}
+                render={() => (
+                  <>
+                    <Header />
+                    <Search version={state.version} index="models" />
+                  </>
+                )}
               />
               {process.env.REACT_APP_ENABLE_ADMIN ? (
                 <Route
                   path="/arranger"
-                  render={({ match }) => <ArrangerDashboard basename={match.url} />}
+                  render={({ match }) => (
+                    <>
+                      <Header />
+                      <ArrangerDashboard basename={match.url} />
+                    </>
+                  )}
                 />
               ) : (
                 ''
               )}
-              <Route path="/admin" render={({ location }) => <Admin location={location} />} />
+              <Route
+                path="/admin"
+                render={({ location }) => (
+                  <>
+                    <Header subheading="Searchable Catalog CMS" />
+                    <Admin location={location} />
+                  </>
+                )}
+              />
               <Route
                 path="/model/:modelName"
-                render={({ match }) => <Model modelName={match.params.modelName} />}
+                render={({ match }) => (
+                  <>
+                    <Header />
+                    <Model modelName={match.params.modelName} />
+                  </>
+                )}
               />
             </Switch>
             <Footer />

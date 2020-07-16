@@ -6,6 +6,7 @@ import SplitPane from 'react-split-pane';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
 
+import ArrowIcon from './../icons/ArrowIcon';
 import LastUpdatedDate from './LastUpdatedDate';
 import ModelNameSearch from 'components/ModelNameSearch';
 import PrimarySiteChart from 'components/charts/PrimarySiteChart';
@@ -78,24 +79,21 @@ export default ({
         >
           <Row
             css={`
-              background-color: #fff;
+              background-color: #f6f6f8;
+              border: 1px solid #d9d9df;
               align-items: center;
+              min-height: 50px;
             `}
           >
             {!sqon && (
               <Row
                 css={`
-                  line-height: 50px;
                   padding: 0 14px;
                   flex: 1;
                 `}
               >
-                <span
-                  className="sqon-field no-sqon-message"
-                  css={`
-                    font-size: 12px;
-                  `}
-                >
+                <span className="sqon-field no-sqon-message">
+                  <ArrowIcon css={'transform: rotate(180deg);'} />
                   Use the filter panel on the left to customize your model search.
                 </span>
               </Row>
@@ -115,8 +113,9 @@ export default ({
           <Row
             bg="white"
             css={`
-              padding: 0 16px 0 16px;
+              margin: 8px 0;
               justify-content: space-around;
+              border: 1px solid #d9d9df;
             `}
           >
             <Component shouldUpdate={() => stable}>
