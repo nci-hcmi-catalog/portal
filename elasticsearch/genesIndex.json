@@ -8,20 +8,11 @@
     "max_ngram_diff": "20",
     "max_result_window": "100000000",
     "analysis": {
-      "filter": {
-        "edge_ngram": {
-          "min_gram": "1",
-          "side": "front",
-          "type": "edge_ngram",
-          "max_gram": "20",
-          "custom_token_chars": "-,/:()'+"
-        }
-      },
       "tokenizer": {
         "ngram_tokenizer": {
           "type": "ngram",
-          "min_gram": 1,
-          "max_gram": 20,
+          "min_gram": 2,
+          "max_gram": 3,
           "token_chars": ["letter", "digit", "custom"],
           "custom_token_chars": "-,/:()'+"
         }
@@ -39,8 +30,7 @@
     "properties": {
       "search": {
         "type": "text",
-        "analyzer": "search_analyzer",
-        "search_analyzer": "search_analyzer"
+        "analyzer": "search_analyzer"
       },
       "symbol": {
         "type": "keyword",

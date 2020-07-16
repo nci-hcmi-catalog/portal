@@ -209,7 +209,7 @@
             "type": "keyword",
             "copy_to": ["genes"]
           },
-          "change": {
+          "aa_change": {
             "type": "keyword"
           },
           "transcript_id": {
@@ -239,7 +239,7 @@
           "classification": {
             "type": "keyword"
           },
-          "id": {
+          "variant_id": {
             "type": "keyword"
           },
           "name": {

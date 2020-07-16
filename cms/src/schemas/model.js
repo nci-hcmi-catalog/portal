@@ -127,7 +127,9 @@ export const ModelSchema = new mongoose.Schema(
             end_position: variant.end_position,
             specific_change: variant.specific_change,
             classification: variant.classification,
-            id: `${variant.chromosome}:g.${variant.start_position}${variant.specific_change}`,
+            variant_id: `${variant.chromosome}:g.${variant.start_position}${
+              variant.specific_change
+            }`,
             name: `${variant.gene} ${variant.aa_change}`,
           })),
       },
