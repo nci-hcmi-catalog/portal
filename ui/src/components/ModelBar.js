@@ -13,13 +13,14 @@ import ModelList from 'components/ModelList';
 import PlusIcon from './../icons/PlusIcon';
 import CheckmarkIcon from './../icons/CheckmarkIcon';
 
-const ExpandedPill = ({ isExpanded }) => {
-  return (
-    <div className={`model-bar__pill model-bar__pill--${isExpanded ? 'expanded' : 'unexpanded'}`}>
-      {isExpanded ? 'EXPANDED' : 'UNEXPANDED'}
-    </div>
-  );
-};
+// TODO: Un-comment when Expanded/Unexpanded is ready
+// const ExpandedPill = ({ isExpanded }) => {
+//   return (
+//     <div className={`model-bar__pill model-bar__pill--${isExpanded ? 'expanded' : 'unexpanded'}`}>
+//       {isExpanded ? 'EXPANDED' : 'UNEXPANDED'}
+//     </div>
+//   );
+// };
 
 export default ({ name, id, isExpanded }) => {
   const {
@@ -54,7 +55,8 @@ export default ({ name, id, isExpanded }) => {
             <h2 className="model-bar__heading">
               Model: <strong>{name}</strong>
             </h2>
-            <ExpandedPill isExpanded={isExpanded} />
+            {/* TODO: Un-comment when Expanded/Unexpanded is ready */}
+            {/* <ExpandedPill isExpanded={isExpanded} /> */}
           </div>
 
           <div className="model-bar__group">

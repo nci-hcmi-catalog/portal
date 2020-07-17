@@ -121,7 +121,7 @@
     {
       "field": "expanded",
       "accessor": "expanded",
-      "show": true,
+      "show": false,
       "type": "expanded",
       "sortable": true,
       "canChangeShow": false,
