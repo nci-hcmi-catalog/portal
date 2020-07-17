@@ -4,7 +4,7 @@ import { Arranger } from '@arranger/components/dist/Arranger';
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
 import Url from 'components/Url';
 import { SavedSetsContext } from 'providers/SavedSets';
-import Search from 'components/Search';
+import Search from 'components/search/Search';
 
 export default props => (
   <Component initialState={{ sorted: [], panelSize: 300 }}>
