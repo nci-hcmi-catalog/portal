@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Spinner from 'react-spinkit';
 import Popup from 'reactjs-popup';
 
@@ -16,13 +16,10 @@ import {
 import { Input, RadioSelect } from 'theme/formComponentsStyles';
 import { getUploadTemplate } from '../helpers/googleSheets';
 
-import { googleSDK } from '../services/GoogleLink';
-
-import ErrorIcon from 'icons/ErrorIcon';
+import ErrorTriangleIcon from 'icons/ErrorTriangleIcon';
 import ExportIcon from 'icons/ExportIcon';
 import ExternalLinkIcon from 'icons/ExternalLinkIcon';
 import googleSheetsLogo from 'assets/logo-googlesheets.png';
-import config from '../config';
 
 const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
@@ -46,20 +43,10 @@ export default ({
   backupURL,
   overwrite,
   onOverwriteChange,
+  signedIn,
 }) => {
   const [templateUrl, setTemplateUrl] = useState(null);
   const [generating, setGenerating] = useState(false);
-  const [signedIn, setSignedIn] = useState(false);
-
-  const checkGoogleStatus = async () => {
-    const googleAuth = await googleSDK();
-    if (googleAuth.isSignedIn.get()) {
-      setSignedIn(true);
-    }
-  };
-  useEffect(() => {
-    checkGoogleStatus();
-  }, []);
 
   const renderTemplateLink = templateUrl => {
     return generating ? (
@@ -70,7 +57,7 @@ export default ({
     ) : templateUrl ? (
       // URL to sheet once generated
       <BulkUploadTemplateLink href={templateUrl} target="_blank">
-        <ExternalLinkIcon height={10} width={10} />
+        <ExternalLinkIcon height={'10px'} width={'10px'} />
         Bulk Upload Template
       </BulkUploadTemplateLink>
     ) : (
@@ -127,10 +114,11 @@ export default ({
               let formValue = normalizeOption(overwrite);
               const optionValue = normalizeOption(option.value);
               return (
-                <label key={idx}>
+                <label key={idx} htmlFor={`overwrite-option-${idx}`}>
                   {option.label}
                   <input
                     type="radio"
+                    id={`overwrite-option-${idx}`}
                     value={optionValue}
                     checked={formValue === optionValue}
                     onChange={e => {
@@ -146,11 +134,16 @@ export default ({
             })}
             {normalizeOption(overwrite) && (
               <OverwriteWarning>
-                <ErrorIcon width={24} height={20} css={'margin-right: 10px;'} fill={'#f3ae4c'} />
+                <ErrorTriangleIcon
+                  width={'24px'}
+                  height={'20px'}
+                  css={'margin-right: 10px;'}
+                  fill={'#f3ae4c'}
+                />
                 <div>
                   It is recommend that you{' '}
                   <a href={backupURL}>
-                    <ExportIcon width={10} height={12} css={'margin: 0 5px 0 2px'} />
+                    <ExportIcon width={'10px'} height={'12px'} css={'margin: 0 5px 0 2px'} />
                     download a backup
                   </a>{' '}
                   {`of the current ${type}s before overwriting data.`}

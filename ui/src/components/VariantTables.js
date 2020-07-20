@@ -1,494 +1,377 @@
-import React from 'react';
-import { get, isEqual, uniqBy } from 'lodash';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ReactTable from 'react-table';
-import Component from 'react-component-component';
-import { Link } from 'react-router-dom';
-import { stringify } from 'query-string';
 
-import TextInput from '@arranger/components/dist/Input';
-import Tabs from '@arranger/components/dist/Tabs';
-import { api } from '@arranger/components';
 import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
 
+import Filter from 'components/input/Filter';
+import TabGroup from 'components/layout/VerticalTabs';
+
+import DownloadIcon from 'icons/DownloadIcon';
+import VariantsIcon from 'icons/VariantsIcon';
+
+import { useVariants } from 'providers/Variants';
+
+import { ButtonPill } from 'theme/adminControlsStyles';
 import searchStyles from 'theme/searchStyles';
-import globals from 'utils/globals';
-import tsvDownloader from 'utils/tsvDownloader';
 import { Row, Col } from 'theme/system';
+import { Tab, TabHeading, variantTab, variantTabActive } from 'theme/verticalTabStyles';
+import { visuallyHidden } from 'theme';
 
-import FilterIcon from 'icons/FilterIcon';
-import ExportIcon from 'icons/ExportIcon';
-import SparkMeter from 'components/SparkMeter';
-import base from 'theme';
-import { AdminHeaderH3 } from 'theme/adminStyles';
+import tsvDownloader from 'utils/tsvDownloader';
 
-const {
-  keyedPalette: { lightPorcelain, frenchGrey },
-} = base;
+const VARIANT_TYPES = {
+  clinical: 'clinical',
+  histopathological: 'histopathological biomarker',
+  genomic: 'genomic_sequencing',
+};
 
-const VariantTable = ({ type, modelName, columns }) => (
-  <Component
-    initialState={{
-      data: [],
-      loading: false,
-      filterValue: '',
-      filteredData: [],
-      page: 0,
-      pageSize: 10,
-    }}
-    type={type}
-    modelName={modelName}
-    didMount={async ({ props: { fetchData }, setState }) => {
-      await fetchData({ setState });
-    }}
-    shouldUpdate={({ props, nextProps, state, nextState }) => {
-      return (
-        props.type !== nextProps.type ||
-        props.modelName !== nextProps.modelName ||
-        !isEqual(state, nextState)
+const VariantTable = React.memo(({ type, modelName, columns }) => {
+  const {
+    data,
+    filteredData,
+    loading,
+    page,
+    pageSize,
+    setData,
+    setFilteredData,
+    setLoading,
+    setPage,
+    setPageSize,
+    fetchData,
+    sortFilteredData,
+  } = useVariants();
+  const didMountRef = useRef(false);
+  const [filterValue, setFilterValue] = useState('');
+
+  const from = filteredData.length === 0 ? 0 : page * pageSize + 1;
+  const to = page * pageSize + pageSize;
+  const sortedData = useMemo(() => filteredData.slice().sort((a, b) => sortFilteredData(a, b)));
+
+  useEffect(() => {
+    const getData = async () => {
+      setData([]);
+      setLoading(true);
+
+      const dataWithFreqs = await fetchData({ modelName, type });
+
+      setData(dataWithFreqs);
+      setFilteredData(dataWithFreqs);
+      setLoading(false);
+      setPage(0);
+      setPageSize(10);
+    };
+
+    getData();
+  }, [type, modelName]);
+
+  useEffect(() => {
+    // using a ref to mimic 'componentDidUpdate' behaviour (avoids running this on initial mount)
+    if (didMountRef && didMountRef.current && data) {
+      const newFilteredData = data.filter(
+        d =>
+          Object.values(d)
+            .filter(d => typeof d === 'string')
+            .map(d => d.toLowerCase().includes(filterValue.toLowerCase()))
+            .filter(v => v).length > 0,
       );
-    }}
-    didUpdate={async ({ props: { type, fetchData }, setState, prevProps, prevState, state }) => {
-      if (type !== prevProps.type || modelName !== prevProps.modelName) {
-        await fetchData({ setState });
-      }
-      if (state.filterValue !== prevState.filterValue) {
-        const filteredData = state.data.filter(
-          d =>
-            Object.values(d)
-              .filter(d => typeof d === 'string')
-              .map(d => d.toLowerCase().includes(state.filterValue.toLowerCase()))
-              .filter(v => v).length > 0,
-        );
 
-        setState({
-          filteredData,
-          pageSize: filteredData.lenth > 10 ? 10 : filteredData.length,
-        });
-      }
-    }}
-    fetchData={async ({ setState }) => {
-      setState({ data: [], loading: true });
-      const variantsData = await api({
-        endpoint: `/${globals.VERSION}/graphql`,
-        body: {
-          query: `query($modelsSqon: JSON) {
-                      models {
-                        hits(filters: $modelsSqon, first: 1) {
-                          edges {
-                            node {
-                            name
-                              variants {
-                                hits {
-                                  edges {
-                                    node {
-                                      name
-                                      category
-                                      assessment_type
-                                      type
-                                      expression_level
-                                      genes
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  `,
-          variables: {
-            modelsSqon: { op: 'in', content: { field: 'name', value: modelName } },
-          },
-        },
-      });
-      const data = get(variantsData, `data.models.hits.edges[0].node.variants.hits.edges`, [])
-        .map(({ node }) => node)
-        .filter(node => node.type && node.type.toLowerCase() === type.toLowerCase());
+      setFilteredData(newFilteredData);
+      setPageSize(newFilteredData.length > 10 ? 10 : newFilteredData.length);
+    } else {
+      didMountRef.current = true;
+    }
+  }, [filterValue]);
 
-      const variantNames = uniqBy(
-        data.map(({ name }) => ({ name, safe: name.replace(/ |-|\.|\(|\)/g, '') })),
-        ({ name }) => name,
-      );
-      const freqsData = variantNames.length
-        ? await api({
-            endpoint: `/${globals.VERSION}/graphql`,
-            body: {
-              query: `query(${variantNames.map(({ safe }) => '$' + safe + ': JSON').join(',')}) {
-                      models {
-                      all: hits(first: 0) {
-                        total
-                      }
-                      ${variantNames.map(
-                        ({ safe }) => `${safe} : hits(filters: ${'$' + safe}, first: 0) {
-                          total
-                        }`,
-                      )}
-                      }
-                    }
-                  `,
-              variables: variantNames.reduce(
-                (acc, { name, safe }) => ({
-                  ...acc,
-                  [safe]: {
-                    op: 'in',
-                    content: { field: 'variants.name', value: name },
-                  },
-                }),
-                {},
-              ),
-            },
-          })
-        : { data: { models: [] } };
-      const freqs = Object.keys(freqsData.data.models).reduce(
-        (acc, key) => ({
-          ...acc,
-          [variantNames.reduce(
-            (found, { name, safe }) => (safe === key ? name : found),
-            '',
-          )]: freqsData.data.models[key].total,
-        }),
-        {},
-      );
-      const dataWithFreqs = data.map(d => ({
-        ...d,
-        genes: (d.genes || '').join(', '),
-        frequency: {
-          display: (
-            <div
-              css={`
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-              `}
+  return (
+    <Col css={searchStyles}>
+      {data && data.length > 0 ? (
+        <Row className="toolbar" justifyContent="space-between">
+          <div>
+            {!loading &&
+              `Showing ${from} - ${to <= sortedData.length ? to : sortedData.length} of
+          ${sortedData.length} Variants`}
+          </div>
+          <Row justifyContent="flex-end">
+            <Filter onFilterValueChange={setFilterValue} />
+
+            <ButtonPill
+              secondary
+              disabled={sortedData.length === 0}
+              style={{ marginLeft: '8px' }}
+              onClick={() => tsvDownloader(`${modelName}-${type}`, filteredData)}
             >
-              <Link
-                style={{ display: 'inline-block', width: '23px' }}
-                to={{
-                  pathname: '/',
-                  search: stringify({
-                    sqon: JSON.stringify({
-                      op: 'and',
-                      content: [
-                        {
-                          op: 'in',
-                          content: { field: 'variants.name', value: d.name },
-                        },
-                      ],
-                    }),
-                  }),
-                }}
-              >
-                {get(freqs, d.name, 0)}
-              </Link>
-              <SparkMeter
-                width={47}
-                percentage={get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)}
-              />
-              {((get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)) * 100).toFixed(
-                2,
-              )}
-              %
-            </div>
-          ),
-          export: `${(
-            (get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)) *
-            100
-          ).toFixed(2)}%`,
-          raw: get(freqs, d.name, 0),
-        },
-      }));
-      setState({
-        data: dataWithFreqs,
-        loading: false,
-        filteredData: dataWithFreqs,
-        pageSize: 10,
-        page: 0,
-      });
-      return dataWithFreqs;
-    }}
-  >
-    {({
-      state,
-      setState,
-      props: { type },
-      from = state.page * state.pageSize + 1,
-      to = state.page * state.pageSize + state.pageSize,
-      sortedData = state.filteredData.slice().sort((a, b) => b.frequency.raw - a.frequency.raw),
-    }) => (
-      <Col>
-        {state.data && state.data.length > 0 ? (
-          <Row className="toolbar" justifyContent="space-between">
-            <div>
-              {!state.loading &&
-                `Showing ${from} - ${to <= sortedData.length ? to : sortedData.length} of
-            ${sortedData.length} Variants`}
-            </div>
-            <Row justifyContent="flex-end">
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  overflow: 'hidden',
-                }}
-                className="inputWrapper"
-              >
-                <span className="inputIcon">
-                  <FilterIcon height={10} width={10} css={'margin: 0 0 0 5px;'} />
-                </span>
-                <input
-                  type="text"
-                  placeholder="Filter"
-                  value={state.filterValue}
-                  onChange={({ target: { value } }) => {
-                    setState({
-                      filterValue: value,
-                    });
-                  }}
-                  style={{
-                    border: 'none',
-                    flex: 1,
-                  }}
-                />
-              </div>
-
-              <button
-                className="pill"
-                disabled={sortedData.length === 0}
-                style={{ marginLeft: '10px' }}
-                onClick={() => tsvDownloader(`${modelName}-${type}`, state.filteredData)}
-              >
-                <ExportIcon height={10} width={10} />
-                TSV
-              </button>
-            </Row>
+              <DownloadIcon height={'12px'} width={'12px'} />
+              TSV
+            </ButtonPill>
           </Row>
-        ) : null}
-        {sortedData.length === 0 ? (
-          <Row
-            justifyContent="center"
-            css={`
-              border: solid 1px ${frenchGrey};
-              background: white;
-            `}
+        </Row>
+      ) : null}
+      <div css={searchStyles}>
+        <ReactTable
+          className="-striped"
+          css={sortedData.length === 0 && visuallyHidden}
+          data={sortedData}
+          columns={columns}
+          loading={loading}
+          showPagination={sortedData.length > 10}
+          defaultPageSize={pageSize}
+          minRows={0}
+          page={page}
+          PaginationComponent={props => {
+            setPageSize(props.pageSize);
+            setPage(props.page);
+            return <CustomPagination {...props} maxPagesOptions={10} />;
+          }}
+          onPageChange={newPage => setPage(newPage)}
+        />
+        {sortedData.length === 0 && (
+          <div
+            className="model-details model-details--empty"
+            style={{
+              position: 'absolute',
+              width: '100%',
+              left: 0,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: -1,
+            }}
           >
-            <div
-              css={`
-                flex-grow: 0;
-                margin: 50px;
-              `}
-            >
-              <AdminHeaderH3
-                css={`
-                  background: ${lightPorcelain};
-                  padding: 20px;
-                `}
-              >
-                No variants available.
-              </AdminHeaderH3>
-            </div>
-          </Row>
-        ) : (
-          <div css={searchStyles}>
-            <ReactTable
-              className="-striped"
-              data={sortedData}
-              columns={columns}
-              loading={state.loading}
-              showPagination={sortedData.length > 10}
-              defaultPageSize={state.pageSize}
-              minRows={0}
-              page={state.page}
-              PaginationComponent={props => {
-                setState({
-                  pageSize: props.pageSize,
-                  page: props.page,
-                });
-                return <CustomPagination {...props} maxPagesOptions={10} />;
-              }}
-              onPageChange={newPage => {
-                setState({
-                  page: newPage,
-                });
-              }}
-            />
+            <VariantsIcon />
+            <p className="model-details__empty-message">No variants available.</p>
           </div>
         )}
-      </Col>
-    )}
-  </Component>
-);
+      </div>
+    </Col>
+  );
+});
 
-export default ({ modelName }) => (
-  <Tabs
-    tabs={[
-      {
-        title: <span>Clinical Sequencing</span>,
-        key: 'clinical',
-        content: (
-          <VariantTable
-            modelName={modelName}
-            columns={[
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'name',
-                id: 'variantName',
-                accessor: 'name',
-                Header: 'Name',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'genes',
-                id: 'genes',
-                accessor: 'genes',
-                Header: 'Gene(s)',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'category',
-                id: 'category',
-                accessor: 'category',
-                Header: 'Type',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'frequency',
-                id: 'frequency',
-                accessor: 'frequency.display',
-                Header: 'Frequency',
-              },
-            ]}
-            type="clinical"
-          />
-        ),
-      },
-      {
-        title: <span>Histopathological Biomarkers</span>,
-        key: 'Histopathological',
-        content: (
-          <VariantTable
-            modelName={modelName}
-            type="histopathological biomarker"
-            columns={[
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'name',
-                id: 'variantName',
-                accessor: 'name',
-                Header: 'Name',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'genes',
-                id: 'genes',
-                accessor: 'genes',
-                Header: 'Gene(s)',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'assessment_type',
-                id: 'assessment_type',
-                accessor: 'assessment_type',
-                Header: 'Assessment Type',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'expression_level',
-                id: 'expression_level',
-                accessor: 'expression_level',
-                Header: 'Expression Level',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'frequency',
-                id: 'frequency',
-                accessor: 'frequency.display',
-                Header: 'Frequency',
-              },
-            ]}
-          />
-        ),
-      },
-      {
-        title: <span>Genomic Sequencing</span>,
-        key: 'genomic',
-        content: (
-          <VariantTable
-            modelName={modelName}
-            type="genomic_sequencing"
-            columns={[
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'name',
-                id: 'variantName',
-                accessor: 'name',
-                Header: 'Name',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'genes',
-                id: 'genes',
-                accessor: 'genes',
-                Header: 'Gene(s)',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'category',
-                id: 'category',
-                accessor: 'category',
-                Header: 'Type',
-              },
-              {
-                show: true,
-                type: 'keyword',
-                sortable: true,
-                canChangeShow: true,
-                field: 'frequency',
-                id: 'frequency',
-                accessor: 'frequency.display',
-                Header: 'Frequency',
-              },
-            ]}
-          />
-        ),
-      },
-    ]}
-  />
-);
+const renderTable = (activeTab, modelName) => {
+  switch (activeTab) {
+    case VARIANT_TYPES.clinical:
+      return (
+        <VariantTable
+          modelName={modelName}
+          type={VARIANT_TYPES.clinical}
+          columns={[
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'name',
+              id: 'variantName',
+              accessor: 'name',
+              Header: 'Name',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'genes',
+              id: 'genes',
+              accessor: 'genes',
+              Header: 'Genes',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'category',
+              id: 'category',
+              accessor: 'category',
+              Header: 'Type',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'frequency',
+              id: 'frequency',
+              accessor: 'frequency.display',
+              Header: 'Frequency',
+            },
+          ]}
+        />
+      );
+    case VARIANT_TYPES.histopathological:
+      return (
+        <VariantTable
+          modelName={modelName}
+          type={VARIANT_TYPES.histopathological}
+          columns={[
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'name',
+              id: 'variantName',
+              accessor: 'name',
+              Header: 'Name',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'genes',
+              id: 'genes',
+              accessor: 'genes',
+              Header: 'Genes',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'assessment_type',
+              id: 'assessment_type',
+              accessor: 'assessment_type',
+              Header: 'Assessment Type',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'expression_level',
+              id: 'expression_level',
+              accessor: 'expression_level',
+              Header: 'Expression Level',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'frequency',
+              id: 'frequency',
+              accessor: 'frequency.display',
+              Header: 'Frequency',
+            },
+          ]}
+        />
+      );
+    case VARIANT_TYPES.genomic:
+      return (
+        <VariantTable
+          modelName={modelName}
+          type={VARIANT_TYPES.genomic}
+          columns={[
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'name',
+              id: 'variantName',
+              accessor: 'name',
+              Header: 'Name',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'genes',
+              id: 'genes',
+              accessor: 'genes',
+              Header: 'Genes',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'category',
+              id: 'category',
+              accessor: 'category',
+              Header: 'Type',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'frequency',
+              id: 'frequency',
+              accessor: 'frequency.display',
+              Header: 'Frequency',
+            },
+          ]}
+        />
+      );
+    default:
+      return null;
+  }
+};
+
+export default ({ modelName }) => {
+  const [activeTab, setActiveTab] = useState(VARIANT_TYPES.clinical);
+  const { fetchData } = useVariants();
+
+  useEffect(() => {
+    const checkClinicalVariants = async () => {
+      const clinicalVariants = await fetchData({
+        modelName,
+        type: VARIANT_TYPES.clinical,
+      });
+
+      if (clinicalVariants.length > 0) {
+        setActiveTab(VARIANT_TYPES.clinical);
+      } else {
+        setActiveTab(VARIANT_TYPES.histopathological);
+      }
+    };
+
+    checkClinicalVariants();
+  }, [modelName]);
+
+  return (
+    <Row
+      css={`
+        position: relative;
+      `}
+    >
+      <TabGroup width={171}>
+        <Tab
+          active={activeTab === VARIANT_TYPES.clinical}
+          onClick={() => setActiveTab(VARIANT_TYPES.clinical)}
+        >
+          <TabHeading css={activeTab === VARIANT_TYPES.clinical ? variantTabActive : variantTab}>
+            Clinical Sequencing
+          </TabHeading>
+        </Tab>
+        <Tab
+          active={activeTab === VARIANT_TYPES.histopathological}
+          onClick={() => setActiveTab(VARIANT_TYPES.histopathological)}
+        >
+          <TabHeading
+            css={activeTab === VARIANT_TYPES.histopathological ? variantTabActive : variantTab}
+          >
+            Histopathological Biomarkers
+          </TabHeading>
+        </Tab>
+        <Tab
+          active={activeTab === VARIANT_TYPES.genomic}
+          onClick={() => setActiveTab(VARIANT_TYPES.genomic)}
+        >
+          <TabHeading css={activeTab === VARIANT_TYPES.genomic ? variantTabActive : variantTab}>
+            Genomic Sequencing
+          </TabHeading>
+        </Tab>
+      </TabGroup>
+      <div
+        css={`
+          width: calc(100% - 171px);
+          padding-left: 18px;
+        `}
+      >
+        {renderTable(activeTab, modelName)}
+      </div>
+    </Row>
+  );
+};

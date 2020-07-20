@@ -2,19 +2,18 @@ import { css } from 'emotion';
 import styled from 'react-emotion';
 import { Link } from 'react-router-dom';
 import base from 'theme';
-import { adminPillHover } from 'theme/hoverStyles';
 import { Row } from 'theme/system';
 import { whiteHover } from 'theme/hoverStyles';
+import { HoverPill } from 'theme/adminControlsStyles';
 
 const {
   fonts: { openSans },
-  transparency: { brandPrimary70 },
-  keyedPalette: { athensGray, black, bombay, brandPrimary, valencia, porcelain },
-  buttons: { pillBase },
+  transparency: { brandPrimary80 },
+  keyedPalette: { black, cinnabar, porcelain },
 } = base;
 
-const navBackgroundColour = brandPrimary70;
-const navOnState = valencia;
+const navBackgroundColour = brandPrimary80;
+const navOnState = cinnabar;
 
 export const AdminNav = styled(Row)`
   font-family: ${openSans};
@@ -66,37 +65,8 @@ export const Account = styled('div')`
   align-items: center;
 `;
 
-export const Pill = styled('div')`
-  ${pillBase};
-  line-height: 27px;
-  color: ${brandPrimary};
-  margin-left: ${props => props.last && '20px'};
-`;
-
-export const HoverPill = styled(Pill)`
-  ${adminPillHover({ base: brandPrimary, hover: valencia }, { base: '#ffffff', hover: porcelain })};
-`;
-
 export const UserDropdown = styled(HoverPill)`
-  font-family: ${openSans};
-  font-size: 12px;
   font-weight: 600;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 2;
-  letter-spacing: normal;
-  text-align: center;
-  color: ${black};
-  border: 1px solid ${bombay};
-  border-radius: 10px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  background-color: ${props => props.isOpen && athensGray};
-
-  &:hover {
-    color: ${black};
-  }
 `;
 
 export const DropdownItem = styled('a')`

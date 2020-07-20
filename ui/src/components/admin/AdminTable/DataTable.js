@@ -65,7 +65,7 @@ const TableWithPagination = ({
     {...commonDataTableProps({ state, onSortedChange, ...props })}
     {...{
       data: data,
-      showPagination: rowCount > pageSize,
+      showPagination: true,
       defaultPageSize: pageSize,
       pageSize: pageSize,
       // there is no page property for the table. Table always displays single page of data coming from server

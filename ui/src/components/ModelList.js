@@ -13,7 +13,7 @@ export default ({ className }) => (
           const selectedCount = selected.state.modelIds.length;
           const hasSelected = selectedCount > 0;
           return (
-            <div css={styles}>
+            <div className={'model-list-icon__wrapper'} css={styles}>
               <button
                 aria-label={`Show models selected for download`}
                 className={`model-list-icon ${hasSelected ? 'not-empty' : ''} ${className}`}

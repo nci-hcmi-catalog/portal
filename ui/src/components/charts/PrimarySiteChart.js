@@ -12,18 +12,12 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
     alignItems="center"
     css={`
       position: relative;
-      width: 48%; /* 25% when there are three charts */
-      max-width: 360px;
       height: 185px;
-      padding: 16px 0 16px 0;
+      width: 33%;
+      padding: 12px 0 4px;
     `}
   >
-    <span
-      className="sqon-field"
-      css={`
-        font-size: 12px;
-      `}
-    >
+    <span className="sqon-field sqon-field--chart-title">
       Models by Primary Site
     </span>
     <AggregationQuery sqon={sqon} field="primary_site">
@@ -32,26 +26,9 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
           'loading'
         ) : (
           <>
-            <div
-              className="pie-center sqon-field"
-              css={`
-                position: absolute;
-                top: 50%;
-                transform: translateY(-10px);
-                font-size: 14px;
-                text-align: center;
-              `}
-            >
+            <div className="pie-center sqon-field">
               {state.buckets.length}
-              <div
-                css={`
-                  font-size: 10px;
-                  text-align: center;
-                  margin-top: 4px;
-                `}
-              >
-                Primary<br />Sites
-              </div>
+              <div>Total</div>
             </div>
             <ResponsivePie
               margin={{
@@ -60,6 +37,7 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
                 bottom: 12,
                 left: 12,
               }}
+              height={156}
               data={state.buckets.map((x, i) => ({
                 id: x.key,
                 label: x.key,

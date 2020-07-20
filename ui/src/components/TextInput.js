@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'react-emotion';
 import { css } from 'emotion';
 import ArrangerTextInput from '@arranger/components/dist/Input';
-import AdminCloseIcon from 'icons/AdminCloseIcon';
+import CrossCircleOutlineIcon from 'icons/CrossCircleOutlineIcon';
 
 const TextInputWrapper = styled('div')`
   position: relative;
@@ -51,7 +51,7 @@ export default ({ className, value, disabled, ref = React.createRef(), ...props 
   return (
     <TextInputWrapper disabled={disabled} className={className}>
       <TextInput {...{ value, disabled, ...props }} componentRef={ref} />
-      {value && value.length && <AdminCloseIcon style={closeStyle} onClick={clearInput} />}
+      {value && value.length && <CrossCircleOutlineIcon style={closeStyle} onClick={clearInput} />}
     </TextInputWrapper>
   );
 };

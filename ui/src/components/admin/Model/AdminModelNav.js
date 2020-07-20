@@ -11,9 +11,9 @@ import {
   disabledNavItemIconColor,
 } from 'theme/adminModelStyles';
 import { Tab, TabContents, TabLabel, TabHeading } from 'theme/verticalTabStyles';
-import AdminModelEditIcon from 'icons/AdminModelEditIcon';
-import AdminModelImageIcon from 'icons/AdminModelImageIcon';
-import AdminModelVariantsIcon from 'icons/AdminModelVariantsIcon';
+import PencilIcon from 'icons/PencilIcon';
+import CameraIcon from 'icons/CameraIcon';
+import VariantsIcon from 'icons/VariantsIcon';
 
 export default () => (
   <ModelSingleContext.Consumer>
@@ -34,7 +34,7 @@ export default () => (
             css={activeTab === 'edit' && navItemActive}
           >
             <TabContents>
-              <AdminModelEditIcon
+              <PencilIcon
                 fill={activeTab === 'edit' ? activeNavItemIconColor : brandPrimary}
                 css={navItemIcon}
               />
@@ -54,7 +54,7 @@ export default () => (
                   css={activeTab === 'images' && navItemActive}
                 >
                   <TabContents>
-                    <AdminModelImageIcon
+                    <CameraIcon
                       fill={
                         !modelExists
                           ? disabledNavItemIconColor
@@ -87,7 +87,7 @@ export default () => (
                   css={activeTab === 'variants' && navItemActive}
                 >
                   <TabContents>
-                    <AdminModelVariantsIcon
+                    <VariantsIcon
                       fill={
                         !modelExists
                           ? disabledNavItemIconColor

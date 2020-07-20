@@ -13,7 +13,7 @@ import {
 
 import { getPageData, getCountData } from '../helpers/fetchTableData';
 import { ModelTableColumns } from './ModelColumns';
-import { NotificationsContext } from '../Notifications';
+import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
 import { debounce } from 'lodash';
 
 export const ModelManagerContext = React.createContext();
@@ -70,7 +70,10 @@ const bulkActionCreator = ({
         }));
 
         await appendNotification({
-          type: action === 'publish' && errors.length > 0 ? 'warning' : 'success',
+          type:
+            action === 'publish' && errors.length > 0
+              ? NOTIFICATION_TYPES.WARNING
+              : NOTIFICATION_TYPES.SUCCESS,
           message: `Bulk ${action} complete.`,
           details:
             success +
@@ -92,7 +95,7 @@ const bulkActionCreator = ({
       });
 
       await appendNotification({
-        type: 'error',
+        type: NOTIFICATION_TYPES.ERROR,
         message: `Bulk ${action} error.`,
         details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
       });
@@ -194,7 +197,10 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                         ? `No suitable data is available to upload. No changes were made.`
                         : `Bulk Upload of models has successfully completed. New models or updated fields are saved but not yet published.`;
                       await appendNotification({
-                        type: result.errors.length > 0 ? 'warning' : 'success',
+                        type:
+                          result.errors.length > 0
+                            ? NOTIFICATION_TYPES.WARNING
+                            : NOTIFICATION_TYPES.SUCCESS,
                         message: notificationMessage,
                         details: anyUpdatesDone ? '' : extractResultText(result),
                         bulkErrors: result.errors,
@@ -210,7 +216,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     });
 
                     await appendNotification({
-                      type: 'error',
+                      type: NOTIFICATION_TYPES.ERROR,
                       message: 'Model Upload Error.',
                       details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
                     });
@@ -254,7 +260,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     });
 
                     await appendNotification({
-                      type: 'success',
+                      type: NOTIFICATION_TYPES.SUCCESS,
                       message: `Publish Successful!`,
                       details: `${name} has been successfully published. View it live here: `,
                       link: `/model/${name}`,
@@ -270,7 +276,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     });
 
                     await appendNotification({
-                      type: 'error',
+                      type: NOTIFICATION_TYPES.ERROR,
                       message: `Publish Error.`,
                       details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
                       timeout: false, // do not auto-remove this notification when publishing
@@ -294,7 +300,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     }));
 
                     await appendNotification({
-                      type: 'success',
+                      type: NOTIFICATION_TYPES.SUCCESS,
                       message: `Unpublish Successful!`,
                       details: `${name} has been successfully unpublished`,
                     });
@@ -308,7 +314,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     });
 
                     await appendNotification({
-                      type: 'error',
+                      type: NOTIFICATION_TYPES.ERROR,
                       message: `Unpublish Error.`,
                       details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
                       timeout: false, // do not auto-remove this notification when unpublishing
@@ -330,7 +336,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     }));
 
                     await appendNotification({
-                      type: 'success',
+                      type: NOTIFICATION_TYPES.SUCCESS,
                       message: `Delete Successful!`,
                       details: `${name} has been successfully deleted`,
                     });
@@ -344,7 +350,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     });
 
                     await appendNotification({
-                      type: 'error',
+                      type: NOTIFICATION_TYPES.ERROR,
                       message: `Delete Error.`,
                       details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
                       timeout: false, // do not auto-remove this notification when deleting

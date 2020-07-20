@@ -1,7 +1,24 @@
-import { BaseSvg } from 'icons';
+import React from 'react';
+import { InlineSvg } from 'icons';
 
-export default ({ fill = '#fff', ...props }) =>
-  BaseSvg({
-    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90"><defs><style>.cls-1{fill:${fill};}</style></defs><path class="cls-1" d="M45,8A37,37,0,1,1,8,45,37,37,0,0,1,45,8m0-8A45,45,0,1,0,90,45,44.94,44.94,0,0,0,45,0Z"/><path class="cls-1" d="M60.1,41H49V29.8a4,4,0,1,0-8,0V40.9H29.9a4,4,0,0,0,0,8H41V60a4,4,0,0,0,8,0V49H60.1a4,4,0,0,0,4-4A4,4,0,0,0,60.1,41Z"/></svg>`,
+export default ({
+  fill = 'currentColor',
+  width = '11px',
+  height = '11px',
+  viewBox = '0 0 20 20',
+  ...props
+}) =>
+  InlineSvg({
+    alt: 'Plus Icon',
+    viewBox,
+    width,
+    height,
+    fill,
+    path: (
+      <path
+        fillRule="evenodd"
+        d="M13.886 10.962H10.97v2.933a.97.97 0 0 1-.971.962.97.97 0 0 1-.971-.962v-2.933H6.114A.97.97 0 0 1 5.143 10a.97.97 0 0 1 .971-.962H9.03V6.105A.97.97 0 0 1 10 5.143a.97.97 0 0 1 .971.962v2.933h2.915a.97.97 0 0 1 .971.962.97.97 0 0 1-.971.962M10 0C4.476 0 0 4.476 0 10s4.476 10 10 10 10-4.476 10-10S15.524 0 10 0"
+      />
+    ),
     ...props,
   });

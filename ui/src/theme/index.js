@@ -19,49 +19,44 @@ const palette = [
   '#e1e5e7', // 13  - porcelain
 ];
 
-const growthChartPalette = ['#29818e', '#d9373c', '#636aab'];
+const growthChartPalette = ['#ef5350', '#80deea'];
+
+const multipleModelsChartPalette = ['#d4e157', '#0277bd'];
+
+const mutatedGenesChartPalette = [
+  '#ff6f00',
+  '#26c6da',
+  '#ba68c8',
+  '#ffc400',
+  '#00b0ff',
+  '#00e676',
+  '#ff4081',
+  '#3949ab',
+  '#26a69a',
+  '#ff8a80',
+];
 
 const chartsPalette = [
-  '#851330', // 0
-  '#f09f32', // 1
-  '#de3337', // 2
-  '#cddc3a', // 3
-  '#4caf53', // 4
-  '#f77679', // 5
-  '#f8a85f', // 6
-  '#7cced9', // 7
-  '#64b79c', // 8
-  '#266574', // 9
-  '#dfc4ac', // 10
-  '#e3703e', // 11
-  '#fee83b', // 12
-  '#e13331', // 13
-  '#edbb48', // 14
-  '#81a856', // 15
-  '#785548', // 16
-  '#df9966', // 17
-  '#ea5153', // 18
-  '#84d0c5', // 19
-  '#9b2620', // 20
-  '#7dc274', // 21
-  '#f9da6d', // 22
-  '#009689', // 23
-  '#fd7747', // 24
-  '#6368ad', // 25
-  '#edcbc1',
-  '#1b9fb2',
-  '#fdaa42',
-  '#f25e46',
-  '#4dac9e',
-  '#f0458b',
-  '#8ac14a',
-  '#f4d494',
-  '#8f93cb',
-  '#fdc009',
-  '#f34336',
-  '#02bbd4',
-  '#fe9802',
-  '#de376f',
+  '#448aff', // 0
+  '#fdd835', // 1
+  '#f06292', // 2
+  '#aeea00', // 3
+  '#7e57c2', // 4
+  '#80deea', // 5
+  '#ff9100', // 6
+  '#8c9eff', // 7
+  '#c51162', // 8
+  '#81d4fa', // 9
+  '#ffff00', // 10
+  '#388e3c', // 11
+  '#f8bbd0', // 12
+  '#2962ff', // 13
+  '#d1c4e9', // 14
+  '#d81b60', // 15
+  '#5d4037', // 16
+  '#80cbc4', // 17
+  '#ff5722', // 18
+  '#90a4ae', // 19
 ];
 
 const base = {
@@ -72,12 +67,13 @@ const base = {
   palette,
   chartsPalette,
   growthChartPalette,
+  multipleModelsChartPalette,
+  mutatedGenesChartPalette,
   keyedPalette: {
     // Colour names from http://chir.ag/projects/name-that-color/
     cherry: palette[0],
     brandPrimary: palette[1],
     brandPrimaryHighlight: palette[11],
-    crimson: palette[2],
     carnation: palette[3],
     froly: palette[4],
     flamingo: palette[5],
@@ -93,7 +89,7 @@ const base = {
     white: '#ffffff',
     mineShaft: '#323232',
     sienna: '#d57046',
-    burntSienna: '#EC595D',
+    burntSienna: '#e58550',
     pelorousapprox: '#45b3c3',
     dustyGray: '#969696',
     iron: '#cdd4d9',
@@ -109,7 +105,7 @@ const base = {
     oldLace: '#FDF4E9',
     oldCopper: '#724c31',
     green: '#3f8342',
-    redOrange: '#b55a36',
+    redOrange: '#be541a',
     aquaSpring: '#ecf7f9',
     alto: '#d8d8d8',
     elm: '#1c8292',
@@ -121,10 +117,27 @@ const base = {
     trout: '#525767',
     havelockBlue: '#4596de',
     athensLightGray: '#eaeaee',
+    hotCinnamon: '#dd6624',
+    texasRose: '#fec152',
+    orangeRough: '#cf5a1a',
+    mischka: '#d9d9df',
     sandyBeach: '#ffe9c3',
+    graySuit: '#b9b5c6',
+    crimson: '#cd0d32',
+    goldenGlow: '#feda97',
+    cinnabar: '#ed494c',
+    morningGlory: '#8fd1db',
+    mauvelous: '#f49394',
+    cinderella: '#fce3e4',
+    alizarinCrimson: '#df1b42',
+    ironApprox: '#dcdde1',
+    tiaMaria: '#d54215',
+    redDamask: '#e06944',
+    linen: '#fbece7',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',
+    brandPrimary80: 'rgba(144,0,0,0.8)',
     brandPrimary20: 'rgba(144,0,0,0.2)',
     yellowOrange20: 'rgba(253,171,64,0.2)',
     white70: 'rgba(255,255,255, 0.7)',
@@ -140,7 +153,7 @@ const base = {
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-family: ${libreFranklin};
+      font-family: ${openSans};
       background-color: #ffffff;
       color: #734d32;
       font-size: 12px;

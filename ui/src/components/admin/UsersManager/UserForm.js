@@ -2,29 +2,19 @@ import React from 'react';
 import { ModalStateContext } from 'providers/ModalState';
 import { ModalWrapper, Header, Title, CloseModal, Content, Footer } from 'theme/adminModalStyles';
 import { FormContainer, FormCol } from 'theme/adminFormStyles';
-import { HoverPill } from 'theme/adminControlsStyles';
+import { ButtonPill, HoverPill } from 'theme/adminControlsStyles';
 import { withFormik, Field } from 'formik';
 import { schemaObj } from '@hcmi-portal/cms/src/schemas/descriptions/user';
 import { FormComponent, FormInput, FormRadioSelect } from 'components/FormComponents';
 import { userStatus } from '@hcmi-portal/cms/src/helpers/userStatus';
 import validationSchema from '@hcmi-portal/cms/src/validation/user';
-import base from 'theme';
 
 // All labels/keys from model schema
 const { name, email, status } = schemaObj;
-const {
-  keyedPalette: { lightPorcelain },
-} = base;
-
-const SubmitFormPill = HoverPill.withComponent('button');
 
 const UserFormTemplate = ({ closeModal }) => {
   return (
-    <FormContainer
-      css={`
-        background: ${lightPorcelain};
-      `}
-    >
+    <FormContainer>
       <FormCol>
         <FormComponent labelText={name.displayName}>
           <Field name={name.accessor} component={FormInput} />
@@ -43,12 +33,12 @@ const UserFormTemplate = ({ closeModal }) => {
         </FormComponent>
       </FormCol>
       <Footer>
+        <ButtonPill type={'submit'} primary marginRight={'10px'}>
+          Save
+        </ButtonPill>
         <HoverPill secondary onClick={closeModal}>
           Cancel
         </HoverPill>
-        <SubmitFormPill type={'submit'} primary>
-          Save
-        </SubmitFormPill>
       </Footer>
     </FormContainer>
   );
@@ -78,12 +68,7 @@ const UserModal = ({
             <Title>{`${actionTitle} User`}</Title>
             <CloseModal onClick={() => modalState.setModalState({ component: null })} />
           </Header>
-          <Content
-            css={`
-              line-height: 2;
-              padding: 0px 21px 21px;
-            `}
-          >
+          <Content>
             <UserFormComponent
               user={user}
               type={type}
