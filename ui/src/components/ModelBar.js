@@ -13,13 +13,13 @@ import ModelList from 'components/ModelList';
 import PlusIcon from './../icons/PlusIcon';
 import CheckmarkIcon from './../icons/CheckmarkIcon';
 
-const ExpandedPill = ({ isExpanded }) => {
-  return (
-    <div className={`model-bar__pill model-bar__pill--${isExpanded ? 'expanded' : 'unexpanded'}`}>
-      {isExpanded ? 'EXPANDED' : 'UNEXPANDED'}
-    </div>
-  );
-};
+// const ExpandedPill = ({ isExpanded }) => {
+//   return (
+//     <div className={`model-bar__pill model-bar__pill--${isExpanded ? 'expanded' : 'unexpanded'}`}>
+//       {isExpanded ? 'EXPANDED' : 'UNEXPANDED'}
+//     </div>
+//   );
+// };
 
 export default ({ name, id, isExpanded }) => {
   const {
