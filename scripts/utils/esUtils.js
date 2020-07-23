@@ -1,12 +1,12 @@
 const es = require('@elastic/elasticsearch');
 
 /** Arranger metadatas: **/
-const aggsState = require('./arranger_metadata/aggs-state.json');
-const columnsState = require('./arranger_metadata/columns-state.json');
-const extended = require('./arranger_metadata/extended.json');
-const matchboxState = require('./arranger_metadata/matchbox-state.json');
+const aggsState = require('../../elasticsearch/arranger_metadata/aggs-state.json');
+const columnsState = require('../../elasticsearch/arranger_metadata/columns-state.json');
+const extended = require('../../elasticsearch/arranger_metadata/extended.json');
+const matchboxState = require('../../elasticsearch/arranger_metadata/matchbox-state.json');
 
-const pm2Path = process.env.CMS_CONFIG || '../cms/pm2.config.js';
+const pm2Path = process.env.CMS_CONFIG || '../../cms/pm2.config.js';
 const pm2Env = process.env.ENV;
 if (!pm2Env) {
   throw new Error('No ENV value provided!');
@@ -22,56 +22,98 @@ const pm2 = { ...pm2ConfigGeneric, ...pm2ConfigForEnv };
 module.exports.config = pm2;
 
 /** Search index settings and mappings **/
-const indexSetup = require('./searchIndex.json');
-const searchIndex = process.env.ES_INDEX || pm2.ES_INDEX || 'hcmi';
+const modelsIndexConfig = require('../../elasticsearch/modelsIndex.json');
+const genesIndexConfig = require('../../elasticsearch/genesIndex.json');
+const variantsIndexConfig = require('../../elasticsearch/variantsIndex.json');
+const modelsIndexName = process.env.ES_INDEX || pm2.ES_INDEX || 'hcmi';
 const arrangerProject = process.env.PROJECT_ID || pm2.ES_INDEX || 'hcmi';
 const esHost = process.env.ES_HOST || `${pm2.ES_HOST}:${pm2.ES_PORT}`;
+
+const GENES_INDEX = 'genes';
+const VARIANTS_INDEX = 'genomic_variants';
 
 const client = new es.Client({
   node: esHost,
 });
 const date = new Date();
 
-const createSearchIndex = async () => {
+/* ******** Index creation and deletion ******** */
+const createIndex = async (index, config) => {
   try {
-    console.log(`\nCreating search index: ${searchIndex}`);
+    console.log(`\nCreating index: ${index}`);
     await client.indices.create({
-      index: searchIndex,
-      body: indexSetup,
+      index,
+      body: config,
     });
-    console.log('Success! Created index:', searchIndex);
+    console.log('Success! Created index:', index);
   } catch (e) {
-    console.log('Unable to create index:', searchIndex);
+    console.log('Unable to create index:', index);
     console.log(e);
+    console.log(JSON.stringify(e.meta));
   }
 };
 
-module.exports.createSearchIndex = createSearchIndex;
-
-module.exports.deleteSearchIndex = async () => {
+const deleteIndex = async index => {
   try {
-    console.log(`\nDeleting existing index (if present): ${arrangerProject}`);
-    await client.indices.delete({ index: `${arrangerProject}` });
+    console.log(`\nDeleting existing index (if present): ${index}`);
+    await client.indices.delete({ index });
   } catch (e) {}
 };
 
-module.exports.updateSearchIndex = async () => {
+/* ******* Models Index ******** */
+module.exports.createModelsIndex = async () =>
+  await createIndex(modelsIndexName, modelsIndexConfig);
+
+module.exports.deleteModelsIndex = async () => await deleteIndex(modelsIndexName);
+
+/* ******* Genes Index ******** */
+module.exports.createGenesIndex = async () => await createIndex(GENES_INDEX, genesIndexConfig);
+
+module.exports.deleteGenesIndex = async () => await deleteIndex(GENES_INDEX);
+
+/* ******* Variants Index ******** */
+module.exports.createVariantsIndex = async () =>
+  await createIndex(VARIANTS_INDEX, variantsIndexConfig);
+
+module.exports.deleteVariantsIndex = async () => await deleteIndex(VARIANTS_INDEX);
+
+/* ******** Update Indicies ******** */
+const updateIndex = async ({ index, settings = {}, mappings = {} } = {}) => {
   try {
+    console.log('Updating mapping for:', index);
     await client.indices.close({
-      index: searchIndex,
+      index,
     });
 
-    await client.indices.putSettings({ index: searchIndex, body: indexSetup.settings });
-    await client.indices.putMapping({ index: searchIndex, body: indexSetup.mappings });
+    await client.indices.putSettings({ index, body: settings });
+    await client.indices.putMapping({ index, body: mappings });
 
     await client.indices.open({
-      index: searchIndex,
+      index,
     });
-    console.log('Success! Updated mapping for:', searchIndex);
+    console.log('Success! Updated mapping for:', index);
   } catch (e) {
-    console.log('Unable to update index mapping for', searchIndex);
+    console.log('Unable to update index mapping for', index);
     console.log(e);
   }
+};
+
+module.exports.updateSearchIndices = async () => {
+  await updateIndex({
+    index: modelsIndexName,
+    settings: modelsIndexConfig.settings,
+    mapping: modelsIndexConfig.mapping,
+  });
+  await updateIndex({
+    index: GENES_INDEX,
+    settings: genesIndexConfig.settings,
+    mapping: genesIndexConfig.mapping,
+  });
+  await updateIndex({
+    index: VARIANTS_INDEX,
+    settings: variantsIndexConfig.settings,
+    mapping: variantsIndexConfig.mapping,
+  });
 };
 
 module.exports.createArrangerProjectList = async () => {
@@ -106,7 +148,7 @@ const createArrangerProject = async () => {
     await client.index({
       index: projectIndex,
       body: {
-        index: searchIndex,
+        index: modelsIndexName,
         name: 'models',
         timestamp: date,
         active: true,

@@ -22,6 +22,20 @@ const VariantExpression = new mongoose.Schema({
   expression_level: { type: String },
 });
 
+const GenomicVariant = new mongoose.Schema({
+  gene: { type: String },
+  aa_change: { type: String },
+  transcript_id: { type: String },
+  consequence_type: { type: String },
+  class: { type: String },
+  type: { type: String },
+  chromosome: { type: String },
+  start_position: { type: String },
+  end_position: { type: String },
+  specific_change: { type: String },
+  classification: { type: String },
+});
+
 export const ModelSchema = new mongoose.Schema(
   {
     name: { type: String, unique: true, required: true, es_indexed: true },
@@ -56,6 +70,7 @@ export const ModelSchema = new mongoose.Schema(
     expanded: { type: Boolean, es_indexed: true },
     files: { type: [FilesSchema], es_indexed: true },
     variants: { type: [VariantExpression], es_indexed: false },
+    genomic_variants: { type: [GenomicVariant], es_indexed: false },
     matchedModels: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'MatchedModels',
@@ -97,6 +112,35 @@ export const ModelSchema = new mongoose.Schema(
             type: variant.variant.type,
           })),
       },
+      genomic_variants: {
+        es_type: 'nested',
+        es_value: doc =>
+          doc.genomic_variants.map(variant => ({
+            gene: variant.gene,
+            aa_change: variant.aa_change,
+            transcript_id: variant.transcript_id,
+            consequence_type: variant.consequence_type,
+            class: variant.class,
+            type: variant.type,
+            chromosome: variant.chromosome,
+            start_position: variant.start_position,
+            end_position: variant.end_position,
+            specific_change: variant.specific_change,
+            classification: variant.classification,
+            variant_id: `${variant.chromosome}:g.${variant.start_position}${
+              variant.specific_change
+            }`,
+            name: `${variant.gene} ${variant.aa_change}`,
+          })),
+      },
+      // genes: {
+      //   es_type: 'string',
+      //   es_value: doc => doc.genomic_variants.map(variant => variant.gene),
+      // },
+      // genomic_variant_names: {
+      //   es_type: 'string',
+      //   es_value: doc => doc.genomic_variants.map(variant => variant.name),
+      // }
       // This is definitely a trick. You need to manually
       // add populatedMatches as an array of models that should be included as matched_models before calling esIndex()
       matched_models: {

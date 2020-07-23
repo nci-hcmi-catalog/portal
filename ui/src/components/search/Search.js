@@ -6,9 +6,11 @@ import SplitPane from 'react-split-pane';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
 
-import ArrowIcon from './../icons/ArrowIcon';
-import LastUpdatedDate from './LastUpdatedDate';
-import ModelNameSearch from 'components/ModelNameSearch';
+import ArrowIcon from 'icons/ArrowIcon';
+import LastUpdatedDate from 'components/LastUpdatedDate';
+import GeneSearch from 'components/search/GeneSearch';
+import VariantSearch from 'components/search/VariantSearch';
+import ModelSearch from 'components/search/ModelSearch';
 import PrimarySiteChart from 'components/charts/PrimarySiteChart';
 import MultipleModelsChart from 'components/charts/MultipleModelsChart';
 import GrowthChart from 'components/charts/GrowthChart';
@@ -18,8 +20,8 @@ import TableMatchedModelsCell from 'components/TableMatchedModelsCell';
 import TableList from 'components/TableList';
 import ShareButton from 'components/ShareButton';
 import ModelList from 'components/ModelList';
-import TextInput from './TextInput';
-import globals from '../utils/globals';
+import TextInput from 'components/TextInput';
+import globals from 'utils/globals';
 
 import searchStyles from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
@@ -53,7 +55,9 @@ export default ({
           <Component shouldUpdate={() => stable}>
             {() => (
               <>
-                <ModelNameSearch {...{ ...props, setSQON }} />
+                <ModelSearch sqon={sqon} setSQON={setSQON} />
+                <GeneSearch sqon={sqon} setSQON={setSQON} />
+                <VariantSearch sqon={sqon} setSQON={setSQON} />
                 <Aggregations
                   {...props}
                   sqon={sqon}
