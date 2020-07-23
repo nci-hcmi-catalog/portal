@@ -726,5 +726,17 @@
     "unit": null,
     "displayValues": {},
     "rangeStep": 1
+  },
+  {
+    "field": "genomic_variants.transcript_id",
+    "type": "keyword",
+    "displayName": "Genomic Variant Transcript ID",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
   }
 ]
