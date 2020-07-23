@@ -8,8 +8,9 @@ import { SelectedModelsContext } from 'providers/SelectedModels';
 
 import ArrowIcon from 'icons/ArrowIcon';
 import LastUpdatedDate from 'components/LastUpdatedDate';
-import ModelNameSearch from 'components/search/ModelNameSearch';
 import GeneSearch from 'components/search/GeneSearch';
+import VariantSearch from 'components/search/VariantSearch';
+import ModelSearch from 'components/search/ModelSearch';
 import PrimarySiteChart from 'components/charts/PrimarySiteChart';
 import MultipleModelsChart from 'components/charts/MultipleModelsChart';
 import GrowthChart from 'components/charts/GrowthChart';
@@ -54,8 +55,9 @@ export default ({
           <Component shouldUpdate={() => stable}>
             {() => (
               <>
-                <ModelNameSearch {...{ ...props, setSQON }} />
+                <ModelSearch sqon={sqon} setSQON={setSQON} />
                 <GeneSearch sqon={sqon} setSQON={setSQON} />
+                <VariantSearch sqon={sqon} setSQON={setSQON} />
                 <Aggregations
                   {...props}
                   sqon={sqon}
