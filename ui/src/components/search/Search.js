@@ -79,6 +79,7 @@ export default ({
           flex={1}
           css={`
             width: calc(100vw - ${state.panelSize}px);
+            overflow-y: scroll !important;
           `}
         >
           <Row
