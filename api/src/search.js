@@ -40,7 +40,7 @@ geneSearchRouter.get('/gene', async (req, res) => {
   }
 });
 
-geneSearchRouter.get('/variants', async (req, res) => {
+geneSearchRouter.get('/variant', async (req, res) => {
   try {
     const { q } = req.query;
     if (!q) {
