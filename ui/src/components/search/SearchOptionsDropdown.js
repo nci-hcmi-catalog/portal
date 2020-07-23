@@ -102,7 +102,6 @@ export default ({ onSelect, options, icon, ...props }) => {
           title={option.title}
           details={option.details}
           value={option.value}
-          searchText="hi"
           optionIndex={index}
           OptionIcon={icon}
           onMouseDown={() => onSelect(option.value)}

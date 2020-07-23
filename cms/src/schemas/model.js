@@ -45,7 +45,7 @@ export const ModelSchema = new mongoose.Schema(
     time_to_split: { type: String, es_indexed: true },
     gender: { type: String, es_indexed: true },
     race: { type: String, es_indexed: true },
-    age_at_diagnosis: { type: Number, ezs_indexed: true },
+    age_at_diagnosis: { type: Number, es_indexed: true },
     age_at_sample_acquisition: { type: Number, es_indexed: true },
     date_of_availability: { type: Date, es_indexed: true },
     primary_site: { type: String, es_indexed: true },
