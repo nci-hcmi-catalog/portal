@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { css } from 'emotion';
 
 import theme from 'theme';
 import ModelIcon from 'icons/ModelIcon';
-
-import TextHighlight from '@arranger/components/dist/TextHighlight';
 
 import { isArray } from 'lodash';
 

@@ -5,7 +5,6 @@ import SearchIcon from 'react-icons/lib/fa/search';
 
 import { Col } from 'theme/system';
 import TextInput from 'components/TextInput';
-import SidebarHeader from 'components/search/SidebarHeader';
 import SidebarSection from 'components/search/SidebarSection';
 import SearchOptionsDropdown from 'components/search/SearchOptionsDropdown';
 
@@ -14,10 +13,6 @@ import * as SQONUtils from '@arranger/components/dist/SQONView/utils';
 const LoadingIcon = (
   <Spinner fadeIn="none" name="circle" color="#a9adc0" style={{ width: 15, height: 15 }} />
 );
-
-const createOption = (title, details, value) => {
-  return { title, details, value };
-};
 
 export default ({
   sqon,
@@ -57,11 +52,13 @@ export default ({
             setValue(inputValue);
 
             if (inputValue) {
+              setLoading(true);
               const searchResults = await searchService(inputValue);
 
               const searchOptions = searchResults.slice(0, resultSize).map(optionTransformer);
               setOptions(searchOptions);
               setShowOptions(true);
+              setLoading(false);
             } else {
               setOptions([]);
               setShowOptions(false);
