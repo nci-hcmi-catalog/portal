@@ -2,6 +2,7 @@ import React from 'react';
 import Component from 'react-component-component';
 import { Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
+import { removeSQON } from '@arranger/components/dist/SQONView/utils';
 import SplitPane from 'react-split-pane';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
@@ -25,6 +26,10 @@ import searchStyles from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
 
 let stable = true;
+
+const filteredSqon = sqon => {
+  return removeSQON('expanded', sqon);
+};
 
 export default ({
   setState,
@@ -86,7 +91,7 @@ export default ({
               min-height: 50px;
             `}
           >
-            {!sqon && (
+            {!filteredSqon(sqon) && (
               <Row
                 css={`
                   padding: 0 14px;
@@ -101,7 +106,7 @@ export default ({
             )}
             <CurrentSQON
               {...props}
-              sqon={sqon}
+              sqon={filteredSqon(sqon)}
               setSQON={setSQON}
               index={props.index}
               graphqlField={props.index}
