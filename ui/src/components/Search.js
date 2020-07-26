@@ -3,15 +3,19 @@ import Component from 'react-component-component';
 import { Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
 import SplitPane from 'react-split-pane';
+import Popup from 'reactjs-popup';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
 
 import ArrowIcon from './../icons/ArrowIcon';
+import QuestionMarkIcon from './../icons/QuestionMarkIcon';
+
 import LastUpdatedDate from './LastUpdatedDate';
 import ModelNameSearch from 'components/ModelNameSearch';
 import PrimarySiteChart from 'components/charts/PrimarySiteChart';
 import MultipleModelsChart from 'components/charts/MultipleModelsChart';
 import GrowthChart from 'components/charts/GrowthChart';
+import Toggle from 'components/input/Toggle';
 import TableEntity from 'components/TableEntity';
 import TableExpandedCell from 'components/TableExpandedCell';
 import TableMatchedModelsCell from 'components/TableMatchedModelsCell';
@@ -131,6 +135,45 @@ export default ({
                 </>
               )}
             </Component>
+          </Row>
+          <Row alignItems={'center'}>
+            <Toggle id="expanded-toggle" initialValue={false} />
+            <label
+              htmlFor="expanded-toggle"
+              css={`
+                font-size: 12px;
+                margin-left: 5px;
+              `}
+            >
+              {false ? 'Hide' : 'Show'} XXX unexpanded models
+            </label>
+            <Popup
+              trigger={() => (
+                <div
+                  css={`
+                    display: flex;
+                    margin-left: 5px;
+                  `}
+                >
+                  <QuestionMarkIcon />
+                </div>
+              )}
+              on="hover"
+              position={'top right'}
+              width={'225px'}
+              mouseEnterDelay={100}
+            >
+              <div
+                css={`
+                  font-size: 12px;
+                `}
+              >
+                <b>Expanded models</b> are available for purchase on ATCC.
+                <br />
+                <b>Unexpanded models</b> have passed sequencing validation QC, but are not yet
+                available for purchase.
+              </div>
+            </Popup>
           </Row>
           <Component shouldUpdate={() => stable}>
             {() => (
