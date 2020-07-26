@@ -2,7 +2,6 @@ import React from 'react';
 import Component from 'react-component-component';
 import { Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
-import { removeSQON } from '@arranger/components/dist/SQONView/utils';
 import SplitPane from 'react-split-pane';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
@@ -20,16 +19,14 @@ import TableList from 'components/TableList';
 import ShareButton from 'components/ShareButton';
 import ModelList from 'components/ModelList';
 import TextInput from './TextInput';
+
 import globals from '../utils/globals';
+import { filteredSqon } from 'utils/sqonHelpers';
 
 import searchStyles from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
 
 let stable = true;
-
-const filteredSqon = sqon => {
-  return removeSQON('expanded', sqon);
-};
 
 export default ({
   setState,
