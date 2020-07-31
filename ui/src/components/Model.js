@@ -333,13 +333,17 @@ export default ({ modelName }) => (
                         {modelImages.map(
                           ({
                             file_id,
+                            file_url,
                             file_name,
                             scale_bar_length,
                             magnification,
                             passage_number,
                           }) => (
                             <ModelSlide key={file_id}>
-                              <img src={`${imgPath}/${file_id}`} alt={`File name: ${file_name}`} />
+                              <img
+                                src={file_url ? file_url : `${imgPath}/${file_id}`}
+                                alt={`File name: ${file_name}`}
+                              />
                               {(scale_bar_length || magnification || passage_number) && (
                                 <div
                                   css={`

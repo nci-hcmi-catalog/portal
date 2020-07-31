@@ -102,7 +102,13 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
         onBlur={() => setState({ showControls: false })}
       >
         <img
-          src={file.preview ? file.preview : `${config.urls.cmsBase}/images/${file.file_id}`}
+          src={
+            file.preview
+              ? file.preview
+              : file.file_url
+              ? file.file_url
+              : `${config.urls.cmsBase}/images/${file.file_id}`
+          }
           alt={`File: ${file.file_name}`}
           height="163"
           width="215"

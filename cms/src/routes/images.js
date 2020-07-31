@@ -1,10 +1,15 @@
+import aws from 'aws-sdk';
 import express from 'express';
 import mongoose from 'mongoose';
 import multer from 'multer';
 import { Readable } from 'stream';
 import sharp from 'sharp';
+import uuid from 'uuid/v4';
 
 const imagesRouter = express.Router();
+const S3_BUCKET = process.env.S3_BUCKET;
+const IAM_USER_KEY = process.env.IAM_USER_KEY;
+const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
 
 const conn = mongoose.createConnection(
   process.env.MONGODB_URI || 'mongodb://localhost:27017/test',
@@ -18,6 +23,26 @@ conn.once('open', function() {
   console.log('GridFSBucket is ready for uploads');
 });
 
+const s3 = new aws.S3({
+  accessKeyId: IAM_USER_KEY,
+  secretAccessKey: IAM_USER_SECRET,
+});
+
+const uploadToS3 = (fileStream, fileName) => {
+  const params = {
+    Bucket: S3_BUCKET,
+    Key: `${uuid()}-${fileName}`,
+    Body: fileStream,
+  };
+
+  return new Promise(function(resolve, reject) {
+    fileStream.once('error', reject);
+    s3.upload(params)
+      .promise()
+      .then(resolve, reject);
+  });
+};
+
 imagesRouter.post('/', async (req, res) => {
   const storage = multer.memoryStorage();
   const upload = multer({ storage, limits: { fields: 1, files: 1, parts: 2 } });
@@ -30,15 +55,14 @@ imagesRouter.post('/', async (req, res) => {
     readableStream.push(req.file.buffer);
     readableStream.push(null); // push null to mark data end
 
-    let uploadStream = bucket.openUploadStream(filename);
-    readableStream.pipe(uploadStream);
-
-    uploadStream
-      .on('error', () => {
-        return res.status(500).json({ error: 'Error uploading file' });
+    uploadToS3(readableStream, filename)
+      .then(data => {
+        console.log('Successful image upload to s3: ', data);
+        return res.status(201).json({ id: data.ETag, url: data.Location, filename });
       })
-      .on('finish', () => {
-        return res.status(201).json({ id: uploadStream.id, filename });
+      .catch(err => {
+        console.error('An error occured during image upload to s3: ', err.toString());
+        return res.status(500).json({ error: 'Error uploading file' });
       });
   });
 });

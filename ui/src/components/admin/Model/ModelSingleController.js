@@ -625,7 +625,12 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     window.URL.revokeObjectURL(file.preview);
                     return [
                       ...acc,
-                      { file_name: file.name, file_type: file.type, file_id: response.data.id },
+                      {
+                        file_name: file.name,
+                        file_type: file.type,
+                        file_id: response.data.id,
+                        file_url: response.data.url,
+                      },
                     ];
                   }
                   return acc;
