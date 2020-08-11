@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 const aws = require('aws-sdk');
 const mongoose = require('mongoose');
 const stream = require('stream');
@@ -36,46 +37,78 @@ const conn = mongoose.createConnection(
   },
 );
 
-conn.once('open', () => {
-  const images = conn.db.collection('images.files').find({});
-  const bucket = new mongoose.mongo.GridFSBucket(conn.db, { bucketName: 'images' });
-  console.log('GridFSBucket is ready for downloads');
+conn.once('open', async () => {
+  try {
+    const images = await conn.db.collection('images.files').find({});
+    const bucket = await new mongoose.mongo.GridFSBucket(conn.db, { bucketName: 'images' });
+    console.log('Connection to db is ready, initiating image migration to S3...');
 
-  images.forEach(image => {
-    const ObjectId = mongoose.Types.ObjectId;
-    const imageId = new ObjectId(image._id);
-    const fileName = image.filename;
-    const fileStream = new stream.Readable();
+    let migrations = [];
+    let image;
+    while ((image = await images.next()) != null) {
+      migrations.push(
+        new Promise(async (resolve, reject) => {
+          const ObjectId = mongoose.Types.ObjectId;
+          const imageId = new ObjectId(image._id);
+          const imageIdStr = String(image._id);
+          const fileName = image.filename;
+          const fileStream = new stream.Readable();
 
-    bucket
-      .openDownloadStream(imageId)
-      .on('error', err =>
-        console.log('An error occured trying to download from CMS for upload to S3: ', err),
-      )
-      .on('data', chunk => fileStream.push(chunk))
-      .on('end', () => {
-        fileStream.push(null);
-        uploadToS3(fileName, fileStream)
-          .then(data => {
-            console.log('Successful image upload to s3: ', data);
-            const model = conn.db
-              .collection('models')
-              .findOneAndUpdate(
-                { 'files.file_id': String(image._id) },
-                {
-                  $set: {
-                    'files.$.file_url': data.Location,
-                  },
-                },
-              )
-              .then(_ => console.log(`Successfully updated ${model.name} to use s3 image url`))
-              .catch(err =>
-                console.log('An error occured during model update to s3 URL', err.toString()),
+          bucket
+            .openDownloadStream(imageId)
+            .on('error', err => {
+              console.error(
+                'An error occured trying to download image from mongo for upload to S3: ',
+                err,
               );
-          })
-          .catch(err => {
-            console.error('An error occured during image upload to s3: ', err.toString());
-          });
+              reject(err);
+            })
+            .on('data', async chunk => await fileStream.push(chunk))
+            .on('end', async () => {
+              await fileStream.push(null);
+              await uploadToS3(fileName, fileStream)
+                .then(async data => {
+                  console.log('Successful image upload to S3: ', data);
+                  await conn.db
+                    .collection('models')
+                    .findOneAndUpdate(
+                      { 'files.file_id': imageIdStr },
+                      {
+                        $set: {
+                          'files.$.file_url': data.Location,
+                        },
+                      },
+                    )
+                    .then(_ => {
+                      console.log('Successfully updated model to use S3 image URL!');
+                      resolve();
+                    })
+                    .catch(err => {
+                      console.error(
+                        'An error occured while updating the model to use S3 image URL: ',
+                        err.toString(),
+                      );
+                      reject(err);
+                    });
+                })
+                .catch(err => {
+                  console.error('An error occured during image upload to S3: ', err.toString());
+                  reject(err);
+                });
+            });
+        }),
+      );
+    }
+
+    Promise.all(migrations)
+      .then(() => {
+        console.log('Image migration completed successfully, closing connection to db.');
+        conn.close();
+      })
+      .catch(err => {
+        console.error('An error occurred during image migration: ', err.toString());
       });
-  });
+  } catch (err) {
+    console.error('An unexpected error occurred: ', err.toString());
+  }
 });
