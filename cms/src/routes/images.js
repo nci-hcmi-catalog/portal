@@ -58,7 +58,7 @@ imagesRouter.post('/', async (req, res) => {
     uploadToS3(readableStream, filename)
       .then(data => {
         console.log('Successful image upload to s3: ', data);
-        return res.status(201).json({ id: data.ETag, url: data.Location, filename });
+        return res.status(201).json({ id: data.Key, url: data.Location, filename });
       })
       .catch(err => {
         console.error('An error occured during image upload to s3: ', err.toString());
@@ -95,25 +95,34 @@ imagesRouter.get('/:id', async (req, res) => {
 
 export const deleteImage = async id => {
   try {
-    const ObjectId = mongoose.Types.ObjectId;
-    const imageId = new ObjectId(id);
+    const params = {
+      Bucket: S3_BUCKET,
+      Key: id,
+    };
 
-    try {
-      await bucket.delete(imageId);
-      return {
-        code: 200,
-        msg: `image with id ${id} deleted`,
-      };
-    } catch (e) {
-      return {
-        code: 500,
-        msg: `error removing image with id ${id}`,
-      };
-    }
+    s3.deleteObject(params, (err, data) => {
+      if (err) {
+        console.error(`An error occured deleting image ${id} from S3: `, err.toString());
+        return {
+          code: 400,
+          msg: `image with id ${id} not found`,
+        };
+      } else {
+        console.log(`Successfully deleted image ${id} from S3.`);
+        return {
+          code: 200,
+          msg: `image with id ${id} deleted`,
+        };
+      }
+    });
   } catch (err) {
+    console.error(
+      `An unexpected error occurred while attempting to delete ${id}: `,
+      err.toString(),
+    );
     return {
-      code: 400,
-      msg: `image with id ${id} not found`,
+      code: 500,
+      msg: `error removing image with id ${id}`,
     };
   }
 };

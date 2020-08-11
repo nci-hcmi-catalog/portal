@@ -75,6 +75,7 @@ conn.once('open', async () => {
                       { 'files.file_id': imageIdStr },
                       {
                         $set: {
+                          'files.$.file_id': data.Key,
                           'files.$.file_url': data.Location,
                         },
                       },
