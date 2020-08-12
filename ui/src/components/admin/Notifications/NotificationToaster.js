@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Component from 'react-component-component';
 import { scroller } from 'react-scroll';
 import Spinner from 'react-spinkit';
@@ -90,74 +90,74 @@ const renderIcon = type => {
   }
 };
 
-export default () => (
-  <NotificationsContext.Consumer>
-    {({ state: { notifications }, clearNotification }) => (
-      <Component
-        notifications={notifications}
-        didUpdate={({ props, prevProps }) => {
-          // If we have new notifications (do not scroll on removal)
-          if (props.notifications.length > prevProps.notifications.length) {
-            scrollIntoView();
-          }
-        }}
-      >
-        <NotificationsToaster name="notifications-toaster">
-          {notifications.map(notification => (
-            <Notification key={notification.id} type={notification.type}>
-              {renderIcon(notification.type)}
-              <Col>
-                <Message>{notification.message}</Message>
-                {notification.details && (
-                  <Details>
-                    {notification.details}
-                    {notification.bulkErrors && notification.bulkErrors.length > 0 && (
-                      <ErrorsCol marginTop="16px">
-                        {notification.bulkErrors.map(error => {
-                          const details =
-                            error.name === 'ValidationError' ? error.errors : error.details;
-                          const name =
-                            error.name === 'ValidationError' ? error.value.name : error.name;
-                          return (
-                            <ErrorsCol marginBottom="16px">
-                              <ErrorsRow>
-                                <ErrorLabel>Name: </ErrorLabel>
-                                <ErrorText>{name}</ErrorText>
-                              </ErrorsRow>
-                              <ErrorsRow>
-                                <ErrorLabel>Errors: </ErrorLabel>
-                                <ErrorsCol>
-                                  {details.map(detail => (
-                                    <ErrorText>{detail}</ErrorText>
-                                  ))}
-                                </ErrorsCol>
-                              </ErrorsRow>
-                            </ErrorsCol>
-                          );
-                        })}
-                      </ErrorsCol>
-                    )}
-                  </Details>
-                )}
-                {notification.link && (
-                  <MessageLink to={notification.link} type={notification.type} target="_blank">
-                    {notification.linkText || 'Link'}
-                  </MessageLink>
-                )}
-              </Col>
-              {notification.type !== NOTIFICATION_TYPES.LOADING && (
-                <CrossCircleIcon
-                  width={'17px'}
-                  height={'17px'}
-                  fill={trout}
-                  style={closeIcon}
-                  onClick={() => clearNotification(notification.id)}
-                />
+export default () => {
+  const { notifications, clearNotification } = useContext(NotificationsContext);
+
+  return (
+    <Component
+      notifications={notifications}
+      didUpdate={({ props, prevProps }) => {
+        // If we have new notifications (do not scroll on removal)
+        if (props.notifications.length > prevProps.notifications.length) {
+          scrollIntoView();
+        }
+      }}
+    >
+      <NotificationsToaster name="notifications-toaster">
+        {notifications.map(notification => (
+          <Notification key={notification.id} type={notification.type}>
+            {renderIcon(notification.type)}
+            <Col>
+              <Message>{notification.message}</Message>
+              {notification.details && (
+                <Details>
+                  {notification.details}
+                  {notification.bulkErrors && notification.bulkErrors.length > 0 && (
+                    <ErrorsCol marginTop="16px">
+                      {notification.bulkErrors.map(error => {
+                        const details =
+                          error.name === 'ValidationError' ? error.errors : error.details;
+                        const name =
+                          error.name === 'ValidationError' ? error.value.name : error.name;
+                        return (
+                          <ErrorsCol marginBottom="16px">
+                            <ErrorsRow>
+                              <ErrorLabel>Name: </ErrorLabel>
+                              <ErrorText>{name}</ErrorText>
+                            </ErrorsRow>
+                            <ErrorsRow>
+                              <ErrorLabel>Errors: </ErrorLabel>
+                              <ErrorsCol>
+                                {details.map(detail => (
+                                  <ErrorText>{detail}</ErrorText>
+                                ))}
+                              </ErrorsCol>
+                            </ErrorsRow>
+                          </ErrorsCol>
+                        );
+                      })}
+                    </ErrorsCol>
+                  )}
+                </Details>
               )}
-            </Notification>
-          ))}
-        </NotificationsToaster>
-      </Component>
-    )}
-  </NotificationsContext.Consumer>
-);
+              {notification.link && (
+                <MessageLink to={notification.link} type={notification.type} target="_blank">
+                  {notification.linkText || 'Link'}
+                </MessageLink>
+              )}
+            </Col>
+            {notification.type !== NOTIFICATION_TYPES.LOADING && (
+              <CrossCircleIcon
+                width={'17px'}
+                height={'17px'}
+                fill={trout}
+                style={closeIcon}
+                onClick={() => clearNotification(notification.id)}
+              />
+            )}
+          </Notification>
+        ))}
+      </NotificationsToaster>
+    </Component>
+  );
+};
