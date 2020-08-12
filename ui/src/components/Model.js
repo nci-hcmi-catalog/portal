@@ -25,7 +25,6 @@ import base from 'theme';
 
 import modelImageProcessor from 'utils/modelImageProcessor';
 import apiDataProcessor from 'utils/apiDataProcessor';
-import { imgPath } from 'utils/constants';
 
 const {
   keyedPalette: { bombay, brandPrimary, pelorousapprox },
@@ -340,10 +339,7 @@ export default ({ modelName }) => (
                             passage_number,
                           }) => (
                             <ModelSlide key={file_id}>
-                              <img
-                                src={file_url ? file_url : `${imgPath}/${file_id}`}
-                                alt={`File name: ${file_name}`}
-                              />
+                              <img src={file_url} alt={`File name: ${file_name}`} />
                               {(scale_bar_length || magnification || passage_number) && (
                                 <div
                                   css={`
