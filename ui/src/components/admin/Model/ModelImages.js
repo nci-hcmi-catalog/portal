@@ -331,7 +331,7 @@ export default ({ data: { updatedAt } }) => {
               )}
               <ImageDropper
                 onDrop={async (acceptedFiles, rejectedFiles) => {
-                  if (rejectedFiles) {
+                  if (rejectedFiles.length) {
                     await appendNotification({
                       type: NOTIFICATION_TYPES.ERROR,
                       message: 'Image Upload Error',

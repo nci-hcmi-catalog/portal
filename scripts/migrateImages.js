@@ -1,34 +1,12 @@
 /* eslint-disable no-loop-func */
-const aws = require('aws-sdk');
 const mongoose = require('mongoose');
 const stream = require('stream');
-const uuid = require('uuid/v4');
 
-require('dotenv').config();
+// import this and override process.env BEFORE importing s3 services
+const esUitils = require('./esUtils');
+process.env = esUitils.config;
 
-const S3_BUCKET = process.env.S3_BUCKET;
-const IAM_USER_KEY = process.env.IAM_USER_KEY;
-const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
-
-const s3 = new aws.S3({
-  accessKeyId: IAM_USER_KEY,
-  secretAccessKey: IAM_USER_SECRET,
-});
-
-const uploadToS3 = (fileName, fileStream) => {
-  const params = {
-    Bucket: S3_BUCKET,
-    Key: `${uuid()}-${fileName}`,
-    Body: fileStream,
-  };
-
-  return new Promise(function(resolve, reject) {
-    fileStream.once('error', reject);
-    s3.upload(params)
-      .promise()
-      .then(resolve, reject);
-  });
-};
+const { uploadToS3 } = require('./../cms/src/services/s3/s3');
 
 const conn = mongoose.createConnection(
   process.env.MONGODB_URI || 'mongodb://localhost:27017/test',
@@ -43,7 +21,7 @@ conn.once('open', async () => {
     const bucket = await new mongoose.mongo.GridFSBucket(conn.db, { bucketName: 'images' });
     console.log('Connection to db is ready, initiating image migration to S3...');
 
-    let migrations = [];
+    const migrations = [];
     let image;
     while ((image = await images.next()) != null) {
       migrations.push(
