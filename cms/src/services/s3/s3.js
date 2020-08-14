@@ -17,7 +17,7 @@ const uploadToS3 = (fileName, fileStream) => {
     Body: fileStream,
   };
 
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     fileStream.once('error', reject);
     s3.upload(params)
       .promise()
@@ -48,7 +48,24 @@ const deleteFromS3 = id => {
   });
 };
 
+const testS3Connection = () => {
+  const params = {
+    Bucket: S3_BUCKET,
+  };
+
+  return new Promise((resolve, reject) => {
+    s3.headBucket(params, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+};
+
 module.exports = {
   uploadToS3,
   deleteFromS3,
+  testS3Connection,
 };
