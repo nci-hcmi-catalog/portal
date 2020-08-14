@@ -348,16 +348,18 @@ export default ({ data: { updatedAt } }) => {
                     return;
                   }
                   const uploaded = await uploadImages(acceptedFiles);
-                  saveForm({
-                    values,
-                    images: [...files, ...uploaded],
-                    successNotification: {
-                      type: 'success',
-                      message: `${Object.keys(uploaded).length} image(s) uploaded!`,
-                      details:
-                        'Image(s) have been successfully saved to the model, however not yet published.',
-                    },
-                  });
+                  if (uploaded.length > 0) {
+                    saveForm({
+                      values,
+                      images: [...files, ...uploaded],
+                      successNotification: {
+                        type: 'success',
+                        message: `${Object.keys(uploaded).length} image(s) uploaded!`,
+                        details:
+                          'Image(s) have been successfully saved to the model, however not yet published.',
+                      },
+                    });
+                  }
                 }}
                 display={!files.length}
               />
