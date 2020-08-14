@@ -643,7 +643,6 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       }
                     })
                     .catch(async err => {
-                      debugger;
                       await appendNotification({
                         type: NOTIFICATION_TYPES.ERROR,
                         message: 'Image Upload Error',
