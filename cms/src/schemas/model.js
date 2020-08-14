@@ -8,6 +8,7 @@ const deleteEmptyStrings = v => {
 
 const FilesSchema = new mongoose.Schema({
   file_id: { type: String, es_indexed: true },
+  file_url: { type: String, es_indexed: true },
   file_name: { type: String, es_indexed: true },
   file_type: { type: String, es_indexed: true },
   scale_bar_length: { type: String, es_indexed: true },

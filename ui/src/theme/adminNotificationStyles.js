@@ -43,7 +43,7 @@ export const Notification = styled('div')`
   background: ${({ type }) => {
     if (type === NOTIFICATION_TYPES.ERROR) {
       return errorBkgColour;
-    } else if (type === NOTIFICATION_TYPES.WARNING) {
+    } else if (type === NOTIFICATION_TYPES.WARNING || type === NOTIFICATION_TYPES.LOADING) {
       return warningBkgColour;
     } else {
       return successBkgColour;
@@ -53,7 +53,7 @@ export const Notification = styled('div')`
   border-color: ${({ type }) => {
     if (type === NOTIFICATION_TYPES.ERROR) {
       return errorColour;
-    } else if (type === NOTIFICATION_TYPES.WARNING) {
+    } else if (type === NOTIFICATION_TYPES.WARNING || type === NOTIFICATION_TYPES.LOADING) {
       return warningColour;
     } else {
       return successColour;

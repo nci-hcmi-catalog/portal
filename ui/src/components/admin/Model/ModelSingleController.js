@@ -613,6 +613,12 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   let formData = new FormData();
                   formData.append('filename', file.name);
                   formData.append('image', file);
+                  const loadingNotification = await appendNotification({
+                    type: NOTIFICATION_TYPES.LOADING,
+                    message: 'Uploading Image(s)',
+                    details: 'You will be notified when the upload is complete.',
+                    timeout: false,
+                  });
                   const response = await fetchData({
                     url: `${baseUrl}/images`,
                     data: formData,
@@ -623,9 +629,15 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   });
                   if (response.status >= 200 && response.status < 300) {
                     window.URL.revokeObjectURL(file.preview);
+                    loadingNotification.clear();
                     return [
                       ...acc,
-                      { file_name: file.name, file_type: file.type, file_id: response.data.id },
+                      {
+                        file_name: file.name,
+                        file_type: file.type,
+                        file_id: response.data.id,
+                        file_url: response.data.url,
+                      },
                     ];
                   }
                   return acc;
