@@ -9,6 +9,9 @@ import { unpublishModel, unpublishOneFromES } from '../services/elastic-search/u
 import { backupFields } from '../schemas/descriptions/modelVariant';
 import csvStream from '../helpers/streamAsCSV';
 
+import getLogger from '../logger';
+const logger = getLogger('routes/action');
+
 const actionRouter = express.Router();
 
 actionRouter.post('/publish/:name', async (req, res) => {
@@ -21,7 +24,7 @@ actionRouter.post('/publish/:name', async (req, res) => {
     .then(() => publishModel({ name }))
     .then(() => res.json({ success: `${name} has been successfully published` }))
     .catch(error => {
-      console.log(error);
+      logger.error(error);
       res.status(500).json({
         error: error,
       });
@@ -34,7 +37,7 @@ actionRouter.post('/unpublish/:name', async (req, res) => {
     await unpublishModel(name);
     res.json({ success: `${name} has been successfully unpublished` });
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     res.status(500).json({
       error: error,
     });

@@ -8,6 +8,10 @@ import { indexOneToES, indexMatchedModelsToES } from '../services/elastic-search
 import { unpublishManyFromES } from '../services/elastic-search/unpublish';
 import csvStream from '../helpers/streamAsCSV';
 import { backupFields } from '../schemas/descriptions/model';
+
+import getLogger from '../logger';
+const logger = getLogger('routes/bulk');
+
 const bulkRouter = express.Router();
 
 bulkRouter.post('/publish', async (req, res) => {
@@ -46,7 +50,7 @@ bulkRouter.post('/publish', async (req, res) => {
       });
     })
     .catch(error => {
-      console.log(error);
+      logger.error(error);
       res.status(500).json({
         error: error,
       });
@@ -75,7 +79,7 @@ bulkRouter.post('/unpublish', async (req, res) => {
     })
     .then(() => res.json({ success: `${deleteCount} models unpublished` }))
     .catch(error => {
-      console.log(error);
+      logger.error(error);
       res.status(500).json({
         error: error,
       });
@@ -97,7 +101,7 @@ bulkRouter.post('/delete', async (req, res) => {
     )
     .then(() => res.json({ success: `${req.body.length} models deleted` }))
     .catch(error => {
-      console.log(error);
+      logger.error(error);
       res.status(500).json({
         error: error,
       });

@@ -3,6 +3,9 @@ import multer from 'multer';
 import { Readable } from 'stream';
 import { uploadToS3, deleteFromS3 } from './../services/s3';
 
+import getLogger from '../logger';
+const logger = getLogger('routes/images');
+
 const imagesRouter = express.Router();
 
 imagesRouter.post('/', async (req, res) => {
@@ -19,11 +22,11 @@ imagesRouter.post('/', async (req, res) => {
 
     uploadToS3(fileName, fileStream)
       .then(data => {
-        console.log('Successful image upload to s3: ', data);
+        logger.info({ data }, 'Successful image upload to s3');
         return res.status(201).json({ id: data.Key, url: data.Location, fileName });
       })
-      .catch(err => {
-        console.error('An error occured during image upload to s3: ', err.toString());
+      .catch(error => {
+        logger.error({ error }, 'An error occured during image upload to s3');
         return res.status(500).json({ error: 'Error uploading file' });
       });
   });
@@ -32,10 +35,10 @@ imagesRouter.post('/', async (req, res) => {
 export const deleteImage = async id => {
   try {
     deleteFromS3(id);
-  } catch (err) {
-    console.error(
-      `An unexpected error occurred while attempting to delete ${id}: `,
-      err.toString(),
+  } catch (error) {
+    logger.error(
+      { error, imageId: id },
+      `An unexpected error occurred while attempting to delete image from S3`,
     );
     return {
       code: 500,

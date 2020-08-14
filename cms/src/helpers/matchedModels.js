@@ -3,6 +3,9 @@ import Model from '../schemas/model';
 import { modelStatus } from './modelStatus';
 import { uniq } from 'lodash';
 
+import getLogger from '../logger';
+const logger = getLogger('helpers/matchedModels');
+
 /* Worker methods, take models as inputs */
 const createMatchedModels = async models => {
   const modelIds = models.map(model => model._id);
@@ -60,10 +63,9 @@ const clearModelFromSets = async model => {
       await matchedModels.save();
     }
   } else {
-    console.warn(
-      `Tried to find matched models that doesn't exist in DB - model: ${
-        model.name
-      }, matchedModels: ${model.matchedModels}`,
+    logger.warn(
+      { name: model.name, matchedModels: model.matchedModels },
+      `Attempted to find matched models that doesn't exist in DB`,
     );
   }
   // Clear the matchedModels reference from this model

@@ -7,6 +7,9 @@ import { getLoggedInUser } from './helpers/authorizeUserAccess';
 import userValidation from './validation/user';
 import { transform } from 'lodash';
 
+import getLogger from './logger';
+const logger = getLogger('hooks');
+
 export const validateYup = (req, res, next) => {
   getSaveValidation()
     .then(validation => {
@@ -16,7 +19,7 @@ export const validateYup = (req, res, next) => {
       });
     })
     .catch(error => {
-      console.log(error);
+      logger.error(error);
       res.status(500).json({
         error,
       });
@@ -27,7 +30,7 @@ export const preModelDelete = (req, res, next) => {
   unpublishModel(req.params.id)
     .then(() => next())
     .catch(error => {
-      console.log(error);
+      logger.error(error);
       res.status(500).json({
         error,
       });
@@ -35,7 +38,6 @@ export const preModelDelete = (req, res, next) => {
 };
 
 export const preUpdate = (req, res, next) => {
-  console.log('preUpdate');
   getSaveValidation()
     .then(validation => {
       runYupValidatorFailFast(validation, [req.body])
@@ -66,9 +68,10 @@ export const preUpdate = (req, res, next) => {
         .then(() => next());
     })
     .catch(error => {
-      console.log(error);
+      logger.error(error);
       res.status(500).json({
         error,
+        xyz: 123,
       });
     });
 };
@@ -124,7 +127,7 @@ export const validateUserRequest = (req, res, next) => {
       next();
     })
     .catch(error => {
-      console.log(error);
+      logger.error(error);
       res.status(500).json({
         error,
       });
