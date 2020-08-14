@@ -19,8 +19,6 @@ import TrashIcon from 'icons/TrashIcon';
 import DownloadIcon from 'icons/DownloadIcon';
 import modelListEmptyOrange from 'assets/icon-modellist-empty-orange.svg';
 
-import { imgPath } from 'utils/constants';
-
 const EmptyList = () => (
   <div className="empty-list">
     <img src={modelListEmptyOrange} alt="Empty list icon" width="26" height="30" />
@@ -102,7 +100,7 @@ export default () => (
                                 <div className="model-list-model" key={idx}>
                                   {modelImages.length > 0 ? (
                                     <img
-                                      src={`${imgPath}/${modelImages[0].file_id}`}
+                                      src={modelImages[0].file_url}
                                       alt="model representation"
                                       width="100"
                                       height="74"
