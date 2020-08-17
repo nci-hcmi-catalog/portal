@@ -10,7 +10,7 @@ const s3 = new aws.S3({
   secretAccessKey: IAM_USER_SECRET,
 });
 
-const uploadToS3 = (fileName, fileStream) => {
+const uploadToS3 = (fileName, fileStream, modelName) => {
   const params = {
     Bucket: S3_BUCKET,
     Key: `${uuid()}-${fileName}`,
@@ -18,10 +18,14 @@ const uploadToS3 = (fileName, fileStream) => {
   };
 
   return new Promise((resolve, reject) => {
-    fileStream.once('error', reject);
-    s3.upload(params)
-      .promise()
-      .then(resolve, reject);
+    fileStream.once('error', err => reject({ err, fileName, modelName }));
+    s3.upload(params, (err, data) => {
+      if (err) {
+        reject({ err, fileName, modelName });
+      } else {
+        resolve({ data, fileName, modelName });
+      }
+    });
   });
 };
 
