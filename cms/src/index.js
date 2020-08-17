@@ -123,5 +123,5 @@ app.use(userRouter);
 // start app
 const http = new Server(app);
 http.listen(port, async () => {
-  logger.info({ port }, `CMS Started!!!`);
+  logger.info({ port }, `CMS Started!`);
 });
