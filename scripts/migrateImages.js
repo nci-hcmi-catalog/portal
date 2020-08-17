@@ -31,7 +31,7 @@ const migrateImage = async ({
     .on('end', async () => {
       await fileStream.push(null);
       await uploadToS3(fileName, fileStream, modelName)
-        .then(async (data, fileName, modelName) => {
+        .then(async ({ data, fileName, modelName }) => {
           console.log(
             `Successful image upload of image ${fileName} from model ${modelName} to S3: `,
             data,
@@ -55,7 +55,7 @@ const migrateImage = async ({
               );
               resolve();
             })
-            .catch((err, fileName, modelName) => {
+            .catch(({ err, fileName, modelName }) => {
               console.error(
                 `An error occured while updating the model ${modelName} to use S3 image URL for image ${fileName}: `,
                 err.toString(),
@@ -63,7 +63,7 @@ const migrateImage = async ({
               reject(err);
             });
         })
-        .catch((err, fileName, modelName) => {
+        .catch(({ err, fileName, modelName }) => {
           console.error(
             `An error occured during upload to S3 for image ${fileName} of model ${modelName}: `,
             err.toString(),
@@ -71,7 +71,7 @@ const migrateImage = async ({
           reject(err);
         });
     });
-}
+};
 
 const conn = mongoose.createConnection(
   process.env.MONGODB_URI || 'mongodb://localhost:27017/test',
