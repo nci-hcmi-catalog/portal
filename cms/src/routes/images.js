@@ -18,11 +18,11 @@ imagesRouter.post('/', async (req, res) => {
     fileStream.push(null); // push null to mark data end
 
     uploadToS3(fileName, fileStream)
-      .then(data => {
+      .then(({ data }) => {
         console.log('Successful image upload to s3: ', data);
         return res.status(201).json({ id: data.Key, url: data.Location, fileName });
       })
-      .catch(err => {
+      .catch(({ err }) => {
         console.error('An error occured during image upload to s3: ', err.toString());
         return res.status(500).json({ error: 'Error uploading file' });
       });
