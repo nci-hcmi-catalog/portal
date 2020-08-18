@@ -13,7 +13,7 @@ const s3 = new aws.S3({
   secretAccessKey: IAM_USER_SECRET,
 });
 
-const uploadToS3 = (fileName, fileStream) => {
+const uploadToS3 = async (fileName, fileStream) => {
   const Key = `${uuid()}-${fileName}`;
   const params = {
     Bucket: S3_BUCKET,
@@ -26,26 +26,29 @@ const uploadToS3 = (fileName, fileStream) => {
     fileStream.once('error', reject);
     s3.upload(params)
       .promise()
-      .then(resolve, reject)
+      .then(data => {
+        logger.audit({ Key, Bucket: S3_BUCKET }, 's3 upload', `Successfully uploaded object to S3`);
+        resolve(data);
+      })
       .catch(reject);
   });
 };
 
-const deleteFromS3 = id => {
+const deleteFromS3 = async id => {
   const params = {
     Bucket: S3_BUCKET,
     Key: id,
   };
 
-  s3.deleteObject(params, (err, data) => {
+  s3.deleteObject(params, (error, data) => {
     if (error) {
-      logger.error({ error, imageId: id }, `An error occured deleting image from S3`);
+      logger.error({ error, imageId: id }, `An error occured deleting object from S3`);
       return {
         code: 400,
         msg: `image with id ${id} not found`,
       };
     } else {
-      logger.info({ imageId: id }, `Successfully deleted image from S3`);
+      logger.audit(params, 's3 delete', 'Successfully deleted image from S3');
       return {
         code: 200,
         msg: `image with id ${id} deleted`,

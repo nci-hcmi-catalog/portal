@@ -30,6 +30,7 @@ import {
   validateYup,
   preModelDelete,
   postUpdate,
+  postCreate,
   outputFn,
   validateUserRequest,
 } from './hooks';
@@ -88,6 +89,7 @@ if (process.env.AUTH_ENABLED !== 'false') {
 // configure endpoints
 restify.serve(modelRouter, Model, {
   preCreate: validateYup,
+  postCreate,
   preUpdate,
   preDelete: preModelDelete,
   postUpdate: postUpdate,

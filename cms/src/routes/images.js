@@ -11,8 +11,8 @@ const imagesRouter = express.Router();
 imagesRouter.post('/', async (req, res) => {
   const storage = multer.memoryStorage();
   const upload = multer({ storage, limits: { fields: 1, files: 1, parts: 2 } });
-  upload.single('image')(req, res, err => {
-    if (err) {
+  upload.single('image')(req, res, error => {
+    if (error) {
       return res.status(500).json({ error: 'upload request failed' });
     }
     const fileName = req.body.filename;
@@ -22,7 +22,6 @@ imagesRouter.post('/', async (req, res) => {
 
     uploadToS3(fileName, fileStream)
       .then(data => {
-        logger.info({ data }, 'Successful image upload to s3');
         return res.status(201).json({ id: data.Key, url: data.Location, fileName });
       })
       .catch(error => {

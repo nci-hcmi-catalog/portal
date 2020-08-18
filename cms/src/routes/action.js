@@ -8,6 +8,7 @@ import { publishModel, indexMatchedModelsToES } from '../services/elastic-search
 import { unpublishModel, unpublishOneFromES } from '../services/elastic-search/unpublish';
 import { backupFields } from '../schemas/descriptions/modelVariant';
 import csvStream from '../helpers/streamAsCSV';
+import { getLoggedInUser } from '../helpers/authorizeUserAccess';
 
 import getLogger from '../logger';
 const logger = getLogger('routes/action');
@@ -16,6 +17,7 @@ const actionRouter = express.Router();
 
 actionRouter.post('/publish/:name', async (req, res) => {
   const { name } = req.params;
+
   const validation = await getPublishValidation();
   Model.find({
     name,

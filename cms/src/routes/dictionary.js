@@ -143,6 +143,11 @@ draftRouter.patch('/', async (req, res) => {
 
     draft.stats = DictionaryHelper.countDraftStats(draft);
     await draftDoc.save();
+    logger.audit(
+      { field, parent, dependentName, original, updated },
+      'draft updated',
+      'Dictionary draft value edited',
+    );
 
     // const output = await DictionaryHelper.getDictionaryDraft();
     res.json(draftDoc);
@@ -238,6 +243,11 @@ draftRouter.post('/', async (req, res) => {
     }
     draft.stats = DictionaryHelper.countDraftStats(draft);
     await draftDoc.save();
+    logger.audit(
+      { field, parent, dependentName, value },
+      'draft updated',
+      'Dictionary draft value added',
+    );
 
     // const output = await DictionaryHelper.getDictionaryDraft();
     res.json(draftDoc);
@@ -334,6 +344,11 @@ draftRouter.post('/remove', async (req, res) => {
     }
     draft.stats = DictionaryHelper.countDraftStats(draft);
     await draftDoc.save();
+    logger.audit(
+      { field, parent, dependentName, value },
+      'draft updated',
+      'Dictionary draft new value removed',
+    );
 
     // const output = await DictionaryHelper.getDictionaryDraft();
     res.json(draftDoc);

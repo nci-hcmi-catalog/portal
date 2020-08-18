@@ -8,7 +8,7 @@ import indexEsUpdate from './update';
 import { get } from 'lodash';
 
 import getLogger from '../../logger';
-const logger = getLogger('services/elastic-search');
+const logger = getLogger('services/elastic-search/publish');
 
 export const publishModel = async filter => {
   try {
@@ -45,13 +45,15 @@ export const indexOneToES = filter => {
               doc.populatedMatches = matches;
             }
             doc.esIndex((err, res) => {
-              err
-                ? reject(err)
-                : // Not waiting for promise to resolve as this is just bookkeeping
-                  indexEsUpdate() &&
+              if (err) {
+                reject(err);
+              } else {
+                indexEsUpdate() &&
                   resolve({
                     status: `Indexing successful with status: ${res.result}`,
                   });
+                logger.audit({ model: doc }, 'publish model', 'Model Published to ES');
+              }
             });
           })
           .then(
@@ -107,7 +109,10 @@ export const updateMatchedModelsToES = async filter => {
   // filter this list only to models that are published or published with changes
   const modelsToPublish = models.filter(model => model.status !== modelStatus.unpublished);
 
-  logger.debug('Models to update for matched models:', modelsToPublish.map(model => model.name));
+  logger.debug(
+    { matchedModels: modelsToPublish.map(model => model.name) },
+    'Updating matched models',
+  );
   for (let model of modelsToPublish) {
     // Publish this model to ensure it has matchedModel updates, unless skepSelf is true and this model is the one named in the method argument name
     logger.debug(`Publishing ${model.name} in order to update Matched Models.`);
