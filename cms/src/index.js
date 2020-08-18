@@ -71,7 +71,7 @@ app.use(cors());
 //     ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :req[USER_EMAIL]',
 //   ),
 // );
-app.use(pino());
+app.use(pino({ reqCustomProps: req => ({ user: getLoggedInUser(req).user_email }) }));
 
 if (process.env.AUTH_ENABLED !== 'false') {
   app.use((req, res, next) => {
