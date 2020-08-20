@@ -80,6 +80,8 @@ export default ({ sqon, setSQON }) => (
                 (largest, { doc_count }) => (doc_count > largest ? doc_count : largest),
                 0,
               ),
+              // returns a "nice" number for the y-axis upper limit
+              // ex. largest 17 => 20, largest 177 => 200, largest 1777 => 2000
               maxY = () => {
                 if (largestCount <= 1) {
                   return largestCount;
