@@ -22,10 +22,12 @@ module.exports = {
         ES_PORT: 9200,
         ES_API_VERSION: 6.1,
         ES_LOG_LEVEL: 'error',
+        LOG_LEVEL: 'debug',
       },
       env_staging: {
         NODE_ENV: 'staging',
         ES_URL: 'http://es.hcmi.cancercollaboratory.org:9200',
+        LOG_LEVEL: 'info',
       },
       env_prd: {
         REDIRECT_URIS: ['http://localhost:5050/'],
@@ -43,6 +45,7 @@ module.exports = {
         S3_BUCKET: 'hcmi-demo',
         IAM_USER_KEY: 'ADD-KEY',
         IAM_USER_SECRET: 'ADD-SECRET',
+        LOG_LEVEL: 'info',
       },
     },
   ],

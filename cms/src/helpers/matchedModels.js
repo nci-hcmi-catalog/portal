@@ -3,10 +3,18 @@ import Model from '../schemas/model';
 import { modelStatus } from './modelStatus';
 import { uniq } from 'lodash';
 
+import getLogger from '../logger';
+const logger = getLogger('helpers/matchedModels');
+
 /* Worker methods, take models as inputs */
 const createMatchedModels = async models => {
   const modelIds = models.map(model => model._id);
   const matchedModels = await MatchedModels.create({ models: modelIds });
+  logger.audit(
+    { matchedModels, models: models.map(model => model.name) },
+    'matched model set created',
+    'Created matched models set',
+  );
 
   for (let model of models) {
     model.matchedModels = matchedModels._id;
@@ -15,6 +23,7 @@ const createMatchedModels = async models => {
         ? modelStatus.unpublished
         : modelStatus.unpublishedChanges;
     model.save();
+    logger.audit({ model }, 'model saved', 'Model updated to add matched model set');
   }
   return matchedModels;
 };
@@ -54,16 +63,26 @@ const clearModelFromSets = async model => {
             ? modelStatus.unpublished
             : modelStatus.unpublishedChanges;
         await otherModel.save();
+        logger.audit(
+          { model: otherModel },
+          'model saved',
+          'Model updated to remove matched model set',
+        );
       }
       await MatchedModels.deleteOne({ _id: matchedModels._id });
+      logger.audit(
+        { matchedModels },
+        'matched model set removed',
+        'Matched models set removed due to having 1 or fewer members after update',
+      );
     } else {
       await matchedModels.save();
+      logger.audit({ matchedModels }, 'matched model set saved', 'Matched models set updated');
     }
   } else {
-    console.warn(
-      `Tried to find matched models that doesn't exist in DB - model: ${
-        model.name
-      }, matchedModels: ${model.matchedModels}`,
+    logger.warn(
+      { name: model.name, matchedModels: model.matchedModels },
+      `Attempted to find matched models that doesn't exist in DB`,
     );
   }
   // Clear the matchedModels reference from this model
@@ -73,6 +92,7 @@ const clearModelFromSets = async model => {
       ? modelStatus.unpublished
       : modelStatus.unpublishedChanges;
   await model.save();
+  logger.audit({ model }, 'model saved', 'Model updated to remove matched model set');
 
   return;
 };
@@ -131,6 +151,11 @@ const connectWithMatchedModels = async (nameToAdd, setMemberName) => {
       // Add model to the set
       matchedModels.models.push(modelToAdd._id);
       await matchedModels.save();
+      logger.audit(
+        { matchedModels, model: nameToAdd },
+        'matched model set updated',
+        'Matched models set updated to add new model',
+      );
 
       // Add reference to the set to the model
       modelToAdd.matchedModels = matchedModels._id;
@@ -139,6 +164,11 @@ const connectWithMatchedModels = async (nameToAdd, setMemberName) => {
           ? modelStatus.unpublished
           : modelStatus.unpublishedChanges;
       await modelToAdd.save();
+      logger.audit(
+        { model: modelToAdd },
+        'model saved',
+        'Model updated to add to matched model set',
+      );
 
       return matchedModels;
     } else {

@@ -12,21 +12,24 @@ import { modelStatus, ensureAuth, computeModelStatus, runYupValidatorFailSlow } 
 import { getSheetData, typeToParser, NAtoNull } from '../services/import/SheetsToMongo';
 import { getLoggedInUser } from '../helpers/authorizeUserAccess';
 
+import getLogger from '../logger';
+const logger = getLogger('routes/sync-data');
+
 export const data_sync_router = express.Router();
 
 // 2020-05-05 Jon - Pretty sure this end point is not used anywhere, might consider removing.
-
 data_sync_router.get('/sheets-data/:spreadsheetId/:sheetId', async (req, res) => {
   const { spreadsheetId, sheetId } = req.params;
 
   ensureAuth(req)
     .then(authClient => getSheetData({ authClient, spreadsheetId, sheetId }))
     .then(data => res.json(data))
-    .catch(error =>
+    .catch(error => {
+      logger.error({ error, sheetId }, 'Unexpected error occurred while reading Google Sheets');
       res.status(500).json({
         message: `An unexpected error occurred while trying to read Google Sheet ID: ${sheetId}, ${error}`,
-      }),
-    );
+      });
+    });
 });
 
 data_sync_router.get('/wrangle-cde/:spreadsheetId/:sheetId', async (req, res) => {
@@ -50,11 +53,15 @@ data_sync_router.get('/wrangle-cde/:spreadsheetId/:sheetId', async (req, res) =>
       }, {});
       return res.json(transformed);
     })
-    .catch(error =>
+    .catch(error => {
+      logger.error(
+        { error, sheetId, spreadsheetId },
+        'Unexpected error while reading Google Sheet',
+      );
       res.json({
         error: `error reading or wrangling spreadsheet ID ${spreadsheetId} with sheet ID ${sheetId}, ${error}`,
-      }),
-    );
+      });
+    });
 });
 
 const removeNullKeys = data =>
@@ -140,13 +147,17 @@ data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) =>
                   },
                 )
                   .then(() => resolve({ status: 'updated', doc: result.name }))
-                  .catch(error =>
+                  .catch(error => {
+                    logger.error(
+                      { error, model: result.name },
+                      'Unexpected error occurred while updating one model in bulk update',
+                    );
                     reject({
                       message: `An unexpected error occurred while updating model: ${
                         result.name
                       }, Error:  ${error}`,
-                    }),
-                  );
+                    });
+                  });
               });
             }
             return new Promise(resolve => resolve({ status: 'unchanged', doc: result.name })); //no fields modified, do nothing
@@ -156,13 +167,17 @@ data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) =>
               newModel
                 .save()
                 .then(() => resolve({ status: 'new', doc: result.name }))
-                .catch(error =>
+                .catch(error => {
+                  logger.error(
+                    { error, model: result.name },
+                    'Unexpected error occurred while creating model during bulk data sync',
+                  );
                   reject({
                     message: `An unexpected error occurred while creating model: ${
                       result.name
                     }, Error:  ${error}`,
-                  }),
-                );
+                  });
+                });
             });
           }
         });
@@ -189,7 +204,7 @@ data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) =>
         });
     })
     .catch(error => {
-      console.error('Error occured in bulk upload:', error);
+      logger.error({ error }, 'Unexpected error occured in bulk upload');
       res.status(500).json({ error: error.details || 'Unknown error occurred.' });
     });
 });
@@ -338,14 +353,18 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId/:modelName', asyn
                   variants: allowedUpdates,
                 }),
               )
-              .catch(error =>
+              .catch(error => {
+                logger.error(
+                  { error, model: model.name },
+                  'Unexpected error occured while updating model in bulk data sync',
+                );
                 reject({
                   message: `An unexpected error occurred while updating model: ${
                     model.name
                   }, Error:  ${error}`,
                   variants: allowedUpdates,
-                }),
-              );
+                });
+              });
           });
         } else {
           return new Promise(resolve =>
@@ -377,7 +396,7 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId/:modelName', asyn
         });
     })
     .catch(error => {
-      console.log('Sync Data Error: ', error);
+      logger.error({ error }, 'Unexpected error occurred during Sync Data');
       return res.status(500).json({ error: error instanceof Error ? error.message : error });
     });
 });

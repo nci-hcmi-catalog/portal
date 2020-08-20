@@ -1,3 +1,6 @@
+import getLogger from '../../logger';
+const logger = getLogger('services/s3');
+
 const aws = require('aws-sdk');
 const uuid = require('uuid/v4');
 
@@ -10,12 +13,14 @@ const s3 = new aws.S3({
   secretAccessKey: IAM_USER_SECRET,
 });
 
-const uploadToS3 = (fileName, fileStream, modelName) => {
+const uploadToS3 = async (fileName, fileStream, modelName) => {
+  const Key = `${uuid()}-${fileName}`;
   const params = {
     Bucket: S3_BUCKET,
-    Key: `${uuid()}-${fileName}`,
+    Key,
     Body: fileStream,
   };
+  logger.debug({ Key }, 'Attempting upload of file to S3');
 
   return new Promise((resolve, reject) => {
     fileStream.once('error', err => reject({ err, fileName, modelName }));
@@ -23,27 +28,28 @@ const uploadToS3 = (fileName, fileStream, modelName) => {
       if (err) {
         reject({ err, fileName, modelName });
       } else {
+        logger.audit({ Key, Bucket: S3_BUCKET }, 's3 upload', `Successfully uploaded object to S3`);
         resolve({ data, fileName, modelName });
       }
     });
   });
 };
 
-const deleteFromS3 = id => {
+const deleteFromS3 = async id => {
   const params = {
     Bucket: S3_BUCKET,
     Key: id,
   };
 
-  s3.deleteObject(params, (err, data) => {
-    if (err) {
-      console.error(`An error occured deleting image ${id} from S3: `, err.toString());
+  s3.deleteObject(params, (error, data) => {
+    if (error) {
+      logger.error({ error, imageId: id }, `An error occured deleting object from S3`);
       return {
         code: 400,
         msg: `image with id ${id} not found`,
       };
     } else {
-      console.log(`Successfully deleted image ${id} from S3.`);
+      logger.audit(params, 's3 delete', 'Successfully deleted image from S3');
       return {
         code: 200,
         msg: `image with id ${id} deleted`,

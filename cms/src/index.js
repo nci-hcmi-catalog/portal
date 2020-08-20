@@ -9,7 +9,11 @@ import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import restify from 'express-restify-mongoose';
 import morgan from 'morgan';
+import pino from 'pino-http';
 import helmet from 'helmet';
+
+import getLogger from './logger';
+const logger = getLogger('root');
 
 import { data_sync_router } from './routes/sync-data';
 import {
@@ -26,6 +30,7 @@ import {
   validateYup,
   preModelDelete,
   postUpdate,
+  postCreate,
   outputFn,
   validateUserRequest,
 } from './hooks';
@@ -42,9 +47,7 @@ const userRouter = express.Router();
 
 // Handle "unhandled" promise rejections
 process.on('unhandledRejection', (reason, promise) => {
-  console.log('Unhandled Rejection at:', JSON.stringify(reason.stack || reason));
-  console.log('------------------------------------------------');
-  console.log('For promise:', promise);
+  logger.warn({ reason, promise }, 'Unhandled Promise Rejection');
 });
 
 // Ensures uniques actually work
@@ -64,12 +67,12 @@ app.use(cors());
 
 // configure logging
 // record user email for each authenticated request
-app.use(morgan('combined'));
-app.use(
-  morgan(
-    ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :req[USER_EMAIL]',
-  ),
-);
+// app.use(
+//   morgan(
+//     ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :req[USER_EMAIL]',
+//   ),
+// );
+app.use(pino({ reqCustomProps: req => ({ user: getLoggedInUser(req).user_email }) }));
 
 if (process.env.AUTH_ENABLED !== 'false') {
   app.use((req, res, next) => {
@@ -86,6 +89,7 @@ if (process.env.AUTH_ENABLED !== 'false') {
 // configure endpoints
 restify.serve(modelRouter, Model, {
   preCreate: validateYup,
+  postCreate,
   preUpdate,
   preDelete: preModelDelete,
   postUpdate: postUpdate,
@@ -121,5 +125,5 @@ app.use(userRouter);
 // start app
 const http = new Server(app);
 http.listen(port, async () => {
-  console.log(`⚡️ Listening on port ${port} ⚡️`);
+  logger.info({ port }, `CMS Started!`);
 });

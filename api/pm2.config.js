@@ -17,14 +17,17 @@ module.exports = {
       env_dev: {
         NODE_ENV: 'dev',
         ES_URL: 'http://ncias-d2019-v:9200',
+        LOG_LEVEL: 'debug',
       },
       env_staging: {
         NODE_ENV: 'staging',
         ES_URL: 'http://es.hcmi.cancercollaboratory.org:9200',
+        LOG_LEVEL: 'info',
       },
       env_prd: {
         NODE_ENV: 'production',
         ES_URL: 'http://es.hcmi.cancercollaboratory.org:9200',
+        LOG_LEVEL: 'info',
       },
     },
   ],

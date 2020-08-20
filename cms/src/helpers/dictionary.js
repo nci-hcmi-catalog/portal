@@ -3,6 +3,9 @@ import Draft, { draftStatus } from '../schemas/dictionaryDraft';
 import Model from '../schemas/model';
 import { modelStatus } from '../helpers/modelStatus';
 
+import getLogger from '../logger';
+const logger = getLogger('helpers/dictionary');
+
 const fieldNameToModelPropertyMap = {
   primarySites: 'primary_site',
   modelType: 'type',
@@ -60,6 +63,7 @@ export const resetDraft = async () => {
   const dictionary = await Dictionary.findOne({}, {}, { sort: { created_at: -1 } });
   const draft = new Draft({ fields: dictionary.fields });
   await draft.save();
+  logger.audit({}, 'reset draft', 'Dictionary draft reset');
   return await Draft.findOne({}, {}, { sort: { created_at: -1 } });
 };
 
@@ -68,6 +72,7 @@ export const resetDraft = async () => {
  * Return object includes the number of models updated
  */
 export const publishDraft = async () => {
+  logger.debug('Publishing data dictionary...');
   const draft = await getDictionaryDraft();
 
   // find edited values
@@ -114,6 +119,7 @@ export const publishDraft = async () => {
 
   const dictionary = new Dictionary({ fields: draft.fields });
   await dictionary.save();
+  logger.audit({ edits }, 'dictionary created', 'Created new dictionary from draft values');
 
   models.forEach(model => {
     // Find these values in the models.
@@ -140,8 +146,9 @@ export const publishDraft = async () => {
         }
       }
     });
-    model.save();
     if (edited) {
+      model.save();
+      logger.audit({ model }, 'model saved', 'Model values updated due to dictionary publish');
       updatedModels += 1;
     }
   });
