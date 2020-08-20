@@ -26,17 +26,17 @@ const uploadToS3 = async (fileName, fileStream, modelName) => {
   logger.debug({ Key }, 'Attempting upload of file to S3');
 
   return new Promise((resolve, reject) => {
-    fileStream.once('error', err => reject({ err, fileName, modelName }));
-    s3.upload(params, (err, data) => {
-      if (err) {
-        reject({ err, fileName, modelName });
+    fileStream.once('error', error => reject({ error, fileName, modelName }));
+    s3.upload(params, (error, data) => {
+      if (error) {
+        reject({ error, fileName, modelName });
       } else {
         logger.audit(
           { Key, Bucket: S3_BUCKET, response: data },
           's3 upload',
           `Successfully uploaded object to S3`,
         );
-        resolve({ ...data, fileName, modelName });
+        resolve({ data, fileName, modelName });
       }
     });
   });
