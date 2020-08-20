@@ -31,7 +31,7 @@ const migrateImage = async ({
     .on('end', async () => {
       await fileStream.push(null);
       await uploadToS3(fileName, fileStream, modelName)
-        .then(async ({ data, fileName, modelName }) => {
+        .then(async ({ fileName, modelName, ...data }) => {
           console.log(
             `Successful image upload of image ${fileName} from model ${modelName} to S3: `,
             data,

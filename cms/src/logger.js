@@ -10,4 +10,4 @@ const getLogger = context => {
   return output;
 };
 
-export default getLogger;
+module.exports = getLogger;

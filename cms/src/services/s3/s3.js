@@ -1,8 +1,8 @@
 // Use of require instead of import is used here because this file is used by the migrateImages script.
 //  Scripts executed directly and not run through babel have issues with import statements.
 
-const LOGGER = require('../../logger');
-const logger = LOGGER.default('services/s3');
+const getLogger = require('../../logger');
+const logger = getLogger('services/s3');
 
 const aws = require('aws-sdk');
 const uuid = require('uuid/v4');
