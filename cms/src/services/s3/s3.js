@@ -32,7 +32,7 @@ const uploadToS3 = async (fileName, fileStream, modelName) => {
         reject({ err, fileName, modelName });
       } else {
         logger.audit(
-          { Key, Bucket: S3_BUCKET, data },
+          { Key, Bucket: S3_BUCKET, response: data },
           's3 upload',
           `Successfully uploaded object to S3`,
         );
