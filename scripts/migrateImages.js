@@ -6,6 +6,8 @@ const stream = require('stream');
 const esUitils = require('./esUtils');
 process.env = esUitils.config;
 
+const MONGO_COLLECTION = process.env.MONGO_COLLECTION;
+
 const { uploadToS3 } = require('./../cms/src/services/s3/s3');
 
 const migrateImage = async ({
@@ -31,13 +33,13 @@ const migrateImage = async ({
     .on('end', async () => {
       await fileStream.push(null);
       await uploadToS3(fileName, fileStream, modelName)
-        .then(async ({ fileName, modelName, ...data }) => {
+        .then(async ({ fileName, modelName, data }) => {
           console.log(
             `Successful image upload of image ${fileName} from model ${modelName} to S3: `,
             data,
           );
           await conn.db
-            .collection('models')
+            .collection(MONGO_COLLECTION)
             .findOneAndUpdate(
               { 'files.file_id': imageIdStr },
               {
@@ -55,20 +57,20 @@ const migrateImage = async ({
               );
               resolve();
             })
-            .catch(({ err, fileName, modelName }) => {
+            .catch(({ error, fileName, modelName }) => {
               console.error(
                 `An error occured while updating the model ${modelName} to use S3 image URL for image ${fileName}: `,
-                err.toString(),
+                error.toString(),
               );
-              reject(err);
+              reject(error);
             });
         })
-        .catch(({ err, fileName, modelName }) => {
+        .catch(({ error, fileName, modelName }) => {
           console.error(
             `An error occured during upload to S3 for image ${fileName} of model ${modelName}: `,
-            err.toString(),
+            error.toString(),
           );
-          reject(err);
+          reject(error);
         });
     });
 };
@@ -97,23 +99,25 @@ conn.once('open', async () => {
           const fileName = image.filename;
           const fileStream = new stream.Readable();
           await new Promise((res, rej) => {
-            conn.db.collection('models').findOne({ 'files.file_id': imageIdStr }, (err, obj) => {
-              if (err) {
-                console.log('An error occurred during model lookup: ', err.toString());
-                rej(err);
-              }
-              res(obj);
-            });
+            conn.db
+              .collection(MONGO_COLLECTION)
+              .findOne({ 'files.file_id': imageIdStr }, (error, model) => {
+                if (error) {
+                  console.log('An error occurred during model lookup: ', error.toString());
+                  rej(error);
+                }
+                res(model);
+              });
           })
-            .then(async obj => {
-              if (!obj || !obj.name) {
+            .then(async model => {
+              if (!model || !model.name) {
                 console.log(
                   `No model found with image of id ${imageIdStr}, likely already migrated. Skipping...`,
                 );
                 resolve();
               }
 
-              const modelName = obj.name;
+              const modelName = model.name;
 
               await migrateImage({
                 bucket,
@@ -138,6 +142,7 @@ conn.once('open', async () => {
       })
       .catch(err => {
         console.error('An error occurred during image migration: ', err.toString());
+        conn.close();
       });
   } catch (err) {
     console.error('An unexpected error occurred: ', err.toString());
