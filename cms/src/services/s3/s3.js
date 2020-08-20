@@ -1,5 +1,8 @@
-import getLogger from '../../logger';
-const logger = getLogger('services/s3');
+// Use of require instead of import is used here because this file is used by the migrateImages script.
+//  Scripts executed directly and not run through babel have issues with import statements.
+
+const LOGGER = require('../../logger');
+const logger = LOGGER.default('services/s3');
 
 const aws = require('aws-sdk');
 const uuid = require('uuid/v4');
@@ -28,8 +31,12 @@ const uploadToS3 = async (fileName, fileStream, modelName) => {
       if (err) {
         reject({ err, fileName, modelName });
       } else {
-        logger.audit({ Key, Bucket: S3_BUCKET }, 's3 upload', `Successfully uploaded object to S3`);
-        resolve({ data, fileName, modelName });
+        logger.audit(
+          { Key, Bucket: S3_BUCKET, data },
+          's3 upload',
+          `Successfully uploaded object to S3`,
+        );
+        resolve({ ...data, fileName, modelName });
       }
     });
   });
