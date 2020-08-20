@@ -24,6 +24,7 @@ import {
   imagesRouter,
   matchedModelsRouter as matchedModelsActionsRouter,
   templatesRouter,
+  variantsRouter,
 } from './routes';
 import {
   preUpdate,
@@ -117,6 +118,7 @@ app.use('/api/v1/images', imagesRouter);
 app.use('/api/v1/action', actionRouter);
 app.use('/api/v1/health', healthRouter);
 app.use('/api/v1/templates', templatesRouter);
+app.use('/api/v1/genomic-variants', variantsRouter);
 app.use('/api/v1/matches', matchedModelsActionsRouter);
 app.use(matchedModelsRestifyRouter);
 app.use(modelRouter);
