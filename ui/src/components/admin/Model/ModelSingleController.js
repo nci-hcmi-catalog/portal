@@ -619,27 +619,40 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     details: 'You will be notified when the upload is complete.',
                     timeout: false,
                   });
-                  const response = await fetchData({
+
+                  acc = await fetchData({
                     url: `${baseUrl}/images`,
                     data: formData,
                     method: 'post',
                     headers: {
                       'Content-Type': 'multipart/form-data',
                     },
-                  });
-                  if (response.status >= 200 && response.status < 300) {
-                    window.URL.revokeObjectURL(file.preview);
-                    loadingNotification.clear();
-                    return [
-                      ...acc,
-                      {
-                        file_name: file.name,
-                        file_type: file.type,
-                        file_id: response.data.id,
-                        file_url: response.data.url,
-                      },
-                    ];
-                  }
+                  })
+                    .then(response => {
+                      if (response.status >= 200 && response.status < 300) {
+                        window.URL.revokeObjectURL(file.preview);
+                        return [
+                          ...acc,
+                          {
+                            file_name: file.name,
+                            file_type: file.type,
+                            file_id: response.data.id,
+                            file_url: response.data.url,
+                          },
+                        ];
+                      }
+                    })
+                    .catch(async err => {
+                      await appendNotification({
+                        type: NOTIFICATION_TYPES.ERROR,
+                        message: 'Image Upload Error',
+                        details: `Image upload failed due to the following error: ${err.message}`,
+                        timeout: false,
+                      });
+                      return acc;
+                    });
+
+                  loadingNotification.clear();
                   return acc;
                 }, Promise.resolve([]));
                 return uploaded;

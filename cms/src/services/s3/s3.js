@@ -13,7 +13,7 @@ const s3 = new aws.S3({
   secretAccessKey: IAM_USER_SECRET,
 });
 
-const uploadToS3 = async (fileName, fileStream) => {
+const uploadToS3 = async (fileName, fileStream, modelName) => {
   const Key = `${uuid()}-${fileName}`;
   const params = {
     Bucket: S3_BUCKET,
@@ -23,14 +23,15 @@ const uploadToS3 = async (fileName, fileStream) => {
   logger.debug({ Key }, 'Attempting upload of file to S3');
 
   return new Promise((resolve, reject) => {
-    fileStream.once('error', reject);
-    s3.upload(params)
-      .promise()
-      .then(data => {
+    fileStream.once('error', err => reject({ err, fileName, modelName }));
+    s3.upload(params, (err, data) => {
+      if (err) {
+        reject({ err, fileName, modelName });
+      } else {
         logger.audit({ Key, Bucket: S3_BUCKET }, 's3 upload', `Successfully uploaded object to S3`);
-        resolve(data);
-      })
-      .catch(reject);
+        resolve({ data, fileName, modelName });
+      }
+    });
   });
 };
 
