@@ -1,8 +1,15 @@
-const esUtils = require('./esUtils');
-const { republishModels } = require('./republishUtils');
+const esUtils = require('./utils/esUtils');
+const { republishModels } = require('./utils/republishUtils');
 const run = async () => {
-  await esUtils.deleteSearchIndex();
-  await esUtils.createSearchIndex();
+  await esUtils.deleteModelsIndex();
+  await esUtils.createModelsIndex();
+
+  await esUtils.deleteGenesIndex();
+  await esUtils.createGenesIndex();
+
+  await esUtils.deleteVariantsIndex();
+  await esUtils.createVariantsIndex();
+
   await esUtils.updateArrangerProject();
   await republishModels();
 };

@@ -654,16 +654,16 @@ export default css`
     font-size: 14px;
   }
 
-  .model-name-search-content-wrapper {
+  .search-sidebar-content-wrapper {
     padding: 4px 8px;
   }
 
-  .model-name-search-content .quick-search .inputWrapper,
+  .search-sidebar-content .quick-search .inputWrapper,
   .toolbar .inputWrapper {
     ${inputWrapperStyle};
   }
 
-  .model-name-search-content .quick-search .inputWrapper .inputIcon,
+  .search-sidebar-content .quick-search .inputWrapper .inputIcon,
   .search-results-wrapper .tableToolbar .group .inputWrapper .inputIcon,
   .toolbar .inputWrapper .inputIcon,
   .filter .inputWrapper .inputIcon {
@@ -675,7 +675,7 @@ export default css`
     height: 16px;
   }
 
-  .model-name-search-content .quick-search .inputWrapper input,
+  .search-sidebar-content .quick-search .inputWrapper input,
   .search-results-wrapper .tableToolbar .group .inputWrapper input,
   .toolbar .inputWrapper input {
     ${inputStyle}
