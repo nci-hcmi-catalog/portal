@@ -39,6 +39,7 @@ const fetchData = async ({ setState, modelIds }) => {
                         edges {
                           node {
                             file_id
+                            file_url
                             file_name
                             file_type
                           }

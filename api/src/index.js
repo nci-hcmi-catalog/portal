@@ -12,6 +12,9 @@ import bodyParser from 'body-parser';
 import expressSanitizer from 'express-sanitizer';
 import * as path from 'path';
 
+import getLogger from './logger';
+const logger = getLogger('root');
+
 const port = process.env.PORT || 5050;
 const app = express();
 const http = Server(app);
@@ -39,6 +42,6 @@ Arranger().then(router => {
   app.use(router);
 
   http.listen(port, async () => {
-    console.log(`⚡️ Listening on port ${port} ⚡️`);
+    logger.info({ port }, 'API Started!');
   });
 });

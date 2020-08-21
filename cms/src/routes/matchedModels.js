@@ -1,8 +1,8 @@
 import express from 'express';
-import Model from '../schemas/model';
-import MatchedModel from '../schemas/matchedModels';
-
 import MatchUtils from '../helpers/matchedModels';
+
+import getLogger from '../logger';
+const logger = getLogger('routes/matchedModels');
 
 const actionRouter = express.Router();
 
@@ -18,7 +18,10 @@ actionRouter.post('/connect/:name', async (req, res) => {
       matchedModels,
     });
   } catch (error) {
-    console.log(error);
+    logger.error(
+      { model: name, match, error },
+      `Unexpected error connecting model (${name}) to matchedModel (${match})`,
+    );
     res.status(500).json({
       error: error.message,
     });
@@ -36,7 +39,7 @@ actionRouter.delete('/:name', async (req, res) => {
       matchedModels,
     });
   } catch (error) {
-    console.log(error);
+    logger.error({ model: name, error }, 'Unexpected error removing model from matched model set');
     res.status(500).json({
       error: error.message,
     });

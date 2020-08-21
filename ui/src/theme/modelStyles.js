@@ -154,6 +154,7 @@ export default css`
     &__card {
       position: relative;
       padding: 18px;
+      padding-top: 0;
       margin: 8px;
       border: 2px solid ${athensLightGray};
       min-height: 92px;
@@ -168,10 +169,9 @@ export default css`
       margin: 0;
       display: inline-block;
       padding: 2px 15px;
-      position: absolute;
-      bottom: calc(100% - 10px);
       text-transform: uppercase;
       max-width: calc(100% - 32px);
+      transform: translateY(-12px);
     }
   }
 

@@ -7,6 +7,9 @@ import indexEsUpdate from './update';
 
 import { get } from 'lodash';
 
+import getLogger from '../../logger';
+const logger = getLogger('services/elastic-search/publish');
+
 export const publishModel = async filter => {
   try {
     await indexOneToES(filter);
@@ -42,13 +45,15 @@ export const indexOneToES = filter => {
               doc.populatedMatches = matches;
             }
             doc.esIndex((err, res) => {
-              err
-                ? reject(err)
-                : // Not waiting for promise to resolve as this is just bookkeeping
-                  indexEsUpdate() &&
+              if (err) {
+                reject(err);
+              } else {
+                indexEsUpdate() &&
                   resolve({
                     status: `Indexing successful with status: ${res.result}`,
                   });
+                logger.audit({ model: doc }, 'publish model', 'Model Published to ES');
+              }
             });
           })
           .then(
@@ -75,7 +80,7 @@ export const indexMatchedModelsToES = async (filter, skipSelf = true) => {
   const matchedModelIds = model.matchedModels ? model.matchedModels.models : [];
   if (model.matchedModels && matchedModelIds.length <= 1) {
     // if list of matched models exists but only includes itself, we can remove the whole matched model set.
-    console.warn(
+    logger.warn(
       `Model ${model.name} is part of a small or empty matchedModel set of length ${
         matchedModelIds.length
       }, deleting the set and the reference in the model.`,
@@ -104,10 +109,13 @@ export const updateMatchedModelsToES = async filter => {
   // filter this list only to models that are published or published with changes
   const modelsToPublish = models.filter(model => model.status !== modelStatus.unpublished);
 
-  console.log('Models to update for matched models:', modelsToPublish.map(model => model.name));
+  logger.debug(
+    { matchedModels: modelsToPublish.map(model => model.name) },
+    'Updating matched models',
+  );
   for (let model of modelsToPublish) {
     // Publish this model to ensure it has matchedModel updates, unless skepSelf is true and this model is the one named in the method argument name
-    console.log(`Publishing ${model.name} in order to update Matched Models.`);
+    logger.debug(`Publishing ${model.name} in order to update Matched Models.`);
     await indexOneToES({ name: model.name });
   }
 };

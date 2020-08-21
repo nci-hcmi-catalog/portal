@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import client from '../services/elastic-search/common/client';
 import Model from '../schemas/model';
+import { testS3Connection } from '../services/s3';
 
 const startTime = Date.now();
 
@@ -35,6 +36,22 @@ healthRouter.get('/db', async (req, res) => {
     res.status(200).json({ status: 200, models: response });
   } catch (e) {
     res.status(500).json({ error: 'Error reading from DB', response: e });
+  }
+});
+
+healthRouter.get('/s3', async (req, res) => {
+  try {
+    await testS3Connection()
+      .then(data =>
+        res
+          .status(200)
+          .json({ status: 200, response: `Connected to S3 successfully: ${JSON.stringify(data)}` }),
+      )
+      .catch(err =>
+        res.status(err.statusCode).json({ error: 'Error connecting to S3', response: err.code }),
+      );
+  } catch (e) {
+    res.status(500).json({ error: 'Error connecting to S3', response: e });
   }
 });
 
