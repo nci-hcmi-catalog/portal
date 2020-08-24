@@ -311,6 +311,7 @@ const renderTable = (activeTab, modelName) => {
 
 export default ({ modelName }) => {
   const [activeTab, setActiveTab] = useState(VARIANT_TYPES.clinical);
+  const [isEmpty, setIsEmpty] = useState(true);
   const { fetchData } = useVariants();
 
   useEffect(() => {
@@ -319,10 +320,18 @@ export default ({ modelName }) => {
         modelName,
         type: VARIANT_TYPES.clinical,
       });
+      const histopathologicalBiomarkers = await fetchData({
+        modelName,
+        type: VARIANT_TYPES.histopathological,
+      });
 
-      if (clinicalVariants.length > 0) {
+      if (clinicalVariants.length === 0 && histopathologicalBiomarkers.length === 0) {
+        setIsEmpty(true);
+      } else if (clinicalVariants.length > 0) {
+        setIsEmpty(false);
         setActiveTab(VARIANT_TYPES.clinical);
       } else {
+        setIsEmpty(false);
         setActiveTab(VARIANT_TYPES.histopathological);
       }
     };
@@ -336,42 +345,58 @@ export default ({ modelName }) => {
         position: relative;
       `}
     >
-      <TabGroup width={171}>
-        <Tab
-          active={activeTab === VARIANT_TYPES.clinical}
-          onClick={() => setActiveTab(VARIANT_TYPES.clinical)}
+      {isEmpty ? (
+        <div
+          className="model-details model-details--empty"
+          style={{
+            width: '100%',
+          }}
         >
-          <TabHeading css={activeTab === VARIANT_TYPES.clinical ? variantTabActive : variantTab}>
-            Clinical Sequencing
-          </TabHeading>
-        </Tab>
-        <Tab
-          active={activeTab === VARIANT_TYPES.histopathological}
-          onClick={() => setActiveTab(VARIANT_TYPES.histopathological)}
-        >
-          <TabHeading
-            css={activeTab === VARIANT_TYPES.histopathological ? variantTabActive : variantTab}
+          <VariantsIcon />
+          <p className="model-details__empty-message">No variants available.</p>
+        </div>
+      ) : (
+        <>
+          <TabGroup width={175}>
+            <Tab
+              active={activeTab === VARIANT_TYPES.genomic}
+              onClick={() => setActiveTab(VARIANT_TYPES.genomic)}
+            >
+              <TabHeading css={activeTab === VARIANT_TYPES.genomic ? variantTabActive : variantTab}>
+                Research Somatic Variants
+              </TabHeading>
+            </Tab>
+            <Tab
+              active={activeTab === VARIANT_TYPES.clinical}
+              onClick={() => setActiveTab(VARIANT_TYPES.clinical)}
+            >
+              <TabHeading
+                css={activeTab === VARIANT_TYPES.clinical ? variantTabActive : variantTab}
+              >
+                Clinical Variants
+              </TabHeading>
+            </Tab>
+            <Tab
+              active={activeTab === VARIANT_TYPES.histopathological}
+              onClick={() => setActiveTab(VARIANT_TYPES.histopathological)}
+            >
+              <TabHeading
+                css={activeTab === VARIANT_TYPES.histopathological ? variantTabActive : variantTab}
+              >
+                Histopathological Biomarkers
+              </TabHeading>
+            </Tab>
+          </TabGroup>
+          <div
+            css={`
+              width: calc(100% - 175px);
+              padding-left: 18px;
+            `}
           >
-            Histopathological Biomarkers
-          </TabHeading>
-        </Tab>
-        <Tab
-          active={activeTab === VARIANT_TYPES.genomic}
-          onClick={() => setActiveTab(VARIANT_TYPES.genomic)}
-        >
-          <TabHeading css={activeTab === VARIANT_TYPES.genomic ? variantTabActive : variantTab}>
-            Genomic Sequencing
-          </TabHeading>
-        </Tab>
-      </TabGroup>
-      <div
-        css={`
-          width: calc(100% - 171px);
-          padding-left: 18px;
-        `}
-      >
-        {renderTable(activeTab, modelName)}
-      </div>
+            {renderTable(activeTab, modelName)}
+          </div>
+        </>
+      )}
     </Row>
   );
 };
