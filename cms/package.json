@@ -14,9 +14,12 @@
   "dependencies": {
     "@elastic/elasticsearch": "7.6.1",
     "aws-sdk": "^2.723.0",
+    "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "cors": "^2.8.4",
     "csvtojson": "^2.0.8",
+    "decompress": "^4.2.1",
+    "decompress-gz": "^0.0.1",
     "dotenv": "^5.0.1",
     "elasticsearch": "^16.6.0",
     "express": "^4.16.3",

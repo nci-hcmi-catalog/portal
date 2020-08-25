@@ -224,7 +224,7 @@
           "class": {
             "type": "keyword"
           },
-          "type": {
+          "biotype": {
             "type": "keyword"
           },
           "chromosome": {

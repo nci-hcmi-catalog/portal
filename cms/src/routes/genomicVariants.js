@@ -4,6 +4,9 @@ import Model from '../schemas/model';
 import { clearGenomicVariants } from '../helpers/genomicVariants';
 import VariantImporter from '../services/gdc-importer/VariantImporter';
 
+import getLogger from '../logger';
+const logger = getLogger('routes/genomicVariants');
+
 const variantsRouter = express.Router();
 
 /* Description of End points required for GVI
@@ -35,7 +38,7 @@ const variantsRouter = express.Router();
 variantsRouter.get('/clear/:name', async (req, res) => {
   const { name } = req.params;
   try {
-    console.log(`Clearing genomic-variants for: ${name}`);
+    logger.debug(`Clearing genomic-variants for: ${name}`);
     const result = await clearGenomicVariants(name);
 
     if (!result) {
@@ -43,7 +46,7 @@ variantsRouter.get('/clear/:name', async (req, res) => {
     }
     res.status(200).json({ success: true, model });
   } catch (error) {
-    console.log('Error:', error.message);
+    logger.error({ error, model: name }, 'Unexpected error clearing genomic-variants for model');
     res.status(500).json({
       error: error,
     });
@@ -53,7 +56,7 @@ variantsRouter.get('/clear/:name', async (req, res) => {
 variantsRouter.post('/import/:name', async (req, res) => {
   const { name } = req.params;
   try {
-    console.log(`Beginning import of genomic-variants for: ${name}`);
+    logger.debug({ model: name }, `Beginning genomic-variant import for model`);
 
     // Clear first before importing new
     await clearGenomicVariants(name);
