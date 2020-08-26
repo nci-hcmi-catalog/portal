@@ -17,13 +17,8 @@ import { Row, Col } from 'theme/system';
 import { Tab, TabHeading, variantTab, variantTabActive } from 'theme/verticalTabStyles';
 import { visuallyHidden } from 'theme';
 
+import { VARIANT_TYPES } from 'utils/constants';
 import tsvDownloader from 'utils/tsvDownloader';
-
-const VARIANT_TYPES = {
-  clinical: 'clinical',
-  histopathological: 'histopathological biomarker',
-  genomic: 'genomic_sequencing',
-};
 
 const VariantTable = React.memo(({ type, modelName, columns }) => {
   const {
@@ -266,40 +261,70 @@ const renderTable = (activeTab, modelName) => {
               type: 'keyword',
               sortable: true,
               canChangeShow: true,
-              field: 'name',
-              id: 'variantName',
-              accessor: 'name',
-              Header: 'Name',
+              field: 'variant_id',
+              id: 'variant_id',
+              accessor: 'variant_id',
+              Header: 'Variant',
             },
             {
               show: true,
               type: 'keyword',
               sortable: true,
               canChangeShow: true,
-              field: 'genes',
-              id: 'genes',
-              accessor: 'genes',
-              Header: 'Genes',
+              field: 'gene',
+              id: 'gene',
+              accessor: 'gene',
+              Header: 'Gene',
             },
             {
               show: true,
               type: 'keyword',
               sortable: true,
               canChangeShow: true,
-              field: 'category',
-              id: 'category',
-              accessor: 'category',
+              field: 'aa_change',
+              id: 'aa_change',
+              accessor: 'aa_change',
+              Header: 'AA Change',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'transcript_id',
+              id: 'transcript_id',
+              accessor: 'transcript_id',
+              Header: 'Transcript',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'consequence_type',
+              id: 'consequence_type',
+              accessor: 'consequence_type',
+              Header: 'Consequence',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'class',
+              id: 'class',
+              accessor: 'class',
+              Header: 'Class',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'type',
+              id: 'type',
+              accessor: 'type',
               Header: 'Type',
-            },
-            {
-              show: true,
-              type: 'keyword',
-              sortable: true,
-              canChangeShow: true,
-              field: 'frequency',
-              id: 'frequency',
-              accessor: 'frequency.display',
-              Header: 'Frequency',
             },
           ]}
         />
