@@ -5,6 +5,7 @@ import indexEsUpdate from './update';
 import Model from '../../schemas/model';
 import { indexMatchedModelsToES } from './publish';
 import { modelStatus } from '../../helpers/modelStatus';
+import { updateGeneSearchIndicies } from './genomicVariants';
 
 import getLogger from '../../logger';
 const logger = getLogger('services/elastic-search/unpublish');
@@ -14,6 +15,7 @@ const index = process.env.ES_INDEX;
 export const unpublishModel = async name => {
   await unpublishOneFromES(name);
   await indexMatchedModelsToES({ name });
+  updateGeneSearchIndicies();
 };
 
 export const unpublishOneFromES = async name => {

@@ -4,6 +4,7 @@ import getPublishValidation from '../../validation/model';
 import { modelStatus } from '../../helpers/modelStatus';
 import MatchUtils from '../../helpers/matchedModels';
 import indexEsUpdate from './update';
+import { updateGeneSearchIndicies } from './genomicVariants';
 
 import { get } from 'lodash';
 
@@ -11,12 +12,9 @@ import getLogger from '../../logger';
 const logger = getLogger('services/elastic-search/publish');
 
 export const publishModel = async filter => {
-  try {
-    await indexOneToES(filter);
-    await indexMatchedModelsToES(filter);
-  } catch (err) {
-    throw err;
-  }
+  await indexOneToES(filter);
+  await indexMatchedModelsToES(filter);
+  updateGeneSearchIndicies();
 };
 
 export const indexOneToES = filter => {
