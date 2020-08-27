@@ -24,18 +24,21 @@ const VariantExpression = new mongoose.Schema({
 });
 
 const GenomicVariant = new mongoose.Schema({
+  ensemble_id: { type: String },
   gene: { type: String },
   aa_change: { type: String },
   transcript_id: { type: String },
   consequence_type: { type: String },
   class: { type: String },
-  biotype: { type: String },
+  gene_biotype: { type: String },
+  gene_name: { type: String },
   chromosome: { type: String },
   start_position: { type: String },
   end_position: { type: String },
   specific_change: { type: String },
   classification: { type: String },
-  ensemble_id: { type: String },
+  synonyms: { type: [String] },
+  entrez_id: { type: [String] },
 });
 
 export const ModelSchema = new mongoose.Schema(
@@ -123,13 +126,15 @@ export const ModelSchema = new mongoose.Schema(
             transcript_id: variant.transcript_id,
             consequence_type: variant.consequence_type,
             class: variant.class,
-            biotype: variant.biotype,
+            gene_biotype: variant.gene_biotype,
             chromosome: variant.chromosome,
             start_position: variant.start_position,
             end_position: variant.end_position,
             specific_change: variant.specific_change,
             classification: variant.classification,
             ensemble_id: variant.ensemble_id,
+            synonyms: variant.synonyms,
+            entrez_id: variant.entrez_id,
             variant_id: `${variant.chromosome}:g.${variant.start_position}${
               variant.specific_change
             }`,

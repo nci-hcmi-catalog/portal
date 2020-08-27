@@ -1,12 +1,8 @@
-import axios from 'axios';
-import qs from 'qs';
-import { PassThrough } from 'stream';
-
-import decompress from 'decompress';
-import zlib from 'zlib';
+import tsv from 'tsv';
 
 import Model from '../../schemas/model';
-import { findMafFileData } from './mafFiles';
+import { findMafFileData, downloadMaf } from './mafFiles';
+import { addGenomicVariantsFromMaf } from '../../helpers/genomicVariants';
 
 import getLogger from '../../logger';
 const logger = getLogger('services/gdc-importer/VariantImporter');
@@ -30,92 +26,74 @@ const Import = function(modelName, fileId, filename) {
   const stop = () => {
     status = ImportStatus.stopped;
     stopTime = Date.now();
+    logger.info({ startTime, stopTime, modelName }, 'Genomic Variant Import stopped.');
+  };
+
+  const complete = () => {
+    status = ImportStatus.complete;
+    stopTime = Date.now();
+    logger.info({ startTime, stopTime, modelName }, 'Genomic Variant Import complete.');
+  };
+
+  const errorStop = error => {
+    status = ImportStatus.error;
+    errors.push(error.message);
+    stopTime = Date.now();
+    logger.info(
+      { startTime, stopTime, modelName, errors },
+      'Genomic Variant Import stopped due to error.',
+    );
   };
 
   const acknowledge = () => {
     acknowledged = true;
   };
 
-  const getStatus = () => status;
-  const getErrors = () => errors;
-
   const getData = () => ({ status, errors, startTime, stopTime, acknowledged, fileId, filename });
 
-  const downloadFile = async () => {
-    return new Promise(async (resolve, reject) => {
-      logger.debug(
-        { time: Date.now(), startTime, fileId, filename },
-        'Beginning MAF file download',
-      );
-
-      const url = 'https://portal.gdc.cancer.gov/auth/api/data?annotations=true&related_files=true';
-      const body = {
-        size: 10000,
-        attachment: true,
-        format: 'JSON',
-        filters: {},
-        pretty: true,
-        filename: filename,
-        ids: fileId,
-        // downloadCookieKey:11dbbe146,
-        // downloadCookiePath:/
-      };
-
-      try {
-        const response = await axios.post(url, qs.stringify(body), {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          responseType: 'stream',
-        });
-        const downloadStream = response.data;
-
-        const streamToBuffer = new PassThrough();
-        const bufs = [];
-        streamToBuffer.on('data', data => {
-          logger.debug('on data');
-          bufs.push(data);
-        });
-        streamToBuffer.on('end', () => {
-          logger.debug('ended buffer stream');
-          decompress(Buffer.concat(bufs), {
-            filter: file => file.path.includes(filename),
-            strip: 1,
-          })
-            .then(files => {
-              try {
-                logger.debug(files[0].path, 'done decompress');
-                const maf = zlib.gunzipSync(files[0].data).toString('utf8');
-
-                resolve(maf);
-              } catch (error) {
-                logger.error(
-                  { error, filename, fileId, modelName },
-                  'Error decompressing internal MAF file from GDC download',
-                );
-                reject(error);
-              }
-            })
-            .catch(error => {
-              logger.error(
-                { error, filename, fileId, modelName },
-                'Failure decompressing file from GDC',
-              );
-              reject(error);
-            });
-        });
-
-        downloadStream.pipe(streamToBuffer);
-      } catch (error) {
-        logger.error({ error, filename, fileId, modelName }, 'Error downloading file from GDC');
-        reject(error);
-      }
-    });
+  const parseMaf = maf => {
+    // clear all the weird comments
+    const withoutComments = maf.replace(/#.+\n/g, '');
+    return tsv.parse(withoutComments);
   };
 
   const performDataImport = async () => {
-    const mafFile = await downloadFile();
-    logger.debug('Completed Maf File Download');
+    logger.debug(
+      { time: Date.now(), startTime, fileId, filename, modelName },
+      'Beginning MAF file download...',
+    );
+    try {
+      if (status !== ImportStatus.active) {
+        return;
+      }
+      const mafFile = await downloadMaf({ filename, fileId, modelName });
+
+      if (status !== ImportStatus.active) {
+        return;
+      }
+      const mafData = parseMaf(mafFile);
+      logger.debug(
+        { time: Date.now(), startTime, fileId, filename, modelName },
+        'MAF Data downloaded. Beginning model updates...',
+      );
+
+      if (status !== ImportStatus.active) {
+        return;
+      }
+      await addGenomicVariantsFromMaf(modelName, mafData);
+      logger.debug(
+        { time: Date.now(), startTime, fileId, filename, modelName },
+        'Completed Genomic Variant Import',
+      );
+
+      if (status !== ImportStatus.active) {
+        return;
+      }
+      complete();
+    } catch (error) {
+      logger.error(error, 'Import Async Error');
+      errorStop(error);
+    }
   };
 
   // Actual importer work:
@@ -144,12 +122,8 @@ const VariantImporter = (function() {
       const data = i.getData();
 
       const stopped = ImportStatus.stopped === data.status;
-      const acknowledgedError = ImportStatus.error === data.status;
-
-      data.acknowledged;
-      const acknowledgedComplete = ImportStatus.complete === data.status;
-
-      data.acknowledged;
+      const acknowledgedError = ImportStatus.error === data.status && data.acknowledged;
+      const acknowledgedComplete = ImportStatus.complete === data.status && data.acknowledged;
 
       return !(stopped || acknowledgedError || acknowledgedComplete);
     });

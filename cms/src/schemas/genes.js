@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 import mongooseElasticsearch from 'mongoose-elasticsearch-xp';
-import elasticClient from '../client';
+import elasticClient from '../services/elastic-search/common/client';
 
 const GeneSchema = new mongoose.Schema(
   {
@@ -23,4 +23,4 @@ GeneSchema.plugin(mongooseElasticsearch.v7, {
   type: '_doc',
 });
 
-export const GeneSchemaES = mongoose.model('Gene', GeneSchema);
+export default mongoose.model('Gene', GeneSchema);

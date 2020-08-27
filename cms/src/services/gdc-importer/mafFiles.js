@@ -1,4 +1,9 @@
 import axios from 'axios';
+import qs from 'qs';
+import { PassThrough } from 'stream';
+
+import decompress from 'decompress';
+import zlib from 'zlib';
 import { get } from 'lodash';
 
 import getLogger from '../../logger';
@@ -175,7 +180,7 @@ const fetchModelFileData = async name => {
         }
       });
 
-      return { fileId, filename, entityIds, sampleTypes };
+      return { fileId, filename, entityIds, sampleTypes, name };
     });
     logger.debug({ files }, 'Files found for model');
 
@@ -209,4 +214,72 @@ export const findMafFileData = async name => {
   } else {
     throw new Error('No files found for this model.');
   }
+};
+
+export const downloadMaf = async ({ filename, fileId, modelName }) => {
+  return new Promise(async (resolve, reject) => {
+    // const { filename, fileId, name: modelName } = fileData;
+    logger.debug({ filename, fileId, modelName }, 'entering downloadMaf');
+
+    const url = 'https://portal.gdc.cancer.gov/auth/api/data?annotations=true&related_files=true';
+    const body = {
+      size: 10000,
+      attachment: true,
+      format: 'JSON',
+      filters: {},
+      pretty: true,
+      filename: filename,
+      ids: fileId,
+      // downloadCookieKey:11dbbe146,
+      // downloadCookiePath:/
+    };
+
+    try {
+      const response = await axios.post(url, qs.stringify(body), {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        responseType: 'stream',
+      });
+      const downloadStream = response.data;
+
+      const streamToBuffer = new PassThrough();
+      const bufs = [];
+      streamToBuffer.on('data', data => {
+        bufs.push(data);
+      });
+      streamToBuffer.on('end', () => {
+        decompress(Buffer.concat(bufs), {
+          filter: file => file.path.includes(filename),
+          strip: 1,
+        })
+          .then(files => {
+            try {
+              logger.debug({ file: files[0].path }, 'MAF Download: Internal Compressed file ');
+              const maf = zlib.gunzipSync(files[0].data).toString('utf8');
+
+              resolve(maf);
+            } catch (error) {
+              logger.error(
+                { error, filename, fileId, modelName },
+                'Error decompressing internal MAF file from GDC download',
+              );
+              reject(error);
+            }
+          })
+          .catch(error => {
+            logger.error(
+              { error, filename, fileId, modelName },
+              'Failure decompressing file from GDC',
+            );
+            reject(error);
+          });
+      });
+
+      downloadStream.pipe(streamToBuffer);
+    } catch (error) {
+      logger.error({ error, filename, fileId, modelName }, 'Error downloading file from GDC');
+      reject(error);
+    }
+  });
 };

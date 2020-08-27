@@ -1,5 +1,10 @@
 import Model from '../schemas/model';
+import { modelStatus } from '../helpers/modelStatus';
+import Gene from '../schemas/genes';
 import VariantImporter from '../services/gdc-importer/VariantImporter';
+
+import getLogger from '../logger';
+const logger = getLogger('helpers/genomicVariants');
 
 export const clearGenomicVariants = async name => {
   // Stop any active imports, if any:
@@ -19,5 +24,70 @@ export const clearGenomicVariants = async name => {
     return model;
   } else {
     return false;
+  }
+};
+
+export const addGenomicVariantsFromMaf = async (name, mafData) => {
+  const model = await Model.findOne({ name });
+  if (model) {
+    const genomicVariants = [];
+
+    for (let i = 0; i < mafData.length; i++) {
+      // For loop not forEach since we need async within this loop
+      const row = mafData[i];
+
+      const ensemble_id = row.Gene;
+      const aa_change = (row.HGVSp_Short || '').replace(/^\.p/, '');
+      const transcript_id = row.Transcript_ID;
+      const variant_class = row.VARIANT_CLASS;
+      const consequence_type = (row.Consequence || '').replace(/_/g, ' ');
+      const chromosome = row.Chromosome;
+      const start_position = row.Start_Position;
+      const end_position = row.End_Position;
+      const specific_change = (row.HGVSc || '').replace(/^c\.[0-9]*/, '');
+      const classification = (row.Variant_Classification || '').replace(/_/g, ' ');
+      const entrez_id = row.Entrez_Gene_Id;
+
+      const variant = {
+        ensemble_id,
+        aa_change,
+        transcript_id,
+        class: variant_class,
+        consequence_type,
+        chromosome,
+        start_position,
+        end_position,
+        specific_change,
+        classification,
+        entrez_id,
+      };
+
+      const geneReference = await Gene.findOne({ _gene_id: ensemble_id });
+      if (geneReference) {
+        variant.gene = geneReference.symbol;
+        variant.gene_biotype = geneReference.biotype.replace(/_/g, ' ');
+        variant.gene_name = geneReference.name;
+        variant.synonyms = geneReference.synonyms;
+      } else {
+        logger.warn(
+          { ensemble_id, model: name },
+          'Unable to find gene in gene reference by Enseble ID',
+        );
+      }
+
+      genomicVariants.push(variant);
+    }
+
+    model['genomic_variants'] = genomicVariants;
+    model.status =
+      model.status === modelStatus.unpublished
+        ? modelStatus.unpublished
+        : modelStatus.unpublishedChanges;
+
+    await model.save();
+    logger.audit({ model }, 'model saved', 'Genomic Variants added to model');
+  } else {
+    logger.warn({ name }, 'Could not find model for genomic variant import');
+    throw new Error('Model could not be found');
   }
 };
