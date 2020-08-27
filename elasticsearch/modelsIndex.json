@@ -224,7 +224,10 @@
           "class": {
             "type": "keyword"
           },
-          "type": {
+          "gene_biotype": {
+            "type": "keyword"
+          },
+          "gene_name": {
             "type": "keyword"
           },
           "chromosome": {
@@ -245,6 +248,10 @@
           "variant_id": {
             "type": "keyword"
           },
+          "entrez_id": {
+            "type": "keyword"
+          },
+          "synonyms": { "type": "keyword" },
           "name": {
             "type": "keyword",
             "copy_to": ["genomic_variant_names"]
