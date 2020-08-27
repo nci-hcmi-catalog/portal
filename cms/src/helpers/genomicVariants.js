@@ -37,6 +37,9 @@ export const addGenomicVariantsFromMaf = async (name, mafData) => {
       const row = mafData[i];
 
       const ensemble_id = row.Gene;
+      if (!ensemble_id) {
+        continue;
+      }
       const aa_change = (row.HGVSp_Short || '').replace(/^\.p/, '');
       const transcript_id = row.Transcript_ID;
       const variant_class = row.VARIANT_CLASS;
