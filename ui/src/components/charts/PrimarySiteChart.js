@@ -13,7 +13,7 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
     css={`
       position: relative;
       height: 185px;
-      width: 33%;
+      width: 25%;
       padding: 12px 0 4px;
     `}
   >

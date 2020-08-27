@@ -14,6 +14,7 @@ import ModelSearch from 'components/search/ModelSearch';
 import PrimarySiteChart from 'components/charts/PrimarySiteChart';
 import MultipleModelsChart from 'components/charts/MultipleModelsChart';
 import GrowthChart from 'components/charts/GrowthChart';
+import TopVariantsChart from 'components/charts/TopVariantsChart';
 import TableEntity from 'components/TableEntity';
 import TableExpandedCell from 'components/TableExpandedCell';
 import TableMatchedModelsCell from 'components/TableMatchedModelsCell';
@@ -127,9 +128,9 @@ export default ({
               {() => (
                 <>
                   <PrimarySiteChart sqon={sqon} setSQON={setSQON} />
-                  {/* <TopVariantsChart sqon={sqon} setSQON={setSQON} /> */}
                   <MultipleModelsChart sqon={sqon} setSQON={setSQON} />
                   <GrowthChart sqon={sqon} setSQON={setSQON} />
+                  <TopVariantsChart sqon={sqon} setSQON={setSQON} />
                 </>
               )}
             </Component>
