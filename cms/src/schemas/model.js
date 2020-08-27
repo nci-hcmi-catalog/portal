@@ -37,8 +37,8 @@ const GenomicVariant = new mongoose.Schema({
   end_position: { type: String },
   specific_change: { type: String },
   classification: { type: String },
+  entrez_id: { type: String },
   synonyms: { type: [String] },
-  entrez_id: { type: [String] },
 });
 
 export const ModelSchema = new mongoose.Schema(
