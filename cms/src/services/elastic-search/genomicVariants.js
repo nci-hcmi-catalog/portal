@@ -3,6 +3,9 @@ import Gene from '../../schemas/genes';
 
 import { get, flatten, uniq } from 'lodash';
 
+import getLogger from '../../logger';
+const logger = getLogger('services/elastic-search/genomicVariants');
+
 const MODEL_INDEX = process.env.ES_INDEX;
 const GENES_INDEX = 'genes';
 const VARIANTS_INDEX = 'genomic_variants';
@@ -82,7 +85,7 @@ const updateVariantIndex = async desiredVariants => {
 };
 
 const updateGeneIndex = async desiredGenes => {
-  console.log('List of Genes that should be published:', desiredGenes);
+  logger.debug({ desiredGenes }, 'List of Genes that should be published');
 
   // 1. get list of genes published in ES
   const genesResponse = await esClient.search({
@@ -146,16 +149,16 @@ export const updateGeneSearchIndicies = async () => {
 
   // 1a. collect set of genes used in those model variants
   const desiredVariants = flatten(
-    publishedModels.map(model =>
-      (model.genomic_variants || []).map(variant => ({
+    publishedModels.map(model => {
+      return (model.genomic_variants || []).map(variant => ({
         variant: {
           transcript_id: variant.transcript_id,
           variant_id: variant.variant_id,
           name: variant.name,
         },
         gene: variant.ensemble_id,
-      })),
-    ),
+      }));
+    }),
   );
   const desiredGenes = desiredVariants.map(v => v.gene);
 

@@ -17,5 +17,5 @@ export default () =>
     })
     .catch(error =>
       // Catch here as we do not want an error here to block execution of the app
-      logger.error({ error, index }, `Error creating a new update for index`),
+      logger.error(error, index, `Error creating a new update for index`),
     );
