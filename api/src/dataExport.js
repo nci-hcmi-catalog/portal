@@ -34,7 +34,7 @@ dataExportRouter.post('/:projectId/models', async (req, res) => {
       .pipe(
         map((dataRow, cb) => {
           logger.debug({ dataRow, cb }, 'Arranger Output Row');
-          cb(null, `${dataRow}${NEW_LINE}`);
+          cb(null, `${dataRow}`);
         }),
       )
       .pipe(res)
