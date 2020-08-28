@@ -215,6 +215,9 @@
           "aa_change": {
             "type": "keyword"
           },
+          "type": {
+            "type": "keyword"
+          },
           "transcript_id": {
             "type": "keyword"
           },

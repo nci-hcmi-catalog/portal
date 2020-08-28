@@ -1,5 +1,5 @@
 import React from 'react';
-import { range, isEqual } from 'lodash';
+import { isEqual } from 'lodash';
 import { ResponsiveBar } from '@nivo/bar';
 import Component from 'react-component-component';
 
@@ -9,16 +9,15 @@ import AggregationQuery from 'components/queries/AggregationQuery';
 import { addInSQON } from '@arranger/components/dist/SQONView/utils';
 
 import { ChartTooltip } from './';
-const yGridSizes = [10, 100, 1000];
 
 export default ({ sqon, setSQON }) => (
   <Col
     alignItems="center"
     css={`
       position: relative;
-      width: 50%;
+      width: 25%;
       height: 185px;
-      padding: 16px 0 16px 0;
+      padding: 12px 0 4px;
     `}
   >
     <AggregationQuery sqon={sqon} field="variants__name">
@@ -68,7 +67,7 @@ export default ({ sqon, setSQON }) => (
                     palette,
                   };
                 },
-                { coloredTop10: [], palette: theme.chartsPalette },
+                { coloredTop10: [], palette: theme.mutatedGenesChartPalette },
               );
               setState({
                 coloredTop10,
@@ -81,65 +80,85 @@ export default ({ sqon, setSQON }) => (
                 (largest, { doc_count }) => (doc_count > largest ? doc_count : largest),
                 0,
               ),
-              yGridStepSize = yGridSizes.reduce(
-                (gridSize, possible) => (largestCount > possible ? possible : gridSize),
-                Math.floor(largestCount / 3), // y-axis step size minimum value
-              ),
-              yGridValues = largestCount > 0
-                ? range(
-                    0,
-                    largestCount + yGridStepSize * 2, //ensure that largest will be in the range
-                    yGridStepSize,
-                  )
-                : [],
+              // returns a "nice" number for the y-axis upper limit
+              // ex. largest 17 => 20, largest 177 => 200, largest 1777 => 2000
+              maxY = () => {
+                if (largestCount <= 1) {
+                  return largestCount;
+                }
+
+                const log = Math.floor(Math.log10(largestCount));
+                const step = Math.pow(10, log === 0 ? 1 : log);
+
+                return Math.ceil(largestCount / step) * step;
+              },
+              yGridValues = largestCount > 0 ? [0, maxY()] : [],
             }) => {
               return loading ? (
-                'loading'
+                <span className="sqon-field sqon-field--chart-title">Loading...</span>
               ) : (
                 <>
-                  <span
-                    className="sqon-field"
-                    css={`
-                      font-size: 12px;
-                    `}
-                  >
-                    Top {coloredTop10.length} Variants in {aggState.total} Models
+                  <span className="sqon-field sqon-field--chart-title">
+                    Most Frequently Mutated Genes
                   </span>
                   <ResponsiveBar
                     margin={{
-                      top: 25,
-                      right: 15,
-                      bottom: 38,
-                      left: 60,
+                      top: 12,
+                      right: 12,
+                      bottom: 50,
+                      left: 48,
                     }}
                     data={coloredTop10}
+                    maxValue={maxY()}
                     enableLabel={false}
                     padding={0.4}
                     indexBy="key"
                     keys={['doc_count']}
                     colorBy={data => (data || { data: { color: 'white' } }).data.color}
                     axisBottom={{
-                      orient: 'bottom',
-                      tickSize: 3,
-                      tickPadding: 2,
-                      tickRotation: -45,
+                      tickSize: 0,
+                      tickPadding: 5,
+                      tickRotation: 45,
                       legendOffset: 50,
-                      format: value =>
-                        value.length >= 4 ? `${value.substring(0, 4)}\u2026` : value,
+                      format: value => {
+                        const cutoffLength = 6;
+                        const dashIndex = value.indexOf('-');
+                        const spaceIndex = value.indexOf(' ');
+
+                        return value.substring(
+                          0,
+                          Math.min(
+                            cutoffLength,
+                            value.length,
+                            dashIndex > 0 ? dashIndex : 999,
+                            spaceIndex > 0 ? spaceIndex : 999,
+                          ),
+                        );
+                      },
                     }}
                     axisLeft={{
                       orient: 'left',
-                      tickSize: 5,
+                      tickSize: 0,
                       tickPadding: 5,
                       tickRotation: 0,
-                      legendPosition: 'center',
                       legendOffset: -40,
-                      legend: '# Models',
+                      legendPosition: 'middle',
+                      legend: '# models affected',
                       tickValues: yGridValues,
                     }}
-                    enableGridY={true}
+                    enableGridY={false}
                     gridYValues={yGridValues}
-                    theme={theme.chart}
+                    theme={{
+                      ...theme.chart,
+                      axis: {
+                        domain: {
+                          line: {
+                            stroke: '#dcdde1',
+                            strokeWidth: 1,
+                          },
+                        },
+                      },
+                    }}
                     tooltip={({ value, data }) => ChartTooltip({ value, label: data.key })}
                     isInteractive={true}
                     onClick={data =>

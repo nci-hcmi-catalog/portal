@@ -27,6 +27,7 @@ const GenomicVariant = new mongoose.Schema({
   ensemble_id: { type: String },
   gene: { type: String },
   aa_change: { type: String },
+  type: { type: String },
   transcript_id: { type: String },
   consequence_type: { type: String },
   class: { type: String },
@@ -123,6 +124,7 @@ export const ModelSchema = new mongoose.Schema(
           doc.genomic_variants.map(variant => ({
             gene: variant.gene,
             aa_change: variant.aa_change,
+            type: variant.type,
             transcript_id: variant.transcript_id,
             consequence_type: variant.consequence_type,
             class: variant.class,

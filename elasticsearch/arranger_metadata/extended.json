@@ -718,7 +718,7 @@
   {
     "field": "genomic_variants.gene",
     "type": "keyword",
-    "displayName": "Genomic Variant Gene",
+    "displayName": "Gene",
     "active": false,
     "isArray": false,
     "primaryKey": false,
@@ -730,9 +730,33 @@
   {
     "field": "genomic_variants.transcript_id",
     "type": "keyword",
+    "displayName": "Somatic Research Variant Transcript ID",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "genomic_variants.variant_id",
+    "type": "keyword",
     "displayName": "Genomic Variant Transcript ID",
     "active": false,
     "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "genomic_variants.synonyms",
+    "type": "keyword",
+    "displayName": "Gene Synonyms",
+    "active": false,
+    "isArray": true,
     "primaryKey": false,
     "quickSearchEnabled": false,
     "unit": null,
