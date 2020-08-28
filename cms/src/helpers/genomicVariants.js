@@ -27,6 +27,14 @@ export const clearGenomicVariants = async name => {
   }
 };
 
+const titleCase = (text, filter = i => true) => {
+  return text.replace(/\w\S*/g, i => {
+    if (filter(i)) {
+      return i.charAt(0).toUpperCase() + i.substr(1);
+    }
+  });
+};
+
 export const addGenomicVariantsFromMaf = async (name, mafData) => {
   const model = await Model.findOne({ name });
   if (model) {
@@ -37,14 +45,15 @@ export const addGenomicVariantsFromMaf = async (name, mafData) => {
       const row = mafData[i];
 
       const ensemble_id = row.Gene;
-      const aa_change = (row.HGVSp_Short || '').replace(/^\.p/, '');
+      const aa_change = (row.HGVSp_Short || '').replace(/^p\./, '');
+      const type = row.Variant_Type;
       const transcript_id = row.Transcript_ID;
       const variant_class = row.VARIANT_CLASS;
-      const consequence_type = (row.Consequence || '').replace(/_/g, ' ');
+      const consequence_type = titleCase((row.Consequence || '').replace(/_/g, ' '));
       const chromosome = row.Chromosome;
       const start_position = row.Start_Position;
       const end_position = row.End_Position;
-      const specific_change = (row.HGVSc || '').replace(/^c\.[0-9]*/, '');
+      const specific_change = (row.HGVSc || '').replace(/^c\.[0-9]*(-[0-9]+)?/, '');
       const classification = (row.Variant_Classification || '').replace(/_/g, ' ');
       const entrez_id = row.Entrez_Gene_Id;
 
@@ -52,6 +61,7 @@ export const addGenomicVariantsFromMaf = async (name, mafData) => {
         ensemble_id,
         aa_change,
         transcript_id,
+        type,
         class: variant_class,
         consequence_type,
         chromosome,
@@ -65,7 +75,10 @@ export const addGenomicVariantsFromMaf = async (name, mafData) => {
       const geneReference = await Gene.findOne({ _gene_id: ensemble_id });
       if (geneReference) {
         variant.gene = geneReference.symbol;
-        variant.gene_biotype = geneReference.biotype.replace(/_/g, ' ');
+        variant.gene_biotype = titleCase(
+          geneReference.biotype.replace(/_/g, ' '),
+          i => !i.includes('RNA'),
+        );
         variant.gene_name = geneReference.name;
         variant.synonyms = geneReference.synonyms;
       } else {
