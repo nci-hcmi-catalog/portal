@@ -5,6 +5,16 @@
     "active": true
   },
   {
+    "field": "genomic_variants__classification",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "genomic_variants__consequence_type",
+    "show": true,
+    "active": true
+  },
+  {
     "field": "type",
     "show": true,
     "active": true
