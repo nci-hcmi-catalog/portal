@@ -49,7 +49,7 @@ export default ({ data: { name, variants, updatedAt } }) => {
             >
               <AdminHeaderH3>
                 {data.length > 0
-                  ? 'Variant Data'
+                  ? 'Select the type of variant to add and import a variant list.'
                   : 'Submit your variant data by selecting “Add Variants” and uploading a google sheet.'}
               </AdminHeaderH3>
               <AdminHeaderBlock>
