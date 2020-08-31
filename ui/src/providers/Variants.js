@@ -68,57 +68,83 @@ export const useVariants = () => {
     return pageSize;
   };
 
-  // TODO: DELETE THIS!
-  // returns dummy Research Somatic Variant data
-  const generateRSVs = numRSVs => {
-    const GENES = ['BRAF', 'IDH1', 'PIK3CA', 'KRA5', 'TP53'];
-    const AA_CHANGES = ['V600G', 'R132H', 'E545K', 'H1047R', 'G12D', 'G12V', 'R175H'];
-    const CONSEQUENCE_TYPES = ['Missense'];
-    const CLASSES = ['SNV'];
-    const TYPES = ['Substitution'];
-    const NUM_CHROMOSOMES = 23;
+  const getGenomicVariants = async modelName => {
+    const variantsData = await api({
+      endpoint: `/${globals.VERSION}/graphql`,
+      body: {
+        query: `query($modelsSqon: JSON) {
+                    models {
+                      hits(filters: $modelsSqon, first: 1) {
+                        edges {
+                          node {
+                          name
+                            genomic_variants {
+                              hits {
+                                edges {
+                                  node {
+                                    gene
+                                    aa_change
+                                    transcript_id
+                                    consequence_type
+                                    class
+                                    chromosome
+                                    start_position
+                                    end_position
+                                    specific_change
+                                    classification
+                                    entrez_id
+                                    variant_id
+                                    name
+                                    type
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                `,
+        variables: {
+          modelsSqon: { op: 'in', content: { field: 'name', value: modelName } },
+        },
+      },
+    });
 
-    const generated = [];
+    const data = get(
+      variantsData,
+      `data.models.hits.edges[0].node.genomic_variants.hits.edges`,
+      [],
+    ).map(({ node }) => node);
 
-    for (let i = 0; i < numRSVs; i++) {
-      const BASES = ['A', 'T', 'C', 'G'];
+    return data.length && data.length > 0
+      ? data
+          .filter(variant => !!variant.gene)
+          .map(variant => {
+            const entrez_link = `https://www.ncbi.nlm.nih.gov/gene/${variant.entrez_id}`;
+            const geneComponent = variant.entrez_id ? (
+              <a href={entrez_link} target="_blank" rel="noopener noreferrer">
+                {variant.gene}
+              </a>
+            ) : (
+              variant.gene
+            );
 
-      let gene = GENES[Math.floor(Math.random() * GENES.length)];
-      let aa_change = AA_CHANGES[Math.floor(Math.random() * AA_CHANGES.length)];
-      let consequence_type = CONSEQUENCE_TYPES[Math.floor(Math.random() * CONSEQUENCE_TYPES.length)];
-      let variant_class = CLASSES[Math.floor(Math.random() * CLASSES.length)];
-      let variant_type = TYPES[Math.floor(Math.random() * TYPES.length)];
-      let transcript_id = 'ENST000000288602';
-      let chromosome = `chr${Math.floor(Math.random() * NUM_CHROMOSOMES)}`;
-      let startBase = BASES.splice(Math.floor(Math.random() * BASES.length), 1)[0];
-      let endBase = BASES.splice(Math.floor(Math.random() * BASES.length), 1)[0];
-      let startPos = Math.floor(Math.random() * 999999999);
-
-      generated.push({
-        gene: gene,
-        aa_change: aa_change,
-        transcript_id: transcript_id,
-        consequence_type: consequence_type,
-        class: variant_class,
-        type: variant_type,
-        chromosome: chromosome,
-        start_position: startPos,
-        end_position: startPos,
-        specific_change: `${startBase}>${endBase}`,
-        classification: variant_class,
-        variant_id: `${chromosome}:g.${startPos}${startBase}>${endBase}`,
-        name: `${gene} ${aa_change}`,
-      });
-    }
-
-    return generated;
+            return {
+              ...variant,
+              gene: {
+                name: variant.gene,
+                display: geneComponent,
+              },
+            };
+          })
+      : [];
   };
 
   const fetchData = async ({ modelName, type }) => {
-    // TODO: DELETE THIS!
-    // returns dummy Research Somatic Variant data
     if (type === VARIANT_TYPES.genomic) {
-      return generateRSVs(25);
+      return getGenomicVariants(modelName);
     }
 
     const variantsData = await api({

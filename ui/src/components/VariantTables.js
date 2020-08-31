@@ -35,6 +35,7 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
     fetchData,
     sortFilteredData,
   } = useVariants();
+  const didFetchRef = useRef(false);
   const didMountRef = useRef(false);
   const [filterValue, setFilterValue] = useState('');
 
@@ -43,15 +44,21 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
   const sortedData = useMemo(() => filteredData.slice().sort((a, b) => sortFilteredData(a, b)));
 
   useEffect(() => {
+    // avoid fetching data twice on page load
     const getData = async () => {
-      setData([]);
-      setLoading(true);
+      if (didFetchRef && didFetchRef.current) {
+        setData([]);
+        setLoading(true);
 
-      const dataWithFreqs = await fetchData({ modelName, type });
+        const dataWithFreqs = await fetchData({ modelName, type });
 
-      setData(dataWithFreqs);
-      setFilteredData(dataWithFreqs);
-      setLoading(false);
+        setData(dataWithFreqs);
+        setFilteredData(dataWithFreqs);
+        setLoading(false);
+      } else {
+        didFetchRef.current = true;
+      }
+
       setPage(0);
       setPageSize(10);
     };
@@ -273,7 +280,7 @@ const renderTable = (activeTab, modelName) => {
               canChangeShow: true,
               field: 'gene',
               id: 'gene',
-              accessor: 'gene',
+              accessor: 'gene.display',
               Header: 'Gene',
             },
             {
@@ -337,7 +344,7 @@ const renderTable = (activeTab, modelName) => {
 export default ({ modelName }) => {
   const [activeTab, setActiveTab] = useState(VARIANT_TYPES.clinical);
   const [isEmpty, setIsEmpty] = useState(true);
-  const { fetchData } = useVariants();
+  const { fetchData, setData, setFilteredData } = useVariants();
 
   useEffect(() => {
     const checkClinicalVariants = async () => {
@@ -345,19 +352,36 @@ export default ({ modelName }) => {
         modelName,
         type: VARIANT_TYPES.clinical,
       });
+      const genomicVariants = await fetchData({
+        modelName,
+        type: VARIANT_TYPES.genomic,
+      });
       const histopathologicalBiomarkers = await fetchData({
         modelName,
         type: VARIANT_TYPES.histopathological,
       });
 
-      if (clinicalVariants.length === 0 && histopathologicalBiomarkers.length === 0) {
+      if (
+        clinicalVariants.length === 0 &&
+        genomicVariants.length === 0 &&
+        histopathologicalBiomarkers.length === 0
+      ) {
         setIsEmpty(true);
       } else if (clinicalVariants.length > 0) {
         setIsEmpty(false);
         setActiveTab(VARIANT_TYPES.clinical);
+        setData(clinicalVariants);
+        setFilteredData(clinicalVariants);
+      } else if (genomicVariants.length > 0) {
+        setIsEmpty(false);
+        setActiveTab(VARIANT_TYPES.genomic);
+        setData(genomicVariants);
+        setFilteredData(genomicVariants);
       } else {
         setIsEmpty(false);
         setActiveTab(VARIANT_TYPES.histopathological);
+        setData(histopathologicalBiomarkers);
+        setFilteredData(histopathologicalBiomarkers);
       }
     };
 
