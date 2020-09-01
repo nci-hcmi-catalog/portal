@@ -37,7 +37,7 @@ const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, type })
           <Toolbar {...{ state: variantTable, type, onFilterValueChange }} />
           <DataTable
             {...{
-              state: { ...variantTable, clinicalVariantsData },
+              state: { ...variantTable, data: clinicalVariantsData },
               variantTable,
               tableColumns,
               onPageChange,
