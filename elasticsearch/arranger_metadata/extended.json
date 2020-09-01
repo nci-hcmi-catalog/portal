@@ -786,5 +786,65 @@
     "unit": null,
     "displayValues": {},
     "rangeStep": 1
+  },
+  {
+    "field": "gene_metadata.genes",
+    "type": "keyword",
+    "displayName": "Mutated Genes",
+    "active": false,
+    "isArray": true,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "gene_metadata.genes_count",
+    "type": "keyword",
+    "displayName": "# Mutated Genes",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "gene_metadata.genomic_variant_count",
+    "type": "keyword",
+    "displayName": "# Research Somatic Variants",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "gene_metadata.clinical_variant_count",
+    "type": "keyword",
+    "displayName": "# Clinical Variants",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "gene_metadata.histopathological_variant_count",
+    "type": "keyword",
+    "displayName": "# Histopathological Biomarkers",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
   }
 ]

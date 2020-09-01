@@ -240,20 +240,61 @@
       "jsonPath": null
     },
     {
-      "field": "split_ratio",
-      "accessor": "split_ratio",
-      "show": false,
-      "type": "string",
-      "sortable": true,
-      "canChangeShow": false,
-      "query": null,
-      "jsonPath": null
-    },
-    {
       "field": "expanded",
       "accessor": "expanded",
       "show": true,
       "type": "expanded",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "gene_metadata.genes_count",
+      "accessor": "gene_metadata.genes_count",
+      "show": true,
+      "type": "number",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "gene_metadata.genomic_variant_count",
+      "accessor": "gene_metadata.genomic_variant_count",
+      "show": true,
+      "type": "number",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "gene_metadata.clinical_variant_count",
+      "accessor": "gene_metadata.clinical_variant_count",
+      "show": true,
+      "type": "number",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "gene_metadata.histopathological_variant_count",
+      "accessor": "gene_metadata.histopathological_variant_count",
+      "show": true,
+      "type": "number",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+
+    {
+      "field": "split_ratio",
+      "accessor": "split_ratio",
+      "show": false,
+      "type": "string",
       "sortable": true,
       "canChangeShow": false,
       "query": null,
@@ -265,16 +306,6 @@
       "accessor": "has_matched_models",
       "show": false,
       "type": "boolean",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "matched_models.hits.total",
-      "accessor": "matched_models.hits.total",
-      "show": false,
-      "type": "matched_models",
       "sortable": false,
       "canChangeShow": false,
       "query": null,
