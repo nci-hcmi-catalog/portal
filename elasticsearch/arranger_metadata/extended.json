@@ -64,7 +64,7 @@
     "displayValues": {},
     "quickSearchEnabled": false,
     "field": "tissue_type",
-    "displayName": "Tissue Type",
+    "displayName": "Tissue Status",
     "active": false,
     "isArray": false,
     "type": "keyword",
@@ -99,7 +99,7 @@
   {
     "field": "matched_models.tissue_type",
     "type": "keyword",
-    "displayName": "Multiple Model Tissue Type",
+    "displayName": "Multiple Model Tissue Status",
     "active": false,
     "isArray": false,
     "primaryKey": false,
