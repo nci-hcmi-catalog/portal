@@ -16,6 +16,7 @@ import MultipleModelsChart from 'components/charts/MultipleModelsChart';
 import GrowthChart from 'components/charts/GrowthChart';
 import TopVariantsChart from 'components/charts/TopVariantsChart';
 import TableEntity from 'components/TableEntity';
+import TableDistributorCell from 'components/TableDistributorCell';
 import TableExpandedCell from 'components/TableExpandedCell';
 import TableMatchedModelsCell from 'components/TableMatchedModelsCell';
 import TableList from 'components/TableList';
@@ -154,6 +155,16 @@ export default ({
                         entity: props => (
                           <TableEntity
                             {...props}
+                            savedSetsContext={savedSetsContext}
+                            state={state}
+                            sqon={sqon}
+                            history={history}
+                          />
+                        ),
+                        distributor_link: props => (
+                          <TableDistributorCell
+                            {...props}
+                            value={props.value}
                             savedSetsContext={savedSetsContext}
                             state={state}
                             sqon={sqon}

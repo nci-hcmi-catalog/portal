@@ -14,7 +14,7 @@
       "show": true,
       "type": "entity",
       "sortable": true,
-      "canChangeShow": true,
+      "canChangeShow": false,
       "query": null,
       "jsonPath": null
     },
@@ -39,8 +39,8 @@
       "jsonPath": null
     },
     {
-      "field": "clinical_diagnosis.clinical_stage_grouping",
-      "accessor": "clinical_diagnosis.clinical_stage_grouping",
+      "field": "clinical_diagnosis.histological_type",
+      "accessor": "clinical_diagnosis.histological_type",
       "show": false,
       "type": "string",
       "sortable": true,
@@ -49,9 +49,30 @@
       "jsonPath": null
     },
     {
+      "field": "tissue_type",
+      "accessor": "tissue_type",
+      "show": true,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "clinical_diagnosis.site_of_sample_acquisition",
+      "accessor": "clinical_diagnosis.site_of_sample_acquisition",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+
+    {
       "field": "gender",
       "accessor": "gender",
-      "show": true,
+      "show": false,
       "type": "string",
       "sortable": true,
       "canChangeShow": true,
@@ -61,7 +82,7 @@
     {
       "field": "race",
       "accessor": "race",
-      "show": true,
+      "show": false,
       "type": "string",
       "sortable": true,
       "canChangeShow": true,
@@ -89,78 +110,8 @@
       "jsonPath": null
     },
     {
-      "field": "has_matched_models",
-      "accessor": "has_matched_models",
-      "show": false,
-      "type": "boolean",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "matched_models_list",
-      "accessor": "matched_models_list",
-      "show": true,
-      "type": "matched_models",
-      "sortable": false,
-      "canChangeShow": true,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "matched_models.hits.total",
-      "accessor": "matched_models.hits.total",
-      "show": false,
-      "type": "matched_models",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "expanded",
-      "accessor": "expanded",
-      "show": false,
-      "type": "expanded",
-      "sortable": true,
-      "canChangeShow": false,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "clinical_diagnosis.histological_type",
-      "accessor": "clinical_diagnosis.histological_type",
-      "show": false,
-      "type": "string",
-      "sortable": true,
-      "canChangeShow": true,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "clinical_diagnosis.tumor_histological_grade",
-      "accessor": "clinical_diagnosis.tumor_histological_grade",
-      "show": false,
-      "type": "string",
-      "sortable": true,
-      "canChangeShow": true,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "chemotherapeutic_drugs",
-      "accessor": "chemotherapeutic_drugs",
-      "show": false,
-      "type": "boolean",
-      "sortable": true,
-      "canChangeShow": true,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "clinical_diagnosis.site_of_sample_acquisition",
-      "accessor": "clinical_diagnosis.site_of_sample_acquisition",
+      "field": "disease_status",
+      "accessor": "disease_status",
       "show": false,
       "type": "string",
       "sortable": true,
@@ -179,10 +130,110 @@
       "jsonPath": null
     },
     {
-      "field": "disease_status",
-      "accessor": "disease_status",
+      "field": "tnm_stage",
+      "accessor": "tnm_stage",
       "show": false,
       "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "clinical_diagnosis.clinical_stage_grouping",
+      "accessor": "clinical_diagnosis.clinical_stage_grouping",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "clinical_diagnosis.tumor_histological_grade",
+      "accessor": "clinical_diagnosis.tumor_histological_grade",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "matched_models_list",
+      "accessor": "matched_models_list",
+      "show": true,
+      "type": "matched_models",
+      "sortable": false,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "neoadjuvant_therapy",
+      "accessor": "neoadjuvant_therapy",
+      "show": false,
+      "type": "keyword",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "chemotherapeutic_drugs",
+      "accessor": "chemotherapeutic_drugs",
+      "show": false,
+      "type": "boolean",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "therapy",
+      "accessor": "therapy",
+      "show": false,
+      "type": "list",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "molecular_characterizations",
+      "accessor": "molecular_characterizations",
+      "show": false,
+      "type": "list",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "distributor_part_number",
+      "accessor": "distributor_part_number",
+      "show": false,
+      "type": "distributor_link",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "type",
+      "accessor": "type",
+      "show": false,
+      "type": "string",
+      "sortable": true,
+      "canChangeShow": true,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "licensing_required",
+      "accessor": "licensing_required",
+      "show": false,
+      "type": "boolean",
       "sortable": true,
       "canChangeShow": true,
       "query": null,
@@ -194,7 +245,38 @@
       "show": false,
       "type": "string",
       "sortable": true,
-      "canChangeShow": true,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "expanded",
+      "accessor": "expanded",
+      "show": true,
+      "type": "expanded",
+      "sortable": true,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+
+    {
+      "field": "has_matched_models",
+      "accessor": "has_matched_models",
+      "show": false,
+      "type": "boolean",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "matched_models.hits.total",
+      "accessor": "matched_models.hits.total",
+      "show": false,
+      "type": "matched_models",
+      "sortable": false,
+      "canChangeShow": false,
       "query": null,
       "jsonPath": null
     },
@@ -204,7 +286,7 @@
       "show": false,
       "type": "string",
       "sortable": true,
-      "canChangeShow": true,
+      "canChangeShow": false,
       "query": null,
       "jsonPath": null
     },
@@ -285,7 +367,7 @@
       "type": "list",
       "sortable": false,
       "canChangeShow": false,
-      "query": "matched_models {  hits {  edges {  node {  name}}}}",
+      "query": "matched_models { hits { edges { node { name }}}}",
       "jsonPath": "$.matched_models.hits.edges[*].node.name"
     },
     {
@@ -295,7 +377,7 @@
       "type": "list",
       "sortable": false,
       "canChangeShow": false,
-      "query": "matched_models {  hits {  edges {  node {  tissue_type}}}}",
+      "query": "matched_models { hits { edges { node { tissue_type }}}}",
       "jsonPath": "$.matched_models.hits.edges[*].node.tissue_type"
     },
     {
@@ -304,57 +386,7 @@
       "show": false,
       "type": "number",
       "sortable": true,
-      "canChangeShow": true,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "licensing_required",
-      "accessor": "licensing_required",
-      "show": false,
-      "type": "boolean",
-      "sortable": true,
-      "canChangeShow": true,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "molecular_characterizations",
-      "accessor": "molecular_characterizations",
-      "show": false,
-      "type": "list",
-      "sortable": true,
-      "canChangeShow": true,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "neoadjuvant_therapy",
-      "accessor": "neoadjuvant_therapy",
-      "show": false,
-      "type": "keyword",
-      "sortable": true,
-      "canChangeShow": true,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "tissue_type",
-      "accessor": "tissue_type",
-      "show": false,
-      "type": "string",
-      "sortable": true,
-      "canChangeShow": true,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "distributor_part_number",
-      "accessor": "distributor_part_number",
-      "show": false,
-      "type": "string",
-      "sortable": true,
-      "canChangeShow": true,
+      "canChangeShow": false,
       "query": null,
       "jsonPath": null
     },
@@ -388,36 +420,7 @@
       "query": null,
       "jsonPath": null
     },
-    {
-      "field": "therapy",
-      "accessor": "therapy",
-      "show": false,
-      "type": "list",
-      "sortable": true,
-      "canChangeShow": true,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "tnm_stage",
-      "accessor": "tnm_stage",
-      "show": false,
-      "type": "string",
-      "sortable": true,
-      "canChangeShow": true,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "type",
-      "accessor": "type",
-      "show": false,
-      "type": "string",
-      "sortable": true,
-      "canChangeShow": true,
-      "query": null,
-      "jsonPath": null
-    },
+
     {
       "field": "variants.assessment_type",
       "accessor": null,
