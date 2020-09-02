@@ -7,6 +7,7 @@ import { api } from '@arranger/components';
 
 import SparkMeter from 'components/SparkMeter';
 
+import { VARIANT_TYPES } from 'utils/constants';
 import globals from 'utils/globals';
 
 export const VariantsContext = React.createContext([{}, () => {}]);
@@ -67,7 +68,85 @@ export const useVariants = () => {
     return pageSize;
   };
 
+  const getGenomicVariants = async modelName => {
+    const variantsData = await api({
+      endpoint: `/${globals.VERSION}/graphql`,
+      body: {
+        query: `query($modelsSqon: JSON) {
+                    models {
+                      hits(filters: $modelsSqon, first: 1) {
+                        edges {
+                          node {
+                          name
+                            genomic_variants {
+                              hits {
+                                edges {
+                                  node {
+                                    gene
+                                    aa_change
+                                    transcript_id
+                                    consequence_type
+                                    class
+                                    chromosome
+                                    start_position
+                                    end_position
+                                    specific_change
+                                    classification
+                                    entrez_id
+                                    variant_id
+                                    name
+                                    type
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                `,
+        variables: {
+          modelsSqon: { op: 'in', content: { field: 'name', value: modelName } },
+        },
+      },
+    });
+
+    const data = get(
+      variantsData,
+      `data.models.hits.edges[0].node.genomic_variants.hits.edges`,
+      [],
+    ).map(({ node }) => node);
+
+    return data.length && data.length > 0
+      ? data
+          .filter(variant => !!variant.gene)
+          .map(variant => {
+            const entrez_link = `https://www.ncbi.nlm.nih.gov/gene/${variant.entrez_id}`;
+            const geneComponent = variant.entrez_id ? (
+              <a href={entrez_link} target="_blank" rel="noopener noreferrer">
+                {variant.gene}
+              </a>
+            ) : (
+              variant.gene
+            );
+
+            return {
+              ...variant,
+              gene: {
+                name: variant.gene,
+                display: geneComponent,
+              },
+            };
+          })
+      : [];
+  };
+
   const fetchData = async ({ modelName, type }) => {
+    if (type === VARIANT_TYPES.genomic) {
+      return getGenomicVariants(modelName);
+    }
+
     const variantsData = await api({
       endpoint: `/${globals.VERSION}/graphql`,
       body: {

@@ -48,7 +48,7 @@ export const addGenomicVariantsFromMaf = async (name, mafData) => {
       const aa_change = (row.HGVSp_Short || '').replace(/^p\./, '');
       const type = row.Variant_Type;
       const transcript_id = row.Transcript_ID;
-      const variant_class = row.VARIANT_CLASS;
+      const variant_class = titleCase(row.VARIANT_CLASS);
       const consequence_type = titleCase((row.Consequence || '').replace(/_/g, ' '));
       const chromosome = row.Chromosome;
       const start_position = row.Start_Position;
