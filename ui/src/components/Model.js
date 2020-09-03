@@ -199,8 +199,6 @@ const ExternalResourcesContent = ({
   const sequencingFilesLink = sourceSequenceUrl !== 'N/A' ? sourceSequenceUrl : null;
   const modelSourceLink = sourceModelUrl !== 'N/A' ? sourceModelUrl : null;
   const somaticMafLink = somaticMafUrl !== 'N/A' ? somaticMafUrl : null;
-  // const purchaseLink =
-  //   distributorPartNumber && `https://www.atcc.org/products/all/${distributorPartNumber}`;
 
   return (
     <div className="external-resources">
