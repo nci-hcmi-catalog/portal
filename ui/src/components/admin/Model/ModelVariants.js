@@ -158,7 +158,7 @@ export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
                         }
                       >
                         <PlusIcon css={'margin-right: 5px;'} />
-                        Research Variants
+                        Research Somatic Variants
                       </ButtonPill>
                     </>
                   )}
@@ -180,7 +180,7 @@ export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
                     disabled={genomicVariantsData.length === 0}
                     onClick={() => setActiveTab(VARIANT_TYPES.genomic)}
                   >
-                    Research Variants
+                    Research Somatic Variants
                   </Tab>
                 </TabGroup>
                 <TabView
