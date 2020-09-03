@@ -20,7 +20,7 @@ export default ({ sqon, setSQON, ...props }) => (
 
       return { title: option.symbol, details, value: option.symbol };
     }}
-    filterField="genomic_variants.gene"
+    filterField="gene_metadata.genes"
     searchService={searchGenes}
   />
 );

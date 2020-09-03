@@ -20,11 +20,13 @@ export default ({ sqon, setSQON }) => (
       padding: 12px 0 4px;
     `}
   >
-    <AggregationQuery sqon={sqon} field="variants__name">
+    <AggregationQuery sqon={sqon} field="gene_metadata__genes">
       {({ state: aggState }) => {
+        console.log('aggregationQuery aggState', aggState);
         return (
           <Component
             top10={(aggState.buckets || [])
+              .filter(b => b.key !== '__missing__')
               .sort((a, b) => {
                 if (b.doc_count === a.doc_count) {
                   if (a.key > b.key) {
@@ -170,7 +172,7 @@ export default ({ sqon, setSQON }) => (
                               {
                                 op: 'in',
                                 content: {
-                                  field: 'variants.name',
+                                  field: 'gene_metadata.genes',
                                   value: [].concat(data.data.key || []),
                                 },
                               },
