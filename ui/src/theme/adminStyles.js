@@ -4,7 +4,7 @@ import { Row, Col } from 'theme/system';
 
 const {
   fonts: { openSans },
-  keyedPalette: { black, porcelain, white, mineShaft },
+  keyedPalette: { black, porcelain, white },
 } = base;
 
 const bkgColour = white;
@@ -60,9 +60,9 @@ export const AdminHeaderH1 = styled('h1')`
 
 export const AdminHeaderH3 = styled('h3')`
   font-family: ${openSans};
-  line-height: 1;
-  color: ${mineShaft};
-  font-size: 16px;
+  line-height: 1.71;
+  color: ${black};
+  font-size: 14px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;

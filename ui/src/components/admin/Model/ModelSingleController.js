@@ -23,6 +23,7 @@ import { getDictionary } from '../helpers/dictionary';
 
 import { modelStatus, computeModelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
 import { getPublishSchema } from '@hcmi-portal/cms/src/validation/model';
+import { debounce } from 'lodash';
 
 export const ModelSingleContext = React.createContext();
 
@@ -108,6 +109,17 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             isLoading: false,
             initialized: false,
           },
+          genomicVariantTable: {
+            selection: [],
+            selectAll: false,
+            filterValue: '',
+            minRows: 0,
+            rowCount: 0,
+            page: 0,
+            pageSize: 10,
+            isLoading: false,
+            initialized: false,
+          },
           otherModelOptions: [],
           matchedModels: [],
           dictionary: null,
@@ -138,6 +150,10 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   ...state.variantTable,
                   rowCount: (modelDataResponse.data.variants || []).length,
                 },
+                genomicVariantTable: {
+                  ...state.genomicVariantTable,
+                  rowCount: (modelDataResponse.data.genomic_variants || []).length,
+                },
                 matchedModels: modelDataResponse.data.linkedModels || [],
               }));
             } catch (err) {
@@ -165,6 +181,41 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             console.error('Unable to load dictionary values for form:', e);
           }
         }}
+        didUpdate={debounce(
+          async ({ state, setState, prevState }) => {
+            if (
+              state.genomicVariantTable.pageSize !== prevState.genomicVariantTable.pageSize ||
+              state.genomicVariantTable.page !== prevState.genomicVariantTable.page ||
+              state.genomicVariantTable.filterValue !== prevState.genomicVariantTable.filterValue ||
+              state.genomicVariantTable.sorted !== prevState.genomicVariantTable.sorted
+            ) {
+              try {
+                setState(state => ({
+                  ...state,
+                  genomicVariantTable: {
+                    ...state.genomicVariantTable,
+                    isLoading: false,
+                  },
+                }));
+              } catch (err) {
+                setState(state => ({
+                  ...state,
+                  genomicVariantTable: {
+                    ...state.genomicVariantTable,
+                    isLoading: false,
+                  },
+                  data: {
+                    isLoading: false,
+                    data: [],
+                    error: err,
+                  },
+                }));
+              }
+            }
+          },
+          300,
+          { maxWait: 1000, trailing: true },
+        )}
       >
         {({ state, setState }) => (
           <ModelSingleContext.Provider
@@ -501,6 +552,10 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                           ...state.variantTable,
                           rowCount: (modelDataResponse.data.variants || []).length,
                         },
+                        genomicVariantTable: {
+                          ...state.genomicVariantTable,
+                          rowCount: (modelDataResponse.data.genomic_variants || []).length,
+                        },
                       }));
                       const anyUpdatesDone = isEmptyResult(result);
                       const notificationMessage = anyUpdatesDone
@@ -661,6 +716,11 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 setState,
                 state.data.response.variants || [],
                 'variantTable',
+              ),
+              genomicVariantTableControls: generateTableActions(
+                setState,
+                state.data.response.genomic_variants || [],
+                'genomicVariantTable',
               ),
             }}
             {...props}
