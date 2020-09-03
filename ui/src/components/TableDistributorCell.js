@@ -13,6 +13,7 @@ export default ({ sqon, savedSetsContext, state, value, history }) => {
       `}
       href={distributorLink(value)}
       target="_blank"
+      rel="noopener noreferrer"
     >
       <ExternalLinkIcon /> {value}
     </a>
