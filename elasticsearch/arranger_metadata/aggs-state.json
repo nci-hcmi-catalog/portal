@@ -258,5 +258,10 @@
     "field": "matched_models_list",
     "show": false,
     "active": true
+  },
+  {
+    "field": "gene_metadata__genes",
+    "show": false,
+    "active": true
   }
 ]

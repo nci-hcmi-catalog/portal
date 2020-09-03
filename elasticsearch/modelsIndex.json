@@ -258,7 +258,6 @@
         }
       },
       "gene_metadata": {
-        "type": "nested",
         "properties": {
           "genes": { "type": "keyword" },
           "genes_count": { "type": "keyword" },
