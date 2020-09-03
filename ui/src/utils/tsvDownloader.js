@@ -1,5 +1,5 @@
 import { saveAs } from 'filesaver.js';
-
+import { clone } from 'lodash';
 /**
  * Given a array of like objects, transform keys to header
  * row and then output each object values as a row in a tsv
@@ -26,12 +26,17 @@ export default function(fileName, objArr) {
   );
 }
 
-const addColumnSpecificCustomizations = row =>
-  row['split_ratio']
-    ? {
-        ...row,
-        split_ratio: (`${row['split_ratio']}` || '').includes(':')
-          ? `'${row['split_ratio']}`
-          : row['split_ratio'],
-      }
-    : row;
+const addColumnSpecificCustomizations = row => {
+  const output = clone(row);
+  if (output['split_ratio']) {
+    output['split_ratio'] = (`${output['split_ratio']}` || '').includes(':')
+      ? `'${output['split_ratio']}`
+      : output['split_ratio'];
+  }
+  if (output.gene && output.gene.name) {
+    // Genopmic Variant gene data is a nested object to handle the link out that uses entrez_id
+    // it needs to be simplified down for the tsv.
+    output.gene = output.gene.name;
+  }
+  return output;
+};
