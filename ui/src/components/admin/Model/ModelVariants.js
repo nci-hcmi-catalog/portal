@@ -3,9 +3,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ModelSingleContext } from './ModelSingleController';
 import { ModalStateContext } from 'providers/ModalState';
 
-import { Toolbar, DataTable } from '../AdminTable';
+import { Toolbar, DataTable, GenomicDataTable } from '../AdminTable';
 import BulkUploader from '../BulkUpload';
-import { ModelVariantColumns as tableColumns } from './ModelVariantColumns';
+import { ModelVariantColumns as clinicalVariantTableColumns } from './ModelVariantColumns';
+import { ModelGenomicVariantColumns as genomicVariantTableColumns } from './ModelGenomicVariantColumns';
 import { TabGroup, Tab } from 'components/layout/HorizontalTabs';
 import PlusIcon from '../../../icons/PlusIcon';
 import TabHeader from './TabHeader';
@@ -20,30 +21,31 @@ import { VARIANT_TYPES } from 'utils/constants';
 
 const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, type }) => {
   const {
-    state: { variantTable },
-    variantTableControls: {
-      onFilterValueChange,
-      onPageChange,
-      onPageSizeChange,
-      toggleSelection,
-      toggleAll,
-    },
+    state: { variantTable, genomicVariantTable },
+    variantTableControls,
+    genomicVariantTableControls,
   } = useContext(ModelSingleContext);
 
   switch (activeTab) {
     case VARIANT_TYPES.clinical:
       return (
         <Table marginBottom="0">
-          <Toolbar {...{ state: variantTable, type, onFilterValueChange }} />
+          <Toolbar
+            {...{
+              state: variantTable,
+              type,
+              onFilterValueChange: variantTableControls.onFilterValueChange,
+            }}
+          />
           <DataTable
             {...{
               state: { ...variantTable, data: clinicalVariantsData },
               variantTable,
-              tableColumns,
-              onPageChange,
-              onPageSizeChange,
-              toggleSelection,
-              toggleAll,
+              tableColumns: clinicalVariantTableColumns,
+              onPageChange: variantTableControls.onPageChange,
+              onPageSizeChange: variantTableControls.onPageSizeChange,
+              toggleSelection: variantTableControls.toggleSelection,
+              toggleAll: variantTableControls.toggleAll,
               disablePagination: true,
               simpleTableWithPagination: true,
             }}
@@ -51,8 +53,27 @@ const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, type })
         </Table>
       );
     case VARIANT_TYPES.genomic:
-      console.log(genomicVariantsData);
-      return 'TODO: INSERT RESEARCH VARIANTS TABLE';
+      return (
+        <Table marginBottom="0">
+          <Toolbar
+            {...{
+              state: genomicVariantTable,
+              type,
+              onFilterValueChange: genomicVariantTableControls.onFilterValueChange,
+            }}
+          />
+          <GenomicDataTable
+            {...{
+              state: { ...genomicVariantTable, data: genomicVariantsData },
+              onPageChange: genomicVariantTableControls.onPageChange,
+              onPageSizeChange: genomicVariantTableControls.onPageSizeChange,
+              tableColumns: genomicVariantTableColumns,
+              toggleSelection: genomicVariantTableControls.toggleSelection,
+              toggleAll: genomicVariantTableControls.toggleAll,
+            }}
+          />
+        </Table>
+      );
     default:
       return null;
   }
@@ -67,9 +88,7 @@ export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
     assessment_type: variant.assessment_type,
     expression_level: variant.expression_level,
   }));
-  const genomicVariantsData = (genomic_variants || []).map(variant => ({
-    _id: variant._id,
-  }));
+  const genomicVariantsData = (genomic_variants || []).filter(variant => variant.gene);
   const type = 'Variants';
 
   useEffect(() => {

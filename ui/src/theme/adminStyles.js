@@ -4,7 +4,7 @@ import { Row, Col } from 'theme/system';
 
 const {
   fonts: { openSans },
-  keyedPalette: { black, porcelain, white, mineShaft },
+  keyedPalette: { black, porcelain, white },
 } = base;
 
 const bkgColour = white;
