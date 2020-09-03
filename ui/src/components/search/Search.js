@@ -200,6 +200,9 @@ export default ({
                         list: {
                           minWidth: 160,
                         },
+                        number: { minWidth: 85 },
+                        matched_models: { minWidth: 68 },
+                        age_at_sample_acquisition: { minWidth: 10 },
                       }}
                       index={props.index}
                       graphqlField={props.index}
