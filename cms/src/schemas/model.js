@@ -1,5 +1,9 @@
 import mongoose from 'mongoose';
 import { modelStatus } from '../helpers/modelStatus';
+import { flatten, uniq } from 'lodash';
+
+import getLogger from '../logger';
+const logger = getLogger('schemas/model');
 
 // Used to remove values that are empty strings from document
 const deleteEmptyStrings = v => {
@@ -38,8 +42,8 @@ const GenomicVariant = new mongoose.Schema({
   end_position: { type: String },
   specific_change: { type: String },
   classification: { type: String },
-  synonyms: { type: [String] },
   entrez_id: { type: String },
+  synonyms: { type: [String] },
 });
 
 export const ModelSchema = new mongoose.Schema(
@@ -142,6 +146,33 @@ export const ModelSchema = new mongoose.Schema(
             }`,
             name: `${variant.gene} ${variant.aa_change}`,
           })),
+      },
+      gene_metadata: {
+        es_type: 'object',
+        es_value: doc => {
+          // Assemble list of genes from genomic_variants.gene and variants.variant.genes
+          const genomic_variant_genes = doc.genomic_variants.map(gv => gv.gene);
+          const variant_genes = flatten(doc.variants.map(wrapper => wrapper.variant.genes));
+          const genes = uniq([...genomic_variant_genes, ...variant_genes]);
+
+          // Get counts of the 4 categories shown on search table
+          const genes_count = genes.length;
+          const genomic_variant_count = doc.genomic_variants.length;
+          const clinical_variant_count = doc.variants.filter(
+            variant => variant.variant && variant.variant.type === 'Clinical',
+          ).length;
+          const histopathological_variant_count = doc.variants.filter(
+            variant => variant.variant && variant.variant.type === 'Histopathological Biomarker',
+          ).length;
+
+          return {
+            genes,
+            genes_count,
+            genomic_variant_count,
+            clinical_variant_count,
+            histopathological_variant_count,
+          };
+        },
       },
       // The following matched_models work is definitely a trick. You need to add populatedMatches as
       //   an array of models that should be included as matched_models before calling esIndex()

@@ -87,7 +87,14 @@ export default ({
                 options={options}
                 icon={ResultsIcon}
                 onSelect={selected => {
-                  setValue(selected);
+                  const currentFilterValues =
+                    sqon && sqon.content
+                      ? (
+                          sqon.content.find(i => i.content.field === filterField) || {
+                            content: { value: [] },
+                          }
+                        ).content.value
+                      : [];
 
                   const query = {
                     op: 'and',
@@ -96,11 +103,12 @@ export default ({
                         op: 'in',
                         content: {
                           field: filterField,
-                          value: [selected],
+                          value: [...currentFilterValues, selected],
                         },
                       },
                     ],
                   };
+
                   const clearedSqon = SQONUtils.removeSQON(filterField, sqon);
                   const newSqon = selected ? SQONUtils.addInSQON(query, clearedSqon) : clearedSqon;
                   setSQON(newSqon);

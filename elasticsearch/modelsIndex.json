@@ -203,14 +203,11 @@
           }
         }
       },
-      "genes": { "type": "keyword" },
-      "genomic_variant_names": { "type": "keyword" },
       "genomic_variants": {
         "type": "nested",
         "properties": {
           "gene": {
-            "type": "keyword",
-            "copy_to": ["genes"]
+            "type": "keyword"
           },
           "aa_change": {
             "type": "keyword"
@@ -256,9 +253,17 @@
           },
           "synonyms": { "type": "keyword" },
           "name": {
-            "type": "keyword",
-            "copy_to": ["genomic_variant_names"]
+            "type": "keyword"
           }
+        }
+      },
+      "gene_metadata": {
+        "properties": {
+          "genes": { "type": "keyword" },
+          "genes_count": { "type": "keyword" },
+          "genomic_variant_count": { "type": "keyword" },
+          "clinical_variant_count": { "type": "keyword" },
+          "histopathological_variant_count": { "type": "keyword" }
         }
       },
       "vital_status": {

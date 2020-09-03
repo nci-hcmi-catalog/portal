@@ -3,6 +3,9 @@ import Gene from '../../schemas/genes';
 
 import { get, flatten, uniq } from 'lodash';
 
+import getLogger from '../../logger';
+const logger = getLogger('services/elastic-search/genomicVariants');
+
 const MODEL_INDEX = process.env.ES_INDEX;
 const GENES_INDEX = 'genes';
 const VARIANTS_INDEX = 'genomic_variants';
@@ -13,7 +16,7 @@ const VARIANTS_INDEX = 'genomic_variants';
 //   Additionally, to know which genes to remove we have to compare this list to the currently published list in the genes index on ES
 
 const updateVariantIndex = async desiredVariants => {
-  console.log('List of Variants that should be published:', desiredVariants);
+  logger.debug({ desiredVariants }, 'List of Variants that should be published');
 
   const variantIds = desiredVariants.map(v => v.variant.transcript_id);
 
@@ -24,16 +27,16 @@ const updateVariantIndex = async desiredVariants => {
   const publishedVariants = get(variantsResponse, 'body.hits.hits', []).map(
     i => i._source.transcript_id,
   );
-  console.log('List of Variants currently published:', publishedVariants);
+  logger.debug({ publishedVariants }, 'List of Variants currently published');
 
   // 2. find list of variants to unpublish and genes to publish
   const removeVariants = publishedVariants.filter(variant => !variantIds.includes(variant));
-  console.log('Variants to unpublish:', removeVariants);
+  logger.debug({ removeVariants }, 'Variants to unpublish');
 
   const addVariants = desiredVariants.filter(
     v => !publishedVariants.includes(v.variant.transcript_id),
   );
-  console.log('Variants to publish:', addVariants);
+  logger.debug({ addVariants }, 'Variants to publish');
 
   // 3. do the publish/unpublish operations
   const deleteRequests = removeVariants.map(variant => ({
@@ -77,12 +80,12 @@ const updateVariantIndex = async desiredVariants => {
       body: [...deleteRequests, ...addRequests],
     });
   } else {
-    console.log('No updates for Genomic Variants search index.');
+    logger.debug('No updates for Genomic Variants search index');
   }
 };
 
 const updateGeneIndex = async desiredGenes => {
-  console.log('List of Genes that should be published:', desiredGenes);
+  logger.debug({ desiredGenes }, 'List of Genes that should be published');
 
   // 1. get list of genes published in ES
   const genesResponse = await esClient.search({
@@ -90,14 +93,14 @@ const updateGeneIndex = async desiredGenes => {
   });
 
   const publishedGenes = get(genesResponse, 'body.hits.hits', []).map(i => i._source.ensemble_id);
-  console.log('List of Genes currently published:', publishedGenes);
+  logger.debug({ publishedGenes }, 'List of Genes currently published');
 
   // 2. find list of genes to unpublish and genes to publish
   const removeGenes = publishedGenes.filter(gene => !desiredGenes.includes(gene));
-  console.log('Genes to unpublish:', removeGenes);
+  logger.debug({ removeGenes }, 'Genes to unpublish');
 
   const addGenes = desiredGenes.filter(gene => !publishedGenes.includes(gene));
-  console.log('Genes to publish:', addGenes);
+  logger.debug({ addGenes }, 'Genes to publish');
 
   // 3. do the publish/unpublish operations
 
@@ -132,7 +135,7 @@ const updateGeneIndex = async desiredGenes => {
       body: [...deleteRequests, ...addRequests],
     });
   } else {
-    console.log('No updates for Gene search index.');
+    logger.debug('No updates for Gene search index.');
   }
 };
 
@@ -146,16 +149,16 @@ export const updateGeneSearchIndicies = async () => {
 
   // 1a. collect set of genes used in those model variants
   const desiredVariants = flatten(
-    publishedModels.map(model =>
-      (model.genomic_variants || []).map(variant => ({
+    publishedModels.map(model => {
+      return (model.genomic_variants || []).map(variant => ({
         variant: {
           transcript_id: variant.transcript_id,
           variant_id: variant.variant_id,
           name: variant.name,
         },
         gene: variant.ensemble_id,
-      })),
-    ),
+      }));
+    }),
   );
   const desiredGenes = desiredVariants.map(v => v.gene);
 

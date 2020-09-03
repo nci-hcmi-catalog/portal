@@ -149,7 +149,7 @@ const VariantImporter = (function() {
     } catch (error) {
       // Need handling for different error cases.
 
-      logger.error({ error }, 'Error occurred while fetching MAF file URL from GDC');
+      logger.error(error, 'Error occurred while fetching MAF file URL from GDC');
       return { error: 'Communication error occurred with GDC.' };
     }
   };
