@@ -23,6 +23,7 @@ const activeTab = css`
   background-color: ${backgroundColour};
   border: solid 1px ${borderColour};
   border-top-width: 3px;
+  border-bottom-width: 0px;
   color: ${black};
   font-weight: bold;
   z-index: 2;
@@ -62,6 +63,7 @@ export const Tab = styled('div')`
   cursor: pointer;
   label: horizontal-tabs__tab;
   border: solid 1px ${alto};
+  border-bottom-width: 0px;
   color: ${brandPrimary};
   background-color: ${white};
   ${verticalTabHover};
