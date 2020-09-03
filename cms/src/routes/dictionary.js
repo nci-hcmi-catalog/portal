@@ -20,7 +20,7 @@ dictionaryRouter.get('/', async (req, res) => {
     const dictionary = await DictionaryHelper.getDictionaryOptions();
     res.json(dictionary);
   } catch (error) {
-    logger.error({ error }, 'Error fetching dictionary');
+    logger.error(error, 'Error fetching dictionary');
     res.status(500).json({ err: error });
   }
 });
@@ -36,7 +36,7 @@ draftRouter.get('/', async (req, res) => {
 
     res.json(draft);
   } catch (error) {
-    logger.error({ error }, 'Error fetching dictionary draft');
+    logger.error(error, 'Error fetching dictionary draft');
     res.status(500).json({ err: error });
   }
 });
@@ -47,7 +47,7 @@ draftRouter.delete('/', async (req, res) => {
     const output = await DictionaryHelper.resetDraft();
     res.json(output);
   } catch (error) {
-    logger.error({ error }, 'Error deleting dictionary draft');
+    logger.error(error, 'Error deleting dictionary draft');
     res.status(500).json({ err: error });
   }
 });

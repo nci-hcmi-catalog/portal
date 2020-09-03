@@ -278,7 +278,7 @@ export const downloadMaf = async ({ filename, fileId, modelName }) => {
 
       downloadStream.pipe(streamToBuffer);
     } catch (error) {
-      logger.error({ error, filename, fileId, modelName }, 'Error downloading file from GDC');
+      logger.error({ ...error, filename, fileId, modelName }, 'Error downloading file from GDC');
       reject(error);
     }
   });

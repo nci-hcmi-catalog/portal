@@ -25,6 +25,7 @@ import base from 'theme';
 
 import modelImageProcessor from 'utils/modelImageProcessor';
 import apiDataProcessor from 'utils/apiDataProcessor';
+import { distributorLink } from 'utils/externalReferences';
 
 const {
   keyedPalette: { bombay, brandPrimary, pelorousapprox },
@@ -101,7 +102,7 @@ const MultipleModelContent = match => {
           {match.name}
         </Link>
         <span className="model-text__type">
-          Tissue Type: <strong>{match.tissue_type || 'N/A'}</strong>
+          Tissue Status: <strong>{match.tissue_type || 'N/A'}</strong>
         </span>
       </div>
     </div>
@@ -198,8 +199,6 @@ const ExternalResourcesContent = ({
   const sequencingFilesLink = sourceSequenceUrl !== 'N/A' ? sourceSequenceUrl : null;
   const modelSourceLink = sourceModelUrl !== 'N/A' ? sourceModelUrl : null;
   const somaticMafLink = somaticMafUrl !== 'N/A' ? somaticMafUrl : null;
-  const purchaseLink =
-    distributorPartNumber && `https://www.atcc.org/products/all/${distributorPartNumber}`;
 
   return (
     <div className="external-resources">
@@ -215,8 +214,8 @@ const ExternalResourcesContent = ({
         <ExternalLinkIcon />
         Masked Somatic MAF
       </ExternalResourceLink>
-      {purchaseLink && (
-        <ExternalResourceLink url={purchaseLink}>
+      {distributorPartNumber && (
+        <ExternalResourceLink url={distributorLink(distributorPartNumber)}>
           <ShoppingCartIcon />
           Visit {distributorPartNumber} to Purchase
         </ExternalResourceLink>

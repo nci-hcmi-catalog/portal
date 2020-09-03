@@ -38,7 +38,7 @@ templatesRouter.get('/model', async (req, res) => {
 
     res.json({ url });
   } catch (error) {
-    logger.error({ error }, 'Error creating model bulk upload template');
+    logger.error(error, 'Error creating model bulk upload template');
     res.status(500).json({ err: error.message });
   }
 });
@@ -52,7 +52,7 @@ templatesRouter.get('/variant', async (req, res) => {
 
     res.json({ url });
   } catch (error) {
-    logger.error({ error }, 'Error creating variant bulk upload template');
+    logger.error(error, 'Error creating variant bulk upload template');
     res.status(500).json({ err: error.message });
   }
 });

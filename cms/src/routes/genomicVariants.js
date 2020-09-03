@@ -46,7 +46,7 @@ variantsRouter.get('/clear/:name', async (req, res) => {
     }
     res.status(200).json({ success: true, model });
   } catch (error) {
-    logger.error({ error, model: name }, 'Unexpected error clearing genomic-variants for model');
+    logger.error({ ...error, model: name }, 'Unexpected error clearing genomic-variants for model');
     res.status(500).json({
       error: error,
     });

@@ -16,6 +16,7 @@ import MultipleModelsChart from 'components/charts/MultipleModelsChart';
 import GrowthChart from 'components/charts/GrowthChart';
 import TopVariantsChart from 'components/charts/TopVariantsChart';
 import TableEntity from 'components/TableEntity';
+import TableDistributorCell from 'components/TableDistributorCell';
 import TableExpandedCell from 'components/TableExpandedCell';
 import TableMatchedModelsCell from 'components/TableMatchedModelsCell';
 import TableList from 'components/TableList';
@@ -160,6 +161,16 @@ export default ({
                             history={history}
                           />
                         ),
+                        distributor_link: props => (
+                          <TableDistributorCell
+                            {...props}
+                            value={props.value}
+                            savedSetsContext={savedSetsContext}
+                            state={state}
+                            sqon={sqon}
+                            history={history}
+                          />
+                        ),
                         expanded: props => (
                           <TableExpandedCell
                             {...props}
@@ -189,6 +200,9 @@ export default ({
                         list: {
                           minWidth: 160,
                         },
+                        number: { minWidth: 85 },
+                        matched_models: { minWidth: 68 },
+                        age_at_sample_acquisition: { minWidth: 10 },
                       }}
                       index={props.index}
                       graphqlField={props.index}
