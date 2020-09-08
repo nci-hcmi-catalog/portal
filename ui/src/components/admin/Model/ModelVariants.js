@@ -134,6 +134,7 @@ export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
                             component: (
                               <BulkUploader
                                 type={'variant'}
+                                displayType={'clinical variant'}
                                 onUpload={(sheetsURL, overwrite) =>
                                   attachVariants(sheetsURL, overwrite, name)
                                 }

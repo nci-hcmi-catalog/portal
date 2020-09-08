@@ -48,7 +48,7 @@ const userRouter = express.Router();
 
 // Handle "unhandled" promise rejections
 process.on('unhandledRejection', (reason, promise) => {
-  logger.warn({ reason, promise }, 'Unhandled Promise Rejection');
+  logger.warn({ ...reason, ...promise }, 'Unhandled Promise Rejection');
 });
 
 // Ensures uniques actually work

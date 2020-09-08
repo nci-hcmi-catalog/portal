@@ -84,8 +84,11 @@ const updateVariantIndex = async desiredVariants => {
   }
 };
 
-const updateGeneIndex = async desiredGenes => {
-  logger.debug({ desiredGenes }, 'List of Genes that should be published');
+const updateGeneIndex = async (desiredGeneTranscriptIds, desiredGeneSymbols) => {
+  logger.debug(
+    { desiredGenes: desiredGeneTranscriptIds },
+    'List of Genes that should be published',
+  );
 
   // 1. get list of genes published in ES
   const genesResponse = await esClient.search({
@@ -96,33 +99,33 @@ const updateGeneIndex = async desiredGenes => {
   logger.debug({ publishedGenes }, 'List of Genes currently published');
 
   // 2. find list of genes to unpublish and genes to publish
-  const removeGenes = publishedGenes.filter(gene => !desiredGenes.includes(gene));
+  const removeGenes = uniq(publishedGenes.filter(gene => !desiredGeneTranscriptIds.includes(gene)));
   logger.debug({ removeGenes }, 'Genes to unpublish');
 
-  const addGenes = desiredGenes.filter(gene => !publishedGenes.includes(gene));
+  const addGenes = uniq(desiredGeneTranscriptIds.filter(gene => !publishedGenes.includes(gene)));
   logger.debug({ addGenes }, 'Genes to publish');
 
   // 3. do the publish/unpublish operations
 
   const deleteRequests = removeGenes.map(gene => ({ delete: { _index: GENES_INDEX, _id: gene } }));
 
-  const geneData = await Gene.find({ _gene_id: { $in: addGenes } });
+  const geneData = await Gene.find({
+    $or: [{ _gene_id: { $in: addGenes } }, { symbol: { $in: desiredGeneSymbols } }],
+  });
   const addRequests = flatten(
-    addGenes.map(gene => {
-      const reference = geneData.find(g => g._gene_id === gene);
-
+    geneData.map(gene => {
       const doc = {
-        symbol: reference.symbol,
-        ensemble_id: gene,
-        name: reference.name,
-        synonyms: reference.synonyms,
+        symbol: gene.symbol,
+        ensemble_id: gene._gene_id,
+        name: gene.name,
+        synonyms: gene.synonyms,
       };
 
       return [
         {
           create: {
             _index: GENES_INDEX,
-            _id: gene,
+            _id: gene._gene_id,
           },
         },
         doc,
@@ -160,8 +163,14 @@ export const updateGeneSearchIndicies = async () => {
       }));
     }),
   );
-  const desiredGenes = desiredVariants.map(v => v.gene);
 
-  await updateGeneIndex(desiredGenes);
+  const clinicalVariantGenes = flatten(
+    publishedModels.map(model => flatten(model.variants.map(variant => variant.genes))),
+  );
+  logger.debug({ clinicalVariantGenes }, 'Genes found in published model variants');
+
+  const desiredGenes = desiredVariants.map(i => i.gene);
+
+  await updateGeneIndex(desiredGenes, clinicalVariantGenes);
   await updateVariantIndex(desiredVariants);
 };

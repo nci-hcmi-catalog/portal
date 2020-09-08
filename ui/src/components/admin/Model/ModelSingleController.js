@@ -560,7 +560,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       const anyUpdatesDone = isEmptyResult(result);
                       const notificationMessage = anyUpdatesDone
                         ? `No suitable data is available to upload. No changes were made.`
-                        : `Bulk Upload of variants has successfully completed. New variants or updated fields are saved but not yet published.`;
+                        : `Bulk Upload of clinical variants has successfully completed. New clinical variants or updated fields are saved but not yet published.`;
 
                       await appendNotification({
                         type:

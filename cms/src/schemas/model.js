@@ -43,6 +43,7 @@ const GenomicVariant = new mongoose.Schema({
   specific_change: { type: String },
   classification: { type: String },
   entrez_id: { type: String },
+  variant_id: { type: String },
   synonyms: { type: [String] },
 });
 
@@ -141,9 +142,7 @@ export const ModelSchema = new mongoose.Schema(
             ensemble_id: variant.ensemble_id,
             synonyms: variant.synonyms,
             entrez_id: variant.entrez_id,
-            variant_id: `${variant.chromosome}:g.${variant.start_position}${
-              variant.specific_change
-            }`,
+            variant_id: variant.variant_id,
             name: `${variant.gene} ${variant.aa_change}`,
           })),
       },

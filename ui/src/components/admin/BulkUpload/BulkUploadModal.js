@@ -8,7 +8,7 @@ import BulkUploadInput from './BulkUploadInput';
 import { ButtonPill } from 'theme/adminControlsStyles';
 import { ModalWrapper, Header, Title, CloseModal, Content, Footer } from 'theme/adminModalStyles';
 
-const BulkUploadModal = ({ type, onUpload, backupURL, ...props }) => {
+const BulkUploadModal = ({ type, displayType, onUpload, backupURL, ...props }) => {
   const didMountRef = useRef(false);
   let modalState = useContext(ModalStateContext);
   let [sheetsURL, setSheetsURL] = useState('');
@@ -63,7 +63,7 @@ const BulkUploadModal = ({ type, onUpload, backupURL, ...props }) => {
   return (
     <ModalWrapper>
       <Header>
-        <Title>{`Bulk ${type} Upload`}</Title>
+        <Title>{`Bulk ${displayType || type} Upload`}</Title>
         <CloseModal onClick={() => modalState.setModalState({ component: null })} />
       </Header>
       <Content>
@@ -73,6 +73,7 @@ const BulkUploadModal = ({ type, onUpload, backupURL, ...props }) => {
             sheetsURL,
             backupURL,
             type,
+            displayType,
             overwrite,
             onOverwriteChange,
             signedIn,
