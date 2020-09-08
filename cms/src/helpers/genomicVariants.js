@@ -35,6 +35,26 @@ const titleCase = (text, filter = i => true) => {
   });
 };
 
+const buildVariantId = ({
+  chromosome,
+  type,
+  start_position,
+  end_position,
+  reference_allele,
+  tumor_allele,
+}) => {
+  switch (type) {
+    case 'SNP':
+      return `${chromosome}:g.${start_position}${reference_allele}>${tumor_allele}`;
+    case 'DEL':
+      return `${chromosome}:g.${start_position}del${reference_allele}`;
+    case 'INS':
+      return `${chromosome}:g.${start_position}_${end_position}ins${tumor_allele}`;
+    default:
+      return chromosome;
+  }
+};
+
 export const addGenomicVariantsFromMaf = async (name, mafData) => {
   const model = await Model.findOne({ name });
   if (model) {
@@ -60,6 +80,18 @@ export const addGenomicVariantsFromMaf = async (name, mafData) => {
       const classification = (row.Variant_Classification || '').replace(/_/g, ' ');
       const entrez_id = row.Entrez_Gene_Id;
 
+      const reference_allele = row.Reference_Allele;
+      const tumor_allele = row.Tumor_Seq_Allele2;
+
+      const variant_id = buildVariantId({
+        chromosome,
+        type,
+        start_position,
+        end_position,
+        reference_allele,
+        tumor_allele,
+      });
+
       const variant = {
         ensemble_id,
         aa_change,
@@ -73,6 +105,7 @@ export const addGenomicVariantsFromMaf = async (name, mafData) => {
         specific_change,
         classification,
         entrez_id,
+        variant_id,
       };
 
       const geneReference = await Gene.findOne({ _gene_id: ensemble_id });

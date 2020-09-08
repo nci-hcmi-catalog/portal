@@ -4,10 +4,27 @@ import { PassThrough } from 'stream';
 
 import decompress from 'decompress';
 import zlib from 'zlib';
-import { get } from 'lodash';
+import { get, flattenDeep, intersection, isEmpty } from 'lodash';
 
 import getLogger from '../../logger';
 const logger = getLogger('services/gdc-importer/mafFiles');
+
+const GDC_NORMAL_SAMPLE_TYPES = [
+  'Blood Derived Normal',
+  'Solid Tissue Normal',
+  'Bone Marrow Normal',
+  'Buccal Cell Normal',
+  'EBV Immortalized Normal',
+  'Mononuclear Cells from Bone Marrow Normal',
+  'Lymphoid Normal',
+  'Fibroblasts from Bone Marrow Normal',
+  'Tumor Adjacent Normal - Post Neo-adjuvant Therapy',
+];
+
+const GDC_CANCER_MODEL_SAMPLE_TYPES = [
+  'Expanded Next Generation Cancer Model',
+  'Next Generation Cancer Model',
+];
 
 const fetchCaseId = async name => {
   const url = 'https://portal.gdc.cancer.gov/auth/api/v0/graphql/';
@@ -81,6 +98,7 @@ const fetchModelFileData = async name => {
                       edges {
                         node {
                           sample_type
+                          tissue_type
                           portions {
                             hits {
                               total
@@ -156,13 +174,16 @@ const fetchModelFileData = async name => {
   if (data) {
     const samples = get(data, 'cases.hits.edges[0].node.samples.hits.edges', []).map(sampleEdge => {
       const sampleType = get(sampleEdge, 'node.sample_type');
-      const aliquots = get(sampleEdge, 'node.portions.hits.edges', []).map(portionEdge => {
-        // Making an assumption here that there will be 1 aliquot per portion, meaning we will take analytes[0] and aliquots[0]
-        return get(
-          portionEdge,
-          'node.analytes.hits.edges[0].node.aliquots.hits.edges[0].node.aliquot_id',
-        );
-      });
+      // const tissueType = get(sampleEdge, 'node.tissue_type');
+      const aliquots = flattenDeep(
+        get(sampleEdge, 'node.portions.hits.edges', []).map(portionEdge =>
+          get(portionEdge, 'node.analytes.hits.edges', []).map(analyteEdge =>
+            get(analyteEdge, 'node.aliquots.hits.edges', []).map(aliquot =>
+              get(aliquot, 'node.aliquot_id'),
+            ),
+          ),
+        ),
+      );
       return { sampleType, aliquots };
     });
     logger.debug({ samples }, 'Case samples found for model');
@@ -180,6 +201,9 @@ const fetchModelFileData = async name => {
         }
       });
 
+      // NOTE: We fetch tissue_type but don't use it. If matching sample_type to find the file with the "Normal" value
+      //    proves to have errors, a potential fix is to use tissue_type looking for the value "Normal" instead of matching sample_type
+
       return { fileId, filename, entityIds, sampleTypes, name };
     });
     logger.debug({ files }, 'Files found for model');
@@ -195,10 +219,11 @@ export const findMafFileData = async name => {
 
   const modelFiles = await fetchModelFileData(name);
   if (modelFiles) {
+    logger.debug({ modelFiles });
     const targetFiles = modelFiles.filter(
       file =>
-        file.sampleTypes.includes('Blood Derived Normal') &&
-        file.sampleTypes.includes('Next Generation Cancer Model'),
+        !isEmpty(intersection(file.sampleTypes, GDC_NORMAL_SAMPLE_TYPES)) &&
+        !isEmpty(intersection(file.sampleTypes, GDC_CANCER_MODEL_SAMPLE_TYPES)),
     );
     logger.debug({ targetFiles }, 'Identified mathcing file(s)');
     switch (targetFiles.length) {
