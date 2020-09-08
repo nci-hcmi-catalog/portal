@@ -83,7 +83,7 @@ export const checkImportStatus = async () => {
     const url = `${GENOMIC_VARIANTS_URL}/status`;
     await get({ url })
       .then(res => {
-        resolve(res);
+        resolve(res.data.imports);
       })
       .catch(err => {
         reject(err);
