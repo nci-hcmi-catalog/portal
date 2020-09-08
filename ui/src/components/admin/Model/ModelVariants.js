@@ -9,6 +9,7 @@ import {
   NoMafError,
 } from './actions/ImportGenomicVariants';
 import { NotificationsContext, NOTIFICATION_TYPES } from './../Notifications';
+import { useVariants } from 'providers/Variants';
 
 import { Toolbar, DataTable, GenomicDataTable } from '../AdminTable';
 import BulkUploader from '../BulkUpload';
@@ -87,13 +88,9 @@ const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, type })
 };
 
 export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
-  const {
-    appendNotification,
-    clearNotification,
-    importNotification,
-    setImportNotification,
-  } = useContext(NotificationsContext);
+  const { appendNotification } = useContext(NotificationsContext);
   const [activeTab, setActiveTab] = useState(null);
+  const { importNotifications, addImportNotification, removeImportNotification } = useVariants();
   const clinicalVariantsData = variants.map(variant => ({
     _id: variant._id,
     variant_name: variant.variant.name,
@@ -154,18 +151,13 @@ export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
                       <ButtonPill
                         primary
                         css={'margin-left: 10px;'}
+                        disabled={importNotifications.find(
+                          notification => notification.modelName === name,
+                        )}
                         onClick={() => {
                           importGenomicVariants(name)
                             .then(async response => {
-                              const notification = await appendNotification({
-                                type: NOTIFICATION_TYPES.LOADING,
-                                message: `Importing: Research Variants for ${name} are currently importing.`,
-                                details:
-                                  'You can continue to use the CMS, and will be notified when the import is complete.',
-                                timeout: false,
-                              });
-
-                              setImportNotification(notification.id);
+                              addImportNotification(name);
                             })
                             .catch(error => {
                               switch (error.code) {
@@ -210,11 +202,10 @@ export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
                       <ButtonPill
                         secondary
                         css={'margin-left: 10px;'}
-                        disabled={!importNotification}
+                        disabled={importNotifications.length === 0}
                         onClick={() => {
-                          if (importNotification) {
-                            clearNotification(importNotification);
-                            setImportNotification(null);
+                          if (importNotifications.length > 0) {
+                            removeImportNotification(name);
                           }
                         }}
                       >

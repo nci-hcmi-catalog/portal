@@ -4,7 +4,6 @@ export const NotificationsContext = React.createContext();
 
 const NotificationsProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
-  const [importNotification, setImportNotification] = useState(null);
 
   const appendNotification = notification => {
     const id = Date.now();
@@ -51,8 +50,6 @@ const NotificationsProvider = ({ children }) => {
         setNotifications,
         appendNotification,
         clearNotification,
-        importNotification,
-        setImportNotification,
       }}
     >
       {children}
