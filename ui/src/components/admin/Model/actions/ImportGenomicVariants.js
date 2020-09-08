@@ -5,7 +5,7 @@ import config from './../../config';
 
 import { MessageLink } from 'theme/adminNotificationStyles';
 
-const GENOMIC_VARIANTS_URL = `${config.urls.cmsBase}/genomic_variants`;
+const GENOMIC_VARIANTS_URL = `${config.urls.cmsBase}/genomic-variants`;
 const FILE_PAGE_URL_BASE = 'https://portal.gdc.cancer.gov/files';
 const CASE_URL_BASE = 'https://portal.gdc.cancer.gov/cases';
 
