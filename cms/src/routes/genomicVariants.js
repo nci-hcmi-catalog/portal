@@ -35,7 +35,7 @@ const variantsRouter = express.Router();
     output: success 200
 */
 
-variantsRouter.get('/clear/:name', async (req, res) => {
+variantsRouter.post('/clear/:name', async (req, res) => {
   const { name } = req.params;
   try {
     logger.debug(`Clearing genomic-variants for: ${name}`);
