@@ -176,8 +176,8 @@ const VariantImporter = (function() {
   const acknowledgeCompleted = modelName => {
     const targets = imports.filter(
       i =>
-        i.modelName ===
-        modelName[(ImportStatus.complete, ImportStatus.error)].includes(i.getData().status),
+        i.modelName === modelName &&
+        [ImportStatus.complete, ImportStatus.error].includes(i.getData().status),
     );
     if (targets.length) {
       targets.forEach(target => target.acknowledge());

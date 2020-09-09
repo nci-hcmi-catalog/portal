@@ -90,7 +90,7 @@ const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, type })
 export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
   const { appendNotification } = useContext(NotificationsContext);
   const [activeTab, setActiveTab] = useState(null);
-  const { importNotifications, addImportNotification, removeImportNotification } = useVariants();
+  const { importNotifications, addImportNotification } = useVariants();
   const clinicalVariantsData = variants.map(variant => ({
     _id: variant._id,
     variant_name: variant.variant.name,
@@ -199,19 +199,6 @@ export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
                       >
                         <PlusIcon css={'margin-right: 5px;'} />
                         Research Somatic Variants
-                      </ButtonPill>
-                      <ButtonPill
-                        secondary
-                        css={'margin-left: 10px;'}
-                        disabled={importNotifications.length === 0}
-                        onClick={() => {
-                          if (importNotifications.length > 0) {
-                            removeImportNotification(name);
-                          }
-                        }}
-                      >
-                        <PlusIcon css={'margin-right: 5px;'} />
-                        Clear Import Notification
                       </ButtonPill>
                     </>
                   )}
