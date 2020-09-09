@@ -112,6 +112,7 @@ export default ({
                   const clearedSqon = SQONUtils.removeSQON(filterField, sqon);
                   const newSqon = selected ? SQONUtils.addInSQON(query, clearedSqon) : clearedSqon;
                   setSQON(newSqon);
+                  setValue('');
                 }}
               />
             </div>
