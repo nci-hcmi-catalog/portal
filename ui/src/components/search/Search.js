@@ -143,6 +143,7 @@ export default ({
                   return (
                     <Table
                       {...props}
+                      showFilterInput={false}
                       setSelectedTableRows={selectedRows => selected.setModels(selectedRows)}
                       keepSelectedOnPageChange={true}
                       selectedTableRows={selected.state.modelIds}
