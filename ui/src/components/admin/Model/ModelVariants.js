@@ -8,8 +8,11 @@ import {
   MultipleMafError,
   NoMafError,
 } from './actions/ImportGenomicVariants';
-import { NotificationsContext, NOTIFICATION_TYPES } from './../Notifications';
-import { useVariants } from 'providers/Variants';
+import {
+  NotificationsContext,
+  NOTIFICATION_TYPES,
+  useGenomicVariantImportNotifications,
+} from './../Notifications';
 
 import { Toolbar, DataTable, GenomicDataTable } from '../AdminTable';
 import BulkUploader from '../BulkUpload';
@@ -90,7 +93,7 @@ const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, type })
 export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
   const { appendNotification } = useContext(NotificationsContext);
   const [activeTab, setActiveTab] = useState(null);
-  const { importNotifications, addImportNotification } = useVariants();
+  const { importNotifications, addImportNotification } = useGenomicVariantImportNotifications();
   const clinicalVariantsData = variants.map(variant => ({
     _id: variant._id,
     variant_name: variant.variant.name,

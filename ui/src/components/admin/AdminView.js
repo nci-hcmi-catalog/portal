@@ -5,7 +5,7 @@ import {
   acknowledgeImportStatus,
   checkImportStatus,
 } from 'components/admin/Model/actions/ImportGenomicVariants';
-import { useVariants } from 'providers/Variants';
+import { useGenomicVariantImportNotifications } from 'components/admin/Notifications';
 
 import AdminNav from './AdminNav';
 import DataDictionary from './DataDictionary';
@@ -20,7 +20,12 @@ import useInterval from 'utils/useInterval';
 
 export default ({ location }) => {
   const didMountRef = useRef(false);
-  const { importNotifications, addImportNotification, removeImportNotification } = useVariants();
+  const {
+    importNotifications,
+    addImportNotification,
+    removeImportNotification,
+    showSuccessfulImportNotification,
+  } = useGenomicVariantImportNotifications();
 
   // Check for active genomic variant imports on page load
   useEffect(() => {
@@ -49,6 +54,7 @@ export default ({ location }) => {
             if (activeImport.status === VARIANT_IMPORT_STATUS.complete) {
               acknowledgeImportStatus(activeImport.name).then(_ => {
                 removeImportNotification(activeImport.name);
+                showSuccessfulImportNotification(activeImport.name);
               });
             }
           });
