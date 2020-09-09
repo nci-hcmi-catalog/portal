@@ -62,18 +62,17 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/test', {
 
 // configure server
 app.use(helmet());
-app.use(bodyParser.json());
+
+// 20Mb needed when saving/publishing models with long variant lists.
+//  Max observed has been 1.5Mb for ~2k variants, but this was set higher
+//  to prevent support work later
+app.use(bodyParser.json({ limit: '20mb' }));
+
 app.use(methodOverride());
 app.use(cors());
 
-// configure logging
-// record user email for each authenticated request
-// app.use(
-//   morgan(
-//     ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" :req[USER_EMAIL]',
-//   ),
-// );
-app.use(pino({ reqCustomProps: req => ({ user: getLoggedInUser(req).user_email }) }));
+// HealthRouter must be added before the declaration for isUserAuthorized filter
+app.use('/api/v1/health', healthRouter);
 
 if (process.env.AUTH_ENABLED !== 'false') {
   app.use((req, res, next) => {
@@ -86,6 +85,7 @@ if (process.env.AUTH_ENABLED !== 'false') {
     next();
   });
 }
+app.use(pino({ reqCustomProps: req => ({ user: getLoggedInUser(req).user_email }) }));
 
 // configure endpoints
 restify.serve(modelRouter, Model, {
@@ -116,7 +116,7 @@ app.use('/api/v1/bulk', bulkRouter);
 app.use('/api/v1/dictionary', dictionaryRouter);
 app.use('/api/v1/images', imagesRouter);
 app.use('/api/v1/action', actionRouter);
-app.use('/api/v1/health', healthRouter);
+
 app.use('/api/v1/templates', templatesRouter);
 app.use('/api/v1/genomic-variants', variantsRouter);
 app.use('/api/v1/matches', matchedModelsActionsRouter);

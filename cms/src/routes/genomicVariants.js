@@ -35,7 +35,7 @@ const variantsRouter = express.Router();
     output: success 200
 */
 
-variantsRouter.get('/clear/:name', async (req, res) => {
+variantsRouter.post('/clear/:name', async (req, res) => {
   const { name } = req.params;
   try {
     logger.debug(`Clearing genomic-variants for: ${name}`);
@@ -96,7 +96,7 @@ variantsRouter.post('/acknowledge/:name', async (req, res) => {
   try {
     logger.debug(`Acknowledging import status for model ${name}`);
 
-    const imports = VariantImporter.acknowledgeCompleted(name); // TODO: get from VariantImporter
+    const imports = VariantImporter.acknowledgeCompleted(name);
 
     res.status(200).json({ imports });
   } catch (error) {

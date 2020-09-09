@@ -19,7 +19,11 @@ export const clearGenomicVariants = async name => {
 
   const model = await Model.findOne({ name });
   if (model) {
-    model['genomic_variants'] = [];
+    model.genomic_variants = [];
+    model.status =
+      model.status === modelStatus.unpublished
+        ? modelStatus.unpublished
+        : modelStatus.unpublishedChanges;
     await model.save();
     return model;
   } else {
