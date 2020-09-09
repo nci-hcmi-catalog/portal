@@ -68,7 +68,7 @@ export const importGenomicVariants = async modelName => {
 export const clearGenomicVariants = async modelName => {
   return new Promise(async (resolve, reject) => {
     const url = `${GENOMIC_VARIANTS_URL}/clear/${modelName}`;
-    await get({ url })
+    await post({ url })
       .then(res => {
         resolve(res);
       })

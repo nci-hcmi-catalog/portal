@@ -736,12 +736,23 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     const modelDataResponse = await getModel(baseUrl, modelName);
 
                     setState(state => ({
+                      form: {
+                        ...state.form,
+                        values: modelDataResponse.data,
+                        // recompute isFormReadyToPublish
+                        isReadyToPublish: isFormReadyToPublish(
+                          modelDataResponse.data,
+                          state.form.dirty,
+                          state.form.errors,
+                        ),
+                      },
                       data: {
                         ...state.data,
                         isLoading: false,
                         didLoad: true,
                         response: {
                           ...state.data.response,
+                          status: modelDataResponse.data.status,
                           genomic_variants: modelDataResponse.data.genomic_variants,
                         },
                       },
