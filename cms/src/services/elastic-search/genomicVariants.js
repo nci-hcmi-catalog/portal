@@ -65,7 +65,7 @@ const updateVariantIndex = async desiredVariants => {
 
       return [
         {
-          create: {
+          index: {
             _index: VARIANTS_INDEX,
             _id: v.variant.transcript_id,
           },
@@ -123,7 +123,7 @@ const updateGeneIndex = async (desiredGeneTranscriptIds, desiredGeneSymbols) => 
 
       return [
         {
-          create: {
+          index: {
             _index: GENES_INDEX,
             _id: gene._gene_id,
           },
@@ -134,9 +134,10 @@ const updateGeneIndex = async (desiredGeneTranscriptIds, desiredGeneSymbols) => 
   );
 
   if (deleteRequests.length || addRequests.length) {
-    await esClient.bulk({
+    const response = await esClient.bulk({
       body: [...deleteRequests, ...addRequests],
     });
+    console.log(response);
   } else {
     logger.debug('No updates for Gene search index.');
   }
