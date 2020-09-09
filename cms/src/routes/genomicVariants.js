@@ -96,7 +96,7 @@ variantsRouter.post('/acknowledge/:name', async (req, res) => {
   try {
     logger.debug(`Acknowledging import status for model ${name}`);
 
-    const imports = VariantImporter.acknowledgeCompleted(name); // TODO: get from VariantImporter
+    const imports = VariantImporter.acknowledgeCompleted(name);
 
     res.status(200).json({ imports });
   } catch (error) {
