@@ -322,10 +322,6 @@ export const useVariants = () => {
           notificationId: notification.id,
         },
       ]);
-      console.log('adding import notification for ', modelName);
-    } else {
-      console.log('already existed for ', modelName);
-      console.log('existingNotification is ', existingNotification);
     }
   };
 
