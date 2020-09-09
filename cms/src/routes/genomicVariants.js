@@ -44,9 +44,9 @@ variantsRouter.get('/clear/:name', async (req, res) => {
     if (!result) {
       res.status(400).json({ success: false, message: 'Model does not exist.' });
     }
-    res.status(200).json({ success: true, model });
+    res.status(200).json({ success: true, model: name });
   } catch (error) {
-    logger.error({ ...error, model: name }, 'Unexpected error clearing genomic-variants for model');
+    logger.error(error, `Unexpected error clearing genomic-variants for model ${name}`);
     res.status(500).json({
       error: error,
     });
@@ -56,7 +56,7 @@ variantsRouter.get('/clear/:name', async (req, res) => {
 variantsRouter.post('/import/:name', async (req, res) => {
   const { name } = req.params;
   try {
-    logger.debug({ model: name }, `Beginning genomic-variant import for model`);
+    logger.debug(`Beginning genomic-variant import for model ${name}`);
 
     // Clear first before importing new
     await clearGenomicVariants(name);
@@ -68,8 +68,8 @@ variantsRouter.post('/import/:name', async (req, res) => {
     }
 
     res.status(200).json({ success: true, startTime: importStatus.startTime });
-  } catch (e) {
-    console.log(error);
+  } catch (error) {
+    logger.error(error, `Error occurred during genomic-variant import for model ${name}`);
     res.status(500).json({
       error: error,
     });
@@ -78,13 +78,13 @@ variantsRouter.post('/import/:name', async (req, res) => {
 
 variantsRouter.get('/status', async (req, res) => {
   try {
-    console.log(`Fetching active GDC Import Statuses...`);
+    logger.debug(`Fetching active GDC Import Statuses...`);
 
     const imports = VariantImporter.getImports(); // TODO: get from VariantImporter
 
     res.status(200).json({ imports });
-  } catch (e) {
-    console.log(error);
+  } catch (error) {
+    logger.error(error, `Error occurred during GDC Import Status fetch`);
     res.status(500).json({
       error: error,
     });
@@ -94,13 +94,13 @@ variantsRouter.get('/status', async (req, res) => {
 variantsRouter.post('/acknowledge/:name', async (req, res) => {
   const { name } = req.params;
   try {
-    console.log(`Acknowledging import status for: ${name}`);
+    logger.debug(`Acknowledging import status for model ${name}`);
 
     const imports = VariantImporter.acknowledgeCompleted(name); // TODO: get from VariantImporter
 
     res.status(200).json({ imports });
-  } catch (e) {
-    console.log(error);
+  } catch (error) {
+    logger.error(error, `Error occurred during import status acknowledgement for model ${name}`);
     res.status(500).json({
       error: error,
     });

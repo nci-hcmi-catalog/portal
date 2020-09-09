@@ -6,4 +6,11 @@ const VARIANT_TYPES = {
   genomic: 'genomic_sequencing',
 };
 
-export { imgPath, VARIANT_TYPES };
+const VARIANT_IMPORT_STATUS = {
+  active: 'ACTIVE',
+  complete: 'COMPLETE',
+  error: 'ERROR',
+  stopped: 'STOPPED',
+};
+
+export { imgPath, VARIANT_TYPES, VARIANT_IMPORT_STATUS };

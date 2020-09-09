@@ -2,6 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { ModelSingleContext } from './ModelSingleController';
 import { ModalStateContext } from 'providers/ModalState';
+import {
+  importGenomicVariants,
+  GENOMIC_VARIANTS_IMPORT_ERRORS,
+  MultipleMafError,
+  NoMafError,
+} from './actions/ImportGenomicVariants';
+import { NotificationsContext, NOTIFICATION_TYPES } from './../Notifications';
+import { useVariants } from 'providers/Variants';
 
 import { Toolbar, DataTable, GenomicDataTable } from '../AdminTable';
 import BulkUploader from '../BulkUpload';
@@ -80,7 +88,9 @@ const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, type })
 };
 
 export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
+  const { appendNotification } = useContext(NotificationsContext);
   const [activeTab, setActiveTab] = useState(null);
+  const { importNotifications, addImportNotification } = useVariants();
   const clinicalVariantsData = variants.map(variant => ({
     _id: variant._id,
     variant_name: variant.variant.name,
@@ -142,21 +152,50 @@ export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
                       <ButtonPill
                         primary
                         css={'margin-left: 10px;'}
-                        onClick={() =>
-                          modalState.setModalState({
-                            component: (
-                              <BulkUploader
-                                type={'variant'}
-                                onUpload={(sheetsURL, overwrite) =>
-                                  attachVariants(sheetsURL, overwrite, name)
-                                }
-                                backupURL={`${config.urls.cmsBase}/action/backup-variants/${name}`}
-                              />
-                            ),
-                            shouldCloseOnOverlayClick: true,
-                            styles: AdminModalStyle,
-                          })
-                        }
+                        disabled={importNotifications.find(
+                          notification => notification.modelName === name,
+                        )}
+                        onClick={() => {
+                          importGenomicVariants(name)
+                            .then(async response => {
+                              addImportNotification(name);
+                            })
+                            .catch(error => {
+                              switch (error.code) {
+                                case GENOMIC_VARIANTS_IMPORT_ERRORS.multipleMaf:
+                                  appendNotification({
+                                    type: NOTIFICATION_TYPES.ERROR,
+                                    message: `Import Error: More than one MAF file was found in GDC for ${name}.`,
+                                    details: <MultipleMafError files={error.files} />,
+                                    timeout: false,
+                                  });
+                                  break;
+                                case GENOMIC_VARIANTS_IMPORT_ERRORS.noMaf:
+                                  appendNotification({
+                                    type: NOTIFICATION_TYPES.ERROR,
+                                    message: `Import Error: No MAF files found in GDC.`,
+                                    details: <NoMafError caseId={error.case_id} modelName={name} />,
+                                    timeout: false,
+                                  });
+                                  break;
+                                case GENOMIC_VARIANTS_IMPORT_ERRORS.modelNotFound:
+                                  appendNotification({
+                                    type: NOTIFICATION_TYPES.ERROR,
+                                    message: `Import Error: The model, ${name}, was not found in GDC.`,
+                                    timeout: false,
+                                  });
+                                  break;
+                                default:
+                                  appendNotification({
+                                    type: NOTIFICATION_TYPES.ERROR,
+                                    message: `Import Error: An unexpected error occured while importing research variants for ${name}`,
+                                    details: error.message,
+                                    timeout: false,
+                                  });
+                                  break;
+                              }
+                            });
+                        }}
                       >
                         <PlusIcon css={'margin-right: 5px;'} />
                         Research Somatic Variants
