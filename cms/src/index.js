@@ -62,7 +62,12 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/test', {
 
 // configure server
 app.use(helmet());
-app.use(bodyParser.json({ limit: '10mb' }));
+
+// 20Mb needed when saving/publishing models with long variant lists.
+//  Max observed has been 1.5Mb for ~2k variants, but this was set higher
+//  to prevent support work later
+app.use(bodyParser.json({ limit: '20mb' }));
+
 app.use(methodOverride());
 app.use(cors());
 
