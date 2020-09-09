@@ -7,8 +7,6 @@ import { api } from '@arranger/components';
 
 import SparkMeter from 'components/SparkMeter';
 
-import { NotificationsContext, NOTIFICATION_TYPES } from 'components/admin/Notifications';
-
 import { VARIANT_TYPES } from 'utils/constants';
 import globals from 'utils/globals';
 
@@ -20,7 +18,6 @@ export const VariantsProvider = props => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const [importNotifications, setImportNotifications] = useState([]);
 
   return (
     <VariantsContext.Provider
@@ -30,7 +27,6 @@ export const VariantsProvider = props => {
         [loading, setLoading],
         [page, setPage],
         [pageSize, setPageSize],
-        [importNotifications, setImportNotifications],
       ]}
     >
       {props.children}
@@ -45,9 +41,7 @@ export const useVariants = () => {
     [loading, setLoading],
     [page, setPage],
     [pageSize, setPageSize],
-    [importNotifications, setImportNotifications],
   ] = useContext(VariantsContext);
-  const { appendNotification, clearNotification } = useContext(NotificationsContext);
 
   const getData = () => {
     if (!data) return [];
@@ -57,11 +51,6 @@ export const useVariants = () => {
   const getFilteredData = () => {
     if (!filteredData) return [];
     return filteredData;
-  };
-
-  const getImportNotifications = () => {
-    if (!importNotifications) return [];
-    return importNotifications;
   };
 
   const getLoading = () => {
@@ -303,60 +292,17 @@ export const useVariants = () => {
     return b.frequency.raw - a.frequency.raw;
   };
 
-  const addImportNotification = async modelName => {
-    const existingNotification = getImportNotifications().find(x => x.modelName === modelName);
-
-    if (!existingNotification) {
-      const notification = await appendNotification({
-        type: NOTIFICATION_TYPES.LOADING,
-        message: `Importing: Research Variants for ${modelName} are currently importing.`,
-        details:
-          'You can continue to use the CMS, and will be notified when the import is complete.',
-        timeout: false,
-      });
-
-      setImportNotifications(notifications => [
-        ...notifications,
-        {
-          modelName: modelName,
-          notificationId: notification.id,
-        },
-      ]);
-    }
-  };
-
-  const removeImportNotification = modelName => {
-    const existingNotification = getImportNotifications().find(x => x.modelName === modelName);
-
-    if (existingNotification) {
-      clearNotification(existingNotification.notificationId);
-      setImportNotifications(notifications =>
-        notifications.filter(notification => notification.modelName !== modelName),
-      );
-      appendNotification({
-        type: NOTIFICATION_TYPES.SUCCESS,
-        message: `Import Successful: Research Somatic Variants for ${modelName} have successfully imported, however are not yet published.`,
-        link: `/admin/model/${modelName}`,
-        linkText: 'View on model page to publish these variants.',
-      });
-    }
-  };
-
   return {
     data: getData(),
     filteredData: getFilteredData(),
-    importNotifications: getImportNotifications(),
     loading: getLoading(),
     page: getPage(),
     pageSize: getPageSize(),
     setData,
     setFilteredData,
-    setImportNotifications,
     setLoading,
     setPage,
     setPageSize,
-    addImportNotification,
-    removeImportNotification,
     fetchData,
     sortFilteredData,
   };
