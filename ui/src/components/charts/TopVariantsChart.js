@@ -82,19 +82,7 @@ export default ({ sqon, setSQON }) => (
                 (largest, { doc_count }) => (doc_count > largest ? doc_count : largest),
                 0,
               ),
-              // returns a "nice" number for the y-axis upper limit
-              // ex. largest 17 => 20, largest 177 => 200, largest 1777 => 2000
-              maxY = () => {
-                if (largestCount <= 1) {
-                  return largestCount;
-                }
-
-                const log = Math.floor(Math.log10(largestCount));
-                const step = Math.pow(10, log === 0 ? 1 : log);
-
-                return Math.ceil(largestCount / step) * step;
-              },
-              yGridValues = largestCount > 0 ? [0, maxY()] : [],
+              yGridValues = largestCount > 0 ? [0, largestCount] : [],
             }) => {
               return loading ? (
                 <span className="sqon-field sqon-field--chart-title">Loading...</span>
@@ -111,7 +99,7 @@ export default ({ sqon, setSQON }) => (
                       left: 48,
                     }}
                     data={coloredTop10}
-                    maxValue={maxY()}
+                    maxValue={largestCount}
                     enableLabel={false}
                     padding={0.4}
                     indexBy="key"

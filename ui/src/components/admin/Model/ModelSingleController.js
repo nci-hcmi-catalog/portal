@@ -722,6 +722,45 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 state.data.response.genomic_variants || [],
                 'genomicVariantTable',
               ),
+              fetchGenomicVariantData: async modelName => {
+                if (modelName) {
+                  // Set loading true
+                  setState(state => ({
+                    data: {
+                      ...state.data,
+                      isLoading: true,
+                    },
+                  }));
+
+                  try {
+                    const modelDataResponse = await getModel(baseUrl, modelName);
+
+                    setState(state => ({
+                      data: {
+                        ...state.data,
+                        isLoading: false,
+                        didLoad: true,
+                        response: {
+                          ...state.data.response,
+                          genomic_variants: modelDataResponse.data.genomic_variants,
+                        },
+                      },
+                      genomicVariantTable: {
+                        ...state.genomicVariantTable,
+                        rowCount: (modelDataResponse.data.genomic_variants || []).length,
+                      },
+                    }));
+                  } catch (err) {
+                    setState(state => ({
+                      data: {
+                        ...state.data,
+                        isLoading: false,
+                        error: err,
+                      },
+                    }));
+                  }
+                }
+              },
             }}
             {...props}
           >

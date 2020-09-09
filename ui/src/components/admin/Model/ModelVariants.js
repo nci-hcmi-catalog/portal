@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import { ModelSingleContext } from './ModelSingleController';
 import { ModalStateContext } from 'providers/ModalState';
@@ -28,7 +28,7 @@ import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 
 import config from '../config';
-import { VARIANT_TYPES } from 'utils/constants';
+import { VARIANT_IMPORT_STATUS, VARIANT_TYPES } from 'utils/constants';
 
 const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, type }) => {
   const {
@@ -90,7 +90,13 @@ const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, type })
   }
 };
 
+const isImporting = (importNotifications, modelName) => {
+  return (importNotifications || []).find(activeImport => activeImport.modelName === modelName);
+};
+
 export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
+  const importStatus = useRef(null);
+  const { fetchGenomicVariantData } = useContext(ModelSingleContext);
   const { appendNotification } = useContext(NotificationsContext);
   const [activeTab, setActiveTab] = useState(null);
   const { importNotifications, addImportNotification } = useGenomicVariantImportNotifications();
@@ -111,6 +117,21 @@ export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
       setActiveTab(VARIANT_TYPES.genomic);
     }
   }, []);
+
+  useEffect(() => {
+    if (isImporting(importNotifications, name)) {
+      importStatus.current = VARIANT_IMPORT_STATUS.active;
+    }
+
+    if (
+      !isImporting(importNotifications, name) &&
+      importStatus &&
+      importStatus.current === VARIANT_IMPORT_STATUS.active
+    ) {
+      importStatus.current = VARIANT_IMPORT_STATUS.complete;
+      fetchGenomicVariantData(name);
+    }
+  }, [importNotifications]);
 
   return (
     <>
