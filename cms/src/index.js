@@ -62,7 +62,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/test', {
 
 // configure server
 app.use(helmet());
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '10mb' }));
 app.use(methodOverride());
 app.use(cors());
 
