@@ -134,10 +134,9 @@ const updateGeneIndex = async (desiredGeneTranscriptIds, desiredGeneSymbols) => 
   );
 
   if (deleteRequests.length || addRequests.length) {
-    const response = await esClient.bulk({
+    await esClient.bulk({
       body: [...deleteRequests, ...addRequests],
     });
-    console.log(response);
   } else {
     logger.debug('No updates for Gene search index.');
   }

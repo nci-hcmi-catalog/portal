@@ -14,7 +14,7 @@ const logger = getLogger('services/elastic-search/publish');
 export const publishModel = async filter => {
   await indexOneToES(filter);
   await indexMatchedModelsToES(filter);
-  updateGeneSearchIndicies();
+  await updateGeneSearchIndicies();
 };
 
 export const indexOneToES = filter => {
