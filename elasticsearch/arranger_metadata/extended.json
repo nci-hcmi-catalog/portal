@@ -849,7 +849,7 @@
   {
     "field": "gene_metadata.histopathological_variant_count",
     "type": "keyword",
-    "displayName": "# Histopathological Biomarkers",
+    "displayName": "# Histo-pathological Biomarkers",
     "active": false,
     "isArray": false,
     "primaryKey": false,
