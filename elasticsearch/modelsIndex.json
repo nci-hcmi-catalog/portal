@@ -259,11 +259,13 @@
       },
       "gene_metadata": {
         "properties": {
+          "filename": { "type": "keyword" },
+          "import_date": { "type": "date" },
           "genes": { "type": "keyword" },
-          "genes_count": { "type": "keyword" },
-          "genomic_variant_count": { "type": "keyword" },
-          "clinical_variant_count": { "type": "keyword" },
-          "histopathological_variant_count": { "type": "keyword" }
+          "genes_count": { "type": "long" },
+          "genomic_variant_count": { "type": "long" },
+          "clinical_variant_count": { "type": "long" },
+          "histopathological_variant_count": { "type": "long" }
         }
       },
       "vital_status": {

@@ -59,10 +59,11 @@ const buildVariantId = ({
   }
 };
 
-export const addGenomicVariantsFromMaf = async (name, mafData) => {
+export const addGenomicVariantsFromMaf = async (name, filename, mafData) => {
   const model = await Model.findOne({ name });
   if (model) {
     const genomicVariants = [];
+    const geneMeta = { filename, import_date: Date.now() };
 
     for (let i = 0; i < mafData.length; i++) {
       // For loop not forEach since we need async within this loop
@@ -121,6 +122,7 @@ export const addGenomicVariantsFromMaf = async (name, mafData) => {
         );
         variant.gene_name = geneReference.name;
         variant.synonyms = geneReference.synonyms;
+        variant.name = variant.aa_change ? `${variant.gene} ${variant.aa_change}` : variant.gene;
       } else {
         logger.warn(
           { ensemble_id, model: name },
@@ -132,6 +134,7 @@ export const addGenomicVariantsFromMaf = async (name, mafData) => {
     }
 
     model['genomic_variants'] = genomicVariants;
+    model.gene_metadata = geneMeta;
     model.status =
       model.status === modelStatus.unpublished
         ? modelStatus.unpublished

@@ -80,7 +80,7 @@ const Import = function(modelName, fileId, filename) {
       if (status !== ImportStatus.active) {
         return;
       }
-      await addGenomicVariantsFromMaf(modelName, mafData);
+      await addGenomicVariantsFromMaf(modelName, filename, mafData);
       logger.debug(
         { time: Date.now(), startTime, fileId, filename, modelName },
         'Completed Genomic Variant Import',
