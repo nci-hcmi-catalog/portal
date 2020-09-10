@@ -15,6 +15,12 @@ export const Table = styled('div')`
   margin-bottom: ${({ marginBottom }) => marginBottom || '52px'};
   align-self: center;
   background: ${white};
+  ${({ type }) =>
+    type === 'Variants' && `
+    border: 1px solid #d4d7dd;
+    padding: 10px 24px;
+    margin-bottom: 10px;
+  `}
   label: models-table-main;
 `;
 
@@ -82,9 +88,10 @@ export const ToolbarMain = styled(Row)`
   flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
-  padding: 2px 8px;
+  padding: 2px ${({ type }) => (type === 'Variants' ? '0px' : '8px')};
   border: 1px solid #d4d7dd;
   border-bottom-width: 0;
+  ${({ type }) => type === 'Variants' && 'border: none;'}
   label: toolbar-main;
 `;
 
@@ -151,5 +158,18 @@ export const ToolbarControl = styled('div')`
       transparent calc(100% - 28px),
       transparent 100%
     );
+  }
+`;
+
+export const ToolbarHeader = styled(Row)`
+  align-items: center;
+  font-size: 12px;
+  font-family: ${openSans};
+  font-weight: normal;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #d4d7dd;
+
+  b {
+    padding: 0 5px;
   }
 `;

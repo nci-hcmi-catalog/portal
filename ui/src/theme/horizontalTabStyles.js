@@ -23,7 +23,7 @@ const activeTab = css`
   background-color: ${backgroundColour};
   border: solid 1px ${borderColour};
   border-top-width: 3px;
-  border-bottom-width: 0px;
+  border-bottom-width: 1px;
   color: ${black};
   font-weight: bold;
   z-index: 2;
