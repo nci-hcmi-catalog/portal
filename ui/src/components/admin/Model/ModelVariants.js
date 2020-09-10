@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import moment from 'moment-timezone';
 
 import { ModelSingleContext } from './ModelSingleController';
 import { ModalStateContext } from 'providers/ModalState';
@@ -26,13 +27,20 @@ import useConfirmationModal from 'components/modals/ConfirmationModal';
 
 import { AdminContainer, AdminHeader, AdminHeaderH3, AdminHeaderBlock } from 'theme/adminStyles';
 import { ButtonPill } from 'theme/adminControlsStyles';
-import { Table } from 'theme/adminTableStyles';
+import { Table, ToolbarHeader } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 
 import config from '../config';
 import { VARIANT_IMPORT_STATUS, VARIANT_TYPES } from 'utils/constants';
 
-const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, modelName, type }) => {
+const TabView = ({
+  activeTab,
+  clinicalVariantsData,
+  genomicVariantsData,
+  geneMeta,
+  modelName,
+  type,
+}) => {
   const {
     fetchGenomicVariantData,
     state: { variantTable, genomicVariantTable },
@@ -44,7 +52,7 @@ const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, modelNa
   switch (activeTab) {
     case VARIANT_TYPES.clinical:
       return (
-        <Table marginBottom="0">
+        <Table marginBottom="0" type={type}>
           <Toolbar
             {...{
               state: variantTable,
@@ -69,14 +77,13 @@ const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, modelNa
       );
     case VARIANT_TYPES.genomic:
       return (
-        <Table marginBottom="0">
-          <Toolbar
-            {...{
-              state: genomicVariantTable,
-              type,
-              onFilterValueChange: genomicVariantTableControls.onFilterValueChange,
-            }}
-          >
+        <Table marginBottom="0" type={type}>
+          <ToolbarHeader>
+            {geneMeta && (
+              <>
+                Imported: <b>{geneMeta.fileName}</b> on <b>{geneMeta.importDate}</b>
+              </>
+            )}
             {useConfirmationModal({
               title: 'Clear Existing Variants?',
               message: 'Are you sure you want to clear the existing list of variants?',
@@ -93,11 +100,18 @@ const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, modelNa
                     }),
                   ),
             })(
-              <ButtonPill secondary css={'margin-right: 10px;'}>
+              <ButtonPill secondary css={'margin-left: 5px;'}>
                 Clear List
               </ButtonPill>,
             )}
-          </Toolbar>
+          </ToolbarHeader>
+          <Toolbar
+            {...{
+              state: genomicVariantTable,
+              type,
+              onFilterValueChange: genomicVariantTableControls.onFilterValueChange,
+            }}
+          />
           <GenomicDataTable
             {...{
               state: { ...genomicVariantTable, data: genomicVariantsData },
@@ -119,7 +133,16 @@ const isImporting = (importNotifications, modelName) => {
   return (importNotifications || []).find(activeImport => activeImport.modelName === modelName);
 };
 
-export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
+const getDateString = date => {
+  if (!date) return null;
+
+  return moment
+    .utc(date)
+    .local()
+    .format('YYYY-MM-DD h:mm a');
+};
+
+export default ({ data: { name, gene_metadata, genomic_variants, variants, updatedAt } }) => {
   const importStatus = useRef(null);
   const { fetchGenomicVariantData } = useContext(ModelSingleContext);
   const { appendNotification } = useContext(NotificationsContext);
@@ -133,6 +156,12 @@ export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
     expression_level: variant.expression_level,
   }));
   const genomicVariantsData = (genomic_variants || []).filter(variant => variant.gene);
+  const geneMeta = gene_metadata
+    ? {
+        fileName: gene_metadata.filename,
+        importDate: getDateString(gene_metadata.import_date),
+      }
+    : null;
   const type = 'Variants';
 
   useEffect(() => {
@@ -276,6 +305,7 @@ export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
                   activeTab={activeTab}
                   clinicalVariantsData={clinicalVariantsData}
                   genomicVariantsData={genomicVariantsData}
+                  geneMeta={geneMeta}
                   modelName={name}
                   type={type}
                 />
