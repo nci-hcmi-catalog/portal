@@ -4,10 +4,11 @@ import { ModelSingleContext } from './ModelSingleController';
 import { ModalStateContext } from 'providers/ModalState';
 import {
   importGenomicVariants,
+  clearGenomicVariants,
   GENOMIC_VARIANTS_IMPORT_ERRORS,
   MultipleMafError,
   NoMafError,
-} from './actions/ImportGenomicVariants';
+} from './actions/GenomicVariants';
 import {
   NotificationsContext,
   NOTIFICATION_TYPES,
@@ -21,6 +22,7 @@ import { ModelGenomicVariantColumns as genomicVariantTableColumns } from './Mode
 import { TabGroup, Tab } from 'components/layout/HorizontalTabs';
 import PlusIcon from '../../../icons/PlusIcon';
 import TabHeader from './TabHeader';
+import useConfirmationModal from 'components/modals/ConfirmationModal';
 
 import { AdminContainer, AdminHeader, AdminHeaderH3, AdminHeaderBlock } from 'theme/adminStyles';
 import { ButtonPill } from 'theme/adminControlsStyles';
@@ -30,12 +32,14 @@ import { AdminModalStyle } from 'theme/adminModalStyles';
 import config from '../config';
 import { VARIANT_IMPORT_STATUS, VARIANT_TYPES } from 'utils/constants';
 
-const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, type }) => {
+const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, modelName, type }) => {
   const {
+    fetchGenomicVariantData,
     state: { variantTable, genomicVariantTable },
     variantTableControls,
     genomicVariantTableControls,
   } = useContext(ModelSingleContext);
+  const { appendNotification } = useContext(NotificationsContext);
 
   switch (activeTab) {
     case VARIANT_TYPES.clinical:
@@ -72,7 +76,28 @@ const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, type })
               type,
               onFilterValueChange: genomicVariantTableControls.onFilterValueChange,
             }}
-          />
+          >
+            {useConfirmationModal({
+              title: 'Clear Existing Variants?',
+              message: 'Are you sure you want to clear the existing list of variants?',
+              confirmLabel: 'Yes, Clear',
+              onConfirm: () =>
+                clearGenomicVariants(modelName)
+                  .then(_ => fetchGenomicVariantData(modelName))
+                  .catch(error =>
+                    appendNotification({
+                      type: NOTIFICATION_TYPES.ERROR,
+                      message: `Clear Error: An unexpected error occured while clearing research variants for ${modelName}`,
+                      details: error.message,
+                      timeout: false,
+                    }),
+                  ),
+            })(
+              <ButtonPill secondary css={'margin-right: 10px;'}>
+                Clear List
+              </ButtonPill>,
+            )}
+          </Toolbar>
           <GenomicDataTable
             {...{
               state: { ...genomicVariantTable, data: genomicVariantsData },
@@ -251,6 +276,7 @@ export default ({ data: { name, genomic_variants, variants, updatedAt } }) => {
                   activeTab={activeTab}
                   clinicalVariantsData={clinicalVariantsData}
                   genomicVariantsData={genomicVariantsData}
+                  modelName={name}
                   type={type}
                 />
               </>
