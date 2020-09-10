@@ -13,10 +13,17 @@ export default ({
   onPublishClick,
   onUnpublishClick,
   onDeleteClick,
+  children,
 }) => {
   const [from, to] = [rowCount === 0 ? 0 : page * pageSize + 1, page * pageSize + pageSize];
   return (
     <ToolbarMain>
+      {type === 'Variants' && (
+        <ToolbarSection>
+          {children}
+          <Filter onFilterValueChange={onFilterValueChange} />
+        </ToolbarSection>
+      )}
       <ToolbarSection>
         <ToolbarText
           css={`
@@ -27,7 +34,7 @@ export default ({
           {!isLoading &&
             `Showing ${from} - ${to <= rowCount ? to : rowCount} of ${rowCount} ${type}`}
         </ToolbarText>
-        <Filter onFilterValueChange={onFilterValueChange} />
+        {type !== 'Variants' && <Filter onFilterValueChange={onFilterValueChange} />}
       </ToolbarSection>
       {type === 'Models' && (
         <BulkActions

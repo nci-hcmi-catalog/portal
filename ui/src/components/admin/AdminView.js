@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import {
   acknowledgeImportStatus,
   checkImportStatus,
-} from 'components/admin/Model/actions/ImportGenomicVariants';
+} from 'components/admin/Model/actions/GenomicVariants';
 import { useGenomicVariantImportNotifications } from 'components/admin/Notifications';
 
 import AdminNav from './AdminNav';
