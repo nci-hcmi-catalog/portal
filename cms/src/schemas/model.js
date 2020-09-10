@@ -27,10 +27,16 @@ const VariantExpression = new mongoose.Schema({
   expression_level: { type: String },
 });
 
+const GeneMetadata = new mongoose.Schema({
+  filename: { type: String, es_indexed: true },
+  import_date: { type: Date, es_indexed: true },
+});
+
 const GenomicVariant = new mongoose.Schema({
   ensemble_id: { type: String },
   gene: { type: String },
   aa_change: { type: String },
+  name: { type: String },
   type: { type: String },
   transcript_id: { type: String },
   consequence_type: { type: String },
@@ -82,6 +88,10 @@ export const ModelSchema = new mongoose.Schema(
     files: { type: [FilesSchema], es_indexed: true },
     variants: { type: [VariantExpression], es_indexed: false },
     genomic_variants: { type: [GenomicVariant], es_indexed: false },
+    gene_metadata: {
+      type: GeneMetadata,
+      es_indexed: false,
+    },
     matchedModels: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'MatchedModels',
@@ -165,6 +175,8 @@ export const ModelSchema = new mongoose.Schema(
           ).length;
 
           return {
+            filename: doc.gene_metadata.filename,
+            import_date: doc.gene_metadata.import_date,
             genes,
             genes_count,
             genomic_variant_count,
