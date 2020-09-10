@@ -20,6 +20,7 @@ export const clearGenomicVariants = async name => {
   const model = await Model.findOne({ name });
   if (model) {
     model.genomic_variants = [];
+    model.gene_metadata = {};
     model.status =
       model.status === modelStatus.unpublished
         ? modelStatus.unpublished
