@@ -13,14 +13,12 @@ export default ({
   onPublishClick,
   onUnpublishClick,
   onDeleteClick,
-  children,
 }) => {
   const [from, to] = [rowCount === 0 ? 0 : page * pageSize + 1, page * pageSize + pageSize];
   return (
     <ToolbarMain>
       {type === 'Variants' && (
         <ToolbarSection>
-          {children}
           <Filter onFilterValueChange={onFilterValueChange} />
         </ToolbarSection>
       )}

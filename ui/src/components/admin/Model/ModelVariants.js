@@ -70,34 +70,33 @@ const TabView = ({ activeTab, clinicalVariantsData, genomicVariantsData, modelNa
     case VARIANT_TYPES.genomic:
       return (
         <Table marginBottom="0">
+          {useConfirmationModal({
+            title: 'Clear Existing Variants?',
+            message: 'Are you sure you want to clear the existing list of variants?',
+            confirmLabel: 'Yes, Clear',
+            onConfirm: () =>
+              clearGenomicVariants(modelName)
+                .then(_ => fetchGenomicVariantData(modelName))
+                .catch(error =>
+                  appendNotification({
+                    type: NOTIFICATION_TYPES.ERROR,
+                    message: `Clear Error: An unexpected error occured while clearing research variants for ${modelName}`,
+                    details: error.message,
+                    timeout: false,
+                  }),
+                ),
+          })(
+            <ButtonPill secondary css={'margin-right: 10px;'}>
+              Clear List
+            </ButtonPill>,
+          )}
           <Toolbar
             {...{
               state: genomicVariantTable,
               type,
               onFilterValueChange: genomicVariantTableControls.onFilterValueChange,
             }}
-          >
-            {useConfirmationModal({
-              title: 'Clear Existing Variants?',
-              message: 'Are you sure you want to clear the existing list of variants?',
-              confirmLabel: 'Yes, Clear',
-              onConfirm: () =>
-                clearGenomicVariants(modelName)
-                  .then(_ => fetchGenomicVariantData(modelName))
-                  .catch(error =>
-                    appendNotification({
-                      type: NOTIFICATION_TYPES.ERROR,
-                      message: `Clear Error: An unexpected error occured while clearing research variants for ${modelName}`,
-                      details: error.message,
-                      timeout: false,
-                    }),
-                  ),
-            })(
-              <ButtonPill secondary css={'margin-right: 10px;'}>
-                Clear List
-              </ButtonPill>,
-            )}
-          </Toolbar>
+          />
           <GenomicDataTable
             {...{
               state: { ...genomicVariantTable, data: genomicVariantsData },
