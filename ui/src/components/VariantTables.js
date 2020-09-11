@@ -281,6 +281,14 @@ const renderTable = (activeTab, modelName) => {
               field: 'gene',
               id: 'gene',
               accessor: 'gene.display',
+              sortMethod: (a, b) => {
+                const gene1 = typeof a === 'string' ? a : a.props.children;
+                const gene2 = typeof b === 'string' ? b : b.props.children;
+
+                if (gene1.toLowerCase() < gene2.toLowerCase()) return -1;
+                if (gene1.toLowerCase() > gene2.toLowerCase()) return 1;
+                return 0;
+              },
               Header: 'Gene',
             },
             {
