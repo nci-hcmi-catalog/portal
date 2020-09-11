@@ -20,6 +20,19 @@ import { visuallyHidden } from 'theme';
 import { VARIANT_TYPES } from 'utils/constants';
 import tsvDownloader from 'utils/tsvDownloader';
 
+const generateTsvFilename = (modelName, type) => {
+  switch (type) {
+    case VARIANT_TYPES.clinical:
+      return `${modelName}-clinical-variants`;
+    case VARIANT_TYPES.histopathological:
+      return `${modelName}-histopathological-biomarkers`;
+    case VARIANT_TYPES.genomic:
+      return `${modelName}-research-somatic-variants`;
+    default:
+      return `${modelName}-variants`;
+  }
+};
+
 const VariantTable = React.memo(({ type, modelName, columns }) => {
   const {
     data,
@@ -100,7 +113,7 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
               secondary
               disabled={sortedData.length === 0}
               style={{ marginLeft: '8px' }}
-              onClick={() => tsvDownloader(`${modelName}-${type}`, filteredData)}
+              onClick={() => tsvDownloader(generateTsvFilename(modelName, type), filteredData)}
             >
               <DownloadIcon height={'12px'} width={'12px'} />
               TSV
