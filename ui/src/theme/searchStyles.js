@@ -847,6 +847,10 @@ export const FooterNavItem = styled('li')`
   padding: 0 8px;
   border-right: 1px solid ${black};
 
+  &:first-child {
+    padding-left: 4px;
+  }
+
   &:last-child {
     padding-right: 0;
     border-right: none;
@@ -864,9 +868,10 @@ export const FooterImg = styled('img')`
 export const CopyrightText = styled('p')`
   margin: 0;
   padding: 0;
-  color: ${black}
+  color: ${black};
   font-family: ${openSans};
   font-size: 12px;
+  height: 16px;
 `;
 
 export const FooterLink = styled('a')`
