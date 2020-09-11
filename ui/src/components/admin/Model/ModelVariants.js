@@ -227,13 +227,12 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
                         <PlusIcon css={'margin-right: 5px;'} />
                         Clinical Variants
                       </ButtonPill>
-                      <ButtonPill
-                        primary
-                        css={'margin-left: 10px;'}
-                        disabled={importNotifications.find(
-                          notification => notification.modelName === name,
-                        )}
-                        onClick={() => {
+                      {useConfirmationModal({
+                        title: 'Overwrite Existing Variants?',
+                        message:
+                          'Are you sure you want to import new research variants and overwrite the existing list?',
+                        confirmLabel: 'Yes, Import',
+                        onConfirm: () => {
                           importGenomicVariants(name)
                             .then(async response => {
                               addImportNotification(name);
@@ -273,11 +272,20 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
                                   break;
                               }
                             });
-                        }}
-                      >
-                        <PlusIcon css={'margin-right: 5px;'} />
-                        Research Somatic Variants
-                      </ButtonPill>
+                        },
+                        confirmationRequired: genomicVariantsData.length > 0,
+                      })(
+                        <ButtonPill
+                          primary
+                          css={'margin-left: 10px;'}
+                          disabled={importNotifications.find(
+                            notification => notification.modelName === name,
+                          )}
+                        >
+                          <PlusIcon css={'margin-right: 5px;'} />
+                          Research Somatic Variants
+                        </ButtonPill>,
+                      )}
                     </>
                   )}
                 </ModalStateContext.Consumer>
