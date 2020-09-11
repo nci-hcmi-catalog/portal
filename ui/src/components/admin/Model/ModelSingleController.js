@@ -753,6 +753,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                         response: {
                           ...state.data.response,
                           status: modelDataResponse.data.status,
+                          gene_metadata: modelDataResponse.data.gene_metadata,
                           genomic_variants: modelDataResponse.data.genomic_variants,
                         },
                       },
