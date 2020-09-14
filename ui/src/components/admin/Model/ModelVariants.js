@@ -21,7 +21,8 @@ import BulkUploader from '../BulkUpload';
 import { ModelVariantColumns as clinicalVariantTableColumns } from './ModelVariantColumns';
 import { ModelGenomicVariantColumns as genomicVariantTableColumns } from './ModelGenomicVariantColumns';
 import { TabGroup, Tab } from 'components/layout/HorizontalTabs';
-import PlusIcon from '../../../icons/PlusIcon';
+import PlusIcon from 'icons/PlusIcon';
+import VariantsIcon from 'icons/VariantsIcon';
 import TabHeader from './TabHeader';
 import useConfirmationModal from 'components/modals/ConfirmationModal';
 
@@ -78,7 +79,7 @@ const TabView = ({
     case VARIANT_TYPES.genomic:
       return (
         <Table marginBottom="0" type={type}>
-          <ToolbarHeader>
+          <ToolbarHeader hasData={genomicVariantsData.length > 0}>
             {geneMeta && (
               <>
                 Imported: <b>{geneMeta.fileName}</b> on <b>{geneMeta.importDate}</b>
@@ -105,23 +106,46 @@ const TabView = ({
               </ButtonPill>,
             )}
           </ToolbarHeader>
-          <Toolbar
-            {...{
-              state: genomicVariantTable,
-              type,
-              onFilterValueChange: genomicVariantTableControls.onFilterValueChange,
-            }}
-          />
-          <GenomicDataTable
-            {...{
-              state: { ...genomicVariantTable, data: genomicVariantsData },
-              onPageChange: genomicVariantTableControls.onPageChange,
-              onPageSizeChange: genomicVariantTableControls.onPageSizeChange,
-              tableColumns: genomicVariantTableColumns,
-              toggleSelection: genomicVariantTableControls.toggleSelection,
-              toggleAll: genomicVariantTableControls.toggleAll,
-            }}
-          />
+          {genomicVariantsData.length > 0 ? (
+            <>
+              <Toolbar
+                {...{
+                  state: genomicVariantTable,
+                  type,
+                  onFilterValueChange: genomicVariantTableControls.onFilterValueChange,
+                }}
+              />
+              <GenomicDataTable
+                {...{
+                  state: { ...genomicVariantTable, data: genomicVariantsData },
+                  onPageChange: genomicVariantTableControls.onPageChange,
+                  onPageSizeChange: genomicVariantTableControls.onPageSizeChange,
+                  tableColumns: genomicVariantTableColumns,
+                  toggleSelection: genomicVariantTableControls.toggleSelection,
+                  toggleAll: genomicVariantTableControls.toggleAll,
+                }}
+              />
+            </>
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '230px',
+              }}
+            >
+              <VariantsIcon />
+              <p
+                style={{
+                  fontSize: '12px',
+                }}
+              >
+                No variants identified in the Masked Somatic MAF.
+              </p>
+            </div>
+          )}
         </Table>
       );
     default:
@@ -156,18 +180,19 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
     expression_level: variant.expression_level,
   }));
   const genomicVariantsData = (genomic_variants || []).filter(variant => variant.gene);
-  const geneMeta = gene_metadata
-    ? {
-        fileName: gene_metadata.filename,
-        importDate: getDateString(gene_metadata.import_date),
-      }
-    : null;
+  const geneMeta =
+    gene_metadata && gene_metadata.filename && gene_metadata.import_date
+      ? {
+          fileName: gene_metadata.filename,
+          importDate: getDateString(gene_metadata.import_date),
+        }
+      : null;
   const type = 'Variants';
 
   useEffect(() => {
     if (clinicalVariantsData.length > 0) {
       setActiveTab(VARIANT_TYPES.clinical);
-    } else if (genomicVariantsData.length > 0) {
+    } else if (genomicVariantsData.length > 0 || geneMeta) {
       setActiveTab(VARIANT_TYPES.genomic);
     }
   }, []);
@@ -291,7 +316,7 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
                 </ModalStateContext.Consumer>
               </AdminHeaderBlock>
             </AdminHeader>
-            {(clinicalVariantsData.length > 0 || genomicVariantsData.length > 0) && (
+            {(clinicalVariantsData.length > 0 || (genomicVariantsData.length > 0 || geneMeta)) && (
               <>
                 <TabGroup>
                   <Tab
@@ -303,7 +328,7 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
                   </Tab>
                   <Tab
                     active={activeTab === VARIANT_TYPES.genomic}
-                    disabled={genomicVariantsData.length === 0}
+                    disabled={genomicVariantsData.length === 0 && !geneMeta}
                     onClick={() => setActiveTab(VARIANT_TYPES.genomic)}
                   >
                     Research Somatic Variants

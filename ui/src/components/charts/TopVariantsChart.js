@@ -22,7 +22,6 @@ export default ({ sqon, setSQON }) => (
   >
     <AggregationQuery sqon={sqon} field="gene_metadata__genes">
       {({ state: aggState }) => {
-        console.log('aggregationQuery aggState', aggState);
         return (
           <Component
             top10={(aggState.buckets || [])

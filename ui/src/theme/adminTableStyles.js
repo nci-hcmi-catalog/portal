@@ -167,7 +167,7 @@ export const ToolbarHeader = styled(Row)`
   font-family: ${openSans};
   font-weight: normal;
   padding-bottom: 5px;
-  border-bottom: 1px solid #d4d7dd;
+  ${({ hasData }) => hasData && 'border-bottom: 1px solid #d4d7dd;'}
 
   b {
     padding: 0 5px;
