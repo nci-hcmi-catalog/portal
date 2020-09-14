@@ -181,7 +181,7 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
   }));
   const genomicVariantsData = (genomic_variants || []).filter(variant => variant.gene);
   const geneMeta =
-    gene_metadata && gene_metadata.filename && gene_metadata.importDate
+    gene_metadata && gene_metadata.filename && gene_metadata.import_date
       ? {
           fileName: gene_metadata.filename,
           importDate: getDateString(gene_metadata.import_date),
