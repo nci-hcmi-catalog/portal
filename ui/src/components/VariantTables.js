@@ -36,6 +36,7 @@ const generateTsvFilename = (modelName, type) => {
 const VariantTable = React.memo(({ type, modelName, columns }) => {
   const {
     data,
+    geneMetadata,
     filteredData,
     loading,
     page,
@@ -152,7 +153,11 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
             }}
           >
             <VariantsIcon />
-            <p className="model-details__empty-message">No variants available.</p>
+            <p className="model-details__empty-message">
+              {type === VARIANT_TYPES.genomic && geneMetadata
+                ? 'No variants were identified in the Masked Somatic MAF file.'
+                : 'No variants available.'}
+            </p>
           </div>
         )}
       </div>
@@ -365,7 +370,7 @@ const renderTable = (activeTab, modelName) => {
 export default ({ modelName }) => {
   const [activeTab, setActiveTab] = useState(VARIANT_TYPES.clinical);
   const [isEmpty, setIsEmpty] = useState(true);
-  const { fetchData, setData, setFilteredData } = useVariants();
+  const { fetchData, fetchGeneMetadata, setData, setFilteredData } = useVariants();
 
   useEffect(() => {
     const checkClinicalVariants = async () => {
@@ -381,11 +386,13 @@ export default ({ modelName }) => {
         modelName,
         type: VARIANT_TYPES.histopathological,
       });
+      const geneMetadata = await fetchGeneMetadata(modelName);
 
       if (
         clinicalVariants.length === 0 &&
         genomicVariants.length === 0 &&
-        histopathologicalBiomarkers.length === 0
+        histopathologicalBiomarkers.length === 0 &&
+        !geneMetadata
       ) {
         setIsEmpty(true);
       } else if (clinicalVariants.length > 0) {
@@ -393,7 +400,7 @@ export default ({ modelName }) => {
         setActiveTab(VARIANT_TYPES.clinical);
         setData(clinicalVariants);
         setFilteredData(clinicalVariants);
-      } else if (genomicVariants.length > 0) {
+      } else if (genomicVariants.length > 0 || geneMetadata) {
         setIsEmpty(false);
         setActiveTab(VARIANT_TYPES.genomic);
         setData(genomicVariants);
