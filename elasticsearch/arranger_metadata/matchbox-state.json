@@ -26,5 +26,12 @@
     "displayName": "Multiple Models",
     "searchFields": [],
     "isActive": false
+  },
+  {
+    "keyField": null,
+    "field": "gene_metadata",
+    "displayName": "Gene Metadata",
+    "searchFields": [],
+    "isActive": false
   }
 ]

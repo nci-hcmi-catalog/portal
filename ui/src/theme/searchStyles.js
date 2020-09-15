@@ -655,16 +655,16 @@ export default css`
     font-size: 14px;
   }
 
-  .model-name-search-content-wrapper {
+  .search-sidebar-content-wrapper {
     padding: 4px 8px;
   }
 
-  .model-name-search-content .quick-search .inputWrapper,
+  .search-sidebar-content .quick-search .inputWrapper,
   .toolbar .inputWrapper {
     ${inputWrapperStyle};
   }
 
-  .model-name-search-content .quick-search .inputWrapper .inputIcon,
+  .search-sidebar-content .quick-search .inputWrapper .inputIcon,
   .search-results-wrapper .tableToolbar .group .inputWrapper .inputIcon,
   .toolbar .inputWrapper .inputIcon,
   .filter .inputWrapper .inputIcon {
@@ -676,7 +676,7 @@ export default css`
     height: 16px;
   }
 
-  .model-name-search-content .quick-search .inputWrapper input,
+  .search-sidebar-content .quick-search .inputWrapper input,
   .search-results-wrapper .tableToolbar .group .inputWrapper input,
   .toolbar .inputWrapper input {
     ${inputStyle}
@@ -848,6 +848,10 @@ export const FooterNavItem = styled('li')`
   padding: 0 8px;
   border-right: 1px solid ${black};
 
+  &:first-child {
+    padding-left: 4px;
+  }
+
   &:last-child {
     padding-right: 0;
     border-right: none;
@@ -865,9 +869,10 @@ export const FooterImg = styled('img')`
 export const CopyrightText = styled('p')`
   margin: 0;
   padding: 0;
-  color: ${black}
+  color: ${black};
   font-family: ${openSans};
   font-size: 12px;
+  height: 16px;
 `;
 
 export const FooterLink = styled('a')`

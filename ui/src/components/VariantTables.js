@@ -17,17 +17,26 @@ import { Row, Col } from 'theme/system';
 import { Tab, TabHeading, variantTab, variantTabActive } from 'theme/verticalTabStyles';
 import { visuallyHidden } from 'theme';
 
+import { VARIANT_TYPES } from 'utils/constants';
 import tsvDownloader from 'utils/tsvDownloader';
 
-const VARIANT_TYPES = {
-  clinical: 'clinical',
-  histopathological: 'histopathological biomarker',
-  genomic: 'genomic_sequencing',
+const generateTsvFilename = (modelName, type) => {
+  switch (type) {
+    case VARIANT_TYPES.clinical:
+      return `${modelName}-clinical-variants`;
+    case VARIANT_TYPES.histopathological:
+      return `${modelName}-histopathological-biomarkers`;
+    case VARIANT_TYPES.genomic:
+      return `${modelName}-research-somatic-variants`;
+    default:
+      return `${modelName}-variants`;
+  }
 };
 
 const VariantTable = React.memo(({ type, modelName, columns }) => {
   const {
     data,
+    geneMetadata,
     filteredData,
     loading,
     page,
@@ -40,6 +49,7 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
     fetchData,
     sortFilteredData,
   } = useVariants();
+  const didFetchRef = useRef(false);
   const didMountRef = useRef(false);
   const [filterValue, setFilterValue] = useState('');
 
@@ -48,15 +58,21 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
   const sortedData = useMemo(() => filteredData.slice().sort((a, b) => sortFilteredData(a, b)));
 
   useEffect(() => {
+    // avoid fetching data twice on page load
     const getData = async () => {
-      setData([]);
-      setLoading(true);
+      if (didFetchRef && didFetchRef.current) {
+        setData([]);
+        setLoading(true);
 
-      const dataWithFreqs = await fetchData({ modelName, type });
+        const dataWithFreqs = await fetchData({ modelName, type });
 
-      setData(dataWithFreqs);
-      setFilteredData(dataWithFreqs);
-      setLoading(false);
+        setData(dataWithFreqs);
+        setFilteredData(dataWithFreqs);
+        setLoading(false);
+      } else {
+        didFetchRef.current = true;
+      }
+
       setPage(0);
       setPageSize(10);
     };
@@ -98,7 +114,7 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
               secondary
               disabled={sortedData.length === 0}
               style={{ marginLeft: '8px' }}
-              onClick={() => tsvDownloader(`${modelName}-${type}`, filteredData)}
+              onClick={() => tsvDownloader(generateTsvFilename(modelName, type), filteredData)}
             >
               <DownloadIcon height={'12px'} width={'12px'} />
               TSV
@@ -137,7 +153,11 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
             }}
           >
             <VariantsIcon />
-            <p className="model-details__empty-message">No variants available.</p>
+            <p className="model-details__empty-message">
+              {type === VARIANT_TYPES.genomic && geneMetadata
+                ? 'No variants were identified in the Masked Somatic MAF file.'
+                : 'No variants available.'}
+            </p>
           </div>
         )}
       </div>
@@ -266,40 +286,78 @@ const renderTable = (activeTab, modelName) => {
               type: 'keyword',
               sortable: true,
               canChangeShow: true,
-              field: 'name',
-              id: 'variantName',
-              accessor: 'name',
-              Header: 'Name',
+              field: 'variant_id',
+              id: 'variant_id',
+              accessor: 'variant_id',
+              Header: 'Variant',
             },
             {
               show: true,
               type: 'keyword',
               sortable: true,
               canChangeShow: true,
-              field: 'genes',
-              id: 'genes',
-              accessor: 'genes',
-              Header: 'Genes',
+              field: 'gene',
+              id: 'gene',
+              accessor: 'gene.display',
+              sortMethod: (a, b) => {
+                const gene1 = typeof a === 'string' ? a : a.props.children;
+                const gene2 = typeof b === 'string' ? b : b.props.children;
+
+                if (gene1.toLowerCase() < gene2.toLowerCase()) return -1;
+                if (gene1.toLowerCase() > gene2.toLowerCase()) return 1;
+                return 0;
+              },
+              Header: 'Gene',
             },
             {
               show: true,
               type: 'keyword',
               sortable: true,
               canChangeShow: true,
-              field: 'category',
-              id: 'category',
-              accessor: 'category',
+              field: 'aa_change',
+              id: 'aa_change',
+              accessor: 'aa_change',
+              Header: 'AA Change',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'transcript_id',
+              id: 'transcript_id',
+              accessor: 'transcript_id',
+              Header: 'Transcript',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'consequence_type',
+              id: 'consequence_type',
+              accessor: 'consequence_type',
+              Header: 'Consequence',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'class',
+              id: 'class',
+              accessor: 'class',
+              Header: 'Class',
+            },
+            {
+              show: true,
+              type: 'keyword',
+              sortable: true,
+              canChangeShow: true,
+              field: 'type',
+              id: 'type',
+              accessor: 'type',
               Header: 'Type',
-            },
-            {
-              show: true,
-              type: 'keyword',
-              sortable: true,
-              canChangeShow: true,
-              field: 'frequency',
-              id: 'frequency',
-              accessor: 'frequency.display',
-              Header: 'Frequency',
             },
           ]}
         />
@@ -311,7 +369,8 @@ const renderTable = (activeTab, modelName) => {
 
 export default ({ modelName }) => {
   const [activeTab, setActiveTab] = useState(VARIANT_TYPES.clinical);
-  const { fetchData } = useVariants();
+  const [isEmpty, setIsEmpty] = useState(true);
+  const { fetchData, fetchGeneMetadata, setData, setFilteredData } = useVariants();
 
   useEffect(() => {
     const checkClinicalVariants = async () => {
@@ -319,11 +378,38 @@ export default ({ modelName }) => {
         modelName,
         type: VARIANT_TYPES.clinical,
       });
+      const genomicVariants = await fetchData({
+        modelName,
+        type: VARIANT_TYPES.genomic,
+      });
+      const histopathologicalBiomarkers = await fetchData({
+        modelName,
+        type: VARIANT_TYPES.histopathological,
+      });
+      const geneMetadata = await fetchGeneMetadata(modelName);
 
-      if (clinicalVariants.length > 0) {
+      if (
+        clinicalVariants.length === 0 &&
+        genomicVariants.length === 0 &&
+        histopathologicalBiomarkers.length === 0 &&
+        !geneMetadata
+      ) {
+        setIsEmpty(true);
+      } else if (clinicalVariants.length > 0) {
+        setIsEmpty(false);
         setActiveTab(VARIANT_TYPES.clinical);
+        setData(clinicalVariants);
+        setFilteredData(clinicalVariants);
+      } else if (genomicVariants.length > 0 || geneMetadata) {
+        setIsEmpty(false);
+        setActiveTab(VARIANT_TYPES.genomic);
+        setData(genomicVariants);
+        setFilteredData(genomicVariants);
       } else {
+        setIsEmpty(false);
         setActiveTab(VARIANT_TYPES.histopathological);
+        setData(histopathologicalBiomarkers);
+        setFilteredData(histopathologicalBiomarkers);
       }
     };
 
@@ -336,42 +422,58 @@ export default ({ modelName }) => {
         position: relative;
       `}
     >
-      <TabGroup width={171}>
-        <Tab
-          active={activeTab === VARIANT_TYPES.clinical}
-          onClick={() => setActiveTab(VARIANT_TYPES.clinical)}
+      {isEmpty ? (
+        <div
+          className="model-details model-details--empty"
+          style={{
+            width: '100%',
+          }}
         >
-          <TabHeading css={activeTab === VARIANT_TYPES.clinical ? variantTabActive : variantTab}>
-            Clinical Sequencing
-          </TabHeading>
-        </Tab>
-        <Tab
-          active={activeTab === VARIANT_TYPES.histopathological}
-          onClick={() => setActiveTab(VARIANT_TYPES.histopathological)}
-        >
-          <TabHeading
-            css={activeTab === VARIANT_TYPES.histopathological ? variantTabActive : variantTab}
+          <VariantsIcon />
+          <p className="model-details__empty-message">No variants available.</p>
+        </div>
+      ) : (
+        <>
+          <TabGroup width={175}>
+            <Tab
+              active={activeTab === VARIANT_TYPES.genomic}
+              onClick={() => setActiveTab(VARIANT_TYPES.genomic)}
+            >
+              <TabHeading css={activeTab === VARIANT_TYPES.genomic ? variantTabActive : variantTab}>
+                Research Somatic Variants
+              </TabHeading>
+            </Tab>
+            <Tab
+              active={activeTab === VARIANT_TYPES.clinical}
+              onClick={() => setActiveTab(VARIANT_TYPES.clinical)}
+            >
+              <TabHeading
+                css={activeTab === VARIANT_TYPES.clinical ? variantTabActive : variantTab}
+              >
+                Clinical Variants
+              </TabHeading>
+            </Tab>
+            <Tab
+              active={activeTab === VARIANT_TYPES.histopathological}
+              onClick={() => setActiveTab(VARIANT_TYPES.histopathological)}
+            >
+              <TabHeading
+                css={activeTab === VARIANT_TYPES.histopathological ? variantTabActive : variantTab}
+              >
+                Histopathological Biomarkers
+              </TabHeading>
+            </Tab>
+          </TabGroup>
+          <div
+            css={`
+              width: calc(100% - 175px);
+              padding-left: 18px;
+            `}
           >
-            Histopathological Biomarkers
-          </TabHeading>
-        </Tab>
-        <Tab
-          active={activeTab === VARIANT_TYPES.genomic}
-          onClick={() => setActiveTab(VARIANT_TYPES.genomic)}
-        >
-          <TabHeading css={activeTab === VARIANT_TYPES.genomic ? variantTabActive : variantTab}>
-            Genomic Sequencing
-          </TabHeading>
-        </Tab>
-      </TabGroup>
-      <div
-        css={`
-          width: calc(100% - 171px);
-          padding-left: 18px;
-        `}
-      >
-        {renderTable(activeTab, modelName)}
-      </div>
+            {renderTable(activeTab, modelName)}
+          </div>
+        </>
+      )}
     </Row>
   );
 };

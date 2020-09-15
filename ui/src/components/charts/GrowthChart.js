@@ -20,7 +20,7 @@ export default ({ sqon, setSQON }) => (
         css={`
           position: relative;
           height: 185px;
-          width: 33%;
+          width: 25%;
           padding: 12px 0 4px;
         `}
       >

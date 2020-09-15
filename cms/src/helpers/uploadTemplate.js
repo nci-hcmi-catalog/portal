@@ -5,6 +5,9 @@ import { getDictionary } from '../helpers/dictionary';
 import { variantTypes, variantAssessmentType, variantExpressionLevel } from '../schemas/constants';
 import Variant from '../schemas/variant';
 
+import getLogger from '../logger';
+const logger = getLogger('helpers/uploadTemplate');
+
 const headerRowData = headerNames => ({
   values: headerNames.map(header => ({ userEnteredValue: { stringValue: header } })),
 });
@@ -111,7 +114,7 @@ export const createModelUploadTemplate = async authClient => {
   const response = await new Promise((resolve, reject) => {
     sheets.spreadsheets.create(spreadsheet, (err, data) => {
       if (err) {
-        console.log('Error occured creating google sheet for models bulk upload template.');
+        logger.error('Error occured creating google sheet for models bulk upload template.');
         reject(err);
       } else {
         resolve(data);
@@ -163,7 +166,7 @@ export const createModelUploadTemplate = async authClient => {
   return new Promise((resolve, reject) => {
     sheets.spreadsheets.batchUpdate(dataValidationRequest, (err, data) => {
       if (err) {
-        console.log(
+        logger.error(
           'Error occured updating google sheet models bulk upload template with data validations.',
         );
         reject(err);
@@ -211,7 +214,7 @@ export const createVariantUploadTemplate = async authClient => {
   const response = await new Promise((resolve, reject) => {
     sheets.spreadsheets.create(spreadsheet, (err, data) => {
       if (err) {
-        console.log('Error occured creating google sheet for variants bulk upload template.');
+        logger.error('Error occured creating google sheet for variants bulk upload template.');
         reject(err);
       } else {
         resolve(data);
@@ -256,7 +259,7 @@ export const createVariantUploadTemplate = async authClient => {
   return new Promise((resolve, reject) => {
     sheets.spreadsheets.batchUpdate(dataValidationRequest, (err, data) => {
       if (err) {
-        console.log(
+        logger.error(
           'Error occured updating google sheet variants bulk upload template with data validations.',
         );
         reject(err);

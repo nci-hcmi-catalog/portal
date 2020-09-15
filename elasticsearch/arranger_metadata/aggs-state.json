@@ -5,6 +5,16 @@
     "active": true
   },
   {
+    "field": "genomic_variants__classification",
+    "show": true,
+    "active": true
+  },
+  {
+    "field": "genomic_variants__consequence_type",
+    "show": true,
+    "active": true
+  },
+  {
     "field": "type",
     "show": true,
     "active": true
@@ -246,6 +256,11 @@
   },
   {
     "field": "matched_models_list",
+    "show": false,
+    "active": true
+  },
+  {
+    "field": "gene_metadata__genes",
     "show": false,
     "active": true
   }

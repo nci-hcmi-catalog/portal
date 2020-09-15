@@ -5,6 +5,9 @@ import { dataStream } from '@arranger/server/dist/download';
 import { getProject } from '@arranger/server/dist/utils/projects';
 import map from 'map-stream';
 
+import getLogger from './logger';
+const logger = getLogger('dataExport');
+
 const dataExportRouter = express.Router();
 const NEW_LINE = '\n';
 
@@ -22,7 +25,7 @@ dataExportRouter.post('/:projectId/models', async (req, res) => {
       es,
       projectId,
       params: getParamsObj(params),
-      fileType: 'json',
+      fileType: 'tsv',
     });
     const { fileName, outputContentType, fields } = getOutputDetails(params);
     res.set('Content-Type', outputContentType);
@@ -30,9 +33,8 @@ dataExportRouter.post('/:projectId/models', async (req, res) => {
     output
       .pipe(
         map((dataRow, cb) => {
-          const rowData = JSON.parse(dataRow);
-          let output = rowToTSV(rowData, fields);
-          cb(null, `${output}${NEW_LINE}`);
+          logger.debug({ dataRow, cb }, 'Arranger Output Row');
+          cb(null, `${dataRow}`);
         }),
       )
       .pipe(res)
@@ -43,18 +45,14 @@ dataExportRouter.post('/:projectId/models', async (req, res) => {
       .on('finish', () => {
         console.timeEnd('download');
       });
-  } catch (err) {
-    console.log('Failure exporting models:', err);
-    res.status(400).send(err.message || err.details || 'An unknown error occurred.');
+  } catch (error) {
+    logger.error({ error }, 'Failure exporting model TSV');
+    res.status(400).send(error.message || error.details || 'An unknown error occurred.');
   }
 });
 
 const getParamsObj = params => {
   const paramsObj = JSON.parse(params);
-  // reset file type to JSON
-  // Arranger will stream data in JSON; and that allows application to apply customization to each column's value
-  // before sending response back to the client
-  paramsObj.files = setFilesExportTypeAsJSON(paramsObj);
   return paramsObj;
 };
 
@@ -67,24 +65,9 @@ const getOutputDetails = params => {
         fileName: fileDetails.fileName,
         outputContentType: `text/${fileDetails.fileType}`,
         fields: fileDetails.columns.filter(col => col.show).map(col => col.accessor),
+        fileType: fileDetails.fileType,
       }
     : {};
 };
-const setFilesExportTypeAsJSON = ({ files = [] }) =>
-  files.map(item => ({ ...item, fileType: 'json' }));
-
-const rowToTSV = (row, fields) => {
-  const customizedRow = addColumnSpecificCustomizations(row);
-  // extracting it using a field map guarantees each row will have fields in same order
-  // using lodash values may or may not guarantee that
-  return fields.map(filedAccessor => customizedRow[filedAccessor]).join('\t');
-};
-
-const addColumnSpecificCustomizations = row => ({
-  ...row,
-  split_ratio: (`${row['split_ratio']}` || '').includes(':')
-    ? `'${row['split_ratio']}`
-    : row['split_ratio'],
-});
 
 export default dataExportRouter;

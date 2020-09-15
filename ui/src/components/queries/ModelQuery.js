@@ -42,6 +42,7 @@ const fetchData = async ({ setState, modelName }) => {
                           edges {
                             node {
                               file_id
+                              file_url
                               file_name
                               file_type
                               scale_bar_length

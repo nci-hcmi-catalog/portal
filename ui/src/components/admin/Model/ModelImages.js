@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Dropzone from 'react-dropzone';
 import Component from 'react-component-component';
 
 import { ModelSingleContext } from './ModelSingleController';
+import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
 import { ButtonPill } from 'theme/adminControlsStyles';
 import base from 'theme';
 import { Row, Col } from 'theme/system';
@@ -15,7 +16,6 @@ import PlusIcon from 'icons/PlusIcon';
 import TrashIcon from 'icons/TrashIcon';
 import EditIcon from 'icons/EditIcon';
 import SaveIcon from 'icons/SaveIcon';
-import config from '../config';
 import TabHeader from './TabHeader';
 const {
   keyedPalette: { athensGray, black, crimson, elm, frenchGrey, mischka },
@@ -102,7 +102,7 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
         onBlur={() => setState({ showControls: false })}
       >
         <img
-          src={file.preview ? file.preview : `${config.urls.cmsBase}/images/${file.file_id}`}
+          src={file.preview ? file.preview : file.file_url}
           alt={`File: ${file.file_name}`}
           height="163"
           width="215"
@@ -252,102 +252,121 @@ const ImageDropper = ({ onDrop, display }) => (
   </Dropzone>
 );
 
-export default ({ data: { updatedAt } }) => (
-  <>
-    <TabHeader title={`Model Images`} updatedAt={updatedAt} />
-    <ModelSingleContext.Consumer>
-      {({
-        state: {
-          form: { values },
-          data: {
-            response: { files = [] },
+export default ({ data: { updatedAt } }) => {
+  const { appendNotification } = useContext(NotificationsContext);
+  return (
+    <>
+      <TabHeader title={`Model Images`} updatedAt={updatedAt} />
+      <ModelSingleContext.Consumer>
+        {({
+          state: {
+            form: { values },
+            data: {
+              response: { files = [] },
+            },
           },
-        },
-        uploadImages,
-        saveForm,
-      }) => (
-        <>
-          <Row
-            p={'24px 10px 22px'}
-            css={`
-              justify-content: space-between;
-              align-items: center;
-              font-size: 14px;
-            `}
-          >
-            <div>Upload images in jpeg, tiff, png or svg formats.</div>
-            <ButtonPill
+          uploadImages,
+          saveForm,
+        }) => (
+          <>
+            <Row
+              p={'24px 10px 22px'}
               css={`
-                align-self: right;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 14px;
               `}
-              primary
-              onClick={() => {
-                dropzoneRef.open();
-              }}
             >
-              <PlusIcon />
-              Add Images
-            </ButtonPill>
-          </Row>
-          <Row
-            p={'0 10px'}
-            css={`
-              flex-wrap: wrap;
-            `}
-          >
-            {!!files.length && (
-              <ImageGallery
-                acceptedFiles={files}
-                toDeleteFiles={files.filter(file => file.marked_for_deletion)}
-                onMetaDataSave={({ fileId, metaData }) => {
-                  saveForm({
-                    values,
-                    images: files.map(f => (f.file_id === fileId ? { ...f, ...metaData } : f)),
-                    successNotification: {
-                      type: 'success',
-                      message: `Image Metadata Saved!`,
-                      details:
-                        'Image metadata has been successfully saved, however not yet published.',
-                    },
-                  });
+              <div>Upload images in jpeg, tiff, png or svg formats.</div>
+              <ButtonPill
+                css={`
+                  align-self: right;
+                `}
+                primary
+                onClick={() => {
+                  dropzoneRef.open();
                 }}
-                onDelete={toDeleteFileId => {
-                  const toDeleteFile = files.find(f => f.file_id === toDeleteFileId);
-                  saveForm({
-                    values,
-                    images: [
-                      ...files.filter(f => f.file_id !== toDeleteFileId),
-                      {
-                        ...toDeleteFile,
-                        marked_for_deletion: !toDeleteFile.marked_for_deletion,
+              >
+                <PlusIcon />
+                Add Images
+              </ButtonPill>
+            </Row>
+            <Row
+              p={'0 10px'}
+              css={`
+                flex-wrap: wrap;
+              `}
+            >
+              {!!files.length && (
+                <ImageGallery
+                  acceptedFiles={files}
+                  toDeleteFiles={files.filter(file => file.marked_for_deletion)}
+                  onMetaDataSave={({ fileId, metaData }) => {
+                    saveForm({
+                      values,
+                      images: files.map(f => (f.file_id === fileId ? { ...f, ...metaData } : f)),
+                      successNotification: {
+                        type: 'success',
+                        message: `Image Metadata Saved!`,
+                        details:
+                          'Image metadata has been successfully saved, however not yet published.',
                       },
-                    ],
-                    successNotification: null,
-                  });
+                    });
+                  }}
+                  onDelete={toDeleteFileId => {
+                    const toDeleteFile = files.find(f => f.file_id === toDeleteFileId);
+                    saveForm({
+                      values,
+                      images: [
+                        ...files.filter(f => f.file_id !== toDeleteFileId),
+                        {
+                          ...toDeleteFile,
+                          marked_for_deletion: !toDeleteFile.marked_for_deletion,
+                        },
+                      ],
+                      successNotification: null,
+                    });
+                  }}
+                />
+              )}
+              <ImageDropper
+                onDrop={async (acceptedFiles, rejectedFiles) => {
+                  if (rejectedFiles.length) {
+                    await appendNotification({
+                      type: NOTIFICATION_TYPES.ERROR,
+                      message: 'Image Upload Error',
+                      details: [
+                        'The following image(s) were not an acceptable file type: ',
+                        rejectedFiles.reduce((listStr, file, i, fileList) => {
+                          listStr += fileList[i + 1] ? `${file.name}, ` : `${file.name}. `;
+                          return listStr;
+                        }, ''),
+                        'Please ensure that images are jpeg, tiff, png, or svg only.',
+                      ],
+                      timeout: false,
+                    });
+                    return;
+                  }
+                  const uploaded = await uploadImages(acceptedFiles);
+                  if (uploaded.length > 0) {
+                    saveForm({
+                      values,
+                      images: [...files, ...uploaded],
+                      successNotification: {
+                        type: 'success',
+                        message: `${Object.keys(uploaded).length} image(s) uploaded!`,
+                        details:
+                          'Image(s) have been successfully saved to the model, however not yet published.',
+                      },
+                    });
+                  }
                 }}
+                display={!files.length}
               />
-            )}
-            <ImageDropper
-              onDrop={async (acceptedFiles, rejectedFiles) => {
-                console.log('todo notify rejectedFiles');
-                console.log(rejectedFiles);
-                const uploaded = await uploadImages(acceptedFiles);
-                saveForm({
-                  values,
-                  images: [...files, ...uploaded],
-                  successNotification: {
-                    type: 'success',
-                    message: `${Object.keys(uploaded).length} image(s) uploaded!`,
-                    details:
-                      'Image(s) have been successfully saved to the model, however not yet published.',
-                  },
-                });
-              }}
-              display={!files.length}
-            />
-          </Row>
-        </>
-      )}
-    </ModelSingleContext.Consumer>
-  </>
-);
+            </Row>
+          </>
+        )}
+      </ModelSingleContext.Consumer>
+    </>
+  );
+};

@@ -16,7 +16,27 @@ const RefArrangerTextInput = React.forwardRef((props, ref) => (
 
 const TextInput = styled(RefArrangerTextInput)`
   padding-right: 25px;
+  padding-left: 10px;
   label: text-input;
+  box-shadow: none !important;
+  border: solid 1px #b2b7c1;
+  border-weight: 1px !important;
+
+  > input {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    color: #525767;
+    padding: 0;
+  }
+  > span.inputIcon {
+    padding-bottom: 1px;
+    color: #b2b7c1;
+  }
+
+  :hover {
+    border-color: #4596de;
+  }
 `;
 
 const closeStyle = css`

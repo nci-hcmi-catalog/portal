@@ -5,6 +5,10 @@ import { createModelUploadTemplate, createVariantUploadTemplate } from '../helpe
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
+
+import getLogger from '../logger';
+const logger = getLogger('routes/templates');
+
 const templatesRouter = express.Router();
 
 const streamServerFile = (filePath, response) => {
@@ -33,9 +37,9 @@ templatesRouter.get('/model', async (req, res) => {
     const url = createResponse.spreadsheetUrl;
 
     res.json({ url });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ err: err.message });
+  } catch (error) {
+    logger.error(error, 'Error creating model bulk upload template');
+    res.status(500).json({ err: error.message });
   }
 });
 
@@ -47,9 +51,9 @@ templatesRouter.get('/variant', async (req, res) => {
     const url = createResponse.spreadsheetUrl;
 
     res.json({ url });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ err: err.message });
+  } catch (error) {
+    logger.error(error, 'Error creating variant bulk upload template');
+    res.status(500).json({ err: error.message });
   }
 });
 export default templatesRouter;

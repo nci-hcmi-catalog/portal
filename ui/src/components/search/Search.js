@@ -7,24 +7,28 @@ import Popup from 'reactjs-popup';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
 
-import ArrowIcon from './../icons/ArrowIcon';
-import QuestionMarkIcon from './../icons/QuestionMarkIcon';
+import ArrowIcon from 'icons/ArrowIcon';
+import QuestionMarkIcon from 'icons/QuestionMarkIcon';
 
-import LastUpdatedDate from './LastUpdatedDate';
-import ModelNameSearch from 'components/ModelNameSearch';
+import LastUpdatedDate from 'components/LastUpdatedDate';
+import GeneSearch from 'components/search/GeneSearch';
+import VariantSearch from 'components/search/VariantSearch';
+import ModelSearch from 'components/search/ModelSearch';
 import PrimarySiteChart from 'components/charts/PrimarySiteChart';
 import MultipleModelsChart from 'components/charts/MultipleModelsChart';
 import GrowthChart from 'components/charts/GrowthChart';
+import TopVariantsChart from 'components/charts/TopVariantsChart';
 import Toggle from 'components/input/Toggle';
 import TableEntity from 'components/TableEntity';
+import TableDistributorCell from 'components/TableDistributorCell';
 import TableExpandedCell from 'components/TableExpandedCell';
 import TableMatchedModelsCell from 'components/TableMatchedModelsCell';
 import TableList from 'components/TableList';
 import ShareButton from 'components/ShareButton';
 import ModelList from 'components/ModelList';
-import TextInput from './TextInput';
+import TextInput from 'components/TextInput';
 
-import globals from '../utils/globals';
+import globals from 'utils/globals';
 import { filteredSqon } from 'utils/sqonHelpers';
 
 import searchStyles from 'theme/searchStyles';
@@ -59,7 +63,9 @@ export default ({
           <Component shouldUpdate={() => stable}>
             {() => (
               <>
-                <ModelNameSearch {...{ ...props, setSQON }} />
+                <ModelSearch sqon={sqon} setSQON={setSQON} />
+                <GeneSearch sqon={sqon} setSQON={setSQON} />
+                <VariantSearch sqon={sqon} setSQON={setSQON} />
                 <Aggregations
                   {...props}
                   sqon={sqon}
@@ -129,9 +135,9 @@ export default ({
               {() => (
                 <>
                   <PrimarySiteChart sqon={sqon} setSQON={setSQON} />
-                  {/* <TopVariantsChart sqon={sqon} setSQON={setSQON} /> */}
                   <MultipleModelsChart sqon={sqon} setSQON={setSQON} />
                   <GrowthChart sqon={sqon} setSQON={setSQON} />
+                  <TopVariantsChart sqon={sqon} setSQON={setSQON} />
                 </>
               )}
             </Component>
@@ -182,6 +188,7 @@ export default ({
                   return (
                     <Table
                       {...props}
+                      showFilterInput={false}
                       setSelectedTableRows={selectedRows => selected.setModels(selectedRows)}
                       keepSelectedOnPageChange={true}
                       selectedTableRows={selected.state.modelIds}
@@ -194,6 +201,16 @@ export default ({
                         entity: props => (
                           <TableEntity
                             {...props}
+                            savedSetsContext={savedSetsContext}
+                            state={state}
+                            sqon={sqon}
+                            history={history}
+                          />
+                        ),
+                        distributor_link: props => (
+                          <TableDistributorCell
+                            {...props}
+                            value={props.value}
                             savedSetsContext={savedSetsContext}
                             state={state}
                             sqon={sqon}
@@ -229,6 +246,12 @@ export default ({
                         list: {
                           minWidth: 160,
                         },
+                        age_at_sample_acquisition: { minWidth: 85 },
+                        genes_count: { minWidth: 69 },
+                        number: { minWidth: 75 },
+                        expanded: { minWidth: 80 },
+                        histo_variant_count: { minWidth: 90 },
+                        matched_models: { minWidth: 68 },
                       }}
                       index={props.index}
                       graphqlField={props.index}

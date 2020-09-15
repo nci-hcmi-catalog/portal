@@ -86,7 +86,7 @@ export const schemaArr = [
     value: row =>
       trimEnd(row.molecular_characterizations.reduce((acc, item) => acc + `${item}|`, ``), `|`),
   },
-  { displayName: 'Tissue Type', accessor: 'tissue_type' },
+  { displayName: 'Tissue Status', accessor: 'tissue_type' },
 
   {
     displayName: 'Clinical Tumor Diagnosis',

@@ -4,6 +4,10 @@ import * as DictionaryHelper from '../helpers/dictionary';
 
 import Dictionary from '../schemas/dictionary';
 import Draft, { draftStatus } from '../schemas/dictionaryDraft';
+
+import getLogger from '../logger';
+const logger = getLogger('routes/dictionary');
+
 const dictionaryRouter = express.Router();
 const draftRouter = express.Router();
 
@@ -15,9 +19,9 @@ dictionaryRouter.get('/', async (req, res) => {
   try {
     const dictionary = await DictionaryHelper.getDictionaryOptions();
     res.json(dictionary);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ err });
+  } catch (error) {
+    logger.error(error, 'Error fetching dictionary');
+    res.status(500).json({ err: error });
   }
 });
 
@@ -31,9 +35,9 @@ draftRouter.get('/', async (req, res) => {
     }
 
     res.json(draft);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ err });
+  } catch (error) {
+    logger.error(error, 'Error fetching dictionary draft');
+    res.status(500).json({ err: error });
   }
 });
 
@@ -42,9 +46,9 @@ draftRouter.delete('/', async (req, res) => {
   try {
     const output = await DictionaryHelper.resetDraft();
     res.json(output);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ err });
+  } catch (error) {
+    logger.error(error, 'Error deleting dictionary draft');
+    res.status(500).json({ err: error });
   }
 });
 
@@ -139,11 +143,16 @@ draftRouter.patch('/', async (req, res) => {
 
     draft.stats = DictionaryHelper.countDraftStats(draft);
     await draftDoc.save();
+    logger.audit(
+      { field, parent, dependentName, original, updated },
+      'draft updated',
+      'Dictionary draft value edited',
+    );
 
     // const output = await DictionaryHelper.getDictionaryDraft();
     res.json(draftDoc);
   } catch (err) {
-    console.log('err', err);
+    logger.error(err);
     res.status(500).json({ err: err.message });
   }
 });
@@ -234,11 +243,16 @@ draftRouter.post('/', async (req, res) => {
     }
     draft.stats = DictionaryHelper.countDraftStats(draft);
     await draftDoc.save();
+    logger.audit(
+      { field, parent, dependentName, value },
+      'draft updated',
+      'Dictionary draft value added',
+    );
 
     // const output = await DictionaryHelper.getDictionaryDraft();
     res.json(draftDoc);
   } catch (err) {
-    console.log('err', err);
+    logger.error(err);
     res.status(500).json({ err: err.message });
   }
 });
@@ -330,11 +344,16 @@ draftRouter.post('/remove', async (req, res) => {
     }
     draft.stats = DictionaryHelper.countDraftStats(draft);
     await draftDoc.save();
+    logger.audit(
+      { field, parent, dependentName, value },
+      'draft updated',
+      'Dictionary draft new value removed',
+    );
 
     // const output = await DictionaryHelper.getDictionaryDraft();
     res.json(draftDoc);
   } catch (err) {
-    console.log('err', err);
+    logger.error(err);
     res.status(500).json({ err: err.message });
   }
 });
@@ -346,7 +365,7 @@ draftRouter.post('/publish', async (req, res) => {
 
     res.json({ ...output.toObject(), updatedModels });
   } catch (err) {
-    console.log('err', err);
+    logger.error(err);
     res.status(500).json({ err: err.message });
   }
 });

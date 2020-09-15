@@ -8,7 +8,7 @@ import globals from 'utils/globals';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Dashboard as ArrangerDashboard } from '@arranger/components';
 
-import SearchWrapper from 'components/SearchWrapper';
+import SearchWrapper from 'components/search/SearchWrapper';
 import Model from 'components/Model';
 import Admin from 'components/admin';
 import Header from 'components/Header';

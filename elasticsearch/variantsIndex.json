@@ -1,0 +1,48 @@
+{
+  "settings": {
+    "mapping": {
+      "nested_fields": {
+        "limit": "100"
+      }
+    },
+    "max_ngram_diff": "20",
+    "max_result_window": "100000000",
+    "analysis": {
+      "tokenizer": {
+        "ngram_tokenizer": {
+          "type": "ngram",
+          "min_gram": 2,
+          "max_gram": 3,
+          "token_chars": ["letter", "digit", "custom"],
+          "custom_token_chars": "-:.>"
+        }
+      },
+      "analyzer": {
+        "search_analyzer": {
+          "filter": ["lowercase"],
+          "tokenizer": "ngram_tokenizer"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "search": {
+        "type": "text",
+        "analyzer": "search_analyzer"
+      },
+      "transcript_id": {
+        "type": "keyword",
+        "copy_to": ["search"]
+      },
+      "name": {
+        "type": "keyword",
+        "copy_to": ["search"]
+      },
+      "variant_id": {
+        "type": "keyword",
+        "copy_to": ["search"]
+      }
+    }
+  }
+}

@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon index.js | pino-pretty",
     "test": "echo \"Error: no test specified\" && exit 1",
     "getToken": "node bin/getToken.js"
   },
@@ -13,9 +13,13 @@
   "license": "ISC",
   "dependencies": {
     "@elastic/elasticsearch": "7.6.1",
+    "aws-sdk": "^2.723.0",
+    "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "cors": "^2.8.4",
     "csvtojson": "^2.0.8",
+    "decompress": "^4.2.1",
+    "decompress-gz": "^0.0.1",
     "dotenv": "^5.0.1",
     "elasticsearch": "^16.6.0",
     "express": "^4.16.3",
@@ -32,7 +36,11 @@
     "mongoose-elasticsearch-xp": "^5.8.0",
     "morgan": "^1.9.0",
     "multer": "^1.3.1",
+    "pino": "^6.5.1",
+    "pino-http": "^5.2.0",
     "sharp": "^0.20.7",
+    "tsv": "^0.2.0",
+    "uuid": "^8.3.0",
     "yup": "^0.29.1"
   },
   "devDependencies": {
@@ -43,7 +51,8 @@
     "@babel/preset-env": "^7.2.3",
     "@babel/register": "^7.0.0",
     "migrate-mongo": "^3.0.4",
-    "nodemon": "^1.13.3"
+    "nodemon": "^1.13.3",
+    "pino-pretty": "^4.1.0"
   },
   "resolutions": {
     "browserslist": "4.6.2",

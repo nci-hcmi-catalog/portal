@@ -1,6 +1,8 @@
 // @ts-check
 
 import elasticClient from './common/client';
+import getLogger from '../../logger';
+const logger = getLogger('services/elastic-search/update');
 
 const index = process.env.ES_UPDATE_INDEX;
 
@@ -13,10 +15,7 @@ export default () =>
         date: Date.now(),
       },
     })
-    .catch(err =>
+    .catch(error =>
       // Catch here as we do not want an error here to block execution of the app
-      console.error(
-        `Error creating a new update in the ${index} index: ${err ||
-          'Unknown error has occurred.'}`,
-      ),
+      logger.error(error, index, `Error creating a new update for index`),
     );

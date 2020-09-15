@@ -23,6 +23,7 @@ import { getDictionary } from '../helpers/dictionary';
 
 import { modelStatus, computeModelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
 import { getPublishSchema } from '@hcmi-portal/cms/src/validation/model';
+import { debounce } from 'lodash';
 
 export const ModelSingleContext = React.createContext();
 
@@ -108,6 +109,17 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             isLoading: false,
             initialized: false,
           },
+          genomicVariantTable: {
+            selection: [],
+            selectAll: false,
+            filterValue: '',
+            minRows: 0,
+            rowCount: 0,
+            page: 0,
+            pageSize: 10,
+            isLoading: false,
+            initialized: false,
+          },
           otherModelOptions: [],
           matchedModels: [],
           dictionary: null,
@@ -138,6 +150,10 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   ...state.variantTable,
                   rowCount: (modelDataResponse.data.variants || []).length,
                 },
+                genomicVariantTable: {
+                  ...state.genomicVariantTable,
+                  rowCount: (modelDataResponse.data.genomic_variants || []).length,
+                },
                 matchedModels: modelDataResponse.data.linkedModels || [],
               }));
             } catch (err) {
@@ -165,6 +181,41 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
             console.error('Unable to load dictionary values for form:', e);
           }
         }}
+        didUpdate={debounce(
+          async ({ state, setState, prevState }) => {
+            if (
+              state.genomicVariantTable.pageSize !== prevState.genomicVariantTable.pageSize ||
+              state.genomicVariantTable.page !== prevState.genomicVariantTable.page ||
+              state.genomicVariantTable.filterValue !== prevState.genomicVariantTable.filterValue ||
+              state.genomicVariantTable.sorted !== prevState.genomicVariantTable.sorted
+            ) {
+              try {
+                setState(state => ({
+                  ...state,
+                  genomicVariantTable: {
+                    ...state.genomicVariantTable,
+                    isLoading: false,
+                  },
+                }));
+              } catch (err) {
+                setState(state => ({
+                  ...state,
+                  genomicVariantTable: {
+                    ...state.genomicVariantTable,
+                    isLoading: false,
+                  },
+                  data: {
+                    isLoading: false,
+                    data: [],
+                    error: err,
+                  },
+                }));
+              }
+            }
+          },
+          300,
+          { maxWait: 1000, trailing: true },
+        )}
       >
         {({ state, setState }) => (
           <ModelSingleContext.Provider
@@ -501,11 +552,15 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                           ...state.variantTable,
                           rowCount: (modelDataResponse.data.variants || []).length,
                         },
+                        genomicVariantTable: {
+                          ...state.genomicVariantTable,
+                          rowCount: (modelDataResponse.data.genomic_variants || []).length,
+                        },
                       }));
                       const anyUpdatesDone = isEmptyResult(result);
                       const notificationMessage = anyUpdatesDone
                         ? `No suitable data is available to upload. No changes were made.`
-                        : `Bulk Upload of variants has successfully completed. New variants or updated fields are saved but not yet published.`;
+                        : `Bulk Upload of clinical variants has successfully completed. New clinical variants or updated fields are saved but not yet published.`;
 
                       await appendNotification({
                         type:
@@ -613,21 +668,46 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   let formData = new FormData();
                   formData.append('filename', file.name);
                   formData.append('image', file);
-                  const response = await fetchData({
+                  const loadingNotification = await appendNotification({
+                    type: NOTIFICATION_TYPES.LOADING,
+                    message: 'Uploading Image(s)',
+                    details: 'You will be notified when the upload is complete.',
+                    timeout: false,
+                  });
+
+                  acc = await fetchData({
                     url: `${baseUrl}/images`,
                     data: formData,
                     method: 'post',
                     headers: {
                       'Content-Type': 'multipart/form-data',
                     },
-                  });
-                  if (response.status >= 200 && response.status < 300) {
-                    window.URL.revokeObjectURL(file.preview);
-                    return [
-                      ...acc,
-                      { file_name: file.name, file_type: file.type, file_id: response.data.id },
-                    ];
-                  }
+                  })
+                    .then(response => {
+                      if (response.status >= 200 && response.status < 300) {
+                        window.URL.revokeObjectURL(file.preview);
+                        return [
+                          ...acc,
+                          {
+                            file_name: file.name,
+                            file_type: file.type,
+                            file_id: response.data.id,
+                            file_url: response.data.url,
+                          },
+                        ];
+                      }
+                    })
+                    .catch(async err => {
+                      await appendNotification({
+                        type: NOTIFICATION_TYPES.ERROR,
+                        message: 'Image Upload Error',
+                        details: `Image upload failed due to the following error: ${err.message}`,
+                        timeout: false,
+                      });
+                      return acc;
+                    });
+
+                  loadingNotification.clear();
                   return acc;
                 }, Promise.resolve([]));
                 return uploaded;
@@ -637,6 +717,62 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 state.data.response.variants || [],
                 'variantTable',
               ),
+              genomicVariantTableControls: generateTableActions(
+                setState,
+                state.data.response.genomic_variants || [],
+                'genomicVariantTable',
+              ),
+              fetchGenomicVariantData: async modelName => {
+                if (modelName) {
+                  // Set loading true
+                  setState(state => ({
+                    data: {
+                      ...state.data,
+                      isLoading: true,
+                    },
+                  }));
+
+                  try {
+                    const modelDataResponse = await getModel(baseUrl, modelName);
+
+                    setState(state => ({
+                      form: {
+                        ...state.form,
+                        values: modelDataResponse.data,
+                        // recompute isFormReadyToPublish
+                        isReadyToPublish: isFormReadyToPublish(
+                          modelDataResponse.data,
+                          state.form.dirty,
+                          state.form.errors,
+                        ),
+                      },
+                      data: {
+                        ...state.data,
+                        isLoading: false,
+                        didLoad: true,
+                        response: {
+                          ...state.data.response,
+                          status: modelDataResponse.data.status,
+                          gene_metadata: modelDataResponse.data.gene_metadata,
+                          genomic_variants: modelDataResponse.data.genomic_variants,
+                        },
+                      },
+                      genomicVariantTable: {
+                        ...state.genomicVariantTable,
+                        rowCount: (modelDataResponse.data.genomic_variants || []).length,
+                      },
+                    }));
+                  } catch (err) {
+                    setState(state => ({
+                      data: {
+                        ...state.data,
+                        isLoading: false,
+                        error: err,
+                      },
+                    }));
+                  }
+                }
+              },
             }}
             {...props}
           >
