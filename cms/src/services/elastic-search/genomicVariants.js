@@ -10,23 +10,39 @@ const MODEL_INDEX = process.env.ES_INDEX;
 const GENES_INDEX = 'genes';
 const VARIANTS_INDEX = 'genomic_variants';
 
+const getAllIndexedDocs = async index => {
+  let output = [];
+  let startFrom = 0;
+  let totalHits = 1;
+  const requestSize = 100;
+  while (totalHits > startFrom) {
+    const esResponse = await esClient.search({
+      index: index,
+      size: requestSize,
+      from: startFrom,
+    });
+    totalHits = esResponse.body.hits.total.value;
+
+    output = output.concat(get(esResponse, 'body.hits.hits', []).map(i => i._source));
+    startFrom += requestSize;
+  }
+
+  return output;
+};
+
 // NOTE: For Gene and Variant Index updates -
 //   We are getting the list of genes/variants that should be published from the models in ES because we
 //   can't be sure what is published for a model in draft form (changes not yet published)
 //   Additionally, to know which genes to remove we have to compare this list to the currently published list in the genes index on ES
-
 const updateVariantIndex = async desiredVariants => {
   logger.debug({ desiredVariants }, 'List of Variants that should be published');
 
   const variantIds = desiredVariants.map(v => v.variant.transcript_id);
 
   // 1. get list of variants published in ES
-  const variantsResponse = await esClient.search({
-    index: VARIANTS_INDEX,
-  });
-  const publishedVariants = get(variantsResponse, 'body.hits.hits', []).map(
-    i => i._source.transcript_id,
-  );
+  const variantsResponse = await getAllIndexedDocs(VARIANTS_INDEX);
+
+  const publishedVariants = variantsResponse.map(variant => variant.transcript_id);
   logger.debug({ publishedVariants }, 'List of Variants currently published');
 
   // 2. find list of variants to unpublish and genes to publish
@@ -85,35 +101,38 @@ const updateVariantIndex = async desiredVariants => {
 };
 
 const updateGeneIndex = async (desiredGeneTranscriptIds, desiredGeneSymbols) => {
-  logger.debug(
-    { desiredGenes: desiredGeneTranscriptIds },
-    'List of Genes that should be published',
-  );
-
-  // 1. get list of genes published in ES
-  const genesResponse = await esClient.search({
-    index: GENES_INDEX,
+  const geneDataFromSymbols = await Gene.find({
+    symbol: { $in: desiredGeneSymbols },
   });
 
-  const publishedGenes = get(genesResponse, 'body.hits.hits', []).map(i => i._source.ensemble_id);
+  const desiredGenes = [
+    ...desiredGeneTranscriptIds,
+    ...geneDataFromSymbols.map(gene => gene._gene_id),
+  ];
+  logger.debug({ desiredGenes: desiredGenes }, 'List of Genes that should be published');
+
+  // 1. get list of genes published in ES
+  const genesResponse = await getAllIndexedDocs(GENES_INDEX);
+
+  const publishedGenes = genesResponse.map(i => i.ensemble_id);
   logger.debug({ publishedGenes }, 'List of Genes currently published');
 
   // 2. find list of genes to unpublish and genes to publish
-  const removeGenes = uniq(publishedGenes.filter(gene => !desiredGeneTranscriptIds.includes(gene)));
+  const removeGenes = uniq(publishedGenes.filter(gene => !desiredGenes.includes(gene)));
   logger.debug({ removeGenes }, 'Genes to unpublish');
 
-  const addGenes = uniq(desiredGeneTranscriptIds.filter(gene => !publishedGenes.includes(gene)));
+  const addGenes = uniq(desiredGenes.filter(gene => !publishedGenes.includes(gene)));
   logger.debug({ addGenes }, 'Genes to publish');
+  const geneDataToAdd = await Gene.find({
+    _gene_id: { $in: addGenes },
+  });
 
   // 3. do the publish/unpublish operations
 
   const deleteRequests = removeGenes.map(gene => ({ delete: { _index: GENES_INDEX, _id: gene } }));
 
-  const geneData = await Gene.find({
-    $or: [{ _gene_id: { $in: addGenes } }, { symbol: { $in: desiredGeneSymbols } }],
-  });
   const addRequests = flatten(
-    geneData.map(gene => {
+    geneDataToAdd.map(gene => {
       const doc = {
         symbol: gene.symbol,
         ensemble_id: gene._gene_id,
@@ -144,14 +163,10 @@ const updateGeneIndex = async (desiredGeneTranscriptIds, desiredGeneSymbols) => 
 
 export const updateGeneSearchIndicies = async () => {
   // 1. get models from ES
-  const modelsResponse = await esClient.search({
-    index: MODEL_INDEX,
-  });
-
-  const publishedModels = get(modelsResponse, 'body.hits.hits', []).map(i => i._source);
+  const publishedModels = await getAllIndexedDocs(MODEL_INDEX);
 
   // 1a. collect set of genes used in those model variants
-  const desiredVariants = flatten(
+  const desiredGenomicVariants = flatten(
     publishedModels.map(model => {
       return (model.genomic_variants || []).map(variant => ({
         variant: {
@@ -169,8 +184,8 @@ export const updateGeneSearchIndicies = async () => {
   );
   logger.debug({ clinicalVariantGenes }, 'Genes found in published model variants');
 
-  const desiredGenes = desiredVariants.map(i => i.gene);
+  const desiredGenes = desiredGenomicVariants.map(i => i.gene);
 
   await updateGeneIndex(desiredGenes, clinicalVariantGenes);
-  await updateVariantIndex(desiredVariants);
+  await updateVariantIndex(desiredGenomicVariants);
 };

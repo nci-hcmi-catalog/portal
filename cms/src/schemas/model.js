@@ -86,11 +86,11 @@ export const ModelSchema = new mongoose.Schema(
     somatic_maf_url: { type: String, es_indexed: true },
     expanded: { type: Boolean, es_indexed: true },
     files: { type: [FilesSchema], es_indexed: true },
-    variants: { type: [VariantExpression], es_indexed: false },
-    genomic_variants: { type: [GenomicVariant], es_indexed: false },
+    variants: { type: [VariantExpression], es_indexed: true },
+    genomic_variants: { type: [GenomicVariant], es_indexed: true },
     gene_metadata: {
       type: GeneMetadata,
-      es_indexed: false,
+      es_indexed: true,
     },
     matchedModels: {
       type: mongoose.Schema.Types.ObjectId,
@@ -174,15 +174,18 @@ export const ModelSchema = new mongoose.Schema(
             variant => variant.variant && variant.variant.type === 'Histopathological Biomarker',
           ).length;
 
-          return {
-            filename: doc.gene_metadata.filename,
-            import_date: doc.gene_metadata.import_date,
+          const output = {
             genes,
             genes_count,
             genomic_variant_count,
             clinical_variant_count,
             histopathological_variant_count,
           };
+          if (doc.gene_metadata) {
+            output.filename = doc.gene_metadata.filename;
+            output.import_data = doc.gene_metadata.import_date;
+          }
+          return output;
         },
       },
       // The following matched_models work is definitely a trick. You need to add populatedMatches as
