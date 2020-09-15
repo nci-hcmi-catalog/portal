@@ -13,7 +13,7 @@ import ModelList from 'components/ModelList';
 import PlusIcon from './../icons/PlusIcon';
 import CheckmarkIcon from './../icons/CheckmarkIcon';
 
-import { filteredSqon } from 'utils/sqonHelpers';
+import { filterExpanded } from 'utils/sqonHelpers';
 
 const ExpandedPill = ({ isExpanded }) => {
   return (
@@ -60,7 +60,7 @@ export default ({ name, id, isExpanded }) => {
           </div>
 
           <div className="model-bar__group">
-            <Link className="model-bar__back" to={getBackRoute(filteredSqon(sqon))}>
+            <Link className="model-bar__back" to={getBackRoute(filterExpanded(sqon))}>
               <ArrowLeftIcon
                 css={`
                   margin-right: 5px;
