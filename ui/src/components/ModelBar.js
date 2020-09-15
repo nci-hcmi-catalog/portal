@@ -15,13 +15,13 @@ import CheckmarkIcon from './../icons/CheckmarkIcon';
 
 import { filteredSqon } from 'utils/sqonHelpers';
 
-// const ExpandedPill = ({ isExpanded }) => {
-//   return (
-//     <div className={`model-bar__pill model-bar__pill--${isExpanded ? 'expanded' : 'unexpanded'}`}>
-//       {isExpanded ? 'EXPANDED' : 'UNEXPANDED'}
-//     </div>
-//   );
-// };
+const ExpandedPill = ({ isExpanded }) => {
+  return (
+    <div className={`model-bar__pill model-bar__pill--${isExpanded ? 'expanded' : 'unexpanded'}`}>
+      {isExpanded ? 'EXPANDED' : 'UNEXPANDED'}
+    </div>
+  );
+};
 
 export default ({ name, id, isExpanded }) => {
   const {
@@ -56,7 +56,7 @@ export default ({ name, id, isExpanded }) => {
             <h2 className="model-bar__heading">
               Model: <strong>{name}</strong>
             </h2>
-            {/* <ExpandedPill isExpanded={isExpanded} /> */}
+            <ExpandedPill isExpanded={isExpanded} />
           </div>
 
           <div className="model-bar__group">
