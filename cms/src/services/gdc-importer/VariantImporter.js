@@ -20,7 +20,7 @@ const Import = function(modelName, fileId, filename) {
   let stopTime = null;
 
   let status = ImportStatus.active;
-  let errors = [];
+  let error = null;
   let acknowledged = false;
 
   const stop = () => {
@@ -35,12 +35,12 @@ const Import = function(modelName, fileId, filename) {
     logger.info({ startTime, stopTime, modelName }, 'Genomic Variant Import complete.');
   };
 
-  const errorStop = error => {
+  const errorStop = errorData => {
     status = ImportStatus.error;
-    errors.push(error.message);
+    error = errorData;
     stopTime = Date.now();
     logger.info(
-      { startTime, stopTime, modelName, errors },
+      { startTime, stopTime, modelName, error },
       'Genomic Variant Import stopped due to error.',
     );
   };
@@ -49,7 +49,7 @@ const Import = function(modelName, fileId, filename) {
     acknowledged = true;
   };
 
-  const getData = () => ({ status, errors, startTime, stopTime, acknowledged, fileId, filename });
+  const getData = () => ({ status, error, startTime, stopTime, acknowledged, fileId, filename });
 
   const parseMaf = maf => {
     // clear all the weird comments
@@ -92,13 +92,20 @@ const Import = function(modelName, fileId, filename) {
       complete();
     } catch (error) {
       logger.error(error, 'Import Async Error');
-      errorStop(error);
+      errorStop({ code: 'UNKNOWN', message: error.message });
     }
   };
 
   // Actual importer work:
-  performDataImport();
-  return { modelName, getData, stop, acknowledge };
+  try {
+    if (filename && fileId) {
+      performDataImport();
+    }
+  } catch (error) {
+    logger.error(error, 'Unknown error occurred calling performDataImport.');
+    errorStop({ code: 'Unknown', message: error.message });
+  }
+  return { modelName, getData, stop, errorStop, acknowledge };
 };
 
 const VariantImporter = (function() {
@@ -110,7 +117,7 @@ const VariantImporter = (function() {
       startTime: data.startTime,
       stopTime: data.stopTime,
       status: data.status,
-      errors: data.errors,
+      error: data.error,
       name: item.modelName,
       fileId: data.fileId,
       filename: data.filename,
@@ -140,15 +147,20 @@ const VariantImporter = (function() {
     stopImport(modelName);
 
     try {
-      const fileData = await findMafFileData(modelName);
-
-      const result = Import(modelName, fileData.fileId, fileData.filename);
-      imports.push(result);
-
-      return summarizeImport(result);
+      const mafFileResponse = await findMafFileData(modelName);
+      if (mafFileResponse.success) {
+        const fileData = mafFileResponse.file;
+        const result = Import(modelName, fileData.fileId, fileData.filename);
+        imports.push(result);
+        return summarizeImport(result);
+      } else {
+        const result = Import(modelName, null, null);
+        result.errorStop(mafFileResponse.error);
+        imports.push(result);
+        return summarizeImport(result);
+      }
     } catch (error) {
       // Need handling for different error cases.
-
       logger.error(error, 'Error occurred while fetching MAF file URL from GDC');
       return { error: 'Communication error occurred with GDC.' };
     }

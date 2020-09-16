@@ -9,6 +9,12 @@ import { get, flattenDeep, intersection, isEmpty } from 'lodash';
 import getLogger from '../../logger';
 const logger = getLogger('services/gdc-importer/mafFiles');
 
+export const IMPORT_ERRORS = {
+  multipleMafs: 'MULTIPLE_MAFS',
+  noMafs: 'NO_MAFS',
+  modelNotFound: 'MODEL_NOT_FOUND',
+};
+
 const GDC_NORMAL_SAMPLE_TYPES = [
   'Blood Derived Normal',
   'Solid Tissue Normal',
@@ -212,14 +218,9 @@ const fetchModelFileData = async name => {
   }
 };
 
-// Note: This method intentionally throws errors to provide messaging about the cause of a failure.
-//          Make sure any consumers of this handle errors
 export const findMafFileData = async name => {
-  logger.debug({ name }, 'Entering findMafFileData');
-
   const modelFiles = await fetchModelFileData(name);
-  if (modelFiles) {
-    logger.debug({ modelFiles });
+  if (!isEmpty(modelFiles)) {
     const targetFiles = modelFiles.filter(
       file =>
         !isEmpty(intersection(file.sampleTypes, GDC_NORMAL_SAMPLE_TYPES)) &&
@@ -229,23 +230,29 @@ export const findMafFileData = async name => {
     switch (targetFiles.length) {
       case 1:
         // Get Url
-        return targetFiles[0];
+        return { success: true, file: targetFiles[0] };
       case 0:
-        throw new Error('No files for this model with the correct sample types.');
-        break;
+        // No files for this model with the correct sample types.
+        return { success: false, error: { code: IMPORT_ERRORS.noMafs } };
+
       default:
-        throw new Error('More than one file found for this model that match the requirements.');
+        // More than one file found for this model that match the requirements.
+        return {
+          success: false,
+          error: {
+            code: IMPORT_ERRORS.multipleMafs,
+            files: targetFiles.map(file => ({ fileId: file.fileId, filename: file.filename })),
+          },
+        };
     }
   } else {
-    throw new Error('No files found for this model.');
+    // No files found for this model.
+    return { success: false, error: { code: IMPORT_ERRORS.modelNotFound } };
   }
 };
 
 export const downloadMaf = async ({ filename, fileId, modelName }) => {
   return new Promise(async (resolve, reject) => {
-    // const { filename, fileId, name: modelName } = fileData;
-    logger.debug({ filename, fileId, modelName }, 'entering downloadMaf');
-
     const url = 'https://portal.gdc.cancer.gov/auth/api/data?annotations=true&related_files=true';
     const body = {
       size: 10000,
@@ -280,7 +287,6 @@ export const downloadMaf = async ({ filename, fileId, modelName }) => {
         })
           .then(files => {
             try {
-              logger.debug({ file: files[0].path }, 'MAF Download: Internal Compressed file ');
               const maf = zlib.gunzipSync(files[0].data).toString('utf8');
 
               resolve(maf);
@@ -303,7 +309,7 @@ export const downloadMaf = async ({ filename, fileId, modelName }) => {
 
       downloadStream.pipe(streamToBuffer);
     } catch (error) {
-      logger.error({ ...error, filename, fileId, modelName }, 'Error downloading file from GDC');
+      logger.error({ filename, fileId, modelName }, 'Error downloading file from GDC');
       reject(error);
     }
   });
