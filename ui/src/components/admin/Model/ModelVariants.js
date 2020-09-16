@@ -3,13 +3,7 @@ import moment from 'moment-timezone';
 
 import { ModelSingleContext } from './ModelSingleController';
 import { ModalStateContext } from 'providers/ModalState';
-import {
-  importGenomicVariants,
-  clearGenomicVariants,
-  GENOMIC_VARIANTS_IMPORT_ERRORS,
-  MultipleMafError,
-  NoMafError,
-} from './actions/GenomicVariants';
+import { importGenomicVariants, clearGenomicVariants } from './actions/GenomicVariants';
 import {
   NotificationsContext,
   NOTIFICATION_TYPES,
@@ -171,7 +165,11 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
   const { fetchGenomicVariantData } = useContext(ModelSingleContext);
   const { appendNotification } = useContext(NotificationsContext);
   const [activeTab, setActiveTab] = useState(null);
-  const { importNotifications, addImportNotification } = useGenomicVariantImportNotifications();
+  const {
+    importNotifications,
+    addImportNotification,
+    showErrorImportNotification,
+  } = useGenomicVariantImportNotifications();
   const clinicalVariantsData = variants.map(variant => ({
     _id: variant._id,
     variant_name: variant.variant.name,
@@ -263,39 +261,9 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
                               addImportNotification(name);
                             })
                             .catch(error => {
-                              switch (error.code) {
-                                case GENOMIC_VARIANTS_IMPORT_ERRORS.multipleMaf:
-                                  appendNotification({
-                                    type: NOTIFICATION_TYPES.ERROR,
-                                    message: `Import Error: More than one MAF file was found in GDC for ${name}.`,
-                                    details: <MultipleMafError files={error.files} />,
-                                    timeout: false,
-                                  });
-                                  break;
-                                case GENOMIC_VARIANTS_IMPORT_ERRORS.noMaf:
-                                  appendNotification({
-                                    type: NOTIFICATION_TYPES.ERROR,
-                                    message: `Import Error: No MAF files found in GDC.`,
-                                    details: <NoMafError caseId={error.case_id} modelName={name} />,
-                                    timeout: false,
-                                  });
-                                  break;
-                                case GENOMIC_VARIANTS_IMPORT_ERRORS.modelNotFound:
-                                  appendNotification({
-                                    type: NOTIFICATION_TYPES.ERROR,
-                                    message: `Import Error: The model, ${name}, was not found in GDC.`,
-                                    timeout: false,
-                                  });
-                                  break;
-                                default:
-                                  appendNotification({
-                                    type: NOTIFICATION_TYPES.ERROR,
-                                    message: `Import Error: An unexpected error occured while importing research variants for ${name}`,
-                                    details: error.message,
-                                    timeout: false,
-                                  });
-                                  break;
-                              }
+                              const data = error.response ? error.response.data : null;
+                              console.log(error, data);
+                              showErrorImportNotification(name, data ? data.error : null);
                             });
                         },
                         confirmationRequired: genomicVariantsData.length > 0,

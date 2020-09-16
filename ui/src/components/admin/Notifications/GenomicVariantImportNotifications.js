@@ -1,5 +1,12 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 
+import {
+  GENOMIC_VARIANTS_IMPORT_ERRORS,
+  MultipleMafError,
+  NoMafError,
+} from '../Model/actions/GenomicVariants';
+import { acknowledgeImportStatus } from 'components/admin/Model/actions/GenomicVariants';
+import { VARIANT_IMPORT_STATUS } from 'utils/constants';
 import { NotificationsContext } from './NotificationsController';
 import NOTIFICATION_TYPES from './NotificationTypes';
 
@@ -58,12 +65,84 @@ const useGenomicVariantImportNotifications = () => {
     });
   };
 
+  const showErrorImportNotification = (modelName, error) => {
+    if (error) {
+      switch (error.code) {
+        case GENOMIC_VARIANTS_IMPORT_ERRORS.multipleMaf:
+          appendNotification({
+            type: NOTIFICATION_TYPES.ERROR,
+            message: `Import Error: More than one MAF file was found in GDC for ${modelName}.`,
+            details: <MultipleMafError files={error.files} />,
+            timeout: false,
+          });
+          break;
+        case GENOMIC_VARIANTS_IMPORT_ERRORS.noMaf:
+          appendNotification({
+            type: NOTIFICATION_TYPES.ERROR,
+            message: `Import Error: No MAF files found in GDC.`,
+            details: <NoMafError caseId={error.case_id} modelName={modelName} />,
+            timeout: false,
+          });
+          break;
+        case GENOMIC_VARIANTS_IMPORT_ERRORS.modelNotFound:
+          appendNotification({
+            type: NOTIFICATION_TYPES.ERROR,
+            message: `Import Error: The model, ${modelName}, was not found in GDC.`,
+            timeout: false,
+          });
+          break;
+        default:
+          appendNotification({
+            type: NOTIFICATION_TYPES.ERROR,
+            message: `Import Error: An unexpected error occured while importing research variants for ${modelName}`,
+            details: error.message,
+            timeout: false,
+          });
+          break;
+      }
+    } else {
+      appendNotification({
+        type: NOTIFICATION_TYPES.ERROR,
+        message: `Import Error: An unexpected error occured while importing research variants for ${modelName}.`,
+        details: '',
+        timeout: false,
+      });
+    }
+    acknowledgeImportStatus(modelName);
+  };
+
+  const updateNotificationsFromStatus = imports => {
+    if (imports.length > 0) {
+      imports.forEach(importItem => {
+        switch (importItem.status) {
+          case VARIANT_IMPORT_STATUS.complete:
+            acknowledgeImportStatus(importItem.name).then(_ => {
+              removeImportNotification(importItem.name);
+              showSuccessfulImportNotification(importItem.name);
+            });
+            break;
+          case VARIANT_IMPORT_STATUS.error:
+            acknowledgeImportStatus(importItem.name).then(_ => {
+              removeImportNotification(importItem.name);
+              showErrorImportNotification(importItem.name, importItem.error);
+            });
+            break;
+          default:
+            // Stopped or Active imports require no actions
+            break;
+        }
+      });
+    }
+  };
+
   return {
     importNotifications: getImportNotifications(),
     setImportNotifications,
     addImportNotification,
     removeImportNotification,
     showSuccessfulImportNotification,
+    showErrorImportNotification,
+    updateNotificationsFromStatus,
   };
 };
 

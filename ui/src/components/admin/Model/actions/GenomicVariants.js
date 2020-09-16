@@ -18,19 +18,19 @@ export const GENOMIC_VARIANTS_IMPORT_ERRORS = {
 export const MultipleMafError = ({ files }) => {
   return (files || [])
     .map((file, index, array) => {
-      const fileUrl = `${FILE_PAGE_URL_BASE}/${file.file_id}`;
+      const fileUrl = `${FILE_PAGE_URL_BASE}/${file.fileId}`;
       return index === array.length - 1 ? (
         <>
           {`and `}
           <MessageLink to={fileUrl} target="_blank" rel="noopener noreferrer">
-            {file.file_name}
+            {file.filename}
           </MessageLink>
           {`. `}
         </>
       ) : (
         <>
           <MessageLink to={fileUrl} target="_blank" rel="noopener noreferrer">
-            {file.file_name}
+            {file.filename}
           </MessageLink>
           {`, `}
         </>
@@ -53,16 +53,8 @@ export const NoMafError = ({ caseId, modelName }) => {
 };
 
 export const importGenomicVariants = async modelName => {
-  return new Promise(async (resolve, reject) => {
-    const url = `${GENOMIC_VARIANTS_URL}/import/${modelName}`;
-    await post({ url })
-      .then(res => {
-        resolve(res);
-      })
-      .catch(err => {
-        reject(err);
-      });
-  });
+  const url = `${GENOMIC_VARIANTS_URL}/import/${modelName}`;
+  return post({ url });
 };
 
 export const clearGenomicVariants = async modelName => {
