@@ -28,7 +28,7 @@ export const useExpandedUnexpanded = () => {
       setShowUnexpanded(false);
     }
 
-    return JSON.parse(localStorage.getItem(SHOW_UNEXPANDED_KEY));
+    return showUnexpanded;
   };
 
   const set = val => {
@@ -36,14 +36,14 @@ export const useExpandedUnexpanded = () => {
     localStorage.setItem(SHOW_UNEXPANDED_KEY, val);
   };
 
-  const clear = () => {
-    setShowUnexpanded(undefined);
-    localStorage.removeItem(SHOW_UNEXPANDED_KEY);
+  const reset = () => {
+    setShowUnexpanded(false);
+    localStorage.setItem(SHOW_UNEXPANDED_KEY, false);
   };
 
   return {
     showUnexpanded: get(),
     setShowUnexpanded: set,
-    clearShowUnexpanded: clear,
+    resetShowUnexpanded: reset,
   };
 };

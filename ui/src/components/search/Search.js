@@ -46,7 +46,7 @@ export default ({
   version,
   ...props
 }) => {
-  const { showUnexpanded, setShowUnexpanded } = useExpandedUnexpanded();
+  const { showUnexpanded } = useExpandedUnexpanded();
 
   return (
     <>

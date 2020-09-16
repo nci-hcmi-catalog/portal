@@ -17,7 +17,7 @@ export default ({ id, initialValue, onValueChange }) => {
 
   useEffect(() => {
     setToggleValue(initialValue);
-  }, []);
+  }, [initialValue]);
 
   return (
     <ToggleButton
