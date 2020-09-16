@@ -3,14 +3,13 @@ import Component from 'react-component-component';
 import { Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
 import SplitPane from 'react-split-pane';
-import Popup from 'reactjs-popup';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
 
 import ArrowIcon from 'icons/ArrowIcon';
-import QuestionMarkIcon from 'icons/QuestionMarkIcon';
 
 import LastUpdatedDate from 'components/LastUpdatedDate';
+import ExpandedToggle from 'components/search/ExpandedToggle';
 import GeneSearch from 'components/search/GeneSearch';
 import VariantSearch from 'components/search/VariantSearch';
 import ModelSearch from 'components/search/ModelSearch';
@@ -18,7 +17,6 @@ import PrimarySiteChart from 'components/charts/PrimarySiteChart';
 import MultipleModelsChart from 'components/charts/MultipleModelsChart';
 import GrowthChart from 'components/charts/GrowthChart';
 import TopVariantsChart from 'components/charts/TopVariantsChart';
-import Toggle from 'components/input/Toggle';
 import TableEntity from 'components/TableEntity';
 import TableDistributorCell from 'components/TableDistributorCell';
 import TableExpandedCell from 'components/TableExpandedCell';
@@ -145,49 +143,6 @@ export default ({
                 )}
               </Component>
             </Row>
-            <Row alignItems={'center'}>
-              <Toggle
-                id="expanded-toggle"
-                initialValue={showUnexpanded}
-                onValueChange={() => setShowUnexpanded(!showUnexpanded)}
-              />
-              <label
-                htmlFor="expanded-toggle"
-                css={`
-                  font-size: 12px;
-                  margin-left: 5px;
-                `}
-              >
-                {showUnexpanded ? 'Hide' : 'Show'} XXX unexpanded models
-              </label>
-              <Popup
-                trigger={() => (
-                  <div
-                    css={`
-                      display: flex;
-                      margin-left: 5px;
-                    `}
-                  >
-                    <QuestionMarkIcon />
-                  </div>
-                )}
-                on="hover"
-                position={'top right'}
-                width={'225px'}
-                mouseEnterDelay={100}
-              >
-                <div
-                  css={`
-                    font-size: 12px;
-                  `}
-                >
-                  <b>Expanded models</b> are available for purchase on ATCC.
-                  <br />
-                  <b>Unexpanded models</b> have passed sequencing validation QC, but are not yet
-                  available for purchase.
-                </div>
-              </Popup>
-            </Row>
             <Component shouldUpdate={() => stable}>
               {() => (
                 <SelectedModelsContext.Consumer>
@@ -270,6 +225,12 @@ export default ({
                           url: `${globals.ARRANGER_API}/export/${version}/models`,
                         })}
                         fieldTypesForFilter={['text', 'keyword', 'id']}
+                        customHeaderContent={
+                          <ExpandedToggle
+                            showUnexpanded={showUnexpanded}
+                            setShowUnexpanded={setShowUnexpanded}
+                          />
+                        }
                       />
                     );
                   }}
