@@ -239,7 +239,7 @@ export default ({
                           url: `${globals.ARRANGER_API}/export/${version}/models`,
                         })}
                         fieldTypesForFilter={['text', 'keyword', 'id']}
-                        customHeaderContent={<ExpandedToggle />}
+                        customHeaderContent={<ExpandedToggle sqon={filterExpanded(sqon)} />}
                       />
                     );
                   }}

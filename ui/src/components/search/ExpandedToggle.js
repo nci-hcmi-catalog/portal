@@ -9,18 +9,18 @@ import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
 
 import { getNumUnexpanded } from 'utils/sqonHelpers';
 
-const ExpandedToggle = () => {
+const ExpandedToggle = ({ sqon }) => {
   const { showUnexpanded, setShowUnexpanded } = useExpandedUnexpanded();
   const [numUnexpanded, setNumUnexpanded] = useState('');
 
   useEffect(() => {
     const fetchNumUnexpanded = async () => {
-      const data = await getNumUnexpanded();
+      const data = await getNumUnexpanded(sqon);
       setNumUnexpanded(data);
     };
 
-    fetchNumUnexpanded();
-  }, []);
+    fetchNumUnexpanded(sqon);
+  }, [sqon]);
 
   return (
     <>
@@ -38,7 +38,8 @@ const ExpandedToggle = () => {
           text-align: right;
         `}
       >
-        {showUnexpanded ? 'Hide' : 'Show'} {`${numUnexpanded} unexpanded models`}
+        {showUnexpanded ? 'Hide' : 'Show'}{' '}
+        {`${numUnexpanded} unexpanded model${numUnexpanded !== 1 ? 's' : ''}`}
       </label>
       <Popup
         trigger={() => (
