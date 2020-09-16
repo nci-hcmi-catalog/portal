@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Component from 'react-component-component';
 import { Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import '@arranger/components/public/themeStyles/beagle/beagle.css';
@@ -26,6 +26,8 @@ import ShareButton from 'components/ShareButton';
 import ModelList from 'components/ModelList';
 import TextInput from 'components/TextInput';
 
+import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
+
 import globals from 'utils/globals';
 import { filterExpanded, toggleExpanded } from 'utils/sqonHelpers';
 
@@ -44,7 +46,7 @@ export default ({
   version,
   ...props
 }) => {
-  const [showUnexpanded, setShowUnexpanded] = useState(false);
+  const { showUnexpanded, setShowUnexpanded } = useExpandedUnexpanded();
 
   return (
     <>
@@ -237,12 +239,7 @@ export default ({
                           url: `${globals.ARRANGER_API}/export/${version}/models`,
                         })}
                         fieldTypesForFilter={['text', 'keyword', 'id']}
-                        customHeaderContent={
-                          <ExpandedToggle
-                            showUnexpanded={showUnexpanded}
-                            setShowUnexpanded={setShowUnexpanded}
-                          />
-                        }
+                        customHeaderContent={<ExpandedToggle />}
                       />
                     );
                   }}

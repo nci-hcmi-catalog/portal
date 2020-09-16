@@ -5,9 +5,12 @@ import Toggle from 'components/input/Toggle';
 
 import QuestionMarkIcon from 'icons/QuestionMarkIcon';
 
+import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
+
 import { getNumUnexpanded } from 'utils/sqonHelpers';
 
-const ExpandedToggle = ({ showUnexpanded, setShowUnexpanded }) => {
+const ExpandedToggle = () => {
+  const { showUnexpanded, setShowUnexpanded } = useExpandedUnexpanded();
   const [numUnexpanded, setNumUnexpanded] = useState('');
 
   useEffect(() => {
