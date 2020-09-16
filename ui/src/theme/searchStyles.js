@@ -25,6 +25,7 @@ const {
     lightPorcelain,
     linen,
     mischka,
+    pelorousapprox,
     sandyBeach,
     seaBuckthorn,
     tiaMaria,
@@ -743,7 +744,7 @@ export default css`
   .search-results-wrapper .tableToolbar {
     padding: 10px 0 8px;
     font-size: 12px;
-    align-items: flex-end;
+    align-items: center;
   }
 
   .search-results-wrapper .tableToolbar .group,
@@ -878,4 +879,29 @@ export const FooterLink = styled('a')`
   ${brandPrimaryHighlightHover};
   font-size: 12px;
   display: block;
+`;
+
+export const ToggleButton = styled('button')`
+  border-radius: 11px;
+  border: none;
+  width: 50px;
+  height: 23px;
+  position: relative;
+  cursor: pointer;
+  background-color: ${({ checked }) => (checked ? pelorousapprox : bombay)} !important;
+  transition: background-color 0.25s ease !important;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 21px;
+    height: 21px;
+    background-color: ${white} !important;
+    border-radius: 100%;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    ${({ checked }) => checked && 'left: 28px;'};
+    transition: left 0.25s ease !important;
+  }
 `;

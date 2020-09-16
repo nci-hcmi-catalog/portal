@@ -8,7 +8,7 @@ import globals from 'utils/globals';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Dashboard as ArrangerDashboard } from '@arranger/components';
 
-import Search from 'components/search/SearchWrapper';
+import SearchWrapper from 'components/search/SearchWrapper';
 import Model from 'components/Model';
 import Admin from 'components/admin';
 import Header from 'components/Header';
@@ -46,7 +46,7 @@ const ProvidedRoutes = () => (
                 render={() => (
                   <>
                     <Header />
-                    <Search version={state.version} index="models" />
+                    <SearchWrapper version={state.version} index="models" />
                   </>
                 )}
               />
