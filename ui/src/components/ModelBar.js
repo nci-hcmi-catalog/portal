@@ -43,7 +43,9 @@ export default ({ name, id, isExpanded }) => {
       Object.keys(sets[sqon.content.value].sqon).length !== 0
       ? {
           pathname: '/',
-          search: stringify({ sqon: JSON.stringify(sets[sqon.content.value].sqon) }),
+          search: stringify({
+            sqon: JSON.stringify(filterExpanded(sets[sqon.content.value].sqon)),
+          }),
         }
       : '/';
   };
@@ -60,7 +62,7 @@ export default ({ name, id, isExpanded }) => {
           </div>
 
           <div className="model-bar__group">
-            <Link className="model-bar__back" to={getBackRoute(filterExpanded(sqon))}>
+            <Link className="model-bar__back" to={getBackRoute(sqon)}>
               <ArrowLeftIcon
                 css={`
                   margin-right: 5px;

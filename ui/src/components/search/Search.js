@@ -40,7 +40,7 @@ export default ({
   setState,
   state,
   setSQON,
-  sqon = { op: 'and', content: [{ op: 'in', content: { field: 'expanded', value: ['true'] } }] },
+  sqon,
   savedSetsContext,
   history,
   version,
