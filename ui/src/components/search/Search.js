@@ -64,12 +64,12 @@ export default ({
             <Component shouldUpdate={() => stable}>
               {() => (
                 <>
-                  <ModelSearch sqon={sqon} setSQON={setSQON} />
-                  <GeneSearch sqon={sqon} setSQON={setSQON} />
-                  <VariantSearch sqon={sqon} setSQON={setSQON} />
+                  <ModelSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
+                  <GeneSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
+                  <VariantSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
                   <Aggregations
                     {...props}
-                    sqon={sqon}
+                    sqon={toggleExpanded(sqon, showUnexpanded)}
                     setSQON={setSQON}
                     index={props.index}
                     graphqlField={props.index}
@@ -135,10 +135,22 @@ export default ({
               <Component shouldUpdate={() => stable}>
                 {() => (
                   <>
-                    <PrimarySiteChart sqon={sqon} setSQON={setSQON} />
-                    <MultipleModelsChart sqon={sqon} setSQON={setSQON} />
-                    <GrowthChart sqon={sqon} setSQON={setSQON} />
-                    <TopVariantsChart sqon={sqon} setSQON={setSQON} />
+                    <PrimarySiteChart
+                      sqon={toggleExpanded(sqon, showUnexpanded)}
+                      setSQON={setSQON}
+                    />
+                    <MultipleModelsChart
+                      sqon={toggleExpanded(sqon, showUnexpanded)}
+                      setSQON={setSQON}
+                    />
+                    <GrowthChart
+                      sqon={toggleExpanded(sqon, showUnexpanded)}
+                      setSQON={setSQON}
+                    />
+                    <TopVariantsChart
+                      sqon={toggleExpanded(sqon, showUnexpanded)}
+                      setSQON={setSQON}
+                    />
                   </>
                 )}
               </Component>
