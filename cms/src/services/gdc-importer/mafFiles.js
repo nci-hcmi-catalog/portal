@@ -98,6 +98,7 @@ const fetchModelFileData = async name => {
               total
               edges {
                 node {
+                  case_id
                   samples {
                     hits {
                       total
@@ -178,6 +179,7 @@ const fetchModelFileData = async name => {
 
   const data = get(response, 'data.data.repository');
   if (data) {
+    const caseId = get(data, 'cases.hits.edges[0].node.case_id');
     const samples = get(data, 'cases.hits.edges[0].node.samples.hits.edges', []).map(sampleEdge => {
       const sampleType = get(sampleEdge, 'node.sample_type');
       // const tissueType = get(sampleEdge, 'node.tissue_type');
@@ -192,7 +194,7 @@ const fetchModelFileData = async name => {
       );
       return { sampleType, aliquots };
     });
-    logger.debug({ samples }, 'Case samples found for model');
+    logger.debug({ caseId, samples }, 'Case samples found for model');
     const files = get(data, 'files.hits.edges', []).map(fileEdge => {
       const fileId = get(fileEdge, 'node.file_id');
       const filename = get(fileEdge, 'node.file_name');
@@ -214,12 +216,13 @@ const fetchModelFileData = async name => {
     });
     logger.debug({ files }, 'Files found for model');
 
-    return files;
+    return { caseId, files };
   }
 };
 
 export const findMafFileData = async name => {
-  const modelFiles = await fetchModelFileData(name);
+  const fileDataResponse = await fetchModelFileData(name);
+  const modelFiles = fileDataResponse.files;
   if (!isEmpty(modelFiles)) {
     const targetFiles = modelFiles.filter(
       file =>
@@ -233,7 +236,10 @@ export const findMafFileData = async name => {
         return { success: true, file: targetFiles[0] };
       case 0:
         // No files for this model with the correct sample types.
-        return { success: false, error: { code: IMPORT_ERRORS.noMafs } };
+        return {
+          success: false,
+          error: { code: IMPORT_ERRORS.noMafs, caseId: fileDataResponse.caseId },
+        };
 
       default:
         // More than one file found for this model that match the requirements.

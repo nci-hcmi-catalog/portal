@@ -22,7 +22,7 @@ export const MultipleMafError = ({ files }) => {
       return index === array.length - 1 ? (
         <>
           {`and `}
-          <MessageLink to={fileUrl} target="_blank" rel="noopener noreferrer">
+          <MessageLink href={fileUrl} target="_blank" rel="noopener noreferrer">
             {file.filename}
           </MessageLink>
           {`. `}
@@ -44,7 +44,7 @@ export const NoMafError = ({ caseId, modelName }) => {
 
   return (
     <>
-      <MessageLink to={caseUrl} target="_blank" rel="noopener noreferrer">
+      <MessageLink href={caseUrl} target="_blank" rel="noopener noreferrer">
         {modelName}
       </MessageLink>
       {` was found on GDC but no open Next Generation Cancer Model MAF files were found.`}

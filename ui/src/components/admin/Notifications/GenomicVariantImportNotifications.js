@@ -80,7 +80,7 @@ const useGenomicVariantImportNotifications = () => {
           appendNotification({
             type: NOTIFICATION_TYPES.ERROR,
             message: `Import Error: No MAF files found in GDC.`,
-            details: <NoMafError caseId={error.case_id} modelName={modelName} />,
+            details: <NoMafError caseId={error.caseId} modelName={modelName} />,
             timeout: false,
           });
           break;
