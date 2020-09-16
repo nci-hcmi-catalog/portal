@@ -1,6 +1,5 @@
 import styled, { keyframes } from 'react-emotion';
 import { css } from 'emotion';
-import { Link } from 'react-router-dom';
 import { Element } from 'react-scroll';
 
 import { NOTIFICATION_TYPES } from './../components/admin/Notifications';
