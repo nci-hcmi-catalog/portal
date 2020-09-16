@@ -141,7 +141,7 @@ export default () => {
                 </Details>
               )}
               {notification.link && (
-                <MessageLink to={notification.link} type={notification.type} target="_blank">
+                <MessageLink href={notification.link} type={notification.type} target="_blank">
                   {notification.linkText || 'Link'}
                 </MessageLink>
               )}

@@ -1,10 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Route } from 'react-router-dom';
 
-import {
-  acknowledgeImportStatus,
-  checkImportStatus,
-} from 'components/admin/Model/actions/GenomicVariants';
+import { checkImportStatus } from 'components/admin/Model/actions/GenomicVariants';
 import { useGenomicVariantImportNotifications } from 'components/admin/Notifications';
 
 import AdminNav from './AdminNav';
@@ -17,14 +14,13 @@ import { AdminMain, AdminWrapper } from 'theme/adminStyles';
 
 import { VARIANT_IMPORT_STATUS } from 'utils/constants';
 import useInterval from 'utils/useInterval';
+import { isEmpty } from 'lodash';
 
 export default ({ location }) => {
   const didMountRef = useRef(false);
   const {
     importNotifications,
-    addImportNotification,
-    removeImportNotification,
-    showSuccessfulImportNotification,
+    updateNotificationsFromStatus,
   } = useGenomicVariantImportNotifications();
 
   // Check for active genomic variant imports on page load
@@ -33,9 +29,7 @@ export default ({ location }) => {
       const activeImports = await checkImportStatus();
 
       if (activeImports && activeImports.length > 0) {
-        activeImports.forEach(activeImport => {
-          addImportNotification(activeImport.name);
-        });
+        updateNotificationsFromStatus(activeImports);
       }
     };
 
@@ -49,19 +43,10 @@ export default ({ location }) => {
   useInterval(
     () => {
       checkImportStatus().then(activeImports => {
-        if (activeImports.length > 0) {
-          activeImports.forEach(activeImport => {
-            if (activeImport.status === VARIANT_IMPORT_STATUS.complete) {
-              acknowledgeImportStatus(activeImport.name).then(_ => {
-                removeImportNotification(activeImport.name);
-                showSuccessfulImportNotification(activeImport.name);
-              });
-            }
-          });
-        }
+        updateNotificationsFromStatus(activeImports);
       });
     },
-    importNotifications && importNotifications.length > 0 ? 1000 : null,
+    !isEmpty(importNotifications) ? 1000 : null,
   );
 
   return (

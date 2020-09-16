@@ -130,7 +130,7 @@ export const ErrorText = styled('span')`
   label: error-text;
 `;
 
-export const MessageLink = styled(Link)`
+export const MessageLink = styled('a')`
   ${brandPrimaryHighlightHover}
   text-decoration: underline;
   label: notification-message-link;

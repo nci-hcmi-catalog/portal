@@ -1,4 +1,5 @@
 import { ModelES } from './common/schemas/model';
+import esClient from './common/client';
 import Model from '../../schemas/model';
 import getPublishValidation from '../../validation/model';
 import { modelStatus } from '../../helpers/modelStatus';
@@ -11,9 +12,16 @@ import { get } from 'lodash';
 import getLogger from '../../logger';
 const logger = getLogger('services/elastic-search/publish');
 
+const MODEL_INDEX = process.env.ES_INDEX;
+
 export const publishModel = async filter => {
   await indexOneToES(filter);
   await indexMatchedModelsToES(filter);
+
+  // After publish we need to wait for the index to refresh before we can read the new state.
+  // putting this request here forces this to be done before we query the index.
+  await esClient.indices.refresh({ index: MODEL_INDEX });
+
   await updateGeneSearchIndicies();
 };
 
