@@ -34,15 +34,16 @@ const getAllIndexedDocs = async index => {
 //   We are getting the list of genes/variants that should be published from the models in ES because we
 //   can't be sure what is published for a model in draft form (changes not yet published)
 //   Additionally, to know which genes to remove we have to compare this list to the currently published list in the genes index on ES
+
 const updateVariantIndex = async desiredVariants => {
   logger.debug({ desiredVariants }, 'List of Variants that should be published');
 
-  const variantIds = desiredVariants.map(v => v.variant.transcript_id);
+  const variantIds = desiredVariants.map(v => v.variant.variant_id);
 
   // 1. get list of variants published in ES
   const variantsResponse = await getAllIndexedDocs(VARIANTS_INDEX);
 
-  const publishedVariants = variantsResponse.map(variant => variant.transcript_id);
+  const publishedVariants = variantsResponse.map(variant => variant.variant_id);
   logger.debug({ publishedVariants }, 'List of Variants currently published');
 
   // 2. find list of variants to unpublish and genes to publish
@@ -50,7 +51,7 @@ const updateVariantIndex = async desiredVariants => {
   logger.debug({ removeVariants }, 'Variants to unpublish');
 
   const addVariants = desiredVariants.filter(
-    v => !publishedVariants.includes(v.variant.transcript_id),
+    v => !publishedVariants.includes(v.variant.variant_id),
   );
   logger.debug({ addVariants }, 'Variants to publish');
 
@@ -83,7 +84,7 @@ const updateVariantIndex = async desiredVariants => {
         {
           index: {
             _index: VARIANTS_INDEX,
-            _id: v.variant.transcript_id,
+            _id: v.variant.variant_id,
           },
         },
         doc,
@@ -162,6 +163,10 @@ const updateGeneIndex = async (desiredGeneTranscriptIds, desiredGeneSymbols) => 
 };
 
 export const updateGeneSearchIndicies = async () => {
+  // This method reads from the es indices, and is prone to errors if we read it before updates have been indexed
+  //   so first, we refresh the model index :)
+  await esClient.indices.refresh({ index: MODEL_INDEX });
+
   // 1. get models from ES
   const publishedModels = await getAllIndexedDocs(MODEL_INDEX);
 

@@ -55,8 +55,11 @@ const buildVariantId = ({
       return `${chromosome}:g.${start_position}del${reference_allele}`;
     case 'INS':
       return `${chromosome}:g.${start_position}_${end_position}ins${tumor_allele}`;
+    case 'ONP':
+    case 'TNP':
+      return `${chromosome}:g.${start_position}_${end_position}delins${tumor_allele}`;
     default:
-      return chromosome;
+      return `${chromosome}:g.${start_position}_${end_position}${type.toLowerCase()}${tumor_allele}`;
   }
 };
 
