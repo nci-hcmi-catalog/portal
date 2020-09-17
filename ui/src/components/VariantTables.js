@@ -154,7 +154,9 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
           >
             <VariantsIcon />
             <p className="model-details__empty-message">
-              {type === VARIANT_TYPES.genomic && geneMetadata && geneMetadata.filename
+              {loading
+                ? 'Loading...'
+                : type === VARIANT_TYPES.genomic && geneMetadata && geneMetadata.filename
                 ? 'No variants were identified in the Masked Somatic MAF file.'
                 : 'No variants available.'}
             </p>
