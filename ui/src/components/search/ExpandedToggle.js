@@ -25,12 +25,14 @@ const ExpandedToggle = ({ sqon }) => {
   return (
     <>
       <Toggle
+        aria-labelledby={`expanded-toggle-label`}
         disabled={numUnexpanded === 0}
         id="expanded-toggle"
         initialValue={showUnexpanded}
         onValueChange={() => setShowUnexpanded(!showUnexpanded)}
       />
       <label
+        id="expanded-toggle-label"
         htmlFor="expanded-toggle"
         css={`
           font-size: 12px;
