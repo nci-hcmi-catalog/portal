@@ -349,8 +349,8 @@ export default ({ modelName }) => (
                     </h3>
                     {modelImages && modelImages.length ? (
                       <ModelSlider
-                        LeftArrow={<LeftArrow />}
-                        RightArrow={<RightArrow />}
+                        LeftArrow={<LeftArrow aria-label="Previous image" />}
+                        RightArrow={<RightArrow aria-label="Next image" />}
                         autoSlide={false}
                         showDots={false}
                         cardsToShow={1}
