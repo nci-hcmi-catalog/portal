@@ -890,6 +890,7 @@ export const ToggleButton = styled('button')`
   cursor: pointer;
   background-color: ${({ checked }) => (checked ? pelorousapprox : bombay)} !important;
   transition: background-color 0.25s ease !important;
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)} !important;
 
   &::after {
     content: '';

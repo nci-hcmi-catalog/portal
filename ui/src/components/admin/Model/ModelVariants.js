@@ -163,7 +163,6 @@ const getDateString = date => {
 export default ({ data: { name, gene_metadata, genomic_variants, variants, updatedAt } }) => {
   const importStatus = useRef(null);
   const { fetchGenomicVariantData } = useContext(ModelSingleContext);
-  const { appendNotification } = useContext(NotificationsContext);
   const [activeTab, setActiveTab] = useState(null);
   const {
     importNotifications,

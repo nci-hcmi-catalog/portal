@@ -5,23 +5,27 @@ import Toggle from 'components/input/Toggle';
 
 import QuestionMarkIcon from 'icons/QuestionMarkIcon';
 
+import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
+
 import { getNumUnexpanded } from 'utils/sqonHelpers';
 
-const ExpandedToggle = ({ showUnexpanded, setShowUnexpanded }) => {
+const ExpandedToggle = ({ sqon }) => {
+  const { showUnexpanded, setShowUnexpanded } = useExpandedUnexpanded();
   const [numUnexpanded, setNumUnexpanded] = useState('');
 
   useEffect(() => {
     const fetchNumUnexpanded = async () => {
-      const data = await getNumUnexpanded();
+      const data = await getNumUnexpanded(sqon);
       setNumUnexpanded(data);
     };
 
-    fetchNumUnexpanded();
-  }, []);
+    fetchNumUnexpanded(sqon);
+  }, [sqon]);
 
   return (
     <>
       <Toggle
+        disabled={numUnexpanded === 0}
         id="expanded-toggle"
         initialValue={showUnexpanded}
         onValueChange={() => setShowUnexpanded(!showUnexpanded)}
@@ -35,7 +39,8 @@ const ExpandedToggle = ({ showUnexpanded, setShowUnexpanded }) => {
           text-align: right;
         `}
       >
-        {showUnexpanded ? 'Hide' : 'Show'} {`${numUnexpanded} unexpanded models`}
+        {showUnexpanded ? 'Hide' : 'Show'}{' '}
+        {`${numUnexpanded} unexpanded model${numUnexpanded !== 1 ? 's' : ''}`}
       </label>
       <Popup
         trigger={() => (

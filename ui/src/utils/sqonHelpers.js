@@ -28,7 +28,7 @@ export const toggleExpanded = (sqon, showUnexpanded = false) => {
       );
 };
 
-export const getNumUnexpanded = async () => {
+export const getNumUnexpanded = async sqon => {
   const numUnexpanded = await api({
     endpoint: `/${globals.VERSION}/graphql`,
     body: {
@@ -41,7 +41,21 @@ export const getNumUnexpanded = async () => {
                 }
               `,
       variables: {
-        filters: { op: 'in', content: { field: 'expanded', value: ['false'] } },
+        filters: addInSQON(
+          {
+            op: 'and',
+            content: [
+              {
+                op: 'in',
+                content: {
+                  field: 'expanded',
+                  value: ['false'],
+                },
+              },
+            ],
+          },
+          sqon,
+        ),
       },
     },
   });

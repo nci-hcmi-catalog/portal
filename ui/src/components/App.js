@@ -18,6 +18,7 @@ import WarningModal from 'components/modals/WarningModal';
 
 import RootProvider from 'providers/RootProvider';
 import { ModalStateContext } from 'providers/ModalState';
+import { ExpandedUnexpandedProvider } from 'providers/ExpandedUnexpanded';
 import base from 'theme';
 
 // issue with react-router and react context provider workaround:
@@ -38,7 +39,7 @@ const ProvidedRoutes = () => (
         }}
       >
         {({ state }) => (
-          <>
+          <ExpandedUnexpandedProvider>
             <Switch>
               <Route
                 path="/"
@@ -83,7 +84,7 @@ const ProvidedRoutes = () => (
               />
             </Switch>
             <Footer />
-          </>
+          </ExpandedUnexpandedProvider>
         )}
       </Component>
     )}

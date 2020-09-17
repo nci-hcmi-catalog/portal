@@ -12,7 +12,6 @@ import { ModelSingle } from './Model';
 
 import { AdminMain, AdminWrapper } from 'theme/adminStyles';
 
-import { VARIANT_IMPORT_STATUS } from 'utils/constants';
 import useInterval from 'utils/useInterval';
 import { isEmpty } from 'lodash';
 
