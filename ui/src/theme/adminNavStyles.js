@@ -8,12 +8,11 @@ import { HoverPill } from 'theme/adminControlsStyles';
 
 const {
   fonts: { openSans },
-  transparency: { brandPrimary80 },
-  keyedPalette: { black, cinnabar, porcelain },
+  keyedPalette: { black, brandPrimary, porcelain, stiletto },
 } = base;
 
-const navBackgroundColour = brandPrimary80;
-const navOnState = cinnabar;
+const navBackgroundColour = stiletto;
+const navOnState = brandPrimary;
 
 export const AdminNav = styled(Row)`
   font-family: ${openSans};

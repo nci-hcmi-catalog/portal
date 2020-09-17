@@ -136,6 +136,7 @@ const base = {
     tiaMariaDark: '#cc3f14',
     redDamask: '#e06944',
     linen: '#fbece7',
+    stiletto: '#a63333',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',
