@@ -395,16 +395,16 @@ export default ({ modelName }) => {
         !geneMetadata.filename
       ) {
         setIsEmpty(true);
-      } else if (clinicalVariants.length > 0) {
-        setIsEmpty(false);
-        setActiveTab(VARIANT_TYPES.clinical);
-        setData(clinicalVariants);
-        setFilteredData(clinicalVariants);
       } else if (genomicVariants.length > 0 || (geneMetadata && geneMetadata.filename)) {
         setIsEmpty(false);
         setActiveTab(VARIANT_TYPES.genomic);
         setData(genomicVariants);
         setFilteredData(genomicVariants);
+      } else if (clinicalVariants.length > 0) {
+        setIsEmpty(false);
+        setActiveTab(VARIANT_TYPES.clinical);
+        setData(clinicalVariants);
+        setFilteredData(clinicalVariants);
       } else {
         setIsEmpty(false);
         setActiveTab(VARIANT_TYPES.histopathological);
