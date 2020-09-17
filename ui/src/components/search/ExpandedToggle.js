@@ -25,6 +25,7 @@ const ExpandedToggle = ({ sqon }) => {
   return (
     <>
       <Toggle
+        disabled={numUnexpanded === 0}
         id="expanded-toggle"
         initialValue={showUnexpanded}
         onValueChange={() => setShowUnexpanded(!showUnexpanded)}
