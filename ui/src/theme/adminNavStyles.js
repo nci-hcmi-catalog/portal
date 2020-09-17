@@ -8,7 +8,8 @@ import { HoverPill } from 'theme/adminControlsStyles';
 
 const {
   fonts: { openSans },
-  keyedPalette: { black, brandPrimary, porcelain, stiletto },
+  keyedPalette: { black, brandPrimary, porcelain, stiletto, white },
+  transparency: { brandPrimary70 },
 } = base;
 
 const navBackgroundColour = stiletto;
@@ -53,7 +54,13 @@ export const NavLink = styled(Link)`
   text-align: center;
   line-height: 50px;
   padding: 0 22px;
-  ${whiteHover};
+  color: ${white};
+
+  &:hover,
+  &:focus {
+    background-color: ${brandPrimary70};
+  }
+
   ${props => props.active && activeNavLink};
 `;
 

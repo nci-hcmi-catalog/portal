@@ -48,7 +48,12 @@ const modelMoreOptions = (data = null) =>
     <Popup
       trigger={
         <div>
-          <ButtonPill secondary disabled={!data || Object.keys(data).length === 0} marginLeft="8px">
+          <ButtonPill
+            aria-label="More Options"
+            secondary
+            disabled={!data || Object.keys(data).length === 0}
+            marginLeft="8px"
+          >
             <MoreOptionsIcon css={'margin: 0;'} />
           </ButtonPill>
         </div>
