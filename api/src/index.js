@@ -7,7 +7,6 @@ import lastUpdatedRouter from './lastUpdated';
 import healthRouter from './health';
 import searchRouter from './search';
 import dataExportRouter from './dataExport';
-import cmsDataRouter from './cmsData';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import expressSanitizer from 'express-sanitizer';
@@ -33,8 +32,6 @@ app.use('/docs', (req, res) => {
 app.use('/swagger', (req, res) => {
   res.sendFile(path.join(__dirname, '../swagger.json'));
 });
-
-app.use('/data', cmsDataRouter);
 
 Arranger().then(router => {
   app.use('/last-updated', lastUpdatedRouter);
