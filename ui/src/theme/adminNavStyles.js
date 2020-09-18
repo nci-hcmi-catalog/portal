@@ -3,17 +3,16 @@ import styled from 'react-emotion';
 import { Link } from 'react-router-dom';
 import base from 'theme';
 import { Row } from 'theme/system';
-import { whiteHover } from 'theme/hoverStyles';
 import { HoverPill } from 'theme/adminControlsStyles';
 
 const {
   fonts: { openSans },
-  transparency: { brandPrimary80 },
-  keyedPalette: { black, cinnabar, porcelain },
+  keyedPalette: { black, brandPrimary, porcelain, stiletto, white },
+  transparency: { brandPrimary70 },
 } = base;
 
-const navBackgroundColour = brandPrimary80;
-const navOnState = cinnabar;
+const navBackgroundColour = stiletto;
+const navOnState = brandPrimary;
 
 export const AdminNav = styled(Row)`
   font-family: ${openSans};
@@ -54,7 +53,13 @@ export const NavLink = styled(Link)`
   text-align: center;
   line-height: 50px;
   padding: 0 22px;
-  ${whiteHover};
+  color: ${white};
+
+  &:hover,
+  &:focus {
+    background-color: ${brandPrimary70};
+  }
+
   ${props => props.active && activeNavLink};
 `;
 

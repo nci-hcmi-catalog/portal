@@ -109,6 +109,7 @@ const base = {
     aquaSpring: '#ecf7f9',
     alto: '#d8d8d8',
     elm: '#1c8292',
+    elmDark: '#1A7A89',
     whisper: '#f2f2f8',
     seaBuckthorn: '#f5a528',
     athensGray: '#f6f6f8',
@@ -132,8 +133,10 @@ const base = {
     alizarinCrimson: '#df1b42',
     ironApprox: '#dcdde1',
     tiaMaria: '#d54215',
+    tiaMariaDark: '#cc3f14',
     redDamask: '#e06944',
     linen: '#fbece7',
+    stiletto: '#a63333',
   },
   transparency: {
     brandPrimary70: 'rgba(144,0,0,0.7)',

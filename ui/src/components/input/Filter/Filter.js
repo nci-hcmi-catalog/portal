@@ -41,6 +41,7 @@ export default ({ onFilterValueChange }) => {
       <input
         type="text"
         placeholder="Filter"
+        aria-label="Filter data"
         value={filterValue}
         onChange={({ target: { value } }) => {
           setFilterValue(value);

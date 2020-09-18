@@ -119,6 +119,7 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
         >
           {!queuedForDelete && (
             <ButtonPill
+              aria-label="Edit"
               secondary
               css={`
                 margin-right: 10px;
@@ -137,6 +138,7 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
             </ButtonPill>
           )}
           <ButtonPill
+            aria-label={queuedForDelete ? 'Undo Delete' : 'Delete'}
             secondary
             css={`
               padding: 5px 10px;
