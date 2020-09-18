@@ -28,6 +28,10 @@ const TextInput = styled(RefArrangerTextInput)`
     font-weight: normal;
     color: #525767;
     padding: 0;
+
+    &:focus {
+      box-shadow: none !important;
+    }
   }
   > span.inputIcon {
     padding-bottom: 1px;
@@ -36,6 +40,10 @@ const TextInput = styled(RefArrangerTextInput)`
 
   :hover {
     border-color: #4596de;
+  }
+
+  &:focus-within {
+    box-shadow: 0 0 0 3px rgba(21, 156, 228, 0.4) !important;
   }
 `;
 

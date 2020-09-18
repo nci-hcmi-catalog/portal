@@ -3,7 +3,6 @@ import styled from 'react-emotion';
 import { Link } from 'react-router-dom';
 import base from 'theme';
 import { Row } from 'theme/system';
-import { whiteHover } from 'theme/hoverStyles';
 import { HoverPill } from 'theme/adminControlsStyles';
 
 const {

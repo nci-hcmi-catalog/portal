@@ -45,6 +45,10 @@ export const inputWrapperStyle = css`
   &:hover {
     border-color: ${havelockBlue};
   }
+
+  &:focus-within {
+    box-shadow: 0 0 0 3px rgba(21, 156, 228, 0.4) !important;
+  }
 `;
 
 export const inputIconStyle = css`
@@ -59,6 +63,10 @@ export const inputStyle = css`
   font-weight: normal;
   color: ${trout};
   padding: 0;
+
+  &:focus {
+    box-shadow: none !important;
+  }
 `;
 
 export const inputButtonStyle = css`
