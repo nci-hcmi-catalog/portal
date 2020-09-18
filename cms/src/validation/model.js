@@ -65,7 +65,7 @@ export const getPublishSchema = async (excludedNames, dictionary) => {
       .required('This is a required field')
       .matches(nameRegex, nameRegexError)
       .notOneOf(excludedNames, 'This model already exists'),
-    expanded: boolean(), // TODO: add required when expanded is released: .required('This is a required field'),
+    expanded: boolean().required('This is a required field'),
     type: string().oneOf(modelTypeOptions),
     growth_rate: number()
       .integer()
