@@ -30,7 +30,7 @@ const TextInput = styled(RefArrangerTextInput)`
     padding: 0;
 
     &:focus {
-      box-shadow: none !important;
+      box-shadow: none;
     }
   }
   > span.inputIcon {

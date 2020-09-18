@@ -65,7 +65,7 @@ export const inputStyle = css`
   padding: 0;
 
   &:focus {
-    box-shadow: none !important;
+    box-shadow: none;
   }
 `;
 
