@@ -5,3 +5,4 @@ export { default as actionRouter } from './action';
 export { default as templatesRouter } from './templates';
 export { default as matchedModelsRouter } from './matchedModels';
 export { default as healthRouter } from './health';
+export { default as variantsRouter } from './genomicVariants';

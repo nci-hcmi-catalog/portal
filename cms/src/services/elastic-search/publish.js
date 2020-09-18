@@ -4,6 +4,7 @@ import getPublishValidation from '../../validation/model';
 import { modelStatus } from '../../helpers/modelStatus';
 import MatchUtils from '../../helpers/matchedModels';
 import indexEsUpdate from './update';
+import { updateGeneSearchIndicies } from './genomicVariants';
 
 import { get } from 'lodash';
 
@@ -11,12 +12,9 @@ import getLogger from '../../logger';
 const logger = getLogger('services/elastic-search/publish');
 
 export const publishModel = async filter => {
-  try {
-    await indexOneToES(filter);
-    await indexMatchedModelsToES(filter);
-  } catch (err) {
-    throw err;
-  }
+  await indexOneToES(filter);
+  await indexMatchedModelsToES(filter);
+  await updateGeneSearchIndicies();
 };
 
 export const indexOneToES = filter => {
@@ -115,7 +113,7 @@ export const updateMatchedModelsToES = async filter => {
   );
   for (let model of modelsToPublish) {
     // Publish this model to ensure it has matchedModel updates, unless skepSelf is true and this model is the one named in the method argument name
-    logger.debug(`Publishing ${model.name} in order to update Matched Models.`);
+    logger.debug({ model: model.name }, `Publishing model in order to update Matched Models.`);
     await indexOneToES({ name: model.name });
   }
 };

@@ -46,7 +46,7 @@ dataExportRouter.post('/:projectId/models', async (req, res) => {
         console.timeEnd('download');
       });
   } catch (error) {
-    logger.error({ error }, 'Failure exporting model TSV');
+    logger.error(error, 'Failure exporting model TSV');
     res.status(400).send(error.message || error.details || 'An unknown error occurred.');
   }
 });

@@ -8,7 +8,7 @@ import globals from 'utils/globals';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Dashboard as ArrangerDashboard } from '@arranger/components';
 
-import Search from 'components/SearchWrapper';
+import SearchWrapper from 'components/search/SearchWrapper';
 import Model from 'components/Model';
 import Admin from 'components/admin';
 import Header from 'components/Header';
@@ -18,6 +18,7 @@ import WarningModal from 'components/modals/WarningModal';
 
 import RootProvider from 'providers/RootProvider';
 import { ModalStateContext } from 'providers/ModalState';
+import { ExpandedUnexpandedProvider } from 'providers/ExpandedUnexpanded';
 import base from 'theme';
 
 // issue with react-router and react context provider workaround:
@@ -38,7 +39,7 @@ const ProvidedRoutes = () => (
         }}
       >
         {({ state }) => (
-          <>
+          <ExpandedUnexpandedProvider>
             <Switch>
               <Route
                 path="/"
@@ -46,7 +47,7 @@ const ProvidedRoutes = () => (
                 render={() => (
                   <>
                     <Header />
-                    <Search version={state.version} index="models" />
+                    <SearchWrapper version={state.version} index="models" />
                   </>
                 )}
               />
@@ -83,7 +84,7 @@ const ProvidedRoutes = () => (
               />
             </Switch>
             <Footer />
-          </>
+          </ExpandedUnexpandedProvider>
         )}
       </Component>
     )}

@@ -6,6 +6,6 @@ export const ChartTooltip = ({ value, label }) => (
   <div>
     {`${label}`.startsWith('__m') ? 'No Data' : label}
     <br />
-    {value} Models
+    {value} Model{value !== 1 ? 's' : ''}
   </div>
 );

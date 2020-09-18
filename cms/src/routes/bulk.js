@@ -8,6 +8,7 @@ import { indexOneToES, indexMatchedModelsToES } from '../services/elastic-search
 import { unpublishManyFromES } from '../services/elastic-search/unpublish';
 import csvStream from '../helpers/streamAsCSV';
 import { backupFields } from '../schemas/descriptions/model';
+import { updateGeneSearchIndicies } from '../services/elastic-search/genomicVariants';
 
 import getLogger from '../logger';
 const logger = getLogger('routes/bulk');
@@ -42,8 +43,10 @@ bulkRouter.post('/publish', async (req, res) => {
       }
       for (const name of validModelNames) {
         // Now that everything has been published, lets make sure all the matched models for these are also updated in ES
-        indexMatchedModelsToES({ name });
+        await indexMatchedModelsToES({ name });
       }
+
+      await updateGeneSearchIndicies();
       res.json({
         success: `${req.body.length - validationErrors.length} models published`,
         errors: validationErrors,
@@ -71,11 +74,12 @@ bulkRouter.post('/unpublish', async (req, res) => {
         { status: modelStatus.unpublished },
       );
     })
-    .then(() => {
-      for (const name of req.body) {
+    .then(async () => {
+      for (const _id of req.body) {
         // Now that everything has been published, lets make sure all the matched models for these are also updated in ES
-        indexMatchedModelsToES({ name });
+        await indexMatchedModelsToES({ _id });
       }
+      await updateGeneSearchIndicies();
     })
     .then(() => res.json({ success: `${deleteCount} models unpublished` }))
     .catch(error => {
@@ -93,6 +97,13 @@ bulkRouter.post('/delete', async (req, res) => {
         .filter(({ status }) => status !== modelStatus.unpublished)
         .map(({ name }) => name);
       return unpublishManyFromES(modelsToUnpublish);
+    })
+    .then(async () => {
+      for (const _id of req.body) {
+        // Now that everything has been published, lets make sure all the matched models for these are also updated in ES
+        await indexMatchedModelsToES({ _id });
+      }
+      await updateGeneSearchIndicies();
     })
     .then(() =>
       Model.deleteMany({

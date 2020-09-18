@@ -38,6 +38,7 @@ const overwriteOptions = type => [
 
 export default ({
   type,
+  displayType,
   onSheetsURLChange,
   sheetsURL,
   backupURL,
@@ -80,7 +81,7 @@ export default ({
   return (
     <BulkUploadContent>
       <BulkUploadContentBlock>
-        <div>{`Submit your ${type} data by uploading a google sheet.`}</div>
+        <div>{`Submit your ${displayType || type} data by uploading a google sheet.`}</div>
         {signedIn ? (
           renderTemplateLink(templateUrl)
         ) : (
@@ -107,7 +108,7 @@ export default ({
       <BulkUploadContentBlock>
         <UploadOverwrite>
           <UploadContentHeading>
-            {`Would you like to overwrite the existing ${type}s with the data from this google sheet?`}
+            {`Would you like to overwrite the existing ${displayType || type}s with the data from this google sheet?`}
           </UploadContentHeading>
           <RadioSelect>
             {processOptions(overwriteOptions(type)).map((option, idx) => {
@@ -146,7 +147,7 @@ export default ({
                     <ExportIcon width={'10px'} height={'12px'} css={'margin: 0 5px 0 2px'} />
                     download a backup
                   </a>{' '}
-                  {`of the current ${type}s before overwriting data.`}
+                  {`of the current ${displayType || type}s before overwriting data.`}
                 </div>
               </OverwriteWarning>
             )}

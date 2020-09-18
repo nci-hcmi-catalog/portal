@@ -154,7 +154,7 @@ const EditableFieldValue = ({
     switch (fieldState) {
       case 'editing':
         return (
-          <FieldValueListItemButton onMouseDown={saveEdit}>
+          <FieldValueListItemButton aria-label="Save changes" onMouseDown={saveEdit}>
             <SaveIcon height={'12px'} width={'12px'} />
           </FieldValueListItemButton>
         );
@@ -162,7 +162,7 @@ const EditableFieldValue = ({
         return (
           <>
             <FieldStateLabel>edited</FieldStateLabel>
-            <FieldValueListItemButton onMouseDown={undoEdit}>
+            <FieldValueListItemButton aria-label="Undo changes" onMouseDown={undoEdit}>
               <UndoIcon />
             </FieldValueListItemButton>
           </>
@@ -171,7 +171,7 @@ const EditableFieldValue = ({
         return (
           <>
             <FieldStateLabel>error</FieldStateLabel>
-            <FieldValueListItemButton onMouseDown={clearError}>
+            <FieldValueListItemButton aria-label="Clear error" onMouseDown={clearError}>
               <UndoIcon />
             </FieldValueListItemButton>
           </>
@@ -180,14 +180,14 @@ const EditableFieldValue = ({
         return (
           <>
             <FieldStateLabel>new</FieldStateLabel>
-            <FieldValueListItemButton onMouseDown={undoAddNew}>
+            <FieldValueListItemButton aria-label="Remove this value" onMouseDown={undoAddNew}>
               <UndoIcon />
             </FieldValueListItemButton>
           </>
         );
       default:
         return (
-          <FieldValueListItemButton>
+          <FieldValueListItemButton aria-label="Edit">
             <EditIcon
               height={'12px'}
               width={'12px'}

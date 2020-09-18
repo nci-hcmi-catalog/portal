@@ -1,6 +1,6 @@
-const esUtils = require('./esUtils');
+const esUtils = require('./utils/esUtils');
 const run = async () => {
-  await esUtils.updateSearchIndex();
+  await esUtils.updateSearchIndices();
   await esUtils.updateArrangerProject();
 };
 

@@ -18,9 +18,7 @@ export default () => (
   <Footer>
     <Col>
       <Row alignItems="center">
-        <CopyrightText>
-          &copy; {new Date().getFullYear()} Human Cancer Models Initiative
-        </CopyrightText>
+        <CopyrightText>&copy; {new Date().getFullYear()}</CopyrightText>
         <FooterNav>
           <FooterNavItem>
             <FooterLink
@@ -28,6 +26,11 @@ export default () => (
               target="_blank"
               rel="noopener noreferrer"
             >
+              Human Cancer Models Initiative
+            </FooterLink>
+          </FooterNavItem>
+          <FooterNavItem>
+            <FooterLink href="https://ocg.cancer.gov/" target="_blank" rel="noopener noreferrer">
               ocg.cancer.gov
             </FooterLink>
           </FooterNavItem>

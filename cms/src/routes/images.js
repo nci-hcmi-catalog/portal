@@ -25,7 +25,7 @@ imagesRouter.post('/', async (req, res) => {
         return res.status(201).json({ id: data.Key, url: data.Location, fileName });
       })
       .catch(({ error }) => {
-        logger.error({ error }, 'An error occured during image upload to s3');
+        logger.error(error, 'An error occured during image upload to s3');
         return res.status(500).json({ error: 'Error uploading file' });
       });
   });

@@ -64,7 +64,7 @@
     "displayValues": {},
     "quickSearchEnabled": false,
     "field": "tissue_type",
-    "displayName": "Tissue Type",
+    "displayName": "Tissue Status",
     "active": false,
     "isArray": false,
     "type": "keyword",
@@ -99,7 +99,7 @@
   {
     "field": "matched_models.tissue_type",
     "type": "keyword",
-    "displayName": "Multiple Model Tissue Type",
+    "displayName": "Multiple Model Tissue Status",
     "active": false,
     "isArray": false,
     "primaryKey": false,
@@ -271,7 +271,6 @@
     "displayValues": {},
     "rangeStep": 1
   },
-
   {
     "field": "clinical_diagnosis.clinical_tumor_diagnosis",
     "type": "keyword",
@@ -653,6 +652,31 @@
   },
 
   {
+    "field": "genomic_variants",
+    "type": "nested",
+    "displayName": "Genomic Variants",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "variants.type",
+    "type": "keyword",
+    "displayName": "Variants Type",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+
+  {
     "field": "autocomplete",
     "type": "text",
     "displayName": "Autocomplete",
@@ -677,5 +701,161 @@
       "true": "Expanded",
       "false": "Unexpanded"
     }
+  },
+  {
+    "field": "genomic_variants",
+    "type": "nested",
+    "displayName": "Genomic Variants",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "genomic_variants.gene",
+    "type": "keyword",
+    "displayName": "Gene",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "genomic_variants.transcript_id",
+    "type": "keyword",
+    "displayName": "Research Somatic Variant Transcript ID",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "genomic_variants.variant_id",
+    "type": "keyword",
+    "displayName": "Research Somatic Variant ID",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "genomic_variants.synonyms",
+    "type": "keyword",
+    "displayName": "Gene Synonyms",
+    "active": false,
+    "isArray": true,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "genomic_variants.classification",
+    "type": "keyword",
+    "displayName": "Research Somatic Variant Type",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "genomic_variants.consequence_type",
+    "type": "keyword",
+    "displayName": "Consequence",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "gene_metadata",
+    "type": "object",
+    "displayName": "Gene Metadata",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "gene_metadata.genes",
+    "type": "keyword",
+    "displayName": "Mutated Genes",
+    "active": false,
+    "isArray": true,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "gene_metadata.genes_count",
+    "type": "long",
+    "displayName": "# Mutated Genes",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "gene_metadata.genomic_variant_count",
+    "type": "long",
+    "displayName": "# Research Somatic Variants",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "gene_metadata.clinical_variant_count",
+    "type": "long",
+    "displayName": "# Clinical Variants",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
+    "field": "gene_metadata.histopathological_variant_count",
+    "type": "long",
+    "displayName": "# Histo-pathological Biomarkers",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
   }
 ]

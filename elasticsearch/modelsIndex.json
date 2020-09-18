@@ -203,6 +203,71 @@
           }
         }
       },
+      "genomic_variants": {
+        "type": "nested",
+        "properties": {
+          "gene": {
+            "type": "keyword"
+          },
+          "aa_change": {
+            "type": "keyword"
+          },
+          "type": {
+            "type": "keyword"
+          },
+          "transcript_id": {
+            "type": "keyword"
+          },
+          "consequence_type": {
+            "type": "keyword"
+          },
+          "class": {
+            "type": "keyword"
+          },
+          "gene_biotype": {
+            "type": "keyword"
+          },
+          "gene_name": {
+            "type": "keyword"
+          },
+          "chromosome": {
+            "type": "keyword"
+          },
+          "start_position": {
+            "type": "keyword"
+          },
+          "end_position": {
+            "type": "keyword"
+          },
+          "specific_change": {
+            "type": "keyword"
+          },
+          "classification": {
+            "type": "keyword"
+          },
+          "variant_id": {
+            "type": "keyword"
+          },
+          "entrez_id": {
+            "type": "keyword"
+          },
+          "synonyms": { "type": "keyword" },
+          "name": {
+            "type": "keyword"
+          }
+        }
+      },
+      "gene_metadata": {
+        "properties": {
+          "filename": { "type": "keyword" },
+          "import_date": { "type": "date" },
+          "genes": { "type": "keyword" },
+          "genes_count": { "type": "long" },
+          "genomic_variant_count": { "type": "long" },
+          "clinical_variant_count": { "type": "long" },
+          "histopathological_variant_count": { "type": "long" }
+        }
+      },
       "vital_status": {
         "type": "keyword"
       }

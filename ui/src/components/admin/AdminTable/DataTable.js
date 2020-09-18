@@ -103,3 +103,35 @@ export default ({ simpleTableWithPagination, disablePagination, ...props }) => {
     </div>
   );
 };
+
+export const GenomicDataTable = ({ state, onPageChange, onPageSizeChange, ...props }) => {
+  return (
+    <div css={searchStyles}>
+      <ReactTable
+        {...commonDataTableProps({ state, onSortedChange: state.onSortedChange, ...props })}
+        {...{
+          showPagination: true,
+          defaultPageSize: state.pageSize,
+          pageSize: state.pageSize,
+          page: state.page,
+          PaginationComponent: () => (
+            <CustomPagination
+              {...state}
+              {...{
+                pages: Math.ceil(state.rowCount / state.pageSize),
+                showPageSizeOptions: true,
+                pageSizeOptions: [10, 20, 50, 100],
+                showPageJump: state.rowCount > state.pageSize,
+                canPrevious: true,
+                canNext: true,
+                maxPagesOptions: 10,
+                onPageChange: onPageChange,
+                onPageSizeChange: onPageSizeChange,
+              }}
+            />
+          ),
+        }}
+      />
+    </div>
+  );
+};

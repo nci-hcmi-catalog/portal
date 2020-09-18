@@ -13,6 +13,8 @@ import ModelList from 'components/ModelList';
 import PlusIcon from './../icons/PlusIcon';
 import CheckmarkIcon from './../icons/CheckmarkIcon';
 
+import { filterExpanded } from 'utils/sqonHelpers';
+
 const ExpandedPill = ({ isExpanded }) => {
   return (
     <div className={`model-bar__pill model-bar__pill--${isExpanded ? 'expanded' : 'unexpanded'}`}>
@@ -41,7 +43,9 @@ export default ({ name, id, isExpanded }) => {
       Object.keys(sets[sqon.content.value].sqon).length !== 0
       ? {
           pathname: '/',
-          search: stringify({ sqon: JSON.stringify(sets[sqon.content.value].sqon) }),
+          search: stringify({
+            sqon: JSON.stringify(filterExpanded(sets[sqon.content.value].sqon)),
+          }),
         }
       : '/';
   };
@@ -54,7 +58,7 @@ export default ({ name, id, isExpanded }) => {
             <h2 className="model-bar__heading">
               Model: <strong>{name}</strong>
             </h2>
-            {/* <ExpandedPill isExpanded={isExpanded} /> */}
+            <ExpandedPill isExpanded={isExpanded} />
           </div>
 
           <div className="model-bar__group">
