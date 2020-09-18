@@ -53,9 +53,10 @@ const DependentFieldValuesGroup = ({
             <AddFieldForm onSubmit={e => add(e, newFieldValue, fieldKey)}>
               <AddFieldInput
                 type="text"
-                id="new-field"
-                name="new-field"
+                id="new-dependent-field"
+                name="new-dependent-field"
                 placeholder="Add a new value..."
+                aria-label="Add a new value..."
                 value={newFieldValue}
                 onChange={e => {
                   e.preventDefault();

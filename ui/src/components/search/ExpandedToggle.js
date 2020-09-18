@@ -25,21 +25,23 @@ const ExpandedToggle = ({ sqon }) => {
   return (
     <>
       <Toggle
+        aria-labelledby={`expanded-toggle-label`}
         disabled={numUnexpanded === 0}
         id="expanded-toggle"
         initialValue={showUnexpanded}
         onValueChange={() => setShowUnexpanded(!showUnexpanded)}
       />
       <label
+        id="expanded-toggle-label"
         htmlFor="expanded-toggle"
         css={`
           font-size: 12px;
           margin-left: 5px;
-          min-width: 166px;
+          min-width: 180px;
           text-align: right;
         `}
       >
-        {showUnexpanded ? 'Hide' : 'Show'}{' '}
+        {showUnexpanded ? 'Exclude' : 'Include'}{' '}
         {`${numUnexpanded} unexpanded model${numUnexpanded !== 1 ? 's' : ''}`}
       </label>
       <Popup

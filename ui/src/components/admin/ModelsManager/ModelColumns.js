@@ -138,7 +138,7 @@ const modelManagerCustomColumns = [
           <Popup
             trigger={
               <div>
-                <ActionPill secondary>
+                <ActionPill aria-label="More options" secondary>
                   <MoreOptionsIcon css={'margin: 0;'} />
                 </ActionPill>
               </div>

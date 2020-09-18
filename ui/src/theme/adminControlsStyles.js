@@ -17,9 +17,10 @@ const {
     lightPorcelain,
     mystic,
     pelorousapprox,
-    redDamask,
     sienna,
+    tiaMaria,
     texasRose,
+    trout,
     white,
   },
 } = base;
@@ -29,8 +30,9 @@ const pillBlueHighlight = pelorousapprox;
 const pillPrimary = texasRose;
 const pillPrimaryHighlight = goldenGlow;
 const pillDisabled = deepIron;
-const pillOrange = redDamask;
-const pillGrey = bombay;
+const pillOrange = tiaMaria;
+const pillGrey = trout;
+const pillGreyHighlight = bombay;
 
 const actionsMenuHighlight = lightBlack;
 const actionsMenuHover = mystic;
@@ -61,7 +63,7 @@ const pillBackgroundColour = ({ primary, warning, secondary, disabled, info }) =
     case !!info:
       return { base: pillGrey, hover: frenchGrey };
     default:
-      return { base: pillBlueHighlight, hover: pillBlue };
+      return { base: pillBlue, hover: pillBlueHighlight };
   }
 };
 
@@ -74,11 +76,11 @@ const pillBorderColour = ({ primary, warning, secondary, disabled, info }) => {
     case !!warning:
       return pillOrange;
     case !!secondary:
-      return pillGrey;
+      return pillGreyHighlight;
     case !!info:
       return pillGrey;
     default:
-      return pillBlueHighlight;
+      return pillBlue;
   }
 };
 

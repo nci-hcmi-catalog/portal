@@ -176,19 +176,20 @@ const MolecularCharacterizationsTable = ({ characterizations }) => {
   );
 };
 
-const ExternalResourceLink = ({ url, children }) => (
-  <ExternalLinkPill
-    primary
-    className={`external-resources__link ${!url && 'external-resources__link--disabled'}`}
-    href={url}
-    role={!url ? 'button' : null}
-    disabled={!url}
-    target="_blank"
-    rel="noopener noreferrer"
-  >
-    {children}
-  </ExternalLinkPill>
-);
+const ExternalResourceLink = ({ url, children }) =>
+  url ? (
+    <ExternalLinkPill
+      primary
+      className={`external-resources__link ${!url && 'external-resources__link--disabled'}`}
+      href={url}
+      role={!url ? 'button' : null}
+      disabled={!url}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {children}
+    </ExternalLinkPill>
+  ) : null;
 
 const ExternalResourcesContent = ({
   distributorPartNumber,
@@ -199,26 +200,55 @@ const ExternalResourcesContent = ({
   const sequencingFilesLink = sourceSequenceUrl !== 'N/A' ? sourceSequenceUrl : null;
   const modelSourceLink = sourceModelUrl !== 'N/A' ? sourceModelUrl : null;
   const somaticMafLink = somaticMafUrl !== 'N/A' ? somaticMafUrl : null;
+  const distributorLinkUrl = distributorPartNumber ? distributorLink(distributorPartNumber) : null;
 
   return (
     <div className="external-resources">
-      <ExternalResourceLink url={sequencingFilesLink}>
-        <ExternalLinkIcon />
-        Sequencing Files
-      </ExternalResourceLink>
-      <ExternalResourceLink url={modelSourceLink}>
-        <ExternalLinkIcon />
-        Model Source
-      </ExternalResourceLink>
-      <ExternalResourceLink url={somaticMafLink}>
-        <ExternalLinkIcon />
-        Masked Somatic MAF
-      </ExternalResourceLink>
-      {distributorPartNumber && (
-        <ExternalResourceLink url={distributorLink(distributorPartNumber)}>
-          <ShoppingCartIcon />
-          Visit {distributorPartNumber} to Purchase
-        </ExternalResourceLink>
+      {!distributorPartNumber && !sequencingFilesLink && !modelSourceLink && !somaticMafLink ? (
+        <div className="model-details model-details--empty">
+          {/* Manually adding a circle around this icon for the empty state */}
+          <div
+            css={`
+              width: 30px;
+              height: 30px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border: 1px solid #b2b7c1;
+              border-radius: 50%;
+              margin-right: 5px;
+            `}
+          >
+            <ExternalLinkIcon
+              fill={bombay}
+              width={'14px'}
+              height={'14px'}
+              css={`
+                margin: 0;
+              `}
+            />
+          </div>
+          <p className="model-details__empty-message">No external resources available.</p>
+        </div>
+      ) : (
+        <>
+          <ExternalResourceLink url={sequencingFilesLink}>
+            <ExternalLinkIcon />
+            Sequencing Files
+          </ExternalResourceLink>
+          <ExternalResourceLink url={modelSourceLink}>
+            <ExternalLinkIcon />
+            Model Source
+          </ExternalResourceLink>
+          <ExternalResourceLink url={somaticMafLink}>
+            <ExternalLinkIcon />
+            Masked Somatic MAF
+          </ExternalResourceLink>
+          <ExternalResourceLink url={distributorLinkUrl}>
+            <ShoppingCartIcon />
+            Visit {distributorPartNumber} to Purchase
+          </ExternalResourceLink>
+        </>
       )}
     </div>
   );
@@ -319,8 +349,8 @@ export default ({ modelName }) => (
                     </h3>
                     {modelImages && modelImages.length ? (
                       <ModelSlider
-                        LeftArrow={<LeftArrow />}
-                        RightArrow={<RightArrow />}
+                        LeftArrow={<LeftArrow aria-label="Previous image" />}
+                        RightArrow={<RightArrow aria-label="Next image" />}
                         autoSlide={false}
                         showDots={false}
                         cardsToShow={1}

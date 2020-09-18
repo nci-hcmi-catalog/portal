@@ -66,6 +66,7 @@ const DictionaryFieldValues = () => {
                 id="new-field"
                 name="new-field"
                 placeholder="Add a new value..."
+                aria-label="Add a new value..."
                 value={newFieldValue}
                 onChange={e => {
                   e.preventDefault();

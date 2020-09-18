@@ -416,9 +416,11 @@ const ModelFormTemplate = ({
                     placeholder="PDM-146"
                   />
                 </FormComponent>
-                <a href={`https://www.atcc.org/products/all/${values[distributor_part_number]}`}>
-                  {values[distributor_part_number]}
-                </a>
+                {values[distributor_part_number] && (
+                  <a href={`https://www.atcc.org/products/all/${values[distributor_part_number]}`}>
+                    {values[distributor_part_number]}
+                  </a>
+                )}
 
                 <FormComponent
                   labelText={source_model_url.displayName}
