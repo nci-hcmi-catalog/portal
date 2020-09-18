@@ -50,7 +50,7 @@ const deleteFromS3 = async id => {
 
   s3.deleteObject(params, (error, data) => {
     if (error) {
-      logger.error({ ...error, imageId: id }, `An error occured deleting object from S3`);
+      logger.error(error, `An error occured deleting object from S3. imageId: ${id}`);
       return {
         code: 400,
         msg: `image with id ${id} not found`,

@@ -25,7 +25,7 @@ data_sync_router.get('/sheets-data/:spreadsheetId/:sheetId', async (req, res) =>
     .then(authClient => getSheetData({ authClient, spreadsheetId, sheetId }))
     .then(data => res.json(data))
     .catch(error => {
-      logger.error({ ...error, sheetId }, 'Unexpected error occurred while reading Google Sheets');
+      logger.error(error, 'Unexpected error occurred while reading Google Sheets');
       res.status(500).json({
         message: `An unexpected error occurred while trying to read Google Sheet ID: ${sheetId}, ${error}`,
       });

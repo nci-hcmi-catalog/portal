@@ -39,10 +39,7 @@ actionRouter.delete('/:name', async (req, res) => {
       matchedModels,
     });
   } catch (error) {
-    logger.error(
-      { ...error, model: name },
-      'Unexpected error removing model from matched model set',
-    );
+    logger.error(error, `Unexpected error removing model ${name} from matched model set`);
     res.status(500).json({
       error: error.message,
     });
