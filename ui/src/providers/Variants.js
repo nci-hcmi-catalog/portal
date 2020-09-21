@@ -131,13 +131,14 @@ export const useVariants = () => {
           .filter(variant => !!variant.gene)
           .map(variant => {
             const entrez_link = `https://www.ncbi.nlm.nih.gov/gene/${variant.entrez_id}`;
-            const geneComponent = variant.entrez_id ? (
-              <a href={entrez_link} target="_blank" rel="noopener noreferrer">
-                {variant.gene}
-              </a>
-            ) : (
-              variant.gene
-            );
+            const geneComponent =
+              variant.entrez_id && variant.entrez_id !== '0' ? (
+                <a href={entrez_link} target="_blank" rel="noopener noreferrer">
+                  {variant.gene}
+                </a>
+              ) : (
+                variant.gene
+              );
 
             return {
               ...variant,
