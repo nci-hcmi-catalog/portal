@@ -29,6 +29,7 @@ const VariantExpression = new mongoose.Schema({
 
 const GeneMetadata = new mongoose.Schema({
   filename: { type: String, es_indexed: true },
+  file_id: { type: String, es_indexed: true },
   import_date: { type: Date, es_indexed: true },
 });
 
@@ -184,6 +185,7 @@ export const ModelSchema = new mongoose.Schema(
           if (doc.gene_metadata) {
             output.filename = doc.gene_metadata.filename;
             output.import_data = doc.gene_metadata.import_date;
+            output.file_id = doc.gene_metadata.file_id;
           }
           return output;
         },

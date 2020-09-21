@@ -63,11 +63,11 @@ const buildVariantId = ({
   }
 };
 
-export const addGenomicVariantsFromMaf = async (name, filename, mafData) => {
+export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileId }) => {
   const model = await Model.findOne({ name });
   if (model) {
     const genomicVariants = [];
-    const geneMeta = { filename, import_date: Date.now() };
+    const geneMeta = { filename, file_id: fileId, import_date: Date.now() };
 
     for (let i = 0; i < mafData.length; i++) {
       // For loop not forEach since we need async within this loop
@@ -132,6 +132,11 @@ export const addGenomicVariantsFromMaf = async (name, filename, mafData) => {
           { ensemble_id, model: name },
           'Unable to find gene in gene reference by Enseble ID',
         );
+        variant.gene = 'Unknown';
+        variant.gene_biotype = 'Unknown';
+        variant.gene_name = 'Unknown'; //row.Hugo_Symbol;
+        variant.synonyms = [];
+        variant.name = 'Unknown'; //row.Hugo_Symbol;
       }
 
       genomicVariants.push(variant);

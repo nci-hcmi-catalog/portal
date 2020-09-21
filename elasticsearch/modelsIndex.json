@@ -260,6 +260,7 @@
       "gene_metadata": {
         "properties": {
           "filename": { "type": "keyword" },
+          "file_id": { "type": "keyword" },
           "import_date": { "type": "date" },
           "genes": { "type": "keyword" },
           "genes_count": { "type": "long" },
