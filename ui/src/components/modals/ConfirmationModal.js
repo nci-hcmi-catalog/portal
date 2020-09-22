@@ -52,6 +52,7 @@ const ConfirmationModal = ({
 export default ({
   title,
   message,
+  confirmationRequired = true,
   confirmLabel,
   cancelLabel,
   onConfirm,
@@ -60,16 +61,21 @@ export default ({
   <ModalStateContext.Consumer>
     {modalState =>
       React.cloneElement(Component, {
-        onClick: () =>
-          modalState.setModalState({
-            component: (
-              <ConfirmationModal
-                {...{ title, message, confirmLabel, cancelLabel, onConfirm, onCancel }}
-              />
-            ),
-            shouldCloseOnOverlayClick: true,
-            styles: AdminModalStyleNarrow,
-          }),
+        onClick: () => {
+          if (confirmationRequired) {
+            modalState.setModalState({
+              component: (
+                <ConfirmationModal
+                  {...{ title, message, confirmLabel, cancelLabel, onConfirm, onCancel }}
+                />
+              ),
+              shouldCloseOnOverlayClick: true,
+              styles: AdminModalStyleNarrow,
+            });
+          } else {
+            onConfirm();
+          }
+        },
       })
     }
   </ModalStateContext.Consumer>

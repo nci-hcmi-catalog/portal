@@ -16,7 +16,8 @@ export default ({
 }) => {
   const [from, to] = [rowCount === 0 ? 0 : page * pageSize + 1, page * pageSize + pageSize];
   return (
-    <ToolbarMain>
+    <ToolbarMain type={type}>
+      {type === 'Variants' && <Filter onFilterValueChange={onFilterValueChange} />}
       <ToolbarSection>
         <ToolbarText
           css={`
@@ -27,7 +28,7 @@ export default ({
           {!isLoading &&
             `Showing ${from} - ${to <= rowCount ? to : rowCount} of ${rowCount} ${type}`}
         </ToolbarText>
-        <Filter onFilterValueChange={onFilterValueChange} />
+        {type !== 'Variants' && <Filter onFilterValueChange={onFilterValueChange} />}
       </ToolbarSection>
       {type === 'Models' && (
         <BulkActions

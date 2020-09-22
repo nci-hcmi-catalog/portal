@@ -25,6 +25,7 @@ const {
     lightPorcelain,
     linen,
     mischka,
+    pelorousapprox,
     sandyBeach,
     seaBuckthorn,
     tiaMaria,
@@ -44,6 +45,10 @@ export const inputWrapperStyle = css`
   &:hover {
     border-color: ${havelockBlue};
   }
+
+  &:focus-within {
+    box-shadow: 0 0 0 3px rgba(21, 156, 228, 0.4) !important;
+  }
 `;
 
 export const inputIconStyle = css`
@@ -58,6 +63,10 @@ export const inputStyle = css`
   font-weight: normal;
   color: ${trout};
   padding: 0;
+
+  &:focus {
+    box-shadow: none;
+  }
 `;
 
 export const inputButtonStyle = css`
@@ -654,16 +663,16 @@ export default css`
     font-size: 14px;
   }
 
-  .model-name-search-content-wrapper {
+  .search-sidebar-content-wrapper {
     padding: 4px 8px;
   }
 
-  .model-name-search-content .quick-search .inputWrapper,
+  .search-sidebar-content .quick-search .inputWrapper,
   .toolbar .inputWrapper {
     ${inputWrapperStyle};
   }
 
-  .model-name-search-content .quick-search .inputWrapper .inputIcon,
+  .search-sidebar-content .quick-search .inputWrapper .inputIcon,
   .search-results-wrapper .tableToolbar .group .inputWrapper .inputIcon,
   .toolbar .inputWrapper .inputIcon,
   .filter .inputWrapper .inputIcon {
@@ -675,7 +684,7 @@ export default css`
     height: 16px;
   }
 
-  .model-name-search-content .quick-search .inputWrapper input,
+  .search-sidebar-content .quick-search .inputWrapper input,
   .search-results-wrapper .tableToolbar .group .inputWrapper input,
   .toolbar .inputWrapper input {
     ${inputStyle}
@@ -743,7 +752,7 @@ export default css`
   .search-results-wrapper .tableToolbar {
     padding: 10px 0 8px;
     font-size: 12px;
-    align-items: flex-end;
+    align-items: center;
   }
 
   .search-results-wrapper .tableToolbar .group,
@@ -847,6 +856,10 @@ export const FooterNavItem = styled('li')`
   padding: 0 8px;
   border-right: 1px solid ${black};
 
+  &:first-child {
+    padding-left: 4px;
+  }
+
   &:last-child {
     padding-right: 0;
     border-right: none;
@@ -864,13 +877,40 @@ export const FooterImg = styled('img')`
 export const CopyrightText = styled('p')`
   margin: 0;
   padding: 0;
-  color: ${black}
+  color: ${black};
   font-family: ${openSans};
   font-size: 12px;
+  height: 16px;
 `;
 
 export const FooterLink = styled('a')`
   ${brandPrimaryHighlightHover};
   font-size: 12px;
   display: block;
+`;
+
+export const ToggleButton = styled('button')`
+  border-radius: 11px;
+  border: none;
+  width: 50px;
+  height: 23px;
+  position: relative;
+  cursor: pointer;
+  background-color: ${({ checked }) => (checked ? pelorousapprox : bombay)} !important;
+  transition: background-color 0.25s ease !important;
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)} !important;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 21px;
+    height: 21px;
+    background-color: ${white} !important;
+    border-radius: 100%;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    ${({ checked }) => checked && 'left: 28px;'};
+    transition: left 0.25s ease !important;
+  }
 `;

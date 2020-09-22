@@ -25,7 +25,7 @@ data_sync_router.get('/sheets-data/:spreadsheetId/:sheetId', async (req, res) =>
     .then(authClient => getSheetData({ authClient, spreadsheetId, sheetId }))
     .then(data => res.json(data))
     .catch(error => {
-      logger.error({ error, sheetId }, 'Unexpected error occurred while reading Google Sheets');
+      logger.error(error, 'Unexpected error occurred while reading Google Sheets');
       res.status(500).json({
         message: `An unexpected error occurred while trying to read Google Sheet ID: ${sheetId}, ${error}`,
       });
@@ -204,7 +204,7 @@ data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) =>
         });
     })
     .catch(error => {
-      logger.error({ error }, 'Unexpected error occured in bulk upload');
+      logger.error(error, 'Unexpected error occured in bulk upload');
       res.status(500).json({ error: error.details || 'Unknown error occurred.' });
     });
 });
@@ -396,7 +396,7 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId/:modelName', asyn
         });
     })
     .catch(error => {
-      logger.error({ error }, 'Unexpected error occurred during Sync Data');
+      logger.error(error, 'Unexpected error occurred during Sync Data');
       return res.status(500).json({ error: error instanceof Error ? error.message : error });
     });
 });

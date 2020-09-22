@@ -7,6 +7,7 @@ import { api } from '@arranger/components';
 
 import SparkMeter from 'components/SparkMeter';
 
+import { VARIANT_TYPES } from 'utils/constants';
 import globals from 'utils/globals';
 
 export const VariantsContext = React.createContext([{}, () => {}]);
@@ -14,6 +15,7 @@ export const VariantsContext = React.createContext([{}, () => {}]);
 export const VariantsProvider = props => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [geneMetadata, setGeneMetadata] = useState(null);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
@@ -23,6 +25,7 @@ export const VariantsProvider = props => {
       value={[
         [data, setData],
         [filteredData, setFilteredData],
+        [geneMetadata, setGeneMetadata],
         [loading, setLoading],
         [page, setPage],
         [pageSize, setPageSize],
@@ -37,6 +40,7 @@ export const useVariants = () => {
   const [
     [data, setData],
     [filteredData, setFilteredData],
+    [geneMetadata, setGeneMetadata],
     [loading, setLoading],
     [page, setPage],
     [pageSize, setPageSize],
@@ -45,6 +49,11 @@ export const useVariants = () => {
   const getData = () => {
     if (!data) return [];
     return data;
+  };
+
+  const getGeneMetadata = () => {
+    if (!geneMetadata) return null;
+    return geneMetadata;
   };
 
   const getFilteredData = () => {
@@ -67,7 +76,86 @@ export const useVariants = () => {
     return pageSize;
   };
 
+  const getGenomicVariants = async modelName => {
+    const variantsData = await api({
+      endpoint: `/${globals.VERSION}/graphql`,
+      body: {
+        query: `query($modelsSqon: JSON) {
+                    models {
+                      hits(filters: $modelsSqon, first: 1) {
+                        edges {
+                          node {
+                          name
+                            genomic_variants {
+                              hits {
+                                edges {
+                                  node {
+                                    gene
+                                    aa_change
+                                    transcript_id
+                                    consequence_type
+                                    class
+                                    chromosome
+                                    start_position
+                                    end_position
+                                    specific_change
+                                    classification
+                                    entrez_id
+                                    variant_id
+                                    name
+                                    type
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                `,
+        variables: {
+          modelsSqon: { op: 'in', content: { field: 'name', value: modelName } },
+        },
+      },
+    });
+
+    const data = get(
+      variantsData,
+      `data.models.hits.edges[0].node.genomic_variants.hits.edges`,
+      [],
+    ).map(({ node }) => node);
+
+    return data.length && data.length > 0
+      ? data
+          .filter(variant => !!variant.gene)
+          .map(variant => {
+            const entrez_link = `https://www.ncbi.nlm.nih.gov/gene/${variant.entrez_id}`;
+            const geneComponent =
+              variant.entrez_id && variant.entrez_id !== '0' ? (
+                <a href={entrez_link} target="_blank" rel="noopener noreferrer">
+                  {variant.gene}
+                </a>
+              ) : (
+                variant.gene
+              );
+
+            return {
+              ...variant,
+              gene: {
+                name: variant.gene,
+                display: geneComponent,
+              },
+            };
+          })
+      : [];
+  };
+
   const fetchData = async ({ modelName, type }) => {
+    if (type === VARIANT_TYPES.genomic) {
+      return getGenomicVariants(modelName);
+    }
+
     const variantsData = await api({
       endpoint: `/${globals.VERSION}/graphql`,
       body: {
@@ -206,6 +294,37 @@ export const useVariants = () => {
     return dataWithFreqs;
   };
 
+  const fetchGeneMetadata = async modelName => {
+    const geneMetadata = await api({
+      endpoint: `/${globals.VERSION}/graphql`,
+      body: {
+        query: `query($modelsSqon: JSON) {
+          models {
+            hits(filters: $modelsSqon, first: 1) {
+              edges {
+                node {
+                  name
+                  gene_metadata {
+                    filename
+                    import_date
+                  }
+                }
+              }
+            }
+          }
+        }`,
+        variables: {
+          modelsSqon: { op: 'in', content: { field: 'name', value: modelName } },
+        },
+      },
+    });
+
+    const data = get(geneMetadata, `data.models.hits.edges[0].node.gene_metadata`);
+    setGeneMetadata(data);
+
+    return data;
+  };
+
   const sortFilteredData = (a, b) => {
     if (!a || !a.frequency || !a.frequency.raw || !b || !b.frequency || !b.frequency.raw) {
       return false;
@@ -216,15 +335,18 @@ export const useVariants = () => {
   return {
     data: getData(),
     filteredData: getFilteredData(),
+    geneMetadata: getGeneMetadata(),
     loading: getLoading(),
     page: getPage(),
     pageSize: getPageSize(),
     setData,
     setFilteredData,
+    setGeneMetadata,
     setLoading,
     setPage,
     setPageSize,
     fetchData,
+    fetchGeneMetadata,
     sortFilteredData,
   };
 };

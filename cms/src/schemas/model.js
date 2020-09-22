@@ -1,5 +1,9 @@
 import mongoose from 'mongoose';
 import { modelStatus } from '../helpers/modelStatus';
+import { flatten, uniq } from 'lodash';
+
+import getLogger from '../logger';
+const logger = getLogger('schemas/model');
 
 // Used to remove values that are empty strings from document
 const deleteEmptyStrings = v => {
@@ -21,6 +25,33 @@ const VariantExpression = new mongoose.Schema({
   variant: { type: mongoose.Schema.Types.ObjectId, ref: 'Variant' },
   assessment_type: { type: String },
   expression_level: { type: String },
+});
+
+const GeneMetadata = new mongoose.Schema({
+  filename: { type: String, es_indexed: true },
+  file_id: { type: String, es_indexed: true },
+  import_date: { type: Date, es_indexed: true },
+});
+
+const GenomicVariant = new mongoose.Schema({
+  ensemble_id: { type: String },
+  gene: { type: String },
+  aa_change: { type: String },
+  name: { type: String },
+  type: { type: String },
+  transcript_id: { type: String },
+  consequence_type: { type: String },
+  class: { type: String },
+  gene_biotype: { type: String },
+  gene_name: { type: String },
+  chromosome: { type: String },
+  start_position: { type: String },
+  end_position: { type: String },
+  specific_change: { type: String },
+  classification: { type: String },
+  entrez_id: { type: String },
+  variant_id: { type: String },
+  synonyms: { type: [String] },
 });
 
 export const ModelSchema = new mongoose.Schema(
@@ -56,7 +87,12 @@ export const ModelSchema = new mongoose.Schema(
     somatic_maf_url: { type: String, es_indexed: true },
     expanded: { type: Boolean, es_indexed: true },
     files: { type: [FilesSchema], es_indexed: true },
-    variants: { type: [VariantExpression], es_indexed: false },
+    variants: { type: [VariantExpression], es_indexed: true },
+    genomic_variants: { type: [GenomicVariant], es_indexed: true },
+    gene_metadata: {
+      type: GeneMetadata,
+      es_indexed: true,
+    },
     matchedModels: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'MatchedModels',
@@ -98,8 +134,64 @@ export const ModelSchema = new mongoose.Schema(
             type: variant.variant.type,
           })),
       },
-      // This is definitely a trick. You need to manually
-      // add populatedMatches as an array of models that should be included as matched_models before calling esIndex()
+      genomic_variants: {
+        es_type: 'nested',
+        es_value: doc =>
+          doc.genomic_variants.map(variant => ({
+            gene: variant.gene,
+            aa_change: variant.aa_change,
+            type: variant.type,
+            transcript_id: variant.transcript_id,
+            consequence_type: variant.consequence_type,
+            class: variant.class,
+            gene_biotype: variant.gene_biotype,
+            chromosome: variant.chromosome,
+            start_position: variant.start_position,
+            end_position: variant.end_position,
+            specific_change: variant.specific_change,
+            classification: variant.classification,
+            ensemble_id: variant.ensemble_id,
+            synonyms: variant.synonyms,
+            entrez_id: variant.entrez_id,
+            variant_id: variant.variant_id,
+            name: `${variant.gene} ${variant.aa_change}`,
+          })),
+      },
+      gene_metadata: {
+        es_type: 'object',
+        es_value: doc => {
+          // Assemble list of genes from genomic_variants.gene and variants.variant.genes
+          const genomic_variant_genes = doc.genomic_variants.map(gv => gv.gene);
+          const variant_genes = flatten(doc.variants.map(wrapper => wrapper.variant.genes));
+          const genes = uniq([...genomic_variant_genes, ...variant_genes]);
+
+          // Get counts of the 4 categories shown on search table
+          const genes_count = genes.length;
+          const genomic_variant_count = doc.genomic_variants.length;
+          const clinical_variant_count = doc.variants.filter(
+            variant => variant.variant && variant.variant.type === 'Clinical',
+          ).length;
+          const histopathological_variant_count = doc.variants.filter(
+            variant => variant.variant && variant.variant.type === 'Histopathological Biomarker',
+          ).length;
+
+          const output = {
+            genes,
+            genes_count,
+            genomic_variant_count,
+            clinical_variant_count,
+            histopathological_variant_count,
+          };
+          if (doc.gene_metadata) {
+            output.filename = doc.gene_metadata.filename;
+            output.import_data = doc.gene_metadata.import_date;
+            output.file_id = doc.gene_metadata.file_id;
+          }
+          return output;
+        },
+      },
+      // The following matched_models work is definitely a trick. You need to add populatedMatches as
+      //   an array of models that should be included as matched_models before calling esIndex()
       matched_models: {
         es_type: 'nested',
         es_value: doc =>

@@ -67,6 +67,7 @@ export default () => (
                       <div className="model-list-drawer-header">
                         <Row alignItems="baseline">
                           <button
+                            aria-label={`Close Model List`}
                             onClick={() => modalState.setModalState({ component: null })}
                             css={`
                               border: none;
