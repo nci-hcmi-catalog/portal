@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
+import checkboxHOC from '@arranger/components/dist/DataTable/Table/checkboxHOC';
 
 import searchStyles from 'theme/searchStyles';
-import checkboxHOC from 'react-table/lib/hoc/selectTable';
 
 const EnhancedReactTable = checkboxHOC(ReactTable);
 
