@@ -264,7 +264,7 @@ export default ({ modelName }) => (
           : [],
       ),
     }) => (
-      <div css={styles}>
+      <main id="main" css={styles}>
         <ModelBar
           name={modelName}
           id={(queryState.model || { id: '' }).id}
@@ -458,7 +458,7 @@ export default ({ modelName }) => (
         )}
 
         <ModelCarouselBar name={modelName} className="model-carousel-bar--bottom" />
-      </div>
+      </main>
     )}
   </ModelQuery>
 );
