@@ -92,6 +92,12 @@ export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileI
       const reference_allele = row.Reference_Allele;
       const tumor_allele = row.Tumor_Seq_Allele2;
 
+      // Properties originally from Reference that are temporarily taken from MAF - Jon Eubank 2020-09-29
+      const gene = row.Hugo_Symbol;
+      const gene_biotype = titleCase(row.BIOTYPE.replace(/_/g, ' '), i => !i.includes('RNA'));
+      const name = `${row.Hugo_Symbol} ${aa_change}`;
+      const synonyms = [];
+
       const variant_id = buildVariantId({
         chromosome,
         type,
@@ -115,8 +121,16 @@ export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileI
         classification,
         entrez_id,
         variant_id,
+        gene,
+        gene_biotype,
+        synonyms,
+        name,
       };
 
+      /* This section is the original code for defining the genomic variant data using the Gene Reference library.
+       *   This is removed because it was learned that the latest gene reference version is ahead of the GDC data
+       *   that we are importing. GDC plans to update their Gene Reference to match, so in the future this can be used again.
+       *   
       const geneReference = await Gene.findOne({ _gene_id: ensemble_id });
       if (geneReference) {
         variant.gene = geneReference.symbol;
@@ -138,6 +152,7 @@ export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileI
         variant.synonyms = [];
         variant.name = 'Unknown'; //row.Hugo_Symbol;
       }
+      */
 
       genomicVariants.push(variant);
     }
