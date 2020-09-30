@@ -36,22 +36,27 @@ const getAllIndexedDocs = async index => {
 //   Additionally, to know which genes to remove we have to compare this list to the currently published list in the genes index on ES
 
 const updateVariantIndex = async desiredVariants => {
+  // TEMP: Remove all usage of variantIdMafOnly and just use variant_id once the gene reference is reimplemented - Jon Eubank 2020-09
+  const variantIdMafOnly = originalID => `${originalID}_MAF`;
   logger.debug({ desiredVariants }, 'List of Variants that should be published');
 
-  const variantIds = desiredVariants.map(v => v.variant.variant_id);
+  const variantIds = desiredVariants.map(v => variantIdMafOnly(v.variant.variant_id));
 
   // 1. get list of variants published in ES
   const variantsResponse = await getAllIndexedDocs(VARIANTS_INDEX);
 
-  const publishedVariants = variantsResponse.map(variant => variant._source.variant_id);
+  const publishedVariants = variantsResponse.map(variant => variant._id);
   logger.debug({ publishedVariants }, 'List of Variants currently published');
 
   // 2. find list of variants to unpublish and genes to publish
-  const removeVariants = publishedVariants.filter(variant => !variantIds.includes(variant));
+  const removeVariants = publishedVariants.filter(publishedID => !variantIds.includes(publishedID));
   logger.debug({ removeVariants }, 'Variants to unpublish');
 
+  // TEMP: Remove the second clause, where we filter out Unknown named variants, when we re-implement the gene reference - Jon Eubank 2020-09
   const addVariants = desiredVariants.filter(
-    v => !publishedVariants.includes(v.variant.variant_id),
+    v =>
+      !publishedVariants.includes(variantIdMafOnly(v.variant.variant_id)) &&
+      !v.variant.name.includes('Unknown'),
   );
   logger.debug({ addVariants }, 'Variants to publish');
 
@@ -72,7 +77,7 @@ const updateVariantIndex = async desiredVariants => {
         {
           index: {
             _index: VARIANTS_INDEX,
-            _id: v.variant.variant_id,
+            _id: variantIdMafOnly(v.variant.variant_id),
           },
         },
         doc,
