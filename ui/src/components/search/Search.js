@@ -31,7 +31,7 @@ import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
 import globals from 'utils/globals';
 import { filterExpanded, toggleExpanded } from 'utils/sqonHelpers';
 
-import searchStyles from 'theme/searchStyles';
+import searchStyles, { MainCol } from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
 
 let stable = true;
@@ -84,7 +84,8 @@ export default ({
               )}
             </Component>
           </Col>
-          <Col
+          <MainCol
+            id="main"
             className="search-results-wrapper"
             p={30}
             flex={1}
@@ -247,7 +248,7 @@ export default ({
               )}
             </Component>
             <LastUpdatedDate />
-          </Col>
+          </MainCol>
         </SplitPane>
       </Col>
     </>

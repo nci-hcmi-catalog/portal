@@ -17,7 +17,7 @@ export const AdminWrapper = styled(Col)`
 export const AdminMain = styled(Row)`
   background: ${bkgColour};
   label: admin-main;
-`;
+`.withComponent('main');
 
 export const AdminContainer = styled(Col)`
   position: relative;
