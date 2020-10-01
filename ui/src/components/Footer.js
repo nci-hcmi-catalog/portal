@@ -11,7 +11,7 @@ import {
 import { Col, Row } from 'theme/system';
 import nihPath from 'assets/logo-NIH-NCI.svg';
 import sangerPath from 'assets/logo-wellcome-sanger-institute.svg';
-import hubPath from 'assets/logo-hub-organoids.png';
+import hubPath from 'assets/logo-hub-organoids.svg';
 import cancerResearchUKPath from 'assets/logo-cancer-research-UK.svg';
 
 export default () => (
