@@ -35,13 +35,13 @@
   dependencies:
     xss "^1.0.6"
 
-"@arranger/admin@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@arranger/admin/-/admin-2.2.4.tgz#30d5bea196100a3d69c027cc5f7a558bf1cdf072"
-  integrity sha512-LChMMlMrWPp1yGTfzaTzNfyrNRy9TDr18aX0ggaJfCCgar+K1bE789EI2L9y/B1hQgdmHxnvd4vkJzSjU8RNpg==
+"@arranger/admin@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@arranger/admin/-/admin-2.2.5.tgz#c287880bbb6dc3cd0b7dbf5fd6f0d9e594e52736"
+  integrity sha512-EB1rNoLwl+8+73GG+LtqI7i2+HCYXJi5ldPB63+ue4X91IkoeKiehSmEztIEAy5VYOjCNTgxAJo7z2GoC9OY1Q==
   dependencies:
-    "@arranger/mapping-utils" "^2.2.4"
-    "@arranger/schema" "^2.2.4"
+    "@arranger/mapping-utils" "^2.2.5"
+    "@arranger/schema" "^2.2.5"
     "@elastic/elasticsearch" "7.5.0"
     apollo-link-http "^1.5.5"
     apollo-server "^2.1.0"
@@ -59,12 +59,12 @@
     ramda "^0.26.1"
     tslib "^1.10.0"
 
-"@arranger/components@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-2.2.4.tgz#06610fd4b708bd4faf5d44b21ef051ed02fa3f2b"
-  integrity sha512-EAeljI/JsTO9bEKi1WlR2+OIoss91IGQcmEabqaHAwDaPQawH8EwGhTYsxZwpeWdTPRU447z/c3P29Nxph3vGw==
+"@arranger/components@2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-2.2.5.tgz#31e85d45ed7235baa923625b3b0cb49b30e87742"
+  integrity sha512-HoMtWru6EY5Jo3RK4yI8XOIIEiVIxq2I5FQAmLTfe6NmSJTCleAORPaFZtyeHS21AfGm/pAAlBRB38/3oNlubw==
   dependencies:
-    "@arranger/mapping-utils" "^2.2.4"
+    "@arranger/mapping-utils" "^2.2.5"
     ajv "^6.1.1"
     babel-polyfill "^6.26.0"
     classnames "^2.2.5"
@@ -100,39 +100,41 @@
     url-parse "^1.2.0"
     uuid "^3.2.1"
 
-"@arranger/mapping-utils@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-2.2.4.tgz#be2b477c51d80b2cc10476e8b58086b77e567f5c"
-  integrity sha512-pzw6mr3dbKUJoe85gZyBKvAEzT9gGQobjbMzymWqTf5l6vJ0P7FBFPb1DYFzPIGS5JlUEv8v9T7f/Ttl8rT35g==
+"@arranger/mapping-utils@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-2.2.5.tgz#f8a5cf64b139a8f812de6884b34b35a18477b93c"
+  integrity sha512-EbnHsRswcWKnYSkRaNynm+vnybmnyi8VLjspklAUUhi1w1TYQOSchVbYMGXdmiPQnf9h30D0PCm4UoJI3kH5Fw==
   dependencies:
-    "@arranger/middleware" "^2.2.4"
+    "@arranger/middleware" "^2.2.5"
     babel-polyfill "^6.26.0"
     graphql-fields "^1.0.2"
     lodash "^4.17.15"
     node-fetch "^2.2.0"
     uuid "^3.2.1"
 
-"@arranger/middleware@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-2.2.4.tgz#7b349a7f8418de0648ce22edc2293d8901e4e059"
-  integrity sha512-8GkR0AdqqkO5fZoLMyh1AQYXOSogEV9/8k9v+WaeS13vV8sPCI0Ewd5wJpkDV81RyPh2DItQOsmiotr+jqz2EA==
+"@arranger/middleware@^2.2.5":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-2.4.0.tgz#591903eae4cbb221226bafdaddc3d72295a0ab27"
+  integrity sha512-eImgWcp/wWi6hQDrgo7JOkDhWJ39Hm6BicErG1jdxWiYcohAuCL5SZxkUIyVZVDXsh5f0NtWIbapVj3UGtdsjw==
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
     date-fns "^1.29.0"
     express "^4.16.3"
-    lodash "^4.17.15"
+    kind-of "^6.0.3"
+    lodash "^4.17.20"
+    minimist "^1.2.5"
     morgan "^1.9.0"
     utf8 "^3.0.0"
     winston "^2.4.0"
 
-"@arranger/schema@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@arranger/schema/-/schema-2.2.4.tgz#d6b2acb7eb82855b407e8351e5cc9f23f77c2201"
-  integrity sha512-vPM8zGNHLOLMbJ5wmOQhVk6Uw8PH/C6J03WwaUX+m6pqZ0LkACLiIZZW1EaKJX+JYWtV3EpMtdHbM1yTpCpymA==
+"@arranger/schema@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@arranger/schema/-/schema-2.2.5.tgz#2a2bfb029392ab18de28efda8a47bcc16b60d93a"
+  integrity sha512-MAdtqO0DzESStQMkUohwlYPBcWmq4CYEuUNM4CXDPRxUjjz+zyzYkSbqllKIIM0qCaKNGgImriWZenQEhPRlkQ==
   dependencies:
-    "@arranger/mapping-utils" "^2.2.4"
-    "@arranger/middleware" "^2.2.4"
+    "@arranger/mapping-utils" "^2.2.5"
+    "@arranger/middleware" "^2.2.5"
     babel-polyfill "^6.26.0"
     graphql-middleware "1.3.1"
     graphql-scalars "^0.1.5"
@@ -142,15 +144,15 @@
     paralleljs "^0.2.1"
     uuid "^3.2.1"
 
-"@arranger/server@2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-2.2.4.tgz#cf8bad548349c57428c9168c46853fbd3f502c7d"
-  integrity sha512-mRcUjh4fSFab4e5jIbjPuz0SW5qbGf2vxNS8kZ80plqAN3XuK9DP4NnKMcEsmUlvhzjnm1BgUSWsVWiSiik0Vw==
+"@arranger/server@2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-2.2.5.tgz#3eed5114dafbef17916825898fcd9244a514c894"
+  integrity sha512-EwdbFmO1x5njGfY2MXidbr80H6Qewh4qZNFDJNt8e8Zw1cAgH6QomaNCsZfiBWr3HryKFZ3bXv9JwapGuoGOeg==
   dependencies:
-    "@arranger/admin" "^2.2.4"
-    "@arranger/mapping-utils" "^2.2.4"
-    "@arranger/middleware" "^2.2.4"
-    "@arranger/schema" "^2.2.4"
+    "@arranger/admin" "^2.2.5"
+    "@arranger/mapping-utils" "^2.2.5"
+    "@arranger/middleware" "^2.2.5"
+    "@arranger/schema" "^2.2.5"
     "@elastic/elasticsearch" "^7.5.0"
     apollo-server-core "1.3.2"
     apollo-server-express "^2.1.0"
@@ -9453,7 +9455,7 @@ kind-of@^5.0.0:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-5.1.0.tgz#729c91e2d857b7a419a1f9aa65685c4c33f5845d"
   integrity sha512-NGEErnH6F2vUuXDh+OlbcKW7/wOcfdRHaZ7VWtqCztfHri/++YKmP51OdWeGPuqCOba6kk2OTe5d02VmTB80Pw==
 
-kind-of@^6.0.0, kind-of@^6.0.2:
+kind-of@^6.0.0, kind-of@^6.0.2, kind-of@^6.0.3:
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
   integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
@@ -9865,7 +9867,7 @@ lodash@4.17.11:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
 
-"lodash@>=3.5 <5", lodash@^4.14.0, lodash@^4.17.10, lodash@^4.17.12, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.3.0:
+"lodash@>=3.5 <5", lodash@^4.14.0, lodash@^4.17.10, lodash@^4.17.12, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.3.0:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
