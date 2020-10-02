@@ -8,6 +8,7 @@ import doubleChevron from 'assets/icon-chevron-double-down.svg';
 import base from 'theme';
 import { HEADER_HEIGHT } from 'theme/headerStyles';
 import { brandPrimaryHighlightHover, whiteButtonHover } from 'theme/hoverStyles';
+import { Col } from 'theme/system';
 
 const {
   fonts: { openSans },
@@ -835,7 +836,7 @@ export const Footer = styled('footer')`
   width: 100%;
   padding: 0 16px;
 
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 1300px) {
     min-height: 90px;
     flex-direction: column-reverse;
     justify-content: space-around;
@@ -914,3 +915,5 @@ export const ToggleButton = styled('button')`
     transition: left 0.25s ease !important;
   }
 `;
+
+export const MainCol = styled(Col)``.withComponent('main');

@@ -11,7 +11,7 @@ const TextInputWrapper = styled('div')`
 `;
 
 const RefArrangerTextInput = React.forwardRef((props, ref) => (
-  <ArrangerTextInput componentRef={ref} {...props} />
+  <ArrangerTextInput componentRef={ref} shouldAutoFocus={false} {...props} />
 ));
 
 const TextInput = styled(RefArrangerTextInput)`

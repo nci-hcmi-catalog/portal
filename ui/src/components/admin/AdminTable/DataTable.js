@@ -1,11 +1,9 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
+import EnhancedReactTable from '@arranger/components/dist/DataTable/Table/EnhancedReactTable';
 
 import searchStyles from 'theme/searchStyles';
-import checkboxHOC from 'react-table/lib/hoc/selectTable';
-
-const EnhancedReactTable = checkboxHOC(ReactTable);
 
 const defaultFilterFunc = (cellValue, filterValue) =>
   `${cellValue}`.toLowerCase().includes(filterValue.toLowerCase());
