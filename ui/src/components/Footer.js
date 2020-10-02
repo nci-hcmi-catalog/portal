@@ -71,7 +71,8 @@ export default () => (
           src={hubPath}
           alt="Hubrecht Organoid Technology"
           css={`
-            height: 41px;
+            max-height: 41px;
+            width: 200px;
           `}
         />
         <FooterImg
