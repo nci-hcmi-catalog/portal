@@ -13,11 +13,11 @@ export default ({ sqon, setSQON, ...props }) => (
     placeholder="e.g. BRAF, EWSR, ..."
     ResultsIcon={GeneIcon}
     optionTransformer={option => {
-      const details = [option.ensemble_id, option.name];
-      if (option.synonyms && option.synonyms.length > 0) {
-        details.push(option.synonyms.join(', '));
-      }
-
+      // const details = [option.ensemble_id, option.name];
+      // if (option.synonyms && option.synonyms.length > 0) {
+      //   details.push(option.synonyms.join(', '));
+      // }
+      const details = [option.ensemble_id];
       return { title: option.symbol, details, value: option.symbol };
     }}
     filterField="gene_metadata.genes"
