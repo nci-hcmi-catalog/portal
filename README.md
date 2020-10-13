@@ -1,10 +1,10 @@
-# HCMI Portal
+# HCMI Searchable Catalog. 
 
 This is a mono-repo containing the [HCMI Portal UI](ui), [CMS server](cms), and [Arranger API server](api).
 
 ## Development
 
-To work on this project, running the UI, CMS, and API on a local device, make sure your device has the listed dependencies and then follow the steps in the [Configuration](#Configuration), [Migrations](#Migrations), and [Quickstart](#Quickstart) sections.
+To work on this project, running the UI, CMS, and API on a local device, make sure your device has the dependencies listed below and then follow the steps in the [Configuration](#Configuration), [Migrations](#Migrations), and [Quickstart](#Quickstart) sections.
 
 ### Dependencies
 
