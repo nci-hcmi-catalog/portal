@@ -20,7 +20,7 @@ This project runs on **NodeJS 10** . Running this with more recent versions of N
 
 ### Environment Configuration
 
-All 3 of the HCMI applications require a `.env` file with configurable environment variables filled out before running the application. At the root level of each application (`/ui`, `/cms`, `/api`) there is a `.env.schema` file which lists the environment variables used in the application. Copy eacg schema file to the same location renamed `.env` and fill in the relevant details before running the quick start.
+All 3 of the HCMI applications require a `.env` file with configurable environment variables filled out before running the application. At the root level of each application (`/ui`, `/cms`, `/api`) there is a `.env.schema` file which lists the environment variables used in the application. Copy each schema file to the same location renamed `.env` and fill in the relevant details before running the quick start.
 
 #### Configuration for Scripts/PM2
 

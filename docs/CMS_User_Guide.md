@@ -33,8 +33,6 @@ NIH AD accounts are assigned and managed by NIH. New Content Administrators can 
 2. Enter your NIH credentials. If you are authenticated and registered as a Content Administrator you should be redirected to the [Model Management](#model-management) page and you can begin editing and adding content.
 3. If you are not authenticated, you will be taken to the following error page. Please check that your credentials are correct or that you are registered a Content Administrator.
 
-{{{IMAGE HERE}}}}
-
 ## [Model Management](#model-management)
 
 Content Administrators can add models, images and variants via the CMS. To enter models into the database, there are two different ways: as a [bulk upload](how-to-upload) of multiple models or [individually](#how-to-add-edit-models). Images and variants can be added on a per model basis through the [image uploader](#how-to-add-images) and [variant uploader](#how-to-add-variants).
@@ -71,10 +69,7 @@ Images are added to a model by using the image uploader on the Edit Model page.
 
 1. Find the correct model in the [model management table]() and click the "Edit" button in the far right column.
 2. Within the Edit Model Page for this model, click on the "Images" tab on to the left of the model details form.
-3. If there are no images for the model yet, you can drag and drop images on the box on the screen or click the browse button to search your computer for the files. Once a file is uploaded, it will autosave to the database.
-
-   > Note: Images will not be visible on the publish portal until the model is published.
-
+3. If there are no images for the model yet, you can drag and drop images on the box on the screen or click the browse button to search your computer for the files.
 4. If you are finished editing this model, publish it to the public catalog by clicking the "Publish" button above the form on the right.
 
 #### Deleting Images
@@ -170,6 +165,12 @@ In order to link your Google account:
 
 ## [Data Dictionary](#data-dictionary)
 
-The HCMI Searchable Catalog has a light-weight dictionary that identifies the properties and accepted types or values for required, preferred, and optional data elements. Administrative fields that the catalog uses that are not relevent to user use are not included in this data dictionary.
+HCMI Models have many properties that take values from a list of constant values. The lists of available values are defined in the HCMI data dictionary and can be updated in the CMS.
 
-The data dictionary can be found [here](https://github.com/nci-hcmi-catalog/portal/blob/master/docs/Data%20Dictionary.md).
+In the CMS, navigate to the Data Dictionary tab. The list on the left shows the fields which rely on this data dictionary. Select the field to edit and the list of available values will be shown. From this list, values can be updated, or new values can be added.
+
+When making changes to the data dictionary, changes will be saved as a draft immediately when made. At any point, your saved changes can be modified or new values removed. When your changes are ready to be used, click the "Publish All Updates" button to publish the drafted changes.
+
+After published data dictionary updates, new fields cannot be removed - however it is possible to edit the values.
+
+When a change to an existing value is published, all models that currently use that value will have their data updated to reflect the change. Those models will not be published immediately, instead they will be set to the "changes not yet published" state.
