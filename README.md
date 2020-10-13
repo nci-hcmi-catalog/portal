@@ -1,6 +1,7 @@
-# HCMI Searchable Catalog. 
+# HCMI Searchable Catalog
+The [HCMI Searchable Catalog ](https://hcmi-searchable-catalog.nci.nih.gov/) allows users to browse and identify potential next-generation cancer models for use in research. Links to available associated molecular characterization and clinical data at the National Cancer Institute’s (NCI) Genomic Data Commons (GDC), the European Genomephenome Archive (EGA), and the 3rd party HCMI Model Distributor will be available on each model page as the information is processed and validated.
 
-This is a mono-repo containing the [HCMI Portal UI](ui), [CMS server](cms), and [Arranger API server](api).
+This is a mono-repo containing the [HCMI Portal UI](ui), [CMS server](cms), and [Arranger Search API server](api) components.
 
 ## Development
 
