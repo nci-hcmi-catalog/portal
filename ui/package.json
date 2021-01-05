@@ -7,7 +7,7 @@
     "@hcmi-portal/cms": "0.0.1",
     "@nivo/bar": "^0.52.0",
     "@nivo/pie": "^0.52.0",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "babel-polyfill": "^6.26.0",
     "downshift": "^1.31.10",
     "emotion": "^9.0.2",
