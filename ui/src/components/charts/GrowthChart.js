@@ -92,7 +92,7 @@ export default ({ sqon, setSQON }) => (
                   data={[
                     data.find(({ id }) => id === '3-D') || { id: '3-D', value: 0 },
                     data.find(({ id }) => id === '2-D') || { id: '2-D', value: 0 },
-                    data.find(({ id }) => id !== '3-D' && id !== '2-D') || { id: 'Other', value: 0 },
+                    data.find(({ id }) => !['3-D','2-D'].includes(id)) || { id: 'Other', value: 0 },
                   ]}
                   colors={theme.growthChartPalette}
                   innerRadius={0.7}
