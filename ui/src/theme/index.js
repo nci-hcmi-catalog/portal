@@ -1,6 +1,6 @@
 import { css } from 'emotion';
 
-const [openSans, libreFranklin] = ['"Open Sans", sans-serif', '"Libre Franklin", sans-seif'];
+const [openSans, libreFranklin] = ['"Open Sans", sans-serif', '"Libre Franklin", sans-serif'];
 
 const palette = [
   '#790c2a', // 0   - cherry
@@ -19,7 +19,7 @@ const palette = [
   '#e1e5e7', // 13  - porcelain
 ];
 
-const growthChartPalette = ['#ef5350', '#80deea'];
+const growthChartPalette = ['#ef5350', '#80deea', '#3949ab'];
 
 const multipleModelsChartPalette = ['#d4e157', '#0277bd'];
 
