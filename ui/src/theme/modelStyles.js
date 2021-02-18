@@ -158,6 +158,13 @@ export default css`
       margin: 8px;
       border: 2px solid ${athensLightGray};
       min-height: 92px;
+
+      &--callout {
+        background: ${athensGray};
+        padding: 16px;
+        font-size: 13px;
+        font-weight: normal;
+      }
     }
 
     &__card-title {
@@ -172,6 +179,25 @@ export default css`
       text-transform: uppercase;
       max-width: calc(100% - 32px);
       transform: translateY(-12px);
+    }
+
+    &__card-description {
+      &--with-image {
+        display: flex;
+      }
+    }
+
+    &__card-logo {
+      width: 63px;
+      height: 59px;
+    }
+
+    &__card-instruction {
+      font-weight: bold;
+    }
+
+    &__callout-button {
+      display: inline-block;
     }
   }
 
