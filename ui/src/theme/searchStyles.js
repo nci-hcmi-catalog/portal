@@ -763,7 +763,9 @@ export default css`
 
   .tableToolbar button,
   .toolbar button {
-    ${inputButtonStyle};
+    &:not(.multiSelectDropDownControlsButton) {
+      ${inputButtonStyle};
+    }
   }
 
   .tableToolbar .dropDownHeader,
@@ -775,7 +777,9 @@ export default css`
   .tableToolbar .dropDownHeader button,
   .tableToolbar .buttonWrapper button,
   .toolbar button {
-    ${inputDropdownButtonStyle};
+    &:not(.multiSelectDropDownControlsButton) {
+      ${inputDropdownButtonStyle};
+    }
   }
 
   .tableToolbar .dropDownButtonContent {

@@ -241,6 +241,7 @@ export default ({
                         })}
                         fieldTypesForFilter={['text', 'keyword', 'id']}
                         customHeaderContent={<ExpandedToggle sqon={filterExpanded(sqon)} />}
+                        enableDropDownControls={true}
                       />
                     );
                   }}
