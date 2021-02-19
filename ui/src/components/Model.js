@@ -8,6 +8,7 @@ import ModelBar from 'components/ModelBar';
 import ModelCarouselBar from 'components/ModelCarouselBar';
 import VariantTables from 'components/VariantTables';
 
+import AtccLogo from 'assets/atcc-logo.png';
 import CameraIcon from 'icons/CameraIcon';
 import CheckmarkIcon from 'icons/CheckmarkIcon';
 import ExternalLinkIcon from 'icons/ExternalLinkIcon';
@@ -343,6 +344,32 @@ export default ({ modelName }) => (
                 </Col>
 
                 <Col className="three-col">
+                  {!queryState.model.expanded && (
+                    <div className="model-section__card model-section__card--callout">
+                      <div className="model-section__card-description--with-image">
+                        This is an unexpanded model, which means it has passed sequencing validation
+                        quality control, but is not yet available for purchase.
+                        <img src={AtccLogo} className="model-section__card-logo" alt="ATCC Logo" />
+                      </div>
+                      <div>
+                        <p className="model-section__card-instruction">
+                          If you would like to have this model prioritized for development:
+                        </p>
+                        <ExternalLinkPill
+                          primary
+                          className="model-section__callout-button"
+                          href={
+                            'http://go.atcc.org/HCMIModels?utm_medium=eloqua_landing_page&utm_source=nci&utm_campaign=hcmi_organoid&utm_content=request_additonal_organoids'
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <ExternalLinkIcon />
+                          Visit ATCC to Express Interest
+                        </ExternalLinkPill>
+                      </div>
+                    </div>
+                  )}
                   <div className="model-section__card">
                     <h3 className="model-section__card-title">
                       Model Images ({(modelImages && modelImages.length) || '0'})
@@ -409,24 +436,25 @@ export default ({ modelName }) => (
                     <HorizontalTable
                       rawData={queryState.model}
                       extended={queryState.extended}
-                      fieldNames={[
-                        'updatedAt',
-                        'date_of_availability',
-                        'licensing_required',
-                        'createdAt',
-                      ]}
+                      fieldNames={
+                        queryState.model.expanded
+                          ? ['updatedAt', 'date_of_availability', 'licensing_required', 'createdAt']
+                          : ['updatedAt', 'createdAt']
+                      }
                     />
                   </div>
 
-                  <div className="model-section__card">
-                    <h3 className="model-section__card-title">External Resources</h3>
-                    <ExternalResourcesContent
-                      distributorPartNumber={get(queryState.model, 'distributor_part_number')}
-                      sourceModelUrl={get(queryState.model, 'source_model_url')}
-                      sourceSequenceUrl={get(queryState.model, 'source_sequence_url')}
-                      somaticMafUrl={get(queryState.model, 'somatic_maf_url')}
-                    />
-                  </div>
+                  {queryState.model.expanded && (
+                    <div className="model-section__card">
+                      <h3 className="model-section__card-title">External Resources</h3>
+                      <ExternalResourcesContent
+                        distributorPartNumber={get(queryState.model, 'distributor_part_number')}
+                        sourceModelUrl={get(queryState.model, 'source_model_url')}
+                        sourceSequenceUrl={get(queryState.model, 'source_sequence_url')}
+                        somaticMafUrl={get(queryState.model, 'somatic_maf_url')}
+                      />
+                    </div>
+                  )}
                 </Col>
               </Row>
             </section>
