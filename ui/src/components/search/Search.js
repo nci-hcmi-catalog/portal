@@ -147,10 +147,7 @@ export default ({
                       sqon={toggleExpanded(sqon, showUnexpanded)}
                       setSQON={setSQON}
                     />
-                    <GrowthChart
-                      sqon={toggleExpanded(sqon, showUnexpanded)}
-                      setSQON={setSQON}
-                    />
+                    <GrowthChart sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
                     <TopVariantsChart
                       sqon={toggleExpanded(sqon, showUnexpanded)}
                       setSQON={setSQON}
@@ -174,7 +171,7 @@ export default ({
                         sqon={toggleExpanded(sqon, showUnexpanded)}
                         setSQON={setSQON}
                         onSortedChange={sorted => setState({ sorted })}
-                        alwaysSorted={[{ field: 'name', order: 'asc' }]}
+                        // alwaysSorted={[{ field: 'name', order: 'asc' }]}
                         customTypes={{
                           entity: props => (
                             <TableEntity
@@ -244,6 +241,8 @@ export default ({
                         // TODO: uncomment to re-enable Expanded/Unexpanded toggle
                         // customHeaderContent={<ExpandedToggle sqon={filterExpanded(sqon)} />}
                         enableDropDownControls={true}
+                        sessionStorage={true}
+                        storageKey="hcmisearch"
                       />
                     );
                   }}
