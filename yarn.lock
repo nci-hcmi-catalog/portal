@@ -59,12 +59,12 @@
     ramda "^0.26.1"
     tslib "^1.10.0"
 
-"@arranger/components@2.10.0":
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-2.10.0.tgz#551e388e5b62b50f1f954b908ce66779221be92d"
-  integrity sha512-l+fbA5JoDeGDnashydhAiAzH5hu6d0JbOBDN7Kf3zuR/V9duzrIKdpksCRCZW3RO8TlqFoUoyBIFYv9r4VlOWw==
+"@arranger/components@2.11.0":
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-2.11.0.tgz#d8597a08d7a06db6d9f1e3442f4d7643c7419311"
+  integrity sha512-sFTFs9JL7oMvCM0EN71lcEZVhs01CeU/IdoGjHBLRwR03IgdMIGYQbL6VZfbV0YGKQLna9GGqaror0WgxNfrCQ==
   dependencies:
-    "@arranger/mapping-utils" "^2.10.0"
+    "@arranger/mapping-utils" "^2.11.0"
     ajv "^6.1.1"
     babel-polyfill "^6.26.0"
     classnames "^2.2.5"
@@ -103,12 +103,12 @@
     url-parse "^1.2.0"
     uuid "^3.2.1"
 
-"@arranger/mapping-utils@^2.10.0":
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-2.10.0.tgz#0cb6fecabe243a97310b0d3ee3db5c8d3fd6eeba"
-  integrity sha512-DvpIhb/SOKXg9o+6w4R+w54FECJJLzZmfxhJ8pvCxZ52nW5FbLZ9VWpm1fxVSzrdV4JXedMkL85YCvYB7Y96ug==
+"@arranger/mapping-utils@^2.11.0":
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-2.11.0.tgz#b495d1b54694d3af0af6b06bb869f6a59fe08bff"
+  integrity sha512-gWhV1vzkoIkpOgt7DBilOVd9lXBsaLvmGX1+jhLxFU2BkaHAfrAf5zgJIEQUaM55FTCVxXk6Qqxd1LN8wE0gwg==
   dependencies:
-    "@arranger/middleware" "^2.10.0"
+    "@arranger/middleware" "^2.11.0"
     babel-polyfill "^6.26.0"
     graphql-fields "^1.0.2"
     kind-of "^6.0.3"
@@ -129,10 +129,10 @@
     node-fetch "^2.2.0"
     uuid "^3.2.1"
 
-"@arranger/middleware@^2.10.0":
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-2.10.0.tgz#84848e7574bf80bce93f598c8a24e5dc2904b46c"
-  integrity sha512-RRm3T5xEsIiQtrp8llq/8g7xRG/Capt/k1gPfYOtJZlUNjEx3P/yy58XazzoXa7ZXh8j/iEsT3L8SJd62aQICA==
+"@arranger/middleware@^2.11.0":
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-2.11.0.tgz#672954e495b195465a1d64a204853bf892ea8f98"
+  integrity sha512-GSCV8uJcM0EZTR6TTgZjgOGFZEOLIuAHB3LdIMFrlQSSWUCQOU1myY1x0EaF9s3BnRccEapnka/f6zKd3E1cGg==
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
