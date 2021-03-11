@@ -91,11 +91,11 @@ const TableWithPagination = ({
 );
 
 const storageKeyTemplate = key => `datatable-${key}-pagesize`;
-const pageSizeChangeHandler = (externalHandler, key) => event => {
+const pageSizeChangeHandler = (externalHandler, key) => size => {
   if (key) {
-    window.sessionStorage.setItem(storageKeyTemplate(key), event); //alert(event);
+    window.sessionStorage.setItem(storageKeyTemplate(key), size);
   }
-  externalHandler(event);
+  externalHandler(size);
 };
 const pageSizeFromStorage = (onChangeHanlder, storageKey) => {
   if (storageKey) {
