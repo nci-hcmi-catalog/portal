@@ -3,6 +3,8 @@ import Model from '../schemas/model';
 
 import { clearGenomicVariants } from '../helpers/genomicVariants';
 import VariantImporter from '../services/gdc-importer/VariantImporter';
+import { GDC_MODEL_STATES } from '../services/gdc-importer/gdcConstants';
+import { getMafStatus } from '../services/gdc-importer/mafFiles';
 
 import getLogger from '../logger';
 const logger = getLogger('routes/genomicVariants');
@@ -70,6 +72,37 @@ variantsRouter.post('/import/:name', async (req, res) => {
     res.status(200).json({ success: true, startTime: importStatus.startTime });
   } catch (error) {
     logger.error(error, `Error occurred during genomic-variant import for model ${name}`);
+    res.status(500).json({
+      error: error,
+    });
+  }
+});
+
+variantsRouter.post('/check', async (req, res) => {
+  const { models } = req.body;
+
+  if (!Array.isArray(models) || models.length < 1) {
+    logger.error(
+      'GDC model status check failed due to a bad request. `models` must be an array of model names.',
+    );
+    return res.status(400).json({
+      error:
+        'GDC model status check failed due to a bad request. `models` must be an array of model names.',
+    });
+  }
+
+  let i;
+  try {
+    const results = Object.values(GDC_MODEL_STATES).reduce((o, key) => ({ ...o, [key]: [] }), {});
+    for (i = 0; i < models.length; i++) {
+      logger.debug(`Checking GDC state for model: ${models[i]}`);
+      const modelStatus = await getMafStatus(models[i]);
+      results[modelStatus.status].push(models[i]);
+    }
+
+    res.status(200).json({ success: true, results });
+  } catch (error) {
+    logger.error(error, `Error occurred while checking GDC state for model: ${models[i]}`);
     res.status(500).json({
       error: error,
     });

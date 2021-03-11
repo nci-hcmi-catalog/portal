@@ -6,49 +6,21 @@ import decompress from 'decompress';
 import zlib from 'zlib';
 import { get, flattenDeep, intersection, isEmpty } from 'lodash';
 
+import {
+  GDC_MODEL_STATES,
+  IMPORT_ERRORS,
+  GDC_NORMAL_SAMPLE_TYPES,
+  GDC_CANCER_MODEL_SAMPLE_TYPES,
+  GDC_GRAPHQL_BASE_URL,
+  FETCH_CASE_ID_QUERY,
+  FETCH_MODEL_FILE_DATA_QUERY,
+} from './gdcConstants';
+
 import getLogger from '../../logger';
 const logger = getLogger('services/gdc-importer/mafFiles');
 
-export const IMPORT_ERRORS = {
-  multipleMafs: 'MULTIPLE_MAFS',
-  noMafs: 'NO_MAFS',
-  modelNotFound: 'MODEL_NOT_FOUND',
-};
-
-const GDC_NORMAL_SAMPLE_TYPES = [
-  'Blood Derived Normal',
-  'Solid Tissue Normal',
-  'Bone Marrow Normal',
-  'Buccal Cell Normal',
-  'EBV Immortalized Normal',
-  'Mononuclear Cells from Bone Marrow Normal',
-  'Lymphoid Normal',
-  'Fibroblasts from Bone Marrow Normal',
-  'Tumor Adjacent Normal - Post Neo-adjuvant Therapy',
-];
-
-const GDC_CANCER_MODEL_SAMPLE_TYPES = [
-  'Expanded Next Generation Cancer Model',
-  'Next Generation Cancer Model',
-];
-
 const fetchCaseId = async name => {
-  const url = 'https://portal.gdc.cancer.gov/auth/api/v0/graphql/';
-  const query = `
-    query ($filter: FiltersArgument) {
-      repository {
-        cases {
-          hits(filters: $filter) {
-            edges {
-              node {
-                case_id
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
+  const query = FETCH_CASE_ID_QUERY;
   const variables = {
     filter: {
       op: 'and',
@@ -64,86 +36,13 @@ const fetchCaseId = async name => {
     },
   };
 
-  const response = await axios.post(url, { query, variables });
+  const response = await axios.post(GDC_GRAPHQL_BASE_URL, { query, variables });
 
   return get(response, 'data.data.repository.cases.hits.edges[0].node.case_id', '');
 };
 
 const fetchModelFileData = async name => {
-  const url = 'https://portal.gdc.cancer.gov/auth/api/v0/graphql/';
-  const query = `query ($filter: FiltersArgument) {
-        repository {
-          files {
-            hits(filters: $filter) {
-              total
-              edges {
-                node {
-                  file_id
-                  file_name
-                  associated_entities {
-                    hits {
-                      edges {
-                        node {
-                          entity_id
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-          cases {
-            hits(filters: $filter) {
-              total
-              edges {
-                node {
-                  case_id
-                  samples {
-                    hits {
-                      total
-                      edges {
-                        node {
-                          sample_type
-                          tissue_type
-                          portions {
-                            hits {
-                              total
-                              edges {
-                                node {
-                                  analytes {
-                                    hits {
-                                      total
-                                      edges {
-                                        node {
-                                          aliquots {
-                                            hits {
-                                              total
-                                              edges {
-                                                node {
-                                                  aliquot_id
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }`;
+  const query = FETCH_MODEL_FILE_DATA_QUERY;
   const variables = {
     filter: {
       op: 'and',
@@ -173,12 +72,10 @@ const fetchModelFileData = async name => {
     },
   };
 
-  const response = await axios.post(url, { query, variables });
-
-  const output = [];
+  const response = await axios.post(GDC_GRAPHQL_BASE_URL, { query, variables });
 
   const data = get(response, 'data.data.repository');
-  if (data) {
+  if (data && get(data, 'cases.hits.edges[0].node.case_id')) {
     const caseId = get(data, 'cases.hits.edges[0].node.case_id');
     const samples = get(data, 'cases.hits.edges[0].node.samples.hits.edges', []).map(sampleEdge => {
       const sampleType = get(sampleEdge, 'node.sample_type');
@@ -216,7 +113,10 @@ const fetchModelFileData = async name => {
     });
     logger.debug({ files }, 'Files found for model');
 
-    return { caseId, files };
+    return { caseId, files, success: true };
+  } else {
+    // Model not found
+    return { caseId: null, files: null, success: false };
   }
 };
 
@@ -227,9 +127,9 @@ export const findMafFileData = async name => {
     const targetFiles = modelFiles.filter(
       file =>
         !isEmpty(intersection(file.sampleTypes, GDC_NORMAL_SAMPLE_TYPES)) &&
-        !isEmpty(intersection(file.sampleTypes, GDC_CANCER_MODEL_SAMPLE_TYPES)),
+        !isEmpty(intersection(file.sampleTypes, Object.values(GDC_CANCER_MODEL_SAMPLE_TYPES))),
     );
-    logger.debug({ targetFiles }, 'Identified mathcing file(s)');
+    logger.debug({ targetFiles }, 'Identified matching file(s)');
     switch (targetFiles.length) {
       case 1:
         // Get Url
@@ -254,6 +154,69 @@ export const findMafFileData = async name => {
   } else {
     // No files found for this model.
     return { success: false, error: { code: IMPORT_ERRORS.modelNotFound } };
+  }
+};
+
+export const getMafStatus = async name => {
+  const fileDataResponse = await fetchModelFileData(name);
+
+  if (!fileDataResponse.success) {
+    // Model not found in GDC
+    return { status: GDC_MODEL_STATES.modelNotFound };
+  }
+
+  const modelFiles = fileDataResponse.files;
+  if (isEmpty(modelFiles)) {
+    // No MAF files found for this model
+    return { status: GDC_MODEL_STATES.noMafs };
+  }
+
+  const cancerModelFiles = modelFiles.filter(
+    file => !isEmpty(intersection(file.sampleTypes, Object.values(GDC_CANCER_MODEL_SAMPLE_TYPES))),
+  );
+  if (isEmpty(cancerModelFiles)) {
+    // No cancer models (NGCM/ENGCM) found for this model
+    return { status: GDC_MODEL_STATES.noMafs };
+  }
+
+  const { ngcmCount, engcmCount } = cancerModelFiles.reduce(
+    (totals, currentModelFile) => {
+      let currentNgcmCount = 0;
+      let currentEngcmCount = 0;
+      currentModelFile.sampleTypes.forEach(sampleType => {
+        switch (sampleType) {
+          case GDC_CANCER_MODEL_SAMPLE_TYPES.NGCM:
+            currentNgcmCount++;
+            break;
+          case GDC_CANCER_MODEL_SAMPLE_TYPES.ENGCM:
+            currentEngcmCount++;
+            break;
+          default:
+            break;
+        }
+      });
+      return {
+        ngcmCount: totals.ngcmCount + currentNgcmCount,
+        engcmCount: totals.engcmCount + currentEngcmCount,
+      };
+    },
+    { ngcmCount: 0, engcmCount: 0 },
+  );
+
+  switch (ngcmCount) {
+    case 1:
+      // exactly one NGCM found, can import it for bulk, user must choose for single import
+      if (engcmCount > 0) {
+        return { status: GDC_MODEL_STATES.singleNgcmPlusEngcm };
+      } else {
+        return { status: GDC_MODEL_STATES.singleNgcm };
+      }
+    case 0:
+      // no NGCMs found, user must choose
+      return { status: GDC_MODEL_STATES.noNgcm };
+    default:
+      // multiple NGCMs found, user must choose
+      return { status: GDC_MODEL_STATES.multipleNgcm };
   }
 };
 
