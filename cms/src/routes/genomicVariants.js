@@ -1,4 +1,5 @@
 import express from 'express';
+import _ from 'lodash';
 import Model from '../schemas/model';
 
 import { clearGenomicVariants } from '../helpers/genomicVariants';
@@ -91,18 +92,40 @@ variantsRouter.post('/check', async (req, res) => {
     });
   }
 
-  let i;
   try {
     const results = Object.values(GDC_MODEL_STATES).reduce((o, key) => ({ ...o, [key]: [] }), {});
-    for (i = 0; i < models.length; i++) {
-      logger.debug(`Checking GDC state for model: ${models[i]}`);
-      const modelStatus = await getMafStatus(models[i]);
-      results[modelStatus.status].push(models[i]);
+    // GDC appears to have a rate limiter on GQL requests, so split into batches
+    // max. working batch size was found to be 100
+    // min. working delay between batches was found to be 500ms
+    const BATCH_SIZE = 100;
+    const BATCH_DELAY = 500;
+    const batches = _.chunk(models, BATCH_SIZE);
+
+    for (let i = 0; i < batches.length; i++) {
+      await new Promise(async (resolve, reject) => {
+        await Promise.all(
+          batches[i].map(async model => {
+            logger.debug(`Checking GDC state for model: ${model}`);
+            const modelStatus = await getMafStatus(model);
+            results[modelStatus.status].push(model);
+          }),
+        )
+          .then(_ => {
+            setTimeout(() => resolve(), batches.length > 1 ? BATCH_DELAY : 0);
+          })
+          .catch(error => {
+            logger.error(error, `Error occurred while checking GDC state for model batch ${i}`);
+            reject();
+            res.status(500).json({
+              error: error,
+            });
+          });
+      });
     }
 
     res.status(200).json({ success: true, results });
   } catch (error) {
-    logger.error(error, `Error occurred while checking GDC state for model: ${models[i]}`);
+    logger.error(error, `Error occurred while checking GDC state for model.`);
     res.status(500).json({
       error: error,
     });
