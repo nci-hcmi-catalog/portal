@@ -125,6 +125,7 @@ export default ({
               state,
               tableColumns: getUserTableColumns({ deleteUser, saveUser }),
               simpleTableWithPagination: true,
+              storageKey: 'cms-users',
               ...tableActions,
             }}
           />

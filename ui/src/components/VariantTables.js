@@ -33,7 +33,7 @@ const generateTsvFilename = (modelName, type) => {
   }
 };
 
-const VariantTable = React.memo(({ type, modelName, columns }) => {
+const VariantTable = React.memo(({ type, modelName, columns, storageKey }) => {
   const {
     data,
     geneMetadata,
@@ -57,6 +57,17 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
   const to = page * pageSize + pageSize;
   const sortedData = useMemo(() => filteredData.slice().sort((a, b) => sortFilteredData(a, b)));
 
+  const pageSizeStorageKey = `varianttable-${storageKey}-pagesize`;
+  const pageSizeChangeHandler = size => {
+    if (storageKey) {
+      window.sessionStorage.setItem(pageSizeStorageKey, size);
+    }
+    setPageSize(size);
+  };
+  const pageSizeFromStorage = () => {
+    return storageKey ? parseInt(window.sessionStorage.getItem(pageSizeStorageKey)) : undefined;
+  };
+
   useEffect(() => {
     // avoid fetching data twice on page load
     const getData = async () => {
@@ -74,7 +85,7 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
       }
 
       setPage(0);
-      setPageSize(10);
+      setPageSize(pageSizeFromStorage() || 20);
     };
 
     getData();
@@ -92,6 +103,7 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
       );
 
       setFilteredData(newFilteredData);
+
       setPageSize(newFilteredData.length > 10 ? 10 : newFilteredData.length);
     } else {
       didMountRef.current = true;
@@ -131,12 +143,20 @@ const VariantTable = React.memo(({ type, modelName, columns }) => {
           loading={loading}
           showPagination={sortedData.length > 10}
           defaultPageSize={pageSize}
+          pageSize={pageSize}
           minRows={0}
           page={page}
           PaginationComponent={props => {
             setPageSize(props.pageSize);
             setPage(props.page);
-            return <CustomPagination {...props} maxPagesOptions={10} />;
+            return (
+              <CustomPagination
+                {...props}
+                pageSize={pageSize}
+                onPageSizeChange={pageSizeChangeHandler}
+                maxPagesOptions={10}
+              />
+            );
           }}
           onPageChange={newPage => setPage(newPage)}
         />
@@ -174,6 +194,7 @@ const renderTable = (activeTab, modelName) => {
         <VariantTable
           modelName={modelName}
           type={VARIANT_TYPES.clinical}
+          storageKey="model-variants-clinical"
           columns={[
             {
               show: true,
@@ -223,6 +244,7 @@ const renderTable = (activeTab, modelName) => {
         <VariantTable
           modelName={modelName}
           type={VARIANT_TYPES.histopathological}
+          storageKey="model-variants-histo"
           columns={[
             {
               show: true,
@@ -282,6 +304,7 @@ const renderTable = (activeTab, modelName) => {
         <VariantTable
           modelName={modelName}
           type={VARIANT_TYPES.genomic}
+          storageKey="model-variants-genomic"
           columns={[
             {
               show: true,

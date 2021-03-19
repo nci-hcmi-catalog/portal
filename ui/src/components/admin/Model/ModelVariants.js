@@ -66,6 +66,7 @@ const TabView = ({
               toggleAll: variantTableControls.toggleAll,
               disablePagination: true,
               simpleTableWithPagination: true,
+              storageKey: 'cms-variants-clinical',
             }}
           />
         </Table>
@@ -117,6 +118,7 @@ const TabView = ({
                   tableColumns: genomicVariantTableColumns,
                   toggleSelection: genomicVariantTableControls.toggleSelection,
                   toggleAll: genomicVariantTableControls.toggleAll,
+                  storageKey: 'cms-variants-somatic',
                 }}
               />
             </>
