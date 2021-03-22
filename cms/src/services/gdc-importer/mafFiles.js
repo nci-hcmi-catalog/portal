@@ -14,6 +14,7 @@ import {
   GDC_GRAPHQL_BASE_URL,
   FETCH_CASE_ID_QUERY,
   FETCH_MODEL_FILE_DATA_QUERY,
+  FETCH_BATCH_MODEL_FILE_DATA_QUERY,
 } from './gdcConstants';
 
 import getLogger from '../../logger';
@@ -120,6 +121,118 @@ const fetchModelFileData = async name => {
   }
 };
 
+export const fetchBatchModelFileData = async modelNames => {
+  const query = FETCH_BATCH_MODEL_FILE_DATA_QUERY;
+  const variables = {
+    filter: {
+      op: 'and',
+      content: [
+        {
+          op: 'in',
+          content: {
+            field: 'cases.submitter_id',
+            value: [...modelNames],
+          },
+        },
+        {
+          op: 'in',
+          content: {
+            field: 'files.access',
+            value: ['open'],
+          },
+        },
+        {
+          op: 'in',
+          content: {
+            field: 'files.data_format',
+            value: ['maf'],
+          },
+        },
+      ],
+    },
+    size: 32767,
+  };
+
+  const response = await axios.post(GDC_GRAPHQL_BASE_URL, { query, variables });
+
+  const data = get(response, 'data.data.repository');
+  const cases = get(data, 'cases.hits.edges');
+  const results = modelNames.reduce((models, currentModelName) => {
+    models[currentModelName] = {
+      caseId: null,
+      files: null,
+      success: false,
+    };
+
+    return models;
+  }, {});
+
+  if (data && cases.length) {
+    for (let i = 0; i < cases.length; i++) {
+      const caseId = get(cases[i], 'node.case_id');
+      const modelName = get(cases[i], 'node.submitter_id');
+
+      const samples = get(cases[i], 'node.samples.hits.edges', []).map(sampleEdge => {
+        const sampleType = get(sampleEdge, 'node.sample_type');
+        const tissueType = get(sampleEdge, 'node.tissue_type');
+        // aliquots will be an array of two ids
+        const aliquots = flattenDeep(
+          get(sampleEdge, 'node.portions.hits.edges', []).map(portionEdge =>
+            get(portionEdge, 'node.analytes.hits.edges', []).map(analyteEdge =>
+              get(analyteEdge, 'node.aliquots.hits.edges', []).map(aliquot =>
+                get(aliquot, 'node.aliquot_id'),
+              ),
+            ),
+          ),
+        );
+        return { sampleType, tissueType, aliquots };
+      });
+
+      logger.debug({ caseId, samples }, `Case samples found for model ${modelName}`);
+
+      const files = get(data, 'files.hits.edges', [])
+        .filter(fileEdge => {
+          const entitySubmitterIds = get(fileEdge, 'node.associated_entities.hits.edges', []).map(
+            entityEdge => get(entityEdge, 'node.entity_submitter_id'),
+          );
+          return entitySubmitterIds.some(submitterId => submitterId.includes(modelName));
+        })
+        .map(fileEdge => {
+          const fileId = get(fileEdge, 'node.file_id');
+          const filename = get(fileEdge, 'node.file_name');
+          const entityIds = get(fileEdge, 'node.associated_entities.hits.edges', []).map(
+            entityEdge => get(entityEdge, 'node.entity_id'),
+          );
+
+          const entities = entityIds
+            .filter(entity => {
+              return samples.some(sample => sample.aliquots.includes(entity));
+            })
+            .map(entity => {
+              const matchingSample = samples.find(sample => sample.aliquots.includes(entity));
+              return {
+                entityId: entity,
+                sampleType: matchingSample.sampleType,
+                tissueType: matchingSample.tissueType,
+              };
+            });
+
+          return { fileId, filename, entities };
+        });
+
+      logger.debug({ files }, `Files found for model ${modelName}`);
+
+      results[modelName] = {
+        caseId,
+        files,
+        success: true,
+      };
+    }
+  }
+
+  return results;
+};
+
 export const findMafFileData = async name => {
   const fileDataResponse = await fetchModelFileData(name);
   const modelFiles = fileDataResponse.files;
@@ -157,34 +270,38 @@ export const findMafFileData = async name => {
   }
 };
 
-export const getMafStatus = async name => {
-  const fileDataResponse = await fetchModelFileData(name);
-
-  if (!fileDataResponse.success) {
+export const checkMafStatus = mafFileData => {
+  if (!mafFileData.success) {
     // Model not found in GDC
-    return { status: GDC_MODEL_STATES.modelNotFound };
+    return GDC_MODEL_STATES.modelNotFound;
   }
 
-  const modelFiles = fileDataResponse.files;
+  const modelFiles = mafFileData.files;
   if (isEmpty(modelFiles)) {
     // No MAF files found for this model
-    return { status: GDC_MODEL_STATES.noMafs };
+    return GDC_MODEL_STATES.noMafs;
   }
 
   const cancerModelFiles = modelFiles.filter(
-    file => !isEmpty(intersection(file.sampleTypes, Object.values(GDC_CANCER_MODEL_SAMPLE_TYPES))),
+    file =>
+      !isEmpty(
+        intersection(
+          file.entities.map(entity => entity.sampleType),
+          Object.values(GDC_CANCER_MODEL_SAMPLE_TYPES),
+        ),
+      ),
   );
   if (isEmpty(cancerModelFiles)) {
     // No cancer models (NGCM/ENGCM) found for this model
-    return { status: GDC_MODEL_STATES.noMafs };
+    return GDC_MODEL_STATES.noMafs;
   }
 
   const { ngcmCount, engcmCount } = cancerModelFiles.reduce(
     (totals, currentModelFile) => {
       let currentNgcmCount = 0;
       let currentEngcmCount = 0;
-      currentModelFile.sampleTypes.forEach(sampleType => {
-        switch (sampleType) {
+      currentModelFile.entities.forEach(entity => {
+        switch (entity.sampleType) {
           case GDC_CANCER_MODEL_SAMPLE_TYPES.NGCM:
             currentNgcmCount++;
             break;
@@ -207,16 +324,16 @@ export const getMafStatus = async name => {
     case 1:
       // exactly one NGCM found, can import it for bulk, user must choose for single import
       if (engcmCount > 0) {
-        return { status: GDC_MODEL_STATES.singleNgcmPlusEngcm };
+        return GDC_MODEL_STATES.singleNgcmPlusEngcm;
       } else {
-        return { status: GDC_MODEL_STATES.singleNgcm };
+        return GDC_MODEL_STATES.singleNgcm;
       }
     case 0:
-      // no NGCMs found, user must choose
-      return { status: GDC_MODEL_STATES.noNgcm };
+      // no NGCMs found, user must choose if they want ENGCM
+      return GDC_MODEL_STATES.noNgcm;
     default:
       // multiple NGCMs found, user must choose
-      return { status: GDC_MODEL_STATES.multipleNgcm };
+      return GDC_MODEL_STATES.multipleNgcm;
   }
 };
 

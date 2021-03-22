@@ -121,3 +121,79 @@ export const FETCH_MODEL_FILE_DATA_QUERY = `query ($filter: FiltersArgument) {
     }
   }
 }`;
+
+export const FETCH_BATCH_MODEL_FILE_DATA_QUERY = `query ($filter: FiltersArgument, $size: Int) {
+  repository {
+    files {
+      hits(filters: $filter, first: $size) {
+        total
+        edges {
+          node {
+            file_id
+            file_name
+            associated_entities {
+              hits {
+                edges {
+                  node {
+                    entity_id
+                    entity_submitter_id
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    cases {
+      hits(filters: $filter, first: $size) {
+        total
+        edges {
+          node {
+            case_id
+            submitter_id
+            samples {
+              hits {
+                total
+                edges {
+                  node {
+                    sample_type
+                    tissue_type
+                    portions {
+                      hits {
+                        total
+                        edges {
+                          node {
+                            analytes {
+                              hits {
+                                total
+                                edges {
+                                  node {
+                                    aliquots {
+                                      hits {
+                                        total
+                                        edges {
+                                          node {
+                                            aliquot_id
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;

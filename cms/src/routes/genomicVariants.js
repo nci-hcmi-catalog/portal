@@ -1,11 +1,10 @@
 import express from 'express';
-import _ from 'lodash';
 import Model from '../schemas/model';
 
 import { clearGenomicVariants } from '../helpers/genomicVariants';
 import VariantImporter from '../services/gdc-importer/VariantImporter';
 import { GDC_MODEL_STATES } from '../services/gdc-importer/gdcConstants';
-import { getMafStatus } from '../services/gdc-importer/mafFiles';
+import { fetchBatchModelFileData, checkMafStatus } from '../services/gdc-importer/mafFiles';
 
 import getLogger from '../logger';
 const logger = getLogger('routes/genomicVariants');
@@ -94,33 +93,15 @@ variantsRouter.post('/check', async (req, res) => {
 
   try {
     const results = Object.values(GDC_MODEL_STATES).reduce((o, key) => ({ ...o, [key]: [] }), {});
-    // GDC appears to have a rate limiter on GQL requests, so split into batches
-    // max. working batch size was found to be 100
-    // min. working delay between batches was found to be 500ms
-    const BATCH_SIZE = 100;
-    const BATCH_DELAY = 500;
-    const batches = _.chunk(models, BATCH_SIZE);
 
-    for (let i = 0; i < batches.length; i++) {
-      await new Promise(async (resolve, reject) => {
-        await Promise.all(
-          batches[i].map(async model => {
-            logger.debug(`Checking GDC state for model: ${model}`);
-            const modelStatus = await getMafStatus(model);
-            results[modelStatus.status].push(model);
-          }),
-        )
-          .then(_ => {
-            setTimeout(() => resolve(), batches.length > 1 ? BATCH_DELAY : 0);
-          })
-          .catch(error => {
-            logger.error(error, `Error occurred while checking GDC state for model batch ${i}`);
-            reject();
-            res.status(500).json({
-              error: error,
-            });
-          });
-      });
+    logger.debug(`Checking GDC state for models: ${models}`);
+    const modelsFileData = await fetchBatchModelFileData(models);
+    for (let i = 0; i < models.length; i++) {
+      const model = models[i];
+      const modelFileData = modelsFileData[model];
+      const mafStatus = checkMafStatus(modelFileData);
+
+      results[mafStatus].push(model);
     }
 
     res.status(200).json({ success: true, results });
