@@ -147,10 +147,7 @@ export default ({
                       sqon={toggleExpanded(sqon, showUnexpanded)}
                       setSQON={setSQON}
                     />
-                    <GrowthChart
-                      sqon={toggleExpanded(sqon, showUnexpanded)}
-                      setSQON={setSQON}
-                    />
+                    <GrowthChart sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
                     <TopVariantsChart
                       sqon={toggleExpanded(sqon, showUnexpanded)}
                       setSQON={setSQON}
@@ -244,6 +241,9 @@ export default ({
                         // TODO: uncomment to re-enable Expanded/Unexpanded toggle
                         // customHeaderContent={<ExpandedToggle sqon={filterExpanded(sqon)} />}
                         enableDropDownControls={true}
+                        sessionStorage={true}
+                        storageKey="hcmisearch"
+                        keepSelectedOnPageChange={true}
                       />
                     );
                   }}

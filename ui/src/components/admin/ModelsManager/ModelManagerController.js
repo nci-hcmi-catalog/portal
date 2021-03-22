@@ -114,7 +114,6 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
       <Component
         initialState={{
           minRows: 0,
-          pageSize: 20,
           scrollbarSize: {
             scrollbarWidth: 10,
           },

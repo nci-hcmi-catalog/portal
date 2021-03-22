@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactTable from 'react-table';
 import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
 import EnhancedReactTable from '@arranger/components/dist/DataTable/Table/EnhancedReactTable';
@@ -57,6 +57,7 @@ const TableWithPagination = ({
   onPageChange,
   onPageSizeChange,
   onSortedChange,
+  storageKey,
   ...props
 }) => (
   <TableComponent
@@ -80,7 +81,7 @@ const TableWithPagination = ({
             canNext: true,
             maxPagesOptions: 10,
             onPageChange: onPageChange,
-            onPageSizeChange: onPageSizeChange,
+            onPageSizeChange: pageSizeChangeHandler(onPageSizeChange, storageKey),
           }}
         />
       ),
@@ -89,20 +90,50 @@ const TableWithPagination = ({
   />
 );
 
-export default ({ simpleTableWithPagination, disablePagination, ...props }) => {
+const storageKeyTemplate = key => `datatable-${key}-pagesize`;
+const pageSizeChangeHandler = (externalHandler, key) => size => {
+  if (key) {
+    window.sessionStorage.setItem(storageKeyTemplate(key), size);
+  }
+  externalHandler(size);
+};
+const pageSizeFromStorage = (onChangeHanlder, storageKey) => {
+  if (storageKey) {
+    const storedPageSize = window.sessionStorage.getItem(storageKeyTemplate(storageKey));
+    if (storedPageSize) {
+      onChangeHanlder(parseInt(storedPageSize));
+    }
+  }
+};
+
+export default ({
+  simpleTableWithPagination,
+  disablePagination,
+  onPageSizeChange,
+  storageKey,
+  ...props
+}) => {
   let TableComponent = simpleTableWithPagination ? ReactTable : EnhancedReactTable;
+  useEffect(() => pageSizeFromStorage(onPageSizeChange, storageKey), []);
   return (
     <div css={searchStyles}>
       {disablePagination ? (
         <TableWithoutPagination {...{ TableComponent }} {...props} />
       ) : (
-        <TableWithPagination {...{ TableComponent }} {...props} />
+        <TableWithPagination {...{ TableComponent, onPageSizeChange, storageKey }} {...props} />
       )}
     </div>
   );
 };
 
-export const GenomicDataTable = ({ state, onPageChange, onPageSizeChange, ...props }) => {
+export const GenomicDataTable = ({
+  state,
+  onPageChange,
+  onPageSizeChange,
+  storageKey,
+  ...props
+}) => {
+  useEffect(() => pageSizeFromStorage(onPageSizeChange, storageKey), []);
   return (
     <div css={searchStyles}>
       <ReactTable
@@ -124,7 +155,7 @@ export const GenomicDataTable = ({ state, onPageChange, onPageSizeChange, ...pro
                 canNext: true,
                 maxPagesOptions: 10,
                 onPageChange: onPageChange,
-                onPageSizeChange: onPageSizeChange,
+                onPageSizeChange: pageSizeChangeHandler(onPageSizeChange, storageKey),
               }}
             />
           ),
