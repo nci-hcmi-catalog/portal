@@ -50,6 +50,7 @@ const TabView = ({
         <Table marginBottom="0" type={type}>
           <Toolbar
             {...{
+              paginated: false,
               state: variantTable,
               type,
               onFilterValueChange: variantTableControls.onFilterValueChange,
@@ -66,7 +67,6 @@ const TabView = ({
               toggleAll: variantTableControls.toggleAll,
               disablePagination: true,
               simpleTableWithPagination: true,
-              storageKey: 'cms-variants-clinical',
             }}
           />
         </Table>
