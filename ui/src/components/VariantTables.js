@@ -87,7 +87,6 @@ const VariantTable = React.memo(({ type, modelName, columns, storageKey }) => {
       setPage(0);
       setPageSize(pageSizeFromStorage() || 20);
     };
-
     getData();
   }, [type, modelName]);
 
