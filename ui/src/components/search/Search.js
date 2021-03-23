@@ -243,7 +243,6 @@ export default ({
                         enableDropDownControls={true}
                         sessionStorage={true}
                         storageKey="hcmisearch"
-                        keepSelectedOnPageChange={true}
                       />
                     );
                   }}
