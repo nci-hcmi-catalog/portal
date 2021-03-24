@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactTable from 'react-table';
 import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
 import EnhancedReactTable from '@arranger/components/dist/DataTable/Table/EnhancedReactTable';
@@ -53,15 +53,18 @@ const TableWithoutPagination = ({ TableComponent, ...props }) => (
 const TableWithPagination = ({
   TableComponent,
   state,
-  state: { rowCount, data },
+  state: { rowCount, data, pageSize },
   onPageChange,
   onPageSizeChange,
   onSortedChange,
   storageKey,
   ...props
 }) => {
-  const storedPageSize = pageSizeFromStorage(storageKey);
-  const pageSize = storedPageSize ? storedPageSize : state.pageSize;
+  useEffect(() => {
+    const storedPageSize = pageSizeFromStorage(storageKey);
+    const pageSize = storedPageSize ? parseInt(storedPageSize) : state.pageSize || 10;
+    onPageSizeChange(pageSize);
+  }, []);
   return (
     <TableComponent
       {...commonDataTableProps({ state, onSortedChange, ...props })}
@@ -132,7 +135,7 @@ export const GenomicDataTable = ({
   ...props
 }) => {
   const storedPageSize = pageSizeFromStorage(storageKey);
-  const pageSize = storedPageSize ? storedPageSize : state.pageSize;
+  const pageSize = storedPageSize ? parseInt(storedPageSize) : state.pageSize || 10;
   return (
     <div css={searchStyles}>
       <ReactTable
