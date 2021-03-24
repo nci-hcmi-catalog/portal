@@ -1,12 +1,7 @@
 {
   "type": "models",
   "keyField": "id",
-  "defaultSorted": [
-    {
-      "id": "age_at_sample_acquisition",
-      "desc": false
-    }
-  ],
+  "defaultSorted": [],
   "columns": [
     {
       "field": "name",

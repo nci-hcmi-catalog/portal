@@ -45,6 +45,7 @@ export const createModelUploadTemplate = async authClient => {
     'Histopathological Biomarkers',
     'Licensing Required',
     'Matched Model',
+    'Somatic MAF URL',
   ];
   // These should match the field names and the order of columnHeaders
   // If it starts with an _ that means it is a placeholder and is not going to be found in the dictionary
@@ -79,6 +80,7 @@ export const createModelUploadTemplate = async authClient => {
     '_tumorhistologicalgrade',
     'licensingRequired',
     '_matchedmodel',
+    'somatic_maf_url',
   ];
   const nonDictionaryModelFields = [
     { name: 'chemotherapeuticDrugs', values: [{ value: 'Yes' }, { value: 'No' }] },

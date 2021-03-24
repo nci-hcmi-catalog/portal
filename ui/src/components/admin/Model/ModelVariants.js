@@ -50,6 +50,7 @@ const TabView = ({
         <Table marginBottom="0" type={type}>
           <Toolbar
             {...{
+              paginated: false,
               state: variantTable,
               type,
               onFilterValueChange: variantTableControls.onFilterValueChange,
@@ -117,6 +118,7 @@ const TabView = ({
                   tableColumns: genomicVariantTableColumns,
                   toggleSelection: genomicVariantTableControls.toggleSelection,
                   toggleAll: genomicVariantTableControls.toggleAll,
+                  storageKey: 'cms-variants-somatic',
                 }}
               />
             </>

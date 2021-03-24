@@ -42,6 +42,7 @@ export default () => (
             onSortedChange,
             toggleSelection,
             toggleAll,
+            storageKey: 'cms-models',
           }}
         />
       </Col>
