@@ -25,7 +25,6 @@ class SelectedModelsProvider extends React.Component {
           state: this.state,
           storageKey: this.storageKey,
           setModels: modelIds => {
-            console.log('jondev', 'Provider.setModels', { modelIds });
             window.sessionStorage.setItem(this.storageKey, JSON.stringify(modelIds));
             this.setState({ modelIds });
           },
