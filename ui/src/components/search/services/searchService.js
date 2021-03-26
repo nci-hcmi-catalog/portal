@@ -47,7 +47,6 @@ export const searchModels = async inputValue => {
       query,
       variables,
     });
-    console.log(inputValue, response);
     return get(response, 'data.data.models.hits.edges', []).map(i => i.node);
   } catch (e) {
     return [];
