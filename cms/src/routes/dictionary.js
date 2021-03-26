@@ -224,7 +224,7 @@ draftRouter.post('/', async (req, res) => {
           values: [],
           dependentValues: [],
         };
-        parentValue.values.push(dependent);
+        parentValue.dependents.push(dependent);
       }
       if (DictionaryHelper.valueExists(dependent.values, value)) {
         res.status(400).json({ err: 'This value already exists in the specified field.' });
