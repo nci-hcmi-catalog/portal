@@ -263,7 +263,6 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
                             })
                             .catch(error => {
                               const data = error.response ? error.response.data : null;
-                              console.log(error, data);
                               showErrorImportNotification(name, data ? data.error : null);
                             });
                         },
