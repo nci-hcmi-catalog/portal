@@ -8,9 +8,14 @@ export const GDC_MODEL_STATES = {
 };
 
 export const IMPORT_ERRORS = {
-  multipleMafs: 'MULTIPLE_MAFS',
-  noMafs: 'NO_MAFS',
-  modelNotFound: 'MODEL_NOT_FOUND',
+  // No local model matching input modelName
+  noMatchingModel: 'NO_MATCHING_MODEL',
+  // Malformed input for request
+  badRequest: 'BAD_REQUEST',
+  // Async/communication error with GDC
+  gdcCommunicationError: 'GDC_COMMUNICATION_ERROR',
+  // Unexpected error
+  unexpected: 'UNEXPECTED',
 };
 
 export const GDC_NORMAL_SAMPLE_TYPES = [
@@ -48,81 +53,7 @@ query ($filter: FiltersArgument) {
 }
 `;
 
-export const FETCH_MODEL_FILE_DATA_QUERY = `query ($filter: FiltersArgument) {
-  repository {
-    files {
-      hits(filters: $filter) {
-        total
-        edges {
-          node {
-            file_id
-            file_name
-            associated_entities {
-              hits {
-                edges {
-                  node {
-                    entity_id
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    cases {
-      hits(filters: $filter) {
-        total
-        edges {
-          node {
-            case_id
-            samples {
-              hits {
-                total
-                edges {
-                  node {
-                    sample_type
-                    tissue_type
-                    portions {
-                      hits {
-                        total
-                        edges {
-                          node {
-                            analytes {
-                              hits {
-                                total
-                                edges {
-                                  node {
-                                    aliquots {
-                                      hits {
-                                        total
-                                        edges {
-                                          node {
-                                            aliquot_id
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}`;
-
-export const FETCH_BATCH_MODEL_FILE_DATA_QUERY = `query ($filter: FiltersArgument, $size: Int) {
+export const FETCH_MODEL_FILE_DATA_QUERY = `query ($filter: FiltersArgument, $size: Int) {
   repository {
     files {
       hits(filters: $filter, first: $size) {
@@ -159,6 +90,7 @@ export const FETCH_BATCH_MODEL_FILE_DATA_QUERY = `query ($filter: FiltersArgumen
                   node {
                     sample_type
                     tissue_type
+                    tumor_descriptor
                     portions {
                       hits {
                         total

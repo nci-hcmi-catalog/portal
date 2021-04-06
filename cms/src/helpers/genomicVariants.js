@@ -2,6 +2,7 @@ import Model from '../schemas/model';
 import { modelStatus } from '../helpers/modelStatus';
 import Gene from '../schemas/genes';
 import VariantImporter from '../services/gdc-importer/VariantImporter';
+import { GDC_MODEL_STATES, IMPORT_ERRORS } from '../services/gdc-importer/gdcConstants';
 
 import getLogger from '../logger';
 const logger = getLogger('helpers/genomicVariants');
@@ -11,7 +12,7 @@ export const clearGenomicVariants = async name => {
   try {
     await VariantImporter.stopImport(name);
   } catch (e) {
-    console.log(
+    logger.error(
       `Error while stopping a running GDC Variant import for ${name} - recording error but continuing to clear model variants.`,
       e,
     );
@@ -169,5 +170,24 @@ export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileI
   } else {
     logger.warn({ name }, 'Could not find model for genomic variant import');
     throw new Error('Model could not be found');
+  }
+};
+
+export const getGdcImportErrorMessage = (mafStatus, modelName) => {
+  switch (mafStatus) {
+    case GDC_MODEL_STATES.modelNotFound:
+      return `${modelName} was not found in GDC.`;
+    case GDC_MODEL_STATES.noMafs:
+      return `${modelName} was found in GDC, but no MAF files were found.`;
+    case GDC_MODEL_STATES.singleNgcmPlusEngcm:
+      return `${modelName} was found in GDC, but other unexpected MAF files were found.`;
+    case GDC_MODEL_STATES.multipleNgcm:
+      return `${modelName} was found in GDC, but more than one Next Generation Cancer Model MAF files were found.`;
+    case GDC_MODEL_STATES.noNgcm:
+      return `${modelName} was found in GDC, but only Expanded Next Generation Cancel Model MAF file(s) were found.`;
+    case IMPORT_ERRORS.noMatchingModel:
+      return `No local model found with matching name ${modelName}.`;
+    default:
+      return `${modelName} was found in GDC and a single Next Generation Cancer Model MAF file was found for it.`;
   }
 };
