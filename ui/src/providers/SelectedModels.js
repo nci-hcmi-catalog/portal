@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { xor } from 'lodash';
 
 export const SelectedModelsContext = React.createContext();
