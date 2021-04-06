@@ -59,37 +59,44 @@ const TableWithPagination = ({
   onSortedChange,
   storageKey,
   ...props
-}) => (
-  <TableComponent
-    {...commonDataTableProps({ state, onSortedChange, ...props })}
-    {...{
-      data: data,
-      showPagination: true,
-      defaultPageSize: pageSize,
-      pageSize: pageSize,
-      // there is no page property for the table. Table always displays single page of data coming from server
-      // paging component is responsible for keeping track of the page # (offset) of server data
-      PaginationComponent: () => (
-        <CustomPagination
-          {...state}
-          {...{
-            pages: Math.ceil(rowCount / pageSize),
-            showPageSizeOptions: true,
-            pageSizeOptions: [20, 50, 100],
-            showPageJump: rowCount > pageSize,
-            canPrevious: true,
-            canNext: true,
-            maxPagesOptions: 10,
-            onPageChange: onPageChange,
-            onPageSizeChange: pageSizeChangeHandler(onPageSizeChange, storageKey),
-          }}
-        />
-      ),
-      onPageChange: onPageChange,
-    }}
-  />
-);
-
+}) => {
+  useEffect(() => {
+    const storedPageSize = pageSizeFromStorage(storageKey);
+    const pageSize = storedPageSize ? parseInt(storedPageSize) : state.pageSize || 10;
+    onPageSizeChange(pageSize);
+  }, []);
+  return (
+    <TableComponent
+      {...commonDataTableProps({ state, onSortedChange, ...props })}
+      {...{
+        data: data,
+        showPagination: true,
+        defaultPageSize: pageSize,
+        pageSize,
+        // there is no page property for the table. Table always displays single page of data coming from server
+        // paging component is responsible for keeping track of the page # (offset) of server data
+        PaginationComponent: () => (
+          <CustomPagination
+            {...state}
+            {...{
+              pageSize,
+              pages: Math.ceil(rowCount / pageSize),
+              showPageSizeOptions: true,
+              pageSizeOptions: [10, 20, 50, 100],
+              showPageJump: rowCount > pageSize,
+              canPrevious: true,
+              canNext: true,
+              maxPagesOptions: 10,
+              onPageChange: onPageChange,
+              onPageSizeChange: pageSizeChangeHandler(onPageSizeChange, storageKey),
+            }}
+          />
+        ),
+        onPageChange: onPageChange,
+      }}
+    />
+  );
+};
 const storageKeyTemplate = key => `datatable-${key}-pagesize`;
 const pageSizeChangeHandler = (externalHandler, key) => size => {
   if (key) {
@@ -97,13 +104,8 @@ const pageSizeChangeHandler = (externalHandler, key) => size => {
   }
   externalHandler(size);
 };
-const pageSizeFromStorage = (onChangeHanlder, storageKey) => {
-  if (storageKey) {
-    const storedPageSize = window.sessionStorage.getItem(storageKeyTemplate(storageKey));
-    if (storedPageSize) {
-      onChangeHanlder(parseInt(storedPageSize));
-    }
-  }
+const pageSizeFromStorage = storageKey => {
+  return storageKey ? window.sessionStorage.getItem(storageKeyTemplate(storageKey)) : undefined;
 };
 
 export default ({
@@ -114,7 +116,6 @@ export default ({
   ...props
 }) => {
   let TableComponent = simpleTableWithPagination ? ReactTable : EnhancedReactTable;
-  useEffect(() => pageSizeFromStorage(onPageSizeChange, storageKey), []);
   return (
     <div css={searchStyles}>
       {disablePagination ? (
@@ -133,20 +134,22 @@ export const GenomicDataTable = ({
   storageKey,
   ...props
 }) => {
-  useEffect(() => pageSizeFromStorage(onPageSizeChange, storageKey), []);
+  const storedPageSize = pageSizeFromStorage(storageKey);
+  const pageSize = storedPageSize ? parseInt(storedPageSize) : state.pageSize || 10;
   return (
     <div css={searchStyles}>
       <ReactTable
         {...commonDataTableProps({ state, onSortedChange: state.onSortedChange, ...props })}
         {...{
           showPagination: true,
-          defaultPageSize: state.pageSize,
-          pageSize: state.pageSize,
+          defaultPageSize: 10,
+          pageSize,
           page: state.page,
           PaginationComponent: () => (
             <CustomPagination
               {...state}
               {...{
+                pageSize,
                 pages: Math.ceil(state.rowCount / state.pageSize),
                 showPageSizeOptions: true,
                 pageSizeOptions: [10, 20, 50, 100],

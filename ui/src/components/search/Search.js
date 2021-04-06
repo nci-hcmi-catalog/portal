@@ -159,14 +159,15 @@ export default ({
             <Component shouldUpdate={() => stable}>
               {() => (
                 <SelectedModelsContext.Consumer>
-                  {selected => {
+                  {selectedModelContext => {
                     return (
                       <Table
                         {...props}
                         showFilterInput={false}
-                        setSelectedTableRows={selectedRows => selected.setModels(selectedRows)}
-                        keepSelectedOnPageChange={true}
-                        selectedTableRows={selected.state.modelIds}
+                        setSelectedTableRows={selectedRows =>
+                          selectedModelContext.setModels(selectedRows)
+                        }
+                        selectedTableRows={selectedModelContext.state.modelIds}
                         loading={savedSetsContext.state.loading || props.loading}
                         sqon={toggleExpanded(sqon, showUnexpanded)}
                         setSQON={setSQON}
@@ -242,7 +243,7 @@ export default ({
                         // customHeaderContent={<ExpandedToggle sqon={filterExpanded(sqon)} />}
                         enableDropDownControls={true}
                         sessionStorage={true}
-                        storageKey="hcmisearch"
+                        storageKey={selectedModelContext.storageKey}
                       />
                     );
                   }}
