@@ -112,7 +112,7 @@ variantsRouter.post('/import/bulk', async (req, res) => {
       return res.status(400).json({ success: false, error: result.error });
     }
 
-    return res.status(200).json({ succes: true, startTime: result.startTime });
+    return res.status(200).json({ success: true, startTime: result.startTime });
   } catch (error) {
     logger.error(error, `Error occurred during bulk MAF import`);
     res.status(500).json({
