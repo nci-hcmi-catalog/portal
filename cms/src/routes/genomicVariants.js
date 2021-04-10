@@ -207,6 +207,32 @@ variantsRouter.get('/audit', async (req, res) => {
   }
 });
 
+variantsRouter.post('/audit', async (req, res) => {
+  const { models } = req.body;
+
+  try {
+    logger.debug(`Performing a genomic variant audit for select models...`);
+    let imported = [];
+    let clean = [];
+
+    for (let i = 0; i < models.length; i++) {
+      const model = await Model.findOne({ name: models[i] });
+      if (model.genomic_variants && model.genomic_variants.length) {
+        imported.push(models[i]);
+      } else {
+        clean.push(models[i]);
+      }
+    }
+
+    return res.status(200).json({ imported, clean });
+  } catch (error) {
+    logger.error(error, `Error occurred during genomic variant audit`);
+    res.status(500).json({
+      error: error,
+    });
+  }
+});
+
 variantsRouter.post('/acknowledge/bulk', async (req, res) => {
   const { models } = req.body;
 
