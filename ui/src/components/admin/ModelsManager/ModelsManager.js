@@ -16,6 +16,7 @@ import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 
 import config from '../config';
+import { BULK_UPLOAD_TYPES } from 'utils/constants';
 
 const content = () => {
   return (
@@ -36,7 +37,7 @@ const content = () => {
                         modalState.setModalState({
                           component: (
                             <BulkUploader
-                              type={'model'}
+                              type={BULK_UPLOAD_TYPES.MODEL}
                               onUpload={uploadModelsFromSheet}
                               backupURL={`${config.urls.cmsBase}/bulk/backup`}
                             />
