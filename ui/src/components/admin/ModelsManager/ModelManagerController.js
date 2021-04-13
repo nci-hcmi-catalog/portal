@@ -15,6 +15,8 @@ import { getPageData, getCountData } from '../helpers/fetchTableData';
 import { ModelTableColumns } from './ModelColumns';
 import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
 import { debounce } from 'lodash';
+import { importBulkGenomicVariants, checkGenomicVariants } from '../Model/actions/GenomicVariants';
+import { VARIANT_OVERWRITE_OPTIONS } from 'utils/constants';
 
 export const ModelManagerContext = React.createContext();
 
@@ -175,7 +177,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
           <ModelManagerContext.Provider
             value={{
               state,
-              uploadModelsFromSheet: async (sheetURL, overwrite) => {
+              uploadModelsFromSheet: async (sheetURL, overwrite, overwriteVariants) => {
                 // Set loading true (lock UI)
                 await setState({
                   isLoading: true,
@@ -205,6 +207,37 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                         bulkErrors: result.errors,
                         timeout: false, // do not auto-remove this notification
                       });
+                      let modelNames, importStartResponse;
+                      switch (overwriteVariants) {
+                        case VARIANT_OVERWRITE_OPTIONS.allModels:
+                          modelNames = [...result.new, ...result.updated, ...result.unchanged];
+                          importStartResponse = await importBulkGenomicVariants(modelNames);
+                          if (!importStartResponse.data.success) {
+                            await appendNotification({
+                              type: NOTIFICATION_TYPES.ERROR,
+                              message: 'Bulk Import of Research Somatic Variants Failed.',
+                              details: importStartResponse.data.error.message,
+                              timeout: false,
+                            });
+                          }
+                          break;
+                        case VARIANT_OVERWRITE_OPTIONS.cleanOnly:
+                          modelNames = [...result.new, ...result.updated, ...result.unchanged];
+                          const checkVariantsResponse = await checkGenomicVariants(modelNames);
+                          importStartResponse = await importBulkGenomicVariants(checkVariantsResponse.data.clean);
+                          if (!importStartResponse.data.success) {
+                            await appendNotification({
+                              type: NOTIFICATION_TYPES.ERROR,
+                              message: 'Bulk Import of Research Somatic Variants Failed.',
+                              details: importStartResponse.data.error.message,
+                              timeout: false,
+                            });
+                          }
+                          break;
+                        case VARIANT_OVERWRITE_OPTIONS.none:
+                        default:
+                          break;
+                      }
                     }),
                   )
                   .catch(async err => {

@@ -1,3 +1,13 @@
+const BULK_UPLOAD_TYPES = {
+  MODEL: 'model',
+  VARIANT: 'variant',
+};
+
+const BULK_UPLOAD_DISPLAY_TYPES = {
+  MODEL: 'model',
+  VARIANT: 'clinical variant',
+};
+
 const imgPath = '/api/data/images';
 
 const VARIANT_TYPES = {
@@ -13,4 +23,17 @@ const VARIANT_IMPORT_STATUS = {
   stopped: 'STOPPED',
 };
 
-export { imgPath, VARIANT_TYPES, VARIANT_IMPORT_STATUS };
+const VARIANT_OVERWRITE_OPTIONS = {
+  cleanOnly: 'CLEAN_ONLY',
+  allModels: 'ALL_MODELS',
+  none: 'NONE',
+};
+
+export {
+  BULK_UPLOAD_DISPLAY_TYPES,
+  BULK_UPLOAD_TYPES,
+  imgPath,
+  VARIANT_IMPORT_STATUS,
+  VARIANT_OVERWRITE_OPTIONS,
+  VARIANT_TYPES,
+};

@@ -26,7 +26,12 @@ import { Table, ToolbarHeader } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 
 import config from '../config';
-import { VARIANT_IMPORT_STATUS, VARIANT_TYPES } from 'utils/constants';
+import {
+  BULK_UPLOAD_TYPES,
+  BULK_UPLOAD_DISPLAY_TYPES,
+  VARIANT_IMPORT_STATUS,
+  VARIANT_TYPES,
+} from 'utils/constants';
 
 const TabView = ({
   activeTab,
@@ -235,8 +240,8 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
                           modalState.setModalState({
                             component: (
                               <BulkUploader
-                                type={'variant'}
-                                displayType={'clinical variant'}
+                                type={BULK_UPLOAD_TYPES.VARIANT}
+                                displayType={BULK_UPLOAD_DISPLAY_TYPES.VARIANT}
                                 onUpload={(sheetsURL, overwrite) =>
                                   attachVariants(sheetsURL, overwrite, name)
                                 }
