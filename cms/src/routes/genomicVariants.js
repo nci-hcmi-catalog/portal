@@ -112,7 +112,7 @@ variantsRouter.post('/import/bulk', async (req, res) => {
       return res.status(400).json({ success: false, error: result.error });
     }
 
-    return res.status(200).json({ succes: true, startTime: result.startTime });
+    return res.status(200).json({ success: true, startTime: result.startTime });
   } catch (error) {
     logger.error(error, `Error occurred during bulk MAF import`);
     res.status(500).json({
@@ -199,6 +199,32 @@ variantsRouter.get('/audit', async (req, res) => {
       imported: imported.map(i => i.name),
       clean: clean.map(i => i.name),
     });
+  } catch (error) {
+    logger.error(error, `Error occurred during genomic variant audit`);
+    res.status(500).json({
+      error: error,
+    });
+  }
+});
+
+variantsRouter.post('/audit', async (req, res) => {
+  const { models } = req.body;
+
+  try {
+    logger.debug(`Performing a genomic variant audit for select models...`);
+    let imported = [];
+    let clean = [];
+
+    for (let i = 0; i < models.length; i++) {
+      const model = await Model.findOne({ name: models[i] });
+      if (model.genomic_variants && model.genomic_variants.length) {
+        imported.push(models[i]);
+      } else {
+        clean.push(models[i]);
+      }
+    }
+
+    return res.status(200).json({ imported, clean });
   } catch (error) {
     logger.error(error, `Error occurred during genomic variant audit`);
     res.status(500).json({

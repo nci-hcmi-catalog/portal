@@ -57,6 +57,26 @@ export const importGenomicVariants = async modelName => {
   return post({ url });
 };
 
+export const importBulkGenomicVariants = async models => {
+  const url = `${GENOMIC_VARIANTS_URL}/import/bulk`;
+  return post({
+    url,
+    data: {
+      models
+    },
+  });
+};
+
+export const checkGenomicVariants = async models => {
+  const url = `${GENOMIC_VARIANTS_URL}/audit`;
+  return post({
+    url,
+    data: {
+      models
+    },
+  });
+}
+
 export const clearGenomicVariants = async modelName => {
   return new Promise(async (resolve, reject) => {
     const url = `${GENOMIC_VARIANTS_URL}/clear/${modelName}`;

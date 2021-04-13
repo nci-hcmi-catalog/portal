@@ -18,6 +18,12 @@ export const IMPORT_ERRORS = {
   unexpected: 'UNEXPECTED',
 };
 
+export const IMPORT_OVERWRITE_OPTIONS = {
+  cleanOnly: 'CLEAN_ONLY',
+  allModels: 'ALL_MODELS',
+  none: 'NONE',
+};
+
 export const GDC_NORMAL_SAMPLE_TYPES = [
   'Blood Derived Normal',
   'Solid Tissue Normal',
