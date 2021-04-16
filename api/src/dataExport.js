@@ -3,6 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { dataStream } from '@arranger/server/dist/download';
 import { getProject } from '@arranger/server/dist/utils/projects';
+import JSZip from 'jszip';
 import map from 'map-stream';
 
 import getLogger from './logger';
@@ -27,16 +28,55 @@ dataExportRouter.post('/:projectId/models', async (req, res) => {
       params: getParamsObj(params),
       fileType: 'tsv',
     });
-    const { fileName, outputContentType, fields } = getOutputDetails(params);
-    res.set('Content-Type', outputContentType);
-    res.set('Content-disposition', `attachment; filename=${fileName}`);
-    output
-      .pipe(
-        map((dataRow, cb) => {
-          logger.debug({ dataRow, cb }, 'Arranger Output Row');
-          cb(null, `${dataRow}`);
-        }),
-      )
+
+    const models = [];
+
+    const zip = new JSZip();
+    const modelsTsv = await new Promise((resolve, reject) => {
+      const tsvData = [];
+      let firstRow = true;
+      output
+        .pipe(
+          map((dataRow, cb) => {
+            // Add model to our list
+            if (firstRow) {
+              firstRow = false;
+            } else {
+              const modelId = dataRow.split('\t')[0];
+              models.push(modelId);
+            }
+
+            tsvData.push(dataRow);
+            cb(null, `${dataRow}`);
+          }),
+        )
+        .on('error', err => {
+          reject(err);
+        })
+        .on('end', () => {
+          resolve(tsvData.join());
+        });
+    }).catch(err => {
+      logger.error(`Error processing downlaod TSV data stream from arranger: ${err}`);
+      return res.status(500).send(err);
+    });
+    zip.file('model-table.tsv', modelsTsv);
+
+    models.forEach(modelId => {
+      // Get Clinical and Somatic variants for the model
+      // TODO: Get the variant TSVs instead of placeholder data
+      const clinicalVariants = `Clinical\tTSV\nPlaceholder\t${modelId}`;
+      const somaticVariants = `Somatic\tTSV\${modelId}\Placeholder`;
+      const modelFolder = zip.folder(modelId);
+      modelFolder.file(`clinical-${modelId}.tsv`, clinicalVariants);
+      modelFolder.file(`somatic-${modelId}.tsv`, somaticVariants);
+    });
+
+    // Return zipfile
+    res.set('Content-Type', 'application/zip');
+    res.set('Content-disposition', `attachment; filename=hcmi-models-export.zip`);
+    const zipfile = zip
+      .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
       .pipe(res)
       .on('error', err => {
         res.status(500).write(err);
@@ -54,20 +94,6 @@ dataExportRouter.post('/:projectId/models', async (req, res) => {
 const getParamsObj = params => {
   const paramsObj = JSON.parse(params);
   return paramsObj;
-};
-
-const getOutputDetails = params => {
-  // return details of the first file as HCMI needs to export only one file for download
-  const paramsObj = JSON.parse(params);
-  const fileDetails = (paramsObj.files || [])[0];
-  return fileDetails
-    ? {
-        fileName: fileDetails.fileName,
-        outputContentType: `text/${fileDetails.fileType}`,
-        fields: fileDetails.columns.filter(col => col.show).map(col => col.accessor),
-        fileType: fileDetails.fileType,
-      }
-    : {};
 };
 
 export default dataExportRouter;
