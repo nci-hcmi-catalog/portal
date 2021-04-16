@@ -118,6 +118,12 @@ export default css`
     border: 1px solid ${mischka};
   }
 
+  .ReactTable.-striped.audit-table .rt-table .rt-tbody {
+    min-height: 338px;
+    max-height: 338px;
+    overflow-y: scroll;
+  }
+
   .ReactTable .rt-table input[type='checkbox'] {
     cursor: pointer;
   }

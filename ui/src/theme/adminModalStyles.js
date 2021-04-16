@@ -9,7 +9,7 @@ import { Row } from 'theme/system';
 
 const {
   fonts: { openSans },
-  keyedPalette: { black, white, ironApprox, trout },
+  keyedPalette: { black, elm, white, ironApprox, trout },
 } = base;
 
 export const AdminModalStyle = css`
@@ -84,10 +84,27 @@ export const Content = styled('div')`
   label: admin-modal-content;
 `;
 
+export const SpinnerBlock = styled('div')`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+`;
+
 export const Footer = styled(Row)`
   justify-content: flex-end;
+  align-items: center;
   padding: 8px 0;
   margin: 0 30px;
   border-top: 1px solid ${ironApprox};
   label: admin-modal-footer;
+`;
+
+export const ConfirmationPrompt = styled('span')`
+  color: ${elm};
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.33;
+  margin-right: 10px;
 `;

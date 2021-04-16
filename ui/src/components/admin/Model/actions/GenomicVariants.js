@@ -67,6 +67,13 @@ export const importBulkGenomicVariants = async models => {
   });
 };
 
+export const auditGenomicVariants = async () => {
+  const url = `${GENOMIC_VARIANTS_URL}/audit`;
+  return get({
+    url,
+  });
+}
+
 export const checkGenomicVariants = async models => {
   const url = `${GENOMIC_VARIANTS_URL}/audit`;
   return post({

@@ -254,6 +254,17 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     });
                   });
               },
+              bulkImportVariants: async (modelNames) => {
+                const importStartResponse = await importBulkGenomicVariants(modelNames);
+                if (!importStartResponse.data.success) {
+                  await appendNotification({
+                    type: NOTIFICATION_TYPES.ERROR,
+                    message: 'Bulk Import of Research Somatic Variants Failed.',
+                    details: importStartResponse.data.error.message,
+                    timeout: false,
+                  });
+                }
+              },
               bulkPublish: bulkActionCreator({
                 action: 'publish',
                 baseUrl,
