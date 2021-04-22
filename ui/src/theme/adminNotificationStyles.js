@@ -6,10 +6,11 @@ import { NOTIFICATION_TYPES } from './../components/admin/Notifications';
 
 import base from 'theme';
 import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
+import { Col, Row } from 'theme/system';
 
 const {
   fonts: { openSans },
-  keyedPalette: { aquaSpring, black, cinderella, mauvelous, morningGlory, yellowOrange },
+  keyedPalette: { aquaSpring, black, bombay, cinderella, mauvelous, morningGlory, yellowOrange },
   transparency: { yellowOrange20 },
 } = base;
 
@@ -139,4 +140,20 @@ export const closeIcon = css`
   margin-right: 0;
   margin-left: auto;
   cursor: pointer;
+`;
+
+export const NotificationTableHeaderRow = styled(Row)`
+  border-bottom: 1px solid ${bombay};
+`;
+
+export const NotificationTableHeaderCol = styled(Col)`
+  width: 50%;
+
+  &:first-child {
+    border-right: 1px solid ${bombay};
+  }
+
+  &:last-child {
+    padding-left: 16px;
+  }
 `;
