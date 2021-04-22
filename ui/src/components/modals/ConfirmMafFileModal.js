@@ -99,18 +99,31 @@ const ConfirmMafFileModal = ({
       const entity = getCancerModelEntity(file.entities);
       return {
         selection: (
-          <input
-            type="radio"
-            id={`confirm-maf-${file.fileId}`}
-            value={file.fileId}
-            checked={fileSelection.fileId === file.fileId}
-            onChange={e => {
-              onFileSelectionChange(e.currentTarget.value);
+          <label
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
+              height: '100%',
+              cursor: 'pointer',
             }}
-            onClick={e => {
-              onFileSelectionChange(e.currentTarget.value);
-            }}
-          />
+            htmlFor={`confirm-maf-${file.fileId}`}
+            aria-label={`Select file ${file.filename}`}
+          >
+            <input
+              type="radio"
+              id={`confirm-maf-${file.fileId}`}
+              value={file.fileId}
+              checked={fileSelection.fileId === file.fileId}
+              onChange={e => {
+                onFileSelectionChange(e.currentTarget.value);
+              }}
+              onClick={e => {
+                onFileSelectionChange(e.currentTarget.value);
+              }}
+              style={{ cursor: 'pointer' }}
+            />
+          </label>
         ),
         filename: <MessageLink href={`${GDC_FILE_PAGE_URL_BASE}/${file.fileId}`} target="_blank" rel="noopener noreferrer">{file.filename}</MessageLink>,
         sampleType: entity.sampleType,
