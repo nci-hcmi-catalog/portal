@@ -19,17 +19,20 @@ export default ({ location }) => {
   const didMountRef = useRef(false);
   const {
     importNotifications,
+    importRunning,
     updateNotificationsFromStatus,
+    showImportStatusCheckError,
   } = useGenomicVariantImportNotifications();
 
   // Check for active genomic variant imports on page load
   useEffect(() => {
     const getActiveImports = async () => {
-      const activeImports = await checkImportStatus();
-
-      if (activeImports && activeImports.length > 0) {
-        updateNotificationsFromStatus(activeImports);
-      }
+      await checkImportStatus()
+        .then(importStatus => {
+          updateNotificationsFromStatus(importStatus);
+        }).catch(error => {
+          showImportStatusCheckError(error);
+        });
     };
 
     if (!didMountRef || !didMountRef.current) {
@@ -41,11 +44,14 @@ export default ({ location }) => {
   // Poll for status changes on any active imports
   useInterval(
     () => {
-      checkImportStatus().then(activeImports => {
-        updateNotificationsFromStatus(activeImports);
-      });
+      checkImportStatus()
+        .then(importStatus => {
+          updateNotificationsFromStatus(importStatus);
+        }).catch(error => {
+          showImportStatusCheckError(error);
+        });
     },
-    !isEmpty(importNotifications) ? 1000 : null,
+    importRunning || !isEmpty(importNotifications) ? 1000 : null,
   );
 
   return (

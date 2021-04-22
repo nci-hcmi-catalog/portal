@@ -3,7 +3,7 @@ import Spinner from 'react-spinkit';
 import ReactTable from 'react-table';
 import moment from 'moment-timezone';
 
-import { auditGenomicVariants } from 'components/admin/Model/actions/GenomicVariants';
+import { auditGenomicVariantsAllModels } from 'components/admin/Model/actions/GenomicVariants';
 import { ModalStateContext } from 'providers/ModalState';
 
 import DoubleConfirmationFooter from 'components/modals/DoubleConfirmationFooter';
@@ -67,7 +67,7 @@ const VariantAuditModal = ({ bulkImportVariants }) => {
   };
 
   const audit = async () => {
-    const response = await auditGenomicVariants();
+    const response = await auditGenomicVariantsAllModels();
 
     if (!response.error) {
       setImported(response.data.imported);

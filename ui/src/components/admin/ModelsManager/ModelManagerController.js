@@ -15,7 +15,7 @@ import { getPageData, getCountData } from '../helpers/fetchTableData';
 import { ModelTableColumns } from './ModelColumns';
 import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
 import { debounce } from 'lodash';
-import { importBulkGenomicVariants, checkGenomicVariants } from '../Model/actions/GenomicVariants';
+import { importBulkGenomicVariants, auditGenomicVariantsSpecificModels } from '../Model/actions/GenomicVariants';
 import { VARIANT_OVERWRITE_OPTIONS } from 'utils/constants';
 
 export const ModelManagerContext = React.createContext();
@@ -112,7 +112,7 @@ Model table state transitions for each action:
 */
 export default ({ baseUrl, cmsBase, children, ...props }) => (
   <NotificationsContext.Consumer>
-    {({ appendNotification }) => (
+    {({ appendNotification, importProgress, setImportProgress }) => (
       <Component
         initialState={{
           minRows: 0,
@@ -207,32 +207,48 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                         bulkErrors: result.errors,
                         timeout: false, // do not auto-remove this notification
                       });
-                      let modelNames, importStartResponse;
+                      let modelNames;
                       switch (overwriteVariants) {
                         case VARIANT_OVERWRITE_OPTIONS.allModels:
                           modelNames = [...result.new, ...result.updated, ...result.unchanged];
-                          importStartResponse = await importBulkGenomicVariants(modelNames);
-                          if (!importStartResponse.data.success) {
-                            await appendNotification({
-                              type: NOTIFICATION_TYPES.ERROR,
-                              message: 'Bulk Import of Research Somatic Variants Failed.',
-                              details: importStartResponse.data.error.message,
-                              timeout: false,
+                          await importBulkGenomicVariants(modelNames)
+                            .then(response => {
+                              if (response.data.success) {
+                                setImportProgress({
+                                  ...importProgress,
+                                  running: true,
+                                });
+                              }
+                            })
+                            .catch(async error => {
+                              await appendNotification({
+                                type: NOTIFICATION_TYPES.ERROR,
+                                message: error.response ? error.response.data.error.code : 'Bulk Import of Research Somatic Variants Failed.',
+                                details: error.response ? error.response.data.error.message : error.message,
+                                timeout: false,
+                              });
                             });
-                          }
                           break;
                         case VARIANT_OVERWRITE_OPTIONS.cleanOnly:
                           modelNames = [...result.new, ...result.updated, ...result.unchanged];
-                          const checkVariantsResponse = await checkGenomicVariants(modelNames);
-                          importStartResponse = await importBulkGenomicVariants(checkVariantsResponse.data.clean);
-                          if (!importStartResponse.data.success) {
-                            await appendNotification({
-                              type: NOTIFICATION_TYPES.ERROR,
-                              message: 'Bulk Import of Research Somatic Variants Failed.',
-                              details: importStartResponse.data.error.message,
-                              timeout: false,
+                          const checkVariantsResponse = await auditGenomicVariantsSpecificModels(modelNames);
+                          await importBulkGenomicVariants(checkVariantsResponse.data.clean)
+                            .then(response => {
+                              if (response.data.success) {
+                                setImportProgress({
+                                  ...importProgress,
+                                  running: true,
+                                });
+                              }
+                            })
+                            .catch(async error => {
+                              await appendNotification({
+                                type: NOTIFICATION_TYPES.ERROR,
+                                message: error.response ? error.response.data.error.code : 'Bulk Import of Research Somatic Variants Failed.',
+                                details: error.response ? error.response.data.error.message : error.message,
+                                timeout: false,
+                              });
                             });
-                          }
                           break;
                         case VARIANT_OVERWRITE_OPTIONS.none:
                         default:
@@ -255,15 +271,23 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                   });
               },
               bulkImportVariants: async (modelNames) => {
-                const importStartResponse = await importBulkGenomicVariants(modelNames);
-                if (!importStartResponse.data.success) {
-                  await appendNotification({
-                    type: NOTIFICATION_TYPES.ERROR,
-                    message: 'Bulk Import of Research Somatic Variants Failed.',
-                    details: importStartResponse.data.error.message,
-                    timeout: false,
+                return importBulkGenomicVariants(modelNames)
+                  .then(response => {
+                    if (response.data.success) {
+                      setImportProgress({
+                        ...importProgress,
+                        running: true,
+                      });
+                    }
+                  })
+                  .catch(async error => {
+                    await appendNotification({
+                      type: NOTIFICATION_TYPES.ERROR,
+                      message: error.response ? error.response.data.error.code : 'Bulk Import of Research Somatic Variants Failed.',
+                      details: error.response ? error.response.data.error.message : error.message,
+                      timeout: false,
+                    });
                   });
-                }
               },
               bulkPublish: bulkActionCreator({
                 action: 'publish',

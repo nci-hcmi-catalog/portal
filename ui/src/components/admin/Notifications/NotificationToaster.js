@@ -104,10 +104,10 @@ export default () => {
       }}
     >
       <NotificationsToaster name="notifications-toaster">
-        {notifications.map(notification => (
+        {notifications.slice(0).reverse().map(notification => (
           <Notification key={notification.id} type={notification.type}>
             {renderIcon(notification.type)}
-            <Col>
+            <Col width={'100%'}>
               <Message>{notification.message}</Message>
               {notification.details && (
                 <Details>
