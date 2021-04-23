@@ -244,3 +244,8 @@ export const ProgressBarSectionIncomplete = styled('span')`
   background: ${ironApprox};
   ${({ num, total }) => `width: calc(${num}/${total} * 100%);`}
 `;
+
+export const ProgressBarLabel = styled('span')`
+  display: flex;
+  align-items: center;
+`;
