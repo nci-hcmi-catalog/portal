@@ -51,7 +51,7 @@ export default ({ location }) => {
           showImportStatusCheckError(error);
         });
     },
-    importRunning || !isEmpty(importNotifications) ? 1000 : null,
+    importRunning || !isEmpty(importNotifications) ? 500 : null,
   );
 
   return (
