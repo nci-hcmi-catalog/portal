@@ -37,6 +37,8 @@ const {
   keyedPalette: { alizarinCrimson, pelorousapprox, trout, yellowOrange },
 } = base;
 
+const NOTIFICATION_LIMIT = 5;
+
 const scrollIntoView = () =>
   scroller.scrollTo('notifications-toaster', {
     duration: 500,
@@ -131,7 +133,7 @@ export default () => {
         {isActiveBulkImport() && (
           <ProgressBanner renderIcon={renderIcon} />
         )}
-        {notifications.slice(notifications.length > 5 && !showMore ? notifications.length - 5 : 0).reverse().map(notification => (
+        {notifications.slice(notifications.length > NOTIFICATION_LIMIT && !showMore ? notifications.length - NOTIFICATION_LIMIT : 0).reverse().map(notification => (
           <Notification key={notification.id} type={notification.type}>
             {renderIcon(notification.type)}
             <Col width={'100%'}>
@@ -184,15 +186,15 @@ export default () => {
             )}
           </Notification>
         ))}
-        {notifications.length > 5 && (
+        {notifications.length > NOTIFICATION_LIMIT && (
           <ShowHideButton onClick={() => setShowMore(!showMore)}>
             <PlusMinusIcon showMore={showMore}>
               {showMore ? '-' : '+'}
             </PlusMinusIcon>
             <ShowHideButtonLabel>
-              {`${showMore ? 'Hide' : 'Show'} ${notifications.length - 5} ${
+              {`${showMore ? 'Hide' : 'Show'} ${notifications.length - NOTIFICATION_LIMIT} ${
                 showMore
-                  ? notifications.length - 5 === 1 ? 'notification' : 'notifications'
+                  ? notifications.length - NOTIFICATION_LIMIT === 1 ? 'notification' : 'notifications'
                   : 'more'
                 }`
               }
