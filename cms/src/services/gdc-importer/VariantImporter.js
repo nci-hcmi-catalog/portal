@@ -186,13 +186,13 @@ const VariantImporter = (function() {
   let running = false;
 
   const cleanLists = () => {
-    failed = failed.filter(i => !i.getData().acknowledged);
-    stopped = stopped.filter(i => !i.getData().acknowledged);
-    success = success.filter(i => !i.getData().acknowledged);
+    failed = failed.filter(i => i && i.getData && !i.getData().acknowledged);
+    stopped = stopped.filter(i => i && i.getData && !i.getData().acknowledged);
+    success = success.filter(i => i && i.getData && !i.getData().acknowledged);
 
     // queue should never have anything acknowledged (should move to failed/stopped/success)
     // clearing just in case
-    queue = queue.filter(i => !i.getData().acknowledged);
+    queue = queue.filter(i => i && i.getData && !i.getData().acknowledged);
   };
 
   const emptyQueue = () => {
@@ -437,11 +437,11 @@ const VariantImporter = (function() {
   const stopImport = async modelName => {
     // In case we get into an invalid state with multiple imports for a given model name,
     //   we'll use filter to get the whole list of them.
-    const targets = queue.filter(i => i.modelName === modelName);
+    const targets = queue.filter(i => i && i.modelName === modelName);
     if (targets.length) {
       targets.forEach(target => target.stop());
       stopped = [...stopped, ...targets];
-      queue = queue.filter(i => i.modelName !== modelName);
+      queue = queue.filter(i => i && i.modelName !== modelName);
     }
 
     cleanLists();
@@ -477,9 +477,9 @@ const VariantImporter = (function() {
 
   const acknowledge = modelName => {
     const targets = [
-      ...failed.filter(i => i.modelName === modelName),
-      ...stopped.filter(i => i.modelName === modelName),
-      ...success.filter(i => i.modelName === modelName),
+      ...failed.filter(i => i && i.modelName === modelName),
+      ...stopped.filter(i => i && i.modelName === modelName),
+      ...success.filter(i => i && i.modelName === modelName),
     ];
     if (targets.length) {
       targets.forEach(target => target.acknowledge());
@@ -496,9 +496,9 @@ const VariantImporter = (function() {
     modelNames.forEach(modelName => {
       targets = [
         ...targets,
-        ...failed.filter(i => i.modelName === modelName),
-        ...stopped.filter(i => i.modelName === modelName),
-        ...success.filter(i => i.modelName === modelName),
+        ...failed.filter(i => i && i.modelName === modelName),
+        ...stopped.filter(i => i && i.modelName === modelName),
+        ...success.filter(i => i && i.modelName === modelName),
       ];
     });
 
