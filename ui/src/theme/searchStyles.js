@@ -124,6 +124,10 @@ export default css`
     overflow-y: scroll;
   }
 
+  .ReactTable.-striped.confirm-maf-table {
+    margin-bottom: 24px;
+  }
+
   .ReactTable .rt-table input[type='checkbox'] {
     cursor: pointer;
   }

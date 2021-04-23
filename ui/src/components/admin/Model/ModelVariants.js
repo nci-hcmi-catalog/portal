@@ -263,12 +263,12 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
                         confirmLabel: 'Yes, Import',
                         onConfirm: () => {
                           importGenomicVariants(name)
-                            .then(async response => {
+                            .then(async _ => {
                               addImportNotification(name);
                             })
                             .catch(error => {
-                              const data = error.response ? error.response.data : null;
-                              showErrorImportNotification(name, data ? data.error : null);
+                              const data = error.response ? error.response.data : error;
+                              showErrorImportNotification(name, data);
                             });
                         },
                         confirmationRequired: genomicVariantsData.length > 0,

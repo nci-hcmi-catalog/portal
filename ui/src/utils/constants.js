@@ -8,6 +8,30 @@ const BULK_UPLOAD_DISPLAY_TYPES = {
   VARIANT: 'clinical variant',
 };
 
+const GDC_CASE_URL_BASE = 'https://portal.gdc.cancer.gov/cases';
+const GDC_FILE_PAGE_URL_BASE = 'https://portal.gdc.cancer.gov/files';
+
+const GDC_CANCER_MODEL_SAMPLE_TYPES = [
+  'Expanded Next Generation Cancer Model',
+  'Next Generation Cancer Model',
+];
+
+const GDC_MODEL_STATES = {
+  modelNotFound: 'MODEL_NOT_FOUND',
+  noMafs: 'NO_MAFS',
+  singleNgcm: 'SINGLE_NGCM',
+  singleNgcmPlusEngcm: 'SINGLE_NGCM_PLUS_ENGCM',
+  multipleNgcm: 'MULTIPLE_NGCM',
+  noNgcm: 'NO_NGCM',
+};
+
+const GENOMIC_VARIANTS_IMPORT_ERRORS = {
+  noMatchingModel: 'NO_MATCHING_MODEL',
+  badRequest: 'BAD_REQUEST',
+  gdcCommunicationError: 'GDC_COMMUNICATION_ERROR',
+  unexpected: 'UNEXPECTED',
+};
+
 const imgPath = '/api/data/images';
 
 const VARIANT_TYPES = {
@@ -32,6 +56,11 @@ const VARIANT_OVERWRITE_OPTIONS = {
 export {
   BULK_UPLOAD_DISPLAY_TYPES,
   BULK_UPLOAD_TYPES,
+  GDC_CASE_URL_BASE,
+  GDC_FILE_PAGE_URL_BASE,
+  GDC_CANCER_MODEL_SAMPLE_TYPES,
+  GDC_MODEL_STATES,
+  GENOMIC_VARIANTS_IMPORT_ERRORS,
   imgPath,
   VARIANT_IMPORT_STATUS,
   VARIANT_OVERWRITE_OPTIONS,

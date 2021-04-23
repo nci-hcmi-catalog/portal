@@ -6,6 +6,7 @@ import VariantImporter from '../services/gdc-importer/VariantImporter';
 import { fetchModelFileData, getBulkMafStatus } from '../services/gdc-importer/mafFiles';
 
 import getLogger from '../logger';
+import { IMPORT_ERRORS } from '../services/gdc-importer/gdcConstants';
 const logger = getLogger('routes/genomicVariants');
 
 const variantsRouter = express.Router();
@@ -80,12 +81,20 @@ variantsRouter.post('/clear/:name', async (req, res) => {
     const result = await clearGenomicVariants(name);
 
     if (!result) {
-      res.status(400).json({ success: false, message: 'Model does not exist.' });
+      res.status(400).json({
+        success: false,
+        error: {
+          code: IMPORT_ERRORS.noMatchingModel,
+          message: `Unable to clear variants for the model ${name} because it was not found in the local database.`,
+        },
+      });
     }
+
     res.status(200).json({ success: true, model: name });
   } catch (error) {
     logger.error(error, `Unexpected error clearing genomic-variants for model ${name}`);
     res.status(500).json({
+      success: false,
       error: error,
     });
   }
@@ -99,7 +108,11 @@ variantsRouter.post('/import/bulk', async (req, res) => {
       'Bulk import failed due to a bad request. `models` must be an array of model names.',
     );
     return res.status(400).json({
-      error: 'Bulk import failed due to a bad request. `models` must be an array of model names.',
+      success: false,
+      error: {
+        code: IMPORT_ERRORS.badRequest,
+        message: 'Bulk import failed due to a bad request. `models` must be an array of model names.',
+      },
     });
   }
 
@@ -154,8 +167,11 @@ variantsRouter.post('/check-gdc', async (req, res) => {
       'GDC model status check failed due to a bad request. `models` must be an array of model names.',
     );
     return res.status(400).json({
-      error:
-        'GDC model status check failed due to a bad request. `models` must be an array of model names.',
+      success: false,
+      error: {
+        code: IMPORT_ERRORS.badRequest,
+        message: 'GDC model status check failed due to a bad request. `models` must be an array of model names.',
+      },
     });
   }
 
@@ -168,6 +184,7 @@ variantsRouter.post('/check-gdc', async (req, res) => {
   } catch (error) {
     logger.error(error, `Error occurred while checking GDC state for model.`);
     res.status(500).json({
+      success: false,
       error: error,
     });
   }
@@ -183,6 +200,7 @@ variantsRouter.get('/status', async (req, res) => {
   } catch (error) {
     logger.error(error, `Error occurred during GDC Import Status fetch`);
     res.status(500).json({
+      success: false,
       error: error,
     });
   }
@@ -202,6 +220,7 @@ variantsRouter.get('/audit', async (req, res) => {
   } catch (error) {
     logger.error(error, `Error occurred during genomic variant audit`);
     res.status(500).json({
+      success: false,
       error: error,
     });
   }
@@ -228,6 +247,7 @@ variantsRouter.post('/audit', async (req, res) => {
   } catch (error) {
     logger.error(error, `Error occurred during genomic variant audit`);
     res.status(500).json({
+      success: false,
       error: error,
     });
   }
@@ -241,8 +261,11 @@ variantsRouter.post('/acknowledge/bulk', async (req, res) => {
       'Bulk acknowledge failed due to a bad request. `models` must be an array of model names.',
     );
     return res.status(400).json({
-      error:
-        'Bulk acknowledge failed due to a bad request. `models` must be an array of model names.',
+      success: false,
+      error: {
+        code: IMPORT_ERRORS.badRequest,
+        message: 'Bulk acknowledge failed due to a bad request. `models` must be an array of model names.',
+      }
     });
   }
 

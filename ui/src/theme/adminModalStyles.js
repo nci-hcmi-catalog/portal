@@ -33,6 +33,11 @@ export const AdminModalStyleNarrow = css`
   max-width: 468px;
 `;
 
+export const AdminModalStyleWide = css`
+  ${AdminModalStyle};
+  max-width: 1230px;
+`;
+
 export const ModalWrapper = styled('div')`
   display: flex;
   flex-direction: column;
