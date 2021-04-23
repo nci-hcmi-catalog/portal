@@ -7,7 +7,9 @@ import { NotificationToaster } from '../Notifications';
 import ModelManagerTable from './ModelManagerTable';
 import { modelEditUrlBase } from '../AdminNav';
 import BulkUploader from '../BulkUpload';
+import VariantAuditModal from '../VariantAudit';
 
+import DNAIcon from './../../../icons/DNAIcon';
 import PlusIcon from './../../../icons/PlusIcon';
 
 import { AdminContainer, AdminHeader, AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
@@ -26,6 +28,30 @@ const content = () => {
         <AdminHeader>
           <AdminHeaderH1>Model Management</AdminHeaderH1>
           <AdminHeaderBlock>
+            <ModelManagerContext.Consumer>
+              {({ bulkImportVariants }) => (
+                <ModalStateContext.Consumer>
+                  {modalState => (
+                    <ButtonPill
+                      primary
+                      marginRight="8px"
+                      onClick={() =>
+                        modalState.setModalState({
+                          component: (
+                            <VariantAuditModal bulkImportVariants={bulkImportVariants} />
+                          ),
+                          shouldCloseOnOverlayClick: true,
+                          styles: AdminModalStyle,
+                        })
+                      }
+                    >
+                      <DNAIcon />
+                      Check for GDC Variants
+                    </ButtonPill>
+                  )}
+                </ModalStateContext.Consumer>
+              )}
+            </ModelManagerContext.Consumer>
             <ModelManagerContext.Consumer>
               {({ uploadModelsFromSheet }) => (
                 <ModalStateContext.Consumer>

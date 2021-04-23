@@ -22,6 +22,21 @@ const ImportStatus = {
   waiting: 'WAITING',
 };
 
+const ImportTypes = {
+  bulk: 'BULK',
+  individual: 'INDIVIDUAL',
+};
+
+const getTissueStatus = async modelName => {
+  const model = await Model.findOne({ name: modelName });
+
+  if (!model) {
+    return null;
+  }
+
+  return model.tissue_type;
+};
+
 const Import = ({
   modelName = null,
   fileId = null,
@@ -30,6 +45,8 @@ const Import = ({
   actionable = false,
   files = [],
   status = ImportStatus.waiting,
+  importType = ImportTypes.individual,
+  tissueStatus = null,
 }) => {
   const createdAt = Date.now();
   let acknowledged = false;
@@ -88,10 +105,12 @@ const Import = ({
     fileId,
     filename,
     files,
+    importType,
     modelName,
     status,
     startTime,
     stopTime,
+    tissueStatus,
   });
 
   const parseMaf = maf => {
@@ -240,6 +259,7 @@ const VariantImporter = (function() {
             },
             actionable: true,
             files: getCancerModelFilesFromMafFileData(mafFileData),
+            tissueStatus: await getTissueStatus(modelName),
           });
           break;
         // Non-actionable error (model not found or no MAFs)
@@ -327,6 +347,7 @@ const VariantImporter = (function() {
             code: IMPORT_ERRORS.noMatchingModel,
             message: getGdcImportErrorMessage(IMPORT_ERRORS.noMatchingModel, modelName),
           },
+          importType: ImportTypes.bulk,
         }),
       ),
       ...modelsStatus[GDC_MODEL_STATES.modelNotFound].map(modelName =>
@@ -337,6 +358,7 @@ const VariantImporter = (function() {
             code: GDC_MODEL_STATES.modelNotFound,
             message: getGdcImportErrorMessage(GDC_MODEL_STATES.modelNotFound, modelName),
           },
+          importType: ImportTypes.bulk,
         }),
       ),
       ...modelsStatus[GDC_MODEL_STATES.noMafs].map(modelName =>
@@ -347,10 +369,11 @@ const VariantImporter = (function() {
             code: GDC_MODEL_STATES.noMafs,
             message: getGdcImportErrorMessage(GDC_MODEL_STATES.noMafs, modelName),
           },
+          importType: ImportTypes.bulk,
         }),
       ),
       // Actionable errors (multiple ngcm, no ngcm)
-      ...modelsStatus[GDC_MODEL_STATES.multipleNgcm].map(modelName =>
+      ...(await Promise.all(modelsStatus[GDC_MODEL_STATES.multipleNgcm].map(async modelName =>
         Import({
           modelName,
           status: ImportStatus.error,
@@ -360,9 +383,11 @@ const VariantImporter = (function() {
           },
           actionable: true,
           files: getCancerModelFilesFromMafFileData(modelsFileData[modelName], true),
+          importType: ImportTypes.bulk,
+          tissueStatus: await getTissueStatus(modelName),
         }),
-      ),
-      ...modelsStatus[GDC_MODEL_STATES.noNgcm].map(modelName =>
+      ))),
+      ...(await Promise.all(modelsStatus[GDC_MODEL_STATES.noNgcm].map(async modelName =>
         Import({
           modelName,
           status: ImportStatus.error,
@@ -372,8 +397,10 @@ const VariantImporter = (function() {
           },
           actionable: true,
           files: getCancerModelFilesFromMafFileData(modelsFileData[modelName], true),
+          importType: ImportTypes.bulk,
+          tissueStatus: await getTissueStatus(modelName),
         }),
-      ),
+      ))),
     ];
 
     // Queue imports for conflict-free models (single NGCM, single NGCM+)
@@ -385,6 +412,7 @@ const VariantImporter = (function() {
           modelName,
           fileId: fileData.fileId,
           filename: fileData.filename,
+          importType: ImportTypes.bulk,
         });
       }),
       ...modelsStatus[GDC_MODEL_STATES.singleNgcmPlusEngcm].map(modelName => {
@@ -393,6 +421,7 @@ const VariantImporter = (function() {
           modelName,
           fileId: fileData.fileId,
           filename: fileData.filename,
+          importType: ImportTypes.bulk,
         });
       }),
     ];
