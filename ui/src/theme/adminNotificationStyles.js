@@ -10,7 +10,7 @@ import { Col, Row } from 'theme/system';
 
 const {
   fonts: { openSans },
-  keyedPalette: { aquaSpring, black, bombay, cinderella, mauvelous, morningGlory, yellowOrange },
+  keyedPalette: { aquaSpring, black, bombay, cinderella, cinnabar, mauvelous, morningGlory, stiletto, white, yellowOrange },
   transparency: { yellowOrange20 },
 } = base;
 
@@ -156,4 +156,42 @@ export const NotificationTableHeaderCol = styled(Col)`
   &:last-child {
     padding-left: 16px;
   }
+`;
+
+export const ShowHideButton = styled('button')`
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  font-family: ${openSans};
+  font-size: 12px;
+  font-weight: bold;
+  line-height: normal;
+  text-align: center;
+`;
+
+export const ShowHideButtonLabel = styled('span')`
+  color: ${stiletto};
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const PlusMinusIcon = styled('span')`
+  color: ${white};
+  background: ${cinnabar};
+  border-radius: 100%;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  margin-right: 4px;
+  ${({ showMore }) => showMore && 'padding-bottom: 2px;'}
 `;

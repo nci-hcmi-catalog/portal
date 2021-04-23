@@ -373,7 +373,7 @@ const VariantImporter = (function() {
         }),
       ),
       // Actionable errors (multiple ngcm, no ngcm)
-      ...modelsStatus[GDC_MODEL_STATES.multipleNgcm].map(async modelName =>
+      ...(await Promise.all(modelsStatus[GDC_MODEL_STATES.multipleNgcm].map(async modelName =>
         Import({
           modelName,
           status: ImportStatus.error,
@@ -386,8 +386,8 @@ const VariantImporter = (function() {
           importType: ImportTypes.bulk,
           tissueStatus: await getTissueStatus(modelName),
         }),
-      ),
-      ...modelsStatus[GDC_MODEL_STATES.noNgcm].map(async modelName =>
+      ))),
+      ...(await Promise.all(modelsStatus[GDC_MODEL_STATES.noNgcm].map(async modelName =>
         Import({
           modelName,
           status: ImportStatus.error,
@@ -400,7 +400,7 @@ const VariantImporter = (function() {
           importType: ImportTypes.bulk,
           tissueStatus: await getTissueStatus(modelName),
         }),
-      ),
+      ))),
     ];
 
     // Queue imports for conflict-free models (single NGCM, single NGCM+)

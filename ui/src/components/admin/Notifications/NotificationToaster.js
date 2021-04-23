@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Component from 'react-component-component';
 import { scroller } from 'react-scroll';
 import Spinner from 'react-spinkit';
@@ -21,6 +21,9 @@ import {
   ErrorLabel,
   ErrorText,
   closeIcon,
+  ShowHideButton,
+  ShowHideButtonLabel,
+  PlusMinusIcon,
 } from 'theme/adminNotificationStyles';
 import { Col } from 'theme/system';
 import base from 'theme';
@@ -92,6 +95,7 @@ const renderIcon = type => {
 
 export default () => {
   const { notifications, clearNotification } = useContext(NotificationsContext);
+  const [showMore, setShowMore] = useState(false);
 
   return (
     <Component
@@ -104,7 +108,7 @@ export default () => {
       }}
     >
       <NotificationsToaster name="notifications-toaster">
-        {notifications.slice(0).reverse().map(notification => (
+        {notifications.slice(notifications.length > 5 && !showMore ? notifications.length - 5 : 0).reverse().map(notification => (
           <Notification key={notification.id} type={notification.type}>
             {renderIcon(notification.type)}
             <Col width={'100%'}>
@@ -157,6 +161,21 @@ export default () => {
             )}
           </Notification>
         ))}
+        {notifications.length > 5 && (
+          <ShowHideButton onClick={() => setShowMore(!showMore)}>
+            <PlusMinusIcon showMore={showMore}>
+              {showMore ? '-' : '+'}
+            </PlusMinusIcon>
+            <ShowHideButtonLabel>
+              {`${showMore ? 'Hide' : 'Show'} ${notifications.length - 5} ${
+                showMore
+                  ? notifications.length - 5 === 1 ? 'notification' : 'notifications'
+                  : 'more'
+                }`
+              }
+            </ShowHideButtonLabel>
+          </ShowHideButton>
+        )}
       </NotificationsToaster>
     </Component>
   );
