@@ -4,7 +4,8 @@ import { scroller } from 'react-scroll';
 import Spinner from 'react-spinkit';
 
 import { NotificationsContext } from './NotificationsController';
-import { NOTIFICATION_TYPES } from './../Notifications';
+import NOTIFICATION_TYPES from './NotificationTypes';
+import ProgressBanner from './ProgressBanner';
 
 import CheckmarkIcon from 'icons/CheckmarkIcon';
 import CrossCircleIcon from 'icons/CrossCircleIcon';
@@ -28,9 +29,15 @@ import {
 import { Col } from 'theme/system';
 import base from 'theme';
 
+import {
+  VARIANT_IMPORT_TYPES,
+} from 'utils/constants';
+
 const {
   keyedPalette: { alizarinCrimson, pelorousapprox, trout, yellowOrange },
 } = base;
+
+const NOTIFICATION_LIMIT = 5;
 
 const scrollIntoView = () =>
   scroller.scrollTo('notifications-toaster', {
@@ -94,8 +101,23 @@ const renderIcon = type => {
 };
 
 export default () => {
-  const { notifications, clearNotification } = useContext(NotificationsContext);
+  const { notifications, clearNotification, importProgress } = useContext(NotificationsContext);
   const [showMore, setShowMore] = useState(false);
+
+  const getBulkImports = () => {
+    if (!importProgress) {
+      return [];
+    }
+
+    return [
+      ...importProgress.queue,
+      ...importProgress.failed,
+      ...importProgress.stopped,
+      ...importProgress.success,
+    ].filter(x => x.importType === VARIANT_IMPORT_TYPES.bulk);
+  }
+
+  const isActiveBulkImport = () => !!getBulkImports().length;
 
   return (
     <Component
@@ -108,7 +130,10 @@ export default () => {
       }}
     >
       <NotificationsToaster name="notifications-toaster">
-        {notifications.slice(notifications.length > 5 && !showMore ? notifications.length - 5 : 0).reverse().map(notification => (
+        {isActiveBulkImport() && (
+          <ProgressBanner renderIcon={renderIcon} />
+        )}
+        {notifications.slice(notifications.length > NOTIFICATION_LIMIT && !showMore ? notifications.length - NOTIFICATION_LIMIT : 0).reverse().map(notification => (
           <Notification key={notification.id} type={notification.type}>
             {renderIcon(notification.type)}
             <Col width={'100%'}>
@@ -161,15 +186,15 @@ export default () => {
             )}
           </Notification>
         ))}
-        {notifications.length > 5 && (
+        {notifications.length > NOTIFICATION_LIMIT && (
           <ShowHideButton onClick={() => setShowMore(!showMore)}>
             <PlusMinusIcon showMore={showMore}>
               {showMore ? '-' : '+'}
             </PlusMinusIcon>
             <ShowHideButtonLabel>
-              {`${showMore ? 'Hide' : 'Show'} ${notifications.length - 5} ${
+              {`${showMore ? 'Hide' : 'Show'} ${notifications.length - NOTIFICATION_LIMIT} ${
                 showMore
-                  ? notifications.length - 5 === 1 ? 'notification' : 'notifications'
+                  ? notifications.length - NOTIFICATION_LIMIT === 1 ? 'notification' : 'notifications'
                   : 'more'
                 }`
               }

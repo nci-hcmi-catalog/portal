@@ -223,7 +223,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                             .catch(async error => {
                               await appendNotification({
                                 type: NOTIFICATION_TYPES.ERROR,
-                                message: error.response ? error.response.data.error.code : 'Bulk Import of Research Somatic Variants Failed.',
+                                message: 'Bulk Import of Research Somatic Variants Failed.',
                                 details: error.response ? error.response.data.error.message : error.message,
                                 timeout: false,
                               });
@@ -244,7 +244,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                             .catch(async error => {
                               await appendNotification({
                                 type: NOTIFICATION_TYPES.ERROR,
-                                message: error.response ? error.response.data.error.code : 'Bulk Import of Research Somatic Variants Failed.',
+                                message: 'Bulk Import of Research Somatic Variants Failed.',
                                 details: error.response ? error.response.data.error.message : error.message,
                                 timeout: false,
                               });
@@ -283,7 +283,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                   .catch(async error => {
                     await appendNotification({
                       type: NOTIFICATION_TYPES.ERROR,
-                      message: error.response ? error.response.data.error.code : 'Bulk Import of Research Somatic Variants Failed.',
+                      message: 'Bulk Import of Research Somatic Variants Failed.',
                       details: error.response ? error.response.data.error.message : error.message,
                       timeout: false,
                     });

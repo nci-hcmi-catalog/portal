@@ -10,7 +10,20 @@ import { Col, Row } from 'theme/system';
 
 const {
   fonts: { openSans },
-  keyedPalette: { aquaSpring, black, bombay, cinderella, cinnabar, mauvelous, morningGlory, stiletto, white, yellowOrange },
+  keyedPalette: {
+    aquaSpring,
+    black,
+    bombay,
+    cinderella,
+    cinnabar,
+    elm,
+    ironApprox,
+    mauvelous,
+    morningGlory,
+    stiletto,
+    white,
+    yellowOrange,
+  },
   transparency: { yellowOrange20 },
 } = base;
 
@@ -194,4 +207,45 @@ export const PlusMinusIcon = styled('span')`
   font-size: 10px;
   margin-right: 4px;
   ${({ showMore }) => showMore && 'padding-bottom: 2px;'}
+`;
+
+export const ProgressBarContainer = styled('div')`
+  display: block;
+  width: 290px;
+  height: 14px;
+  border-radius: 10px;
+  border: solid 1px ${bombay};
+  overflow: hidden;
+  position: relative;
+  margin-top: 4px;
+`;
+
+export const ProgressBarWrapper = styled('div')`
+  display: flex;
+`;
+
+export const ProgressBarSectionComplete = styled('span')`
+  display: inline-block;
+  height: 12px;
+  background: ${elm};
+  ${({ num, total }) => `width: calc(${num}/${total} * 100%);`}
+`;
+
+export const ProgressBarSectionFailed = styled('span')`
+  display: inline-block;
+  height: 12px;
+  background: ${cinnabar};
+  ${({ num, total }) => `width: calc(${num}/${total} * 100%);`}
+`;
+
+export const ProgressBarSectionIncomplete = styled('span')`
+  display: inline-block;
+  height: 12px;
+  background: ${ironApprox};
+  ${({ num, total }) => `width: calc(${num}/${total} * 100%);`}
+`;
+
+export const ProgressBarLabel = styled('span')`
+  display: flex;
+  align-items: center;
 `;

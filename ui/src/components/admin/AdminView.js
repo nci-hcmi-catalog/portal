@@ -21,7 +21,7 @@ export default ({ location }) => {
     importNotifications,
     importRunning,
     updateNotificationsFromStatus,
-    showImportStatusCheckError,
+    showUnexpectedImportError,
   } = useGenomicVariantImportNotifications();
 
   // Check for active genomic variant imports on page load
@@ -31,7 +31,7 @@ export default ({ location }) => {
         .then(importStatus => {
           updateNotificationsFromStatus(importStatus);
         }).catch(error => {
-          showImportStatusCheckError(error);
+          showUnexpectedImportError(error);
         });
     };
 
@@ -48,10 +48,10 @@ export default ({ location }) => {
         .then(importStatus => {
           updateNotificationsFromStatus(importStatus);
         }).catch(error => {
-          showImportStatusCheckError(error);
+          showUnexpectedImportError(error);
         });
     },
-    importRunning || !isEmpty(importNotifications) ? 1000 : null,
+    importRunning || !isEmpty(importNotifications) ? 500 : null,
   );
 
   return (

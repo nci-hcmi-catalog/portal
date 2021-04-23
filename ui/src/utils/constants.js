@@ -1,3 +1,5 @@
+const BULK_NONACTIONABLE_ERROR_ID = 'BULK_NONACTIONABLE_IMPORT_ERRORS';
+
 const BULK_UPLOAD_TYPES = {
   MODEL: 'model',
   VARIANT: 'variant',
@@ -34,6 +36,11 @@ const GENOMIC_VARIANTS_IMPORT_ERRORS = {
 
 const imgPath = '/api/data/images';
 
+const VARIANT_IMPORT_TYPES = {
+  bulk: 'BULK',
+  individual: 'INDIVIDUAL',
+};
+
 const VARIANT_TYPES = {
   clinical: 'clinical',
   histopathological: 'histopathological biomarker',
@@ -45,6 +52,7 @@ const VARIANT_IMPORT_STATUS = {
   complete: 'COMPLETE',
   error: 'ERROR',
   stopped: 'STOPPED',
+  waiting: 'WAITING',
 };
 
 const VARIANT_OVERWRITE_OPTIONS = {
@@ -54,6 +62,7 @@ const VARIANT_OVERWRITE_OPTIONS = {
 };
 
 export {
+  BULK_NONACTIONABLE_ERROR_ID,
   BULK_UPLOAD_DISPLAY_TYPES,
   BULK_UPLOAD_TYPES,
   GDC_CASE_URL_BASE,
@@ -62,6 +71,7 @@ export {
   GDC_MODEL_STATES,
   GENOMIC_VARIANTS_IMPORT_ERRORS,
   imgPath,
+  VARIANT_IMPORT_TYPES,
   VARIANT_IMPORT_STATUS,
   VARIANT_OVERWRITE_OPTIONS,
   VARIANT_TYPES,
