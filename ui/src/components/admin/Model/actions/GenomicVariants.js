@@ -111,3 +111,16 @@ export const resolveMafFileConflict = async (modelName, fileId, filename) => {
     });
   });
 };
+
+export const stopAllImports = async () => {
+  return new Promise(async (resolve, reject) => {
+    const url = `${GENOMIC_VARIANTS_URL}/stop/all`;
+    await post({ url })
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.response ? err.response.data.error : err);
+      });
+  });
+};
