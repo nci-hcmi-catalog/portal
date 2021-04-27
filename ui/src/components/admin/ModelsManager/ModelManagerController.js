@@ -211,6 +211,10 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                       switch (overwriteVariants) {
                         case VARIANT_OVERWRITE_OPTIONS.allModels:
                           modelNames = [...result.new, ...result.updated, ...result.unchanged];
+                          if (!modelNames.length) {
+                            return;
+                          }
+
                           await importBulkGenomicVariants(modelNames)
                             .then(response => {
                               if (response.data.success) {
@@ -231,6 +235,10 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                           break;
                         case VARIANT_OVERWRITE_OPTIONS.cleanOnly:
                           modelNames = [...result.new, ...result.updated, ...result.unchanged];
+                          if (!modelNames.length) {
+                            return;
+                          }
+
                           const checkVariantsResponse = await auditGenomicVariantsSpecificModels(modelNames);
                           await importBulkGenomicVariants(checkVariantsResponse.data.clean)
                             .then(response => {
