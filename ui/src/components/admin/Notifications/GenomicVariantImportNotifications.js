@@ -120,26 +120,29 @@ const useGenomicVariantImportNotifications = () => {
   };
 
   // ONLY USED FOR INDIVIDUAL IMPORTS
-  const addImportNotification = async modelName => {
+  const addImportNotification = async (modelName) => {
     const existingNotification = getImportNotifications().find(x => x.modelName === modelName);
 
-    if (!existingNotification) {
-      const notification = await appendNotification({
-        type: NOTIFICATION_TYPES.LOADING,
-        message: `Importing: Research Variants for ${modelName} are currently importing.`,
-        details:
-          'You can continue to use the CMS, and will be notified when the import is complete.',
-        timeout: false,
-      });
-
-      setImportNotifications(notifications => [
-        ...notifications,
-        {
-          modelName: modelName,
-          notificationId: notification.id,
-        },
-      ]);
+    if (existingNotification) {
+      existingNotification.clear();
     }
+
+    const notification = await appendNotification({
+      type: NOTIFICATION_TYPES.LOADING,
+      message: `Importing: Research Variants for ${modelName} are currently importing.`,
+      details:
+        'You can continue to use the CMS, and will be notified when the import is complete.',
+      timeout: false,
+    });
+
+    setImportNotifications(notifications => [
+      ...notifications.filter(notification => notification.modelName !== modelName),
+      {
+        modelName: modelName,
+        notificationId: notification.id,
+        clear: notification.clear,
+      },
+    ]);
   };
 
   // ONLY USED FOR INDIVIDUAL IMPORTS
@@ -207,7 +210,7 @@ const useGenomicVariantImportNotifications = () => {
               onConfirm={
                 error.importType === VARIANT_IMPORT_TYPES.individual
                   ? () => addImportNotification(modelName)
-                  : undefined
+                  : fetchImportStatus
               }
             />
           ),
@@ -229,7 +232,7 @@ const useGenomicVariantImportNotifications = () => {
               onConfirm={
                 error.importType === VARIANT_IMPORT_TYPES.individual
                   ? () => addImportNotification(modelName)
-                  : undefined
+                  : fetchImportStatus
               }
             />
           ),
@@ -251,7 +254,7 @@ const useGenomicVariantImportNotifications = () => {
               onConfirm={
                 error.importType === VARIANT_IMPORT_TYPES.individual
                   ? () => addImportNotification(modelName)
-                  : undefined
+                  : fetchImportStatus
               }
             />
           ),
@@ -394,7 +397,9 @@ const useGenomicVariantImportNotifications = () => {
     const individualQueuedImports = (queue || []).filter(x => x.importType === VARIANT_IMPORT_TYPES.individual);
     individualQueuedImports.forEach(importItem => {
       const modelName = importItem.modelName;
-      addImportNotification(modelName);
+      if (!getImportNotifications().find(x => x.modelName === modelName)) {
+        addImportNotification(modelName);
+      }
     });
 
     // Remove import notification and show stopped notification for stopped individual imports
