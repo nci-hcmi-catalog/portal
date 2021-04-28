@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Route } from 'react-router-dom';
 
-import { checkImportStatus } from 'components/admin/Model/actions/GenomicVariants';
 import { useGenomicVariantImportNotifications } from 'components/admin/Notifications';
 
 import AdminNav from './AdminNav';
@@ -20,37 +19,20 @@ export default ({ location }) => {
   const {
     importNotifications,
     importRunning,
-    updateNotificationsFromStatus,
-    showUnexpectedImportError,
+    fetchImportStatus,
   } = useGenomicVariantImportNotifications();
 
   // Check for active genomic variant imports on page load
   useEffect(() => {
-    const getActiveImports = async () => {
-      await checkImportStatus()
-        .then(importStatus => {
-          updateNotificationsFromStatus(importStatus);
-        }).catch(error => {
-          showUnexpectedImportError(error);
-        });
-    };
-
     if (!didMountRef || !didMountRef.current) {
-      getActiveImports();
+      fetchImportStatus();
       didMountRef.current = true;
     }
   }, []);
 
   // Poll for status changes on any active imports
   useInterval(
-    () => {
-      checkImportStatus()
-        .then(importStatus => {
-          updateNotificationsFromStatus(importStatus);
-        }).catch(error => {
-          showUnexpectedImportError(error);
-        });
-    },
+    async () => await fetchImportStatus(),
     importRunning || !isEmpty(importNotifications) ? 500 : null,
   );
 

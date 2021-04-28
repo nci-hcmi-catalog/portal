@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Component from 'react-component-component';
 import { scroller } from 'react-scroll';
 import Spinner from 'react-spinkit';
 
 import { NotificationsContext } from './NotificationsController';
+import useGenomicVariantImportNotifications from './GenomicVariantImportNotifications';
 import NOTIFICATION_TYPES from './NotificationTypes';
 import ProgressBanner from './ProgressBanner';
 
@@ -101,7 +102,18 @@ const renderIcon = type => {
 };
 
 export default () => {
-  const { notifications, clearNotification, importProgress } = useContext(NotificationsContext);
+  const {
+    notifications,
+    clearNotification,
+    importProgress,
+    nonactionableImports,
+  } = useContext(NotificationsContext);
+  const {
+    updateNotificationsFromStatus,
+    showBulkNonActionableImportErrors,
+    hideBulkNonActionableImportErrors,
+    getNonActionableImportErrorModels,
+  } = useGenomicVariantImportNotifications();
   const [showMore, setShowMore] = useState(false);
 
   const getBulkImports = () => {
@@ -118,6 +130,18 @@ export default () => {
   }
 
   const isActiveBulkImport = () => !!getBulkImports().length;
+
+  useEffect(() => {
+    updateNotificationsFromStatus();
+  }, [importProgress]);
+
+  useEffect(() => {
+    if (nonactionableImports && getNonActionableImportErrorModels().length) {
+      showBulkNonActionableImportErrors();
+    } else {
+      hideBulkNonActionableImportErrors();
+    }
+  }, [nonactionableImports])
 
   return (
     <Component
@@ -143,13 +167,13 @@ export default () => {
                   {notification.details}
                   {notification.bulkErrors && notification.bulkErrors.length > 0 && (
                     <ErrorsCol marginTop="16px">
-                      {notification.bulkErrors.map(error => {
+                      {notification.bulkErrors.map((error, i) => {
                         const details =
                           error.name === 'ValidationError' ? error.errors : error.details;
                         const name =
                           error.name === 'ValidationError' ? error.value.name : error.name;
                         return (
-                          <ErrorsCol marginBottom="16px">
+                          <ErrorsCol key={`${name}-error-${i}`} marginBottom="16px">
                             <ErrorsRow>
                               <ErrorLabel>Name: </ErrorLabel>
                               <ErrorText>{name}</ErrorText>
@@ -157,8 +181,8 @@ export default () => {
                             <ErrorsRow>
                               <ErrorLabel>Errors: </ErrorLabel>
                               <ErrorsCol>
-                                {details.map(detail => (
-                                  <ErrorText>{detail}</ErrorText>
+                                {details.map((detail, j) => (
+                                  <ErrorText key={`${name}-error-${i}-${j}`}>{detail}</ErrorText>
                                 ))}
                               </ErrorsCol>
                             </ErrorsRow>

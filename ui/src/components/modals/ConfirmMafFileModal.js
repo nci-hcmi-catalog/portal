@@ -140,7 +140,6 @@ const ConfirmMafFileModal = ({
         const existingNotification = notifications.find(x => x.modelName === modelName);
 
         if (existingNotification) {
-          existingNotification.onClose = null;
           existingNotification.clear();
         }
 
@@ -159,7 +158,7 @@ const ConfirmMafFileModal = ({
           details: error.message,
           timeout: false,
           modelName,
-          onClose: () => { acknowledgeImportStatus(modelName) },
+          onClose: () => acknowledgeImportStatus(modelName),
         });
       });
   };

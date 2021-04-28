@@ -84,3 +84,20 @@ export function isEmptyResult(result) {
     ? true
     : false;
 }
+
+export const isEqual = (arr1, arr2) => {
+  if (!Array.isArray(arr1) || !Array.isArray(arr2) || arr1.length !== arr2.length) {
+    return false;
+  }
+
+  let sorted1 = arr1.sort();
+  let sorted2 = arr2.sort();
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (sorted1[i] !== sorted2[i]) {
+      return false;
+    }
+  }
+
+  return true;
+};
