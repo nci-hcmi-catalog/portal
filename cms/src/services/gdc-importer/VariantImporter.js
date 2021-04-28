@@ -211,8 +211,9 @@ const VariantImporter = (function() {
       };
     }
 
-    // Make sure we don't have duplicate imports queued up
+    // Remove duplicate imports
     stopImport(modelName);
+    acknowledge(modelName);
 
     try {
       let newImport;
@@ -314,7 +315,9 @@ const VariantImporter = (function() {
       };
     }
 
-    cleanLists();
+    // Remove duplicate imports
+    stopBulkImport(models);
+    acknowledgeBulk(models);
 
     // Filter out models that don't exist within HCMI db
     let noMatchingModel = [];
@@ -449,10 +452,21 @@ const VariantImporter = (function() {
     return targets.map(target => target.getData());
   };
 
-  const stopBulkImport = async () => {
+  const stopBulkImport = async (modelNames = []) => {
     pause();
 
-    const targets = queue;
+    let targets = [];
+    if (modelNames.length) {
+      modelNames.forEach(modelName => {
+        targets = [
+          ...targets,
+          ...queue.filter(i => i && i.modelName === modelName),
+        ];
+      });
+    } else {
+      targets = queue;
+    }
+
     if (targets.length) {
       targets.forEach(target => target.stop());
       stopped = [...stopped, ...targets];

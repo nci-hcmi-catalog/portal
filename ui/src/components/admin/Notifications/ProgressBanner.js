@@ -27,7 +27,6 @@ import { Row, Col } from 'theme/system';
 import base from 'theme';
 
 import {
-  BULK_NONACTIONABLE_ERROR_ID,
   VARIANT_IMPORT_STATUS,
   VARIANT_IMPORT_TYPES,
 } from 'utils/constants';
@@ -46,7 +45,12 @@ const BulkImportState = {
 
 const ProgressBanner = ({ renderIcon }) => {
   const { importProgress } = useContext(NotificationsContext);
-  const { updateImportNotifications, showUnexpectedImportError, hideErrorImportNotification } = useGenomicVariantImportNotifications();
+  const {
+    fetchImportStatus,
+    showUnexpectedImportError,
+    hideErrorImportNotification,
+    hideBulkNonActionableImportErrors,
+  } = useGenomicVariantImportNotifications();
 
   const getBulkImports = () => {
     if (!importProgress) {
@@ -192,7 +196,7 @@ const ProgressBanner = ({ renderIcon }) => {
           confirmLabel: 'Yes, Stop',
           onConfirm: async () => {
             stopAllImports().then(_ => {
-              updateImportNotifications();
+              fetchImportStatus();
             }).catch(error => {
               showUnexpectedImportError(error);
             });
@@ -225,9 +229,9 @@ const ProgressBanner = ({ renderIcon }) => {
                   hideErrorImportNotification(model.modelName);
                 });
                 // Remove bulk nonactionable error notification
-                hideErrorImportNotification(BULK_NONACTIONABLE_ERROR_ID);
+                hideBulkNonActionableImportErrors();
               }
-              updateImportNotifications();
+              fetchImportStatus();
             }).catch(error => {
               showUnexpectedImportError(error);
             });

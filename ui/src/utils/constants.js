@@ -27,6 +27,19 @@ const GDC_MODEL_STATES = {
   noNgcm: 'NO_NGCM',
 };
 
+const DEFAULT_IMPORT_PROGRESS = {
+  queue: [],
+  failed: [],
+  stopped: [],
+  success: [],
+  running: false,
+};
+
+const DEFAULT_NONACTIONABLE_IMPORTS = {
+  [GDC_MODEL_STATES.modelNotFound]: [],
+  [GDC_MODEL_STATES.noMafs]: [],
+};
+
 const GENOMIC_VARIANTS_IMPORT_ERRORS = {
   noMatchingModel: 'NO_MATCHING_MODEL',
   badRequest: 'BAD_REQUEST',
@@ -65,6 +78,8 @@ export {
   BULK_NONACTIONABLE_ERROR_ID,
   BULK_UPLOAD_DISPLAY_TYPES,
   BULK_UPLOAD_TYPES,
+  DEFAULT_IMPORT_PROGRESS,
+  DEFAULT_NONACTIONABLE_IMPORTS,
   GDC_CASE_URL_BASE,
   GDC_FILE_PAGE_URL_BASE,
   GDC_CANCER_MODEL_SAMPLE_TYPES,
