@@ -264,7 +264,7 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
                         onConfirm: () => {
                           importGenomicVariants(name)
                             .then(async _ => {
-                              addImportNotification(name);
+                              await addImportNotification(name);
                             })
                             .catch(error => {
                               const data = error.response ? error.response.data : error;

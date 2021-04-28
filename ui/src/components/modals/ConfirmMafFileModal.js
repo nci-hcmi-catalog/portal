@@ -143,11 +143,6 @@ const ConfirmMafFileModal = ({
           existingNotification.clear();
         }
 
-        setImportProgress({
-          ...importProgress,
-          running: true,
-        });
-        
         if (onConfirm) {
           onConfirm();
         }
