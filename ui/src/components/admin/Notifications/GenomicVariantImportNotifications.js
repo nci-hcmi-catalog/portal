@@ -13,7 +13,6 @@ import withConfirmMafFileModal from 'components/modals/ConfirmMafFileModal';
 import NOTIFICATION_TYPES from './NotificationTypes';
 import {
   BULK_NONACTIONABLE_ERROR_ID,
-  // DEFAULT_NONACTIONABLE_IMPORTS,
   GDC_MODEL_STATES,
   GENOMIC_VARIANTS_IMPORT_ERRORS,
   VARIANT_IMPORT_TYPES
@@ -384,10 +383,6 @@ const useGenomicVariantImportNotifications = () => {
     hideErrorImportNotification(BULK_NONACTIONABLE_ERROR_ID);
   };
 
-  // const resetBulkNonActionableImportErrors = () => {
-  //   setNonactionableImports(DEFAULT_NONACTIONABLE_IMPORTS);
-  // };
-
   const getNonActionableImportErrorModels = () => {
     return [...nonactionableImports[GDC_MODEL_STATES.modelNotFound], ...nonactionableImports[GDC_MODEL_STATES.noMafs]];
   };
@@ -506,7 +501,6 @@ const useGenomicVariantImportNotifications = () => {
     updateNotificationsFromStatus,
     fetchImportStatus,
     hideErrorImportNotification,
-    // resetBulkNonActionableImportErrors,
     importRunning: importProgress.running,
     showBulkNonActionableImportErrors,
     hideBulkNonActionableImportErrors,

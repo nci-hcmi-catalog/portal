@@ -50,7 +50,6 @@ const ProgressBanner = ({ renderIcon }) => {
     showUnexpectedImportError,
     hideErrorImportNotification,
     hideBulkNonActionableImportErrors,
-    // resetBulkNonActionableImportErrors,
   } = useGenomicVariantImportNotifications();
 
   const getBulkImports = () => {
@@ -232,7 +231,6 @@ const ProgressBanner = ({ renderIcon }) => {
                 // Remove bulk nonactionable error notification
                 hideBulkNonActionableImportErrors();
               }
-              // resetBulkNonActionableImportErrors();
               fetchImportStatus();
             }).catch(error => {
               showUnexpectedImportError(error);
