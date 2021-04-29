@@ -7,7 +7,9 @@ import { NotificationToaster } from '../Notifications';
 import ModelManagerTable from './ModelManagerTable';
 import { modelEditUrlBase } from '../AdminNav';
 import BulkUploader from '../BulkUpload';
+import VariantAuditModal from '../VariantAudit';
 
+import DNAIcon from './../../../icons/DNAIcon';
 import PlusIcon from './../../../icons/PlusIcon';
 
 import { AdminContainer, AdminHeader, AdminHeaderH1, AdminHeaderBlock } from 'theme/adminStyles';
@@ -16,6 +18,7 @@ import { Table } from 'theme/adminTableStyles';
 import { AdminModalStyle } from 'theme/adminModalStyles';
 
 import config from '../config';
+import { BULK_UPLOAD_TYPES } from 'utils/constants';
 
 const content = () => {
   return (
@@ -26,7 +29,32 @@ const content = () => {
           <AdminHeaderH1>Model Management</AdminHeaderH1>
           <AdminHeaderBlock>
             <ModelManagerContext.Consumer>
-              {({ uploadModelsFromSheet }) => (
+              {({ bulkImportVariants, state }) => (
+                <ModalStateContext.Consumer>
+                  {modalState => (
+                    <ButtonPill
+                      primary
+                      marginRight="8px"
+                      onClick={() =>
+                        modalState.setModalState({
+                          component: (
+                            <VariantAuditModal bulkImportVariants={bulkImportVariants} />
+                          ),
+                          shouldCloseOnOverlayClick: true,
+                          styles: AdminModalStyle,
+                        })
+                      }
+                      disabled={state && state.isLoading}
+                    >
+                      <DNAIcon />
+                      Check for GDC Variants
+                    </ButtonPill>
+                  )}
+                </ModalStateContext.Consumer>
+              )}
+            </ModelManagerContext.Consumer>
+            <ModelManagerContext.Consumer>
+              {({ uploadModelsFromSheet, state }) => (
                 <ModalStateContext.Consumer>
                   {modalState => (
                     <ButtonPill
@@ -36,7 +64,7 @@ const content = () => {
                         modalState.setModalState({
                           component: (
                             <BulkUploader
-                              type={'model'}
+                              type={BULK_UPLOAD_TYPES.MODEL}
                               onUpload={uploadModelsFromSheet}
                               backupURL={`${config.urls.cmsBase}/bulk/backup`}
                             />
@@ -45,6 +73,7 @@ const content = () => {
                           styles: AdminModalStyle,
                         })
                       }
+                      disabled={state && state.isLoading}
                     >
                       <PlusIcon />
                       Add Bulk

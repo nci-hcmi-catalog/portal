@@ -8,6 +8,8 @@ import BulkUploadInput from './BulkUploadInput';
 import { ButtonPill } from 'theme/adminControlsStyles';
 import { ModalWrapper, Header, Title, CloseModal, Content, Footer } from 'theme/adminModalStyles';
 
+import { VARIANT_OVERWRITE_OPTIONS } from 'utils/constants';
+
 const BulkUploadModal = ({ type, displayType, onUpload, backupURL, ...props }) => {
   const didMountRef = useRef(false);
   let modalState = useContext(ModalStateContext);
@@ -16,16 +18,18 @@ const BulkUploadModal = ({ type, displayType, onUpload, backupURL, ...props }) =
   // eslint-disable-next-line no-unused-vars
   let [uploadResults, setUploadResults] = useState({});
   let [overwrite, setOverwrite] = useState(false);
+  let [overwriteVariants, setOverwriteVariants] = useState(VARIANT_OVERWRITE_OPTIONS.cleanOnly);
   const [signedIn, setSignedIn] = useState(false);
 
   const onSheetsURLChange = newURL => setSheetsURL(newURL);
   const onUploadClick = () => setUploadingGoogleSheet(true);
   const onOverwriteChange = value => setOverwrite(value);
+  const onOverwriteVariantsChange = value => setOverwriteVariants(value);
 
   const didUpdate = async () => {
     try {
       if (uploadingGoogleSheet) {
-        const uploadSheetResult = await onUpload(sheetsURL, overwrite);
+        const uploadSheetResult = await onUpload(sheetsURL, overwrite, overwriteVariants);
 
         await setUploadingGoogleSheet(false);
         await setUploadResults(uploadSheetResult);
@@ -75,7 +79,9 @@ const BulkUploadModal = ({ type, displayType, onUpload, backupURL, ...props }) =
             type,
             displayType,
             overwrite,
+            overwriteVariants,
             onOverwriteChange,
+            onOverwriteVariantsChange,
             signedIn,
           }}
           {...props}

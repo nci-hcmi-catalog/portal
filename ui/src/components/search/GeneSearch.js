@@ -2,7 +2,7 @@ import React from 'react';
 
 import SidebarTextSearch from 'components/search/SidebarTextSearch';
 
-import GeneIcon from 'icons/DNAIcon';
+import GeneIcon from 'icons/DNACircleIcon';
 import { searchGenes } from 'components/search/services/searchService';
 
 export default ({ sqon, setSQON, ...props }) => (

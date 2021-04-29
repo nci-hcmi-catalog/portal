@@ -21,6 +21,8 @@ import ExportIcon from 'icons/ExportIcon';
 import ExternalLinkIcon from 'icons/ExternalLinkIcon';
 import googleSheetsLogo from 'assets/logo-googlesheets.png';
 
+import { BULK_UPLOAD_TYPES, VARIANT_OVERWRITE_OPTIONS } from 'utils/constants';
+
 const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
 // Map simple string/number options to keyed objects
@@ -36,6 +38,12 @@ const overwriteOptions = type => [
   { label: `Yes, overwrite existing ${type}s`, value: true },
 ];
 
+const variantOverwriteOptions = [
+  { label: 'Yes, but only for models with no research somatic variant data.', value: VARIANT_OVERWRITE_OPTIONS.cleanOnly },
+  { label: 'Yes, for all models in this sheet.', value: VARIANT_OVERWRITE_OPTIONS.allModels },
+  { label: 'No, do not import any research somatic variant data.', value: VARIANT_OVERWRITE_OPTIONS.none },
+];
+
 export default ({
   type,
   displayType,
@@ -43,7 +51,9 @@ export default ({
   sheetsURL,
   backupURL,
   overwrite,
+  overwriteVariants,
   onOverwriteChange,
+  onOverwriteVariantsChange,
   signedIn,
 }) => {
   const [templateUrl, setTemplateUrl] = useState(null);
@@ -154,6 +164,37 @@ export default ({
           </RadioSelect>
         </UploadOverwrite>
       </BulkUploadContentBlock>
+      {type === BULK_UPLOAD_TYPES.MODEL && <BulkUploadContentBlock>
+        <UploadOverwrite>
+          <UploadContentHeading>
+            {`Would you like to overwrite the existing research somatic variants for the ${displayType || type}s within this google sheet?`}
+          </UploadContentHeading>
+          <RadioSelect>
+            {variantOverwriteOptions.map((option, idx) => {
+              let formValue = normalizeOption(overwriteVariants);
+              const optionValue = normalizeOption(option.value);
+              return (
+                <label key={idx} htmlFor={`overwrite-variants-option-${idx}`}>
+                  {option.label}
+                  <input
+                    type="radio"
+                    id={`overwrite-variants-option-${idx}`}
+                    value={optionValue}
+                    checked={formValue === optionValue}
+                    onChange={e => {
+                      onOverwriteVariantsChange(e.currentTarget.value);
+                    }}
+                    onClick={e => {
+                      onOverwriteVariantsChange(e.currentTarget.value);
+                    }}
+                  />
+                  <span />
+                </label>
+              );
+            })}
+          </RadioSelect>
+        </UploadOverwrite>
+      </BulkUploadContentBlock>}
     </BulkUploadContent>
   );
 };

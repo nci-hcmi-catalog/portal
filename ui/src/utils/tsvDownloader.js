@@ -40,3 +40,26 @@ const addColumnSpecificCustomizations = row => {
   }
   return output;
 };
+
+export const convertColumnsToTableData = (columnHeaders, columnData) => {
+  const tableData = [];
+  let longestColumnIndex = 0;
+
+  for (let i = 0; i < columnHeaders.length; i++) {
+    if (columnData[i].length > columnData[longestColumnIndex].length) {
+      longestColumnIndex = i;
+    }
+  }
+
+  for (let i = 0; i < columnData[longestColumnIndex].length; i++) {
+    let row = {};
+
+    for (let j = 0; j < columnHeaders.length; j++) {
+      row[columnHeaders[j].accessor] = columnData[j][i] || '';
+    }
+
+    tableData.push(row);
+  }
+
+  return tableData;
+};
