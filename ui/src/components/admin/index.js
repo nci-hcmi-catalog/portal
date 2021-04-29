@@ -7,7 +7,7 @@ import { LoggedInUserProvider } from '@hcmi-portal/ui/src/components/admin/servi
 import { VariantsProvider } from 'providers/Variants';
 
 export default ({ location }) => (
-  <NotificationsProvider>
+  <NotificationsProvider location={location}>
     <LoggedInUserProvider>
       <VariantsProvider>
         <AdminView location={location} />

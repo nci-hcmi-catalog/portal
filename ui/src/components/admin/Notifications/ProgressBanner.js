@@ -46,8 +46,11 @@ const BulkImportState = {
 };
 
 const ProgressBanner = ({ renderIcon }) => {
-  const { refreshModelsTable } = useContext(ModelManagerContext);
-  const { importProgress } = useContext(NotificationsContext);
+  const { importProgress, location } = useContext(NotificationsContext);
+  const { refreshModelsTable } =
+    location && location.pathname === "/admin"
+      ? useContext(ModelManagerContext)
+      : { refreshModelsTable: null };
   const {
     fetchImportStatus,
     showUnexpectedImportError,
@@ -160,6 +163,7 @@ const ProgressBanner = ({ renderIcon }) => {
       }
 
       if (
+        refreshModelsTable &&
         (getImportState() === BulkImportState.complete ||
           getImportState() === BulkImportState.stopped) &&
         prevImportState.current === BulkImportState.importing
@@ -168,7 +172,7 @@ const ProgressBanner = ({ renderIcon }) => {
       }
 
       prevImportState.current = getImportState();
-    }, [importProgress, prevImportState]);
+    }, [importProgress, prevImportState, refreshModelsTable]);
 
     return (
       <Row>
