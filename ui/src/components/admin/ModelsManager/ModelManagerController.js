@@ -432,6 +432,16 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     });
                   });
               },
+              refreshModelsTable: async () => {
+                const [dataResponse, countResponse] = await loadData(baseUrl, state);
+                setState(() => ({
+                  isLoading: false,
+                  data: dataResponse.data,
+                  error: null,
+                  rowCount: countResponse.data.count,
+                  ...initPagingState,
+                }));
+              },
               ...generateTableActions(setState, state.data),
             }}
             {...props}

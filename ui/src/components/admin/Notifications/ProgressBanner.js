@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import { acknowledgeBulkImportStatus, stopAllImports } from 'components/admin/Model/actions/GenomicVariants';
 import useGenomicVariantImportNotifications from 'components/admin/Notifications/GenomicVariantImportNotifications';
+import { ModelManagerContext } from 'components/admin/ModelsManager/ModelManagerController';
 import useConfirmationModal from 'components/modals/ConfirmationModal';
 import { NotificationsContext } from './NotificationsController';
 import NOTIFICATION_TYPES from './NotificationTypes';
@@ -45,6 +46,7 @@ const BulkImportState = {
 };
 
 const ProgressBanner = ({ renderIcon }) => {
+  const { refreshModelsTable } = useContext(ModelManagerContext);
   const { importProgress } = useContext(NotificationsContext);
   const {
     fetchImportStatus,
@@ -53,6 +55,7 @@ const ProgressBanner = ({ renderIcon }) => {
     hideBulkNonActionableImportErrors,
   } = useGenomicVariantImportNotifications();
   const [working, setWorking] = useState(false);
+  const prevImportState = useRef();
 
   const getBulkImports = () => {
     if (!importProgress) {
@@ -149,6 +152,23 @@ const ProgressBanner = ({ renderIcon }) => {
           return null;
       }
     };
+
+    useEffect(() => {
+      if (!prevImportState) {
+        prevImportState.current = getImportState();
+        return;
+      }
+
+      if (
+        (getImportState() === BulkImportState.complete ||
+          getImportState() === BulkImportState.stopped) &&
+        prevImportState.current === BulkImportState.importing
+      ) {
+        refreshModelsTable();
+      }
+
+      prevImportState.current = getImportState();
+    }, [importProgress, prevImportState]);
 
     return (
       <Row>

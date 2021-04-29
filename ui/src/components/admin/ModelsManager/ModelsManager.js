@@ -29,7 +29,7 @@ const content = () => {
           <AdminHeaderH1>Model Management</AdminHeaderH1>
           <AdminHeaderBlock>
             <ModelManagerContext.Consumer>
-              {({ bulkImportVariants }) => (
+              {({ bulkImportVariants, state }) => (
                 <ModalStateContext.Consumer>
                   {modalState => (
                     <ButtonPill
@@ -44,6 +44,7 @@ const content = () => {
                           styles: AdminModalStyle,
                         })
                       }
+                      disabled={state && state.isLoading}
                     >
                       <DNAIcon />
                       Check for GDC Variants
@@ -53,7 +54,7 @@ const content = () => {
               )}
             </ModelManagerContext.Consumer>
             <ModelManagerContext.Consumer>
-              {({ uploadModelsFromSheet }) => (
+              {({ uploadModelsFromSheet, state }) => (
                 <ModalStateContext.Consumer>
                   {modalState => (
                     <ButtonPill
@@ -72,6 +73,7 @@ const content = () => {
                           styles: AdminModalStyle,
                         })
                       }
+                      disabled={state && state.isLoading}
                     >
                       <PlusIcon />
                       Add Bulk

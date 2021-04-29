@@ -31,7 +31,7 @@ const auditTableColumns = (importedLength, cleanLength) => [
   },
   {
     Header: `Models with NO variant data imported (${cleanLength})`,
-    accessor: 'clean',
+    accessor: 'not_imported',
   },
 ];
 
