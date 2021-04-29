@@ -8,7 +8,7 @@ import {
 
 export const NotificationsContext = React.createContext();
 
-const NotificationsProvider = ({ children }) => {
+const NotificationsProvider = ({ location, children }) => {
   const [notifications, setNotifications] = useState([]);
   // only used for imports initiated from individual model pages
   const [importNotifications, setImportNotifications] = useState([]);
@@ -75,6 +75,7 @@ const NotificationsProvider = ({ children }) => {
         setImportProgress,
         nonactionableImports,
         setNonactionableImports,
+        location,
       }}
     >
       {children}
