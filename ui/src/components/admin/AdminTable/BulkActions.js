@@ -58,6 +58,7 @@ export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection 
           borderRadius: '4px',
           width: 'max-content',
           minWidth: '172px',
+          zIndex: 20,
         }}
         arrow={false}
       >
