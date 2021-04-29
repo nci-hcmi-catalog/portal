@@ -155,6 +155,12 @@ export const closeIcon = css`
   cursor: pointer;
 `;
 
+export const closeIconDisabled = css`
+  margin-right: 0;
+  margin-left: auto;
+  cursor: not-allowed;
+`;
+
 export const NotificationTableHeaderRow = styled(Row)`
   border-bottom: 1px solid ${bombay};
 `;

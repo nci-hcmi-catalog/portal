@@ -23,6 +23,7 @@ import {
   ErrorLabel,
   ErrorText,
   closeIcon,
+  closeIconDisabled,
   ShowHideButton,
   ShowHideButtonLabel,
   PlusMinusIcon,
@@ -115,6 +116,7 @@ export default () => {
     getNonActionableImportErrorModels,
   } = useGenomicVariantImportNotifications();
   const [showMore, setShowMore] = useState(false);
+  const [working, setWorking] = useState(false);
 
   const getBulkImports = () => {
     if (!importProgress) {
@@ -204,8 +206,16 @@ export default () => {
                 width={'17px'}
                 height={'17px'}
                 fill={trout}
-                style={closeIcon}
-                onClick={() => clearNotification(notification.id)}
+                style={working ? closeIconDisabled : closeIcon}
+                onClick={() => {
+                  if (working) {
+                    return;
+                  }
+
+                  setWorking(true);
+                  clearNotification(notification.id);
+                  setWorking(false);
+                }}
               />
             )}
           </Notification>
