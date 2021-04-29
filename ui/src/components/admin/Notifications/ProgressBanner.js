@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { acknowledgeBulkImportStatus, stopAllImports } from 'components/admin/Model/actions/GenomicVariants';
 import useGenomicVariantImportNotifications from 'components/admin/Notifications/GenomicVariantImportNotifications';
@@ -16,6 +16,7 @@ import {
   Message,
   Details,
   closeIcon,
+  closeIconDisabled,
   ProgressBarContainer,
   ProgressBarWrapper,
   ProgressBarSectionComplete,
@@ -51,6 +52,7 @@ const ProgressBanner = ({ renderIcon }) => {
     hideErrorImportNotification,
     hideBulkNonActionableImportErrors,
   } = useGenomicVariantImportNotifications();
+  const [working, setWorking] = useState(false);
 
   const getBulkImports = () => {
     if (!importProgress) {
@@ -195,8 +197,10 @@ const ProgressBanner = ({ renderIcon }) => {
             'Are you sure you want to stop this variant import?',
           confirmLabel: 'Yes, Stop',
           onConfirm: async () => {
-            stopAllImports().then(_ => {
-              fetchImportStatus();
+            setWorking(true);
+            stopAllImports().then(async _ => {
+              await fetchImportStatus();
+              setWorking(false);
             }).catch(error => {
               showUnexpectedImportError(error);
             });
@@ -208,6 +212,7 @@ const ProgressBanner = ({ renderIcon }) => {
               marginRight: 0,
               marginLeft: 'auto'
             }}
+            disabled={working}
           >
             Stop Import
           </ButtonPill>,
@@ -218,11 +223,16 @@ const ProgressBanner = ({ renderIcon }) => {
           width={'17px'}
           height={'17px'}
           fill={trout}
-          style={closeIcon}
+          style={working ? closeIconDisabled : closeIcon}
           onClick={() => {
+            if (working) {
+              return;
+            }
+
+            setWorking(true);
             acknowledgeBulkImportStatus(
               getBulkImports().map(x => x.modelName)
-            ).then(data => {
+            ).then(async data => {
               if (data.success) {
                 // Remove error notifications for acknowledged errors
                 (data.acknowledged || []).forEach(model => {
@@ -231,7 +241,7 @@ const ProgressBanner = ({ renderIcon }) => {
                 // Remove bulk nonactionable error notification
                 hideBulkNonActionableImportErrors();
               }
-              fetchImportStatus();
+              await fetchImportStatus();
             }).catch(error => {
               showUnexpectedImportError(error);
             });

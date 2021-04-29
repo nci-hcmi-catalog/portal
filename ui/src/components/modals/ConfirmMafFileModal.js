@@ -58,8 +58,8 @@ const getCancerModelEntity = entities => {
   return entities.find(entity => GDC_CANCER_MODEL_SAMPLE_TYPES.indexOf(entity.sampleType) > -1);
 };
 
-const doThenClose = (next, modalState) => () => {
-  next();
+const doThenClose = (next, modalState) => async () => {
+  await next();
   return modalState.setModalState({ component: null });
 };
 
@@ -85,6 +85,7 @@ const ConfirmMafFileModal = ({
     filename: files[0].filename,
   };
   const [fileSelection, setFileSelection] = useState(defaultSelection);
+  const [loading, setLoading] = useState(false);
 
   const onFileSelectionChange = value => {
     const filename = files.find(x => x.fileId === value).filename;
@@ -135,8 +136,9 @@ const ConfirmMafFileModal = ({
   };
 
   const confirmMafFile = async () => {
+    setLoading(true);
     await resolveMafFileConflict(modelName, fileSelection.fileId, fileSelection.filename)
-      .then(_ => {
+      .then(async _ => {
         const existingNotification = notifications.find(x => x.modelName === modelName);
 
         if (existingNotification) {
@@ -144,7 +146,7 @@ const ConfirmMafFileModal = ({
         }
 
         if (onConfirm) {
-          onConfirm();
+          await onConfirm();
         }
       }).catch(error => {
         appendNotification({
@@ -184,7 +186,7 @@ const ConfirmMafFileModal = ({
             <ButtonPill
               primary
               marginRight={'10px'}
-              disabled={!fileSelection.fileId}
+              disabled={!fileSelection.fileId || loading}
               onClick={doThenClose(confirmMafFile, modalState)}
             >
               {confirmLabel}

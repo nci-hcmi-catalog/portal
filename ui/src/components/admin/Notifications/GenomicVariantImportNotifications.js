@@ -120,7 +120,7 @@ const useGenomicVariantImportNotifications = () => {
   };
 
   // ONLY USED FOR INDIVIDUAL IMPORTS
-  const addImportNotification = async (modelName) => {
+  const addImportNotification = async modelName => {
     const existingNotification = getImportNotifications().find(x => x.modelName === modelName);
 
     if (existingNotification) {
