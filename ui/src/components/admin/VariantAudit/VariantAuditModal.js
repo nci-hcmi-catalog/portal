@@ -57,12 +57,14 @@ const VariantAuditModal = ({ bulkImportVariants }) => {
   const closeModal = () => modalState.setModalState({ component: null });
   const onImportAllChange = value => setImportAll(value);
   const onImportClick = async () => {
+    setLoading(true);
     const modelNames = normalizeOption(importAll)
       ? [...imported, ...clean]
       : [...clean];
 
     await bulkImportVariants(modelNames);
 
+    setLoading(false);
     closeModal();
   };
 
