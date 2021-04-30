@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Component from 'react-component-component';
 import { scroller } from 'react-scroll';
 import Spinner from 'react-spinkit';
 
 import { NotificationsContext } from './NotificationsController';
-import { NOTIFICATION_TYPES } from './../Notifications';
+import useGenomicVariantImportNotifications from './GenomicVariantImportNotifications';
+import NOTIFICATION_TYPES from './NotificationTypes';
+import ProgressBanner from './ProgressBanner';
 
 import CheckmarkIcon from 'icons/CheckmarkIcon';
 import CrossCircleIcon from 'icons/CrossCircleIcon';
@@ -21,13 +23,23 @@ import {
   ErrorLabel,
   ErrorText,
   closeIcon,
+  closeIconDisabled,
+  ShowHideButton,
+  ShowHideButtonLabel,
+  PlusMinusIcon,
 } from 'theme/adminNotificationStyles';
 import { Col } from 'theme/system';
 import base from 'theme';
 
+import {
+  VARIANT_IMPORT_TYPES,
+} from 'utils/constants';
+
 const {
   keyedPalette: { alizarinCrimson, pelorousapprox, trout, yellowOrange },
 } = base;
+
+const NOTIFICATION_LIMIT = 5;
 
 const scrollIntoView = () =>
   scroller.scrollTo('notifications-toaster', {
@@ -91,7 +103,47 @@ const renderIcon = type => {
 };
 
 export default () => {
-  const { notifications, clearNotification } = useContext(NotificationsContext);
+  const {
+    notifications,
+    clearNotification,
+    importProgress,
+    nonactionableImports,
+  } = useContext(NotificationsContext);
+  const {
+    updateNotificationsFromStatus,
+    showBulkNonActionableImportErrors,
+    hideBulkNonActionableImportErrors,
+    getNonActionableImportErrorModels,
+  } = useGenomicVariantImportNotifications();
+  const [showMore, setShowMore] = useState(false);
+  const [working, setWorking] = useState(false);
+
+  const getBulkImports = () => {
+    if (!importProgress) {
+      return [];
+    }
+
+    return [
+      ...importProgress.queue,
+      ...importProgress.failed,
+      ...importProgress.stopped,
+      ...importProgress.success,
+    ].filter(x => x.importType === VARIANT_IMPORT_TYPES.bulk);
+  }
+
+  const isActiveBulkImport = () => !!getBulkImports().length;
+
+  useEffect(() => {
+    updateNotificationsFromStatus();
+  }, [importProgress]);
+
+  useEffect(() => {
+    if (nonactionableImports && getNonActionableImportErrorModels().length) {
+      showBulkNonActionableImportErrors();
+    } else {
+      hideBulkNonActionableImportErrors();
+    }
+  }, [nonactionableImports])
 
   return (
     <Component
@@ -104,23 +156,26 @@ export default () => {
       }}
     >
       <NotificationsToaster name="notifications-toaster">
-        {notifications.map(notification => (
+        {isActiveBulkImport() && (
+          <ProgressBanner renderIcon={renderIcon} />
+        )}
+        {notifications.slice(notifications.length > NOTIFICATION_LIMIT && !showMore ? notifications.length - NOTIFICATION_LIMIT : 0).reverse().map(notification => (
           <Notification key={notification.id} type={notification.type}>
             {renderIcon(notification.type)}
-            <Col>
+            <Col width={'100%'}>
               <Message>{notification.message}</Message>
               {notification.details && (
                 <Details>
                   {notification.details}
                   {notification.bulkErrors && notification.bulkErrors.length > 0 && (
                     <ErrorsCol marginTop="16px">
-                      {notification.bulkErrors.map(error => {
+                      {notification.bulkErrors.map((error, i) => {
                         const details =
                           error.name === 'ValidationError' ? error.errors : error.details;
                         const name =
                           error.name === 'ValidationError' ? error.value.name : error.name;
                         return (
-                          <ErrorsCol marginBottom="16px">
+                          <ErrorsCol key={`${name}-error-${i}`} marginBottom="16px">
                             <ErrorsRow>
                               <ErrorLabel>Name: </ErrorLabel>
                               <ErrorText>{name}</ErrorText>
@@ -128,8 +183,8 @@ export default () => {
                             <ErrorsRow>
                               <ErrorLabel>Errors: </ErrorLabel>
                               <ErrorsCol>
-                                {details.map(detail => (
-                                  <ErrorText>{detail}</ErrorText>
+                                {details.map((detail, j) => (
+                                  <ErrorText key={`${name}-error-${i}-${j}`}>{detail}</ErrorText>
                                 ))}
                               </ErrorsCol>
                             </ErrorsRow>
@@ -151,12 +206,35 @@ export default () => {
                 width={'17px'}
                 height={'17px'}
                 fill={trout}
-                style={closeIcon}
-                onClick={() => clearNotification(notification.id)}
+                style={working ? closeIconDisabled : closeIcon}
+                onClick={() => {
+                  if (working) {
+                    return;
+                  }
+
+                  setWorking(true);
+                  clearNotification(notification.id);
+                  setWorking(false);
+                }}
               />
             )}
           </Notification>
         ))}
+        {notifications.length > NOTIFICATION_LIMIT && (
+          <ShowHideButton onClick={() => setShowMore(!showMore)}>
+            <PlusMinusIcon showMore={showMore}>
+              {showMore ? '-' : '+'}
+            </PlusMinusIcon>
+            <ShowHideButtonLabel>
+              {`${showMore ? 'Hide' : 'Show'} ${notifications.length - NOTIFICATION_LIMIT} ${
+                showMore
+                  ? notifications.length - NOTIFICATION_LIMIT === 1 ? 'notification' : 'notifications'
+                  : 'more'
+                }`
+              }
+            </ShowHideButtonLabel>
+          </ShowHideButton>
+        )}
       </NotificationsToaster>
     </Component>
   );
