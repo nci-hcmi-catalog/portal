@@ -210,8 +210,16 @@ variantsRouter.get('/audit', async (req, res) => {
   try {
     logger.debug(`Performing a genomic variant audit...`);
 
-    const imported = await Model.find({ genomic_variants: { $ne: [] } }, 'name');
-    const clean = await Model.find({ genomic_variants: [] }, 'name');
+    const imported = await Model.find(
+      { $and: [{ genomic_variants: { $exists: true } }, { genomic_variants: { $ne: [] } }] },
+      'name',
+    );
+    const clean = await Model.find(
+      {
+        $or: [{ genomic_variants: { $exists: false } }, { genomic_variants: [] }],
+      },
+      'name',
+    );
 
     return res.status(200).json({
       imported: imported.map(i => i.name),

@@ -130,7 +130,7 @@ const ConfirmMafFileModal = ({
         sampleType: entity.sampleType,
         tissueType: entity.tissueType,
         tumorDescriptor: entity.tumorDescriptor,
-        entityId: entity.entityId,
+        entityId: entity.entitySubmitterId,
       };
     });
   };
