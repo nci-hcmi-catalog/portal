@@ -105,7 +105,7 @@ export const postUpdate = async (req, res, next) => {
     },
   } = req;
 
-  logger.audit({ model: result }, 'model saved', 'Model saved in mongo');
+  logger.audit({ model: modelName }, 'model saved', 'Model saved in mongo');
 
   // Model updates that contain the status key we
   // treat as being a change in status and trigger
