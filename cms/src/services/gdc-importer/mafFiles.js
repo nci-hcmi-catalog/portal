@@ -137,8 +137,12 @@ export const fetchModelFileData = async modelNames => {
             })
             .map(entity => {
               const matchingSample = samples.find(sample => sample.aliquots.includes(entity));
+              const matchingEntity = get(fileEdge, 'node.associated_entities.hits.edges', []).find(
+                x => x.node.entity_id === entity,
+              );
               return {
                 entityId: entity,
+                entitySubmitterId: get(matchingEntity, 'node.entity_submitter_id'),
                 sampleType: matchingSample.sampleType,
                 tissueType: matchingSample.tissueType,
                 tumorDescriptor: matchingSample.tumorDescriptor,
