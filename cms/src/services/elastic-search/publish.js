@@ -50,7 +50,7 @@ export const indexOneToES = filter => {
                   resolve({
                     status: `Indexing successful with status: ${res.result}`,
                   });
-                logger.audit({ model: doc }, 'publish model', 'Model Published to ES');
+                logger.audit({ model: doc.name }, 'publish model', 'Model Published to ES');
               }
             });
           })

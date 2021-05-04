@@ -166,7 +166,14 @@ export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileI
         : modelStatus.unpublishedChanges;
 
     await model.save();
-    logger.audit({ model }, 'model saved', 'Genomic Variants added to model');
+    logger.audit(
+      {
+        model: model.name,
+        genomic_variants: model.genomic_variants ? model.genomic_variants.length : 0,
+      },
+      'model saved',
+      'Genomic Variants added to model',
+    );
   } else {
     logger.warn({ name }, 'Could not find model for genomic variant import');
     throw new Error('Model could not be found');
