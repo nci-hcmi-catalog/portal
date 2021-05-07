@@ -3,6 +3,7 @@ import { get } from 'lodash';
 import { Link } from 'react-router-dom';
 import Spinner from 'react-spinkit';
 
+import InfoTooltip from 'components/InfoTooltip';
 import ModelQuery from 'components/queries/ModelQuery';
 import ModelBar from 'components/ModelBar';
 import ModelCarouselBar from 'components/ModelCarouselBar';
@@ -20,7 +21,7 @@ import { VariantsProvider } from 'providers/Variants';
 
 import { ExternalLinkPill } from 'theme/adminControlsStyles';
 import { ModelSlider, ModelSlide, LeftArrow, RightArrow } from 'theme/carouselStyles';
-import styles from 'theme/modelStyles';
+import styles, { TooltipLink } from 'theme/modelStyles';
 import { Row, Col } from 'theme/system';
 import base from 'theme';
 
@@ -279,6 +280,15 @@ export default ({ modelName }) => (
                 <Col className="three-col">
                   <div className="model-section__card">
                     <h3 className="model-section__card-title">Model Details</h3>
+                    <InfoTooltip
+                      ariaLabel={
+                        'Model details are provided by the model distributor. We aim to collect as complete data as possible, but it is not always feasible to obtain all data.'
+                      }
+                    >
+                      <b>Model details</b> are provided by the model distributor. We aim to collect
+                      as complete data as possible, but it is not always feasible to obtain all
+                      data.
+                    </InfoTooltip>
                     <HorizontalTable
                       rawData={queryState.model}
                       extended={queryState.extended}
@@ -298,6 +308,15 @@ export default ({ modelName }) => (
                       Multiple Models From This Patient (
                       {queryState.model.matched_models.hits.edges.length || '0'})
                     </h3>
+                    <InfoTooltip
+                      ariaLabel={
+                        'In some cases, it is possible to create models from more than one tumor site from a single patient. These Multiple Models for a single patient are associated with each other.'
+                      }
+                    >
+                      In some cases, it is possible to create models from more than one tumor site
+                      from a single patient. These <b>Multiple Models</b> for a single patient are
+                      associated with each other.
+                    </InfoTooltip>
                     <MultipleModelsList
                       matches={queryState.model.matched_models.hits.edges.map(match => match.node)}
                     />
@@ -308,6 +327,15 @@ export default ({ modelName }) => (
                       Available Molecular Characterizations (
                       {get(queryState.model, 'molecular_characterizations').length || '0'})
                     </h3>
+                    <InfoTooltip
+                      ariaLabel={
+                        'QC’ed data are released as they complete the characterization pipeline. Available data types may differ among Cancer Model Development Centers.'
+                      }
+                    >
+                      QC’ed data are released as they complete the characterization pipeline.
+                      <b> Available data types</b> may differ among Cancer Model Development
+                      Centers.
+                    </InfoTooltip>
                     <MolecularCharacterizationsTable
                       characterizations={get(queryState.model, 'molecular_characterizations')}
                     />
@@ -317,6 +345,22 @@ export default ({ modelName }) => (
                 <Col className="three-col">
                   <div className="model-section__card">
                     <h3 className="model-section__card-title">Patient Details</h3>
+                    <InfoTooltip
+                      ariaLabel={
+                        'Patient details are reported from case report forms. The availability of clinical data may differ among Cancer Model Development Centers.'
+                      }
+                    >
+                      <b>Patient details</b> are reported from{' '}
+                      <TooltipLink
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://ocg.cancer.gov/programs/hcmi/resources"
+                      >
+                        case report forms
+                      </TooltipLink>
+                      . The availability of clinical data may differ among Cancer Model Development
+                      Centers.
+                    </InfoTooltip>
                     <HorizontalTable
                       rawData={queryState.model}
                       extended={queryState.extended}
