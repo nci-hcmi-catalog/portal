@@ -160,6 +160,15 @@ export default css`
     white-space: normal;
   }
 
+  .ReactTable .rt-thead .rt-resizable-header:last-child {
+    overflow: unset;
+
+    .rt-resizer {
+      width: 18px;
+      right: 0;
+    }
+  }
+
   .ReactTable .rt-td > a,
   .clickable {
     ${brandPrimaryHighlightHover};
@@ -170,6 +179,15 @@ export default css`
 
   .ReactTable .rt-thead {
     background-color: #ffffff;
+  }
+
+  .ReactTable .rt-table {
+    overflow-x: scroll;
+    overflow-y: visible;
+
+    .rt-thead.-header {
+      box-shadow: none;
+    }
   }
 
   .ReactTable .rt-thead .rt-tr .rt-th {

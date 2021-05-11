@@ -26,6 +26,13 @@ import TableList from 'components/TableList';
 import ShareButton from 'components/ShareButton';
 import ModelList from 'components/ModelList';
 import TextInput from 'components/TextInput';
+import {
+  MultipleModelsTooltip,
+  MolecularCharacterizationsTooltip,
+  ClinicalVariantsTooltip,
+  HistopathologicalBiomarkersTooltip,
+  GenomicVariantsTooltip,
+} from 'components/tooltips';
 
 import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
 
@@ -224,10 +231,10 @@ export default ({
                           },
                           age_at_sample_acquisition: { minWidth: 85 },
                           genes_count: { minWidth: 69 },
-                          number: { minWidth: 75 },
+                          number: { minWidth: 88 },
                           expanded: { minWidth: 80 },
-                          histo_variant_count: { minWidth: 90 },
-                          matched_models: { minWidth: 68 },
+                          histo_variant_count: { minWidth: 108 },
+                          matched_models: { minWidth: 84 },
                         }}
                         index={props.index}
                         graphqlField={props.index}
@@ -244,6 +251,67 @@ export default ({
                         enableDropDownControls={true}
                         sessionStorage={true}
                         storageKey={selectedModelContext.storageKey}
+                        customColumns={[
+                          {
+                            content: {
+                              field: 'matched_models_list',
+                              displayName: 'Has Multiple Models',
+                              Header: () => (
+                                <Row space="space-between">
+                                  Has Multiple Models <MultipleModelsTooltip isColumn={true} />
+                                </Row>
+                              ),
+                            },
+                          },
+                          {
+                            content: {
+                              field: 'molecular_characterizations',
+                              displayName: 'Available Molecular Characterizations',
+                              Header: () => (
+                                <Row space="space-between">
+                                  Available Molecular Characterizations
+                                  <MolecularCharacterizationsTooltip isColumn={true} />
+                                </Row>
+                              ),
+                            },
+                          },
+                          {
+                            content: {
+                              field: 'gene_metadata.genomic_variant_count',
+                              displayName: '# Research Somatic Variants',
+                              Header: () => (
+                                <Row space="space-between">
+                                  # Research Somatic Variants
+                                  <GenomicVariantsTooltip />
+                                </Row>
+                              ),
+                            },
+                          },
+                          {
+                            content: {
+                              field: 'gene_metadata.clinical_variant_count',
+                              displayName: '# Clinical Variants',
+                              Header: () => (
+                                <Row space="space-between">
+                                  # Clinical Variants
+                                  <ClinicalVariantsTooltip />
+                                </Row>
+                              ),
+                            },
+                          },
+                          {
+                            content: {
+                              field: 'gene_metadata.histopathological_variant_count',
+                              displayName: '# Histo-pathological Biomarkers',
+                              Header: () => (
+                                <Row space="space-between">
+                                  # Histo-pathological Biomarkers
+                                  <HistopathologicalBiomarkersTooltip />
+                                </Row>
+                              ),
+                            },
+                          },
+                        ]}
                       />
                     );
                   }}

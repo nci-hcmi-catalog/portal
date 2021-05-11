@@ -3,7 +3,13 @@ import Popup from 'reactjs-popup';
 
 import QuestionMarkIcon from 'icons/QuestionMarkIcon';
 
-const InfoTooltip = ({ children, ariaLabel, iconStyle }) => {
+const InfoTooltip = ({
+  children,
+  ariaLabel,
+  iconStyle,
+  infoStyle = {},
+  position = 'top right',
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const showTooltip = () => {
@@ -23,6 +29,7 @@ const InfoTooltip = ({ children, ariaLabel, iconStyle }) => {
             position: absolute;
             right: 0;
             top: 4px;
+            z-index: 50;
             ${iconStyle}
           `}
         >
@@ -38,15 +45,19 @@ const InfoTooltip = ({ children, ariaLabel, iconStyle }) => {
       open={isOpen}
       onOpen={showTooltip}
       onClose={hideTooltip}
-      position={'top right'}
+      position={position}
       contentStyle={{
         width: '380px',
+        zIndex: 100,
+        ...infoStyle,
       }}
       mouseEnterDelay={100}
     >
       <div
         css={`
           font-size: 12px;
+          font-weight: normal;
+          text-transform: none;
         `}
       >
         {children}
