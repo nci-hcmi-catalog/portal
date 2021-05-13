@@ -63,7 +63,7 @@ export default ({
           onDragStarted={() => (stable = false)}
           onDragFinished={() => (stable = true)}
         >
-          <Col className="aggregations-wrapper">
+          <Col className="aggregations-wrapper" role="complementary">
             <Component shouldUpdate={() => stable}>
               {() => (
                 <>
@@ -135,6 +135,7 @@ export default ({
                 justify-content: space-around;
                 border: 1px solid #d9d9df;
               `}
+              aria-hidden={true}
             >
               <Component shouldUpdate={() => stable}>
                 {() => (
