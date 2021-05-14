@@ -2,7 +2,7 @@ import Model from '../schemas/model';
 import { modelStatus } from '../helpers/modelStatus';
 import Gene from '../schemas/genes';
 import VariantImporter from '../services/gdc-importer/VariantImporter';
-import { GDC_MODEL_STATES, IMPORT_ERRORS } from '../services/gdc-importer/gdcConstants';
+import { GDC_MODEL_STATES, IMPORT_ERRORS, BASE_GDC_URL } from '../services/gdc-importer/gdcConstants';
 
 import getLogger from '../logger';
 const logger = getLogger('helpers/genomicVariants');
@@ -64,7 +64,12 @@ const buildVariantId = ({
   }
 };
 
-export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileId }) => {
+const buildModelUrl = caseId => `${BASE_GDC_URL}/cases/${caseId}`;
+const buildMafUrl = fileId => `${BASE_GDC_URL}/files/${fileId}`;
+const buildSequenceUrl = caseId =>
+  `${BASE_GDC_URL}/repository?facetTab=files&filters=%7B%22op%22%3A%22and%22%2C%22content%22%3A%5B%7B%22op%22%3A%22in%22%2C%22content%22%3A%7B%22field%22%3A%22cases.case_id%22%2C%22value%22%3A%5B%22${caseId}%22%5D%7D%7D%5D%7D&searchTableTab=files`;
+
+export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileId }, caseId) => {
   const model = await Model.findOne({ name });
   if (model) {
     const genomicVariants = [];
@@ -164,6 +169,12 @@ export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileI
       model.status === modelStatus.unpublished
         ? modelStatus.unpublished
         : modelStatus.unpublishedChanges;
+    model.somatic_maf_url = buildMafUrl(fileId);
+
+    if (caseId) {
+      model.source_model_url = buildModelUrl(caseId);
+      model.source_sequence_url = buildSequenceUrl(caseId);
+    }
 
     await model.save();
     logger.audit(
