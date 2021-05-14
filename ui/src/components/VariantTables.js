@@ -12,6 +12,7 @@ import VariantsIcon from 'icons/VariantsIcon';
 import { useVariants } from 'providers/Variants';
 
 import { ButtonPill } from 'theme/adminControlsStyles';
+import { VariantBlurb, TooltipLink } from 'theme/modelStyles';
 import searchStyles from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
 import { Tab, TabHeading, variantTab, variantTabActive } from 'theme/verticalTabStyles';
@@ -30,6 +31,56 @@ const generateTsvFilename = (modelName, type) => {
       return `${modelName}-research-somatic-variants`;
     default:
       return `${modelName}-variants`;
+  }
+};
+
+const renderVariantBlurb = type => {
+  switch (type) {
+    case VARIANT_TYPES.clinical:
+      return (
+        <VariantBlurb>
+          <b>Variants</b> are identified through clinical sequencing testing procedures as reported
+          in the{' '}
+          <TooltipLink
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://ocg.cancer.gov/programs/hcmi/resources"
+          >
+            case report forms.
+          </TooltipLink>
+        </VariantBlurb>
+      );
+    case VARIANT_TYPES.histopathological:
+      return (
+        <VariantBlurb>
+          <b>Biomarkers</b> are identified through clinical histopathology testing procedures as
+          reported in the{' '}
+          <TooltipLink
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://ocg.cancer.gov/programs/hcmi/resources"
+          >
+            case report forms.
+          </TooltipLink>
+        </VariantBlurb>
+      );
+    case VARIANT_TYPES.genomic:
+      return (
+        <VariantBlurb>
+          <b>Variants</b> are imported from GDC and are identified from filtered, open-access MAFs.
+          Controlled-access data at GDC requires dbGaP approval;{' '}
+          <TooltipLink
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://gdc.cancer.gov/access-data/obtaining-access-controlled-data"
+          >
+            see GDC
+          </TooltipLink>{' '}
+          for details.
+        </VariantBlurb>
+      );
+    default:
+      return null;
   }
 };
 
@@ -112,26 +163,29 @@ const VariantTable = React.memo(({ type, modelName, columns, storageKey }) => {
   return (
     <Col css={searchStyles}>
       {data && data.length > 0 ? (
-        <Row className="toolbar" justifyContent="space-between">
-          <div>
-            {!loading &&
-              `Showing ${from} - ${to <= sortedData.length ? to : sortedData.length} of
-          ${sortedData.length} Variants`}
-          </div>
-          <Row justifyContent="flex-end">
-            <Filter onFilterValueChange={setFilterValue} />
+        <>
+          {renderVariantBlurb(type)}
+          <Row className="toolbar" justifyContent="space-between">
+            <div>
+              {!loading &&
+                `Showing ${from} - ${to <= sortedData.length ? to : sortedData.length} of
+            ${sortedData.length} Variants`}
+            </div>
+            <Row justifyContent="flex-end">
+              <Filter onFilterValueChange={setFilterValue} />
 
-            <ButtonPill
-              secondary
-              disabled={sortedData.length === 0}
-              style={{ marginLeft: '8px' }}
-              onClick={() => tsvDownloader(generateTsvFilename(modelName, type), filteredData)}
-            >
-              <DownloadIcon height={'12px'} width={'12px'} />
-              TSV
-            </ButtonPill>
+              <ButtonPill
+                secondary
+                disabled={sortedData.length === 0}
+                style={{ marginLeft: '8px' }}
+                onClick={() => tsvDownloader(generateTsvFilename(modelName, type), filteredData)}
+              >
+                <DownloadIcon height={'12px'} width={'12px'} />
+                TSV
+              </ButtonPill>
+            </Row>
           </Row>
-        </Row>
+        </>
       ) : null}
       <div css={searchStyles}>
         <ReactTable

@@ -7,6 +7,12 @@ import ModelQuery from 'components/queries/ModelQuery';
 import ModelBar from 'components/ModelBar';
 import ModelCarouselBar from 'components/ModelCarouselBar';
 import VariantTables from 'components/VariantTables';
+import {
+  ModelDetailsTooltip,
+  MultipleModelsTooltip,
+  MolecularCharacterizationsTooltip,
+  PatientDetailsTooltip,
+} from 'components/tooltips';
 
 import AtccLogo from 'assets/atcc-logo.png';
 import CameraIcon from 'icons/CameraIcon';
@@ -279,6 +285,7 @@ export default ({ modelName }) => (
                 <Col className="three-col">
                   <div className="model-section__card">
                     <h3 className="model-section__card-title">Model Details</h3>
+                    <ModelDetailsTooltip />
                     <HorizontalTable
                       rawData={queryState.model}
                       extended={queryState.extended}
@@ -298,6 +305,7 @@ export default ({ modelName }) => (
                       Multiple Models From This Patient (
                       {queryState.model.matched_models.hits.edges.length || '0'})
                     </h3>
+                    <MultipleModelsTooltip />
                     <MultipleModelsList
                       matches={queryState.model.matched_models.hits.edges.map(match => match.node)}
                     />
@@ -308,6 +316,7 @@ export default ({ modelName }) => (
                       Available Molecular Characterizations (
                       {get(queryState.model, 'molecular_characterizations').length || '0'})
                     </h3>
+                    <MolecularCharacterizationsTooltip />
                     <MolecularCharacterizationsTable
                       characterizations={get(queryState.model, 'molecular_characterizations')}
                     />
@@ -317,6 +326,7 @@ export default ({ modelName }) => (
                 <Col className="three-col">
                   <div className="model-section__card">
                     <h3 className="model-section__card-title">Patient Details</h3>
+                    <PatientDetailsTooltip />
                     <HorizontalTable
                       rawData={queryState.model}
                       extended={queryState.extended}
