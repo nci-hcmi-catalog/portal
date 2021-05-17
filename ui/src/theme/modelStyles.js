@@ -18,6 +18,7 @@ const {
     lightPorcelain,
     sandyBeach,
     tiaMaria,
+    valencia,
     white,
   },
 } = base;
@@ -42,11 +43,11 @@ export const VariantBlurb = styled(Row)`
 `;
 
 export const TooltipLink = styled('a')`
-  color: ${brandPrimary};
+  color: ${brandPrimary} !important;
   text-decoration: underline;
 
   &:hover {
-    color: ${brandPrimary};
+    color: ${valencia} !important;
   }
 `;
 
