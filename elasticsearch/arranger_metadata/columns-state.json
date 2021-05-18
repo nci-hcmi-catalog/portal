@@ -284,7 +284,6 @@
       "query": null,
       "jsonPath": null
     },
-
     {
       "field": "split_ratio",
       "accessor": "split_ratio",
@@ -295,13 +294,12 @@
       "query": null,
       "jsonPath": null
     },
-
     {
-      "field": "has_matched_models",
-      "accessor": "has_matched_models",
+      "field": "growth_rate",
+      "accessor": "growth_rate",
       "show": false,
-      "type": "boolean",
-      "sortable": false,
+      "type": "number",
+      "sortable": true,
       "canChangeShow": false,
       "query": null,
       "jsonPath": null
@@ -337,86 +335,6 @@
       "jsonPath": null
     },
     {
-      "field": "updatedAt",
-      "accessor": "updatedAt",
-      "show": false,
-      "type": "date",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "files.file_id",
-      "accessor": null,
-      "show": false,
-      "type": "list",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": "files { hits { edges { node { file_id } } } } ",
-      "jsonPath": "$.files.hits.edges[*].node.file_id"
-    },
-    {
-      "field": "files.file_name",
-      "accessor": null,
-      "show": false,
-      "type": "list",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": "files { hits { edges { node { file_name } } } } ",
-      "jsonPath": "$.files.hits.edges[*].node.file_name"
-    },
-    {
-      "field": "files.file_type",
-      "accessor": null,
-      "show": false,
-      "type": "list",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": "files { hits { edges { node { file_type } } } } ",
-      "jsonPath": "$.files.hits.edges[*].node.file_type"
-    },
-    {
-      "field": "files.hits.total",
-      "accessor": "files.hits.total",
-      "show": false,
-      "type": "number",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "matched_models.name",
-      "accessor": null,
-      "show": false,
-      "type": "list",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": "matched_models { hits { edges { node { name }}}}",
-      "jsonPath": "$.matched_models.hits.edges[*].node.name"
-    },
-    {
-      "field": "matched_models.tissue_type",
-      "accessor": null,
-      "show": false,
-      "type": "list",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": "matched_models { hits { edges { node { tissue_type }}}}",
-      "jsonPath": "$.matched_models.hits.edges[*].node.tissue_type"
-    },
-    {
-      "field": "growth_rate",
-      "accessor": "growth_rate",
-      "show": false,
-      "type": "number",
-      "sortable": true,
-      "canChangeShow": false,
-      "query": null,
-      "jsonPath": null
-    },
-    {
       "field": "source_model_url",
       "accessor": "source_model_url",
       "show": false,
@@ -442,137 +360,6 @@
       "show": false,
       "type": "string",
       "sortable": false,
-      "canChangeShow": false,
-      "query": null,
-      "jsonPath": null
-    },
-
-    {
-      "field": "variants.assessment_type",
-      "accessor": null,
-      "show": false,
-      "type": "list",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": "variants { hits { edges { node { assessment_type } } } } ",
-      "jsonPath": "$.variants.hits.edges[*].node.assessment_type"
-    },
-    {
-      "field": "variants.category",
-      "accessor": null,
-      "show": false,
-      "type": "list",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": "variants { hits { edges { node { category } } } } ",
-      "jsonPath": "$.variants.hits.edges[*].node.category"
-    },
-    {
-      "field": "variants.expression_level",
-      "accessor": null,
-      "show": false,
-      "type": "list",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": "variants { hits { edges { node { expression_level } } } } ",
-      "jsonPath": "$.variants.hits.edges[*].node.expression_level"
-    },
-    {
-      "field": "variants.genes",
-      "accessor": null,
-      "show": false,
-      "type": "list",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": "variants { hits { edges { node { genes } } } } ",
-      "jsonPath": "$.variants.hits.edges[*].node.genes"
-    },
-    {
-      "field": "variants.name",
-      "accessor": null,
-      "show": false,
-      "type": "list",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": "variants { hits { edges { node { name } } } } ",
-      "jsonPath": "$.variants.hits.edges[*].node.name"
-    },
-    {
-      "field": "variants.type",
-      "accessor": null,
-      "show": false,
-      "type": "list",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": "variants { hits { edges { node { type } } } } ",
-      "jsonPath": "$.variants.hits.edges[*].node.type"
-    },
-    {
-      "field": "variants.hits.total",
-      "accessor": "variants.hits.total",
-      "show": false,
-      "type": "number",
-      "sortable": true,
-      "canChangeShow": false,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "autocomplete",
-      "accessor": "autocomplete",
-      "show": false,
-      "type": "string",
-      "sortable": true,
-      "canChangeShow": false,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "files.magnification",
-      "accessor": null,
-      "show": false,
-      "type": "list",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": "files { hits { edges { node { magnification } } } } ",
-      "jsonPath": "$.files.hits.edges[*].node.magnification"
-    },
-    {
-      "field": "files.passage_number",
-      "accessor": null,
-      "show": false,
-      "type": "list",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": "files { hits { edges { node { passage_number } } } } ",
-      "jsonPath": "$.files.hits.edges[*].node.passage_number"
-    },
-    {
-      "field": "files.scale_bar_length",
-      "accessor": null,
-      "show": false,
-      "type": "list",
-      "sortable": false,
-      "canChangeShow": false,
-      "query": "files { hits { edges { node { scale_bar_length } } } } ",
-      "jsonPath": "$.files.hits.edges[*].node.scale_bar_length"
-    },
-    {
-      "field": "status",
-      "accessor": "status",
-      "show": false,
-      "type": "string",
-      "sortable": true,
-      "canChangeShow": false,
-      "query": null,
-      "jsonPath": null
-    },
-    {
-      "field": "updatedBy",
-      "accessor": "updatedBy",
-      "show": false,
-      "type": "string",
-      "sortable": true,
       "canChangeShow": false,
       "query": null,
       "jsonPath": null
