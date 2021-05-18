@@ -809,6 +809,24 @@ export default css`
     overflow-y: auto;
     font-size: 13px;
     box-shadow: 1px 1.7px 4px 0 ${lightBlack};
+    padding: 0;
+  }
+
+  .dropDownContent .dropDownContentElement.clickable {
+    padding: 5px 10px;
+    color: black;
+
+    &:first-child {
+      padding-top: 10px;
+    }
+
+    &:last-child {
+      padding-bottom: 10px;
+    }
+  }
+
+  .dropDownContent .dropDownContentElement:hover {
+    background-color: #f3f6f7;
   }
 `;
 
