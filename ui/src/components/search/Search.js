@@ -1,7 +1,6 @@
 import React from 'react';
 import Component from 'react-component-component';
 import { Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
-import '@arranger/components/public/themeStyles/beagle/beagle.css';
 import SplitPane from 'react-split-pane';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
@@ -233,7 +232,20 @@ export default ({
                         graphqlField={props.index}
                         InputComponent={TextInput}
                         columnDropdownText="Columns"
-                        exportTSVText="Export All"
+                        enableSelectedTableRowsExporterFilter={true}
+                        selectedRowsFilterPropertyName="_id"
+                        exporterLabel="Export"
+                        exporter={[
+                          {
+                            label: 'TSV (current columns)',
+                            function: 'saveTSV',
+                          },
+                          {
+                            label: 'TSV (all columns)',
+                            function: 'saveTSV',
+                            columns: [],
+                          },
+                        ]}
                         transformParams={params => ({
                           ...params,
                           url: `${globals.ARRANGER_API}/export/${version}/models`,
