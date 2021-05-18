@@ -1,42 +1,68 @@
-import { saveAs } from 'filesaver.js';
-import { clone } from 'lodash';
-/**
- * Given a array of like objects, transform keys to header
- * row and then output each object values as a row in a tsv
- * format export with fileName
- * @param {String} fileName - filename without extension
- * @param {[Object]} objArr - array of like objects
- */
-export default function(fileName, objArr) {
-  saveAs(
-    new Blob(
-      [
-        [
-          Object.keys(objArr[0]).join('\t'),
-          ...objArr.map(obj =>
-            Object.values(addColumnSpecificCustomizations(obj))
-              .map(value => (value ? (typeof value === 'string' ? value : value.export) : ''))
-              .join('\t'),
-          ),
-        ].join('\n'),
-      ],
-      { TSV: 'text/tab-separated-values' },
-    ),
-    `${fileName}.tsv`,
-  );
+import download from '@arranger/components/dist/utils/download';
+import defaultApi from '@arranger/components/dist/utils/api';
+
+import globals from 'utils/globals';
+
+async function fetchColumns() {
+  const { data } = await defaultApi({
+    endpoint: `${globals.VERSION}/graphql/columnsStateQuery`,
+    body: {
+      query: `query {
+            models {
+              columnsState {
+                state {
+                  columns {
+                    field
+                    accessor
+                    show
+                  }
+                }
+              }
+              extended 
+            }
+            
+          }
+          `,
+    },
+  });
+
+  const columns = data?.models?.columnsState?.state?.columns || [];
+  const extended = data?.models?.extended || [];
+
+  const output = [];
+  columns.forEach(column => {
+    const extendedData = extended.find(i => i.field === column.field);
+    const extendedColumn = {
+      ...column,
+      ...extendedData,
+      Header: extendedData.displayName || column.field,
+    };
+    output.push(extendedColumn);
+  });
+
+  console.log('fetchColumns', output);
+  return output;
 }
 
-const addColumnSpecificCustomizations = row => {
-  const output = clone(row);
-  if (output['split_ratio']) {
-    output['split_ratio'] = (`${output['split_ratio']}` || '').includes(':')
-      ? `'${output['split_ratio']}`
-      : output['split_ratio'];
-  }
-  if (output.gene && output.gene.name) {
-    // Genopmic Variant gene data is a nested object to handle the link out that uses entrez_id
-    // it needs to be simplified down for the tsv.
-    output.gene = output.gene.name;
-  }
-  return output;
-};
+export default async function(selectedIds) {
+  await fetchColumns();
+
+  const sqon = {
+    op: 'and',
+    content: [
+      {
+        op: 'in',
+        content: { field: '_id', value: selectedIds },
+      },
+    ],
+  };
+
+  const columns = await fetchColumns();
+
+  const params = { files: [{ index: 'models', sqon, columns }] };
+  return download({
+    method: 'post',
+    url: `${globals.ARRANGER_API}/export/${globals.VERSION}/models`,
+    params,
+  });
+}
