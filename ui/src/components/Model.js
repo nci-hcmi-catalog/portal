@@ -161,7 +161,7 @@ const MolecularCharacterizationsTable = ({ characterizations }) => {
     <table className="molecular-characterizations-table">
       <tbody>
         <tr>
-          <th />
+          <td />
           <th>Model</th>
           <th>Tumor</th>
           <th>Normal</th>
