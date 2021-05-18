@@ -804,6 +804,10 @@ export default css`
     margin-right: 5px;
   }
 
+  .tableToolbar .dropDownContentElement.custom {
+    padding: 0px;
+  }
+
   .dropDownHeader .dropDownContent {
     max-height: 360px;
     overflow-y: auto;
@@ -825,8 +829,17 @@ export default css`
     }
   }
 
-  .dropDownContent .dropDownContentElement:hover {
+  .dropDownContent .dropDownContentElement.clickable:hover {
     background-color: #f3f6f7;
+  }
+  .dropDownContent .dropDownContentElement.custom .selectedModelsLabel {
+    border-bottom: 1px solid #d9d9df;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    height: 25px;
+    color: #1c8292;
+    width: 100%;
+    padding: 4px 8px;
   }
 `;
 

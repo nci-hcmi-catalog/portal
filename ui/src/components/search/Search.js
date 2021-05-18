@@ -159,6 +159,27 @@ export default ({
               {() => (
                 <SelectedModelsContext.Consumer>
                   {selectedModelContext => {
+                    // Options for Export drop down
+                    const exporterOptions = [
+                      {
+                        label: 'TSV (current columns)',
+                        function: 'saveTSV',
+                      },
+                      {
+                        label: 'TSV (all columns)',
+                        function: 'saveTSV',
+                        columns: [],
+                      },
+                    ];
+                    if (selectedModelContext.state.modelIds.length > 0) {
+                      exporterOptions.unshift({
+                        label: (
+                          <div className="selectedModelsLabel">
+                            ({selectedModelContext.state.modelIds.length} models selected)
+                          </div>
+                        ),
+                      });
+                    }
                     return (
                       <Table
                         {...props}
@@ -235,17 +256,7 @@ export default ({
                         enableSelectedTableRowsExporterFilter={true}
                         selectedRowsFilterPropertyName="_id"
                         exporterLabel="Export"
-                        exporter={[
-                          {
-                            label: 'TSV (current columns)',
-                            function: 'saveTSV',
-                          },
-                          {
-                            label: 'TSV (all columns)',
-                            function: 'saveTSV',
-                            columns: [],
-                          },
-                        ]}
+                        exporter={exporterOptions}
                         transformParams={params => ({
                           ...params,
                           url: `${globals.ARRANGER_API}/export/${version}/models`,
