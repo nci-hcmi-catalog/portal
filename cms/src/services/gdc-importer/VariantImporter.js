@@ -39,6 +39,7 @@ const getTissueStatus = async modelName => {
 
 const Import = ({
   modelName = null,
+  caseId = null,
   fileId = null,
   filename = null,
   error = null,
@@ -100,6 +101,7 @@ const Import = ({
   const getData = () => ({
     acknowledged,
     actionable,
+    caseId,
     createdAt,
     error,
     fileId,
@@ -150,7 +152,7 @@ const Import = ({
       if (status !== ImportStatus.active) {
         return;
       }
-      await addGenomicVariantsFromMaf(modelName, mafData, { filename, fileId });
+      await addGenomicVariantsFromMaf(modelName, mafData, { filename, fileId }, caseId);
       logger.debug(
         { time: Date.now(), startTime, fileId, filename, modelName },
         'Completed Genomic Variant Import',
@@ -199,7 +201,7 @@ const VariantImporter = (function() {
     queue = [];
   };
 
-  const queueImport = async (modelName, fileId, filename) => {
+  const queueImport = async (modelName, fileId, filename, caseId = null) => {
     // Check for Model existence:
     const model = await Model.findOne({ name: modelName });
     if (!model) {
@@ -220,7 +222,7 @@ const VariantImporter = (function() {
 
       // When fileId and filename are provided, can queue import immediately
       if (fileId && filename) {
-        newImport = Import({ modelName, fileId, filename });
+        newImport = Import({ modelName, fileId, filename, caseId });
 
         queue.push(newImport);
 
@@ -243,6 +245,7 @@ const VariantImporter = (function() {
           const fileData = getCancerModelFilesFromMafFileData(mafFileData)[0];
           newImport = Import({
             modelName,
+            caseId: mafFileData.caseId,
             fileId: fileData.fileId,
             filename: fileData.filename,
           });
@@ -253,6 +256,7 @@ const VariantImporter = (function() {
         case GDC_MODEL_STATES.noNgcm:
           newImport = Import({
             modelName,
+            caseId: mafFileData.caseId,
             status: ImportStatus.error,
             error: {
               code: mafStatus,
@@ -379,6 +383,7 @@ const VariantImporter = (function() {
       ...(await Promise.all(modelsStatus[GDC_MODEL_STATES.multipleNgcm].map(async modelName =>
         Import({
           modelName,
+          caseId: modelsFileData[modelName].caseId,
           status: ImportStatus.error,
           error: {
             code: GDC_MODEL_STATES.multipleNgcm,
@@ -393,6 +398,7 @@ const VariantImporter = (function() {
       ...(await Promise.all(modelsStatus[GDC_MODEL_STATES.noNgcm].map(async modelName =>
         Import({
           modelName,
+          caseId: modelsFileData[modelName].caseId,
           status: ImportStatus.error,
           error: {
             code: GDC_MODEL_STATES.noNgcm,
@@ -413,6 +419,7 @@ const VariantImporter = (function() {
         const fileData = getCancerModelFilesFromMafFileData(modelsFileData[modelName], true)[0];
         return Import({
           modelName,
+          caseId: modelsFileData[modelName].caseId,
           fileId: fileData.fileId,
           filename: fileData.filename,
           importType: ImportTypes.bulk,
@@ -422,6 +429,7 @@ const VariantImporter = (function() {
         const fileData = getCancerModelFilesFromMafFileData(modelsFileData[modelName], true)[0];
         return Import({
           modelName,
+          caseId: modelsFileData[modelName].caseId,
           fileId: fileData.fileId,
           filename: fileData.filename,
           importType: ImportTypes.bulk,
