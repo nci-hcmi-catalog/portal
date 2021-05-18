@@ -18,21 +18,22 @@ const NEW_LINE = '\n';
 dataExportRouter.use(bodyParser.urlencoded({ extended: true }));
 
 dataExportRouter.post('/:projectId/models', async (req, res) => {
-  const projectId = req.params['projectId'];
-  logger.debug(`projectId: ${projectId}`);
-  const project = getProject(projectId);
-  const es = project.es;
-  // sanitize user input
-  const params = getParamsObj(req.sanitize(req.body.params));
-  logger.debug(`params: ${JSON.stringify(params)}`);
-  const file = params.files[0];
-  const { index, sqon, columns } = file;
-
-  const genomicVariantData = {};
-  const clinicalVariantData = {};
-
-  console.time('download');
   try {
+    const projectId = req.params['projectId'];
+    logger.debug(`projectId: ${projectId}`);
+    const project = getProject(projectId);
+    const es = project.es;
+    // sanitize user input
+    const params = getParamsObj(req.sanitize(req.body.params));
+    logger.debug(`params: ${JSON.stringify(params)}`);
+    const file = params.files[0];
+    const { index, sqon } = file;
+
+    const genomicVariantData = {};
+    const clinicalVariantData = {};
+
+    console.time('download');
+
     /**
      * Collect Variant Data for all models, filtered by sqon
      *
@@ -149,9 +150,10 @@ const buildVariantTsv = async data => {
       keys.forEach(key => {
         row.push(record[key]);
       });
-      return row;
+      return row.join('\t');
     });
-    const output = [keys, ...records].join('\n');
+    const headerRow = keys.join('\t');
+    const output = [headerRow, ...records].join('\n');
     return output;
   }
 };
