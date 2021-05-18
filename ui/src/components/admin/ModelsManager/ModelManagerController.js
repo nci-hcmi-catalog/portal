@@ -15,6 +15,8 @@ import { getPageData, getCountData } from '../helpers/fetchTableData';
 import { ModelTableColumns } from './ModelColumns';
 import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
 import { debounce } from 'lodash';
+import { importBulkGenomicVariants, auditGenomicVariantsSpecificModels } from '../Model/actions/GenomicVariants';
+import { VARIANT_OVERWRITE_OPTIONS } from 'utils/constants';
 
 export const ModelManagerContext = React.createContext();
 
@@ -110,7 +112,7 @@ Model table state transitions for each action:
 */
 export default ({ baseUrl, cmsBase, children, ...props }) => (
   <NotificationsContext.Consumer>
-    {({ appendNotification }) => (
+    {({ appendNotification, importProgress, setImportProgress }) => (
       <Component
         initialState={{
           minRows: 0,
@@ -175,7 +177,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
           <ModelManagerContext.Provider
             value={{
               state,
-              uploadModelsFromSheet: async (sheetURL, overwrite) => {
+              uploadModelsFromSheet: async (sheetURL, overwrite, overwriteVariants) => {
                 // Set loading true (lock UI)
                 await setState({
                   isLoading: true,
@@ -205,6 +207,61 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                         bulkErrors: result.errors,
                         timeout: false, // do not auto-remove this notification
                       });
+                      let modelNames;
+                      switch (overwriteVariants) {
+                        case VARIANT_OVERWRITE_OPTIONS.allModels:
+                          modelNames = [...result.new, ...result.updated, ...result.unchanged];
+                          if (!modelNames.length) {
+                            return;
+                          }
+
+                          await importBulkGenomicVariants(modelNames)
+                            .then(response => {
+                              if (response.data.success) {
+                                setImportProgress({
+                                  ...importProgress,
+                                  running: true,
+                                });
+                              }
+                            })
+                            .catch(async error => {
+                              await appendNotification({
+                                type: NOTIFICATION_TYPES.ERROR,
+                                message: 'Bulk Import of Research Somatic Variants Failed.',
+                                details: error.response ? error.response.data.error.message : error.message,
+                                timeout: false,
+                              });
+                            });
+                          break;
+                        case VARIANT_OVERWRITE_OPTIONS.cleanOnly:
+                          modelNames = [...result.new, ...result.updated, ...result.unchanged];
+                          if (!modelNames.length) {
+                            return;
+                          }
+
+                          const checkVariantsResponse = await auditGenomicVariantsSpecificModels(modelNames);
+                          await importBulkGenomicVariants(checkVariantsResponse.data.clean)
+                            .then(response => {
+                              if (response.data.success) {
+                                setImportProgress({
+                                  ...importProgress,
+                                  running: true,
+                                });
+                              }
+                            })
+                            .catch(async error => {
+                              await appendNotification({
+                                type: NOTIFICATION_TYPES.ERROR,
+                                message: 'Bulk Import of Research Somatic Variants Failed.',
+                                details: error.response ? error.response.data.error.message : error.message,
+                                timeout: false,
+                              });
+                            });
+                          break;
+                        case VARIANT_OVERWRITE_OPTIONS.none:
+                        default:
+                          break;
+                      }
                     }),
                   )
                   .catch(async err => {
@@ -218,6 +275,25 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                       type: NOTIFICATION_TYPES.ERROR,
                       message: 'Model Upload Error.',
                       details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
+                    });
+                  });
+              },
+              bulkImportVariants: async (modelNames) => {
+                return importBulkGenomicVariants(modelNames)
+                  .then(response => {
+                    if (response.data.success) {
+                      setImportProgress({
+                        ...importProgress,
+                        running: true,
+                      });
+                    }
+                  })
+                  .catch(async error => {
+                    await appendNotification({
+                      type: NOTIFICATION_TYPES.ERROR,
+                      message: 'Bulk Import of Research Somatic Variants Failed.',
+                      details: error.response ? error.response.data.error.message : error.message,
+                      timeout: false,
                     });
                   });
               },
@@ -355,6 +431,16 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                       timeout: false, // do not auto-remove this notification when deleting
                     });
                   });
+              },
+              refreshModelsTable: async () => {
+                const [dataResponse, countResponse] = await loadData(baseUrl, state);
+                setState(() => ({
+                  isLoading: false,
+                  data: dataResponse.data,
+                  error: null,
+                  rowCount: countResponse.data.count,
+                  ...initPagingState,
+                }));
               },
               ...generateTableActions(setState, state.data),
             }}

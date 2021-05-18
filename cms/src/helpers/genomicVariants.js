@@ -2,6 +2,7 @@ import Model from '../schemas/model';
 import { modelStatus } from '../helpers/modelStatus';
 import Gene from '../schemas/genes';
 import VariantImporter from '../services/gdc-importer/VariantImporter';
+import { GDC_MODEL_STATES, IMPORT_ERRORS, BASE_GDC_URL } from '../services/gdc-importer/gdcConstants';
 
 import getLogger from '../logger';
 const logger = getLogger('helpers/genomicVariants');
@@ -11,7 +12,7 @@ export const clearGenomicVariants = async name => {
   try {
     await VariantImporter.stopImport(name);
   } catch (e) {
-    console.log(
+    logger.error(
       `Error while stopping a running GDC Variant import for ${name} - recording error but continuing to clear model variants.`,
       e,
     );
@@ -63,7 +64,13 @@ const buildVariantId = ({
   }
 };
 
-export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileId }) => {
+const buildModelUrl = caseId => `${BASE_GDC_URL}/cases/${caseId}`;
+const buildMafUrl = fileId => `${BASE_GDC_URL}/files/${fileId}`;
+// URL encoded: /repository?facetTab=files&filters={"op":"and","content":[{"op":"in","content":{"field":"cases.case_id","value":["caseId"]}}]}&searchTableTab=files
+const buildSequenceUrl = caseId =>
+  `${BASE_GDC_URL}/repository?facetTab=files&filters=%7B%22op%22%3A%22and%22%2C%22content%22%3A%5B%7B%22op%22%3A%22in%22%2C%22content%22%3A%7B%22field%22%3A%22cases.case_id%22%2C%22value%22%3A%5B%22${caseId}%22%5D%7D%7D%5D%7D&searchTableTab=files`;
+
+export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileId }, caseId) => {
   const model = await Model.findOne({ name });
   if (model) {
     const genomicVariants = [];
@@ -163,11 +170,43 @@ export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileI
       model.status === modelStatus.unpublished
         ? modelStatus.unpublished
         : modelStatus.unpublishedChanges;
+    model.somatic_maf_url = buildMafUrl(fileId);
+
+    if (caseId) {
+      model.source_model_url = buildModelUrl(caseId);
+      model.source_sequence_url = buildSequenceUrl(caseId);
+    }
 
     await model.save();
-    logger.audit({ model }, 'model saved', 'Genomic Variants added to model');
+    logger.audit(
+      {
+        model: model.name,
+        genomic_variants: model.genomic_variants ? model.genomic_variants.length : 0,
+      },
+      'model saved',
+      'Genomic Variants added to model',
+    );
   } else {
     logger.warn({ name }, 'Could not find model for genomic variant import');
     throw new Error('Model could not be found');
+  }
+};
+
+export const getGdcImportErrorMessage = (mafStatus, modelName) => {
+  switch (mafStatus) {
+    case GDC_MODEL_STATES.modelNotFound:
+      return `${modelName} was not found in GDC.`;
+    case GDC_MODEL_STATES.noMafs:
+      return `${modelName} was found in GDC, but no MAF files were found.`;
+    case GDC_MODEL_STATES.singleNgcmPlusEngcm:
+      return `${modelName} was found in GDC, but other unexpected MAF files were found.`;
+    case GDC_MODEL_STATES.multipleNgcm:
+      return `${modelName} was found in GDC, but more than one Next Generation Cancer Model MAF files were found.`;
+    case GDC_MODEL_STATES.noNgcm:
+      return `${modelName} was found in GDC, but only Expanded Next Generation Cancel Model MAF file(s) were found.`;
+    case IMPORT_ERRORS.noMatchingModel:
+      return `No local model found with matching name ${modelName}.`;
+    default:
+      return `${modelName} was found in GDC and a single Next Generation Cancer Model MAF file was found for it.`;
   }
 };

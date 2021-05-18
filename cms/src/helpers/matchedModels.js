@@ -23,7 +23,7 @@ const createMatchedModels = async models => {
         ? modelStatus.unpublished
         : modelStatus.unpublishedChanges;
     model.save();
-    logger.audit({ model }, 'model saved', 'Model updated to add matched model set');
+    logger.audit({ model: model.name }, 'model saved', 'Model updated to add matched model set');
   }
   return matchedModels;
 };
@@ -64,7 +64,7 @@ const clearModelFromSets = async model => {
             : modelStatus.unpublishedChanges;
         await otherModel.save();
         logger.audit(
-          { model: otherModel },
+          { model: otherModel.name },
           'model saved',
           'Model updated to remove matched model set',
         );
@@ -92,7 +92,7 @@ const clearModelFromSets = async model => {
       ? modelStatus.unpublished
       : modelStatus.unpublishedChanges;
   await model.save();
-  logger.audit({ model }, 'model saved', 'Model updated to remove matched model set');
+  logger.audit({ model: model.name }, 'model saved', 'Model updated to remove matched model set');
 
   return;
 };
@@ -165,7 +165,7 @@ const connectWithMatchedModels = async (nameToAdd, setMemberName) => {
           : modelStatus.unpublishedChanges;
       await modelToAdd.save();
       logger.audit(
-        { model: modelToAdd },
+        { model: modelToAdd.name },
         'model saved',
         'Model updated to add to matched model set',
       );

@@ -6,49 +6,19 @@ import decompress from 'decompress';
 import zlib from 'zlib';
 import { get, flattenDeep, intersection, isEmpty } from 'lodash';
 
+import {
+  GDC_MODEL_STATES,
+  GDC_CANCER_MODEL_SAMPLE_TYPES,
+  GDC_GRAPHQL_BASE_URL,
+  FETCH_CASE_ID_QUERY,
+  FETCH_MODEL_FILE_DATA_QUERY,
+} from './gdcConstants';
+
 import getLogger from '../../logger';
 const logger = getLogger('services/gdc-importer/mafFiles');
 
-export const IMPORT_ERRORS = {
-  multipleMafs: 'MULTIPLE_MAFS',
-  noMafs: 'NO_MAFS',
-  modelNotFound: 'MODEL_NOT_FOUND',
-};
-
-const GDC_NORMAL_SAMPLE_TYPES = [
-  'Blood Derived Normal',
-  'Solid Tissue Normal',
-  'Bone Marrow Normal',
-  'Buccal Cell Normal',
-  'EBV Immortalized Normal',
-  'Mononuclear Cells from Bone Marrow Normal',
-  'Lymphoid Normal',
-  'Fibroblasts from Bone Marrow Normal',
-  'Tumor Adjacent Normal - Post Neo-adjuvant Therapy',
-];
-
-const GDC_CANCER_MODEL_SAMPLE_TYPES = [
-  'Expanded Next Generation Cancer Model',
-  'Next Generation Cancer Model',
-];
-
 const fetchCaseId = async name => {
-  const url = 'https://portal.gdc.cancer.gov/auth/api/v0/graphql/';
-  const query = `
-    query ($filter: FiltersArgument) {
-      repository {
-        cases {
-          hits(filters: $filter) {
-            edges {
-              node {
-                case_id
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
+  const query = FETCH_CASE_ID_QUERY;
   const variables = {
     filter: {
       op: 'and',
@@ -64,86 +34,21 @@ const fetchCaseId = async name => {
     },
   };
 
-  const response = await axios.post(url, { query, variables });
+  const response = await axios.post(GDC_GRAPHQL_BASE_URL, { query, variables });
 
   return get(response, 'data.data.repository.cases.hits.edges[0].node.case_id', '');
 };
 
-const fetchModelFileData = async name => {
-  const url = 'https://portal.gdc.cancer.gov/auth/api/v0/graphql/';
-  const query = `query ($filter: FiltersArgument) {
-        repository {
-          files {
-            hits(filters: $filter) {
-              total
-              edges {
-                node {
-                  file_id
-                  file_name
-                  associated_entities {
-                    hits {
-                      edges {
-                        node {
-                          entity_id
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-          cases {
-            hits(filters: $filter) {
-              total
-              edges {
-                node {
-                  case_id
-                  samples {
-                    hits {
-                      total
-                      edges {
-                        node {
-                          sample_type
-                          tissue_type
-                          portions {
-                            hits {
-                              total
-                              edges {
-                                node {
-                                  analytes {
-                                    hits {
-                                      total
-                                      edges {
-                                        node {
-                                          aliquots {
-                                            hits {
-                                              total
-                                              edges {
-                                                node {
-                                                  aliquot_id
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }`;
+export const fetchModelFileData = async modelNames => {
+  if (!Array.isArray(modelNames) || !modelNames.length) {
+    logger.error('fetchModelFileData failed due to invalid input. `modelNames` must be an array.', {
+      modelNames,
+      time: Date.now(),
+    });
+    return {};
+  }
+
+  const query = FETCH_MODEL_FILE_DATA_QUERY;
   const variables = {
     filter: {
       op: 'and',
@@ -152,7 +57,7 @@ const fetchModelFileData = async name => {
           op: 'in',
           content: {
             field: 'cases.submitter_id',
-            value: [name],
+            value: [...modelNames],
           },
         },
         {
@@ -171,90 +76,230 @@ const fetchModelFileData = async name => {
         },
       ],
     },
+    size: 32767,
   };
 
-  const response = await axios.post(url, { query, variables });
-
-  const output = [];
+  const response = await axios.post(GDC_GRAPHQL_BASE_URL, { query, variables });
 
   const data = get(response, 'data.data.repository');
-  if (data) {
-    const caseId = get(data, 'cases.hits.edges[0].node.case_id');
-    const samples = get(data, 'cases.hits.edges[0].node.samples.hits.edges', []).map(sampleEdge => {
-      const sampleType = get(sampleEdge, 'node.sample_type');
-      // const tissueType = get(sampleEdge, 'node.tissue_type');
-      const aliquots = flattenDeep(
-        get(sampleEdge, 'node.portions.hits.edges', []).map(portionEdge =>
-          get(portionEdge, 'node.analytes.hits.edges', []).map(analyteEdge =>
-            get(analyteEdge, 'node.aliquots.hits.edges', []).map(aliquot =>
-              get(aliquot, 'node.aliquot_id'),
+  const cases = get(data, 'cases.hits.edges');
+  const results = modelNames.reduce((models, currentModelName) => {
+    models[currentModelName] = {
+      caseId: null,
+      files: null,
+      success: false,
+    };
+
+    return models;
+  }, {});
+
+  if (data && cases.length) {
+    for (let i = 0; i < cases.length; i++) {
+      const caseId = get(cases[i], 'node.case_id');
+      const modelName = get(cases[i], 'node.submitter_id');
+
+      const samples = get(cases[i], 'node.samples.hits.edges', []).map(sampleEdge => {
+        const sampleType = get(sampleEdge, 'node.sample_type');
+        const tissueType = get(sampleEdge, 'node.tissue_type');
+        const tumorDescriptor = get(sampleEdge, 'node.tumor_descriptor');
+        // aliquots will be an array of two ids
+        const aliquots = flattenDeep(
+          get(sampleEdge, 'node.portions.hits.edges', []).map(portionEdge =>
+            get(portionEdge, 'node.analytes.hits.edges', []).map(analyteEdge =>
+              get(analyteEdge, 'node.aliquots.hits.edges', []).map(aliquot =>
+                get(aliquot, 'node.aliquot_id'),
+              ),
             ),
           ),
-        ),
-      );
-      return { sampleType, aliquots };
-    });
-    logger.debug({ caseId, samples }, 'Case samples found for model');
-    const files = get(data, 'files.hits.edges', []).map(fileEdge => {
-      const fileId = get(fileEdge, 'node.file_id');
-      const filename = get(fileEdge, 'node.file_name');
-      const entityIds = get(fileEdge, 'node.associated_entities.hits.edges', []).map(entityEdge =>
-        get(entityEdge, 'node.entity_id'),
-      );
-
-      const sampleTypes = entityIds.map(entity => {
-        const matchingSample = samples.find(sample => sample.aliquots.includes(entity));
-        if (matchingSample) {
-          return matchingSample.sampleType;
-        }
+        );
+        return { sampleType, tissueType, tumorDescriptor, aliquots };
       });
 
-      // NOTE: We fetch tissue_type but don't use it. If matching sample_type to find the file with the "Normal" value
-      //    proves to have errors, a potential fix is to use tissue_type looking for the value "Normal" instead of matching sample_type
+      logger.debug({ caseId, samples }, `Case samples found for model ${modelName}`);
 
-      return { fileId, filename, entityIds, sampleTypes, name };
-    });
-    logger.debug({ files }, 'Files found for model');
+      const files = get(data, 'files.hits.edges', [])
+        .filter(fileEdge => {
+          const entitySubmitterIds = get(fileEdge, 'node.associated_entities.hits.edges', []).map(
+            entityEdge => get(entityEdge, 'node.entity_submitter_id'),
+          );
+          return entitySubmitterIds.some(submitterId => submitterId.includes(modelName));
+        })
+        .map(fileEdge => {
+          const fileId = get(fileEdge, 'node.file_id');
+          const filename = get(fileEdge, 'node.file_name');
+          const entityIds = get(fileEdge, 'node.associated_entities.hits.edges', []).map(
+            entityEdge => get(entityEdge, 'node.entity_id'),
+          );
 
-    return { caseId, files };
+          const entities = entityIds
+            .filter(entity => {
+              return samples.some(sample => sample.aliquots.includes(entity));
+            })
+            .map(entity => {
+              const matchingSample = samples.find(sample => sample.aliquots.includes(entity));
+              const matchingEntity = get(fileEdge, 'node.associated_entities.hits.edges', []).find(
+                x => x.node.entity_id === entity,
+              );
+              return {
+                entityId: entity,
+                entitySubmitterId: get(matchingEntity, 'node.entity_submitter_id'),
+                sampleType: matchingSample.sampleType,
+                tissueType: matchingSample.tissueType,
+                tumorDescriptor: matchingSample.tumorDescriptor,
+              };
+            });
+
+          return { fileId, filename, entities };
+        });
+
+      logger.debug({ files }, `Files found for model ${modelName}`);
+
+      results[modelName] = {
+        caseId,
+        files,
+        success: true,
+      };
+    }
+  }
+
+  return results;
+};
+
+export const getMafStatus = mafFileData => {
+  if (!mafFileData.success) {
+    // Model not found in GDC
+    return GDC_MODEL_STATES.modelNotFound;
+  }
+
+  const modelFiles = mafFileData.files;
+  if (isEmpty(modelFiles)) {
+    // No MAF files found for this model
+    return GDC_MODEL_STATES.noMafs;
+  }
+
+  const cancerModelFiles = filterMafFilesBySampleTypes(
+    modelFiles,
+    Object.values(GDC_CANCER_MODEL_SAMPLE_TYPES),
+  );
+
+  if (isEmpty(cancerModelFiles)) {
+    // No cancer models (NGCM/ENGCM) found for this model
+    return GDC_MODEL_STATES.noMafs;
+  }
+
+  const { ngcmCount, engcmCount } = cancerModelFiles.reduce(
+    (totals, currentModelFile) => {
+      let currentNgcmCount = 0;
+      let currentEngcmCount = 0;
+      currentModelFile.entities.forEach(entity => {
+        switch (entity.sampleType) {
+          case GDC_CANCER_MODEL_SAMPLE_TYPES.NGCM:
+            currentNgcmCount++;
+            break;
+          case GDC_CANCER_MODEL_SAMPLE_TYPES.ENGCM:
+            currentEngcmCount++;
+            break;
+          default:
+            break;
+        }
+      });
+      return {
+        ngcmCount: totals.ngcmCount + currentNgcmCount,
+        engcmCount: totals.engcmCount + currentEngcmCount,
+      };
+    },
+    { ngcmCount: 0, engcmCount: 0 },
+  );
+
+  switch (ngcmCount) {
+    case 1:
+      // exactly one NGCM found, can import it for bulk, user must choose for single import
+      if (engcmCount > 0) {
+        return GDC_MODEL_STATES.singleNgcmPlusEngcm;
+      } else {
+        return GDC_MODEL_STATES.singleNgcm;
+      }
+    case 0:
+      // no NGCMs found, user must choose if they want ENGCM
+      return GDC_MODEL_STATES.noNgcm;
+    default:
+      // multiple NGCMs found, user must choose
+      return GDC_MODEL_STATES.multipleNgcm;
   }
 };
 
-export const findMafFileData = async name => {
-  const fileDataResponse = await fetchModelFileData(name);
-  const modelFiles = fileDataResponse.files;
-  if (!isEmpty(modelFiles)) {
-    const targetFiles = modelFiles.filter(
-      file =>
-        !isEmpty(intersection(file.sampleTypes, GDC_NORMAL_SAMPLE_TYPES)) &&
-        !isEmpty(intersection(file.sampleTypes, GDC_CANCER_MODEL_SAMPLE_TYPES)),
-    );
-    logger.debug({ targetFiles }, 'Identified mathcing file(s)');
-    switch (targetFiles.length) {
-      case 1:
-        // Get Url
-        return { success: true, file: targetFiles[0] };
-      case 0:
-        // No files for this model with the correct sample types.
-        return {
-          success: false,
-          error: { code: IMPORT_ERRORS.noMafs, caseId: fileDataResponse.caseId },
-        };
+export const getBulkMafStatus = bulkMafFileData => {
+  const models = Object.keys(bulkMafFileData);
+  const results = Object.values(GDC_MODEL_STATES).reduce((o, key) => ({ ...o, [key]: [] }), {});
 
-      default:
-        // More than one file found for this model that match the requirements.
-        return {
-          success: false,
-          error: {
-            code: IMPORT_ERRORS.multipleMafs,
-            files: targetFiles.map(file => ({ fileId: file.fileId, filename: file.filename })),
-          },
-        };
-    }
-  } else {
-    // No files found for this model.
-    return { success: false, error: { code: IMPORT_ERRORS.modelNotFound } };
+  for (let i = 0; i < models.length; i++) {
+    const model = models[i];
+    const mafFileData = bulkMafFileData[model];
+    const mafStatus = getMafStatus(mafFileData);
+
+    results[mafStatus].push(model);
   }
+
+  return results;
+};
+
+export const getCancerModelFilesFromMafFileData = (mafFileData, bulk = false) => {
+  switch (getMafStatus(mafFileData)) {
+    case GDC_MODEL_STATES.singleNgcm:
+      // Only one NGCM file, return it
+      return filterMafFilesBySampleTypes(mafFileData.files, GDC_CANCER_MODEL_SAMPLE_TYPES.NGCM);
+    case GDC_MODEL_STATES.singleNgcmPlusEngcm:
+      if (bulk) {
+        // For bulk imports, the ENGCM is ignored here. Just return the NGCM file
+        return filterMafFilesBySampleTypes(mafFileData.files, GDC_CANCER_MODEL_SAMPLE_TYPES.NGCM);
+      } else {
+        // For individual imports, return both NGCM and ENGCM files
+        return filterMafFilesBySampleTypes(
+          mafFileData.files,
+          Object.values(GDC_CANCER_MODEL_SAMPLE_TYPES),
+        );
+      }
+    case GDC_MODEL_STATES.multipleNgcm:
+      // Multiple NGCM files. Return them all
+      return filterMafFilesBySampleTypes(mafFileData.files, GDC_CANCER_MODEL_SAMPLE_TYPES.NGCM);
+    case GDC_MODEL_STATES.noNgcm:
+      // No NGCM files, only ENGCMs available. Return them all
+      return filterMafFilesBySampleTypes(mafFileData.files, GDC_CANCER_MODEL_SAMPLE_TYPES.ENGCM);
+    default:
+      return [];
+  }
+};
+
+const filterMafFilesBySampleTypes = (files, sampleTypes) => {
+  if (!files || !Array.isArray(files) || !files.length) {
+    logger.error(
+      'filterMafFilesBySampleTypes failed due to invalid input. `files` must be an array.',
+      {
+        files,
+        time: Date.now(),
+      },
+    );
+    return [];
+  }
+
+  if (!sampleTypes || !Array.isArray(sampleTypes) || !sampleTypes.length) {
+    if (typeof sampleTypes === 'string') {
+      sampleTypes = [sampleTypes];
+    } else {
+      logger.error(
+        'filterMafFilesBySampleTypes failed due to invalid input. `sampleTypes` must be an array or a non-empty string.',
+        {
+          sampleTypes,
+          time: Date.now(),
+        },
+      );
+      return [];
+    }
+  }
+
+  return files.filter(
+    file => !isEmpty(intersection(file.entities.map(entity => entity.sampleType), sampleTypes)),
+  );
 };
 
 export const downloadMaf = async ({ filename, fileId, modelName }) => {

@@ -118,6 +118,16 @@ export default css`
     border: 1px solid ${mischka};
   }
 
+  .ReactTable.-striped.audit-table .rt-table .rt-tbody {
+    min-height: 338px;
+    max-height: 338px;
+    overflow-y: scroll;
+  }
+
+  .ReactTable.-striped.confirm-maf-table {
+    margin-bottom: 24px;
+  }
+
   .ReactTable .rt-table input[type='checkbox'] {
     cursor: pointer;
   }
@@ -150,6 +160,15 @@ export default css`
     white-space: normal;
   }
 
+  .ReactTable .rt-thead .rt-resizable-header:last-child {
+    overflow: unset;
+
+    .rt-resizer {
+      width: 18px;
+      right: 0;
+    }
+  }
+
   .ReactTable .rt-td > a,
   .clickable {
     ${brandPrimaryHighlightHover};
@@ -160,6 +179,15 @@ export default css`
 
   .ReactTable .rt-thead {
     background-color: #ffffff;
+  }
+
+  .ReactTable .rt-table {
+    overflow-x: scroll;
+    overflow-y: visible;
+
+    .rt-thead.-header {
+      box-shadow: none;
+    }
   }
 
   .ReactTable .rt-thead .rt-tr .rt-th {

@@ -148,7 +148,11 @@ export const publishDraft = async () => {
     });
     if (edited) {
       model.save();
-      logger.audit({ model }, 'model saved', 'Model values updated due to dictionary publish');
+      logger.audit(
+        { model: model.name },
+        'model saved',
+        'Model values updated due to dictionary publish',
+      );
       updatedModels += 1;
     }
   });

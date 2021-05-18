@@ -6,10 +6,24 @@ import { NOTIFICATION_TYPES } from './../components/admin/Notifications';
 
 import base from 'theme';
 import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
+import { Col, Row } from 'theme/system';
 
 const {
   fonts: { openSans },
-  keyedPalette: { aquaSpring, black, cinderella, mauvelous, morningGlory, yellowOrange },
+  keyedPalette: {
+    aquaSpring,
+    black,
+    bombay,
+    cinderella,
+    cinnabar,
+    elm,
+    ironApprox,
+    mauvelous,
+    morningGlory,
+    stiletto,
+    white,
+    yellowOrange,
+  },
   transparency: { yellowOrange20 },
 } = base;
 
@@ -139,4 +153,105 @@ export const closeIcon = css`
   margin-right: 0;
   margin-left: auto;
   cursor: pointer;
+`;
+
+export const closeIconDisabled = css`
+  margin-right: 0;
+  margin-left: auto;
+  cursor: not-allowed;
+`;
+
+export const NotificationTableHeaderRow = styled(Row)`
+  border-bottom: 1px solid ${bombay};
+`;
+
+export const NotificationTableHeaderCol = styled(Col)`
+  width: 50%;
+
+  &:first-child {
+    border-right: 1px solid ${bombay};
+  }
+
+  &:last-child {
+    padding-left: 16px;
+  }
+`;
+
+export const ShowHideButton = styled('button')`
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto;
+  font-family: ${openSans};
+  font-size: 12px;
+  font-weight: bold;
+  line-height: normal;
+  text-align: center;
+`;
+
+export const ShowHideButtonLabel = styled('span')`
+  color: ${stiletto};
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const PlusMinusIcon = styled('span')`
+  color: ${white};
+  background: ${cinnabar};
+  border-radius: 100%;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  margin-right: 4px;
+  ${({ showMore }) => showMore && 'padding-bottom: 2px;'}
+`;
+
+export const ProgressBarContainer = styled('div')`
+  display: block;
+  width: 290px;
+  height: 14px;
+  border-radius: 10px;
+  border: solid 1px ${bombay};
+  overflow: hidden;
+  position: relative;
+  margin-top: 4px;
+`;
+
+export const ProgressBarWrapper = styled('div')`
+  display: flex;
+`;
+
+export const ProgressBarSectionComplete = styled('span')`
+  display: inline-block;
+  height: 12px;
+  background: ${elm};
+  ${({ num, total }) => `width: calc(${num}/${total} * 100%);`}
+`;
+
+export const ProgressBarSectionFailed = styled('span')`
+  display: inline-block;
+  height: 12px;
+  background: ${cinnabar};
+  ${({ num, total }) => `width: calc(${num}/${total} * 100%);`}
+`;
+
+export const ProgressBarSectionIncomplete = styled('span')`
+  display: inline-block;
+  height: 12px;
+  background: ${ironApprox};
+  ${({ num, total }) => `width: calc(${num}/${total} * 100%);`}
+`;
+
+export const ProgressBarLabel = styled('span')`
+  display: flex;
+  align-items: center;
 `;
