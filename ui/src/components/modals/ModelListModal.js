@@ -4,7 +4,7 @@ import Spinner from 'react-spinkit';
 import moment from 'moment-timezone';
 
 import ModelListModalQuery from 'components/queries/ModelListModalQuery';
-import tsvDownloader from 'utils/tsvDownloader';
+import cartDownload from 'utils/cartDownload';
 import modelExportProcessor from 'utils/modelExportProcessor';
 import modelImageProcessor from 'utils/modelImageProcessor';
 import { SelectedModelsContext } from 'providers/SelectedModels';
@@ -122,7 +122,7 @@ export default () => (
                                         {moment(model.date_of_availability).format('MMMM DD, YYYY')}
                                       </p>
                                     ) : (
-                                      <p>{`N/A`}</p>
+                                      <p className="available-date">{`N/A`}</p>
                                     )}
                                   </div>
                                   <TrashIcon
@@ -145,12 +145,7 @@ export default () => (
                         <ButtonPill
                           primary
                           disabled={!hasSelected}
-                          onClick={() =>
-                            tsvDownloader(
-                              `models-list-${moment(Date.now()).format('YYY-MM-DD-THH-mm-ss')}`,
-                              models.map(modelExportProcessor),
-                            )
-                          }
+                          onClick={() => cartDownload(selected.state.modelIds)}
                         >
                           <DownloadIcon
                             width={'12px'}
@@ -159,7 +154,7 @@ export default () => (
                               margin-right: 4px;
                             `}
                           />
-                          Download TSV
+                          TSV (All Columns)
                         </ButtonPill>
                       </div>
                     </>
