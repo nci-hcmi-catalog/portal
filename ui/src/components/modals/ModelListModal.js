@@ -4,7 +4,7 @@ import Spinner from 'react-spinkit';
 import moment from 'moment-timezone';
 
 import ModelListModalQuery from 'components/queries/ModelListModalQuery';
-import tsvDownloader from 'utils/tsvDownloader';
+import cartDownload from 'utils/cartDownload';
 import modelExportProcessor from 'utils/modelExportProcessor';
 import modelImageProcessor from 'utils/modelImageProcessor';
 import { SelectedModelsContext } from 'providers/SelectedModels';
@@ -145,7 +145,7 @@ export default () => (
                         <ButtonPill
                           primary
                           disabled={!hasSelected}
-                          onClick={() => tsvDownloader(selected.state.modelIds)}
+                          onClick={() => cartDownload(selected.state.modelIds)}
                         >
                           <DownloadIcon
                             width={'12px'}
