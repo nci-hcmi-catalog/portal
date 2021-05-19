@@ -31,6 +31,7 @@ import {
   ClinicalVariantsTooltip,
   HistopathologicalBiomarkersTooltip,
   GenomicVariantsTooltip,
+  ExpansionStatusTooltip,
 } from 'components/tooltips';
 
 import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
@@ -253,7 +254,7 @@ export default ({
                           age_at_sample_acquisition: { minWidth: 85 },
                           genes_count: { minWidth: 69 },
                           number: { minWidth: 88 },
-                          expanded: { minWidth: 80 },
+                          expanded: { minWidth: 105 },
                           histo_variant_count: { minWidth: 108 },
                           matched_models: { minWidth: 84 },
                         }}
@@ -283,6 +284,17 @@ export default ({
                               Header: () => (
                                 <Row space="space-between">
                                   Has Multiple Models <MultipleModelsTooltip isColumn={true} />
+                                </Row>
+                              ),
+                            },
+                          },
+                          {
+                            content: {
+                              field: 'expanded',
+                              displayName: 'Expansion Status',
+                              Header: () => (
+                                <Row space="space-between">
+                                  Expansion Status <ExpansionStatusTooltip />
                                 </Row>
                               ),
                             },
