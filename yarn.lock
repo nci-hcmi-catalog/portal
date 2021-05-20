@@ -72,12 +72,12 @@
     ramda "^0.26.1"
     tslib "^1.10.0"
 
-"@arranger/components@2.12.17":
-  version "2.12.17"
-  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-2.12.17.tgz#01de6e6700b3224e29fdc1f128ee0a76ae6c7698"
-  integrity sha512-cDPjW2xubfvsbsg7f13mxaUSVYTU+WOOsfrGOKs2bRflW3FphTBmBWRO9c0vJrbyEGqAk2cwDt+LctSgvoH39Q==
+"@arranger/components@2.13.0":
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-2.13.0.tgz#9e64d76722e5628a7211c82107f8589925a616a8"
+  integrity sha512-jCWZd6fe/rv+fH0YiIK31NEjpJGExQKyVfgO02qUW8Hlj1F7BVj4egf+BTU0x1Nuvh2a04lY+x62+OnbtEXigw==
   dependencies:
-    "@arranger/mapping-utils" "^2.12.17"
+    "@arranger/mapping-utils" "^2.13.0"
     ajv "^6.1.1"
     babel-polyfill "^6.26.0"
     classnames "^2.2.5"
@@ -131,10 +131,40 @@
     node-fetch "^2.2.0"
     uuid "^3.2.1"
 
+"@arranger/mapping-utils@^2.13.0":
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-2.13.0.tgz#dd598fbf79e30be5071d6fdf08bb00db8cfdb00a"
+  integrity sha512-GyduLvpm+VXxfgLWCICsxcINxikTQDtBQBP8WjWdYGBdjWv1LVx/7l+AA4Ui2IJxWDnDiIq3Uz0BshOO9iOfRw==
+  dependencies:
+    "@arranger/middleware" "^2.13.0"
+    babel-polyfill "^6.26.0"
+    graphql-fields "^1.0.2"
+    kind-of "^6.0.3"
+    lodash "^4.17.20"
+    minimist "^1.2.5"
+    node-fetch "^2.2.0"
+    uuid "^3.2.1"
+
 "@arranger/middleware@^2.12.17":
   version "2.12.17"
   resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-2.12.17.tgz#693ddf6ce91c6d0c384406ede1145daa11ff3ab3"
   integrity sha512-ozFgb8fHFPqeryJ1HANF6svdeI5Cat3qCTA1rB4rh7rppMXeCt57aG6/p8/2pI/ZrvcVlVXABsDFbGNGy15qZA==
+  dependencies:
+    body-parser "^1.18.2"
+    cors "^2.8.4"
+    date-fns "^1.29.0"
+    express "^4.16.3"
+    kind-of "^6.0.3"
+    lodash "^4.17.20"
+    minimist "^1.2.5"
+    morgan "^1.9.0"
+    utf8 "^3.0.0"
+    winston "^2.4.0"
+
+"@arranger/middleware@^2.13.0":
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-2.13.0.tgz#5c3454dec88095ce5ae8718d711f42b706475786"
+  integrity sha512-3rsR7bzL3cbrqnf40xmw/W3U6lZwZPjmXOYlQUJreZKEDhG7+sX9/J0H9QNsfR8C3318a6T1T4rKojUc0SFPfQ==
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
