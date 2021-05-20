@@ -70,7 +70,7 @@ export default ({
           onDragFinished={() => (stable = true)}
         >
           <Col className="aggregations-wrapper" role="complementary">
-            <Component shouldUpdate={() => stable}>
+            <Component>
               {() => (
                 <>
                   <ModelSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
@@ -86,6 +86,35 @@ export default ({
                       getTermAggProps: () => ({ maxTerms: 4 }),
                       InputComponent: TextInput,
                     }}
+                    customFacets={[
+                      {
+                        content: {
+                          field: 'genomic_variants.classification',
+                          displayName: <Row justifyContent="space-between">
+                          Research Somatic Variant Type
+                          <GenomicVariantsTooltip isFacet={true} width={state.panelSize - 30} />
+                        </Row>,
+                        },
+                      },
+                      {
+                        content: {
+                          field: 'has_matched_models',
+                          displayName: <Row justifyContent="space-between">
+                          Has Multiple Models
+                          <MultipleModelsTooltip isFacet={true} width={state.panelSize - 30} />
+                        </Row>,
+                        },
+                      },
+                      {
+                        content: {
+                          field: 'molecular_characterizations',
+                          displayName: <Row justifyContent="space-between">
+                          Available Molecular Characterizations
+                          <MolecularCharacterizationsTooltip isFacet={true} width={state.panelSize - 30} />
+                        </Row>,
+                        },
+                      },
+                    ]}
                   />
                 </>
               )}
@@ -281,7 +310,7 @@ export default ({
                               field: 'matched_models_list',
                               displayName: 'Has Multiple Models',
                               Header: () => (
-                                <Row space="space-between">
+                                <Row justifyContent="space-between">
                                   Has Multiple Models <MultipleModelsTooltip isColumn={true} />
                                 </Row>
                               ),
@@ -292,7 +321,7 @@ export default ({
                               field: 'molecular_characterizations',
                               displayName: 'Available Molecular Characterizations',
                               Header: () => (
-                                <Row space="space-between">
+                                <Row justifyContent="space-between">
                                   Available Molecular Characterizations
                                   <MolecularCharacterizationsTooltip isColumn={true} />
                                 </Row>
@@ -304,7 +333,7 @@ export default ({
                               field: 'gene_metadata.genomic_variant_count',
                               displayName: '# Research Somatic Variants',
                               Header: () => (
-                                <Row space="space-between">
+                                <Row justifyContent="space-between">
                                   # Research Somatic Variants
                                   <GenomicVariantsTooltip />
                                 </Row>
@@ -316,7 +345,7 @@ export default ({
                               field: 'gene_metadata.clinical_variant_count',
                               displayName: '# Clinical Variants',
                               Header: () => (
-                                <Row space="space-between">
+                                <Row justifyContent="space-between">
                                   # Clinical Variants
                                   <ClinicalVariantsTooltip />
                                 </Row>
@@ -328,7 +357,7 @@ export default ({
                               field: 'gene_metadata.histopathological_variant_count',
                               displayName: '# Histo-pathological Biomarkers',
                               Header: () => (
-                                <Row space="space-between">
+                                <Row justifyContent="space-between">
                                   # Histo-pathological Biomarkers
                                   <HistopathologicalBiomarkersTooltip />
                                 </Row>

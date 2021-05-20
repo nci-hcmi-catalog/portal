@@ -530,6 +530,10 @@ export default css`
     height: 8px;
   }
 
+  .aggregations .aggregation-card .header {
+    position: relative;
+  }
+
   .aggregation-card .header .title-wrapper {
     padding: 10px;
     background-image: linear-gradient(to bottom, ${athensGray} 9%, ${athensLightGray} 91%);
@@ -674,6 +678,16 @@ export default css`
 
   .aggregation-card .bucket .toggle-button .toggle-button-option.active {
     background-color: ${linen};
+  }
+
+  .aggregations .aggregation-card .title-wrapper {
+    .title-control {
+      width: 100%;
+
+      .title {
+        width: 100%;
+      }
+    }
   }
 
   .model-name-search-wrapper .title-wrapper {
