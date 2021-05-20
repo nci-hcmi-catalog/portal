@@ -136,3 +136,18 @@ export const GenomicVariantsTooltip = ({ isFacet = false, width = null }) => (
     for details.
   </InfoTooltip>
 );
+
+export const ExpansionStatusTooltip = () => (
+  <InfoTooltip
+    ariaLabel={
+      'Expanded models are available for purchase on ATCC. Unexpanded models have passed sequencing validation QC, but are not yet available for purchase.'
+    }
+    position="bottom right"
+    iconStyle={resetIconPositionStyle}
+  >
+    <b>Expanded models</b> are available for purchase on ATCC.
+    <br />
+    <b>Unexpanded models</b> have passed sequencing validation QC, but are not yet available for
+    purchase.
+  </InfoTooltip>
+);
