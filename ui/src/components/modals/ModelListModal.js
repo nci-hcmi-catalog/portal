@@ -5,7 +5,6 @@ import moment from 'moment-timezone';
 
 import ModelListModalQuery from 'components/queries/ModelListModalQuery';
 import cartDownload from 'utils/cartDownload';
-import modelExportProcessor from 'utils/modelExportProcessor';
 import modelImageProcessor from 'utils/modelImageProcessor';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 import { ModalStateContext } from 'providers/ModalState';
