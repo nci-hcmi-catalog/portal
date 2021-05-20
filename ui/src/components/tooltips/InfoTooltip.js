@@ -9,6 +9,7 @@ const InfoTooltip = ({
   iconStyle,
   infoStyle = {},
   position = 'top right',
+  width = '380px',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -47,8 +48,9 @@ const InfoTooltip = ({
       onClose={hideTooltip}
       position={position}
       contentStyle={{
-        width: '380px',
+        width: width || '380px',
         zIndex: 100,
+        transform: 'translate3d(0, 0, 0)',
         ...infoStyle,
       }}
       mouseEnterDelay={100}

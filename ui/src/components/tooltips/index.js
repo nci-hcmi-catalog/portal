@@ -4,6 +4,10 @@ import InfoTooltip from './InfoTooltip';
 import { TooltipLink } from 'theme/modelStyles';
 
 const resetIconPositionStyle = `position: relative; top: unset; right: unset; margin-bottom: auto;`;
+const resetFacetIconPositionStyle = `
+  ${resetIconPositionStyle}
+  margin: auto 0 auto 5px;
+`;
 
 export const ModelDetailsTooltip = () => (
   <InfoTooltip
@@ -16,26 +20,36 @@ export const ModelDetailsTooltip = () => (
   </InfoTooltip>
 );
 
-export const MultipleModelsTooltip = ({ isColumn = false }) => (
+export const MultipleModelsTooltip = ({ isColumn = false, isFacet = false, width = null }) => (
   <InfoTooltip
     ariaLabel={
       'In some cases, it is possible to create models from more than one tumor site from a single patient. These Multiple Models for a single patient are associated with each other.'
     }
-    position={isColumn ? 'bottom right' : undefined}
-    iconStyle={isColumn ? resetIconPositionStyle : undefined}
+    position={isColumn || isFacet ? 'bottom right' : undefined}
+    iconStyle={
+      isColumn ? resetIconPositionStyle : isFacet ? resetFacetIconPositionStyle : undefined
+    }
+    width={width ? width : undefined}
   >
     In some cases, it is possible to create models from more than one tumor site from a single
     patient. These <b>Multiple Models</b> for a single patient are associated with each other.
   </InfoTooltip>
 );
 
-export const MolecularCharacterizationsTooltip = ({ isColumn }) => (
+export const MolecularCharacterizationsTooltip = ({
+  isColumn = false,
+  isFacet = false,
+  width = null,
+}) => (
   <InfoTooltip
     ariaLabel={
       'QC’ed data are released as they complete the characterization pipeline. Available data types may differ among Cancer Model Development Centers.'
     }
-    position={isColumn ? 'bottom right' : undefined}
-    iconStyle={isColumn ? resetIconPositionStyle : undefined}
+    position={isColumn || isFacet ? 'bottom right' : undefined}
+    iconStyle={
+      isColumn ? resetIconPositionStyle : isFacet ? resetFacetIconPositionStyle : undefined
+    }
+    width={width ? width : undefined}
   >
     QC’ed data are released as they complete the characterization pipeline.{' '}
     <b> Available data types</b> may differ among Cancer Model Development Centers.
@@ -101,13 +115,14 @@ export const HistopathologicalBiomarkersTooltip = () => (
   </InfoTooltip>
 );
 
-export const GenomicVariantsTooltip = () => (
+export const GenomicVariantsTooltip = ({ isFacet = false, width = null }) => (
   <InfoTooltip
     ariaLabel={
       'Variants are imported from GDC and are identified from filtered, open-access MAFs. Controlled-access data at GDC requires dbGaP approval; see GDC for details.'
     }
     position="bottom right"
-    iconStyle={resetIconPositionStyle}
+    iconStyle={isFacet ? resetFacetIconPositionStyle : resetIconPositionStyle}
+    width={width ? width : undefined}
   >
     <b>Variants</b> are imported from GDC and are identified from filtered, open-access MAFs.
     Controlled-access data at GDC requires dbGaP approval;{' '}
