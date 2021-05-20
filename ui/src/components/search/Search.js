@@ -293,7 +293,7 @@ export default ({
                               field: 'expanded',
                               displayName: 'Expansion Status',
                               Header: () => (
-                                <Row space="space-between">
+                                <Row justifyContent="space-between">
                                   Expansion Status <ExpansionStatusTooltip />
                                 </Row>
                               ),
