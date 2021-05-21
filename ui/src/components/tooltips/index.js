@@ -7,6 +7,7 @@ const resetIconPositionStyle = `position: relative; top: unset; right: unset; ma
 const resetFacetIconPositionStyle = `
   ${resetIconPositionStyle}
   margin: auto 0 auto 5px;
+  z-index: 0;
 `;
 
 export const ModelDetailsTooltip = () => (
