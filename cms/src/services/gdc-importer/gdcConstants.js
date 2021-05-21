@@ -135,3 +135,5 @@ export const FETCH_MODEL_FILE_DATA_QUERY = `query ($filter: FiltersArgument, $si
     }
   }
 }`;
+
+export const BASE_GDC_URL = 'https://portal.gdc.cancer.gov';

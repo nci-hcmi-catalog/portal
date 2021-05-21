@@ -160,6 +160,15 @@ export default css`
     white-space: normal;
   }
 
+  .ReactTable .rt-thead .rt-resizable-header:last-child {
+    overflow: unset;
+
+    .rt-resizer {
+      width: 18px;
+      right: 0;
+    }
+  }
+
   .ReactTable .rt-td > a,
   .clickable {
     ${brandPrimaryHighlightHover};
@@ -170,6 +179,15 @@ export default css`
 
   .ReactTable .rt-thead {
     background-color: #ffffff;
+  }
+
+  .ReactTable .rt-table {
+    overflow-x: scroll;
+    overflow-y: visible;
+
+    .rt-thead.-header {
+      box-shadow: none;
+    }
   }
 
   .ReactTable .rt-thead .rt-tr .rt-th {
@@ -512,6 +530,10 @@ export default css`
     height: 8px;
   }
 
+  .aggregations .aggregation-card .header {
+    position: relative;
+  }
+
   .aggregation-card .header .title-wrapper {
     padding: 10px;
     background-image: linear-gradient(to bottom, ${athensGray} 9%, ${athensLightGray} 91%);
@@ -656,6 +678,16 @@ export default css`
 
   .aggregation-card .bucket .toggle-button .toggle-button-option.active {
     background-color: ${linen};
+  }
+
+  .aggregations .aggregation-card .title-wrapper {
+    .title-control {
+      width: 100%;
+
+      .title {
+        width: 100%;
+      }
+    }
   }
 
   .model-name-search-wrapper .title-wrapper {
@@ -814,11 +846,42 @@ export default css`
     margin-right: 5px;
   }
 
+  .tableToolbar .dropDownContentElement.custom {
+    padding: 0px;
+  }
+
   .dropDownHeader .dropDownContent {
     max-height: 360px;
     overflow-y: auto;
     font-size: 13px;
     box-shadow: 1px 1.7px 4px 0 ${lightBlack};
+    padding: 0;
+  }
+
+  .dropDownContent .dropDownContentElement.clickable {
+    padding: 5px 10px;
+    color: black;
+
+    &:first-child {
+      padding-top: 10px;
+    }
+
+    &:last-child {
+      padding-bottom: 10px;
+    }
+  }
+
+  .dropDownContent .dropDownContentElement.clickable:hover {
+    background-color: #f3f6f7;
+  }
+  .dropDownContent .dropDownContentElement.custom .selectedModelsLabel {
+    border-bottom: 1px solid #d9d9df;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+    height: 25px;
+    color: #1c8292;
+    width: 100%;
+    padding: 4px 8px;
   }
 `;
 

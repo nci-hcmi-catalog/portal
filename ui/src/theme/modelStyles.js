@@ -1,5 +1,7 @@
 import { css } from 'emotion';
+import styled from 'react-emotion';
 
+import { Row } from 'theme/system';
 import base from 'theme';
 
 const {
@@ -16,9 +18,38 @@ const {
     lightPorcelain,
     sandyBeach,
     tiaMaria,
+    valencia,
     white,
   },
 } = base;
+
+export const VariantBlurb = styled(Row)`
+  background: ${athensGray};
+  font-family: ${openSans};
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  padding: 10px;
+
+  > * {
+    padding-right: 4px;
+  }
+
+  a {
+    padding-left: 4px;
+  }
+`;
+
+export const TooltipLink = styled('a')`
+  color: ${brandPrimary} !important;
+  text-decoration: underline;
+
+  &:hover {
+    color: ${valencia} !important;
+  }
+`;
 
 export default css`
   .model-bar {

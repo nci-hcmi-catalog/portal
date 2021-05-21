@@ -1,7 +1,6 @@
 import React from 'react';
 import Component from 'react-component-component';
 import { Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
-import '@arranger/components/public/themeStyles/beagle/beagle.css';
 import SplitPane from 'react-split-pane';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
@@ -26,6 +25,14 @@ import TableList from 'components/TableList';
 import ShareButton from 'components/ShareButton';
 import ModelList from 'components/ModelList';
 import TextInput from 'components/TextInput';
+import {
+  MultipleModelsTooltip,
+  MolecularCharacterizationsTooltip,
+  ClinicalVariantsTooltip,
+  HistopathologicalBiomarkersTooltip,
+  GenomicVariantsTooltip,
+  ExpansionStatusTooltip,
+} from 'components/tooltips';
 
 import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
 
@@ -34,6 +41,12 @@ import { filterExpanded, toggleExpanded } from 'utils/sqonHelpers';
 
 import searchStyles, { MainCol } from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
+
+// prevents facet tooltips from extending beyond the window
+// approx. 20px for scrollbar width, plus 28px padding
+const facetTooltipPadding = 48;
+// non-searchable facets require less padding since they have no search button
+const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 
 let stable = true;
 
@@ -63,8 +76,8 @@ export default ({
           onDragStarted={() => (stable = false)}
           onDragFinished={() => (stable = true)}
         >
-          <Col className="aggregations-wrapper">
-            <Component shouldUpdate={() => stable}>
+          <Col className="aggregations-wrapper" role="complementary">
+            <Component>
               {() => (
                 <>
                   <ModelSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
@@ -80,6 +93,35 @@ export default ({
                       getTermAggProps: () => ({ maxTerms: 4 }),
                       InputComponent: TextInput,
                     }}
+                    customFacets={[
+                      {
+                        content: {
+                          field: 'genomic_variants.classification',
+                          displayName: <Row justifyContent="space-between">
+                          Research Somatic Variant Type
+                          <GenomicVariantsTooltip isFacet={true} width={state.panelSize - facetTooltipPadding} />
+                        </Row>,
+                        },
+                      },
+                      {
+                        content: {
+                          field: 'has_matched_models',
+                          displayName: <Row justifyContent="space-between">
+                          Has Multiple Models
+                          <MultipleModelsTooltip isFacet={true} width={state.panelSize - nonSearchableFacetTooltipPadding} />
+                        </Row>,
+                        },
+                      },
+                      {
+                        content: {
+                          field: 'molecular_characterizations',
+                          displayName: <Row justifyContent="space-between">
+                          Available Molecular Characterizations
+                          <MolecularCharacterizationsTooltip isFacet={true} width={state.panelSize - facetTooltipPadding} />
+                        </Row>,
+                        },
+                      },
+                    ]}
                   />
                 </>
               )}
@@ -135,6 +177,7 @@ export default ({
                 justify-content: space-around;
                 border: 1px solid #d9d9df;
               `}
+              aria-hidden={true}
             >
               <Component shouldUpdate={() => stable}>
                 {() => (
@@ -160,6 +203,27 @@ export default ({
               {() => (
                 <SelectedModelsContext.Consumer>
                   {selectedModelContext => {
+                    // Options for Export drop down
+                    const exporterOptions = [
+                      {
+                        label: 'TSV (current columns)',
+                        function: 'saveTSV',
+                      },
+                      {
+                        label: 'TSV (all columns)',
+                        function: 'saveTSV',
+                        columns: [],
+                      },
+                    ];
+                    if (selectedModelContext.state.modelIds.length > 0) {
+                      exporterOptions.unshift({
+                        label: (
+                          <div className="selectedModelsLabel">
+                            ({selectedModelContext.state.modelIds.length} models selected)
+                          </div>
+                        ),
+                      });
+                    }
                     return (
                       <Table
                         {...props}
@@ -224,16 +288,19 @@ export default ({
                           },
                           age_at_sample_acquisition: { minWidth: 85 },
                           genes_count: { minWidth: 69 },
-                          number: { minWidth: 75 },
-                          expanded: { minWidth: 80 },
-                          histo_variant_count: { minWidth: 90 },
-                          matched_models: { minWidth: 68 },
+                          number: { minWidth: 88 },
+                          expanded: { minWidth: 105 },
+                          histo_variant_count: { minWidth: 108 },
+                          matched_models: { minWidth: 84 },
                         }}
                         index={props.index}
                         graphqlField={props.index}
                         InputComponent={TextInput}
                         columnDropdownText="Columns"
-                        exportTSVText="Export All"
+                        enableSelectedTableRowsExporterFilter={true}
+                        selectedRowsFilterPropertyName="_id"
+                        exporterLabel="Export"
+                        exporter={exporterOptions}
                         transformParams={params => ({
                           ...params,
                           url: `${globals.ARRANGER_API}/export/${version}/models`,
@@ -244,6 +311,78 @@ export default ({
                         enableDropDownControls={true}
                         sessionStorage={true}
                         storageKey={selectedModelContext.storageKey}
+                        customColumns={[
+                          {
+                            content: {
+                              field: 'matched_models_list',
+                              displayName: 'Has Multiple Models',
+                              Header: () => (
+                                <Row justifyContent="space-between">
+                                  Has Multiple Models <MultipleModelsTooltip isColumn={true} />
+                                </Row>
+                              ),
+                            },
+                          },
+                          {
+                            content: {
+                              field: 'expanded',
+                              displayName: 'Expansion Status',
+                              Header: () => (
+                                <Row justifyContent="space-between">
+                                  Expansion Status <ExpansionStatusTooltip />
+                                </Row>
+                              ),
+                            },
+                          },
+                          {
+                            content: {
+                              field: 'molecular_characterizations',
+                              displayName: 'Available Molecular Characterizations',
+                              Header: () => (
+                                <Row justifyContent="space-between">
+                                  Available Molecular Characterizations
+                                  <MolecularCharacterizationsTooltip isColumn={true} />
+                                </Row>
+                              ),
+                            },
+                          },
+                          {
+                            content: {
+                              field: 'gene_metadata.genomic_variant_count',
+                              displayName: '# Research Somatic Variants',
+                              Header: () => (
+                                <Row justifyContent="space-between">
+                                  # Research Somatic Variants
+                                  <GenomicVariantsTooltip />
+                                </Row>
+                              ),
+                            },
+                          },
+                          {
+                            content: {
+                              field: 'gene_metadata.clinical_variant_count',
+                              displayName: '# Clinical Variants',
+                              Header: () => (
+                                <Row justifyContent="space-between">
+                                  # Clinical Variants
+                                  <ClinicalVariantsTooltip />
+                                </Row>
+                              ),
+                            },
+                          },
+                          {
+                            content: {
+                              field: 'gene_metadata.histopathological_variant_count',
+                              displayName: '# Histo-pathological Biomarkers',
+                              Header: () => (
+                                <Row justifyContent="space-between">
+                                  # Histo-pathological Biomarkers
+                                  <HistopathologicalBiomarkersTooltip />
+                                </Row>
+                              ),
+                            },
+                          },
+                        ]}
                       />
                     );
                   }}

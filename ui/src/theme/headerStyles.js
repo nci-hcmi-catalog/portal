@@ -26,6 +26,11 @@ export const Header = styled('header')`
   padding: 0 16px 12px 13px;
 `;
 
+export const HeaderLinkWrapper = styled('h1')`
+  margin: unset;
+  font-size: unset;
+`;
+
 export const HeaderLink = styled(Link)`
   font-family: ${openSans};
   font-size: 32px;
