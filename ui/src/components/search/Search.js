@@ -42,6 +42,12 @@ import { filterExpanded, toggleExpanded } from 'utils/sqonHelpers';
 import searchStyles, { MainCol } from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
 
+// prevents facet tooltips from extending beyond the window
+// approx. 20px for scrollbar width, plus 28px padding
+const facetTooltipPadding = 48;
+// non-searchable facets require less padding since they have no search button
+const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
+
 let stable = true;
 
 export default ({
@@ -93,7 +99,7 @@ export default ({
                           field: 'genomic_variants.classification',
                           displayName: <Row justifyContent="space-between">
                           Research Somatic Variant Type
-                          <GenomicVariantsTooltip isFacet={true} width={state.panelSize - 30} />
+                          <GenomicVariantsTooltip isFacet={true} width={state.panelSize - facetTooltipPadding} />
                         </Row>,
                         },
                       },
@@ -102,7 +108,7 @@ export default ({
                           field: 'has_matched_models',
                           displayName: <Row justifyContent="space-between">
                           Has Multiple Models
-                          <MultipleModelsTooltip isFacet={true} width={state.panelSize - 30} />
+                          <MultipleModelsTooltip isFacet={true} width={state.panelSize - nonSearchableFacetTooltipPadding} />
                         </Row>,
                         },
                       },
@@ -111,7 +117,7 @@ export default ({
                           field: 'molecular_characterizations',
                           displayName: <Row justifyContent="space-between">
                           Available Molecular Characterizations
-                          <MolecularCharacterizationsTooltip isFacet={true} width={state.panelSize - 30} />
+                          <MolecularCharacterizationsTooltip isFacet={true} width={state.panelSize - facetTooltipPadding} />
                         </Row>,
                         },
                       },
