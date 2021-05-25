@@ -32,6 +32,7 @@ export const VariantBlurb = styled(Row)`
   font-style: normal;
   line-height: 1.33;
   padding: 10px;
+  margin-bottom: 5px;
 
   > * {
     padding-right: 4px;
