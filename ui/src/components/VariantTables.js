@@ -39,8 +39,8 @@ const renderVariantBlurb = type => {
     case VARIANT_TYPES.clinical:
       return (
         <VariantBlurb>
-          <b>Variants</b> are identified through clinical sequencing testing procedures as reported
-          in the{' '}
+          <b>Clinical Variants</b> are identified through clinical sequencing testing procedures as
+          reported in the{' '}
           <TooltipLink
             target="_blank"
             rel="noopener noreferrer"
@@ -53,8 +53,8 @@ const renderVariantBlurb = type => {
     case VARIANT_TYPES.histopathological:
       return (
         <VariantBlurb>
-          <b>Biomarkers</b> are identified through clinical histopathology testing procedures as
-          reported in the{' '}
+          <b>Histopathological Biomarkers</b> are identified through clinical histopathology testing
+          procedures as reported in the{' '}
           <TooltipLink
             target="_blank"
             rel="noopener noreferrer"
@@ -67,8 +67,8 @@ const renderVariantBlurb = type => {
     case VARIANT_TYPES.genomic:
       return (
         <VariantBlurb>
-          <b>Variants</b> are imported from GDC and are identified from filtered, open-access MAFs.
-          Controlled-access data at GDC requires dbGaP approval;{' '}
+          <b>Research Somatic Variants</b> are imported from GDC and are identified from filtered,
+          open-access MAFs. Controlled-access data at GDC requires dbGaP approval;{' '}
           <TooltipLink
             target="_blank"
             rel="noopener noreferrer"
