@@ -78,12 +78,13 @@ export const PatientDetailsTooltip = () => (
 export const ClinicalVariantsTooltip = () => (
   <InfoTooltip
     ariaLabel={
-      'Variants are identified through clinical sequencing testing procedures as reported in the case report forms.'
+      'Clinical Variants are identified through clinical sequencing testing procedures as reported in the case report forms.'
     }
     position="bottom right"
     iconStyle={resetIconPositionStyle}
   >
-    <b>Variants</b> are identified through clinical sequencing testing procedures as reported in the{' '}
+    <b>Clinical Variants</b> are identified through clinical sequencing testing procedures as
+    reported in the{' '}
     <TooltipLink
       target="_blank"
       rel="noopener noreferrer"
@@ -98,13 +99,13 @@ export const ClinicalVariantsTooltip = () => (
 export const HistopathologicalBiomarkersTooltip = () => (
   <InfoTooltip
     ariaLabel={
-      'Biomarkers are identified through clinical histopathology testing procedures as reported in the case report forms.'
+      'Histopathological Biomarkers are identified through clinical histopathology testing procedures as reported in the case report forms.'
     }
     position="bottom right"
     iconStyle={resetIconPositionStyle}
   >
-    <b>Biomarkers</b> are identified through clinical histopathology testing procedures as reported
-    in the{' '}
+    <b>Histopathological Biomarkers</b> are identified through clinical histopathology testing
+    procedures as reported in the{' '}
     <TooltipLink
       target="_blank"
       rel="noopener noreferrer"
@@ -119,14 +120,14 @@ export const HistopathologicalBiomarkersTooltip = () => (
 export const GenomicVariantsTooltip = ({ isFacet = false, width = null }) => (
   <InfoTooltip
     ariaLabel={
-      'Variants are imported from GDC and are identified from filtered, open-access MAFs. Controlled-access data at GDC requires dbGaP approval; see GDC for details.'
+      'Research Somatic Variants are imported from GDC and are identified from filtered, open-access MAFs. Controlled-access data at GDC requires dbGaP approval; see GDC for details.'
     }
     position="bottom right"
     iconStyle={isFacet ? resetFacetIconPositionStyle : resetIconPositionStyle}
     width={width ? width : undefined}
   >
-    <b>Variants</b> are imported from GDC and are identified from filtered, open-access MAFs.
-    Controlled-access data at GDC requires dbGaP approval;{' '}
+    <b>Research Somatic Variants</b> are imported from GDC and are identified from filtered,
+    open-access MAFs. Controlled-access data at GDC requires dbGaP approval;{' '}
     <TooltipLink
       target="_blank"
       rel="noopener noreferrer"
