@@ -36,6 +36,10 @@ async function fetchColumns() {
       ...column,
       ...extendedData,
       Header: extendedData.displayName || column.field,
+
+      // display values and type are renamed by arranger into extendedDisplayValues and extendedDisplayType before being sent into the tsv downloader.
+      extendedDisplayValues: extendedData.displayValues,
+      extendedDisplayType: extendedData.type,
     };
     output.push(extendedColumn);
   });
