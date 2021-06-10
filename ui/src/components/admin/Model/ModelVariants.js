@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import moment from 'moment-timezone';
+import Popup from 'reactjs-popup';
 
 import { ModelSingleContext } from './ModelSingleController';
 import { ModalStateContext } from 'providers/ModalState';
@@ -15,11 +16,13 @@ import BulkUploader from '../BulkUpload';
 import { ModelVariantColumns as clinicalVariantTableColumns } from './ModelVariantColumns';
 import { ModelGenomicVariantColumns as genomicVariantTableColumns } from './ModelGenomicVariantColumns';
 import { TabGroup, Tab } from 'components/layout/HorizontalTabs';
+import CollapsibleArrow from 'icons/CollapsibleArrow';
 import PlusIcon from 'icons/PlusIcon';
 import VariantsIcon from 'icons/VariantsIcon';
 import TabHeader from './TabHeader';
 import useConfirmationModal from 'components/modals/ConfirmationModal';
 
+import { DropdownItem } from 'theme/adminNavStyles';
 import { AdminContainer, AdminHeader, AdminHeaderH3, AdminHeaderBlock } from 'theme/adminStyles';
 import { ButtonPill } from 'theme/adminControlsStyles';
 import { Table, ToolbarHeader } from 'theme/adminTableStyles';
@@ -171,6 +174,7 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
   const importStatus = useRef(null);
   const { fetchGenomicVariantData } = useContext(ModelSingleContext);
   const [activeTab, setActiveTab] = useState(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const {
     importNotifications,
     addImportNotification,
@@ -256,34 +260,54 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
                         <PlusIcon css={'margin-right: 5px;'} />
                         Clinical Variants
                       </ButtonPill>
-                      {useConfirmationModal({
-                        title: 'Overwrite Existing Variants?',
-                        message:
-                          'Are you sure you want to import new research variants and overwrite the existing list?',
-                        confirmLabel: 'Yes, Import',
-                        onConfirm: () => {
-                          importGenomicVariants(name)
-                            .then(async _ => {
-                              await addImportNotification(name);
-                            })
-                            .catch(error => {
-                              const data = error.response ? error.response.data : error;
-                              showErrorImportNotification(name, data);
-                            });
-                        },
-                        confirmationRequired: genomicVariantsData.length > 0,
-                      })(
-                        <ButtonPill
-                          primary
-                          css={'margin-left: 10px;'}
-                          disabled={importNotifications.find(
-                            notification => notification.modelName === name,
-                          )}
-                        >
-                          <PlusIcon css={'margin-right: 5px;'} />
-                          Research Somatic Variants
-                        </ButtonPill>,
-                      )}
+                      <Popup
+                        trigger={() => (
+                          <div>
+                            <ButtonPill
+                              primary
+                              css={'margin-left: 10px;'}
+                              disabled={importNotifications.find(
+                                notification => notification.modelName === name,
+                              )}
+                              onClick={() => setDropdownOpen(!dropdownOpen)}
+                            >
+                              <PlusIcon css={'margin-right: 5px;'} />
+                              Research Somatic Variants
+                              <CollapsibleArrow
+                                isOpen={dropdownOpen}
+                                colour={'#000'}
+                                weight={4}
+                                css={`
+                                  margin-left: 4px;
+                                `}
+                              />
+                            </ButtonPill>
+                          </div>
+                        )}
+                        offset={0}
+                        open={dropdownOpen}
+                        arrow={false}
+                        onClose={() => setDropdownOpen(false)}
+                      >
+                        {useConfirmationModal({
+                          title: 'Overwrite Existing Variants?',
+                          message:
+                            'Are you sure you want to import new research variants and overwrite the existing list?',
+                          confirmLabel: 'Yes, Import',
+                          onConfirm: () => {
+                            importGenomicVariants(name)
+                              .then(async _ => {
+                                await addImportNotification(name);
+                              })
+                              .catch(error => {
+                                const data = error.response ? error.response.data : error;
+                                showErrorImportNotification(name, data);
+                              });
+                          },
+                          confirmationRequired: genomicVariantsData.length > 0,
+                        })(<DropdownItem>Automatic Import from GDC</DropdownItem>)}
+                        <DropdownItem>Manual Import from GDC</DropdownItem>
+                      </Popup>
                     </>
                   )}
                 </ModalStateContext.Consumer>
