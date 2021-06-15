@@ -138,7 +138,13 @@ const Import = ({
         { time: Date.now(), startTime, fileId, filename, modelName },
         'Beginning MAF file download...',
       );
-      const mafFile = await downloadMaf({ filename, fileId, modelName });
+      const mafFile = await downloadMaf({ filename, fileId, modelName }).catch(error => {
+        errorStop({
+          code: IMPORT_ERRORS.manualImportError,
+          message: error.message,
+          error,
+        });
+      });
 
       if (status !== ImportStatus.active) {
         return;
