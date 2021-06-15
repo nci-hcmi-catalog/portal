@@ -21,6 +21,7 @@ import PlusIcon from 'icons/PlusIcon';
 import VariantsIcon from 'icons/VariantsIcon';
 import TabHeader from './TabHeader';
 import useConfirmationModal from 'components/modals/ConfirmationModal';
+import withManualImportMafModal from 'components/modals/ManualImportMafModal';
 
 import { DropdownItem } from 'theme/adminNavStyles';
 import { AdminContainer, AdminHeader, AdminHeaderH3, AdminHeaderBlock } from 'theme/adminStyles';
@@ -289,24 +290,29 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
                         arrow={false}
                         onClose={() => setDropdownOpen(false)}
                       >
-                        {useConfirmationModal({
-                          title: 'Overwrite Existing Variants?',
-                          message:
-                            'Are you sure you want to import new research variants and overwrite the existing list?',
-                          confirmLabel: 'Yes, Import',
-                          onConfirm: () => {
-                            importGenomicVariants(name)
-                              .then(async _ => {
-                                await addImportNotification(name);
-                              })
-                              .catch(error => {
-                                const data = error.response ? error.response.data : error;
-                                showErrorImportNotification(name, data);
-                              });
-                          },
-                          confirmationRequired: genomicVariantsData.length > 0,
-                        })(<DropdownItem>Automatic Import from GDC</DropdownItem>)}
-                        <DropdownItem>Manual Import from GDC</DropdownItem>
+                        <>
+                          {useConfirmationModal({
+                            title: 'Overwrite Existing Variants?',
+                            message:
+                              'Are you sure you want to import new research variants and overwrite the existing list?',
+                            confirmLabel: 'Yes, Import',
+                            onConfirm: () => {
+                              importGenomicVariants(name)
+                                .then(async _ => {
+                                  await addImportNotification(name);
+                                })
+                                .catch(error => {
+                                  const data = error.response ? error.response.data : error;
+                                  showErrorImportNotification(name, data);
+                                });
+                            },
+                            confirmationRequired: genomicVariantsData.length > 0,
+                          })(<DropdownItem size={12}>Automatic Import from GDC</DropdownItem>)}
+                          {withManualImportMafModal({
+                            modelName: name,
+                            onConfirm: async () => await addImportNotification(name),
+                          })(<DropdownItem size={12}>Manual Import from GDC</DropdownItem>)}
+                        </>
                       </Popup>
                     </>
                   )}

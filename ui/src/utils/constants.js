@@ -45,6 +45,7 @@ const GENOMIC_VARIANTS_IMPORT_ERRORS = {
   badRequest: 'BAD_REQUEST',
   gdcCommunicationError: 'GDC_COMMUNICATION_ERROR',
   unexpected: 'UNEXPECTED',
+  manualImportError: 'MANUAL_IMPORT_ERROR',
 };
 
 const imgPath = '/api/data/images';
