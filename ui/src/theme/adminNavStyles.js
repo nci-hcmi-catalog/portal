@@ -78,7 +78,7 @@ export const DropdownItem = styled('a')`
   text-align: left;
   font-family: ${openSans};
   padding: 5px 9px;
-  font-size: 14px;
+  font-size: ${({ size }) => size || 14}px;
   font-weight: normal;
   line-height: 1.71;
   color: ${black};

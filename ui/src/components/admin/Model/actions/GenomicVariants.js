@@ -13,7 +13,7 @@ export const importBulkGenomicVariants = async models => {
   return post({
     url,
     data: {
-      models
+      models,
     },
   });
 };
@@ -23,17 +23,17 @@ export const auditGenomicVariantsAllModels = async () => {
   return get({
     url,
   });
-}
+};
 
 export const auditGenomicVariantsSpecificModels = async models => {
   const url = `${GENOMIC_VARIANTS_URL}/audit`;
   return post({
     url,
     data: {
-      models
+      models,
     },
   });
-}
+};
 
 export const clearGenomicVariants = async modelName => {
   return new Promise(async (resolve, reject) => {
@@ -80,15 +80,15 @@ export const acknowledgeBulkImportStatus = async models => {
     await post({
       url,
       data: {
-        models
+        models,
       },
     })
-    .then(res => {
-      resolve(res.data);
-    })
-    .catch(err => {
-      reject(err.response ? err.response.data.error : err);
-    });
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.response ? err.response.data.error : err);
+      });
   });
 };
 
@@ -103,12 +103,12 @@ export const resolveMafFileConflict = async (modelName, fileId, filename) => {
         filename: filename,
       },
     })
-    .then(res => {
-      resolve(res.data);
-    })
-    .catch(err => {
-      reject(err.response ? err.response.data.error : err);
-    });
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.response ? err.response.data.error : err);
+      });
   });
 };
 
@@ -116,6 +116,25 @@ export const stopAllImports = async () => {
   return new Promise(async (resolve, reject) => {
     const url = `${GENOMIC_VARIANTS_URL}/stop/all`;
     await post({ url })
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.response ? err.response.data.error : err);
+      });
+  });
+};
+
+export const manualMafImport = async (modelName, fileId, filename) => {
+  return new Promise(async (resolve, reject) => {
+    const url = `${GENOMIC_VARIANTS_URL}/import/${modelName}`;
+    await post({
+      url,
+      data: {
+        fileId: fileId,
+        filename: filename,
+      },
+    })
       .then(res => {
         resolve(res.data);
       })

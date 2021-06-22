@@ -16,6 +16,8 @@ export const IMPORT_ERRORS = {
   gdcCommunicationError: 'GDC_COMMUNICATION_ERROR',
   // Unexpected error
   unexpected: 'UNEXPECTED',
+  // Manual import error
+  manualImportError: 'MANUAL_IMPORT_ERROR',
 };
 
 export const IMPORT_OVERWRITE_OPTIONS = {
