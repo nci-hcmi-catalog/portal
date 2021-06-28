@@ -34,6 +34,18 @@ const generateTsvFilename = (modelName, type) => {
   }
 };
 
+const getColumnOrder = type => {
+  switch (type) {
+    case VARIANT_TYPES.clinical:
+      return ['name', 'genes', 'type', 'category'];
+    case VARIANT_TYPES.histopathological:
+      return ['name', 'genes', 'assessment_type', 'expression_level'];
+    case VARIANT_TYPES.genomic:
+    default:
+      return [];
+  }
+};
+
 const renderVariantBlurb = type => {
   switch (type) {
     case VARIANT_TYPES.clinical:
@@ -178,7 +190,13 @@ const VariantTable = React.memo(({ type, modelName, columns, storageKey }) => {
                 secondary
                 disabled={sortedData.length === 0}
                 style={{ marginLeft: '8px' }}
-                onClick={() => tsvDownloader(generateTsvFilename(modelName, type), filteredData)}
+                onClick={() =>
+                  tsvDownloader(
+                    generateTsvFilename(modelName, type),
+                    filteredData,
+                    getColumnOrder(type),
+                  )
+                }
               >
                 <DownloadIcon height={'12px'} width={'12px'} />
                 TSV
