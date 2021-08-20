@@ -315,6 +315,17 @@ const useGenomicVariantImportNotifications = () => {
           onClose: () => { acknowledgeModelAndUpdateNotifications(modelName) },
         });
         break;
+      case GENOMIC_VARIANTS_IMPORT_ERRORS.manualImportError:
+        appendNotification({
+          type: NOTIFICATION_TYPES.ERROR,
+          message: 'Manual Import Error',
+          details:
+            'The MAF file you are trying to import was not found in GDC. Please investigate and try again.',
+          timeout: false,
+          modelName,
+          onClose: () => { acknowledgeModelAndUpdateNotifications(modelName) },
+        });
+        break;
       case GENOMIC_VARIANTS_IMPORT_ERRORS.unexpected:
       default:
         appendNotification({

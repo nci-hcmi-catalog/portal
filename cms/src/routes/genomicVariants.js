@@ -137,13 +137,15 @@ variantsRouter.post('/import/bulk', async (req, res) => {
 
 variantsRouter.post('/import/:name', async (req, res) => {
   const { name } = req.params;
+  const { fileId = null, filename = null } = req.body;
+
   try {
     logger.debug(`Beginning genomic-variant import for model ${name}`);
 
     // Clear first before importing new
     await clearGenomicVariants(name);
 
-    const result = await VariantImporter.queueImport(name);
+    const result = await VariantImporter.queueImport(name, fileId, filename);
 
     if (result.error) {
       return res.status(400).json({ success: false, error: result.error });

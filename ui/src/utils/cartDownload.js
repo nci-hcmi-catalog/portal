@@ -44,7 +44,6 @@ async function fetchColumns() {
     output.push(extendedColumn);
   });
 
-  console.log('fetchColumns', output);
   return output;
 }
 

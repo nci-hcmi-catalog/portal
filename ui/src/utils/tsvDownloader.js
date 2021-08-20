@@ -1,20 +1,21 @@
 import { saveAs } from 'filesaver.js';
 import { clone } from 'lodash';
 /**
- * Given a array of like objects, transform keys to header
+ * Given a array of table data objects, transform keys to header
  * row and then output each object values as a row in a tsv
  * format export with fileName
  * @param {String} fileName - filename without extension
- * @param {[Object]} objArr - array of like objects
+ * @param {[Object]} tableData - array of like objects
+ * @param {[String]} columnOrder - ordered array of column headers
  */
-export default function(fileName, objArr) {
+export default function(fileName, tableData, columnOrder = []) {
   saveAs(
     new Blob(
       [
         [
-          Object.keys(objArr[0]).join('\t'),
-          ...objArr.map(obj =>
-            Object.values(addColumnSpecificCustomizations(obj))
+          (columnOrder.length ? columnOrder : Object.keys(tableData[0])).join('\t'),
+          ...tableData.map(row =>
+            orderColumns(addColumnSpecificCustomizations(row), columnOrder)
               .map(value => (value ? (typeof value === 'string' ? value : value.export) : ''))
               .join('\t'),
           ),
@@ -39,6 +40,14 @@ const addColumnSpecificCustomizations = row => {
     output.gene = output.gene.name;
   }
   return output;
+};
+
+const orderColumns = (data, columnOrder) => {
+  if (!columnOrder || !columnOrder.length) {
+    return Object.values(data);
+  }
+
+  return columnOrder.map(col => data[col]);
 };
 
 export const convertColumnsToTableData = (columnHeaders, columnData) => {
