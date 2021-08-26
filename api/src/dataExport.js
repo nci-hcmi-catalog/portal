@@ -14,6 +14,12 @@ const logger = getLogger('dataExport');
 
 const dataExportRouter = express.Router();
 const NEW_LINE = '\n';
+const VARIANT_TYPES = {
+  clinical: 'clinical',
+  histopathological: 'histopathological biomarker',
+  genomic: 'genomic_sequencing',
+};
+const CLINICAL_COLUMNS = ['name', 'genes', 'type', 'category'];
 
 dataExportRouter.use(bodyParser.urlencoded({ extended: true }));
 
@@ -111,8 +117,14 @@ dataExportRouter.post('/:projectId/models', async (req, res) => {
     await Promise.all(
       models.map(async modelId => {
         // Get Clinical and Somatic variants for the model
-        const clinicalVariants = await buildVariantTsv(clinicalVariantData[modelId]);
-        const genomicVariants = await buildVariantTsv(genomicVariantData[modelId]);
+        const clinicalVariants = await buildVariantTsv(
+          clinicalVariantData[modelId],
+          VARIANT_TYPES.clinical,
+        );
+        const genomicVariants = await buildVariantTsv(
+          genomicVariantData[modelId],
+          VARIANT_TYPES.genomic,
+        );
         if (clinicalVariants || genomicVariants) {
           const modelFolder = zip.folder(modelId);
           !!clinicalVariants && modelFolder.file(`clinical-${modelId}.tsv`, clinicalVariants);
@@ -140,11 +152,11 @@ dataExportRouter.post('/:projectId/models', async (req, res) => {
   }
 });
 
-const buildVariantTsv = async data => {
+const buildVariantTsv = async (data, type) => {
   if (!data) {
     return null;
   } else {
-    const keys = Object.keys(data[0]);
+    const keys = type === VARIANT_TYPES.clinical ? CLINICAL_COLUMNS : Object.keys(data[0]);
     const records = data.map(record => {
       const row = [];
       keys.forEach(key => {
