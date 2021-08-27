@@ -19,7 +19,14 @@ const VARIANT_TYPES = {
   histopathological: 'histopathological biomarker',
   genomic: 'genomic_sequencing',
 };
-const CLINICAL_COLUMNS = ['name', 'genes', 'type', 'category'];
+const CLINICAL_COLUMNS = [
+  'name',
+  'genes',
+  'type',
+  'category',
+  'assessment_type',
+  'expression_level',
+];
 
 dataExportRouter.use(bodyParser.urlencoded({ extended: true }));
 
