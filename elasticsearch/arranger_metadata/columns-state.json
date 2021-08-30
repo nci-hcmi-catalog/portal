@@ -1,7 +1,10 @@
 {
   "type": "models",
   "keyField": "id",
-  "defaultSorted": [],
+  "defaultSorted": [{
+    "id": "gene_metadata.genomic_variant_count",
+    "desc": true
+  }],
   "columns": [
     {
       "field": "name",
