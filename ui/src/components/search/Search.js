@@ -236,7 +236,6 @@ export default ({
                         sqon={toggleExpanded(sqon, showUnexpanded)}
                         setSQON={setSQON}
                         onSortedChange={sorted => setState({ sorted })}
-                        alwaysSorted={[{ field: 'name', order: 'asc' }]}
                         customTypes={{
                           entity: props => (
                             <TableEntity
