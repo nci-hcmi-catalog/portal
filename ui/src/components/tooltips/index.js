@@ -139,6 +139,20 @@ export const GenomicVariantsTooltip = ({ isFacet = false, width = null }) => (
   </InfoTooltip>
 );
 
+export const MutatedGenesTooltip = ({ isFacet = false, width = null }) => (
+  <InfoTooltip
+    ariaLabel={
+      'The # Mutated Genes is calculated as the intersection of genes associated to a mutation found in either # Research Variants or # Clinical Variants.'
+    }
+    position="bottom right"
+    iconStyle={isFacet ? resetFacetIconPositionStyle : resetIconPositionStyle}
+    width={width ? width : undefined}
+  >
+    The <b># Mutated Genes</b> is calculated as the intersection of genes associated to a mutation
+    found in either <b># Research Variants</b> or <b># Clinical Variants</b>.
+  </InfoTooltip>
+);
+
 export const ExpansionStatusTooltip = () => (
   <InfoTooltip
     ariaLabel={

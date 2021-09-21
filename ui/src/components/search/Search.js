@@ -32,6 +32,7 @@ import {
   HistopathologicalBiomarkersTooltip,
   GenomicVariantsTooltip,
   ExpansionStatusTooltip,
+  MutatedGenesTooltip,
 } from 'components/tooltips';
 
 import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
@@ -286,7 +287,7 @@ export default ({
                             minWidth: 160,
                           },
                           age_at_sample_acquisition: { minWidth: 85 },
-                          genes_count: { minWidth: 69 },
+                          mutated_genes_count: { minWidth: 88 },
                           number: { minWidth: 88 },
                           expanded: { minWidth: 105 },
                           histo_variant_count: { minWidth: 108 },
@@ -341,6 +342,18 @@ export default ({
                                 <Row justifyContent="space-between">
                                   Available Molecular Characterizations
                                   <MolecularCharacterizationsTooltip isColumn={true} />
+                                </Row>
+                              ),
+                            },
+                          },
+                          {
+                            content: {
+                              field: 'gene_metadata.mutated_genes_count',
+                              displayName: '# Mutated Genes',
+                              Header: () => (
+                                <Row justifyContent="space-between">
+                                  # Mutated Genes
+                                  <MutatedGenesTooltip />
                                 </Row>
                               ),
                             },

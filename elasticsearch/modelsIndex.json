@@ -266,7 +266,9 @@
           "genes_count": { "type": "long" },
           "genomic_variant_count": { "type": "long" },
           "clinical_variant_count": { "type": "long" },
-          "histopathological_variant_count": { "type": "long" }
+          "histopathological_variant_count": { "type": "long" },
+          "mutated_genes": { "type": "keyword" },
+          "mutated_genes_count": { "type": "long" }
         }
       },
       "vital_status": {

@@ -250,6 +250,16 @@
     {
       "field": "gene_metadata.genes_count",
       "accessor": "gene_metadata.genes_count",
+      "show": false,
+      "type": "genes_count",
+      "sortable": true,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
+    },
+    {
+      "field": "gene_metadata.mutated_genes_count",
+      "accessor": "gene_metadata.mutated_genes_count",
       "show": true,
       "type": "genes_count",
       "sortable": true,
