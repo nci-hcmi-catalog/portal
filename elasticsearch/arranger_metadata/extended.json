@@ -823,6 +823,18 @@
     "rangeStep": 1
   },
   {
+    "field": "gene_metadata.mutated_genes_count",
+    "type": "long",
+    "displayName": "# Mutated Genes",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
     "field": "gene_metadata.genomic_variant_count",
     "type": "long",
     "displayName": "# Research Somatic Variants",

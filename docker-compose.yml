@@ -1,4 +1,4 @@
-# For a quick mongo/elasticSearch local enviornment
+# For a quick mongo/elasticSearch local environment
 
 version: '3'
 services:
@@ -20,6 +20,7 @@ services:
       - discovery.type=single-node
       - cluster.name=workflow.elasticsearch
       - 'ES_JAVA_OPTS=-Xms512m -Xmx2048m'
+      - search.max_buckets=65535
   kibana:
     image: 'kibana:7.6.1'
     depends_on:
