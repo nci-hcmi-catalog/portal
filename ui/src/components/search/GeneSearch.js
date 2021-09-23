@@ -4,12 +4,23 @@ import SidebarTextSearch from 'components/search/SidebarTextSearch';
 
 import GeneIcon from 'icons/DNACircleIcon';
 import { searchGenes } from 'components/search/services/searchService';
+import { AlteredGenesTooltip } from 'components/tooltips';
+import { Row } from 'theme/system';
 
-export default ({ sqon, setSQON, ...props }) => (
+export default ({ sqon, setSQON, tooltipWidth, ...props }) => (
   <SidebarTextSearch
     sqon={sqon}
     setSQON={setSQON}
-    header="Search by Gene"
+    header={
+      <Row
+        justifyContent="space-between"
+        css={`
+          text-transform: none;
+        `}
+      >
+        Search By Altered Gene(s) <AlteredGenesTooltip width={tooltipWidth} />
+      </Row>
+    }
     placeholder="e.g. BRAF, EWSR, ..."
     ResultsIcon={GeneIcon}
     optionTransformer={option => {
