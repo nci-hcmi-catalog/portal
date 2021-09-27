@@ -82,7 +82,7 @@ export default ({
               {() => (
                 <>
                   <ModelSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
-                  <GeneSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
+                  <GeneSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} tooltipWidth={state.panelSize - facetTooltipPadding} />
                   <VariantSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
                   <Aggregations
                     {...props}
@@ -103,6 +103,12 @@ export default ({
                           <GenomicVariantsTooltip isFacet={true} width={state.panelSize - facetTooltipPadding} />
                         </Row>,
                         },
+                      },
+                      {
+                        content: {
+                          field: 'type',
+                          displayName: 'Model Type',
+                        }
                       },
                       {
                         content: {

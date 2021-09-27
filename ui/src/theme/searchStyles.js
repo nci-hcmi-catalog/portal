@@ -584,6 +584,7 @@ export default css`
     line-height: 1.38;
     text-transform: capitalize;
     color: ${black};
+    width: 100%;
   }
 
   .aggregation-card {
