@@ -263,5 +263,10 @@
     "field": "gene_metadata__genes",
     "show": false,
     "active": true
+  },
+  {
+    "field": "gene_metadata__mutated_genes",
+    "show": false,
+    "active": true
   }
 ]

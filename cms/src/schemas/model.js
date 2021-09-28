@@ -164,9 +164,17 @@ export const ModelSchema = new mongoose.Schema(
           const genomic_variant_genes = doc.genomic_variants.map(gv => gv.gene);
           const variant_genes = flatten(doc.variants.map(wrapper => wrapper.variant.genes));
           const genes = uniq([...genomic_variant_genes, ...variant_genes]);
+          // As of #946, "Mutated Genes" are Research Somatic Variants (`genomic_variants` in the codebase) and Clinical Variants only
+          const clinical_variant_genes = flatten(
+            doc.variants
+              .filter(variant => variant.variant && variant.variant.type === 'Clinical')
+              .map(wrapper => wrapper.variant.genes),
+          );
+          const mutated_genes = uniq([...genomic_variant_genes, ...clinical_variant_genes]);
 
           // Get counts of the 4 categories shown on search table
           const genes_count = genes.length;
+          const mutated_genes_count = mutated_genes.length;
           const genomic_variant_count = doc.genomic_variants.length;
           const clinical_variant_count = doc.variants.filter(
             variant => variant.variant && variant.variant.type === 'Clinical',
@@ -181,6 +189,8 @@ export const ModelSchema = new mongoose.Schema(
             genomic_variant_count,
             clinical_variant_count,
             histopathological_variant_count,
+            mutated_genes,
+            mutated_genes_count,
           };
           if (doc.gene_metadata) {
             output.filename = doc.gene_metadata.filename;

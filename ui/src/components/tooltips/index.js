@@ -9,6 +9,12 @@ const resetFacetIconPositionStyle = `
   margin: auto 0 auto 5px;
   z-index: 0;
 `;
+const resetFacetIconPositionStyleNoMargin = `
+  ${resetFacetIconPositionStyle}
+  img {
+    margin-right: 0;
+  }
+`;
 
 export const ModelDetailsTooltip = () => (
   <InfoTooltip
@@ -28,7 +34,7 @@ export const MultipleModelsTooltip = ({ isColumn = false, isFacet = false, width
     }
     position={isColumn || isFacet ? 'bottom right' : undefined}
     iconStyle={
-      isColumn ? resetIconPositionStyle : isFacet ? resetFacetIconPositionStyle : undefined
+      isColumn ? resetIconPositionStyle : isFacet ? resetFacetIconPositionStyleNoMargin : undefined
     }
     width={width ? width : undefined}
   >
@@ -136,6 +142,34 @@ export const GenomicVariantsTooltip = ({ isFacet = false, width = null }) => (
       see GDC
     </TooltipLink>{' '}
     for details.
+  </InfoTooltip>
+);
+
+export const AlteredGenesTooltip = ({ width = null }) => (
+  <InfoTooltip
+    ariaLabel={
+      'Search for alterations that have been reported in somatic or clinical variants (e.g., BRAF, EWSR1), and histopathological biomarker tests (e.g., MMR).'
+    }
+    position="bottom right"
+    iconStyle={resetFacetIconPositionStyleNoMargin}
+    width={width ? width : undefined}
+  >
+    Search for alterations that have been reported in somatic or clinical variants (e.g., BRAF,
+    EWSR1), and histopathological biomarker tests (e.g., MMR).
+  </InfoTooltip>
+);
+
+export const MutatedGenesTooltip = ({ isFacet = false, width = null }) => (
+  <InfoTooltip
+    ariaLabel={
+      'The # Mutated Genes is calculated as the intersection of genes associated to a mutation found in either # Research Variants or # Clinical Variants.'
+    }
+    position="bottom right"
+    iconStyle={isFacet ? resetFacetIconPositionStyle : resetIconPositionStyle}
+    width={width ? width : undefined}
+  >
+    The <b># Mutated Genes</b> is calculated as the intersection of genes associated to a mutation
+    found in either <b># Research Variants</b> or <b># Clinical Variants</b>.
   </InfoTooltip>
 );
 

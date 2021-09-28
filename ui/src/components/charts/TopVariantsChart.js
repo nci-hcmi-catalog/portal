@@ -20,7 +20,7 @@ export default ({ sqon, setSQON }) => (
       padding: 12px 0 4px;
     `}
   >
-    <AggregationQuery sqon={sqon} field="gene_metadata__genes">
+    <AggregationQuery sqon={sqon} field="gene_metadata__mutated_genes">
       {({ state: aggState }) => {
         return (
           <Component
@@ -159,7 +159,7 @@ export default ({ sqon, setSQON }) => (
                               {
                                 op: 'in',
                                 content: {
-                                  field: 'gene_metadata.genes',
+                                  field: 'gene_metadata.mutated_genes',
                                   value: [].concat(data.data.key || []),
                                 },
                               },
