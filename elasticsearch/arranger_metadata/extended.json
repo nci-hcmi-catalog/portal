@@ -2,7 +2,7 @@
   {
     "field": "type",
     "type": "keyword",
-    "displayName": "Type",
+    "displayName": "Model Type",
     "active": false,
     "isArray": false,
     "primaryKey": false,
