@@ -245,7 +245,7 @@ const ExternalResourcesContent = ({
           </ExternalResourceLink>
           <ExternalResourceLink url={modelSourceLink}>
             <ExternalLinkIcon />
-            Model Source
+            Case Metadata
           </ExternalResourceLink>
           <ExternalResourceLink url={somaticMafLink}>
             <ExternalLinkIcon />
