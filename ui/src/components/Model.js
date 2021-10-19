@@ -154,7 +154,7 @@ const MolecularCharacterizationsCell = ({ isAvailable }) => {
 };
 
 const MolecularCharacterizationsTable = ({ characterizations }) => {
-  const CHARS = ['WGS', 'WXS', 'DNA Methylation Array', 'RNA-seq'];
+  const CHARS = ['WGS', 'WXS', 'RNA-seq', 'DNA Methylation Array'];
   const TYPES = ['model', 'parent tumor', 'normal'];
 
   return (
