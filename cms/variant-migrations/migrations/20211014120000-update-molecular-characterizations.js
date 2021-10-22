@@ -3,7 +3,7 @@ const targetedSeqData = require('../data/molecularCharacterizations-10-13-21-bac
 
 module.exports = {
   up(db) {
-    return db.collection('dictionary').findOneAndUpdate(
+    return db.collection('dictionary').updateMany(
       { 'fields.name': 'molecularCharacterizations' },
       {
         $set: {
@@ -14,7 +14,7 @@ module.exports = {
   },
 
   down(db) {
-    return db.collection('dictionary').findOneAndUpdate(
+    return db.collection('dictionary').updateMany(
       { 'fields.name': 'molecularCharacterizations' },
       {
         $set: {
