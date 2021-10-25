@@ -120,7 +120,7 @@ export const schemaArr = [
   },
   { displayName: 'Link to Distributor', accessor: 'distributor_part_number' },
   {
-    displayName: 'Model URL',
+    displayName: 'Case Metadata URL',
     accessor: 'source_model_url',
   },
   {

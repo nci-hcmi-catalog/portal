@@ -424,7 +424,7 @@ const ModelFormTemplate = ({
 
                 <FormComponent
                   labelText={source_model_url.displayName}
-                  description="Please provide a url to GDC or EGA"
+                  description="Please provide a model url to GDC or EGA"
                 >
                   <Field
                     name={source_model_url.accessor}
@@ -437,7 +437,7 @@ const ModelFormTemplate = ({
               <FormCol>
                 <FormComponent
                   labelText={source_sequence_url.displayName}
-                  description="Please provide a url to GDC or EGA"
+                  description="Please provide a sequence url to GDC or EGA"
                 >
                   <Field
                     name={source_sequence_url.accessor}

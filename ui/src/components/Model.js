@@ -154,7 +154,7 @@ const MolecularCharacterizationsCell = ({ isAvailable }) => {
 };
 
 const MolecularCharacterizationsTable = ({ characterizations }) => {
-  const CHARS = ['WGS', 'WXS', 'Targeted-seq', 'RNA-seq'];
+  const CHARS = ['WGS', 'WXS', 'RNA-seq', 'DNA Methylation Array'];
   const TYPES = ['model', 'parent tumor', 'normal'];
 
   return (
@@ -245,7 +245,7 @@ const ExternalResourcesContent = ({
           </ExternalResourceLink>
           <ExternalResourceLink url={modelSourceLink}>
             <ExternalLinkIcon />
-            Model Source
+            Case Metadata
           </ExternalResourceLink>
           <ExternalResourceLink url={somaticMafLink}>
             <ExternalLinkIcon />
