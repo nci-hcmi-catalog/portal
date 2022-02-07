@@ -8,12 +8,8 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
 import restify from 'express-restify-mongoose';
-import morgan from 'morgan';
 import pino from 'pino-http';
 import helmet from 'helmet';
-
-import getLogger from './logger';
-const logger = getLogger('root');
 
 import { data_sync_router } from './routes/sync-data';
 import {
@@ -39,6 +35,9 @@ import Model from './schemas/model';
 import MatchedModels from './schemas/matchedModels';
 import User from './schemas/user';
 import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess';
+
+import getLogger from './logger';
+const logger = getLogger('root');
 
 const port = process.env.PORT || 8080;
 const app = express();
@@ -75,11 +74,13 @@ app.use(cors());
 app.use('/api/v1/health', healthRouter);
 
 if (process.env.AUTH_ENABLED !== 'false') {
-  app.use((req, res, next) => {
-    if (!isUserAuthorized(req)) {
+  app.use(async (req, res, next) => {
+    const authorized = await isUserAuthorized(req);
+    if (!authorized) {
+      logger.error(`Unauthorized Request: ${req.method}, ${req.url}, ${req.headers[USER_EMAIL]}`);
       return res.status(403).json({
         error: `${req.headers[USER_EMAIL] ||
-          'Unknown user '} is not authorized to access this application.`,
+          'Unknown user'} is not authorized to access this application.`,
       });
     }
     next();
