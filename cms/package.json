@@ -51,7 +51,7 @@
     "@babel/preset-env": "^7.2.3",
     "@babel/register": "^7.0.0",
     "migrate-mongo": "8.2.2",
-    "nodemon": "^1.13.3",
+    "nodemon": "^2.0.16",
     "pino-pretty": "^4.1.0"
   },
   "resolutions": {
