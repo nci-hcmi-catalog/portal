@@ -26,7 +26,7 @@
     "express-inspector": "^0.3.1",
     "express-restify-mongoose": "^6.1.2",
     "fs": "^0.0.1-security",
-    "googleapis": "59",
+    "googleapis": "100.0.0",
     "helmet": "^3.15.0",
     "json2csv": "^4.2.1",
     "lodash": "^4.17.21",
