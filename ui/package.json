@@ -22,7 +22,7 @@
     "prop-types": "^15.6.2",
     "query-string": "5.1.0",
     "react": "16.8.0",
-    "react-app-polyfill": "^0.2.0",
+    "react-app-polyfill": "^2.0.0",
     "react-autocomplete": "^1.8.1",
     "react-component-component": "^1.2.1",
     "react-copy-to-clipboard": "^5.0.1",
