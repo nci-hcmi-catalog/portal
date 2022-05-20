@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import ModelListModal from 'components/modals/ModelListModal';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 import { ModalStateContext } from 'providers/ModalState';
@@ -17,7 +18,7 @@ export default ({ className }) => (
               <button
                 aria-label={`Show models selected for download`}
                 className={`model-list-icon ${hasSelected ? 'not-empty' : ''} ${className}`}
-                css={`
+                css={css`
                   border: none;
                 `}
                 onClick={() =>

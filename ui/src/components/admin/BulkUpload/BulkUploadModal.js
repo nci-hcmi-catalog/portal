@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useRef, useState } from 'react';
+import { css } from '@emotion/react';
 
 import { ModalStateContext } from 'providers/ModalState';
 import { googleSDK } from '../services/GoogleLink';
@@ -88,7 +89,7 @@ const BulkUploadModal = ({ type, displayType, onUpload, backupURL, ...props }) =
         />
       </Content>
       <Footer
-        css={`
+        css={css`
           margin-bottom: 12px;
         `}
       >

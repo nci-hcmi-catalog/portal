@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import { isEqual } from 'lodash';
 import { ResponsiveBar } from '@nivo/bar';
 import Component from 'react-component-component';
@@ -13,7 +14,7 @@ import { ChartTooltip } from './';
 export default ({ sqon, setSQON }) => (
   <Col
     alignItems="center"
-    css={`
+    css={css`
       position: relative;
       width: 25%;
       height: 185px;

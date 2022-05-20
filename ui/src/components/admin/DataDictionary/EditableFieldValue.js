@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useRef, useState } from 'react';
+import { css } from '@emotion/react';
 
 import { NotificationsContext, NOTIFICATION_TYPES } from './../Notifications';
 
@@ -192,7 +193,7 @@ const EditableFieldValue = ({
               height={'12px'}
               width={'12px'}
               onMouseDown={startEdit}
-              css={!hovering ? 'visibility: hidden;' : ''}
+              css={css`${!hovering ? 'visibility: hidden;' : ''}`}
             />
           </FieldValueListItemButton>
         );

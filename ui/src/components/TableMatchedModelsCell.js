@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import { stringify } from 'query-string';
 
 export default ({ row, sqon, savedSetsContext, state, value, history, ...props }) => {
@@ -7,7 +8,7 @@ export default ({ row, sqon, savedSetsContext, state, value, history, ...props }
   return matchCount > 1 ? (
     <button
       className="clickable"
-      css={`
+      css={css`
         background: none;
         border: none;
       `}
@@ -38,6 +39,6 @@ export default ({ row, sqon, savedSetsContext, state, value, history, ...props }
       Yes ({matchCount})
     </button>
   ) : (
-    <span css={``}>No</span>
+    <span>No</span>
   );
 };

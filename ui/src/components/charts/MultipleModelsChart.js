@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React from 'react';
+import { css } from '@emotion/react';
 import { addInSQON } from '@arranger/components/dist/SQONView/utils';
 import AggregationQuery from 'components/queries/AggregationQuery';
 import { Col } from 'theme/system';
@@ -10,7 +11,7 @@ import { ChartTooltip } from './';
 export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
   <Col
     alignItems="center"
-    css={`
+    css={css`
       position: relative;
       height: 185px;
       width: 25%;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 
 import BulkActions from './BulkActions';
 
@@ -24,7 +25,7 @@ export default ({
       {type === 'Variants' && <Filter onFilterValueChange={onFilterValueChange} />}
       <ToolbarSection>
         <ToolbarText
-          css={`
+          css={css`
             font-size: 12px;
             margin-right: 10px;
           `}

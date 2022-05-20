@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import Component from 'react-component-component';
 import { Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import SplitPane from 'react-split-pane';
@@ -139,13 +140,13 @@ export default ({
             className="search-results-wrapper"
             p={30}
             flex={1}
-            css={`
+            css={css`
               width: calc(100vw - ${state.panelSize}px);
               overflow-y: scroll !important;
             `}
           >
             <Row
-              css={`
+              css={css`
                 background-color: #f6f6f8;
                 border: 1px solid #d9d9df;
                 align-items: center;
@@ -154,13 +155,13 @@ export default ({
             >
               {!filterExpanded(sqon) && (
                 <Row
-                  css={`
+                  css={css`
                     padding: 0 14px;
                     flex: 1;
                   `}
                 >
                   <span className="sqon-field no-sqon-message">
-                    <ArrowIcon css={'transform: rotate(180deg);'} />
+                    <ArrowIcon css={css`transform: rotate(180deg);`} />
                     Use the filter panel on the left to customize your model search.
                   </span>
                 </Row>
@@ -179,7 +180,7 @@ export default ({
             </Row>
             <Row
               bg="white"
-              css={`
+              css={css`
                 margin: 8px 0;
                 justify-content: space-around;
                 border: 1px solid #d9d9df;

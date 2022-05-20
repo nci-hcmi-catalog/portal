@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ReactTable from 'react-table';
+import { css } from '@emotion/react';
 
 import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
 
@@ -514,7 +515,7 @@ export default ({ modelName }) => {
 
   return (
     <Row
-      css={`
+      css={css`
         position: relative;
       `}
     >
@@ -561,7 +562,7 @@ export default ({ modelName }) => {
             </Tab>
           </TabGroup>
           <div
-            css={`
+            css={css`
               width: calc(100% - 175px);
               padding-left: 18px;
             `}

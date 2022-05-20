@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '@emotion/react';
 import base, {
   transitionRollover,
   colourRollover,

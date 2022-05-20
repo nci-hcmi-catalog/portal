@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { css } from '@emotion/react';
 import Spinner from 'react-spinkit';
 import Popup from 'reactjs-popup';
 
@@ -148,13 +149,13 @@ export default ({
                 <ErrorTriangleIcon
                   width={'24px'}
                   height={'20px'}
-                  css={'margin-right: 10px;'}
+                  css={css`margin-right: 10px;`}
                   fill={'#f3ae4c'}
                 />
                 <div>
                   It is recommend that you{' '}
                   <a href={backupURL}>
-                    <ExportIcon width={'10px'} height={'12px'} css={'margin: 0 5px 0 2px'} />
+                    <ExportIcon width={'10px'} height={'12px'} css={css`margin: 0 5px 0 2px;`} />
                     download a backup
                   </a>{' '}
                   {`of the current ${displayType || type}s before overwriting data.`}

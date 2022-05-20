@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useRef, useState } from 'react';
+import { css } from '@emotion/react';
 import Spinner from 'react-spinkit';
 import ReactTable from 'react-table';
 import moment from 'moment-timezone';
@@ -178,7 +179,7 @@ const VariantAuditModal = ({ bulkImportVariants }) => {
         />
       ) : (
         <Footer
-          css={`
+          css={css`
             margin-bottom: 12px;
           `}
         >

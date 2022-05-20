@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { css } from '@emotion/react';
 
 import { ModalStateContext } from 'providers/ModalState';
 
@@ -47,7 +48,7 @@ const DoubleConfirmationFooter = ({
 
   return (
     <Footer
-      css={`
+      css={css`
         margin-bottom: 12px;
       `}
     >

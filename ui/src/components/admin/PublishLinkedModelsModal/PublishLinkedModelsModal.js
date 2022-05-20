@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 
 import { ModalStateContext } from 'providers/ModalState';
 
@@ -27,7 +28,7 @@ const PublishLinkedModelsModal = ({ next, modelNames, onCancel = () => false }) 
           <CloseModal onClick={() => modalState.setModalState({ component: null })} />
         </Header>
         <Content
-          css={`
+          css={css`
             line-height: 2;
           `}
         >

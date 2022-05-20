@@ -31,7 +31,7 @@
     "omit-deep": "^0.3.0",
     "ora": "^2.1.0",
     "randexp": "^0.4.9",
-    "uuid": "^3.2.1"
+    "uuid": "^8.3.2"
   },
   "jest": {
     "testEnvironment": "node"

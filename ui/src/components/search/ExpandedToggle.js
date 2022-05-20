@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { css } from '@emotion/react';
 import Popup from 'reactjs-popup';
 
 import Toggle from 'components/input/Toggle';
@@ -34,7 +35,7 @@ const ExpandedToggle = ({ sqon }) => {
       <label
         id="expanded-toggle-label"
         htmlFor="expanded-toggle"
-        css={`
+        css={css`
           font-size: 12px;
           margin-left: 5px;
           min-width: 180px;
@@ -47,7 +48,7 @@ const ExpandedToggle = ({ sqon }) => {
       <Popup
         trigger={() => (
           <div
-            css={`
+            css={css`
               display: flex;
               margin-left: 5px;
             `}
@@ -61,7 +62,7 @@ const ExpandedToggle = ({ sqon }) => {
         mouseEnterDelay={100}
       >
         <div
-          css={`
+          css={css`
             font-size: 12px;
           `}
         >

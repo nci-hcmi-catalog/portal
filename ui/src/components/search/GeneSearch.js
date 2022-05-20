@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 
 import SidebarTextSearch from 'components/search/SidebarTextSearch';
 
@@ -14,7 +15,7 @@ export default ({ sqon, setSQON, tooltipWidth, ...props }) => (
     header={
       <Row
         justifyContent="space-between"
-        css={`
+        css={css`
           text-transform: none;
         `}
       >

@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import { ResponsivePie } from '@nivo/pie';
 import AggregationQuery from 'components/queries/AggregationQuery';
 import { Col } from 'theme/system';
@@ -19,7 +20,7 @@ export default ({ sqon, setSQON }) => (
     {({ size }) => (
       <Col
         alignItems="center"
-        css={`
+        css={css`
           position: relative;
           height: 185px;
           width: 25%;

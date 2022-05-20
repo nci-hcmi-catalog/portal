@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { css } from '@emotion/react';
 
 import FilterIcon from 'icons/FilterIcon';
 import CrossIcon from 'icons/CrossIcon';
@@ -54,7 +55,7 @@ export default ({ onFilterValueChange }) => {
       />
       {filterValue && filterValue.length > 0 && (
         <button
-          css={`
+          css={css`
             ${inputIconStyle}
             ${inputButtonStyle}
             ${inputDropdownButtonStyle}

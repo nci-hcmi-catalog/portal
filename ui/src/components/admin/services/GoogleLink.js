@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import Popup from 'reactjs-popup';
+import { css } from '@emotion/react';
 
 import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
 import config from '../config';
@@ -133,7 +134,7 @@ export const LoginWithGoogle = ({ children }) => {
     <>
       {state && state.loggedIn && (
         <div
-          css={`
+          css={css`
             position: relative;
           `}
         >
@@ -142,7 +143,7 @@ export const LoginWithGoogle = ({ children }) => {
               <div>
                 <UserDropdown secondary onClick={() => setIsOpen(!isOpen)} isOpen>
                   <GoogleLogo
-                    css={`
+                    css={css`
                       margin-right: 4px;
                     `}
                   />
@@ -151,7 +152,7 @@ export const LoginWithGoogle = ({ children }) => {
                     isOpen={isOpen}
                     colour={'#000'}
                     weight={4}
-                    css={`
+                    css={css`
                       margin-left: 4px;
                     `}
                   />
@@ -185,7 +186,7 @@ export const LoginWithGoogle = ({ children }) => {
         css={state.loggedIn && visuallyHidden}
       >
         <GoogleLogo
-          css={`
+          css={css`
             margin-right: 4px;
           `}
         />

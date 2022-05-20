@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import moment from 'moment-timezone';
 import Popup from 'reactjs-popup';
+import { css } from '@emotion/react';
 
 import { ModelSingleContext } from './ModelSingleController';
 import { ModalStateContext } from 'providers/ModalState';
@@ -89,7 +90,8 @@ const TabView = ({
                 Imported: <b>{geneMeta.fileName}</b> on <b>{geneMeta.importDate}</b>
               </>
             )}
-            {useConfirmationModal({
+            { // eslint-disable-next-line react-hooks/rules-of-hooks
+            useConfirmationModal({
               title: 'Clear Existing Variants?',
               message: 'Are you sure you want to clear the existing list of variants?',
               confirmLabel: 'Yes, Clear',
@@ -105,7 +107,7 @@ const TabView = ({
                     }),
                   ),
             })(
-              <ButtonPill secondary css={'margin-left: 5px;'}>
+              <ButtonPill secondary css={css`margin-left: 5px;`}>
                 Clear List
               </ButtonPill>,
             )}
@@ -228,7 +230,7 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
         {({ attachVariants }) => (
           <AdminContainer p={'0'}>
             <AdminHeader
-              css={`
+              css={css`
                 padding: 24px 10px 22px;
               `}
             >
@@ -258,7 +260,7 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
                           })
                         }
                       >
-                        <PlusIcon css={'margin-right: 5px;'} />
+                        <PlusIcon css={css`margin-right: 5px;`} />
                         Clinical Variants
                       </ButtonPill>
                       <Popup
@@ -266,19 +268,19 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
                           <div>
                             <ButtonPill
                               primary
-                              css={'margin-left: 10px;'}
+                              css={css`margin-left: 10px;`}
                               disabled={importNotifications.find(
                                 notification => notification.modelName === name,
                               )}
                               onClick={() => setDropdownOpen(!dropdownOpen)}
                             >
-                              <PlusIcon css={'margin-right: 5px;'} />
+                              <PlusIcon css={css`margin-right: 5px;`} />
                               Research Somatic Variants
                               <CollapsibleArrow
                                 isOpen={dropdownOpen}
                                 colour={'#000'}
                                 weight={4}
-                                css={`
+                                css={css`
                                   margin-left: 4px;
                                 `}
                               />

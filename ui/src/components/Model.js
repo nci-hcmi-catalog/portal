@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import { get } from 'lodash';
 import { Link } from 'react-router-dom';
 import Spinner from 'react-spinkit';
@@ -42,7 +43,7 @@ const HorizontalTable = ({
   fieldNames,
   rawData,
   extended,
-  css,
+  // css,
   customUnits = {},
   customValue = {},
   data = (extended || [])
@@ -65,7 +66,8 @@ const HorizontalTable = ({
     }, {}),
 }) => {
   return (
-    <table className="entity-horizontal-table" cellPadding="0" cellSpacing="0" css={css}>
+    // <table className="entity-horizontal-table" cellPadding="0" cellSpacing="0" css={css}>
+    <table className="entity-horizontal-table" cellPadding="0" cellSpacing="0">
       <tbody>
         {Object.keys(data).map(field => {
           const { key, value } = data[field];
@@ -134,7 +136,7 @@ const MolecularCharacterizationsCell = ({ isAvailable }) => {
     <CheckmarkIcon
       width={'18px'}
       height={'18px'}
-      style={`
+      css={css`
         background-color: ${pelorousapprox};
         border-radius: 100%;
         padding: 4px;
@@ -146,7 +148,7 @@ const MolecularCharacterizationsCell = ({ isAvailable }) => {
       width={'18px'}
       height={'18px'}
       title="Not Available"
-      style={`
+      css={css`
         padding: 4px;
       `}
     />
@@ -215,7 +217,7 @@ const ExternalResourcesContent = ({
         <div className="model-details model-details--empty">
           {/* Manually adding a circle around this icon for the empty state */}
           <div
-            css={`
+            css={css`
               width: 30px;
               height: 30px;
               display: flex;
@@ -230,7 +232,7 @@ const ExternalResourcesContent = ({
               fill={bombay}
               width={'14px'}
               height={'14px'}
-              css={`
+              css={css`
                 margin: 0;
               `}
             />
@@ -408,7 +410,7 @@ export default ({ modelName }) => (
                               <img src={file_url} alt={`File name: ${file_name}`} />
                               {(scale_bar_length || magnification || passage_number) && (
                                 <div
-                                  css={`
+                                  css={css`
                                     text-align: center;
                                   `}
                                 >

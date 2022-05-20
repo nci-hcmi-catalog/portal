@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { css } from '@emotion/react';
 import Component from 'react-component-component';
 import { scroller } from 'react-scroll';
 import Spinner from 'react-spinkit';
@@ -59,7 +60,7 @@ const renderIcon = type => {
         <CheckmarkIcon
           width={'30px'}
           height={'30px'}
-          style={`
+          css={css`
             background-color: ${pelorousapprox};
             border-radius: 100%;
             padding: 7px;
@@ -72,18 +73,18 @@ const renderIcon = type => {
         <Spinner
           fadeIn="none"
           name="circle"
-          style={{
-            width: 30,
-            height: 30,
-            margin: '0px 12px 0px 0px',
-          }}
+          css={css`
+            width: 30px;
+            height: 30px;
+            margin: 0px 12px 0px 0px;
+          `}
         />
       );
     case NOTIFICATION_TYPES.ERROR:
       return (
         <ErrorTriangleIcon
           fill={alizarinCrimson}
-          style={`
+          css={css`
             margin-right: 12px;
           `}
         />
@@ -92,7 +93,7 @@ const renderIcon = type => {
       return (
         <ErrorTriangleIcon
           fill={yellowOrange}
-          style={`
+          css={css`
             margin-right: 12px;
           `}
         />
@@ -206,7 +207,7 @@ export default () => {
                 width={'17px'}
                 height={'17px'}
                 fill={trout}
-                style={working ? closeIconDisabled : closeIcon}
+                css={working ? closeIconDisabled : closeIcon}
                 onClick={() => {
                   if (working) {
                     return;

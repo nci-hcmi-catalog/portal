@@ -48,8 +48,9 @@ const BulkImportState = {
 const ProgressBanner = ({ renderIcon }) => {
   const { importProgress, location } = useContext(NotificationsContext);
   const { refreshModelsTable } =
-    location && location.pathname === "/admin"
-      ? useContext(ModelManagerContext)
+    location && location.pathname === '/admin'
+      ? // eslint-disable-next-line react-hooks/rules-of-hooks
+        useContext(ModelManagerContext)
       : { refreshModelsTable: null };
   const {
     fetchImportStatus,
@@ -133,7 +134,7 @@ const ProgressBanner = ({ renderIcon }) => {
     }
   };
 
-  const renderProgressBar = () => {
+  const ProgressBar = () => {
     const success = getBulkImports().filter(x => x.status === VARIANT_IMPORT_STATUS.complete);
     const failed = getBulkImports().filter(x => x.status === VARIANT_IMPORT_STATUS.error);
     const incomplete = getBulkImports().filter(x =>
@@ -212,9 +213,10 @@ const ProgressBanner = ({ renderIcon }) => {
         <Details>{getProgressBannerDetails()}</Details>
       </Col>
       <Col style={{ padding: '0 12px' }}>
-        {renderProgressBar()}
+        <ProgressBar />
       </Col>
       {getProgressBannerType() === NOTIFICATION_TYPES.LOADING && (
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         useConfirmationModal({
           title: 'Stop Variant Import?',
           message:
@@ -247,7 +249,7 @@ const ProgressBanner = ({ renderIcon }) => {
           width={'17px'}
           height={'17px'}
           fill={trout}
-          style={working ? closeIconDisabled : closeIcon}
+          css={working ? closeIconDisabled : closeIcon}
           onClick={() => {
             if (working) {
               return;

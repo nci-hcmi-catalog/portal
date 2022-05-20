@@ -1,10 +1,11 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import { stringify } from 'query-string';
 
 export default ({ sqon, savedSetsContext, state, value, history }) => (
   <button
     className="clickable"
-    css={`
+    css={css`
       background: none;
       border: none;
     `}

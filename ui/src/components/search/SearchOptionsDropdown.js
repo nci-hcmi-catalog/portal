@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/react';
 
 import theme from 'theme';
 import ModelIcon from 'icons/ModelIcon';
@@ -35,9 +35,11 @@ const DropdownItem = ({
   optionIndex,
   OptionIcon = null,
   onMouseDown = () => {},
+  ...props
 }) => (
+  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
   <div
-    className={` ${css`
+    css={css`
       cursor: pointer;
       display: flex;
       background-color: ${optionIndex % 2 === 1 ? theme.keyedPalette.whisper : 'white'};
@@ -45,23 +47,19 @@ const DropdownItem = ({
       :hover {
         box-shadow: inset 0px 0px 15px 0px rgba(0, 0, 0, 0.15);
       }
-    `}`}
+    `}
     onMouseDown={onMouseDown}
+    {...props}
   >
     <div
-      className={css`
-        padding: 6px;
-      `}
+      css={css`padding: 6px;`}
     >
       {OptionIcon ? <OptionIcon height={20} width={20} fill={theme.keyedPalette.crimson} /> : null}
     </div>
     <div
-      style={{
-        fontSize: '12px',
-        padding: '3px',
-      }}
+      css={css`font-size: 12px; padding: 3px;`}
     >
-      <div style={{ fontWeight: 'bold' }}>{title}</div>
+      <div css={css`font-weight: bold;`}>{title}</div>
       <div>
         {isArray(details)
           ? details.map(detail => (
@@ -72,15 +70,15 @@ const DropdownItem = ({
             ))
           : details}
       </div>
-      <div className="">
-        {/* <TextHighlight
+      {/* <div>
+        <TextHighlight
           highlightClassName={`quick-search-result-value-highlight ${css`
           font-weight: bold;
           `}`}
           highlightText={searchText}
           content={text}
-        /> */}
-      </div>
+        />
+      </div> */}
     </div>
   </div>
 );
@@ -88,7 +86,7 @@ const DropdownItem = ({
 export default ({ onSelect, options, icon, ...props }) => {
   return (
     <div
-      className={css`
+      css={css`
         margin-top: -10px;
         padding-top: 10px;
         border: ${theme.keyedPalette.bombay} 1px solid;
@@ -98,7 +96,7 @@ export default ({ onSelect, options, icon, ...props }) => {
     >
       {options.map((option, index) => (
         <DropdownItem
-          key={`dropdown-item-${option.value}`}
+          key={`dropdown-item-${option.value}-${index}`}
           title={option.title}
           details={option.details}
           value={option.value}

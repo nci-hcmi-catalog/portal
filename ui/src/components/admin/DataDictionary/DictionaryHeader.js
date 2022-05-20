@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 
 import { useDictionary } from './DictionaryController';
 import { NotificationToaster } from './../Notifications';
@@ -72,7 +73,7 @@ const DictionaryHeader = () => {
             onConfirm: publish,
           })(
             <ButtonPill primary disabled={!isDraft} marginRight="10px">
-              <PublishIcon width={'16px'} height={'16px'} css={'margin-right: 9px;'} />
+              <PublishIcon width={'16px'} height={'16px'} css={css`margin-right: 9px;`} />
               Publish All Updates
             </ButtonPill>,
           )}

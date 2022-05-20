@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '@emotion/react';
 
 import base from 'theme';
 import { whiteButtonHover } from 'theme/hoverStyles';
@@ -8,6 +8,8 @@ const {
 } = base;
 
 export default css`
+  position: relative;
+
   .share-button {
     &__button {
       padding: 0 10px;

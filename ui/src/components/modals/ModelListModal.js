@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import Component from 'react-component-component';
 import Spinner from 'react-spinkit';
 import moment from 'moment-timezone';
@@ -68,7 +69,7 @@ export default () => (
                           <button
                             aria-label={`Close Model List`}
                             onClick={() => modalState.setModalState({ component: null })}
-                            css={`
+                            css={css`
                               border: none;
                               cursor: pointer;
                             `}
@@ -127,7 +128,7 @@ export default () => (
                                   <TrashIcon
                                     onClick={() => selected.toggleModel(model.id)}
                                     fill={'#000'}
-                                    css={`
+                                    css={css`
                                       cursor: pointer;
                                       margin: 0 0 0 10px;
                                     `}
@@ -149,7 +150,7 @@ export default () => (
                           <DownloadIcon
                             width={'12px'}
                             height={'12px'}
-                            css={`
+                            css={css`
                               margin-right: 4px;
                             `}
                           />

@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { css } from '@emotion/react';
 import Dropzone from 'react-dropzone';
 import Component from 'react-component-component';
 
@@ -36,7 +37,7 @@ const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) =
     }}
     render={({ handleSubmit }) => (
       <FormContainer
-        css={`
+        css={css`
           display: flex;
           flex-direction: column;
           align-items: flex-end;
@@ -67,7 +68,7 @@ const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) =
         {editing && (
           <ButtonPill
             primary
-            css={`
+            css={css`
               margin-right: 10px;
             `}
             onClick={handleSubmit}
@@ -84,7 +85,7 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
   <Component initialState={{ editing: false, showControls: false }}>
     {({ state: { editing, showControls }, setState }) => (
       <Col
-        css={`
+        css={css`
           font: ${openSans};
           font-size: 12px;
           border: 1px solid ${mischka};
@@ -108,7 +109,7 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
           width="215"
         />
         <Row
-          css={`
+          css={css`
             position: absolute;
             right: 10px;
             top: 10px;
@@ -121,7 +122,7 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
             <ButtonPill
               aria-label="Edit"
               secondary
-              css={`
+              css={css`
                 margin-right: 10px;
                 padding: 5px 10px;
               `}
@@ -130,7 +131,7 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
                 width={'14px'}
                 height={'14px'}
                 fill={elm}
-                css={`
+                css={css`
                   margin: 0;
                 `}
                 onClick={() => setState({ editing: !editing })}
@@ -140,7 +141,7 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
           <ButtonPill
             aria-label={queuedForDelete ? 'Undo Delete' : 'Delete'}
             secondary
-            css={`
+            css={css`
               padding: 5px 10px;
             `}
             onClick={() => onDelete(file.file_id)}
@@ -150,17 +151,17 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
                 fill={crimson}
                 width={'14px'}
                 height={'14px'}
-                css={`
+                css={css`
                   margin: 0;
                 `}
               />
             ) : (
-              <TrashIcon width={'14px'} height={'14px'} style={`margin: 0;`} />
+              <TrashIcon width={'14px'} height={'14px'} css={css`margin: 0;`} />
             )}
           </ButtonPill>
         </Row>
         <Col
-          css={`
+          css={css`
             align-self: start;
             ul {
               list-style: none;
@@ -176,7 +177,7 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
             onMetaDataSave={onMetaDataSave}
           />
           <div
-            css={`
+            css={css`
               color: ${crimson};
               padding-left: 10px;
             `}
@@ -210,7 +211,7 @@ const ImageDropper = ({ onDrop, display }) => (
     ref={node => {
       dropzoneRef = node;
     }}
-    css={`
+    css={css`
       display: ${display ? 'block' : 'none'};
       border: 2px dashed ${frenchGrey};
       border-radius: 3px;
@@ -222,7 +223,7 @@ const ImageDropper = ({ onDrop, display }) => (
     onDrop={onDrop}
   >
     <Col
-      css={`
+      css={css`
         background: ${athensGray};
         height: 100%;
         font-family: ${openSans};
@@ -237,14 +238,14 @@ const ImageDropper = ({ onDrop, display }) => (
     >
       <DragNDropIcon
         height={'36px'}
-        css={`
+        css={css`
           margin-bottom: 8px;
         `}
       />
       Drag and drop your image(s) here <br /> or
       <ButtonPill
         secondary
-        css={`
+        css={css`
           margin-top: 8px;
         `}
       >
@@ -273,7 +274,7 @@ export default ({ data: { updatedAt } }) => {
           <>
             <Row
               p={'24px 10px 22px'}
-              css={`
+              css={css`
                 justify-content: space-between;
                 align-items: center;
                 font-size: 14px;
@@ -281,7 +282,7 @@ export default ({ data: { updatedAt } }) => {
             >
               <div>Upload images in jpeg, tiff, png or svg formats.</div>
               <ButtonPill
-                css={`
+                css={css`
                   align-self: right;
                 `}
                 primary
@@ -295,7 +296,7 @@ export default ({ data: { updatedAt } }) => {
             </Row>
             <Row
               p={'0 10px'}
-              css={`
+              css={css`
                 flex-wrap: wrap;
               `}
             >
