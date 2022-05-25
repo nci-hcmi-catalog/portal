@@ -8007,15 +8007,6 @@ expect@^26.6.0, expect@^26.6.2:
     jest-message-util "^26.6.2"
     jest-regex-util "^26.0.0"
 
-express-inspector@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/express-inspector/-/express-inspector-0.3.1.tgz#f4216d6a71a4d0d24cca62995322338b3427582e"
-  integrity sha1-9CFtanGk0NJMymKZUyIzizQnWC4=
-  dependencies:
-    pad-end "^1.0.2"
-    stack-trace "^0.0.10"
-    yargs "^10.1.1"
-
 express-restify-mongoose@^6.1.2:
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/express-restify-mongoose/-/express-restify-mongoose-6.1.2.tgz#5e1fc18348afe82474493f9c40f71634bceb0c86"
@@ -13588,11 +13579,6 @@ package-json@^6.3.0:
     registry-url "^5.0.0"
     semver "^6.2.0"
 
-pad-end@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/pad-end/-/pad-end-1.0.2.tgz#6b41a42fdb7effa55858bb77dade52eee388e6cc"
-  integrity sha1-a0GkL9t+/6VYWLt32t5S7uOI5sw=
-
 pako@~1.0.2, pako@~1.0.5:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.11.tgz#6c9599d340d54dfd3946380252a35705a6b992bf"
@@ -16927,7 +16913,7 @@ stable@^0.1.8:
   resolved "https://registry.yarnpkg.com/stable/-/stable-0.1.8.tgz#836eb3c8382fe2936feaf544631017ce7d47a3cf"
   integrity sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==
 
-stack-trace@0.0.x, stack-trace@^0.0.10:
+stack-trace@0.0.x:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/stack-trace/-/stack-trace-0.0.10.tgz#547c70b347e8d32b4e108ea1a2a159e5fdde19c0"
   integrity sha1-VHxws0fo0ytOEI6hoqFZ5f3eGcA=
@@ -19031,7 +19017,7 @@ yargs-parser@^9.0.2:
   dependencies:
     camelcase "^4.1.0"
 
-yargs@^10.0.3, yargs@^10.1.1:
+yargs@^10.0.3:
   version "10.1.2"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-10.1.2.tgz#454d074c2b16a51a43e2fb7807e4f9de69ccb5c5"
   integrity sha512-ivSoxqBGYOqQVruxD35+EyCFDYNEFL/Uo6FcOnz+9xZdZzK0Zzw4r4KhbrME1Oo2gOggwJod2MnsdamSG7H9ig==
