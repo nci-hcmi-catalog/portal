@@ -62,6 +62,7 @@
     "yup": "^0.32.11"
   },
   "resolutions": {
+    "ansi-html": "0.0.9",
     "immer": "9.0.14",
     "mpath": "0.8.4",
     "selfsigned": "1.10.13",
