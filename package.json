@@ -62,11 +62,13 @@
     "yup": "^0.32.11"
   },
   "resolutions": {
+    "@n1ru4l/push-pull-async-iterable-iterator": "2.1.4",
     "ansi-html": "0.0.9",
     "browserslist": "4.20.3",
-    "graphiql": "1.9.3",
+    "graphiql": "1.7.2",
     "immer": "9.0.14",
     "isomorphic-fetch": "3.0.0",
+    "meros": "1.0.0",
     "mpath": "0.8.4",
     "selfsigned": "1.10.13",
     "sockjs-client": "1.5.2"
