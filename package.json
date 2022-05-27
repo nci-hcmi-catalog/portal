@@ -65,6 +65,7 @@
     "@n1ru4l/push-pull-async-iterable-iterator": "2.1.4",
     "ansi-html": "0.0.9",
     "browserslist": "4.20.3",
+    "glob-parent": "6.0.2",
     "graphiql": "1.7.2",
     "immer": "9.0.14",
     "isomorphic-fetch": "3.0.0",
