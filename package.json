@@ -66,6 +66,7 @@
     "browserslist": "4.20.3",
     "graphiql": "1.9.3",
     "immer": "9.0.14",
+    "isomorphic-fetch": "3.0.0",
     "mpath": "0.8.4",
     "selfsigned": "1.10.13",
     "sockjs-client": "1.5.2"
