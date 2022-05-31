@@ -3,10 +3,12 @@ import SavedSetsProvider from './SavedSets';
 import SelectedModelsProvider from './SelectedModels';
 import ModalStateProvider from './ModalState';
 
-export default ({ children }) => (
+const RootProvider = ({ children }) => (
   <SavedSetsProvider>
     <SelectedModelsProvider>
       <ModalStateProvider>{children}</ModalStateProvider>
     </SelectedModelsProvider>
   </SavedSetsProvider>
 );
+
+export default RootProvider;

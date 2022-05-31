@@ -8,7 +8,7 @@ import { searchGenes } from 'components/search/services/searchService';
 import { AlteredGenesTooltip } from 'components/tooltips';
 import { Row } from 'theme/system';
 
-export default ({ sqon, setSQON, tooltipWidth, ...props }) => (
+const GeneSearch = ({ sqon, setSQON, tooltipWidth, ...props }) => (
   <SidebarTextSearch
     sqon={sqon}
     setSQON={setSQON}
@@ -36,3 +36,5 @@ export default ({ sqon, setSQON, tooltipWidth, ...props }) => (
     searchService={searchGenes}
   />
 );
+
+export default GeneSearch;

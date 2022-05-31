@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Row, Col } from 'theme/system';
 import SidebarHeader from './SidebarHeader';
 
-export default ({ title, children, ...props }) => {
+const SidebarSection = ({ title, children, ...props }) => {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <div // display: flex is causing this component to have zero height for reasons I do not understand.
@@ -23,3 +23,5 @@ export default ({ title, children, ...props }) => {
     </div>
   );
 };
+
+export default SidebarSection;

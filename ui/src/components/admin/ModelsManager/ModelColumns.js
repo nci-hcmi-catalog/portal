@@ -140,7 +140,11 @@ const modelManagerCustomColumns = [
             trigger={
               <div>
                 <ActionPill aria-label="More options" secondary>
-                  <MoreOptionsIcon css={css`margin: 0;`} />
+                  <MoreOptionsIcon
+                    css={css`
+                      margin: 0;
+                    `}
+                  />
                 </ActionPill>
               </div>
             }

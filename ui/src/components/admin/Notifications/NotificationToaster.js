@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import Component from 'react-component-component';
@@ -32,9 +33,7 @@ import {
 import { Col } from 'theme/system';
 import base from 'theme';
 
-import {
-  VARIANT_IMPORT_TYPES,
-} from 'utils/constants';
+import { VARIANT_IMPORT_TYPES } from 'utils/constants';
 
 const {
   keyedPalette: { alizarinCrimson, pelorousapprox, trout, yellowOrange },
@@ -103,13 +102,10 @@ const renderIcon = type => {
   }
 };
 
-export default () => {
-  const {
-    notifications,
-    clearNotification,
-    importProgress,
-    nonactionableImports,
-  } = useContext(NotificationsContext);
+const NotificationToaster = () => {
+  const { notifications, clearNotification, importProgress, nonactionableImports } = useContext(
+    NotificationsContext,
+  );
   const {
     updateNotificationsFromStatus,
     showBulkNonActionableImportErrors,
@@ -130,7 +126,7 @@ export default () => {
       ...importProgress.stopped,
       ...importProgress.success,
     ].filter(x => x.importType === VARIANT_IMPORT_TYPES.bulk);
-  }
+  };
 
   const isActiveBulkImport = () => !!getBulkImports().length;
 
@@ -144,7 +140,7 @@ export default () => {
     } else {
       hideBulkNonActionableImportErrors();
     }
-  }, [nonactionableImports])
+  }, [nonactionableImports]);
 
   return (
     <Component
@@ -157,82 +153,86 @@ export default () => {
       }}
     >
       <NotificationsToaster name="notifications-toaster">
-        {isActiveBulkImport() && (
-          <ProgressBanner renderIcon={renderIcon} />
-        )}
-        {notifications.slice(notifications.length > NOTIFICATION_LIMIT && !showMore ? notifications.length - NOTIFICATION_LIMIT : 0).reverse().map(notification => (
-          <Notification key={notification.id} type={notification.type}>
-            {renderIcon(notification.type)}
-            <Col width={'100%'}>
-              <Message>{notification.message}</Message>
-              {notification.details && (
-                <Details>
-                  {notification.details}
-                  {notification.bulkErrors && notification.bulkErrors.length > 0 && (
-                    <ErrorsCol marginTop="16px">
-                      {notification.bulkErrors.map((error, i) => {
-                        const details =
-                          error.name === 'ValidationError' ? error.errors : error.details;
-                        const name =
-                          error.name === 'ValidationError' ? error.value.name : error.name;
-                        return (
-                          <ErrorsCol key={`${name}-error-${i}`} marginBottom="16px">
-                            <ErrorsRow>
-                              <ErrorLabel>Name: </ErrorLabel>
-                              <ErrorText>{name}</ErrorText>
-                            </ErrorsRow>
-                            <ErrorsRow>
-                              <ErrorLabel>Errors: </ErrorLabel>
-                              <ErrorsCol>
-                                {details.map((detail, j) => (
-                                  <ErrorText key={`${name}-error-${i}-${j}`}>{detail}</ErrorText>
-                                ))}
-                              </ErrorsCol>
-                            </ErrorsRow>
-                          </ErrorsCol>
-                        );
-                      })}
-                    </ErrorsCol>
-                  )}
-                </Details>
-              )}
-              {notification.link && (
-                <MessageLink href={notification.link} type={notification.type} target="_blank">
-                  {notification.linkText || 'Link'}
-                </MessageLink>
-              )}
-            </Col>
-            {notification.type !== NOTIFICATION_TYPES.LOADING && (
-              <CrossCircleIcon
-                width={'17px'}
-                height={'17px'}
-                fill={trout}
-                css={working ? closeIconDisabled : closeIcon}
-                onClick={() => {
-                  if (working) {
-                    return;
-                  }
+        {isActiveBulkImport() && <ProgressBanner renderIcon={renderIcon} />}
+        {notifications
+          .slice(
+            notifications.length > NOTIFICATION_LIMIT && !showMore
+              ? notifications.length - NOTIFICATION_LIMIT
+              : 0,
+          )
+          .reverse()
+          .map(notification => (
+            <Notification key={notification.id} type={notification.type}>
+              {renderIcon(notification.type)}
+              <Col width={'100%'}>
+                <Message>{notification.message}</Message>
+                {notification.details && (
+                  <Details>
+                    {notification.details}
+                    {notification.bulkErrors && notification.bulkErrors.length > 0 && (
+                      <ErrorsCol marginTop="16px">
+                        {notification.bulkErrors.map((error, i) => {
+                          const details =
+                            error.name === 'ValidationError' ? error.errors : error.details;
+                          const name =
+                            error.name === 'ValidationError' ? error.value.name : error.name;
+                          return (
+                            <ErrorsCol key={`${name}-error-${i}`} marginBottom="16px">
+                              <ErrorsRow>
+                                <ErrorLabel>Name: </ErrorLabel>
+                                <ErrorText>{name}</ErrorText>
+                              </ErrorsRow>
+                              <ErrorsRow>
+                                <ErrorLabel>Errors: </ErrorLabel>
+                                <ErrorsCol>
+                                  {details.map((detail, j) => (
+                                    <ErrorText key={`${name}-error-${i}-${j}`}>{detail}</ErrorText>
+                                  ))}
+                                </ErrorsCol>
+                              </ErrorsRow>
+                            </ErrorsCol>
+                          );
+                        })}
+                      </ErrorsCol>
+                    )}
+                  </Details>
+                )}
+                {notification.link && (
+                  <MessageLink href={notification.link} type={notification.type} target="_blank">
+                    {notification.linkText || 'Link'}
+                  </MessageLink>
+                )}
+              </Col>
+              {notification.type !== NOTIFICATION_TYPES.LOADING && (
+                <CrossCircleIcon
+                  width={'17px'}
+                  height={'17px'}
+                  fill={trout}
+                  css={working ? closeIconDisabled : closeIcon}
+                  onClick={() => {
+                    if (working) {
+                      return;
+                    }
 
-                  setWorking(true);
-                  clearNotification(notification.id);
-                  setWorking(false);
-                }}
-              />
-            )}
-          </Notification>
-        ))}
+                    setWorking(true);
+                    clearNotification(notification.id);
+                    setWorking(false);
+                  }}
+                />
+              )}
+            </Notification>
+          ))}
         {notifications.length > NOTIFICATION_LIMIT && (
           <ShowHideButton onClick={() => setShowMore(!showMore)}>
-            <PlusMinusIcon showMore={showMore}>
-              {showMore ? '-' : '+'}
-            </PlusMinusIcon>
+            <PlusMinusIcon showMore={showMore}>{showMore ? '-' : '+'}</PlusMinusIcon>
             <ShowHideButtonLabel>
               {`${showMore ? 'Hide' : 'Show'} ${notifications.length - NOTIFICATION_LIMIT} ${
                 showMore
-                  ? notifications.length - NOTIFICATION_LIMIT === 1 ? 'notification' : 'notifications'
+                  ? notifications.length - NOTIFICATION_LIMIT === 1
+                    ? 'notification'
+                    : 'notifications'
                   : 'more'
-                }`
-              }
+              }`}
             </ShowHideButtonLabel>
           </ShowHideButton>
         )}
@@ -240,3 +240,5 @@ export default () => {
     </Component>
   );
 };
+
+export default NotificationToaster;

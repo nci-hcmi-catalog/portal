@@ -69,7 +69,7 @@ const setNativeValue = (element, value) => {
   }
 };
 
-export default ({ className, value, disabled, ref = React.createRef(), ...props }) => {
+const TextInputComponent = ({ className, value, disabled, ref = React.createRef(), ...props }) => {
   const clearInput = () => {
     const input = ref.current.children[1];
     setNativeValue(input, '');
@@ -83,3 +83,5 @@ export default ({ className, value, disabled, ref = React.createRef(), ...props 
     </TextInputWrapper>
   );
 };
+
+export default TextInputComponent;

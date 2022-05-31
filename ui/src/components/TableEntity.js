@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { stringify } from 'query-string';
 
-export default ({ sqon, savedSetsContext, state, value, history }) => (
+const TableEntity = ({ sqon, savedSetsContext, state, value, history }) => (
   <button
     className="clickable"
     css={css`
@@ -33,3 +33,5 @@ export default ({ sqon, savedSetsContext, state, value, history }) => (
     {value}
   </button>
 );
+
+export default TableEntity;

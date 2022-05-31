@@ -56,7 +56,7 @@ Component state transitions for each action:
 1. Add a user: resets table's filter, sort and page #
 2. Edit/Delete a user: doesn't reset table's filter, sort and page #
 */
-export default ({
+const UserManagerTable = ({
   isTableDataSynced,
   isCreate,
   dataSyncCallback,
@@ -135,3 +135,5 @@ export default ({
   </Component>
 );
 //
+
+export default UserManagerTable;

@@ -263,7 +263,7 @@ const ExternalResourcesContent = ({
   );
 };
 
-export default ({ modelName }) => (
+const Model = ({ modelName }) => (
   <ModelQuery modelName={modelName}>
     {({
       state: queryState,
@@ -502,3 +502,5 @@ export default ({ modelName }) => (
     )}
   </ModelQuery>
 );
+
+export default Model;

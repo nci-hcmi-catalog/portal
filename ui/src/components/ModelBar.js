@@ -22,7 +22,7 @@ const ExpandedPill = ({ isExpanded }) => {
   );
 };
 
-export default ({ name, id, isExpanded }) => {
+const ModelBar = ({ name, id, isExpanded }) => {
   const {
     state: { sets },
   } = useContext(SavedSetsContext);
@@ -92,3 +92,5 @@ export default ({ name, id, isExpanded }) => {
     />
   );
 };
+
+export default ModelBar;

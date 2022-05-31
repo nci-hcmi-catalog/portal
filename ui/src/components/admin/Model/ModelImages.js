@@ -156,7 +156,13 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
                 `}
               />
             ) : (
-              <TrashIcon width={'14px'} height={'14px'} css={css`margin: 0;`} />
+              <TrashIcon
+                width={'14px'}
+                height={'14px'}
+                css={css`
+                  margin: 0;
+                `}
+              />
             )}
           </ButtonPill>
         </Row>
@@ -255,7 +261,7 @@ const ImageDropper = ({ onDrop, display }) => (
   </Dropzone>
 );
 
-export default ({ data: { updatedAt } }) => {
+const ModelImages = ({ data: { updatedAt } }) => {
   const { appendNotification } = useContext(NotificationsContext);
   return (
     <>
@@ -373,3 +379,5 @@ export default ({ data: { updatedAt } }) => {
     </>
   );
 };
+
+export default ModelImages;

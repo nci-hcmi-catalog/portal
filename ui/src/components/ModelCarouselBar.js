@@ -4,7 +4,7 @@ import { Row } from 'theme/system';
 import Url from 'components/Url';
 import ModelCarousel from 'components/ModelCarousel';
 
-export default ({ name, className }) => (
+const ModelCarouselBar = ({ name, className }) => (
   <Url
     render={({ sqon }) => {
       return sqon ? (
@@ -15,3 +15,5 @@ export default ({ name, className }) => (
     }}
   />
 );
+
+export default ModelCarouselBar;

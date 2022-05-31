@@ -52,14 +52,25 @@ const DropdownItem = ({
     {...props}
   >
     <div
-      css={css`padding: 6px;`}
+      css={css`
+        padding: 6px;
+      `}
     >
       {OptionIcon ? <OptionIcon height={20} width={20} fill={theme.keyedPalette.crimson} /> : null}
     </div>
     <div
-      css={css`font-size: 12px; padding: 3px;`}
+      css={css`
+        font-size: 12px;
+        padding: 3px;
+      `}
     >
-      <div css={css`font-weight: bold;`}>{title}</div>
+      <div
+        css={css`
+          font-weight: bold;
+        `}
+      >
+        {title}
+      </div>
       <div>
         {isArray(details)
           ? details.map(detail => (
@@ -83,7 +94,7 @@ const DropdownItem = ({
   </div>
 );
 
-export default ({ onSelect, options, icon, ...props }) => {
+const SearchOptionsDropdown = ({ onSelect, options, icon, ...props }) => {
   return (
     <div
       css={css`
@@ -108,3 +119,5 @@ export default ({ onSelect, options, icon, ...props }) => {
     </div>
   );
 };
+
+export default SearchOptionsDropdown;

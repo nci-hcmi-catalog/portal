@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import moment from 'moment-timezone';
 import Popup from 'reactjs-popup';
 import { css } from '@emotion/react';
@@ -90,7 +90,7 @@ const TabView = ({
                 Imported: <b>{geneMeta.fileName}</b> on <b>{geneMeta.importDate}</b>
               </>
             )}
-            { // eslint-disable-next-line react-hooks/rules-of-hooks
+            {// eslint-disable-next-line react-hooks/rules-of-hooks
             useConfirmationModal({
               title: 'Clear Existing Variants?',
               message: 'Are you sure you want to clear the existing list of variants?',
@@ -107,7 +107,12 @@ const TabView = ({
                     }),
                   ),
             })(
-              <ButtonPill secondary css={css`margin-left: 5px;`}>
+              <ButtonPill
+                secondary
+                css={css`
+                  margin-left: 5px;
+                `}
+              >
                 Clear List
               </ButtonPill>,
             )}
@@ -173,7 +178,9 @@ const getDateString = date => {
     .format('YYYY-MM-DD h:mm a');
 };
 
-export default ({ data: { name, gene_metadata, genomic_variants, variants, updatedAt } }) => {
+const ModelVariants = ({
+  data: { name, gene_metadata, genomic_variants, variants, updatedAt },
+}) => {
   const importStatus = useRef(null);
   const { fetchGenomicVariantData } = useContext(ModelSingleContext);
   const [activeTab, setActiveTab] = useState(null);
@@ -191,13 +198,13 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
     expression_level: variant.expression_level,
   }));
   const genomicVariantsData = (genomic_variants || []).filter(variant => variant.gene);
-  const geneMeta =
-    gene_metadata && gene_metadata.filename && gene_metadata.import_date
-      ? {
-          fileName: gene_metadata.filename,
-          importDate: getDateString(gene_metadata.import_date),
-        }
-      : null;
+  const geneMeta = useMemo(
+    () =>
+      gene_metadata && gene_metadata.filename && gene_metadata.import_date
+        ? { fileName: gene_metadata.filename, importDate: getDateString(gene_metadata.import_date) }
+        : null,
+    [gene_metadata],
+  );
   const type = 'Variants';
 
   useEffect(() => {
@@ -206,7 +213,7 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
     } else if (genomicVariantsData.length > 0 || geneMeta) {
       setActiveTab(VARIANT_TYPES.genomic);
     }
-  }, []);
+  }, [clinicalVariantsData.length, geneMeta, genomicVariantsData.length]);
 
   useEffect(() => {
     if (isImporting(importNotifications, name)) {
@@ -221,7 +228,7 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
       importStatus.current = VARIANT_IMPORT_STATUS.complete;
       fetchGenomicVariantData(name);
     }
-  }, [importNotifications]);
+  }, [fetchGenomicVariantData, importNotifications, name]);
 
   return (
     <>
@@ -260,7 +267,11 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
                           })
                         }
                       >
-                        <PlusIcon css={css`margin-right: 5px;`} />
+                        <PlusIcon
+                          css={css`
+                            margin-right: 5px;
+                          `}
+                        />
                         Clinical Variants
                       </ButtonPill>
                       <Popup
@@ -268,13 +279,19 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
                           <div>
                             <ButtonPill
                               primary
-                              css={css`margin-left: 10px;`}
+                              css={css`
+                                margin-left: 10px;
+                              `}
                               disabled={importNotifications.find(
                                 notification => notification.modelName === name,
                               )}
                               onClick={() => setDropdownOpen(!dropdownOpen)}
                             >
-                              <PlusIcon css={css`margin-right: 5px;`} />
+                              <PlusIcon
+                                css={css`
+                                  margin-right: 5px;
+                                `}
+                              />
                               Research Somatic Variants
                               <CollapsibleArrow
                                 isOpen={dropdownOpen}
@@ -293,7 +310,8 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
                         onClose={() => setDropdownOpen(false)}
                       >
                         <>
-                          {useConfirmationModal({
+                          {// eslint-disable-next-line react-hooks/rules-of-hooks
+                          useConfirmationModal({
                             title: 'Overwrite Existing Variants?',
                             message:
                               'Are you sure you want to import new research variants and overwrite the existing list?',
@@ -355,3 +373,5 @@ export default ({ data: { name, gene_metadata, genomic_variants, variants, updat
     </>
   );
 };
+
+export default ModelVariants;

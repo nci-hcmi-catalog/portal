@@ -4,7 +4,7 @@ import MomentReact from 'react-moment';
 import moment from 'moment-timezone';
 import { FormHeader } from 'theme/adminFormStyles';
 
-export default ({ title, updatedAt }) => (
+const TabHeader = ({ title, updatedAt }) => (
   <FormHeader>
     <h2
       css={css`
@@ -30,3 +30,5 @@ export default ({ title, updatedAt }) => (
     )}
   </FormHeader>
 );
+
+export default TabHeader;

@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import moment from 'moment-timezone';
 import LastUpdatedDateQuery from 'components/queries/LastUpdatedDateQuery';
 
-export default () => (
+const LastUpdatedDate = () => (
   <LastUpdatedDateQuery>
     {({ state: { date } }) => (
       <div
@@ -27,3 +27,5 @@ export default () => (
     )}
   </LastUpdatedDateQuery>
 );
+
+export default LastUpdatedDate;

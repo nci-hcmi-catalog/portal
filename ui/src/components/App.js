@@ -101,7 +101,7 @@ injectGlobal`
   }
 `;
 
-export default () => (
+const App = () => (
   <RootProvider>
     <Router>
       <ProvidedRoutes />
@@ -109,3 +109,5 @@ export default () => (
     <Modal />
   </RootProvider>
 );
+
+export default App;

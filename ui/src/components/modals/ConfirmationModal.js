@@ -18,7 +18,7 @@ const doThenClose = (next, modalState) => () => {
   return modalState.setModalState({ component: null });
 };
 
-const ConfirmationModal = ({
+const ConfirmationModalContents = ({
   title,
   message,
   confirmLabel = 'Ok',
@@ -49,7 +49,7 @@ const ConfirmationModal = ({
   </ModalStateContext.Consumer>
 );
 
-export default ({
+const ConfirmationModal = ({
   title,
   message,
   confirmationRequired = true,
@@ -65,7 +65,7 @@ export default ({
           if (confirmationRequired) {
             modalState.setModalState({
               component: (
-                <ConfirmationModal
+                <ConfirmationModalContents
                   {...{ title, message, confirmLabel, cancelLabel, onConfirm, onCancel }}
                 />
               ),
@@ -80,3 +80,5 @@ export default ({
     }
   </ModalStateContext.Consumer>
 );
+
+export default ConfirmationModal;

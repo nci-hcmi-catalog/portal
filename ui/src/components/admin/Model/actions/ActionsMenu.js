@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { ModelSingleContext } from '../ModelSingleController';
-import { ActionsMenu, ActionsMenuItem } from 'theme/adminControlsStyles';
+import { ActionsMenu as ActionsMenuWrapper, ActionsMenuItem } from 'theme/adminControlsStyles';
 import { manageModelsUrlBase } from '../../AdminNav';
 import withDeleteModal from '../../DeleteModal';
 
@@ -13,7 +13,7 @@ const makeDoActionThenClose = (action, close) => () => {
   close();
 };
 
-export default ({ close }) => (
+const ActionsMenu = ({ close }) => (
   <Route>
     {({ history }) => (
       <ModelSingleContext.Consumer>
@@ -24,7 +24,7 @@ export default ({ close }) => (
           unpublishModel,
           deleteModel,
         }) => (
-          <ActionsMenu>
+          <ActionsMenuWrapper>
             {values.status === 'published' && (
               <ActionsMenuItem onClick={makeDoActionThenClose(() => unpublishModel(values), close)}>
                 Unpublish
@@ -38,9 +38,11 @@ export default ({ close }) => (
               target: values.name,
               onCancel: close,
             })(<ActionsMenuItem>Delete</ActionsMenuItem>)}
-          </ActionsMenu>
+          </ActionsMenuWrapper>
         )}
       </ModelSingleContext.Consumer>
     )}
   </Route>
 );
+
+export default ActionsMenu;

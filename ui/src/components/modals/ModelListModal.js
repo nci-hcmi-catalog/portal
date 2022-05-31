@@ -39,7 +39,7 @@ const Loading = () => (
   </Row>
 );
 
-export default () => (
+const ModelListModal = () => (
   <ModalStateContext.Consumer>
     {modalState => (
       <SelectedModelsContext.Consumer>
@@ -168,3 +168,5 @@ export default () => (
     )}
   </ModalStateContext.Consumer>
 );
+
+export default ModelListModal;

@@ -37,9 +37,7 @@ const content = () => {
                       marginRight="8px"
                       onClick={() =>
                         modalState.setModalState({
-                          component: (
-                            <VariantAuditModal bulkImportVariants={bulkImportVariants} />
-                          ),
+                          component: <VariantAuditModal bulkImportVariants={bulkImportVariants} />,
                           shouldCloseOnOverlayClick: true,
                           styles: AdminModalStyle,
                         })

@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineSvg } from 'icons';
 
-export default ({
+const ExternalLinkIcon = ({
   fill = 'currentColor',
   width = '12px',
   height = '12px',
@@ -28,3 +28,5 @@ export default ({
     ),
     ...props,
   });
+
+export default ExternalLinkIcon;
