@@ -9,7 +9,7 @@ import {
   StatusIndicator,
 } from 'theme/verticalTabStyles';
 
-export default ({ heading, subheading, dot, icon, ...props }) => {
+const VerticalTab = ({ heading, subheading, dot, icon, ...props }) => {
   return (
     <Tab {...props}>
       <TabContents>
@@ -26,3 +26,5 @@ export default ({ heading, subheading, dot, icon, ...props }) => {
     </Tab>
   );
 };
+
+export default VerticalTab;

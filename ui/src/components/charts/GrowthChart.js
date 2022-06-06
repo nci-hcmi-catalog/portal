@@ -15,7 +15,7 @@ const getCount = (buckets, filterBy) =>
   buckets.filter(filterBy).reduce((acc, curr) => acc + curr.doc_count, 0);
 const getKeys = (buckets, filterBy) => buckets.filter(filterBy).map(x => x.key);
 
-export default ({ sqon, setSQON }) => (
+const GrowthChart = ({ sqon, setSQON }) => (
   <SizeMe>
     {({ size }) => (
       <Col
@@ -111,3 +111,5 @@ export default ({ sqon, setSQON }) => (
     )}
   </SizeMe>
 );
+
+export default GrowthChart;

@@ -55,7 +55,11 @@ const modelMoreOptions = (data = null) =>
             disabled={!data || Object.keys(data).length === 0}
             marginLeft="8px"
           >
-            <MoreOptionsIcon css={css`margin: 0;`} />
+            <MoreOptionsIcon
+              css={css`
+                margin: 0;
+              `}
+            />
           </ButtonPill>
         </div>
       }
@@ -80,7 +84,7 @@ const modelMoreOptions = (data = null) =>
     </Popup>
   );
 
-export default ({ modelName }) => (
+const ModelSingleHeader = ({ modelName }) => (
   <ModelSingleContext.Consumer>
     {({
       state: {
@@ -115,7 +119,9 @@ export default ({ modelName }) => (
                 <ExternalLinkIcon
                   height={'10px'}
                   width={'10px'}
-                  css={css`margin-right: 8px;`}
+                  css={css`
+                    margin-right: 8px;
+                  `}
                   fill={'currentColor'}
                 />
                 View in Catalog
@@ -132,3 +138,5 @@ export default ({ modelName }) => (
     )}
   </ModelSingleContext.Consumer>
 );
+
+export default ModelSingleHeader;

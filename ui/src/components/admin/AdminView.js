@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef } from 'react';
 import { Route } from 'react-router-dom';
 
@@ -14,7 +15,7 @@ import { AdminMain, AdminWrapper } from 'theme/adminStyles';
 import useInterval from 'utils/useInterval';
 import { isEmpty } from 'lodash';
 
-export default ({ location }) => {
+const AdminView = ({ location }) => {
   const didMountRef = useRef(false);
   const {
     importNotifications,
@@ -48,3 +49,5 @@ export default ({ location }) => {
     </AdminWrapper>
   );
 };
+
+export default AdminView;

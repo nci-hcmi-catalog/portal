@@ -26,16 +26,14 @@ const ItemRow = ({ xcss = '', ...props }) => (
   />
 );
 
-export default ({ link, error, quote, leftOffset = '-135px' }) => {
+const ShareButton = ({ link, error, quote, leftOffset = '-135px' }) => {
   const [copied, setCopied] = useState(false);
 
   return (
     <Downshift
       render={({ isOpen, toggleMenu }) => (
         <div>
-          <div
-            css={styles}
-          >
+          <div css={styles}>
             <button
               className="share-button__button"
               onClick={() => toggleMenu({}, () => setCopied(false))}
@@ -112,3 +110,5 @@ export default ({ link, error, quote, leftOffset = '-135px' }) => {
     />
   );
 };
+
+export default ShareButton;

@@ -6,7 +6,7 @@ import { ModalStateContext } from 'providers/ModalState';
 import styles from 'theme/modelListStyles';
 import modelListModalStyles from 'theme/modelListModalStyles';
 
-export default ({ className }) => (
+const ModelList = ({ className }) => (
   <ModalStateContext.Consumer>
     {modalState => (
       <SelectedModelsContext.Consumer>
@@ -38,3 +38,5 @@ export default ({ className }) => (
     )}
   </ModalStateContext.Consumer>
 );
+
+export default ModelList;

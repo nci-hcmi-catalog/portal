@@ -27,7 +27,7 @@ const onApplyClick = ({ action, onPublishClick, onUnpublishClick, reset }) => {
   }
 };
 
-export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection }) => {
+const BulkActions = ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedAction, setSelectedAction] = useState('');
 
@@ -138,3 +138,5 @@ export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection 
     </ToolbarSection>
   );
 };
+
+export default BulkActions;

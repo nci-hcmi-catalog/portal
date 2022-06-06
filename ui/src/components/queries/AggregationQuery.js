@@ -43,7 +43,7 @@ const fetchData = async ({ setState, sqon, field }) => {
   });
 };
 
-export default ({ sqon, ...props }) => (
+const AggregationQuery = ({ sqon, ...props }) => (
   <Component
     {...props}
     sqon={sqon}
@@ -58,3 +58,5 @@ export default ({ sqon, ...props }) => (
     }}
   />
 );
+
+export default AggregationQuery;

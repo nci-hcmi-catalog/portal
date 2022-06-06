@@ -10,10 +10,23 @@ import { ModalStateContext } from 'providers/ModalState';
 import DoubleConfirmationFooter from 'components/modals/DoubleConfirmationFooter';
 import DownloadIcon from 'icons/DownloadIcon';
 
-import { BulkUploadContentBlock, BulkUploadTemplateLink, UploadContentHeading, UploadOverwrite } from 'theme/adminBulkUploadStyles';
+import {
+  BulkUploadContentBlock,
+  BulkUploadTemplateLink,
+  UploadContentHeading,
+  UploadOverwrite,
+} from 'theme/adminBulkUploadStyles';
 import { RadioSelect } from 'theme/formComponentsStyles';
 import { ButtonPill } from 'theme/adminControlsStyles';
-import { ModalWrapper, Header, Title, CloseModal, Content, Footer, SpinnerBlock } from 'theme/adminModalStyles';
+import {
+  ModalWrapper,
+  Header,
+  Title,
+  CloseModal,
+  Content,
+  Footer,
+  SpinnerBlock,
+} from 'theme/adminModalStyles';
 import searchStyles from 'theme/searchStyles';
 
 import tsvDownloader, { convertColumnsToTableData } from 'utils/tsvDownloader';
@@ -42,7 +55,7 @@ const generateTsvFilename = () => {
     .local()
     .format('YYYY-MM-DD_HH∶mm∶ss');
   return `research-somatic-variant-audit_${date}`;
-}
+};
 
 const VariantAuditModal = ({ bulkImportVariants }) => {
   const didMountRef = useRef(false);
@@ -59,9 +72,7 @@ const VariantAuditModal = ({ bulkImportVariants }) => {
   const onImportAllChange = value => setImportAll(value);
   const onImportClick = async () => {
     setLoading(true);
-    const modelNames = normalizeOption(importAll)
-      ? [...imported, ...clean]
-      : [...clean];
+    const modelNames = normalizeOption(importAll) ? [...imported, ...clean] : [...clean];
 
     await bulkImportVariants(modelNames);
 
@@ -100,7 +111,12 @@ const VariantAuditModal = ({ bulkImportVariants }) => {
       <Content>
         {loading ? (
           <SpinnerBlock>
-            <Spinner fadeIn="none" name="circle" color="#000" style={{ width: 24, height: 24, marginBottom: 6 }} />
+            <Spinner
+              fadeIn="none"
+              name="circle"
+              color="#000"
+              style={{ width: 24, height: 24, marginBottom: 6 }}
+            />
             Searching GDC
           </SpinnerBlock>
         ) : !error ? (
@@ -108,7 +124,15 @@ const VariantAuditModal = ({ bulkImportVariants }) => {
             <BulkUploadContentBlock>
               <div>The following models have research somatic variant data in GDC.</div>
               <BulkUploadTemplateLink
-                onClick={() => tsvDownloader(filename, convertColumnsToTableData(auditTableColumns(imported.length, clean.length), [imported, clean]))}
+                onClick={() =>
+                  tsvDownloader(
+                    filename,
+                    convertColumnsToTableData(auditTableColumns(imported.length, clean.length), [
+                      imported,
+                      clean,
+                    ]),
+                  )
+                }
               >
                 <DownloadIcon height={'10px'} width={'10px'} />
                 Audit Report
@@ -118,7 +142,10 @@ const VariantAuditModal = ({ bulkImportVariants }) => {
               <div css={searchStyles} style={{ width: '100%' }}>
                 <ReactTable
                   className="-striped audit-table"
-                  data={convertColumnsToTableData(auditTableColumns(imported.length, clean.length), [imported, clean])}
+                  data={convertColumnsToTableData(
+                    auditTableColumns(imported.length, clean.length),
+                    [imported, clean],
+                  )}
                   columns={auditTableColumns(imported.length, clean.length)}
                   loading={loading}
                   pageSize={Math.max(imported.length, clean.length)}
@@ -161,7 +188,9 @@ const VariantAuditModal = ({ bulkImportVariants }) => {
             <UploadOverwrite>
               <UploadContentHeading>Unexpected Error Occurred During Audit</UploadContentHeading>
               <div>
-                Please try again. If issue persists, please contact the support team. You can continue to use the application but you will not be able to audit variant data if this error persists.
+                Please try again. If issue persists, please contact the support team. You can
+                continue to use the application but you will not be able to audit variant data if
+                this error persists.
                 <br />
                 {error}
               </div>
@@ -171,9 +200,9 @@ const VariantAuditModal = ({ bulkImportVariants }) => {
       </Content>
       {normalizeOption(importAll) ? (
         <DoubleConfirmationFooter
-          doubleConfirmPrompt='Are you sure you want to import all variant data?'
-          singleConfirmLabel='Import'
-          doubleConfirmLabel='Yes, Import'
+          doubleConfirmPrompt="Are you sure you want to import all variant data?"
+          singleConfirmLabel="Import"
+          doubleConfirmLabel="Yes, Import"
           onDoubleConfirm={() => onImportClick()}
           disabled={loading || error}
         />

@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { parse, stringify } from 'query-string';
 
-export default props => (
+const Url = props => (
   <Route>
     {p => {
       let search = parse(p.location.search);
@@ -17,3 +17,5 @@ export default props => (
     }}
   </Route>
 );
+
+export default Url;

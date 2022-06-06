@@ -11,7 +11,7 @@ import { addInSQON } from '@arranger/components/dist/SQONView/utils';
 
 import { ChartTooltip } from './';
 
-export default ({ sqon, setSQON }) => (
+const TopVariantsChart = ({ sqon, setSQON }) => (
   <Col
     alignItems="center"
     css={css`
@@ -180,3 +180,5 @@ export default ({ sqon, setSQON }) => (
     </AggregationQuery>
   </Col>
 );
+
+export default TopVariantsChart;

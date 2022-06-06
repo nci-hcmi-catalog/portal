@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import ReactTable from 'react-table';
 import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
@@ -108,7 +109,7 @@ const pageSizeFromStorage = storageKey => {
   return storageKey ? window.sessionStorage.getItem(storageKeyTemplate(storageKey)) : undefined;
 };
 
-export default ({
+const DataTable = ({
   simpleTableWithPagination,
   disablePagination,
   onPageSizeChange,
@@ -126,6 +127,8 @@ export default ({
     </div>
   );
 };
+
+export default DataTable;
 
 export const GenomicDataTable = ({
   state,

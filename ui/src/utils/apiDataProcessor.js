@@ -26,6 +26,8 @@ const isEmptyByType = {
  * @param {*} data - any of the below types
  * @param String type - date, boolean, keyword, long, short
  */
-export default ({ data, type, unit }) => {
+const apiDataProcessor = ({ data, type, unit }) => {
   return isEmptyByType[type || 'keyword'](data) ? 'N/A' : processor(type, unit || '')(data);
 };
+
+export default apiDataProcessor;

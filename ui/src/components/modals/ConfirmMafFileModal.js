@@ -4,7 +4,10 @@ import ReactTable from 'react-table';
 import { ModalStateContext } from 'providers/ModalState';
 import { NotificationsContext } from 'components/admin/Notifications/NotificationsController';
 import NOTIFICATION_TYPES from 'components/admin/Notifications/NotificationTypes';
-import { resolveMafFileConflict, acknowledgeImportStatus } from 'components/admin/Model/actions/GenomicVariants';
+import {
+  resolveMafFileConflict,
+  acknowledgeImportStatus,
+} from 'components/admin/Model/actions/GenomicVariants';
 
 import {
   AdminModalStyleWide,
@@ -63,7 +66,7 @@ const doThenClose = (next, modalState) => async () => {
   return modalState.setModalState({ component: null });
 };
 
-const ConfirmMafFileModal = ({
+const ConfirmMafFile = ({
   title = 'Confirm MAF File to Import',
   confirmLabel = 'Import',
   cancelLabel = 'Cancel',
@@ -77,13 +80,10 @@ const ConfirmMafFileModal = ({
   importProgress,
   setImportProgress,
 }) => {
-  const defaultSelection = files.length !== 1 ? {
-    fileId: null,
-    filename: null,
-  } : {
-    fileId: files[0].fileId,
-    filename: files[0].filename,
-  };
+  const defaultSelection =
+    files.length !== 1
+      ? { fileId: null, filename: null }
+      : { fileId: files[0].fileId, filename: files[0].filename };
   const [fileSelection, setFileSelection] = useState(defaultSelection);
   const [loading, setLoading] = useState(false);
 
@@ -126,7 +126,15 @@ const ConfirmMafFileModal = ({
             />
           </label>
         ),
-        filename: <MessageLink href={`${GDC_FILE_PAGE_URL_BASE}/${file.fileId}`} target="_blank" rel="noopener noreferrer">{file.filename}</MessageLink>,
+        filename: (
+          <MessageLink
+            href={`${GDC_FILE_PAGE_URL_BASE}/${file.fileId}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {file.filename}
+          </MessageLink>
+        ),
         sampleType: entity.sampleType,
         tissueType: entity.tissueType,
         tumorDescriptor: entity.tumorDescriptor,
@@ -148,7 +156,8 @@ const ConfirmMafFileModal = ({
         if (onConfirm) {
           await onConfirm();
         }
-      }).catch(error => {
+      })
+      .catch(error => {
         appendNotification({
           type: NOTIFICATION_TYPES.ERROR,
           message: `Import Error with No Action Required: An unexpected error occured while confirming a MAF file for ${modelName}`,
@@ -170,7 +179,9 @@ const ConfirmMafFileModal = ({
           </Header>
           <Content>
             <span style={{ marginBottom: '24px' }}>
-              The following files have been found in GDC for <strong>{`Model: ${modelName} | Tissue Status: ${tissueStatus}.`}</strong> Please select one file to import.
+              The following files have been found in GDC for{' '}
+              <strong>{`Model: ${modelName} | Tissue Status: ${tissueStatus}.`}</strong> Please
+              select one file to import.
             </span>
             <div css={searchStyles}>
               <ReactTable
@@ -201,7 +212,7 @@ const ConfirmMafFileModal = ({
   );
 };
 
-export default ({
+const ConfirmMafFileModal = ({
   title,
   confirmLabel,
   cancelLabel,
@@ -213,36 +224,38 @@ export default ({
 }) => Component => (
   <NotificationsContext.Consumer>
     {({ notifications, appendNotification, importProgress, setImportProgress }) => (
-  <ModalStateContext.Consumer>
-    {modalState =>
-      React.cloneElement(Component, {
-        onClick: () => {
-          modalState.setModalState({
-            component: (
-              <ConfirmMafFileModal
-                {...{
-                  title,
-                  confirmLabel,
-                  cancelLabel,
-                  onConfirm,
-                  onCancel,
-                  modelName,
-                  tissueStatus,
-                  files,
-                  notifications,
-                  appendNotification,
-                  importProgress,
-                  setImportProgress,
-                }}
-              />
-            ),
-            shouldCloseOnOverlayClick: true,
-            styles: AdminModalStyleWide,
-          });
-        },
-      })
-    }
-  </ModalStateContext.Consumer>
+      <ModalStateContext.Consumer>
+        {modalState =>
+          React.cloneElement(Component, {
+            onClick: () => {
+              modalState.setModalState({
+                component: (
+                  <ConfirmMafFile
+                    {...{
+                      title,
+                      confirmLabel,
+                      cancelLabel,
+                      onConfirm,
+                      onCancel,
+                      modelName,
+                      tissueStatus,
+                      files,
+                      notifications,
+                      appendNotification,
+                      importProgress,
+                      setImportProgress,
+                    }}
+                  />
+                ),
+                shouldCloseOnOverlayClick: true,
+                styles: AdminModalStyleWide,
+              });
+            },
+          })
+        }
+      </ModalStateContext.Consumer>
     )}
   </NotificationsContext.Consumer>
 );
+
+export default ConfirmMafFileModal;

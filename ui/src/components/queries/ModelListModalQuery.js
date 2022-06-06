@@ -82,7 +82,7 @@ const fetchData = async ({ setState, modelIds }) => {
   });
 };
 
-export default ({ selected, ...props }) => (
+const ModelListModalQuery = ({ selected, ...props }) => (
   <Component
     {...props}
     initialState={{ models: [], loading: true }}
@@ -102,3 +102,5 @@ export default ({ selected, ...props }) => (
     }}
   />
 );
+
+export default ModelListModalQuery;

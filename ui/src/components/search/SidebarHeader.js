@@ -4,7 +4,7 @@
 import React from 'react';
 import { Row } from 'theme/system';
 
-export default ({ onArrowClick, collapsed, children }) => (
+const SidebarHeader = ({ onArrowClick, collapsed, children }) => (
   <Row className="header">
     <Row className="title-wrapper">
       <span className={`arrow ${collapsed ? 'collapsed' : ''}`} onClick={onArrowClick} />
@@ -12,3 +12,5 @@ export default ({ onArrowClick, collapsed, children }) => (
     </Row>
   </Row>
 );
+
+export default SidebarHeader;

@@ -1,5 +1,6 @@
 import { saveAs } from 'filesaver.js';
 import { clone } from 'lodash';
+
 /**
  * Given a array of table data objects, transform keys to header
  * row and then output each object values as a row in a tsv
@@ -8,7 +9,7 @@ import { clone } from 'lodash';
  * @param {[Object]} tableData - array of like objects
  * @param {[String]} columnOrder - ordered array of column headers
  */
-export default function(fileName, tableData, columnOrder = []) {
+const tsvDownloader = function(fileName, tableData, columnOrder = []) {
   saveAs(
     new Blob(
       [
@@ -25,7 +26,7 @@ export default function(fileName, tableData, columnOrder = []) {
     ),
     `${fileName}.tsv`,
   );
-}
+};
 
 const addColumnSpecificCustomizations = row => {
   const output = clone(row);
@@ -72,3 +73,5 @@ export const convertColumnsToTableData = (columnHeaders, columnData) => {
 
   return tableData;
 };
+
+export default tsvDownloader;

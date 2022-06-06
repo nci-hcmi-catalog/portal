@@ -7,7 +7,7 @@ import Filter from 'components/input/Filter';
 
 import { ToolbarMain, ToolbarSection, ToolbarText } from 'theme/adminTableStyles';
 
-export default ({
+const Toolbar = ({
   state: { isLoading, page, pageSize, filterValue, rowCount, selection },
   paginated = true,
   onFilterValueChange,
@@ -47,3 +47,5 @@ export default ({
     </ToolbarMain>
   );
 };
+
+export default Toolbar;

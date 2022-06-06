@@ -1,7 +1,7 @@
 import React from 'react';
 import Popup from 'reactjs-popup';
 
-export default ({ position = 'top center', disabled = false, offsetY = 2, trigger, children }) => (
+const ToolTip = ({ position = 'top center', disabled = false, offsetY = 2, trigger, children }) => (
   <Popup
     trigger={trigger}
     position={position}
@@ -23,3 +23,5 @@ export default ({ position = 'top center', disabled = false, offsetY = 2, trigge
     {children}
   </Popup>
 );
+
+export default ToolTip;

@@ -5,7 +5,7 @@ import SidebarTextSearch from 'components/search/SidebarTextSearch';
 import GeneIcon from 'icons/DNACircleIcon';
 import { searchVariants } from 'components/search/services/searchService';
 
-export default ({ sqon, setSQON, ...props }) => (
+const VariantSearch = ({ sqon, setSQON, ...props }) => (
   <SidebarTextSearch
     sqon={sqon}
     setSQON={setSQON}
@@ -21,3 +21,5 @@ export default ({ sqon, setSQON, ...props }) => (
     searchService={searchVariants}
   />
 );
+
+export default VariantSearch;

@@ -47,7 +47,7 @@ async function fetchColumns() {
   return output;
 }
 
-export default async function(selectedIds) {
+const cartDownload = async function(selectedIds) {
   await fetchColumns();
 
   const sqon = {
@@ -68,4 +68,6 @@ export default async function(selectedIds) {
     url: `${globals.ARRANGER_API}/export/${globals.VERSION}/models`,
     params,
   });
-}
+};
+
+export default cartDownload;

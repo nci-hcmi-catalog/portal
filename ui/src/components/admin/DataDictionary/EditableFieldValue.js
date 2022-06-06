@@ -193,7 +193,9 @@ const EditableFieldValue = ({
               height={'12px'}
               width={'12px'}
               onMouseDown={startEdit}
-              css={css`${!hovering ? 'visibility: hidden;' : ''}`}
+              css={css`
+                ${!hovering ? 'visibility: hidden;' : ''}
+              `}
             />
           </FieldValueListItemButton>
         );

@@ -18,7 +18,7 @@ const doThenClose = (next, modalState) => () => {
   return modalState.setModalState({ component: null });
 };
 
-const DeleteModal = ({ next, target, onCancel = () => false }) => (
+const DeleteModalComponent = ({ next, target, onCancel = () => false }) => (
   <ModalStateContext.Consumer>
     {modalState => (
       <ModalWrapper>
@@ -44,13 +44,13 @@ const DeleteModal = ({ next, target, onCancel = () => false }) => (
   </ModalStateContext.Consumer>
 );
 
-export default ({ next, target, onCancel }) => Component => (
+const DeleteModal = ({ next, target, onCancel }) => Component => (
   <ModalStateContext.Consumer>
     {modalState =>
       React.cloneElement(Component, {
         onClick: () =>
           modalState.setModalState({
-            component: <DeleteModal {...{ next, target, onCancel }} />,
+            component: <DeleteModalComponent {...{ next, target, onCancel }} />,
             shouldCloseOnOverlayClick: true,
             styles: AdminModalStyleNarrow,
           }),
@@ -58,3 +58,5 @@ export default ({ next, target, onCancel }) => Component => (
     }
   </ModalStateContext.Consumer>
 );
+
+export default DeleteModal;

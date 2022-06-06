@@ -52,36 +52,35 @@ const DoubleConfirmationFooter = ({
         margin-bottom: 12px;
       `}
     >
-      {
-        !singleConfirm ? (
-          <>
-            <ButtonPill
-              primary
-              marginRight={`10px`}
-              onClick={onSingleConfirmClick}
-              disabled={disabled}
-            >
-              {singleConfirmLabel}
-            </ButtonPill>
-            <ButtonPill secondary onClick={onSingleCancelClick}>
-              {singleConfirmCancelLabel}
-            </ButtonPill>
-          </>
-        ) : (
-          <>
-            <ConfirmationPrompt>{doubleConfirmPrompt}</ConfirmationPrompt>
-            <ButtonPill
-              primary
-              marginRight={`10px`}
-              onClick={onDoubleConfirmClick}
-              disabled={disabled}
-            >
-              {doubleConfirmLabel}
-            </ButtonPill>
-            <ButtonPill secondary onClick={onDoubleCancelClick}>
-              {doubleConfirmCancelLabel}
-            </ButtonPill>
-          </>
+      {!singleConfirm ? (
+        <>
+          <ButtonPill
+            primary
+            marginRight={`10px`}
+            onClick={onSingleConfirmClick}
+            disabled={disabled}
+          >
+            {singleConfirmLabel}
+          </ButtonPill>
+          <ButtonPill secondary onClick={onSingleCancelClick}>
+            {singleConfirmCancelLabel}
+          </ButtonPill>
+        </>
+      ) : (
+        <>
+          <ConfirmationPrompt>{doubleConfirmPrompt}</ConfirmationPrompt>
+          <ButtonPill
+            primary
+            marginRight={`10px`}
+            onClick={onDoubleConfirmClick}
+            disabled={disabled}
+          >
+            {doubleConfirmLabel}
+          </ButtonPill>
+          <ButtonPill secondary onClick={onDoubleCancelClick}>
+            {doubleConfirmCancelLabel}
+          </ButtonPill>
+        </>
       )}
     </Footer>
   );

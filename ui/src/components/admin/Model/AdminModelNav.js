@@ -15,7 +15,7 @@ import PencilIcon from 'icons/PencilIcon';
 import CameraIcon from 'icons/CameraIcon';
 import VariantsIcon from 'icons/VariantsIcon';
 
-export default () => (
+const AdminModelNav = () => (
   <ModelSingleContext.Consumer>
     {({
       state: {
@@ -114,3 +114,5 @@ export default () => (
     }}
   </ModelSingleContext.Consumer>
 );
+
+export default AdminModelNav;

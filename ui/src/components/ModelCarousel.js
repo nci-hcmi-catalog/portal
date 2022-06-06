@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect } from 'react';
 import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
@@ -14,7 +15,7 @@ const {
   keyedPalette: { brandPrimary },
 } = base;
 
-export default ({ modelName, sqon }) => {
+const ModelCarousel = ({ modelName, sqon }) => {
   const {
     fetchSets,
     state: { loading, sets },
@@ -35,7 +36,9 @@ export default ({ modelName, sqon }) => {
   return (
     <Row
       className="pagination"
-      css={css`${ loading ? 'pointer-events: none; pointer: not-allowed;' : '' }`}
+      css={css`
+        ${loading ? 'pointer-events: none; pointer: not-allowed;' : ''}
+      `}
       justifyContent="space-between"
     >
       <Link
@@ -90,3 +93,5 @@ export default ({ modelName, sqon }) => {
     </Row>
   );
 };
+
+export default ModelCarousel;

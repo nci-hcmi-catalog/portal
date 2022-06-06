@@ -45,7 +45,14 @@ const DependentFieldValuesGroup = ({
   return (
     <>
       <DependentFieldType onClick={toggleHandler}>
-        <ArrowIcon css={expanded && css`transform: rotate(90deg);`} />
+        <ArrowIcon
+          css={
+            expanded &&
+            css`
+              transform: rotate(90deg);
+            `
+          }
+        />
         {fieldName} ({(fieldValues || []).length})
       </DependentFieldType>
       {expanded && (

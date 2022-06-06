@@ -2,6 +2,8 @@ import React from 'react';
 
 import { HorizontalTabGroup } from 'theme/horizontalTabStyles';
 
-export default ({ children }) => {
+const TabGroup = ({ children }) => {
   return <HorizontalTabGroup>{children}</HorizontalTabGroup>;
 };
+
+export default TabGroup;

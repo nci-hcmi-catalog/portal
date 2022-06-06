@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import theme from 'theme';
 
-export default ({ sqon, savedSetsContext, state, value, history }) => {
+const TableExpandedCell = ({ sqon, savedSetsContext, state, value, history }) => {
   return (
     <span
       css={css`
@@ -13,3 +13,5 @@ export default ({ sqon, savedSetsContext, state, value, history }) => {
     </span>
   );
 };
+
+export default TableExpandedCell;
