@@ -5,13 +5,12 @@ import { stringify } from 'query-string';
 import { Row } from 'theme/system';
 import { ButtonPill } from 'theme/adminControlsStyles';
 import ArrowLeftIcon from 'icons/ArrowLeftIcon';
+import CheckmarkIcon from 'icons/CheckmarkIcon';
+import PlusIcon from 'icons/PlusIcon';
 import Url from 'components/Url';
 import { SavedSetsContext } from 'providers/SavedSets';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 import ModelList from 'components/ModelList';
-
-import PlusIcon from './../icons/PlusIcon';
-import CheckmarkIcon from './../icons/CheckmarkIcon';
 
 import { filterExpanded } from 'utils/sqonHelpers';
 
@@ -23,7 +22,7 @@ const ExpandedPill = ({ isExpanded }) => {
   );
 };
 
-export default ({ name, id, isExpanded }) => {
+const ModelBar = ({ name, id, isExpanded }) => {
   const {
     state: { sets },
   } = useContext(SavedSetsContext);
@@ -63,11 +62,7 @@ export default ({ name, id, isExpanded }) => {
 
           <div className="model-bar__group">
             <Link className="model-bar__back" to={getBackRoute(sqon)}>
-              <ArrowLeftIcon
-                css={`
-                  margin-right: 5px;
-                `}
-              />
+              <ArrowLeftIcon />
               BACK TO SEARCH
             </Link>
 
@@ -97,3 +92,5 @@ export default ({ name, id, isExpanded }) => {
     />
   );
 };
+
+export default ModelBar;

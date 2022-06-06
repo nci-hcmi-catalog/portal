@@ -5,7 +5,7 @@ import SidebarTextSearch from 'components/search/SidebarTextSearch';
 import ModelIcon from 'icons/ModelIcon';
 import { searchModels } from 'components/search/services/searchService';
 
-export default ({ sqon, setSQON, ...props }) => (
+const ModelSearch = ({ sqon, setSQON, ...props }) => (
   <SidebarTextSearch
     sqon={sqon}
     setSQON={setSQON}
@@ -21,3 +21,5 @@ export default ({ sqon, setSQON, ...props }) => (
     searchService={searchModels}
   />
 );
+
+export default ModelSearch;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { css } from '@emotion/react';
 import Spinner from 'react-spinkit';
 import Popup from 'reactjs-popup';
 
@@ -39,12 +40,18 @@ const overwriteOptions = type => [
 ];
 
 const variantOverwriteOptions = [
-  { label: 'Yes, but only for models with no research somatic variant data.', value: VARIANT_OVERWRITE_OPTIONS.cleanOnly },
+  {
+    label: 'Yes, but only for models with no research somatic variant data.',
+    value: VARIANT_OVERWRITE_OPTIONS.cleanOnly,
+  },
   { label: 'Yes, for all models in this sheet.', value: VARIANT_OVERWRITE_OPTIONS.allModels },
-  { label: 'No, do not import any research somatic variant data.', value: VARIANT_OVERWRITE_OPTIONS.none },
+  {
+    label: 'No, do not import any research somatic variant data.',
+    value: VARIANT_OVERWRITE_OPTIONS.none,
+  },
 ];
 
-export default ({
+const BulkUploadInput = ({
   type,
   displayType,
   onSheetsURLChange,
@@ -118,7 +125,8 @@ export default ({
       <BulkUploadContentBlock>
         <UploadOverwrite>
           <UploadContentHeading>
-            {`Would you like to overwrite the existing ${displayType || type}s with the data from this google sheet?`}
+            {`Would you like to overwrite the existing ${displayType ||
+              type}s with the data from this google sheet?`}
           </UploadContentHeading>
           <RadioSelect>
             {processOptions(overwriteOptions(type)).map((option, idx) => {
@@ -148,13 +156,21 @@ export default ({
                 <ErrorTriangleIcon
                   width={'24px'}
                   height={'20px'}
-                  css={'margin-right: 10px;'}
+                  css={css`
+                    margin-right: 10px;
+                  `}
                   fill={'#f3ae4c'}
                 />
                 <div>
                   It is recommend that you{' '}
                   <a href={backupURL}>
-                    <ExportIcon width={'10px'} height={'12px'} css={'margin: 0 5px 0 2px'} />
+                    <ExportIcon
+                      width={'10px'}
+                      height={'12px'}
+                      css={css`
+                        margin: 0 5px 0 2px;
+                      `}
+                    />
                     download a backup
                   </a>{' '}
                   {`of the current ${displayType || type}s before overwriting data.`}
@@ -164,37 +180,42 @@ export default ({
           </RadioSelect>
         </UploadOverwrite>
       </BulkUploadContentBlock>
-      {type === BULK_UPLOAD_TYPES.MODEL && <BulkUploadContentBlock>
-        <UploadOverwrite>
-          <UploadContentHeading>
-            {`Would you like to overwrite the existing research somatic variants for the ${displayType || type}s within this google sheet?`}
-          </UploadContentHeading>
-          <RadioSelect>
-            {variantOverwriteOptions.map((option, idx) => {
-              let formValue = normalizeOption(overwriteVariants);
-              const optionValue = normalizeOption(option.value);
-              return (
-                <label key={idx} htmlFor={`overwrite-variants-option-${idx}`}>
-                  {option.label}
-                  <input
-                    type="radio"
-                    id={`overwrite-variants-option-${idx}`}
-                    value={optionValue}
-                    checked={formValue === optionValue}
-                    onChange={e => {
-                      onOverwriteVariantsChange(e.currentTarget.value);
-                    }}
-                    onClick={e => {
-                      onOverwriteVariantsChange(e.currentTarget.value);
-                    }}
-                  />
-                  <span />
-                </label>
-              );
-            })}
-          </RadioSelect>
-        </UploadOverwrite>
-      </BulkUploadContentBlock>}
+      {type === BULK_UPLOAD_TYPES.MODEL && (
+        <BulkUploadContentBlock>
+          <UploadOverwrite>
+            <UploadContentHeading>
+              {`Would you like to overwrite the existing research somatic variants for the ${displayType ||
+                type}s within this google sheet?`}
+            </UploadContentHeading>
+            <RadioSelect>
+              {variantOverwriteOptions.map((option, idx) => {
+                let formValue = normalizeOption(overwriteVariants);
+                const optionValue = normalizeOption(option.value);
+                return (
+                  <label key={idx} htmlFor={`overwrite-variants-option-${idx}`}>
+                    {option.label}
+                    <input
+                      type="radio"
+                      id={`overwrite-variants-option-${idx}`}
+                      value={optionValue}
+                      checked={formValue === optionValue}
+                      onChange={e => {
+                        onOverwriteVariantsChange(e.currentTarget.value);
+                      }}
+                      onClick={e => {
+                        onOverwriteVariantsChange(e.currentTarget.value);
+                      }}
+                    />
+                    <span />
+                  </label>
+                );
+              })}
+            </RadioSelect>
+          </UploadOverwrite>
+        </BulkUploadContentBlock>
+      )}
     </BulkUploadContent>
   );
 };
+
+export default BulkUploadInput;

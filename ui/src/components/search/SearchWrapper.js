@@ -6,7 +6,7 @@ import Url from 'components/Url';
 import { SavedSetsContext } from 'providers/SavedSets';
 import Search from 'components/search/Search';
 
-export default props => (
+const SearchWrapper = props => (
   <Component initialState={{ sorted: [], panelSize: 300 }}>
     {state => (
       <Url
@@ -33,3 +33,5 @@ export default props => (
     )}
   </Component>
 );
+
+export default SearchWrapper;

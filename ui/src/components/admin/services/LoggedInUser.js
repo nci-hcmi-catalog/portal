@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import config from '../config';
 import { Fetcher } from './Fetcher';
 import UserIcon from 'icons/UserIcon';
@@ -33,7 +34,7 @@ export const LoggedInUserPill = () => (
       <Component initialState={{ isOpen: false }}>
         {({ state: { isOpen }, setState }) => (
           <div
-            css={`
+            css={css`
               margin-left: 20px;
               position: relative;
             `}
@@ -41,7 +42,7 @@ export const LoggedInUserPill = () => (
             <Popup
               trigger={() => (
                 <div
-                  css={`
+                  css={css`
                     align-items: center;
                     display: inline-flex;
                     postion: relative;
@@ -49,7 +50,7 @@ export const LoggedInUserPill = () => (
                 >
                   <UserDropdown secondary onClick={() => setState({ isOpen: !isOpen })} isOpen>
                     <UserIcon
-                      css={`
+                      css={css`
                         margin-right: 5px;
                         position: relative;
                         top: -1px;
@@ -61,7 +62,7 @@ export const LoggedInUserPill = () => (
                       isOpen={isOpen}
                       colour={'#000'}
                       weight={4}
-                      css={`
+                      css={css`
                         margin-left: 4px;
                       `}
                     />

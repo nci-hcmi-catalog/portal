@@ -1,5 +1,6 @@
-import styled, { keyframes } from 'react-emotion';
-import { css } from 'emotion';
+import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
+import { css } from '@emotion/react';
 import { Element } from 'react-scroll';
 
 import { NOTIFICATION_TYPES } from './../components/admin/Notifications';

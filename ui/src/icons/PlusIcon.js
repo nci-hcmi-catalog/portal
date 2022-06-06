@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineSvg } from 'icons';
 
-export default ({
+const PlusIcon = ({
   fill = 'currentColor',
   width = '11px',
   height = '11px',
@@ -22,3 +22,5 @@ export default ({
     ),
     ...props,
   });
+
+export default PlusIcon;

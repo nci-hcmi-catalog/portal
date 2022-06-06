@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import Component from 'react-component-component';
 import { Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import SplitPane from 'react-split-pane';
@@ -51,7 +52,7 @@ const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 
 let stable = true;
 
-export default ({
+const Search = ({
   setState,
   state,
   setSQON,
@@ -82,7 +83,11 @@ export default ({
               {() => (
                 <>
                   <ModelSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
-                  <GeneSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} tooltipWidth={state.panelSize - facetTooltipPadding} />
+                  <GeneSearch
+                    sqon={toggleExpanded(sqon, showUnexpanded)}
+                    setSQON={setSQON}
+                    tooltipWidth={state.panelSize - facetTooltipPadding}
+                  />
                   <VariantSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
                   <Aggregations
                     {...props}
@@ -98,34 +103,49 @@ export default ({
                       {
                         content: {
                           field: 'genomic_variants.classification',
-                          displayName: <Row justifyContent="space-between">
-                          Research Somatic Variant Type
-                          <GenomicVariantsTooltip isFacet={true} width={state.panelSize - facetTooltipPadding} />
-                        </Row>,
+                          displayName: (
+                            <Row justifyContent="space-between">
+                              Research Somatic Variant Type
+                              <GenomicVariantsTooltip
+                                isFacet={true}
+                                width={state.panelSize - facetTooltipPadding}
+                              />
+                            </Row>
+                          ),
                         },
                       },
                       {
                         content: {
                           field: 'type',
                           displayName: 'Model Type',
-                        }
+                        },
                       },
                       {
                         content: {
                           field: 'has_matched_models',
-                          displayName: <Row justifyContent="space-between">
-                          Has Multiple Models
-                          <MultipleModelsTooltip isFacet={true} width={state.panelSize - nonSearchableFacetTooltipPadding} />
-                        </Row>,
+                          displayName: (
+                            <Row justifyContent="space-between">
+                              Has Multiple Models
+                              <MultipleModelsTooltip
+                                isFacet={true}
+                                width={state.panelSize - nonSearchableFacetTooltipPadding}
+                              />
+                            </Row>
+                          ),
                         },
                       },
                       {
                         content: {
                           field: 'molecular_characterizations',
-                          displayName: <Row justifyContent="space-between">
-                          Available Molecular Characterizations
-                          <MolecularCharacterizationsTooltip isFacet={true} width={state.panelSize - facetTooltipPadding} />
-                        </Row>,
+                          displayName: (
+                            <Row justifyContent="space-between">
+                              Available Molecular Characterizations
+                              <MolecularCharacterizationsTooltip
+                                isFacet={true}
+                                width={state.panelSize - facetTooltipPadding}
+                              />
+                            </Row>
+                          ),
                         },
                       },
                     ]}
@@ -139,13 +159,13 @@ export default ({
             className="search-results-wrapper"
             p={30}
             flex={1}
-            css={`
+            css={css`
               width: calc(100vw - ${state.panelSize}px);
               overflow-y: scroll !important;
             `}
           >
             <Row
-              css={`
+              css={css`
                 background-color: #f6f6f8;
                 border: 1px solid #d9d9df;
                 align-items: center;
@@ -154,13 +174,17 @@ export default ({
             >
               {!filterExpanded(sqon) && (
                 <Row
-                  css={`
+                  css={css`
                     padding: 0 14px;
                     flex: 1;
                   `}
                 >
                   <span className="sqon-field no-sqon-message">
-                    <ArrowIcon css={'transform: rotate(180deg);'} />
+                    <ArrowIcon
+                      css={css`
+                        transform: rotate(180deg);
+                      `}
+                    />
                     Use the filter panel on the left to customize your model search.
                   </span>
                 </Row>
@@ -179,7 +203,7 @@ export default ({
             </Row>
             <Row
               bg="white"
-              css={`
+              css={css`
                 margin: 8px 0;
                 justify-content: space-around;
                 border: 1px solid #d9d9df;
@@ -414,3 +438,5 @@ export default ({
     </>
   );
 };
+
+export default Search;

@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '@emotion/react';
 
 const [openSans, libreFranklin] = ['"Open Sans", sans-serif', '"Libre Franklin", sans-serif'];
 

@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { css } from '@emotion/react';
 
 import { ModalStateContext } from 'providers/ModalState';
 
@@ -47,40 +48,39 @@ const DoubleConfirmationFooter = ({
 
   return (
     <Footer
-      css={`
+      css={css`
         margin-bottom: 12px;
       `}
     >
-      {
-        !singleConfirm ? (
-          <>
-            <ButtonPill
-              primary
-              marginRight={`10px`}
-              onClick={onSingleConfirmClick}
-              disabled={disabled}
-            >
-              {singleConfirmLabel}
-            </ButtonPill>
-            <ButtonPill secondary onClick={onSingleCancelClick}>
-              {singleConfirmCancelLabel}
-            </ButtonPill>
-          </>
-        ) : (
-          <>
-            <ConfirmationPrompt>{doubleConfirmPrompt}</ConfirmationPrompt>
-            <ButtonPill
-              primary
-              marginRight={`10px`}
-              onClick={onDoubleConfirmClick}
-              disabled={disabled}
-            >
-              {doubleConfirmLabel}
-            </ButtonPill>
-            <ButtonPill secondary onClick={onDoubleCancelClick}>
-              {doubleConfirmCancelLabel}
-            </ButtonPill>
-          </>
+      {!singleConfirm ? (
+        <>
+          <ButtonPill
+            primary
+            marginRight={`10px`}
+            onClick={onSingleConfirmClick}
+            disabled={disabled}
+          >
+            {singleConfirmLabel}
+          </ButtonPill>
+          <ButtonPill secondary onClick={onSingleCancelClick}>
+            {singleConfirmCancelLabel}
+          </ButtonPill>
+        </>
+      ) : (
+        <>
+          <ConfirmationPrompt>{doubleConfirmPrompt}</ConfirmationPrompt>
+          <ButtonPill
+            primary
+            marginRight={`10px`}
+            onClick={onDoubleConfirmClick}
+            disabled={disabled}
+          >
+            {doubleConfirmLabel}
+          </ButtonPill>
+          <ButtonPill secondary onClick={onDoubleCancelClick}>
+            {doubleConfirmCancelLabel}
+          </ButtonPill>
+        </>
       )}
     </Footer>
   );

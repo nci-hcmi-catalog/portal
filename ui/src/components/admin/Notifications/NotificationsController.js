@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 
-import {
-  DEFAULT_IMPORT_PROGRESS,
-  DEFAULT_NONACTIONABLE_IMPORTS,
- } from 'utils/constants';
+import { DEFAULT_IMPORT_PROGRESS, DEFAULT_NONACTIONABLE_IMPORTS } from 'utils/constants';
 
 export const NotificationsContext = React.createContext();
 

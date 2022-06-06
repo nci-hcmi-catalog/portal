@@ -40,7 +40,7 @@ const renderTab = (tab, data, otherModelOptions, dictionary, validator) => {
   }
 };
 
-export default ({ match }) => (
+const ModelSingle = ({ match }) => (
   <ModelSingleProvider baseUrl={config.urls.cmsBase} modelName={match.params.name}>
     <ModelSingleContext.Consumer>
       {({
@@ -68,3 +68,5 @@ export default ({ match }) => (
     </ModelSingleContext.Consumer>
   </ModelSingleProvider>
 );
+
+export default ModelSingle;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 
 import { ModalStateContext } from 'providers/ModalState';
 
@@ -18,7 +19,7 @@ const doThenClose = (next, modalState) => () => {
   return modalState.setModalState({ component: null });
 };
 
-const PublishLinkedModelsModal = ({ next, modelNames, onCancel = () => false }) => (
+const PublishLinkedModels = ({ next, modelNames, onCancel = () => false }) => (
   <ModalStateContext.Consumer>
     {modalState => (
       <ModalWrapper>
@@ -27,7 +28,7 @@ const PublishLinkedModelsModal = ({ next, modelNames, onCancel = () => false }) 
           <CloseModal onClick={() => modalState.setModalState({ component: null })} />
         </Header>
         <Content
-          css={`
+          css={css`
             line-height: 2;
           `}
         >
@@ -55,7 +56,12 @@ const PublishLinkedModelsModal = ({ next, modelNames, onCancel = () => false }) 
   </ModalStateContext.Consumer>
 );
 
-export default ({ disabled = true, next, modelNames = [], onCancel }) => Component => (
+const PublishLinkedModelsModal = ({
+  disabled = true,
+  next,
+  modelNames = [],
+  onCancel,
+}) => Component => (
   <ModalStateContext.Consumer>
     {modalState =>
       React.cloneElement(Component, {
@@ -64,7 +70,7 @@ export default ({ disabled = true, next, modelNames = [], onCancel }) => Compone
             if (modelNames.length > 0) {
               modalState.setModalState({
                 component: (
-                  <PublishLinkedModelsModal
+                  <PublishLinkedModels
                     {...{ next, modelNames }}
                     onCancel={
                       onCancel ? onCancel : () => modalState.setModalState({ component: null })
@@ -83,3 +89,5 @@ export default ({ disabled = true, next, modelNames = [], onCancel }) => Compone
     }
   </ModalStateContext.Consumer>
 );
+
+export default PublishLinkedModelsModal;

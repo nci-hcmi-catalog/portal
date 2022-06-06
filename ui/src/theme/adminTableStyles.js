@@ -1,4 +1,4 @@
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
 import base from 'theme';
@@ -16,7 +16,8 @@ export const Table = styled('div')`
   align-self: center;
   background: ${white};
   ${({ type }) =>
-    type === 'Variants' && `
+    type === 'Variants' &&
+    `
     border: 1px solid #d4d7dd;
     padding: 10px 24px;
     margin-bottom: 10px;

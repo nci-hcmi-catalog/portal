@@ -1,10 +1,12 @@
 import React from 'react';
 import { SkipNavWrapper, SkipNavLink } from 'theme/skipNavStyles';
 
-export default () => {
+const SkipNav = () => {
   return (
     <SkipNavWrapper>
       <SkipNavLink href="#main">Skip to Main Content</SkipNavLink>
     </SkipNavWrapper>
   );
 };
+
+export default SkipNav;

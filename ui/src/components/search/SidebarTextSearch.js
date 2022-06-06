@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { css } from 'emotion';
+import { css } from '@emotion/react';
 import Spinner from 'react-spinkit';
 import SearchIcon from 'react-icons/lib/fa/search';
 
@@ -11,10 +11,18 @@ import SearchOptionsDropdown from 'components/search/SearchOptionsDropdown';
 import * as SQONUtils from '@arranger/components/dist/SQONView/utils';
 
 const LoadingIcon = (
-  <Spinner fadeIn="none" name="circle" color="#a9adc0" style={{ width: 15, height: 15 }} />
+  <Spinner
+    fadeIn="none"
+    name="circle"
+    color="#a9adc0"
+    css={css`
+      width: 15px;
+      height: 15px;
+    `}
+  />
 );
 
-export default ({
+const SidebarTextSearch = ({
   sqon,
   setSQON,
   header,
@@ -34,9 +42,16 @@ export default ({
 
   return (
     <SidebarSection title={header}>
-      <Col style={{ width: '100%' }}>
+      <Col
+        css={css`
+          width: 100%;
+        `}
+      >
         <TextInput
-          css={{ border: 'none', flex: ' 1 1 0%' }}
+          css={css`
+            border: none;
+            flex: 1 1 0%;
+          `}
           aria-label={header}
           placeholder={placeholder}
           value={value}
@@ -67,12 +82,12 @@ export default ({
         />
         {showOptions && options.length > 0 && (
           <div
-            className={css`
+            css={css`
               position: relative;
             `}
           >
             <div
-              className={`${css`
+              css={css`
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -81,7 +96,7 @@ export default ({
                 z-index: 1;
                 background: white;
                 width: 100%;
-              `}`}
+              `}
             >
               <SearchOptionsDropdown
                 options={options}
@@ -122,3 +137,5 @@ export default ({
     </SidebarSection>
   );
 };
+
+export default SidebarTextSearch;

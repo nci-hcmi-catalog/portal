@@ -3,7 +3,7 @@ import React from 'react';
 import globals from 'utils/globals';
 import isIE from 'utils/isIE';
 
-export default ({ modalState }) => (
+const WarningModal = ({ modalState }) => (
   <>
     <h1>Welcome to the HCMI Searchable Catalog</h1>
     <div className="modal-body">
@@ -58,3 +58,5 @@ export default ({ modalState }) => (
     </div>
   </>
 );
+
+export default WarningModal;

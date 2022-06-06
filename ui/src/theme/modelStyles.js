@@ -1,5 +1,5 @@
-import { css } from 'emotion';
-import styled from 'react-emotion';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { Row } from 'theme/system';
 import base from 'theme';

@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ReactTable from 'react-table';
+import { css } from '@emotion/react';
 
 import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
 
@@ -118,7 +120,10 @@ const VariantTable = React.memo(({ type, modelName, columns, storageKey }) => {
 
   const from = filteredData.length === 0 ? 0 : page * pageSize + 1;
   const to = page * pageSize + pageSize;
-  const sortedData = useMemo(() => filteredData.slice().sort((a, b) => sortFilteredData(a, b)));
+  const sortedData = useMemo(() => filteredData.slice().sort((a, b) => sortFilteredData(a, b)), [
+    filteredData,
+    sortFilteredData,
+  ]);
 
   const pageSizeStorageKey = `varianttable-${storageKey}-pagesize`;
   const pageSizeChangeHandler = size => {
@@ -463,7 +468,7 @@ const renderTable = (activeTab, modelName) => {
   }
 };
 
-export default ({ modelName }) => {
+const VariantTables = ({ modelName }) => {
   const [activeTab, setActiveTab] = useState(VARIANT_TYPES.clinical);
   const [isEmpty, setIsEmpty] = useState(true);
   const { fetchData, fetchGeneMetadata, setData, setFilteredData } = useVariants();
@@ -514,7 +519,7 @@ export default ({ modelName }) => {
 
   return (
     <Row
-      css={`
+      css={css`
         position: relative;
       `}
     >
@@ -561,7 +566,7 @@ export default ({ modelName }) => {
             </Tab>
           </TabGroup>
           <div
-            css={`
+            css={css`
               width: calc(100% - 175px);
               padding-left: 18px;
             `}
@@ -573,3 +578,5 @@ export default ({ modelName }) => {
     </Row>
   );
 };
+
+export default VariantTables;

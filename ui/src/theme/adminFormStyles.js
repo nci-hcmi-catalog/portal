@@ -1,4 +1,4 @@
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { Form } from 'formik';
 import base from 'theme';
 import { Row, Col } from 'theme/system';

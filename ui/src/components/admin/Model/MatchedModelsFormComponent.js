@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Field } from 'formik';
+import { css } from '@emotion/react';
 
 import { ModelSingleContext } from './ModelSingleController';
 import config from '../config';
@@ -9,7 +10,7 @@ import ModelIcon from '../../../icons/ModelIcon';
 
 const LinkedModelsText = ({ children }) => (
   <div
-    css={`
+    css={css`
       display: flex;
       flex-direction: row;
       margin-left: 3px;
@@ -19,7 +20,7 @@ const LinkedModelsText = ({ children }) => (
   >
     <ModelIcon height={'24px'} width={'24px'} />
     <span
-      css={`
+      css={css`
         font-size: 14px;
         font-weight: bold;
         font-stretch: normal;
@@ -34,7 +35,7 @@ const LinkedModelsText = ({ children }) => (
 
 const LinkedModelDetails = ({ model }) => (
   <div
-    css={`
+    css={css`
       width: 159px;
       height: 50px;
       border: solid 1px #d4d7dd;
@@ -44,7 +45,7 @@ const LinkedModelDetails = ({ model }) => (
     `}
   >
     <a
-      css={`
+      css={css`
         font-size: 11px;
         font-weight: bold;
         font-stretch: normal;
@@ -63,7 +64,7 @@ const LinkedModelDetails = ({ model }) => (
     </a>
 
     <span
-      css={`
+      css={css`
         font-size: 10px;
         font-weight: normal;
         font-stretch: normal;
@@ -138,7 +139,7 @@ const MatchedModelsFormComponent = ({
             <>
               <LinkedModelsText>This model is linked to:</LinkedModelsText>
               <div
-                css={`
+                css={css`
                   display: flex;
                   flex-direction: row;
                   flex-wrap: wrap;

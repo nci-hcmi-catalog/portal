@@ -1,7 +1,7 @@
 import 'babel-polyfill';
 import React from 'react';
 import Component from 'react-component-component';
-import { injectGlobal } from 'emotion';
+import { injectGlobal } from '@emotion/css';
 
 import globals from 'utils/globals';
 
@@ -101,7 +101,7 @@ injectGlobal`
   }
 `;
 
-export default () => (
+const App = () => (
   <RootProvider>
     <Router>
       <ProvidedRoutes />
@@ -109,3 +109,5 @@ export default () => (
     <Modal />
   </RootProvider>
 );
+
+export default App;

@@ -6,7 +6,7 @@ import { SaveModel, PublishModel } from './actions';
 import { AdminFooter, AdminFooterBlock } from 'theme/adminStyles';
 import { LinkPill } from 'theme/adminControlsStyles';
 
-export default () => (
+const ModelSingleFooter = () => (
   <AdminFooter>
     <AdminFooterBlock>
       <LinkPill to={manageModelsUrlBase} secondary={`true`}>
@@ -19,3 +19,5 @@ export default () => (
     </AdminFooterBlock>
   </AdminFooter>
 );
+
+export default ModelSingleFooter;

@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect } from 'react';
+import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
 import { stringify } from 'query-string';
 
@@ -13,7 +15,7 @@ const {
   keyedPalette: { brandPrimary },
 } = base;
 
-export default ({ modelName, sqon }) => {
+const ModelCarousel = ({ modelName, sqon }) => {
   const {
     fetchSets,
     state: { loading, sets },
@@ -34,7 +36,9 @@ export default ({ modelName, sqon }) => {
   return (
     <Row
       className="pagination"
-      css={loading ? 'pointer-events: none; pointer: not-allowed;' : ''}
+      css={css`
+        ${loading ? 'pointer-events: none; pointer: not-allowed;' : ''}
+      `}
       justifyContent="space-between"
     >
       <Link
@@ -43,13 +47,13 @@ export default ({ modelName, sqon }) => {
           search: stringify({ sqon: JSON.stringify(sqon) }),
         }}
         className="pagination__item pagination__link"
-        css={`
+        css={css`
           opacity: ${loading || !prevName ? '0.5' : '1'};
           pointer-events: ${loading || !prevName ? 'none' : 'inherit'};
         `}
       >
         <ArrowLeftIcon
-          css={`
+          css={css`
             opacity: ${loading ? '0.5' : '1'};
           `}
           fill={brandPrimary}
@@ -58,7 +62,7 @@ export default ({ modelName, sqon }) => {
       </Link>
       <Row
         className="pagination__item pagination__status"
-        css={`
+        css={css`
           opacity: ${loading ? '0.5' : '1'};
         `}
         justifyContent="center"
@@ -71,14 +75,14 @@ export default ({ modelName, sqon }) => {
           search: stringify({ sqon: JSON.stringify(sqon) }),
         }}
         className="pagination__item pagination__link"
-        css={`
+        css={css`
           opacity: ${loading || !nextName ? '0.5' : '1'};
           pointer-events: ${loading || !nextName ? 'none' : 'inherit'};
         `}
       >
         <span>Next</span>
         <ArrowRightIcon
-          css={`
+          css={css`
             margin-left: 5px;
             margin-right: 0;
             opacity: ${loading ? '0.5' : '1'};
@@ -89,3 +93,5 @@ export default ({ modelName, sqon }) => {
     </Row>
   );
 };
+
+export default ModelCarousel;

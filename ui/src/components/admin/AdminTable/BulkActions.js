@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { css } from '@emotion/react';
 import Popup from 'reactjs-popup';
 import CollapsibleArrow from 'icons/CollapsibleArrow';
 import withDeleteModal from '../DeleteModal';
@@ -26,7 +27,7 @@ const onApplyClick = ({ action, onPublishClick, onUnpublishClick, reset }) => {
   }
 };
 
-export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection }) => {
+const BulkActions = ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedAction, setSelectedAction] = useState('');
 
@@ -35,7 +36,7 @@ export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection 
       <Popup
         trigger={() => (
           <div
-            css={`
+            css={css`
               align-items: center;
               display: inline-flex;
               postion: relative;
@@ -137,3 +138,5 @@ export default ({ onPublishClick, onUnpublishClick, onDeleteClick, hasSelection 
     </ToolbarSection>
   );
 };
+
+export default BulkActions;

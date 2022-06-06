@@ -1,5 +1,3 @@
-// @ts-check
-
 import React from 'react';
 import globals from 'utils/globals';
 import Component from 'react-component-component';
@@ -21,7 +19,7 @@ const fetchData = async ({ setState }) => {
   }
 };
 
-export default ({ ...props }) => (
+const LastUpdatedDateQuery = ({ ...props }) => (
   <Component
     {...props}
     initialState={{ date: null, loading: true }}
@@ -30,3 +28,5 @@ export default ({ ...props }) => (
     }}
   />
 );
+
+export default LastUpdatedDateQuery;

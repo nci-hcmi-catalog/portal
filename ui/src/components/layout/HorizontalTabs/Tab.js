@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Tab } from 'theme/horizontalTabStyles';
 
-export default ({ active, disabled, onClick, children, ...props }) => {
+const HorizontalTab = ({ active, disabled, onClick, children, ...props }) => {
   const clickHandler = () => {
     if (!disabled) {
       onClick();
@@ -15,3 +15,5 @@ export default ({ active, disabled, onClick, children, ...props }) => {
     </Tab>
   );
 };
+
+export default HorizontalTab;

@@ -1,12 +1,13 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import MomentReact from 'react-moment';
 import moment from 'moment-timezone';
 import { FormHeader } from 'theme/adminFormStyles';
 
-export default ({ title, updatedAt }) => (
+const TabHeader = ({ title, updatedAt }) => (
   <FormHeader>
     <h2
-      css={`
+      css={css`
         flex-grow: 1;
       `}
     >
@@ -14,7 +15,7 @@ export default ({ title, updatedAt }) => (
     </h2>
     {updatedAt ? (
       <div
-        css={`
+        css={css`
           justify-content: right;
           font-size: 12px;
         `}
@@ -29,3 +30,5 @@ export default ({ title, updatedAt }) => (
     )}
   </FormHeader>
 );
+
+export default TabHeader;

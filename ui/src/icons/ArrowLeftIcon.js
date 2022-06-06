@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineSvg } from 'icons';
 
-export default ({
+const ArrowLeftIcon = ({
   fill = 'currentColor',
   width = '6px',
   height = '8px',
@@ -19,3 +19,5 @@ export default ({
     ),
     ...props,
   });
+
+export default ArrowLeftIcon;

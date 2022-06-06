@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import { ResponsivePie } from '@nivo/pie';
 import AggregationQuery from 'components/queries/AggregationQuery';
 import { Col } from 'theme/system';
@@ -14,12 +15,12 @@ const getCount = (buckets, filterBy) =>
   buckets.filter(filterBy).reduce((acc, curr) => acc + curr.doc_count, 0);
 const getKeys = (buckets, filterBy) => buckets.filter(filterBy).map(x => x.key);
 
-export default ({ sqon, setSQON }) => (
+const GrowthChart = ({ sqon, setSQON }) => (
   <SizeMe>
     {({ size }) => (
       <Col
         alignItems="center"
-        css={`
+        css={css`
           position: relative;
           height: 185px;
           width: 25%;
@@ -110,3 +111,5 @@ export default ({ sqon, setSQON }) => (
     )}
   </SizeMe>
 );
+
+export default GrowthChart;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { css } from '@emotion/react';
 
 import DependentFieldValuesGroup from './DependentFieldValuesGroup';
 import { useDictionary } from './DictionaryController';
@@ -78,7 +79,7 @@ const DictionaryDependentFieldValues = () => {
           <ButtonPill
             secondary
             onClick={shouldExpand ? expandAll : collapseAll}
-            css={`
+            css={css`
               height: 28px;
             `}
           >

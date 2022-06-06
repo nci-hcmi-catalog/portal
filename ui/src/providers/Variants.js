@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { css } from '@emotion/react';
 import { get, uniqBy } from 'lodash';
 import { stringify } from 'query-string';
 import { Link } from 'react-router-dom';
@@ -248,7 +249,7 @@ export const useVariants = () => {
       frequency: {
         display: (
           <div
-            css={`
+            css={css`
               display: flex;
               flex-direction: row;
               align-items: center;

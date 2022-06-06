@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import { Row, Col } from 'theme/system';
 import { BulkUploadSubTitle } from 'theme/adminBulkUploadStyles';
 
@@ -14,7 +15,7 @@ export default ({ type, displayType, uploadResults }) => {
     <>
       <Row alignItems="center" justifyContent="space-between">
         <div
-          css={`
+          css={css`
             flex-grow: 1;
             width: fit-content;
           `}
@@ -26,7 +27,7 @@ export default ({ type, displayType, uploadResults }) => {
       <Col>
         {docs ? (
           <div
-            css={`
+            css={css`
               color: green;
               font-weight: bold;
             `}
@@ -38,7 +39,7 @@ export default ({ type, displayType, uploadResults }) => {
         )}
         {error ? (
           <div
-            css={`
+            css={css`
               color: red;
             `}
           >

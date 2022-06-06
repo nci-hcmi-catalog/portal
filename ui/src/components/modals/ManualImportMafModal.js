@@ -25,7 +25,7 @@ const doThenClose = (next, modalState) => async () => {
   return modalState.setModalState({ component: null });
 };
 
-const ManualImportMafModal = ({
+const ManualImportMaf = ({
   title = 'Manual Import from GDC',
   confirmLabel = 'Import',
   cancelLabel = 'Cancel',
@@ -115,7 +115,7 @@ const ManualImportMafModal = ({
   );
 };
 
-export default ({
+const ManualImportMafModal = ({
   title,
   confirmLabel,
   cancelLabel,
@@ -131,7 +131,7 @@ export default ({
             onClick: () => {
               modalState.setModalState({
                 component: (
-                  <ManualImportMafModal
+                  <ManualImportMaf
                     {...{
                       title,
                       confirmLabel,
@@ -156,3 +156,5 @@ export default ({
     )}
   </NotificationsContext.Consumer>
 );
+
+export default ManualImportMafModal;

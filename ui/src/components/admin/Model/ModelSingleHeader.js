@@ -1,5 +1,6 @@
 import React from 'react';
 import Popup from 'reactjs-popup';
+import { css } from '@emotion/react';
 
 import { ModelSingleContext } from './ModelSingleController';
 import { manageModelsUrlBase } from '../AdminNav';
@@ -54,7 +55,11 @@ const modelMoreOptions = (data = null) =>
             disabled={!data || Object.keys(data).length === 0}
             marginLeft="8px"
           >
-            <MoreOptionsIcon css={'margin: 0;'} />
+            <MoreOptionsIcon
+              css={css`
+                margin: 0;
+              `}
+            />
           </ButtonPill>
         </div>
       }
@@ -79,7 +84,7 @@ const modelMoreOptions = (data = null) =>
     </Popup>
   );
 
-export default ({ modelName }) => (
+const ModelSingleHeader = ({ modelName }) => (
   <ModelSingleContext.Consumer>
     {({
       state: {
@@ -89,7 +94,7 @@ export default ({ modelName }) => (
       <>
         <AdminHeader>
           <AdminHeaderBlock
-            css={`
+            css={css`
               position: relative;
             `}
           >
@@ -97,7 +102,7 @@ export default ({ modelName }) => (
             {response.status && modelStatusPill(response)}
             <ModelHeaderBackLink
               to={manageModelsUrlBase}
-              css={`
+              css={css`
                 position: absolute;
                 left: 0;
                 bottom: 40px;
@@ -114,7 +119,9 @@ export default ({ modelName }) => (
                 <ExternalLinkIcon
                   height={'10px'}
                   width={'10px'}
-                  css={'margin-right: 8px;'}
+                  css={css`
+                    margin-right: 8px;
+                  `}
                   fill={'currentColor'}
                 />
                 View in Catalog
@@ -131,3 +138,5 @@ export default ({ modelName }) => (
     )}
   </ModelSingleContext.Consumer>
 );
+
+export default ModelSingleHeader;
