@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 
 import SidebarTextSearch from 'components/search/SidebarTextSearch';
 
@@ -7,14 +8,14 @@ import { searchGenes } from 'components/search/services/searchService';
 import { AlteredGenesTooltip } from 'components/tooltips';
 import { Row } from 'theme/system';
 
-export default ({ sqon, setSQON, tooltipWidth, ...props }) => (
+const GeneSearch = ({ sqon, setSQON, tooltipWidth, ...props }) => (
   <SidebarTextSearch
     sqon={sqon}
     setSQON={setSQON}
     header={
       <Row
         justifyContent="space-between"
-        css={`
+        css={css`
           text-transform: none;
         `}
       >
@@ -35,3 +36,5 @@ export default ({ sqon, setSQON, tooltipWidth, ...props }) => (
     searchService={searchGenes}
   />
 );
+
+export default GeneSearch;

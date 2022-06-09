@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineSvg } from 'icons';
 
-export default ({
+const EditIcon = ({
   fill = 'currentColor',
   width = '12px',
   height = '12px',
@@ -22,3 +22,5 @@ export default ({
     fill,
     ...props,
   });
+
+export default EditIcon;

@@ -1,5 +1,6 @@
 import React from 'react';
-export default ({ percentage, fill = `#900000`, width = 30, style, ...props }) => (
+
+const SparkMeter = ({ percentage, fill = `#900000`, width = 30, style, ...props }) => (
   <div
     style={{
       width,
@@ -24,3 +25,5 @@ export default ({ percentage, fill = `#900000`, width = 30, style, ...props }) =
     />
   </div>
 );
+
+export default SparkMeter;

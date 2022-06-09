@@ -8,7 +8,7 @@ import { Col } from 'theme/system';
 
 const type = 'Models';
 
-export default () => (
+const ModelManagerTable = () => (
   <ModelManagerContext.Consumer>
     {({
       state,
@@ -49,3 +49,5 @@ export default () => (
     )}
   </ModelManagerContext.Consumer>
 );
+
+export default ModelManagerTable;

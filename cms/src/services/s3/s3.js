@@ -5,7 +5,7 @@ const getLogger = require('../../logger');
 const logger = getLogger('services/s3');
 
 const aws = require('aws-sdk');
-const uuid = require('uuid/v4');
+const uuid = require('uuid');
 
 const S3_BUCKET = process.env.S3_BUCKET;
 const IAM_USER_KEY = process.env.IAM_USER_KEY;
@@ -17,7 +17,7 @@ const s3 = new aws.S3({
 });
 
 const uploadToS3 = async (fileName, fileStream, modelName) => {
-  const Key = `${uuid()}-${fileName}`;
+  const Key = `${uuid.v4()}-${fileName}`;
   const params = {
     Bucket: S3_BUCKET,
     Key,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineSvg } from 'icons';
 
-export default ({
+const DoubleArrowRightIcon = ({
   fill = '#cd0d32',
   viewBox = '0 0 99.84 90.94',
   width = '18px',
@@ -28,3 +28,5 @@ export default ({
     ),
     ...props,
   });
+
+export default DoubleArrowRightIcon;

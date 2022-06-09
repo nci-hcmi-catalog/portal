@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import { isEqual } from 'lodash';
 import { ResponsiveBar } from '@nivo/bar';
 import Component from 'react-component-component';
@@ -10,10 +11,10 @@ import { addInSQON } from '@arranger/components/dist/SQONView/utils';
 
 import { ChartTooltip } from './';
 
-export default ({ sqon, setSQON }) => (
+const TopVariantsChart = ({ sqon, setSQON }) => (
   <Col
     alignItems="center"
-    css={`
+    css={css`
       position: relative;
       width: 25%;
       height: 185px;
@@ -179,3 +180,5 @@ export default ({ sqon, setSQON }) => (
     </AggregationQuery>
   </Col>
 );
+
+export default TopVariantsChart;

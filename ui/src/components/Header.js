@@ -2,19 +2,26 @@ import React from 'react';
 
 import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
 
-import { Header, HeaderLinkWrapper, HeaderLink, subheadingStyle } from 'theme/headerStyles';
+import {
+  Header as HeaderWrapper,
+  HeaderLinkWrapper,
+  HeaderLink,
+  subheadingStyle,
+} from 'theme/headerStyles';
 
-export default ({ subheading = 'Searchable Catalog' }) => {
+const Header = ({ subheading = 'Searchable Catalog' }) => {
   const { resetShowUnexpanded } = useExpandedUnexpanded();
 
   return (
-    <Header>
+    <HeaderWrapper>
       <HeaderLinkWrapper>
         <HeaderLink onClick={() => resetShowUnexpanded()} to="/">
           Human Cancer Models Initiative
         </HeaderLink>
       </HeaderLinkWrapper>
       <div css={subheadingStyle}>{subheading}</div>
-    </Header>
+    </HeaderWrapper>
   );
 };
+
+export default Header;

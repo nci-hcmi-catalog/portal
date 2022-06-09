@@ -15,11 +15,14 @@ import {
   BULK_NONACTIONABLE_ERROR_ID,
   GDC_MODEL_STATES,
   GENOMIC_VARIANTS_IMPORT_ERRORS,
-  VARIANT_IMPORT_TYPES
+  VARIANT_IMPORT_TYPES,
 } from 'utils/constants';
 
 import { ButtonPill } from 'theme/adminControlsStyles';
-import { NotificationTableHeaderRow, NotificationTableHeaderCol } from 'theme/adminNotificationStyles';
+import {
+  NotificationTableHeaderRow,
+  NotificationTableHeaderCol,
+} from 'theme/adminNotificationStyles';
 import { Row } from 'theme/system';
 
 // Unicode 'NON-BREAKING HYPHEN' (U+2011), prevents word-wrap on model names
@@ -36,27 +39,30 @@ const getImportErrorMessage = error => {
     default:
       return 'there was an error';
   }
-}
+};
 
 const ConfirmMafFileError = ({ modelName, tissueStatus, files, error, onConfirm }) => {
   return (
     <>
-      {modelName} was found in GDC, but <strong>{getImportErrorMessage(error)}</strong> Please investigate:
+      {modelName} was found in GDC, but <strong>{getImportErrorMessage(error)}</strong>
+      Please investigate:
       {withConfirmMafFileModal({
         modelName,
         tissueStatus,
         files,
         onConfirm,
-      })(<ButtonPill
-        secondary
-        marginLeft="12px"
-        style={{
-          display: 'inline-flex',
-          verticalAlign: 'bottom'
-        }}
-      >
-        Confirm MAF File
-      </ButtonPill>)}
+      })(
+        <ButtonPill
+          secondary
+          marginLeft="12px"
+          style={{
+            display: 'inline-flex',
+            verticalAlign: 'bottom',
+          }}
+        >
+          Confirm MAF File
+        </ButtonPill>,
+      )}
     </>
   );
 };
@@ -90,10 +96,16 @@ const BulkNonActionableImportErrors = () => {
       </NotificationTableHeaderRow>
       <Row>
         <NotificationTableHeaderCol>
-          {modelNotFound.map((modelName, i) => i < modelNotFound.length - 1 ? `${replaceHyphens(modelName)}, ` : replaceHyphens(modelName))}
+          {modelNotFound.map((modelName, i) =>
+            i < modelNotFound.length - 1
+              ? `${replaceHyphens(modelName)}, `
+              : replaceHyphens(modelName),
+          )}
         </NotificationTableHeaderCol>
         <NotificationTableHeaderCol>
-          {noMafs.map((modelName, i) => i < noMafs.length - 1 ? `${replaceHyphens(modelName)}, ` : replaceHyphens(modelName))}
+          {noMafs.map((modelName, i) =>
+            i < noMafs.length - 1 ? `${replaceHyphens(modelName)}, ` : replaceHyphens(modelName),
+          )}
         </NotificationTableHeaderCol>
       </Row>
     </>
@@ -130,8 +142,7 @@ const useGenomicVariantImportNotifications = () => {
     const notification = await appendNotification({
       type: NOTIFICATION_TYPES.LOADING,
       message: `Importing: Research Variants for ${modelName} are currently importing.`,
-      details:
-        'You can continue to use the CMS, and will be notified when the import is complete.',
+      details: 'You can continue to use the CMS, and will be notified when the import is complete.',
       timeout: false,
     });
 
@@ -170,7 +181,9 @@ const useGenomicVariantImportNotifications = () => {
       linkText: 'View on model page to publish these variants.',
       timeout: false,
       modelName,
-      onClose: () => { acknowledgeModelAndUpdateNotifications(modelName) },
+      onClose: () => {
+        acknowledgeModelAndUpdateNotifications(modelName);
+      },
     });
   };
 
@@ -187,7 +200,9 @@ const useGenomicVariantImportNotifications = () => {
       linkText: 'View on model page to restart the import for these variants.',
       timeout: false,
       modelName,
-      onClose: () => { acknowledgeModelAndUpdateNotifications(modelName) },
+      onClose: () => {
+        acknowledgeModelAndUpdateNotifications(modelName);
+      },
     });
   };
 
@@ -216,7 +231,9 @@ const useGenomicVariantImportNotifications = () => {
           ),
           timeout: false,
           modelName,
-          onClose: () => { acknowledgeModelAndUpdateNotifications(modelName) },
+          onClose: () => {
+            acknowledgeModelAndUpdateNotifications(modelName);
+          },
         });
         break;
       case GDC_MODEL_STATES.noNgcm:
@@ -238,7 +255,9 @@ const useGenomicVariantImportNotifications = () => {
           ),
           timeout: false,
           modelName,
-          onClose: () => { acknowledgeModelAndUpdateNotifications(modelName) },
+          onClose: () => {
+            acknowledgeModelAndUpdateNotifications(modelName);
+          },
         });
         break;
       case GDC_MODEL_STATES.multipleNgcm:
@@ -260,7 +279,9 @@ const useGenomicVariantImportNotifications = () => {
           ),
           timeout: false,
           modelName,
-          onClose: () => { acknowledgeModelAndUpdateNotifications(modelName) },
+          onClose: () => {
+            acknowledgeModelAndUpdateNotifications(modelName);
+          },
         });
         break;
       case GDC_MODEL_STATES.noMafs:
@@ -274,7 +295,9 @@ const useGenomicVariantImportNotifications = () => {
           ),
           timeout: false,
           modelName,
-          onClose: () => { acknowledgeModelAndUpdateNotifications(modelName) },
+          onClose: () => {
+            acknowledgeModelAndUpdateNotifications(modelName);
+          },
         });
         break;
       case GDC_MODEL_STATES.modelNotFound:
@@ -288,7 +311,9 @@ const useGenomicVariantImportNotifications = () => {
           ),
           timeout: false,
           modelName,
-          onClose: () => { acknowledgeModelAndUpdateNotifications(modelName) },
+          onClose: () => {
+            acknowledgeModelAndUpdateNotifications(modelName);
+          },
         });
         break;
       case GENOMIC_VARIANTS_IMPORT_ERRORS.noMatchingModel:
@@ -297,12 +322,15 @@ const useGenomicVariantImportNotifications = () => {
           message: 'Import Error with No Action Required.',
           details: (
             <>
-              {modelName} <strong>was not found in the local database.</strong> Please make sure the model exists and try again later.
+              {modelName} <strong>was not found in the local database.</strong> Please make sure the
+              the model exists and try again later.
             </>
           ),
           timeout: false,
           modelName,
-          onClose: () => { acknowledgeModelAndUpdateNotifications(modelName) },
+          onClose: () => {
+            acknowledgeModelAndUpdateNotifications(modelName);
+          },
         });
         break;
       case GENOMIC_VARIANTS_IMPORT_ERRORS.gdcCommunicationError:
@@ -312,7 +340,9 @@ const useGenomicVariantImportNotifications = () => {
           details: 'Please investigate with the GDC team and try again later.',
           timeout: false,
           modelName,
-          onClose: () => { acknowledgeModelAndUpdateNotifications(modelName) },
+          onClose: () => {
+            acknowledgeModelAndUpdateNotifications(modelName);
+          },
         });
         break;
       case GENOMIC_VARIANTS_IMPORT_ERRORS.manualImportError:
@@ -323,7 +353,9 @@ const useGenomicVariantImportNotifications = () => {
             'The MAF file you are trying to import was not found in GDC. Please investigate and try again.',
           timeout: false,
           modelName,
-          onClose: () => { acknowledgeModelAndUpdateNotifications(modelName) },
+          onClose: () => {
+            acknowledgeModelAndUpdateNotifications(modelName);
+          },
         });
         break;
       case GENOMIC_VARIANTS_IMPORT_ERRORS.unexpected:
@@ -334,7 +366,9 @@ const useGenomicVariantImportNotifications = () => {
           details: error.message,
           timeout: false,
           modelName,
-          onClose: () => { acknowledgeModelAndUpdateNotifications(modelName) },
+          onClose: () => {
+            acknowledgeModelAndUpdateNotifications(modelName);
+          },
         });
         break;
     }
@@ -352,7 +386,8 @@ const useGenomicVariantImportNotifications = () => {
   const showUnexpectedImportError = error => {
     appendNotification({
       type: NOTIFICATION_TYPES.ERROR,
-      message: 'Import Error with No Action Required: An unexpected error related to Research Somatic Variant importing has occurred.',
+      message:
+        'Import Error with No Action Required: An unexpected error related to Research Somatic Variant importing has occurred.',
       details: error.message || error.details || error.name,
       timeout: false,
     });
@@ -398,14 +433,19 @@ const useGenomicVariantImportNotifications = () => {
   };
 
   const getNonActionableImportErrorModels = () => {
-    return [...nonactionableImports[GDC_MODEL_STATES.modelNotFound], ...nonactionableImports[GDC_MODEL_STATES.noMafs]];
+    return [
+      ...nonactionableImports[GDC_MODEL_STATES.modelNotFound],
+      ...nonactionableImports[GDC_MODEL_STATES.noMafs],
+    ];
   };
 
   const updateNotificationsFromStatus = async () => {
     const { queue, stopped, success, failed } = importProgress;
 
     // Add import notifications for individual imports in the queue
-    const individualQueuedImports = (queue || []).filter(x => x.importType === VARIANT_IMPORT_TYPES.individual);
+    const individualQueuedImports = (queue || []).filter(
+      x => x.importType === VARIANT_IMPORT_TYPES.individual,
+    );
     individualQueuedImports.forEach(importItem => {
       const modelName = importItem.modelName;
       if (!getImportNotifications().find(x => x.modelName === modelName)) {
@@ -414,7 +454,9 @@ const useGenomicVariantImportNotifications = () => {
     });
 
     // Remove import notification and show stopped notification for stopped individual imports
-    const individualStoppedImports = (stopped || []).filter(x => x.importType === VARIANT_IMPORT_TYPES.individual);
+    const individualStoppedImports = (stopped || []).filter(
+      x => x.importType === VARIANT_IMPORT_TYPES.individual,
+    );
     individualStoppedImports.forEach(stoppedImport => {
       const modelName = stoppedImport.modelName;
       removeImportNotification(modelName);
@@ -422,7 +464,9 @@ const useGenomicVariantImportNotifications = () => {
     });
 
     // Remove import notification and show success notification for completed individual imports
-    const individualCompletedImports = (success || []).filter(x => x.importType === VARIANT_IMPORT_TYPES.individual);
+    const individualCompletedImports = (success || []).filter(
+      x => x.importType === VARIANT_IMPORT_TYPES.individual,
+    );
     individualCompletedImports.forEach(completedImport => {
       const modelName = completedImport.modelName;
       removeImportNotification(modelName);
@@ -434,14 +478,16 @@ const useGenomicVariantImportNotifications = () => {
     bulkQueuedImports.forEach(queuedImport => {
       const modelName = queuedImport.modelName;
       hideErrorImportNotification(modelName);
-    })
+    });
 
     // Remove import errors for completed bulk imports
-    const bulkCompletedImports = (success || []).filter(x => x.importType === VARIANT_IMPORT_TYPES.bulk);
+    const bulkCompletedImports = (success || []).filter(
+      x => x.importType === VARIANT_IMPORT_TYPES.bulk,
+    );
     bulkCompletedImports.forEach(completedImport => {
       const modelName = completedImport.modelName;
       hideErrorImportNotification(modelName);
-    })
+    });
 
     // Add import error notifications for failed imports
     const failedImports = failed || [];
@@ -459,7 +505,7 @@ const useGenomicVariantImportNotifications = () => {
 
       if (failedImport.actionable || failedImport.importType === VARIANT_IMPORT_TYPES.individual) {
         // Actionable errors and errors for individual imports get shown normally
-       showErrorImportNotification(modelName, failedImport);
+        showErrorImportNotification(modelName, failedImport);
       } else {
         // Non-actionable errors for bulk imports get grouped together
         switch (failedImport.error.code) {
@@ -488,25 +534,30 @@ const useGenomicVariantImportNotifications = () => {
     await checkImportStatus()
       .then(importStatus => {
         setImportProgress(importStatus);
-      }).catch(error => {
+      })
+      .catch(error => {
         showUnexpectedImportError(error);
       });
   };
 
   const acknowledgeModelAndUpdateNotifications = async modelName => {
-    await acknowledgeImportStatus(modelName).then(async _ => {
-      await fetchImportStatus();
-    }).catch(error => {
-      showUnexpectedImportError(error);
-    });
+    await acknowledgeImportStatus(modelName)
+      .then(async _ => {
+        await fetchImportStatus();
+      })
+      .catch(error => {
+        showUnexpectedImportError(error);
+      });
   };
 
   const acknowledgeBulkAndUpdateNotifications = async modelNames => {
-    await acknowledgeBulkImportStatus(modelNames).then(async _ => {
-      await fetchImportStatus();
-    }).catch(error => {
-      showUnexpectedImportError(error);
-    });
+    await acknowledgeBulkImportStatus(modelNames)
+      .then(async _ => {
+        await fetchImportStatus();
+      })
+      .catch(error => {
+        showUnexpectedImportError(error);
+      });
   };
 
   return {

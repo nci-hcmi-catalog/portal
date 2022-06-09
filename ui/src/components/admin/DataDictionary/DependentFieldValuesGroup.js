@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { css } from '@emotion/react';
 
 import { useDictionary } from './DictionaryController';
 import EditableFieldValue from './EditableFieldValue';
@@ -44,7 +45,14 @@ const DependentFieldValuesGroup = ({
   return (
     <>
       <DependentFieldType onClick={toggleHandler}>
-        <ArrowIcon css={expanded && 'transform: rotate(90deg);'} />
+        <ArrowIcon
+          css={
+            expanded &&
+            css`
+              transform: rotate(90deg);
+            `
+          }
+        />
         {fieldName} ({(fieldValues || []).length})
       </DependentFieldType>
       {expanded && (

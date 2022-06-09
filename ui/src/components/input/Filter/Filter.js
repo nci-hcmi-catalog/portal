@@ -1,4 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
+import { css } from '@emotion/react';
 
 import FilterIcon from 'icons/FilterIcon';
 import CrossIcon from 'icons/CrossIcon';
@@ -11,7 +13,7 @@ import {
   inputDropdownButtonStyle,
 } from 'theme/searchStyles';
 
-export default ({ onFilterValueChange }) => {
+const Filter = ({ onFilterValueChange }) => {
   const didMountRef = useRef(false);
   const [filterValue, setFilterValue] = useState('');
 
@@ -54,7 +56,7 @@ export default ({ onFilterValueChange }) => {
       />
       {filterValue && filterValue.length > 0 && (
         <button
-          css={`
+          css={css`
             ${inputIconStyle}
             ${inputButtonStyle}
             ${inputDropdownButtonStyle}
@@ -90,3 +92,5 @@ export default ({ onFilterValueChange }) => {
     </div>
   );
 };
+
+export default Filter;

@@ -10,7 +10,7 @@ import withPublishConfirmModal from '../../PublishLinkedModelsModal/PublishLinke
 
 import { modelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
 
-export default ({ close, ...props }) => (
+const PublishModel = ({ close, ...props }) => (
   <ModelSingleContext.Consumer>
     {({
       state: {
@@ -51,3 +51,5 @@ export default ({ close, ...props }) => (
     }}
   </ModelSingleContext.Consumer>
 );
+
+export default PublishModel;

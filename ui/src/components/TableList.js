@@ -2,7 +2,7 @@ import React from 'react';
 import Component from 'react-component-component';
 import { List, Toggle } from 'theme/searchStyles';
 
-export default ({
+const TableList = ({
   value = [],
   style,
   liStyle,
@@ -43,3 +43,5 @@ export default ({
     }
   </Component>
 );
+
+export default TableList;

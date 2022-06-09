@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'react-emotion';
-import { css } from 'emotion';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 import ArrangerTextInput from '@arranger/components/dist/Input';
 import CrossCircleOutlineIcon from 'icons/CrossCircleOutlineIcon';
 
@@ -69,7 +69,7 @@ const setNativeValue = (element, value) => {
   }
 };
 
-export default ({ className, value, disabled, ref = React.createRef(), ...props }) => {
+const TextInputComponent = ({ className, value, disabled, ref = React.createRef(), ...props }) => {
   const clearInput = () => {
     const input = ref.current.children[1];
     setNativeValue(input, '');
@@ -79,7 +79,9 @@ export default ({ className, value, disabled, ref = React.createRef(), ...props 
   return (
     <TextInputWrapper disabled={disabled} className={className}>
       <TextInput {...{ value, disabled, ...props }} componentRef={ref} />
-      {value && value.length && <CrossCircleOutlineIcon style={closeStyle} onClick={clearInput} />}
+      {value && value.length && <CrossCircleOutlineIcon css={closeStyle} onClick={clearInput} />}
     </TextInputWrapper>
   );
 };
+
+export default TextInputComponent;

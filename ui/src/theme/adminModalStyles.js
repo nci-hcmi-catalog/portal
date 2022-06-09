@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'react-emotion';
-import { css } from 'emotion';
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
 import CrossIcon from 'icons/CrossIcon';
 
@@ -77,7 +77,7 @@ const closeStyles = css`
   cursor: pointer;
 `;
 
-export const CloseModal = props => <CrossIcon fill={trout} style={closeStyles} {...props} />;
+export const CloseModal = props => <CrossIcon fill={trout} css={closeStyles} {...props} />;
 
 export const Content = styled('div')`
   display: flex;

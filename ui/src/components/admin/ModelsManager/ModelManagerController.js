@@ -15,7 +15,10 @@ import { getPageData, getCountData } from '../helpers/fetchTableData';
 import { ModelTableColumns } from './ModelColumns';
 import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
 import { debounce } from 'lodash';
-import { importBulkGenomicVariants, auditGenomicVariantsSpecificModels } from '../Model/actions/GenomicVariants';
+import {
+  importBulkGenomicVariants,
+  auditGenomicVariantsSpecificModels,
+} from '../Model/actions/GenomicVariants';
 import { VARIANT_OVERWRITE_OPTIONS } from 'utils/constants';
 
 export const ModelManagerContext = React.createContext();
@@ -110,7 +113,7 @@ Model table state transitions for each action:
 2. Bulk upload should reset filter, sort and page #
 2. Individual model publish/unpublish/delete should not reset filter, sort and page #
 */
-export default ({ baseUrl, cmsBase, children, ...props }) => (
+const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
   <NotificationsContext.Consumer>
     {({ appendNotification, importProgress, setImportProgress }) => (
       <Component
@@ -228,7 +231,9 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                               await appendNotification({
                                 type: NOTIFICATION_TYPES.ERROR,
                                 message: 'Bulk Import of Research Somatic Variants Failed.',
-                                details: error.response ? error.response.data.error.message : error.message,
+                                details: error.response
+                                  ? error.response.data.error.message
+                                  : error.message,
                                 timeout: false,
                               });
                             });
@@ -239,7 +244,9 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                             return;
                           }
 
-                          const checkVariantsResponse = await auditGenomicVariantsSpecificModels(modelNames);
+                          const checkVariantsResponse = await auditGenomicVariantsSpecificModels(
+                            modelNames,
+                          );
                           await importBulkGenomicVariants(checkVariantsResponse.data.clean)
                             .then(response => {
                               if (response.data.success) {
@@ -253,7 +260,9 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                               await appendNotification({
                                 type: NOTIFICATION_TYPES.ERROR,
                                 message: 'Bulk Import of Research Somatic Variants Failed.',
-                                details: error.response ? error.response.data.error.message : error.message,
+                                details: error.response
+                                  ? error.response.data.error.message
+                                  : error.message,
                                 timeout: false,
                               });
                             });
@@ -278,7 +287,7 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
                     });
                   });
               },
-              bulkImportVariants: async (modelNames) => {
+              bulkImportVariants: async modelNames => {
                 return importBulkGenomicVariants(modelNames)
                   .then(response => {
                     if (response.data.success) {
@@ -453,3 +462,5 @@ export default ({ baseUrl, cmsBase, children, ...props }) => (
     )}
   </NotificationsContext.Consumer>
 );
+
+export default ModelManagerController;

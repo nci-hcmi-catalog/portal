@@ -1,5 +1,5 @@
-import { css } from 'emotion';
-import styled from 'react-emotion';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import facetarrow from 'assets/icon-facetarrow.svg';
 import downloadIcon from 'assets/icon-download.svg';
 import chevron from 'assets/icon-chevron-down.svg';

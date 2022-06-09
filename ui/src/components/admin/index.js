@@ -6,7 +6,7 @@ import { NotificationsProvider } from './Notifications';
 import { LoggedInUserProvider } from '@hcmi-portal/ui/src/components/admin/services/LoggedInUser';
 import { VariantsProvider } from 'providers/Variants';
 
-export default ({ location }) => (
+const Admin = ({ location }) => (
   <NotificationsProvider location={location}>
     <LoggedInUserProvider>
       <VariantsProvider>
@@ -15,3 +15,5 @@ export default ({ location }) => (
     </LoggedInUserProvider>
   </NotificationsProvider>
 );
+
+export default Admin;

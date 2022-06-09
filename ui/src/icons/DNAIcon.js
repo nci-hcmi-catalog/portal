@@ -1,7 +1,13 @@
 import React from 'react';
 import { InlineSvg } from 'icons';
 
-export default ({ fill = 'currentColor', height = '12px', width = '12px', viewBox = '0 0 15 15', ...props }) =>
+const DNAIcon = ({
+  fill = 'currentColor',
+  height = '12px',
+  width = '12px',
+  viewBox = '0 0 15 15',
+  ...props
+}) =>
   InlineSvg({
     alt: 'DNA Icon',
     viewBox,
@@ -16,3 +22,5 @@ export default ({ fill = 'currentColor', height = '12px', width = '12px', viewBo
     ),
     ...props,
   });
+
+export default DNAIcon;

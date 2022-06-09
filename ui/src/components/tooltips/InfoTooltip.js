@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { css } from '@emotion/react';
 import Popup from 'reactjs-popup';
 
 import QuestionMarkIcon from 'icons/QuestionMarkIcon';
@@ -25,7 +26,7 @@ const InfoTooltip = ({
     <Popup
       trigger={() => (
         <div
-          css={`
+          css={css`
             display: flex;
             position: absolute;
             right: 0;
@@ -56,7 +57,7 @@ const InfoTooltip = ({
       mouseEnterDelay={100}
     >
       <div
-        css={`
+        css={css`
           font-size: 12px;
           font-weight: normal;
           text-transform: none;

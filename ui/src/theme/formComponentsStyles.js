@@ -1,5 +1,5 @@
-import { css } from 'emotion';
-import styled from 'react-emotion';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import base from 'theme';
 import CalendarIcon from 'assets/icon-calendar.svg';
 import chevron from 'assets/icon-chevron-down.svg';

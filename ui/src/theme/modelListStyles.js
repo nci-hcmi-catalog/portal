@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '@emotion/react';
 import modelListDefault from 'assets/icon-modellist-empty-orange.svg';
 import modelListNotEmpty from 'assets/icon-modellist-full-orange.svg';
 

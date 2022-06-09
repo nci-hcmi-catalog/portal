@@ -2,7 +2,7 @@ import elasticsearch from 'elasticsearch';
 import { flattenDeep, range } from 'lodash';
 import { argv } from 'yargs';
 import ora from 'ora';
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 import exportMapping from '../utils/export-mapping';
 import fake from '../utils/mapping-faker';
 import createVariants from '../utils/createVariants';

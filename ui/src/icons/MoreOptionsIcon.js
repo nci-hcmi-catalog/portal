@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineSvg } from 'icons';
 
-export default ({
+const MoreOptionsIcon = ({
   width = '18px',
   height = '17px',
   fill = 'currentColor',
@@ -19,3 +19,5 @@ export default ({
     ),
     ...props,
   });
+
+export default MoreOptionsIcon;

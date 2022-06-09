@@ -91,7 +91,7 @@ const fetchData = async ({ setState, modelName }) => {
   });
 };
 
-export default ({ modelName, ...props }) => (
+const ModelQuery = ({ modelName, ...props }) => (
   <Component
     {...props}
     modelName={modelName}
@@ -110,3 +110,5 @@ export default ({ modelName, ...props }) => (
     }
   />
 );
+
+export default ModelQuery;

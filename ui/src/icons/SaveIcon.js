@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineSvg } from 'icons';
 
-export default ({
+const SaveIcon = ({
   fill = 'currentColor',
   width = '11px',
   height = '11px',
@@ -22,3 +22,5 @@ export default ({
     fill,
     ...props,
   });
+
+export default SaveIcon;

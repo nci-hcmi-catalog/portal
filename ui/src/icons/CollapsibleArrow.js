@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default ({ isOpen, size = 10, weight = 2, colour = '#64666A', ...props }) => {
+const CollapsibleArrow = ({ isOpen, size = 10, weight = 2, colour = '#64666A', ...props }) => {
   return (
     <svg
       viewBox="0 0 20 20"
@@ -17,3 +17,5 @@ export default ({ isOpen, size = 10, weight = 2, colour = '#64666A', ...props })
     </svg>
   );
 };
+
+export default CollapsibleArrow;

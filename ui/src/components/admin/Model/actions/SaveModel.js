@@ -3,7 +3,7 @@ import { ModelSingleContext } from '../ModelSingleController';
 import { ButtonPill } from 'theme/adminControlsStyles';
 import SaveIcon from 'icons/SaveIcon';
 
-export default props => (
+const SaveModel = props => (
   <ModelSingleContext.Consumer>
     {({
       state: {
@@ -36,3 +36,5 @@ export default props => (
     )}
   </ModelSingleContext.Consumer>
 );
+
+export default SaveModel;

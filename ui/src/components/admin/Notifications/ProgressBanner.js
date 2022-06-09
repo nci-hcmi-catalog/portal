@@ -1,6 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
-import { acknowledgeBulkImportStatus, stopAllImports } from 'components/admin/Model/actions/GenomicVariants';
+import {
+  acknowledgeBulkImportStatus,
+  stopAllImports,
+} from 'components/admin/Model/actions/GenomicVariants';
 import useGenomicVariantImportNotifications from 'components/admin/Notifications/GenomicVariantImportNotifications';
 import { ModelManagerContext } from 'components/admin/ModelsManager/ModelManagerController';
 import useConfirmationModal from 'components/modals/ConfirmationModal';
@@ -28,15 +32,11 @@ import {
 import { Row, Col } from 'theme/system';
 import base from 'theme';
 
-import {
-  VARIANT_IMPORT_STATUS,
-  VARIANT_IMPORT_TYPES,
-} from 'utils/constants';
+import { VARIANT_IMPORT_STATUS, VARIANT_IMPORT_TYPES } from 'utils/constants';
 
 const {
   keyedPalette: { trout },
 } = base;
-
 
 const BulkImportState = {
   complete: 'COMPLETE',
@@ -48,8 +48,9 @@ const BulkImportState = {
 const ProgressBanner = ({ renderIcon }) => {
   const { importProgress, location } = useContext(NotificationsContext);
   const { refreshModelsTable } =
-    location && location.pathname === "/admin"
-      ? useContext(ModelManagerContext)
+    location && location.pathname === '/admin'
+      ? // eslint-disable-next-line react-hooks/rules-of-hooks
+        useContext(ModelManagerContext)
       : { refreshModelsTable: null };
   const {
     fetchImportStatus,
@@ -71,16 +72,14 @@ const ProgressBanner = ({ renderIcon }) => {
       ...importProgress.stopped,
       ...importProgress.success,
     ].filter(x => x.importType === VARIANT_IMPORT_TYPES.bulk);
-  }
+  };
 
   const getProgressBannerType = () => {
     if (!importProgress) {
       return false;
     }
 
-    return importProgress.running
-      ? NOTIFICATION_TYPES.LOADING
-      : NOTIFICATION_TYPES.SUCCESS;
+    return importProgress.running ? NOTIFICATION_TYPES.LOADING : NOTIFICATION_TYPES.SUCCESS;
   };
 
   const getProgressBannerDetails = () => {
@@ -121,25 +120,32 @@ const ProgressBanner = ({ renderIcon }) => {
     switch (getImportState()) {
       case BulkImportState.complete:
         completeImports = getBulkImports().filter(x => x.status === VARIANT_IMPORT_STATUS.complete);
-        return `Import Complete: Research somatic variants for ${completeImports.length} model${completeImports.length === 1 ? ' has' : 's have'} successfully imported.`;
+        return `Import Complete: Research somatic variants for ${completeImports.length} model${
+          completeImports.length === 1 ? ' has' : 's have'
+        } successfully imported.`;
       case BulkImportState.importing:
-        return `Importing: Research somatic variants for ${getBulkImports().length} model${getBulkImports().length === 1 ? ' is' : 's are'} currently importing.`;
+        return `Importing: Research somatic variants for ${getBulkImports().length} model${
+          getBulkImports().length === 1 ? ' is' : 's are'
+        } currently importing.`;
       case BulkImportState.stopped:
         completeImports = getBulkImports().filter(x => x.status === VARIANT_IMPORT_STATUS.complete);
-        return `Import Stopped: Research somatic variants for ${completeImports.length} model${completeImports.length === 1 ? ' has' : 's have'} successfully imported.`;
+        return `Import Stopped: Research somatic variants for ${completeImports.length} model${
+          completeImports.length === 1 ? ' has' : 's have'
+        } successfully imported.`;
       default:
         // No visible banner for 'OFF'
         return null;
     }
   };
 
-  const renderProgressBar = () => {
+  const ProgressBar = () => {
     const success = getBulkImports().filter(x => x.status === VARIANT_IMPORT_STATUS.complete);
     const failed = getBulkImports().filter(x => x.status === VARIANT_IMPORT_STATUS.error);
-    const incomplete = getBulkImports().filter(x =>
-      x.status === VARIANT_IMPORT_STATUS.active
-      || x.status === VARIANT_IMPORT_STATUS.waiting
-      || x.status === VARIANT_IMPORT_STATUS.stopped
+    const incomplete = getBulkImports().filter(
+      x =>
+        x.status === VARIANT_IMPORT_STATUS.active ||
+        x.status === VARIANT_IMPORT_STATUS.waiting ||
+        x.status === VARIANT_IMPORT_STATUS.stopped,
     );
 
     const meta = () => {
@@ -182,7 +188,10 @@ const ProgressBanner = ({ renderIcon }) => {
               <ProgressBarWrapper>
                 <ProgressBarSectionComplete num={success.length} total={getBulkImports().length} />
                 <ProgressBarSectionFailed num={failed.length} total={getBulkImports().length} />
-                <ProgressBarSectionIncomplete num={incomplete.length} total={getBulkImports().length} />
+                <ProgressBarSectionIncomplete
+                  num={incomplete.length}
+                  total={getBulkImports().length}
+                />
               </ProgressBarWrapper>
             </ProgressBarContainer>
           </Row>
@@ -212,63 +221,64 @@ const ProgressBanner = ({ renderIcon }) => {
         <Details>{getProgressBannerDetails()}</Details>
       </Col>
       <Col style={{ padding: '0 12px' }}>
-        {renderProgressBar()}
+        <ProgressBar />
       </Col>
-      {getProgressBannerType() === NOTIFICATION_TYPES.LOADING && (
+      {getProgressBannerType() === NOTIFICATION_TYPES.LOADING &&
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         useConfirmationModal({
           title: 'Stop Variant Import?',
-          message:
-            'Are you sure you want to stop this variant import?',
+          message: 'Are you sure you want to stop this variant import?',
           confirmLabel: 'Yes, Stop',
           onConfirm: async () => {
             setWorking(true);
-            stopAllImports().then(async _ => {
-              await fetchImportStatus();
-              setWorking(false);
-            }).catch(error => {
-              showUnexpectedImportError(error);
-            });
+            stopAllImports()
+              .then(async _ => {
+                await fetchImportStatus();
+                setWorking(false);
+              })
+              .catch(error => {
+                showUnexpectedImportError(error);
+              });
           },
         })(
           <ButtonPill
             secondary
             style={{
               marginRight: 0,
-              marginLeft: 'auto'
+              marginLeft: 'auto',
             }}
             disabled={working}
           >
             Stop Import
           </ButtonPill>,
-        )
-      )}
+        )}
       {getProgressBannerType() !== NOTIFICATION_TYPES.LOADING && (
         <CrossCircleIcon
           width={'17px'}
           height={'17px'}
           fill={trout}
-          style={working ? closeIconDisabled : closeIcon}
+          css={working ? closeIconDisabled : closeIcon}
           onClick={() => {
             if (working) {
               return;
             }
 
             setWorking(true);
-            acknowledgeBulkImportStatus(
-              getBulkImports().map(x => x.modelName)
-            ).then(async data => {
-              if (data.success) {
-                // Remove error notifications for acknowledged errors
-                (data.acknowledged || []).forEach(model => {
-                  hideErrorImportNotification(model.modelName);
-                });
-                // Remove bulk nonactionable error notification
-                hideBulkNonActionableImportErrors();
-              }
-              await fetchImportStatus();
-            }).catch(error => {
-              showUnexpectedImportError(error);
-            });
+            acknowledgeBulkImportStatus(getBulkImports().map(x => x.modelName))
+              .then(async data => {
+                if (data.success) {
+                  // Remove error notifications for acknowledged errors
+                  (data.acknowledged || []).forEach(model => {
+                    hideErrorImportNotification(model.modelName);
+                  });
+                  // Remove bulk nonactionable error notification
+                  hideBulkNonActionableImportErrors();
+                }
+                await fetchImportStatus();
+              })
+              .catch(error => {
+                showUnexpectedImportError(error);
+              });
           }}
         />
       )}

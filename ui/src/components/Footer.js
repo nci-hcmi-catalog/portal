@@ -1,7 +1,8 @@
 import React from 'react';
+import { css } from '@emotion/react';
 
 import {
-  Footer,
+  Footer as FooterWrapper,
   FooterNav,
   FooterNavItem,
   FooterImg,
@@ -14,8 +15,8 @@ import sangerPath from 'assets/logo-wellcome-sanger-institute.svg';
 import hubPath from 'assets/logo-hub-organoids.svg';
 import cancerResearchUKPath from 'assets/logo-cancer-research-UK.svg';
 
-export default () => (
-  <Footer>
+const Footer = () => (
+  <FooterWrapper>
     <Col>
       <Row alignItems="center">
         <CopyrightText>&copy; {new Date().getFullYear()}</CopyrightText>
@@ -56,21 +57,21 @@ export default () => (
         <FooterImg
           src={nihPath}
           alt="NIH"
-          css={`
+          css={css`
             height: 24px;
           `}
         />
         <FooterImg
           src={sangerPath}
           alt="Wellcome Sanger Institue"
-          css={`
+          css={css`
             height: 41px;
           `}
         />
         <FooterImg
           src={hubPath}
           alt="Hubrecht Organoid Technology"
-          css={`
+          css={css`
             max-height: 41px;
             width: 200px;
           `}
@@ -78,11 +79,13 @@ export default () => (
         <FooterImg
           src={cancerResearchUKPath}
           alt="Cancer Research UK"
-          css={`
+          css={css`
             height: 41px;
           `}
         />
       </Row>
     </Col>
-  </Footer>
+  </FooterWrapper>
 );
+
+export default Footer;

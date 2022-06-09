@@ -1,11 +1,12 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import ModelListModal from 'components/modals/ModelListModal';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 import { ModalStateContext } from 'providers/ModalState';
 import styles from 'theme/modelListStyles';
 import modelListModalStyles from 'theme/modelListModalStyles';
 
-export default ({ className }) => (
+const ModelList = ({ className }) => (
   <ModalStateContext.Consumer>
     {modalState => (
       <SelectedModelsContext.Consumer>
@@ -17,7 +18,7 @@ export default ({ className }) => (
               <button
                 aria-label={`Show models selected for download`}
                 className={`model-list-icon ${hasSelected ? 'not-empty' : ''} ${className}`}
-                css={`
+                css={css`
                   border: none;
                 `}
                 onClick={() =>
@@ -37,3 +38,5 @@ export default ({ className }) => (
     )}
   </ModalStateContext.Consumer>
 );
+
+export default ModelList;

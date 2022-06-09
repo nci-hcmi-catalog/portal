@@ -1,5 +1,5 @@
 import React from 'react';
-import { AdminNav, NavLink, Account } from 'theme/adminNavStyles';
+import { AdminNav as AdminNavWrapper, NavLink, Account } from 'theme/adminNavStyles';
 import { LoginWithGoogle } from './services/GoogleLink';
 import { LoggedInUserPill } from './services/LoggedInUser';
 
@@ -28,8 +28,8 @@ export const manageUsersUrlBase = '/admin/manage-users';
 export const modelEditUrlBase = '/admin/model';
 export const dataDictionaryUrlBase = '/admin/data-dictionary';
 
-export default ({ location: { pathname } }) => (
-  <AdminNav>
+const AdminNav = ({ location: { pathname } }) => (
+  <AdminNavWrapper>
     <div>
       <NavLink
         active={isNavLinkActive(pathname, modelsNavPaths) ? `true` : undefined}
@@ -54,5 +54,7 @@ export default ({ location: { pathname } }) => (
       <LoginWithGoogle />
       <LoggedInUserPill />
     </Account>
-  </AdminNav>
+  </AdminNavWrapper>
 );
+
+export default AdminNav;

@@ -1,5 +1,6 @@
 import React from 'react';
-import uuid from 'uuid/v4';
+import { css } from '@emotion/react';
+import { v4 as uuid } from 'uuid';
 
 import Component from 'react-component-component';
 import ReactAutocomplete from 'react-autocomplete';
@@ -248,7 +249,7 @@ export const FormAutoComplete = ({
             width={'23px'}
             height={'23px'}
             fill={'#F5A528'}
-            style={`
+            css={css`
               position: absolute;
               right: -34px;
               bottom: 6px;

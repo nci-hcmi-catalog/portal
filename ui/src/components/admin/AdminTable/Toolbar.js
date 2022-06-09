@@ -1,4 +1,5 @@
 import React from 'react';
+import { css } from '@emotion/react';
 
 import BulkActions from './BulkActions';
 
@@ -6,7 +7,7 @@ import Filter from 'components/input/Filter';
 
 import { ToolbarMain, ToolbarSection, ToolbarText } from 'theme/adminTableStyles';
 
-export default ({
+const Toolbar = ({
   state: { isLoading, page, pageSize, filterValue, rowCount, selection },
   paginated = true,
   onFilterValueChange,
@@ -24,7 +25,7 @@ export default ({
       {type === 'Variants' && <Filter onFilterValueChange={onFilterValueChange} />}
       <ToolbarSection>
         <ToolbarText
-          css={`
+          css={css`
             font-size: 12px;
             margin-right: 10px;
           `}
@@ -46,3 +47,5 @@ export default ({
     </ToolbarMain>
   );
 };
+
+export default Toolbar;
