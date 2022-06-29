@@ -364,27 +364,19 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
                   const { name } = values;
 
-                  // 1. Save model changes so we can apply matched model changes
-                  // TODO: this step is only needed when the model hasn't been saved previously.
-                  const saveModelDataResponse = await saveModel(baseUrl, values, isUpdate);
-
-                  // 2. Connect or disconnect the model to a matched set, as required.
-                  await applyMatchedModelChanges(baseUrl, values, saveModelDataResponse);
-
-                  // 3. Run the save with publish settings:
                   // Publishing will always trigger an update
                   // so we pass status in with our save
                   const modelDataResponse = await saveModel(
                     baseUrl,
                     {
-                      ...saveModelDataResponse.data,
+                      ...values,
                       files,
                       status: computeModelStatus(values.status, 'publish'),
                     },
-                    true,
+                    isUpdate,
                   );
 
-                  // 4. And now we run the initialize matched models code before setting state:
+                  // And now we run the initialize matched models code before setting state:
                   await addMatchedModelsToModelResponse(baseUrl, modelDataResponse);
                   const otherModelOptions = await getOtherModelOptions(
                     baseUrl,
