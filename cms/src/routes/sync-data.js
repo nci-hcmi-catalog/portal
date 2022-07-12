@@ -339,6 +339,7 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId/:modelName', asyn
                 status: computeModelStatus(model.status, 'save'),
                 updatedBy: getLoggedInUser(req).user_email,
                 variants,
+                variants_modified: true,
               },
               {
                 upsert: true,

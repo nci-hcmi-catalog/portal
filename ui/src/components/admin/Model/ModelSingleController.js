@@ -598,6 +598,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   let modelUpdate = {
                     ...modelData,
                     variants: modelData.variants.filter(({ _id }) => id !== _id),
+                    variants_modified: true,
                   };
 
                   if (modelUpdate.status && modelUpdate.status !== modelStatus.unpublishedChanges) {

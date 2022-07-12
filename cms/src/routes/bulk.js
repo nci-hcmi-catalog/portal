@@ -46,7 +46,19 @@ bulkRouter.post('/publish', async (req, res) => {
         await indexMatchedModelsToES({ name });
       }
 
-      await updateGeneSearchIndicies();
+      // Only update gene search indices when variants/genes have been modified
+      const modelsWithVariantChanges = await Model.find({
+        name: { $in: validModelNames },
+        variants_modified: true,
+      });
+      if (modelsWithVariantChanges.length) {
+        await updateGeneSearchIndicies();
+        // Reset the `variants_modified` flag to false now that gene search indices have been updated
+        await Model.updateMany(
+          { name: { $in: validModelNames }, variants_modified: true },
+          { $set: { variants_modified: false } },
+        );
+      }
       res.json({
         success: `${req.body.length - validationErrors.length} models published`,
         errors: validationErrors,

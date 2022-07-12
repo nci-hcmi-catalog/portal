@@ -26,6 +26,7 @@ export const clearGenomicVariants = async name => {
       model.status === modelStatus.unpublished
         ? modelStatus.unpublished
         : modelStatus.unpublishedChanges;
+    model.variants_modified = true;
     await model.save();
     return model;
   } else {
@@ -171,6 +172,7 @@ export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileI
         ? modelStatus.unpublished
         : modelStatus.unpublishedChanges;
     model.somatic_maf_url = buildMafUrl(fileId);
+    model.variants_modified = true;
 
     if (caseId) {
       model.source_model_url = buildModelUrl(caseId);

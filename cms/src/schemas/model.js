@@ -88,6 +88,7 @@ export const ModelSchema = new mongoose.Schema(
     expanded: { type: Boolean, es_indexed: true },
     files: { type: [FilesSchema], es_indexed: true },
     variants: { type: [VariantExpression], es_indexed: true },
+    variants_modified: { type: Boolean, es_indexed: false, default: false },
     genomic_variants: { type: [GenomicVariant], es_indexed: true },
     gene_metadata: {
       type: GeneMetadata,
