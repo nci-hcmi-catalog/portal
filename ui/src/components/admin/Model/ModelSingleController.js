@@ -599,11 +599,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     ...modelData,
                     variants: modelData.variants.filter(({ _id }) => id !== _id),
                     variants_modified: true,
+                    status: computeModelStatus(modelData.status, 'save'),
                   };
-
-                  if (modelUpdate.status && modelUpdate.status !== modelStatus.unpublishedChanges) {
-                    delete modelUpdate.status;
-                  }
 
                   const modelDataResponse = await saveModel(baseUrl, modelUpdate, true);
 
