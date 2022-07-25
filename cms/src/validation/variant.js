@@ -16,7 +16,14 @@ export const modelVariantUploadSchema = object().shape({
 });
 
 export const modelVariantSchema = object().shape({
-  variant: string().required(),
+  variant: object({
+    name: string().required(),
+    type: string()
+      .oneOf(variantTypes)
+      .required(),
+    category: string().required(),
+    genes: array().required(),
+  }).required(),
   assesment_type: string().oneOf(variantAssessmentType),
   expression_level: string().oneOf(variantExpressionLevel),
 });
