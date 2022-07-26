@@ -14,7 +14,13 @@ const logger = getLogger('services/elastic-search/publish');
 export const publishModel = async filter => {
   await indexOneToES(filter);
   await indexMatchedModelsToES(filter);
-  await updateGeneSearchIndicies();
+  // Only update gene search indices when variants/genes have been modified
+  const modelWithVariantChanges = await Model.findOne({ ...filter, variants_modified: true });
+  if (modelWithVariantChanges) {
+    await updateGeneSearchIndicies();
+    modelWithVariantChanges.variants_modified = false;
+    await modelWithVariantChanges.save();
+  }
 };
 
 export const indexOneToES = filter => {
