@@ -22,6 +22,7 @@ bulkRouter.post('/publish', async (req, res) => {
   Model.find({
     _id: { $in: req.body },
   })
+    .populate('variants.variant')
     .then(models => runYupValidatorFailSlow(validation, models))
     .then(validated => {
       const validModelNames = validated
