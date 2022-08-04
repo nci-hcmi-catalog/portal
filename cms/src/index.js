@@ -21,6 +21,7 @@ import {
   matchedModelsRouter as matchedModelsActionsRouter,
   templatesRouter,
   variantsRouter,
+  publishRouter,
 } from './routes';
 import {
   preUpdate,
@@ -121,6 +122,7 @@ app.use('/api/v1/action', actionRouter);
 app.use('/api/v1/templates', templatesRouter);
 app.use('/api/v1/genomic-variants', variantsRouter);
 app.use('/api/v1/matches', matchedModelsActionsRouter);
+app.use('/api/v1/publish', publishRouter);
 app.use(matchedModelsRestifyRouter);
 app.use(modelRouter);
 app.use(userRouter);
