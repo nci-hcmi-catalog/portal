@@ -83,7 +83,7 @@ const PublishTask = ({
     }
 
     try {
-      // early return if PublishStatus changes mid-publish (due to manual stop or error)
+      // early return if status changed mid-publish (due to manual stop)
       if (status !== PublishStatus.active) {
         return;
       }
@@ -153,7 +153,7 @@ const Publisher = (function() {
       let newPublishTask;
 
       // Validate model before adding to queue
-      Model.find({
+      await Model.find({
         name: modelName,
       })
         .populate('variants.variant')
@@ -236,7 +236,7 @@ const Publisher = (function() {
     let validationErrors;
 
     // Validate models for publishing
-    const validModels = Model.find({
+    const validModels = await Model.find({
       name: { $in: models },
     })
       .populate('variants.variant')

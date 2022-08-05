@@ -51,28 +51,6 @@ const publishRouter = express.Router();
     Output: success if models were stopped, and data for stopped models
 */
 
-publishRouter.post('/:name', async (req, res) => {
-  const { name } = req.params;
-
-  try {
-    logger.debug(`Starting publish for model ${name}`);
-
-    const result = await Publisher.queueIndividualPublish(name);
-
-    if (result.error) {
-      return res.status(400).json({ success: false, error: result.error });
-    }
-
-    return res.status(200).json({ success: true, startTime: result.startTime });
-  } catch (error) {
-    logger.error(error, `Error occurred while queueing publish task for model ${name}`);
-    res.status(500).json({
-      success: false,
-      error: error,
-    });
-  }
-});
-
 publishRouter.post('/bulk', async (req, res) => {
   const { models } = req.body;
 
@@ -109,6 +87,28 @@ publishRouter.post('/bulk', async (req, res) => {
   }
 });
 
+publishRouter.post('/:name', async (req, res) => {
+  const { name } = req.params;
+
+  try {
+    logger.debug(`Starting publish for model ${name}`);
+
+    const result = await Publisher.queueIndividualPublish(name);
+
+    if (result.error) {
+      return res.status(400).json({ success: false, error: result.error });
+    }
+
+    return res.status(200).json({ success: true, startTime: result.startTime });
+  } catch (error) {
+    logger.error(error, `Error occurred while queueing publish task for model ${name}`);
+    res.status(500).json({
+      success: false,
+      error: error,
+    });
+  }
+});
+
 publishRouter.get('/status', async (req, res) => {
   try {
     logger.debug(`Fetching Publisher status...`);
@@ -118,23 +118,6 @@ publishRouter.get('/status', async (req, res) => {
     res.status(200).json({ ...status });
   } catch (error) {
     logger.error(error, `Error occurred during Publisher status fetch`);
-    res.status(500).json({
-      success: false,
-      error: error,
-    });
-  }
-});
-
-publishRouter.post('/acknowledge/:name', async (req, res) => {
-  const { name } = req.params;
-  try {
-    logger.debug(`Acknowledging publish status for model ${name}`);
-
-    const acknowledged = Publisher.acknowledge(name);
-
-    res.status(200).json({ acknowledged, success: true });
-  } catch (error) {
-    logger.error(error, `Error occurred during publish status acknowledgement for model ${name}`);
     res.status(500).json({
       success: false,
       error: error,
@@ -174,16 +157,16 @@ publishRouter.post('/acknowledge/bulk', async (req, res) => {
   }
 });
 
-publishRouter.post('/stop/:name', async (req, res) => {
+publishRouter.post('/acknowledge/:name', async (req, res) => {
   const { name } = req.params;
   try {
-    logger.debug(`Stopping publish for model ${name}`);
+    logger.debug(`Acknowledging publish status for model ${name}`);
 
-    const stopped = await Publisher.stopPublish(name);
+    const acknowledged = Publisher.acknowledge(name);
 
-    res.status(200).json({ stopped, success: true });
+    res.status(200).json({ acknowledged, success: true });
   } catch (error) {
-    logger.error(error, `Error occurred during publish stop for model ${name}`);
+    logger.error(error, `Error occurred during publish status acknowledgement for model ${name}`);
     res.status(500).json({
       success: false,
       error: error,
@@ -200,6 +183,23 @@ publishRouter.post('/stop/all', async (req, res) => {
     res.status(200).json({ stopped, success: true });
   } catch (error) {
     logger.error(error, `Error occurred during bulk publish stop`);
+    res.status(500).json({
+      success: false,
+      error: error,
+    });
+  }
+});
+
+publishRouter.post('/stop/:name', async (req, res) => {
+  const { name } = req.params;
+  try {
+    logger.debug(`Stopping publish for model ${name}`);
+
+    const stopped = await Publisher.stopPublish(name);
+
+    res.status(200).json({ stopped, success: true });
+  } catch (error) {
+    logger.error(error, `Error occurred during publish stop for model ${name}`);
     res.status(500).json({
       success: false,
       error: error,
