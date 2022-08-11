@@ -96,7 +96,7 @@ const ModelSingleHeader = ({ modelName }) => {
   const { isPublishingModel, publishRunning } = usePublishNotifications();
   const publishState = useRef();
 
-  // Fetch data after publish completes
+  // refresh model data after publish completes (get updated publish status)
   useEffect(() => {
     const refreshModelData = async () => await fetchModelData(modelName);
 
