@@ -37,6 +37,15 @@ const Footer = () => (
           </FooterNavItem>
           <FooterNavItem>
             <FooterLink
+              href="https://www.hhs.gov/vulnerability-disclosure-policy/index.html"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              HHS Vulnerability Disclosure
+            </FooterLink>
+          </FooterNavItem>
+          <FooterNavItem>
+            <FooterLink
               href="https://ocg.cancer.gov/programs/hcmi/frequently-asked-questions"
               target="_blank"
               rel="noopener noreferrer"
