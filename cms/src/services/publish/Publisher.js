@@ -3,7 +3,7 @@ import getPublishValidation from '../../validation/model';
 import { runYupValidatorFailSlow } from '../../helpers';
 import { PUBLISH_ERRORS } from './constants';
 import { getPublishErrorMessage } from './helpers';
-import { publishModel } from '../elastic-search/publish';
+import { publishModel, bulkUpdateGeneSearchIndices } from '../elastic-search/publish';
 import getLogger from '../../logger';
 
 const logger = getLogger('services/publish/Publisher');
@@ -90,7 +90,7 @@ const PublishTask = ({
 
       logger.debug({ time: Date.now(), startTime, modelName }, 'Beginning ES Publish...');
 
-      await publishModel({ name: modelName }).then(() => {
+      await publishModel({ name: modelName }, publishType === PublishTypes.individual).then(() => {
         logger.debug({ time: Date.now(), startTime, modelName }, 'Completed Publish');
         complete();
       });
@@ -398,6 +398,14 @@ const Publisher = (function() {
     return targets.map(target => target.getData());
   };
 
+  const updateBulkGeneSearchIndicies = async () => {
+    const targets = [...success.filter(i => i.publishType === PublishTypes.bulk)];
+
+    if (targets.length) {
+      await bulkUpdateGeneSearchIndices(targets.map(model => model.modelName));
+    }
+  };
+
   const pause = () => {
     running = false;
   };
@@ -440,6 +448,8 @@ const Publisher = (function() {
     if (running && queue.length > 0) {
       run();
     } else {
+      // Update gene search indices after bulk publish completes
+      await updateBulkGeneSearchIndicies();
       pause();
     }
   };

@@ -11,15 +11,35 @@ import { get } from 'lodash';
 import getLogger from '../../logger';
 const logger = getLogger('services/elastic-search/publish');
 
-export const publishModel = async filter => {
+export const publishModel = async (filter, individualPublish = true) => {
   await indexOneToES(filter);
   await indexMatchedModelsToES(filter);
-  // Only update gene search indices when variants/genes have been modified
-  const modelWithVariantChanges = await Model.findOne({ ...filter, variants_modified: true });
-  if (modelWithVariantChanges) {
+
+  // For individual publishes, update gene search indices immediately (if required)
+  if (individualPublish) {
+    const modelWithVariantChanges = await Model.findOne({ ...filter, variants_modified: true });
+    if (modelWithVariantChanges) {
+      await updateGeneSearchIndicies();
+      modelWithVariantChanges.variants_modified = false;
+      await modelWithVariantChanges.save();
+    }
+  }
+};
+
+// For bulk publishes, update gene search indices after all models are published
+export const bulkUpdateGeneSearchIndices = async modelNames => {
+  const modelsWithVariantChanges = await Model.find({
+    name: { $in: modelNames },
+    variants_modified: true,
+  });
+
+  if (modelsWithVariantChanges.length) {
     await updateGeneSearchIndicies();
-    modelWithVariantChanges.variants_modified = false;
-    await modelWithVariantChanges.save();
+    // Reset the `variants_modified` flag to false now that gene search indices have been updated
+    await Model.updateMany(
+      { name: { $in: modelNames }, variants_modified: true },
+      { $set: { variants_modified: false } },
+    );
   }
 };
 
