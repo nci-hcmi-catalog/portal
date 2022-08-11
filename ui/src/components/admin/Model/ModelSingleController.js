@@ -754,6 +754,49 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   }
                 }
               },
+              fetchModelData: async modelName => {
+                if (modelName) {
+                  setState(state => ({
+                    data: {
+                      ...state.data,
+                      isLoading: true,
+                    },
+                  }));
+
+                  try {
+                    // Fetch full model data in order to update model status
+                    const modelDataResponse = await getModel(baseUrl, modelName);
+                    // Prepare matched model details if necessary
+                    await addMatchedModelsToModelResponse(baseUrl, modelDataResponse);
+                    const otherModelOptions = await getOtherModelOptions(
+                      baseUrl,
+                      modelDataResponse.data.name,
+                    );
+
+                    await setState(state => ({
+                      form: {
+                        ...state.form,
+                        isReadyToPublish: false,
+                        isReadyToSave: false,
+                      },
+                      data: {
+                        ...state.data,
+                        isLoading: false,
+                        response: modelDataResponse.data,
+                      },
+                      otherModelOptions,
+                    }));
+                  } catch (err) {
+                    setState(state => ({
+                      data: {
+                        ...state.data,
+                        isLoading: false,
+                        error: err,
+                      },
+                    }));
+                  }
+                }
+              },
             }}
             {...props}
           >

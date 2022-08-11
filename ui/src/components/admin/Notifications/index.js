@@ -4,3 +4,8 @@ export { default as NOTIFICATION_TYPES } from './NotificationTypes';
 export {
   default as useGenomicVariantImportNotifications,
 } from './GenomicVariantImportNotifications';
+export {
+  default as usePublishNotifications,
+  PublishNotificationsContext,
+  PublishNotificationsProvider,
+} from './PublishNotifications';

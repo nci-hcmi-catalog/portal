@@ -170,12 +170,11 @@ const Publisher = (function() {
           } else {
             // Validation failed, create task with validation error
             newPublishTask = PublishTask({
-              modelName: results[0].name,
+              modelName: results[0].errors.name,
               status: PublishStatus.error,
               error: {
                 code: PUBLISH_ERRORS.validationError,
-                // TODO: investigate validationError structure
-                message: results[0].details,
+                message: results[0].errors.details,
               },
             });
 
@@ -191,7 +190,7 @@ const Publisher = (function() {
 
       return { success: true, startTime: Date.now() };
     } catch (error) {
-      logger.error(error, 'Error occurred while adding publish task to queue.');
+      logger.error(error, 'Error occurred while adding individual publish task to queue.');
       return {
         error: {
           code: PUBLISH_ERRORS.unexpected,
@@ -202,7 +201,14 @@ const Publisher = (function() {
     }
   };
 
-  const queueBulkPublish = async models => {
+  const convertModelIdsToModelNames = async modelIds => {
+    const modelNames = await Model.find({ _id: { $in: modelIds } }).then(models =>
+      models.map(model => model.name),
+    );
+    return modelNames;
+  };
+
+  const queueBulkPublish = async (models, ids = false) => {
     if (!Array.isArray(models) || models.length < 1) {
       logger.error(
         'queueBulkPublish failed due to bad input. `models` must be an array of model names.',
@@ -214,6 +220,11 @@ const Publisher = (function() {
             'Unable to queue bulk import due to bad input. `models` must be an array of model names.',
         },
       };
+    }
+
+    // UI sends list of IDs instead of model names
+    if (ids) {
+      models = await convertModelIdsToModelNames(models);
     }
 
     // Remove duplicate imports
@@ -233,7 +244,7 @@ const Publisher = (function() {
     });
 
     const validation = await getPublishValidation();
-    let validationErrors;
+    let validationErrors = [];
 
     // Validate models for publishing
     const validModels = await Model.find({
@@ -272,7 +283,6 @@ const Publisher = (function() {
           status: PublishStatus.error,
           error: {
             code: PUBLISH_ERRORS.validationError,
-            // TODO: investigate validationError structure
             message: validationError.details,
           },
           publishType: PublishTypes.bulk,

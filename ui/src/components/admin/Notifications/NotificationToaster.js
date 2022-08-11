@@ -7,8 +7,10 @@ import Spinner from 'react-spinkit';
 
 import { NotificationsContext } from './NotificationsController';
 import useGenomicVariantImportNotifications from './GenomicVariantImportNotifications';
+import usePublishNotifications from './PublishNotifications';
 import NOTIFICATION_TYPES from './NotificationTypes';
 import ProgressBanner from './ProgressBanner';
+import PublishProgress from './PublishProgress';
 
 import CheckmarkIcon from 'icons/CheckmarkIcon';
 import CrossCircleIcon from 'icons/CrossCircleIcon';
@@ -33,7 +35,7 @@ import {
 import { Col } from 'theme/system';
 import base from 'theme';
 
-import { VARIANT_IMPORT_TYPES } from 'utils/constants';
+import { PUBLISH_TYPES, VARIANT_IMPORT_TYPES } from 'utils/constants';
 
 const {
   keyedPalette: { alizarinCrimson, pelorousapprox, trout, yellowOrange },
@@ -103,15 +105,20 @@ const renderIcon = type => {
 };
 
 const NotificationToaster = () => {
-  const { notifications, clearNotification, importProgress, nonactionableImports } = useContext(
-    NotificationsContext,
-  );
+  const {
+    notifications,
+    clearNotification,
+    importProgress,
+    nonactionableImports,
+    publishProgress,
+  } = useContext(NotificationsContext);
   const {
     updateNotificationsFromStatus,
     showBulkNonActionableImportErrors,
     hideBulkNonActionableImportErrors,
     getNonActionableImportErrorModels,
   } = useGenomicVariantImportNotifications();
+  const { updatePublishNotificationsFromStatus } = usePublishNotifications();
   const [showMore, setShowMore] = useState(false);
   const [working, setWorking] = useState(false);
 
@@ -128,11 +135,29 @@ const NotificationToaster = () => {
     ].filter(x => x.importType === VARIANT_IMPORT_TYPES.bulk);
   };
 
+  const getBulkPublishes = () => {
+    if (!publishProgress) {
+      return [];
+    }
+
+    return [
+      ...publishProgress.queue,
+      ...publishProgress.failed,
+      ...publishProgress.stopped,
+      ...publishProgress.success,
+    ].filter(x => x.publishType === PUBLISH_TYPES.bulk);
+  };
+
   const isActiveBulkImport = () => !!getBulkImports().length;
+  const isActiveBulkPublish = () => !!getBulkPublishes().length;
 
   useEffect(() => {
     updateNotificationsFromStatus();
   }, [importProgress]);
+
+  useEffect(() => {
+    updatePublishNotificationsFromStatus();
+  }, [publishProgress]);
 
   useEffect(() => {
     if (nonactionableImports && getNonActionableImportErrorModels().length) {
@@ -153,6 +178,7 @@ const NotificationToaster = () => {
       }}
     >
       <NotificationsToaster name="notifications-toaster">
+        {isActiveBulkPublish() && <PublishProgress renderIcon={renderIcon} />}
         {isActiveBulkImport() && <ProgressBanner renderIcon={renderIcon} />}
         {notifications
           .slice(

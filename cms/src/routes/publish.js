@@ -21,7 +21,9 @@ const publishRouter = express.Router();
     - Fetch data for all specified models
     - Validate data for specified models
     - Add valid models to queue and start queue, add errors to error queue
-    Input: list of model names in request body
+    Input:
+      string[]: models - list of model names in request body,
+      boolean: ids - (optional) flag specifying whether list is IDs (true) or model names (false)
     Output: success if models were added to queues and queue was started without issue, error otherwise
 
 3. Publish (Single Model)
@@ -74,7 +76,7 @@ publishRouter.get('/status', async (req, res) => {
 });
 
 publishRouter.post('/bulk', async (req, res) => {
-  const { models } = req.body;
+  const { models, ids = false } = req.body;
 
   if (!Array.isArray(models) || models.length < 1) {
     logger.error(
@@ -93,7 +95,7 @@ publishRouter.post('/bulk', async (req, res) => {
   try {
     logger.debug(`Starting bulk publish for models: ${models}`);
 
-    const result = await Publisher.queueBulkPublish(models);
+    const result = await Publisher.queueBulkPublish(models, ids);
 
     if (result.error) {
       return res.status(400).json({ success: false, error: result.error });
@@ -182,7 +184,7 @@ publishRouter.post('/acknowledge/:name', async (req, res) => {
 
 publishRouter.post('/stop/all', async (req, res) => {
   try {
-    logger.debug(`Stopping import for all queued models`);
+    logger.debug(`Stopping publish for all queued models`);
 
     const stopped = await Publisher.stopBulkPublish();
 
