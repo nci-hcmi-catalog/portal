@@ -346,7 +346,7 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                           message: 'Bulk Publish Failed.',
                           details: error.response
                             ? error.response.data.error.message
-                            : error.message,
+                            : error?.error?.message || error?.message || error,
                           timeout: false,
                         });
                         await tempNotification.clear();

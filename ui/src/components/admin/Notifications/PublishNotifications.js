@@ -6,6 +6,7 @@ import {
   checkPublishStatus,
 } from 'components/admin/Model/actions/Publish';
 import { PUBLISH_ERRORS, PUBLISH_TYPES } from 'utils/constants';
+import { ErrorsCol, ErrorLabel, ErrorsRow, ErrorText } from 'theme/adminNotificationStyles';
 
 export const PublishNotificationsContext = React.createContext([{}, () => {}]);
 
@@ -134,7 +135,7 @@ export const PublishNotificationsProvider = ({ children }) => {
           type: NOTIFICATION_TYPES.ERROR,
           message: 'Publish Error: Bad Request',
           details: `The publish request for ${modelName} was not formed correctly: ${
-            error.message
+            error.error.message
           }`,
           timeout: false,
           modelName,
@@ -147,7 +148,22 @@ export const PublishNotificationsProvider = ({ children }) => {
         appendNotification({
           type: NOTIFICATION_TYPES.ERROR,
           message: `Publish Error: Validation Failed for ${modelName}`,
-          details: error.message,
+          details: (
+            <ErrorsCol marginTop="16px">
+              <ErrorsRow>
+                <ErrorLabel>Name: </ErrorLabel>
+                <ErrorText>{modelName}</ErrorText>
+              </ErrorsRow>
+              <ErrorsRow>
+                <ErrorLabel>Errors: </ErrorLabel>
+                <ErrorsCol>
+                  {(error.error.message || []).map((detail, i) => (
+                    <ErrorText key={`${modelName}-error-${i}`}>{detail}</ErrorText>
+                  ))}
+                </ErrorsCol>
+              </ErrorsRow>
+            </ErrorsCol>
+          ),
           timeout: false,
           modelName,
           onClose: () => {
@@ -160,7 +176,7 @@ export const PublishNotificationsProvider = ({ children }) => {
         appendNotification({
           type: NOTIFICATION_TYPES.ERROR,
           message: `Publish Error: An unexpected error occured while publishing ${modelName}`,
-          details: error.message,
+          details: error.error.message,
           timeout: false,
           modelName,
           onClose: () => {
@@ -184,7 +200,7 @@ export const PublishNotificationsProvider = ({ children }) => {
     appendNotification({
       type: NOTIFICATION_TYPES.ERROR,
       message: 'Publish Error: An unexpected error has occurred.',
-      details: error.message || error.details || error.name,
+      details: error?.error?.message || error?.message || error,
       timeout: false,
     });
   };
@@ -249,10 +265,7 @@ export const PublishNotificationsProvider = ({ children }) => {
         removePublishNotification(modelName);
       }
 
-      if (failedPublish.actionable || failedPublish.publishType === PUBLISH_TYPES.individual) {
-        // Actionable errors and errors for individual publishes get shown normally
-        showErrorPublishNotification(modelName, failedPublish);
-      }
+      showErrorPublishNotification(modelName, failedPublish);
     });
   };
 
