@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import Popup from 'reactjs-popup';
 import MomentReact from 'react-moment';
@@ -6,6 +6,7 @@ import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 
 import { ModelManagerContext } from './ModelManagerController';
+import { NotificationsContext, usePublishNotifications } from '../Notifications';
 import { modelEditUrlBase } from '../AdminNav';
 import withDeleteModal from '../DeleteModal';
 
@@ -42,8 +43,8 @@ const selectedColumns = [
   'updatedBy',
 ];
 
-export const modelStatusPill = (data = null) => {
-  switch (data.status) {
+export const ModelStatusPill = ({ data = null }) => {
+  switch (data) {
     case modelStatus.published:
       return <SmallPill>{modelStatus.published}</SmallPill>;
     case modelStatus.unpublishedChanges:
@@ -51,8 +52,39 @@ export const modelStatusPill = (data = null) => {
     case modelStatus.unpublished:
       return <SmallPill info>{modelStatus.unpublished}</SmallPill>;
     default:
-      return <SmallPill primary>{data.status}</SmallPill>;
+      return <SmallPill primary>{data}</SmallPill>;
   }
+};
+
+export const ModelStatusPillWithPublish = ({ name, data }) => {
+  const { location, publishProgress } = useContext(NotificationsContext);
+  const { isPublishingModel, publishRunning } = usePublishNotifications();
+  const [status, setStatus] = useState(null);
+  const publishState = useRef();
+
+  // Force status pill to change to "Published" after single model in bulk publishes
+  // (prior to table data refresh that occurs after entire bulk publish finishes)
+  useEffect(() => {
+    if (isPublishingModel(name) && (!publishState || !publishState.current)) {
+      publishState.current = 'publishing';
+    }
+    if (
+      location &&
+      location.pathname === '/admin' &&
+      publishState.current === 'publishing' &&
+      publishProgress.success.find(model => model.modelName === name)
+    ) {
+      publishState.current = 'published';
+      setStatus('published');
+      return;
+    }
+  }, [location, publishRunning, publishProgress, name, isPublishingModel]);
+
+  return isPublishingModel(name) ? (
+    <SmallPill primary>Publish in Progress</SmallPill>
+  ) : (
+    <ModelStatusPill data={status || data} />
+  );
 };
 
 const actionAndClose = (action, close) => () => {
@@ -121,9 +153,9 @@ const modelManagerCustomColumns = [
     filter: (cellValue, filterValue) =>
       cellValue.toLowerCase().startsWith(filterValue.toLowerCase()),
     queryFilter: filters.startsWith,
-    Cell: row => {
-      let status = (row.value || 'Unpublished').toLowerCase();
-      return modelStatusPill({ status });
+    Cell: ({ original: { name, status } }) => {
+      let modelStatus = (status || 'Unpublished').toLowerCase();
+      return <ModelStatusPillWithPublish name={name} data={modelStatus} />;
     },
   },
   {

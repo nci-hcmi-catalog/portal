@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Route } from 'react-router-dom';
 
 import { useGenomicVariantImportNotifications } from 'components/admin/Notifications';
+import { usePublishNotifications } from 'components/admin/Notifications';
 
 import AdminNav from './AdminNav';
 import DataDictionary from './DataDictionary';
@@ -17,24 +18,43 @@ import { isEmpty } from 'lodash';
 
 const AdminView = ({ location }) => {
   const didMountRef = useRef(false);
+  const [importPollingInterval, setImportPollingInterval] = useState(500);
+  const [publishPollingInterval, setPublishPollingInterval] = useState(500);
   const {
     importNotifications,
     importRunning,
     fetchImportStatus,
   } = useGenomicVariantImportNotifications();
+  const { publishNotifications, publishRunning, fetchPublishStatus } = usePublishNotifications();
 
-  // Check for active genomic variant imports on page load
+  // Check for active genomic variant imports or publishes on page load
   useEffect(() => {
     if (!didMountRef || !didMountRef.current) {
       fetchImportStatus();
+      fetchPublishStatus();
       didMountRef.current = true;
     }
   }, []);
 
   // Poll for status changes on any active imports
   useInterval(
-    async () => await fetchImportStatus(),
-    importRunning || !isEmpty(importNotifications) ? 500 : null,
+    async () => {
+      // Set polling interval to null until request completes to prevent spamming the server
+      setImportPollingInterval(null);
+      await fetchImportStatus();
+      setImportPollingInterval(500);
+    },
+    importRunning || !isEmpty(importNotifications) ? importPollingInterval : null,
+  );
+
+  // Poll for status changes on any active publishes
+  useInterval(
+    async () => {
+      setPublishPollingInterval(null);
+      await fetchPublishStatus();
+      setPublishPollingInterval(500);
+    },
+    publishRunning || !isEmpty(publishNotifications) ? publishPollingInterval : null,
   );
 
   return (

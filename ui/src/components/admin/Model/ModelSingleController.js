@@ -18,6 +18,7 @@ import {
   getMatchedModelSet,
   connectModelToSet,
   disconnectModelFromSets,
+  singleAction,
 } from '../helpers';
 import { getDictionary } from '../helpers/dictionary';
 
@@ -354,71 +355,61 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   },
                 }));
 
-                try {
-                  const {
-                    form: { isUpdate },
-                    data: {
-                      response: { files = [] },
-                    },
-                  } = state;
+                const { name } = values;
 
-                  const { name } = values;
+                singleAction('publish', name)
+                  .then(async () => {
+                    // Fetch full model data in order to update model status
+                    const modelDataResponse = await getModel(baseUrl, name);
+                    // Prepare matched model details if necessary
+                    await addMatchedModelsToModelResponse(baseUrl, modelDataResponse);
+                    const otherModelOptions = await getOtherModelOptions(
+                      baseUrl,
+                      modelDataResponse.data.name,
+                    );
 
-                  // Publishing will always trigger an update
-                  // so we pass status in with our save
-                  const modelDataResponse = await saveModel(
-                    baseUrl,
-                    {
-                      ...values,
-                      files,
-                      status: computeModelStatus(values.status, 'publish'),
-                    },
-                    isUpdate,
-                  );
+                    await setState(state => ({
+                      form: {
+                        ...state.form,
+                        isReadyToPublish: false,
+                        isReadyToSave: false,
+                      },
+                      data: {
+                        ...state.data,
+                        isLoading: false,
+                        response: modelDataResponse.data,
+                      },
+                      otherModelOptions,
+                    }));
 
-                  // And now we run the initialize matched models code before setting state:
-                  await addMatchedModelsToModelResponse(baseUrl, modelDataResponse);
-                  const otherModelOptions = await getOtherModelOptions(
-                    baseUrl,
-                    modelDataResponse.data.name,
-                  );
-                  await setState(state => ({
-                    form: {
-                      ...state.form,
-                      isReadyToPublish: false,
-                      isReadyToSave: false,
-                    },
-                    data: {
-                      ...state.data,
-                      isLoading: false,
-                      response: modelDataResponse.data,
-                    },
-                    otherModelOptions,
-                  }));
+                    await appendNotification({
+                      type: NOTIFICATION_TYPES.SUCCESS,
+                      message: 'Publish Successful!',
+                      details: `${name} has been successfully published. View it live here: `,
+                      link: `/model/${name}`,
+                      linkText: name,
+                    });
+                  })
+                  .catch(async err => {
+                    const errorText = extractErrorText(err);
 
-                  await appendNotification({
-                    type: NOTIFICATION_TYPES.SUCCESS,
-                    message: 'Publish Successful!',
-                    details: `${name} has been successfully published. View it live here: `,
-                    link: `/model/${modelDataResponse.data.name}`,
-                    linkText: modelDataResponse.data.name,
+                    await setState(state => ({
+                      data: {
+                        ...state.data,
+                        isLoading: false,
+                        error: err,
+                      },
+                    }));
+
+                    await appendNotification({
+                      type: NOTIFICATION_TYPES.ERROR,
+                      message: 'Publish Error.',
+                      details:
+                        errorText ||
+                        err.msg ||
+                        get(err, 'response.data.message', 'Unknown error has occurred.'),
+                    });
                   });
-                } catch (err) {
-                  await setState(state => ({
-                    data: {
-                      ...state.data,
-                      isLoading: false,
-                      error: err,
-                    },
-                  }));
-
-                  await appendNotification({
-                    type: NOTIFICATION_TYPES.ERROR,
-                    message: 'Publish Error.',
-                    details:
-                      err.msg || get(err, 'response.data.message', 'Unknown error has occurred.'),
-                  });
-                }
               },
               unpublishModel: async values => {
                 const { name } = values;
@@ -751,6 +742,49 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                         ...state.genomicVariantTable,
                         rowCount: (modelDataResponse.data.genomic_variants || []).length,
                       },
+                    }));
+                  } catch (err) {
+                    setState(state => ({
+                      data: {
+                        ...state.data,
+                        isLoading: false,
+                        error: err,
+                      },
+                    }));
+                  }
+                }
+              },
+              fetchModelData: async modelName => {
+                if (modelName) {
+                  setState(state => ({
+                    data: {
+                      ...state.data,
+                      isLoading: true,
+                    },
+                  }));
+
+                  try {
+                    // Fetch full model data in order to update model status
+                    const modelDataResponse = await getModel(baseUrl, modelName);
+                    // Prepare matched model details if necessary
+                    await addMatchedModelsToModelResponse(baseUrl, modelDataResponse);
+                    const otherModelOptions = await getOtherModelOptions(
+                      baseUrl,
+                      modelDataResponse.data.name,
+                    );
+
+                    await setState(state => ({
+                      form: {
+                        ...state.form,
+                        isReadyToPublish: false,
+                        isReadyToSave: false,
+                      },
+                      data: {
+                        ...state.data,
+                        isLoading: false,
+                        response: modelDataResponse.data,
+                      },
+                      otherModelOptions,
                     }));
                   } catch (err) {
                     setState(state => ({

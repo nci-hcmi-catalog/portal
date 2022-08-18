@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { v4 as uuid } from 'uuid';
 
-import { DEFAULT_IMPORT_PROGRESS, DEFAULT_NONACTIONABLE_IMPORTS } from 'utils/constants';
+import { DEFAULT_PROGRESS_QUEUES, DEFAULT_NONACTIONABLE_IMPORTS } from 'utils/constants';
 
 export const NotificationsContext = React.createContext();
 
@@ -10,9 +10,13 @@ const NotificationsProvider = ({ location, children }) => {
   // only used for imports initiated from individual model pages
   const [importNotifications, setImportNotifications] = useState([]);
   // bulk variant import progress
-  const [importProgress, setImportProgress] = useState(DEFAULT_IMPORT_PROGRESS);
+  const [importProgress, setImportProgress] = useState(DEFAULT_PROGRESS_QUEUES);
   // models which failed variant import with nonactionable errors
   const [nonactionableImports, setNonactionableImports] = useState(DEFAULT_NONACTIONABLE_IMPORTS);
+  // only used for publishes initiated from individual model pages
+  const [publishNotifications, setPublishNotifications] = useState([]);
+  // bulk publish progress
+  const [publishProgress, setPublishProgress] = useState(DEFAULT_PROGRESS_QUEUES);
 
   const appendNotification = notification => {
     const id = uuid();
@@ -72,6 +76,10 @@ const NotificationsProvider = ({ location, children }) => {
         setImportProgress,
         nonactionableImports,
         setNonactionableImports,
+        publishNotifications,
+        setPublishNotifications,
+        publishProgress,
+        setPublishProgress,
         location,
       }}
     >

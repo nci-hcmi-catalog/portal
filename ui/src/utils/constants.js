@@ -27,7 +27,7 @@ const GDC_MODEL_STATES = {
   noNgcm: 'NO_NGCM',
 };
 
-const DEFAULT_IMPORT_PROGRESS = {
+const DEFAULT_PROGRESS_QUEUES = {
   queue: [],
   failed: [],
   stopped: [],
@@ -49,6 +49,26 @@ const GENOMIC_VARIANTS_IMPORT_ERRORS = {
 };
 
 const imgPath = '/api/data/images';
+
+const PUBLISH_ERRORS = {
+  noMatchingModel: 'NO_MATCHING_MODEL',
+  badRequest: 'BAD_REQUEST',
+  validationErrror: 'VALIDATION_ERROR',
+  unexpected: 'UNEXPECTED',
+};
+
+const PUBLISH_STATUS = {
+  active: 'ACTIVE',
+  complete: 'COMPLETE',
+  error: 'ERROR',
+  stopped: 'STOPPED',
+  waiting: 'WAITING',
+};
+
+const PUBLISH_TYPES = {
+  bulk: 'BULK',
+  individual: 'INDIVIDUAL',
+};
 
 const VARIANT_IMPORT_TYPES = {
   bulk: 'BULK',
@@ -79,7 +99,7 @@ export {
   BULK_NONACTIONABLE_ERROR_ID,
   BULK_UPLOAD_DISPLAY_TYPES,
   BULK_UPLOAD_TYPES,
-  DEFAULT_IMPORT_PROGRESS,
+  DEFAULT_PROGRESS_QUEUES,
   DEFAULT_NONACTIONABLE_IMPORTS,
   GDC_CASE_URL_BASE,
   GDC_FILE_PAGE_URL_BASE,
@@ -87,6 +107,9 @@ export {
   GDC_MODEL_STATES,
   GENOMIC_VARIANTS_IMPORT_ERRORS,
   imgPath,
+  PUBLISH_ERRORS,
+  PUBLISH_STATUS,
+  PUBLISH_TYPES,
   VARIANT_IMPORT_TYPES,
   VARIANT_IMPORT_STATUS,
   VARIANT_OVERWRITE_OPTIONS,
