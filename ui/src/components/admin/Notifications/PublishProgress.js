@@ -162,22 +162,17 @@ const PublishProgress = ({ renderIcon }) => {
     };
 
     useEffect(() => {
-      if (!prevPublishState) {
-        prevPublishState.current = getBulkPublishState();
-        return;
-      }
-
       if (
         refreshModelsTable &&
         (getBulkPublishState() === BulkPublishState.complete ||
           getBulkPublishState() === BulkPublishState.stopped) &&
-        prevPublishState.current === BulkPublishState.publishing
+        (prevPublishState.current === BulkPublishState.publishing || !prevPublishState.current)
       ) {
         refreshModelsTable();
       }
 
       prevPublishState.current = getBulkPublishState();
-    }, [publishProgress, prevPublishState, refreshModelsTable]);
+    }, [publishProgress]);
 
     return (
       <Row>

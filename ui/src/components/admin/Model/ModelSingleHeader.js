@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useRef } from 'react';
 import Popup from 'reactjs-popup';
 import { css } from '@emotion/react';
@@ -100,20 +101,19 @@ const ModelSingleHeader = ({ modelName }) => {
   useEffect(() => {
     const refreshModelData = async () => await fetchModelData(modelName);
 
-    if (modelName && isPublishingModel(modelName) && (!publishState || !publishState.current)) {
+    if (modelName && isPublishingModel(modelName)) {
       publishState.current = 'publishing';
     }
 
     if (
       modelName &&
-      publishState.current === 'publishing' &&
+      (publishState.current === 'publishing' || !publishState.current) &&
       publishProgress.success.find(model => model.modelName === modelName)
     ) {
       publishState.current = 'published';
       refreshModelData();
-      return;
     }
-  }, [publishRunning, publishProgress, modelName, isPublishingModel, fetchModelData]);
+  }, [publishRunning, publishProgress]);
 
   return (
     <AdminHeader>
