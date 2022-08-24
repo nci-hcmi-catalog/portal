@@ -6,3 +6,4 @@ export { default as templatesRouter } from './templates';
 export { default as matchedModelsRouter } from './matchedModels';
 export { default as healthRouter } from './health';
 export { default as variantsRouter } from './genomicVariants';
+export { default as publishRouter } from './publish';

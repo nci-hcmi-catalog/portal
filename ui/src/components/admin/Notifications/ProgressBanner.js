@@ -216,7 +216,7 @@ const ProgressBanner = ({ renderIcon }) => {
   return (
     <Notification type={getProgressBannerType()}>
       {renderIcon(getProgressBannerType())}
-      <Col>
+      <Col style={{ maxWidth: '50%', width: '100%' }}>
         <Message>{getProgressBannerMessage()}</Message>
         <Details>{getProgressBannerDetails()}</Details>
       </Col>

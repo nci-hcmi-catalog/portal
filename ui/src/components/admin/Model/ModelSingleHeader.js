@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import Popup from 'reactjs-popup';
 import { css } from '@emotion/react';
 
 import { ModelSingleContext } from './ModelSingleController';
 import { manageModelsUrlBase } from '../AdminNav';
+import { NotificationsContext, usePublishNotifications } from 'components/admin/Notifications';
 
 import { SaveModel, PublishModel, ActionsMenu } from './actions';
 
@@ -13,7 +14,7 @@ import MoreOptionsIcon from 'icons/MoreOptionsIcon';
 import { AdminHeader, AdminHeaderBlock } from 'theme/adminStyles';
 import { ModelHeaderH1, ModelHeaderBackLink } from 'theme/adminModelStyles';
 import { ButtonPill } from 'theme/adminControlsStyles';
-import { modelStatusPill } from '../ModelsManager/ModelColumns';
+import { ModelStatusPillWithPublish } from '../ModelsManager/ModelColumns';
 import ExternalLinkIcon from 'icons/ExternalLinkIcon';
 import { modelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
 
@@ -84,59 +85,80 @@ const modelMoreOptions = (data = null) =>
     </Popup>
   );
 
-const ModelSingleHeader = ({ modelName }) => (
-  <ModelSingleContext.Consumer>
-    {({
-      state: {
-        data: { response, error },
-      },
-    }) => (
-      <>
-        <AdminHeader>
-          <AdminHeaderBlock
-            css={css`
-              position: relative;
-            `}
-          >
-            {headerText(modelName, error)}
-            {response.status && modelStatusPill(response)}
-            <ModelHeaderBackLink
-              to={manageModelsUrlBase}
+const ModelSingleHeader = ({ modelName }) => {
+  const {
+    state: {
+      data: { response, error },
+    },
+    fetchModelData,
+  } = useContext(ModelSingleContext);
+  const { publishProgress } = useContext(NotificationsContext);
+  const { isPublishingModel, publishRunning } = usePublishNotifications();
+  const publishState = useRef();
+
+  // refresh model data after publish completes (get updated publish status)
+  useEffect(() => {
+    const refreshModelData = async () => await fetchModelData(modelName);
+
+    if (modelName && isPublishingModel(modelName) && (!publishState || !publishState.current)) {
+      publishState.current = 'publishing';
+    }
+
+    if (
+      modelName &&
+      publishState.current === 'publishing' &&
+      publishProgress.success.find(model => model.modelName === modelName)
+    ) {
+      publishState.current = 'published';
+      refreshModelData();
+      return;
+    }
+  }, [publishRunning, publishProgress, modelName, isPublishingModel, fetchModelData]);
+
+  return (
+    <AdminHeader>
+      <AdminHeaderBlock
+        css={css`
+          position: relative;
+        `}
+      >
+        {headerText(modelName, error)}
+        <ModelStatusPillWithPublish name={modelName} data={response?.status} />
+        <ModelHeaderBackLink
+          to={manageModelsUrlBase}
+          css={css`
+            position: absolute;
+            left: 0;
+            bottom: 40px;
+          `}
+        >
+          <ArrowLeftIcon /> Back to List
+        </ModelHeaderBackLink>
+      </AdminHeaderBlock>
+      <AdminHeaderBlock>
+        {response.status &&
+        (response.status === modelStatus.published ||
+          response.status === modelStatus.unpublishedChanges) ? (
+          <ModelHeaderBackLink to={`/model/${modelName}`} target="_blank">
+            <ExternalLinkIcon
+              height={'10px'}
+              width={'10px'}
               css={css`
-                position: absolute;
-                left: 0;
-                bottom: 40px;
+                margin-right: 8px;
               `}
-            >
-              <ArrowLeftIcon /> Back to List
-            </ModelHeaderBackLink>
-          </AdminHeaderBlock>
-          <AdminHeaderBlock>
-            {response.status &&
-            (response.status === modelStatus.published ||
-              response.status === modelStatus.unpublishedChanges) ? (
-              <ModelHeaderBackLink to={`/model/${modelName}`} target="_blank">
-                <ExternalLinkIcon
-                  height={'10px'}
-                  width={'10px'}
-                  css={css`
-                    margin-right: 8px;
-                  `}
-                  fill={'currentColor'}
-                />
-                View in Catalog
-              </ModelHeaderBackLink>
-            ) : (
-              ''
-            )}
-            <PublishModel marginLeft="18px" marginRight="8px" />
-            <SaveModel />
-            {modelMoreOptions(response || null)}
-          </AdminHeaderBlock>
-        </AdminHeader>
-      </>
-    )}
-  </ModelSingleContext.Consumer>
-);
+              fill={'currentColor'}
+            />
+            View in Catalog
+          </ModelHeaderBackLink>
+        ) : (
+          ''
+        )}
+        <PublishModel marginLeft="18px" marginRight="8px" />
+        <SaveModel />
+        {modelMoreOptions(response || null)}
+      </AdminHeaderBlock>
+    </AdminHeader>
+  );
+};
 
 export default ModelSingleHeader;

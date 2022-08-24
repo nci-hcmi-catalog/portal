@@ -2,6 +2,7 @@ import React from 'react';
 
 import ModelManagerProvider, { ModelManagerContext } from './ModelManagerController';
 import { ModalStateContext } from 'providers/ModalState';
+import { usePublishNotifications } from 'components/admin/Notifications';
 
 import { NotificationToaster } from '../Notifications';
 import ModelManagerTable from './ModelManagerTable';
@@ -20,7 +21,9 @@ import { AdminModalStyle } from 'theme/adminModalStyles';
 import config from '../config';
 import { BULK_UPLOAD_TYPES } from 'utils/constants';
 
-const content = () => {
+const ModelsManager = () => {
+  const { publishRunning } = usePublishNotifications();
+
   return (
     <ModelManagerProvider cmsBase={config.urls.cmsBase} baseUrl={`${config.urls.cmsBase}/Model`}>
       <AdminContainer>
@@ -42,7 +45,7 @@ const content = () => {
                           styles: AdminModalStyle,
                         })
                       }
-                      disabled={state && state.isLoading}
+                      disabled={(state && state.isLoading) || publishRunning}
                     >
                       <DNAIcon />
                       Check for GDC Variants
@@ -71,7 +74,7 @@ const content = () => {
                           styles: AdminModalStyle,
                         })
                       }
-                      disabled={state && state.isLoading}
+                      disabled={(state && state.isLoading) || publishRunning}
                     >
                       <PlusIcon />
                       Add Bulk
@@ -94,4 +97,4 @@ const content = () => {
   );
 };
 
-export default content;
+export default ModelsManager;
