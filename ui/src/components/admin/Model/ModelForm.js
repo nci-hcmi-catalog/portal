@@ -15,9 +15,12 @@ import {
 import { FormContainer, FormHeader, FormSection, FormCol } from 'theme/adminFormStyles';
 import { schemaObj } from '@hcmi-portal/cms/src/schemas/descriptions/model';
 import TabHeader from './TabHeader';
-const booleanChoice = [{ label: 'Yes', value: true }, { label: 'No', value: false }];
+const booleanChoice = [
+  { label: 'Yes', value: true },
+  { label: 'No', value: false },
+];
 
-const isClinicalTumorDiagnosisSelected = values =>
+const isClinicalTumorDiagnosisSelected = (values) =>
   !values.clinical_tumor_diagnosis || values.clinical_tumor_diagnosis === '0';
 
 // All labels/keys from model schema

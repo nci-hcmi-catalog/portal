@@ -1,7 +1,7 @@
 import { fetchData } from '../services/Fetcher';
 import config from '../config';
 
-export const getSheetObject = sheetURL => {
+export const getSheetObject = (sheetURL) => {
   // example sheeturl:
   // https://docs.google.com/spreadsheets/d/18ZWXfsadfasdfP8NV5g_flmEhBkXgsKEJT6y9
   // i Ht0X/edit#gid=0
@@ -15,7 +15,7 @@ export const getSheetObject = sheetURL => {
     sheetId: sheetUrlParts[2] || '',
   };
 };
-export const getUploadTemplate = async type => {
+export const getUploadTemplate = async (type) => {
   const gapi = global.gapi;
 
   // TODO: this assumes user is already logged in - create a prompt to let user

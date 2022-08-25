@@ -3,8 +3,8 @@ import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/modelGenomi
 const selectedColumns = ['gene', 'aa_change', 'transcript_id', 'consequence_type', 'class', 'type'];
 
 export const columns = schemaArr
-  .filter(field => selectedColumns.indexOf(field.accessor) !== -1)
-  .map(field => {
+  .filter((field) => selectedColumns.indexOf(field.accessor) !== -1)
+  .map((field) => {
     field.Header = field.displayName;
     return field;
   });

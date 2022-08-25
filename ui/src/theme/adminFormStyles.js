@@ -51,7 +51,7 @@ export const FormCol = styled(Col)`
   padding: 0 48px 0 0;
 
   &:last-child {
-    border-left: 1px solid ${props => (props.noBorder ? 'transparent' : borderColour)};
+    border-left: 1px solid ${(props) => (props.noBorder ? 'transparent' : borderColour)};
     padding: 0 20px 0 32px;
   }
 `;

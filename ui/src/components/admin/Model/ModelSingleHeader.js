@@ -80,7 +80,7 @@ const modelMoreOptions = (data = null) =>
       arrow={false}
       disabled={!data || Object.keys(data).length === 0}
     >
-      {close => {
+      {(close) => {
         return <ActionsMenu close={close} />;
       }}
     </Popup>
@@ -108,7 +108,7 @@ const ModelSingleHeader = ({ modelName }) => {
     if (
       modelName &&
       (publishState.current === 'publishing' || !publishState.current) &&
-      publishProgress.success.find(model => model.modelName === modelName)
+      publishProgress.success.find((model) => model.modelName === modelName)
     ) {
       publishState.current = 'published';
       refreshModelData();

@@ -14,8 +14,8 @@ import { filters } from '@hcmi-portal/cms/src/helpers/dataFilters';
 const selectedColumns = ['name', 'email', 'status', 'createdAt', 'updatedAt', 'updatedBy'];
 
 export const columns = schemaArr
-  .filter(field => selectedColumns.indexOf(field.accessor) !== -1)
-  .map(field => {
+  .filter((field) => selectedColumns.indexOf(field.accessor) !== -1)
+  .map((field) => {
     field.Header = field.displayName;
     return field;
   });
@@ -25,7 +25,7 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
     Header: 'Created',
     accessor: 'createdAt',
     queryFilter: filters.date,
-    Cell: row => {
+    Cell: (row) => {
       const value = row.value;
       return (
         <Popup
@@ -57,7 +57,7 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
     Header: 'Updated',
     accessor: 'updatedAt',
     queryFilter: filters.date,
-    Cell: row => {
+    Cell: (row) => {
       const value = row.value;
       return (
         <Popup
@@ -92,7 +92,7 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
       return (
         <Actions>
           <ModalStateContext.Consumer>
-            {modalState => (
+            {(modalState) => (
               <ActionPill
                 secondary
                 marginRight="8px"
@@ -132,5 +132,5 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
 
 export const getUserTableColumns = ({ deleteUser, saveUser }) =>
   columns
-    .filter(col => ['name', 'email', 'status', 'updatedBy'].includes(col.accessor))
+    .filter((col) => ['name', 'email', 'status', 'updatedBy'].includes(col.accessor))
     .concat(userManagerCustomColumns({ deleteUser, saveUser }));

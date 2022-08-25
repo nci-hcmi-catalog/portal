@@ -29,7 +29,7 @@ const DictionaryFieldValues = () => {
   } = useDictionary();
   const [newFieldValue, setNewFieldValue] = useState('');
 
-  const addNewField = e => {
+  const addNewField = (e) => {
     e.preventDefault();
 
     addField(newFieldValue.trim());
@@ -41,16 +41,16 @@ const DictionaryFieldValues = () => {
     return editField(originalValue, updatedValue, null, isParent);
   };
 
-  const removeNewField = value => {
+  const removeNewField = (value) => {
     removeField(value);
   };
 
-  const hasDirtyDependents = dependents => {
+  const hasDirtyDependents = (dependents) => {
     if (activeField !== CLINICAL_TUMOR_DIAGNOSIS) return false;
 
     return (
       dependents &&
-      dependents.some(dependent => dependent.values.some(value => value.status !== 'published'))
+      dependents.some((dependent) => dependent.values.some((value) => value.status !== 'published'))
     );
   };
 
@@ -68,7 +68,7 @@ const DictionaryFieldValues = () => {
                 placeholder="Add a new value..."
                 aria-label="Add a new value..."
                 value={newFieldValue}
-                onChange={e => {
+                onChange={(e) => {
                   e.preventDefault();
                   setNewFieldValue(e.target.value);
                 }}
@@ -82,7 +82,7 @@ const DictionaryFieldValues = () => {
           <FieldValueList>
             {activeFieldValues &&
               activeFieldValues.length > 0 &&
-              activeFieldValues.map(fieldValue => (
+              activeFieldValues.map((fieldValue) => (
                 <EditableFieldValue
                   key={fieldValue._id}
                   initialValue={fieldValue.value}
@@ -101,7 +101,7 @@ const DictionaryFieldValues = () => {
                         }
                       : null
                   }
-                  editFn={updatedValue =>
+                  editFn={(updatedValue) =>
                     editNewField(
                       fieldValue.original || fieldValue.value,
                       updatedValue,

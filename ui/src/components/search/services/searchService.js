@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { get } from 'lodash';
 
-export const searchGenes = async inputValue => {
+export const searchGenes = async (inputValue) => {
   try {
     const response = await axios.get(`${globals.ARRANGER_API}/search/gene`, {
       params: { q: inputValue },
@@ -14,7 +14,7 @@ export const searchGenes = async inputValue => {
   }
 };
 
-export const searchVariants = async inputValue => {
+export const searchVariants = async (inputValue) => {
   try {
     const response = await axios.get(`${globals.ARRANGER_API}/search/variant`, {
       params: { q: inputValue },
@@ -29,7 +29,7 @@ export const searchVariants = async inputValue => {
     It's been modified to remove the size limit (can be added in if speed issues arise) and now also returns primary_site
     This can be modified further to allow a custom list of model properties to return in the search results.
 */
-export const searchModels = async inputValue => {
+export const searchModels = async (inputValue) => {
   const query =
     'query ModelsQuickSearchResults($sqon: JSON) {\n          models {\n            hits(filters: $sqon) {\n              total\n              edges {\n                node {\n                  primaryKey: name\n                  autocomplete: autocomplete\n primary_site\n                }\n              }\n            }\n          }\n        }';
   const sqon = {
@@ -47,7 +47,7 @@ export const searchModels = async inputValue => {
       query,
       variables,
     });
-    return get(response, 'data.data.models.hits.edges', []).map(i => i.node);
+    return get(response, 'data.data.models.hits.edges', []).map((i) => i.node);
   } catch (e) {
     return [];
   }

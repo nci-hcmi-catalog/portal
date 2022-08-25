@@ -8,7 +8,7 @@ import styles from 'theme/modalStyles';
 
 const Modal = () => (
   <ModalStateContext.Consumer>
-    {modalState => (
+    {(modalState) => (
       // Using `css` via ClassNames to avoid compilation error from emotion
       <ClassNames>
         {({ css }) => (
@@ -17,7 +17,7 @@ const Modal = () => (
             appElement={document.getElementById('root')}
             css={modalState.state.styles || styles}
             onRequestClose={() => modalState.setModalState({ component: null })}
-            contentRef={node => modalState.setModalState({ contentRef: node })}
+            contentRef={(node) => modalState.setModalState({ contentRef: node })}
             overlayClassName={css`
               position: fixed;
               top: 0px;

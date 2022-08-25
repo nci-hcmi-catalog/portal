@@ -8,9 +8,9 @@ import modelListModalStyles from 'theme/modelListModalStyles';
 
 const ModelList = ({ className }) => (
   <ModalStateContext.Consumer>
-    {modalState => (
+    {(modalState) => (
       <SelectedModelsContext.Consumer>
-        {selected => {
+        {(selected) => {
           const selectedCount = selected.state.modelIds.length;
           const hasSelected = selectedCount > 0;
           return (

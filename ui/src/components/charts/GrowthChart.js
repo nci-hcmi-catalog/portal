@@ -8,12 +8,12 @@ import { ChartTooltip } from './';
 import { addInSQON } from '@arranger/components/dist/SQONView/utils';
 import { SizeMe } from 'react-sizeme';
 
-const is2d = bucket => bucket.key.slice(0, 3) === '2-D';
-const is3d = bucket => bucket.key.slice(0, 3) === '3-D';
-const isOther = bucket => bucket.key.match(/^[A-Z]/i);
+const is2d = (bucket) => bucket.key.slice(0, 3) === '2-D';
+const is3d = (bucket) => bucket.key.slice(0, 3) === '3-D';
+const isOther = (bucket) => bucket.key.match(/^[A-Z]/i);
 const getCount = (buckets, filterBy) =>
   buckets.filter(filterBy).reduce((acc, curr) => acc + curr.doc_count, 0);
-const getKeys = (buckets, filterBy) => buckets.filter(filterBy).map(x => x.key);
+const getKeys = (buckets, filterBy) => buckets.filter(filterBy).map((x) => x.key);
 
 const GrowthChart = ({ sqon, setSQON }) => (
   <SizeMe>
@@ -77,7 +77,7 @@ const GrowthChart = ({ sqon, setSQON }) => (
                   animate={false}
                   tooltip={({ id, value, label }) => ChartTooltip({ value, label })}
                   theme={theme.chart}
-                  onClick={data =>
+                  onClick={(data) =>
                     setSQON(
                       addInSQON(
                         {

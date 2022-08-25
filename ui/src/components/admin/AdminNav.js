@@ -20,7 +20,7 @@ const [modelsNavPaths, usersNavPaths, dictionaryNavPaths] = [
 
 // Nav active state func
 const isNavLinkActive = (currentPath, navPaths) =>
-  navPaths.filter(path => currentPath.match(path)).length > 0;
+  navPaths.filter((path) => currentPath.match(path)).length > 0;
 
 // Exported URLs to be used as needed
 export const manageModelsUrlBase = '/admin';

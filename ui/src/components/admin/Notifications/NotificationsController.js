@@ -18,15 +18,15 @@ const NotificationsProvider = ({ location, children }) => {
   // bulk publish progress
   const [publishProgress, setPublishProgress] = useState(DEFAULT_PROGRESS_QUEUES);
 
-  const appendNotification = notification => {
+  const appendNotification = (notification) => {
     const id = uuid();
     // default value is 10 seconds, can be overwritten or turned off (false)
     const timeout = 'timeout' in notification ? notification.timeout : 10000;
 
     const clear = (useCallback = false) => {
       // removes the notification from notifications
-      setNotifications(notifications => [
-        ...notifications.filter(notification => notification.id !== id),
+      setNotifications((notifications) => [
+        ...notifications.filter((notification) => notification.id !== id),
       ]);
 
       // run optional onClose callback
@@ -53,14 +53,14 @@ const NotificationsProvider = ({ location, children }) => {
       clear,
     };
 
-    setNotifications(notifications => [...notifications, notificationObj]);
+    setNotifications((notifications) => [...notifications, notificationObj]);
 
     return notificationObj;
   };
 
   // called when clicking the 'x' on a notification, ALWAYS runs onClose callback
-  const clearNotification = id => {
-    notifications.find(notification => notification.id === id).clear(true);
+  const clearNotification = (id) => {
+    notifications.find((notification) => notification.id === id).clear(true);
   };
 
   return (

@@ -17,15 +17,8 @@ import {
 import PublishIcon from '../../../icons/PublishIcon';
 
 const DictionaryHeader = () => {
-  const {
-    isDraft,
-    lastPublished,
-    lastUpdated,
-    publish,
-    reset,
-    totalEdits,
-    totalNew,
-  } = useDictionary();
+  const { isDraft, lastPublished, lastUpdated, publish, reset, totalEdits, totalNew } =
+    useDictionary();
 
   return (
     <>

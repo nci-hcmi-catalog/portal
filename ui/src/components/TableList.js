@@ -28,7 +28,7 @@ const TableList = ({
             <Toggle
               style={toggleStyle}
               onClick={() =>
-                setState(state => ({
+                setState((state) => ({
                   expanded: !state.expanded,
                 }))
               }

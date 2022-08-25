@@ -13,7 +13,7 @@ import {
 
 export const DictionaryContext = React.createContext([{}, () => {}]);
 
-export const DictionaryProvider = props => {
+export const DictionaryProvider = (props) => {
   const [state, setState] = useState({
     dictionary: {},
     activeField: '',
@@ -35,7 +35,7 @@ export const DictionaryProvider = props => {
   );
 };
 
-const getDictionaryErrorMessage = res => {
+const getDictionaryErrorMessage = (res) => {
   return res.err ? res.err : 'Unknown error has occurred.';
 };
 
@@ -68,7 +68,7 @@ export const useDictionary = () => {
       parent: fieldType ? state.activeValueOriginal || state.activeValue : null,
       dependentName: fieldType,
       value: fieldName,
-    }).then(response => {
+    }).then((response) => {
       if (response.err) {
         appendNotification({
           type: NOTIFICATION_TYPES.ERROR,
@@ -125,7 +125,7 @@ export const useDictionary = () => {
       parent: fieldType ? state.activeValueOriginal || state.activeValue : null,
       dependentName: fieldType,
       value: fieldName,
-    }).then(response => {
+    }).then((response) => {
       if (response.err) {
         appendNotification({
           type: NOTIFICATION_TYPES.ERROR,
@@ -143,7 +143,7 @@ export const useDictionary = () => {
   };
 
   const reset = () => {
-    deleteDictionaryDraft().then(response => {
+    deleteDictionaryDraft().then((response) => {
       if (response.err) {
         appendNotification({
           type: NOTIFICATION_TYPES.ERROR,
@@ -164,7 +164,7 @@ export const useDictionary = () => {
   };
 
   const publish = () => {
-    publishDictionaryDraft().then(response => {
+    publishDictionaryDraft().then((response) => {
       if (response.err) {
         appendNotification({
           type: NOTIFICATION_TYPES.ERROR,
@@ -194,7 +194,7 @@ export const useDictionary = () => {
       state.dictionary.fields &&
       state.dictionary.fields.length > 0
     ) {
-      let fieldObj = state.dictionary.fields.find(x => x.displayName === state.activeField);
+      let fieldObj = state.dictionary.fields.find((x) => x.displayName === state.activeField);
       if (fieldObj) {
         return fieldObj.values.sort((a, b) => {
           if (a.value.toLowerCase() < b.value.toLowerCase()) return -1;
@@ -211,7 +211,7 @@ export const useDictionary = () => {
     let activeFieldValues = getActiveFieldValues();
 
     if (activeFieldValues && activeFieldValues.length > 0) {
-      let fieldObj = activeFieldValues.find(x => x.value === state.activeValue);
+      let fieldObj = activeFieldValues.find((x) => x.value === state.activeValue);
       if (fieldObj) {
         return fieldObj.dependents;
       }
@@ -224,7 +224,7 @@ export const useDictionary = () => {
     let totalEdits = 0;
 
     if (state.dictionary && state.dictionary.fields) {
-      state.dictionary.fields.forEach(field => {
+      state.dictionary.fields.forEach((field) => {
         if (field.stats && field.stats.edited) {
           totalEdits += field.stats.edited;
         }
@@ -238,7 +238,7 @@ export const useDictionary = () => {
     let totalNew = 0;
 
     if (state.dictionary && state.dictionary.fields) {
-      state.dictionary.fields.forEach(field => {
+      state.dictionary.fields.forEach((field) => {
         if (field.stats && field.stats.new) {
           totalNew += field.stats.new;
         }
@@ -250,18 +250,12 @@ export const useDictionary = () => {
 
   const getLastPublished = () => {
     if (!state || !state.dictionary || !state.dictionary.created_at) return null;
-    return moment
-      .utc(state.dictionary.created_at)
-      .local()
-      .format('MMM DD, YYYY');
+    return moment.utc(state.dictionary.created_at).local().format('MMM DD, YYYY');
   };
 
   const getLastUpdated = () => {
     if (!state || !state.dictionary || !state.dictionary.updated_at) return null;
-    return moment
-      .utc(state.dictionary.updated_at)
-      .local()
-      .format('MMM DD, YYYY h:mm a');
+    return moment.utc(state.dictionary.updated_at).local().format('MMM DD, YYYY h:mm a');
   };
 
   return {

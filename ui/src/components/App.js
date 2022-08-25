@@ -28,7 +28,7 @@ import base from 'theme';
 // https://github.com/ReactTraining/react-router/issues/6072
 const ProvidedRoutes = () => (
   <ModalStateContext.Consumer>
-    {modalState => (
+    {(modalState) => (
       <Component
         initialState={{
           version: globals.VERSION,
