@@ -38,7 +38,7 @@
     "@babel/eslint-parser": "^7.17.0",
     "@babel/eslint-plugin": "^7.17.7",
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
-    "@elastic/elasticsearch": "7.6.1",
+    "@elastic/elasticsearch": "~7.17.0",
     "axios": "^0.21.2",
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^8.5.0",
