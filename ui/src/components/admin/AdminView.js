@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react';
 import { Route } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import { useGenomicVariantImportNotifications } from 'components/admin/Notifications';
 import { usePublishNotifications } from 'components/admin/Notifications';
@@ -13,8 +14,11 @@ import { ModelSingle } from './Model';
 
 import { AdminMain, AdminWrapper } from 'theme/adminStyles';
 
+import config from './config';
 import useInterval from 'utils/useInterval';
 import { isEmpty } from 'lodash';
+
+const { googleAppId } = config;
 
 const AdminView = ({ location }) => {
   const didMountRef = useRef(false);
@@ -56,13 +60,15 @@ const AdminView = ({ location }) => {
 
   return (
     <AdminWrapper>
-      <AdminNav location={location} />
-      <AdminMain id="main">
-        <Route exact path="/admin" component={ModelsManager} />
-        <Route exact path="/admin/model/:name?" component={ModelSingle} />
-        <Route exact path="/admin/manage-users" component={UsersManager} />
-        <Route exact path="/admin/data-dictionary" component={DataDictionary} />
-      </AdminMain>
+      <GoogleOAuthProvider clientId={googleAppId}>
+        <AdminNav location={location} />
+        <AdminMain id="main">
+          <Route exact path="/admin" component={ModelsManager} />
+          <Route exact path="/admin/model/:name?" component={ModelSingle} />
+          <Route exact path="/admin/manage-users" component={UsersManager} />
+          <Route exact path="/admin/data-dictionary" component={DataDictionary} />
+        </AdminMain>
+      </GoogleOAuthProvider>
     </AdminWrapper>
   );
 };

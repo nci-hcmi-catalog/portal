@@ -1,5 +1,6 @@
 import { fetchData } from '../services/Fetcher';
 import config from '../config';
+import { getAuth } from './googleAuth';
 
 export const getSheetObject = (sheetURL) => {
   // example sheeturl:
@@ -16,12 +17,9 @@ export const getSheetObject = (sheetURL) => {
   };
 };
 export const getUploadTemplate = async (type) => {
-  const gapi = global.gapi;
-
   // TODO: this assumes user is already logged in - create a prompt to let user
   // know to login if not already logged in
-  const currentUser = gapi.auth2.getAuthInstance().currentUser.get();
-  const googleAuthResponse = currentUser.getAuthResponse();
+  const googleAuthResponse = getAuth();
 
   const response = await fetchData({
     url: `${config.urls.cmsBase}/templates/${type}`,

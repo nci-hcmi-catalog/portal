@@ -25,6 +25,7 @@
     "express": "^4.16.3",
     "express-restify-mongoose": "^6.1.2",
     "fs": "^0.0.1-security",
+    "google-auth-library": "^8.4.0",
     "googleapis": "100.0.0",
     "helmet": "^3.15.0",
     "json2csv": "^4.2.1",

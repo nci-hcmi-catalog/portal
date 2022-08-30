@@ -1,4 +1,16 @@
 export { getSheetObject } from './googleSheets';
+
+export {
+  getAuth,
+  setAuth,
+  removeAuth,
+  getToken,
+  decodeToken,
+  getTokenValue,
+  isTokenExpired,
+  getEmailFromToken,
+} from './googleAuth';
+
 export { default as objectValuesToString } from './objectValuesToString';
 
 export { isFormReadyToSave, isFormReadyToPublish } from './modelForm';
