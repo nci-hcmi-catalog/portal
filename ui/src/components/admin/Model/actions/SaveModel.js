@@ -4,7 +4,7 @@ import { usePublishNotifications } from 'components/admin/Notifications';
 import { ButtonPill } from 'theme/adminControlsStyles';
 import SaveIcon from 'icons/SaveIcon';
 
-const SaveModel = (props) => {
+const SaveModel = props => {
   const {
     state: {
       form: { values, isReadyToSave },

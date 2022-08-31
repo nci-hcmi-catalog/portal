@@ -31,7 +31,7 @@ const ImageMetaDataForm = ({ file, editing, setPreviewState, onMetaDataSave }) =
       magnification: file.magnification || 0,
       passage_number: file.passage_number || 0,
     }}
-    onSubmit={(values) => {
+    onSubmit={values => {
       onMetaDataSave({ fileId: file.file_id, metaData: values });
       setPreviewState({ editing: !editing });
     }}
@@ -198,7 +198,7 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
 
 const ImageGallery = ({ acceptedFiles, toDeleteFiles, onDelete, onMetaDataSave }) => (
   <>
-    {acceptedFiles.map((file) => (
+    {acceptedFiles.map(file => (
       <ImagePreview
         queuedForDelete={toDeleteFiles.map(({ file_id }) => file_id).includes(file.file_id)}
         key={file.file_id}
@@ -214,7 +214,7 @@ let dropzoneRef;
 const ImageDropper = ({ onDrop, display }) => (
   <Dropzone
     inputProps={{ 'aria-label': `Drop images here` }}
-    ref={(node) => {
+    ref={node => {
       dropzoneRef = node;
     }}
     css={css`
@@ -309,11 +309,11 @@ const ModelImages = ({ data: { updatedAt } }) => {
               {!!files.length && (
                 <ImageGallery
                   acceptedFiles={files}
-                  toDeleteFiles={files.filter((file) => file.marked_for_deletion)}
+                  toDeleteFiles={files.filter(file => file.marked_for_deletion)}
                   onMetaDataSave={({ fileId, metaData }) => {
                     saveForm({
                       values,
-                      images: files.map((f) => (f.file_id === fileId ? { ...f, ...metaData } : f)),
+                      images: files.map(f => (f.file_id === fileId ? { ...f, ...metaData } : f)),
                       successNotification: {
                         type: 'success',
                         message: `Image Metadata Saved!`,
@@ -322,12 +322,12 @@ const ModelImages = ({ data: { updatedAt } }) => {
                       },
                     });
                   }}
-                  onDelete={(toDeleteFileId) => {
-                    const toDeleteFile = files.find((f) => f.file_id === toDeleteFileId);
+                  onDelete={toDeleteFileId => {
+                    const toDeleteFile = files.find(f => f.file_id === toDeleteFileId);
                     saveForm({
                       values,
                       images: [
-                        ...files.filter((f) => f.file_id !== toDeleteFileId),
+                        ...files.filter(f => f.file_id !== toDeleteFileId),
                         {
                           ...toDeleteFile,
                           marked_for_deletion: !toDeleteFile.marked_for_deletion,

@@ -73,7 +73,7 @@ const DropdownItem = ({
       </div>
       <div>
         {isArray(details)
-          ? details.map((detail) => (
+          ? details.map(detail => (
               <>
                 <span>{detail}</span>
                 <br />

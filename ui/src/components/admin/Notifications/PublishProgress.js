@@ -52,8 +52,11 @@ const PublishProgress = ({ renderIcon }) => {
       ? // eslint-disable-next-line react-hooks/rules-of-hooks
         useContext(ModelManagerContext)
       : { refreshModelsTable: null };
-  const { fetchPublishStatus, showUnexpectedPublishError, hideErrorPublishNotification } =
-    usePublishNotifications();
+  const {
+    fetchPublishStatus,
+    showUnexpectedPublishError,
+    hideErrorPublishNotification,
+  } = usePublishNotifications();
   const [working, setWorking] = useState(false);
   const prevPublishState = useRef();
 
@@ -67,7 +70,7 @@ const PublishProgress = ({ renderIcon }) => {
       ...publishProgress.failed,
       ...publishProgress.stopped,
       ...publishProgress.success,
-    ].filter((x) => x.publishType === PUBLISH_TYPES.bulk);
+    ].filter(x => x.publishType === PUBLISH_TYPES.bulk);
   };
 
   const getProgressBannerType = () => {
@@ -102,7 +105,7 @@ const PublishProgress = ({ renderIcon }) => {
     } else if (publishProgress.running && !getBulkPublishes().length) {
       // Only individual publishes running, no bulk
       return BulkPublishState.off;
-    } else if (getBulkPublishes().filter((x) => x.status === PUBLISH_STATUS.stopped).length) {
+    } else if (getBulkPublishes().filter(x => x.status === PUBLISH_STATUS.stopped).length) {
       // Bulk publish has been stopped
       return BulkPublishState.stopped;
     } else {
@@ -115,7 +118,7 @@ const PublishProgress = ({ renderIcon }) => {
     let completePublishes;
     switch (getBulkPublishState()) {
       case BulkPublishState.complete:
-        completePublishes = getBulkPublishes().filter((x) => x.status === PUBLISH_STATUS.complete);
+        completePublishes = getBulkPublishes().filter(x => x.status === PUBLISH_STATUS.complete);
         return `Bulk Publish Complete: ${completePublishes.length} model${
           completePublishes.length === 1 ? ' has' : 's have'
         } been published.`;
@@ -124,7 +127,7 @@ const PublishProgress = ({ renderIcon }) => {
           getBulkPublishes().length === 1 ? ' is' : 's are'
         } currently publishing.`;
       case BulkPublishState.stopped:
-        completePublishes = getBulkPublishes().filter((x) => x.status === PUBLISH_STATUS.complete);
+        completePublishes = getBulkPublishes().filter(x => x.status === PUBLISH_STATUS.complete);
         return `Bulk Publish Stopped: ${completePublishes.length} model${
           completePublishes.length === 1 ? ' has' : 's have'
         } successfully published.`;
@@ -135,10 +138,10 @@ const PublishProgress = ({ renderIcon }) => {
   };
 
   const ProgressBar = () => {
-    const success = getBulkPublishes().filter((x) => x.status === PUBLISH_STATUS.complete);
-    const failed = getBulkPublishes().filter((x) => x.status === PUBLISH_STATUS.error);
+    const success = getBulkPublishes().filter(x => x.status === PUBLISH_STATUS.complete);
+    const failed = getBulkPublishes().filter(x => x.status === PUBLISH_STATUS.error);
     const incomplete = getBulkPublishes().filter(
-      (x) =>
+      x =>
         x.status === PUBLISH_STATUS.active ||
         x.status === PUBLISH_STATUS.waiting ||
         x.status === PUBLISH_STATUS.stopped,
@@ -226,11 +229,11 @@ const PublishProgress = ({ renderIcon }) => {
           onConfirm: async () => {
             setWorking(true);
             stopAllPublishes()
-              .then(async (_) => {
+              .then(async _ => {
                 await fetchPublishStatus();
                 setWorking(false);
               })
-              .catch((error) => {
+              .catch(error => {
                 showUnexpectedPublishError(error);
               });
           },
@@ -258,17 +261,17 @@ const PublishProgress = ({ renderIcon }) => {
             }
 
             setWorking(true);
-            acknowledgeBulkPublishStatus(getBulkPublishes().map((x) => x.modelName))
-              .then(async (data) => {
+            acknowledgeBulkPublishStatus(getBulkPublishes().map(x => x.modelName))
+              .then(async data => {
                 if (data.success) {
                   // Remove error notifications for acknowledged errors
-                  (data.acknowledged || []).forEach((model) => {
+                  (data.acknowledged || []).forEach(model => {
                     hideErrorPublishNotification(model.modelName);
                   });
                 }
                 await fetchPublishStatus();
               })
-              .catch((error) => {
+              .catch(error => {
                 showUnexpectedPublishError(error);
               });
           }}

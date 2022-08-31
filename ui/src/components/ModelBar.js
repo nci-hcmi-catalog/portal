@@ -32,7 +32,7 @@ const ModelBar = ({ name, id, isExpanded }) => {
   } = useContext(SelectedModelsContext);
   const isSelected = modelIds.includes(id);
 
-  const getBackRoute = (sqon) => {
+  const getBackRoute = sqon => {
     // need to avoid empty sqon object
     return sqon &&
       sqon.content &&

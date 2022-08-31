@@ -90,34 +90,32 @@ const TabView = ({
                 Imported: <b>{geneMeta.fileName}</b> on <b>{geneMeta.importDate}</b>
               </>
             )}
-            {
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              useConfirmationModal({
-                title: 'Clear Existing Variants?',
-                message: 'Are you sure you want to clear the existing list of variants?',
-                confirmLabel: 'Yes, Clear',
-                onConfirm: () =>
-                  clearGenomicVariants(modelName)
-                    .then((_) => fetchGenomicVariantData(modelName))
-                    .catch((error) =>
-                      appendNotification({
-                        type: NOTIFICATION_TYPES.ERROR,
-                        message: `Clear Error: An unexpected error occured while clearing research variants for ${modelName}`,
-                        details: error.message,
-                        timeout: false,
-                      }),
-                    ),
-              })(
-                <ButtonPill
-                  secondary
-                  css={css`
-                    margin-left: 5px;
-                  `}
-                >
-                  Clear List
-                </ButtonPill>,
-              )
-            }
+            {// eslint-disable-next-line react-hooks/rules-of-hooks
+            useConfirmationModal({
+              title: 'Clear Existing Variants?',
+              message: 'Are you sure you want to clear the existing list of variants?',
+              confirmLabel: 'Yes, Clear',
+              onConfirm: () =>
+                clearGenomicVariants(modelName)
+                  .then(_ => fetchGenomicVariantData(modelName))
+                  .catch(error =>
+                    appendNotification({
+                      type: NOTIFICATION_TYPES.ERROR,
+                      message: `Clear Error: An unexpected error occured while clearing research variants for ${modelName}`,
+                      details: error.message,
+                      timeout: false,
+                    }),
+                  ),
+            })(
+              <ButtonPill
+                secondary
+                css={css`
+                  margin-left: 5px;
+                `}
+              >
+                Clear List
+              </ButtonPill>,
+            )}
           </ToolbarHeader>
           {genomicVariantsData.length > 0 ? (
             <>
@@ -168,13 +166,16 @@ const TabView = ({
 };
 
 const isImporting = (importNotifications, modelName) => {
-  return (importNotifications || []).find((activeImport) => activeImport.modelName === modelName);
+  return (importNotifications || []).find(activeImport => activeImport.modelName === modelName);
 };
 
-const getDateString = (date) => {
+const getDateString = date => {
   if (!date) return null;
 
-  return moment.utc(date).local().format('YYYY-MM-DD h:mm a');
+  return moment
+    .utc(date)
+    .local()
+    .format('YYYY-MM-DD h:mm a');
 };
 
 const ModelVariants = ({
@@ -184,16 +185,19 @@ const ModelVariants = ({
   const { fetchGenomicVariantData } = useContext(ModelSingleContext);
   const [activeTab, setActiveTab] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { importNotifications, addImportNotification, showErrorImportNotification } =
-    useGenomicVariantImportNotifications();
-  const clinicalVariantsData = variants.map((variant) => ({
+  const {
+    importNotifications,
+    addImportNotification,
+    showErrorImportNotification,
+  } = useGenomicVariantImportNotifications();
+  const clinicalVariantsData = variants.map(variant => ({
     _id: variant._id,
     variant_name: variant.variant.name,
     variant_type: variant.variant.type,
     assessment_type: variant.assessment_type,
     expression_level: variant.expression_level,
   }));
-  const genomicVariantsData = (genomic_variants || []).filter((variant) => variant.gene);
+  const genomicVariantsData = (genomic_variants || []).filter(variant => variant.gene);
   const geneMeta = useMemo(
     () =>
       gene_metadata && gene_metadata.filename && gene_metadata.import_date
@@ -242,7 +246,7 @@ const ModelVariants = ({
               </AdminHeaderH3>
               <AdminHeaderBlock>
                 <ModalStateContext.Consumer>
-                  {(modalState) => (
+                  {modalState => (
                     <>
                       <ButtonPill
                         primary
@@ -279,7 +283,7 @@ const ModelVariants = ({
                                 margin-left: 10px;
                               `}
                               disabled={importNotifications.find(
-                                (notification) => notification.modelName === name,
+                                notification => notification.modelName === name,
                               )}
                               onClick={() => setDropdownOpen(!dropdownOpen)}
                             >
@@ -306,26 +310,24 @@ const ModelVariants = ({
                         onClose={() => setDropdownOpen(false)}
                       >
                         <>
-                          {
-                            // eslint-disable-next-line react-hooks/rules-of-hooks
-                            useConfirmationModal({
-                              title: 'Overwrite Existing Variants?',
-                              message:
-                                'Are you sure you want to import new research variants and overwrite the existing list?',
-                              confirmLabel: 'Yes, Import',
-                              onConfirm: () => {
-                                importGenomicVariants(name)
-                                  .then(async (_) => {
-                                    await addImportNotification(name);
-                                  })
-                                  .catch((error) => {
-                                    const data = error.response ? error.response.data : error;
-                                    showErrorImportNotification(name, data);
-                                  });
-                              },
-                              confirmationRequired: genomicVariantsData.length > 0,
-                            })(<DropdownItem size={12}>Automatic Import from GDC</DropdownItem>)
-                          }
+                          {// eslint-disable-next-line react-hooks/rules-of-hooks
+                          useConfirmationModal({
+                            title: 'Overwrite Existing Variants?',
+                            message:
+                              'Are you sure you want to import new research variants and overwrite the existing list?',
+                            confirmLabel: 'Yes, Import',
+                            onConfirm: () => {
+                              importGenomicVariants(name)
+                                .then(async _ => {
+                                  await addImportNotification(name);
+                                })
+                                .catch(error => {
+                                  const data = error.response ? error.response.data : error;
+                                  showErrorImportNotification(name, data);
+                                });
+                            },
+                            confirmationRequired: genomicVariantsData.length > 0,
+                          })(<DropdownItem size={12}>Automatic Import from GDC</DropdownItem>)}
                           {withManualImportMafModal({
                             modelName: name,
                             onConfirm: async () => await addImportNotification(name),
@@ -337,7 +339,7 @@ const ModelVariants = ({
                 </ModalStateContext.Consumer>
               </AdminHeaderBlock>
             </AdminHeader>
-            {(clinicalVariantsData.length > 0 || genomicVariantsData.length > 0 || geneMeta) && (
+            {(clinicalVariantsData.length > 0 || (genomicVariantsData.length > 0 || geneMeta)) && (
               <>
                 <TabGroup>
                   <Tab

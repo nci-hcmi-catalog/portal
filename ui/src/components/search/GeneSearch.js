@@ -24,7 +24,7 @@ const GeneSearch = ({ sqon, setSQON, tooltipWidth, ...props }) => (
     }
     placeholder="e.g. BRAF, EWSR, ..."
     ResultsIcon={GeneIcon}
-    optionTransformer={(option) => {
+    optionTransformer={option => {
       // const details = [option.ensemble_id, option.name];
       // if (option.synonyms && option.synonyms.length > 0) {
       //   details.push(option.synonyms.join(', '));

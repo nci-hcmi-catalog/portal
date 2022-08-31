@@ -11,8 +11,8 @@ import { ActionPill, Actions } from 'theme/adminTableStyles';
 const selectedColumns = ['variant_name', 'variant_type', 'assessment_type', 'expression_level'];
 
 export const columns = schemaArr
-  .filter((field) => selectedColumns.indexOf(field.accessor) !== -1)
-  .map((field) => {
+  .filter(field => selectedColumns.indexOf(field.accessor) !== -1)
+  .map(field => {
     field.Header = field.displayName;
     return field;
   });
@@ -44,7 +44,7 @@ const modelVariantCustomColumns = [
 ];
 
 export const ModelVariantColumns = columns
-  .filter((col) =>
+  .filter(col =>
     ['variant_name', 'variant_type', 'assessment_type', 'expression_level'].includes(col.accessor),
   )
   .concat(modelVariantCustomColumns);

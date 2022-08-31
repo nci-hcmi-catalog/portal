@@ -50,7 +50,7 @@ const scrollIntoView = () =>
     offset: -20,
   });
 
-const renderIcon = (type) => {
+const renderIcon = type => {
   if (!type) {
     return null;
   }
@@ -132,7 +132,7 @@ const NotificationToaster = () => {
       ...importProgress.failed,
       ...importProgress.stopped,
       ...importProgress.success,
-    ].filter((x) => x.importType === VARIANT_IMPORT_TYPES.bulk);
+    ].filter(x => x.importType === VARIANT_IMPORT_TYPES.bulk);
   };
 
   const getBulkPublishes = () => {
@@ -145,7 +145,7 @@ const NotificationToaster = () => {
       ...publishProgress.failed,
       ...publishProgress.stopped,
       ...publishProgress.success,
-    ].filter((x) => x.publishType === PUBLISH_TYPES.bulk);
+    ].filter(x => x.publishType === PUBLISH_TYPES.bulk);
   };
 
   const isActiveBulkImport = () => !!getBulkImports().length;
@@ -187,7 +187,7 @@ const NotificationToaster = () => {
               : 0,
           )
           .reverse()
-          .map((notification) => (
+          .map(notification => (
             <Notification key={notification.id} type={notification.type}>
               {renderIcon(notification.type)}
               <Col width={'100%'}>

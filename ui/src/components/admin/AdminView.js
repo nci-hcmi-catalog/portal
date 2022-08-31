@@ -24,8 +24,11 @@ const AdminView = ({ location }) => {
   const didMountRef = useRef(false);
   const [importPollingInterval, setImportPollingInterval] = useState(500);
   const [publishPollingInterval, setPublishPollingInterval] = useState(500);
-  const { importNotifications, importRunning, fetchImportStatus } =
-    useGenomicVariantImportNotifications();
+  const {
+    importNotifications,
+    importRunning,
+    fetchImportStatus,
+  } = useGenomicVariantImportNotifications();
   const { publishNotifications, publishRunning, fetchPublishStatus } = usePublishNotifications();
 
   // Check for active genomic variant imports or publishes on page load

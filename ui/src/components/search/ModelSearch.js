@@ -12,7 +12,7 @@ const ModelSearch = ({ sqon, setSQON, ...props }) => (
     header="Search by Model Name"
     placeholder="e.g. HCM-BROD-0051-C64, ..."
     ResultsIcon={ModelIcon}
-    optionTransformer={(option) => {
+    optionTransformer={option => {
       const details = [option.primary_site];
 
       return { title: option.primaryKey, details, value: option.primaryKey };

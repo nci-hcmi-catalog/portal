@@ -53,22 +53,22 @@ const EditableFieldValue = ({
     setHovering(false);
   };
 
-  const changeHandler = (e) => {
+  const changeHandler = e => {
     e.preventDefault();
     setValue(e.target.value);
   };
 
-  const clearError = (e) => {
+  const clearError = e => {
     e.preventDefault();
     setFieldState(initialState);
     setValue(initialValue);
   };
 
-  const startEdit = (e) => {
+  const startEdit = e => {
     setFieldState('editing');
   };
 
-  const saveEdit = (e) => {
+  const saveEdit = e => {
     e.preventDefault();
 
     if (!value || !value.trim()) {
@@ -80,7 +80,7 @@ const EditableFieldValue = ({
       });
       setFieldState('error');
     } else if (value !== initialValue) {
-      editFn(value).then((success) => {
+      editFn(value).then(success => {
         if (success) {
           setFieldState(initialState === 'new' ? initialState : 'edited');
         } else {
@@ -93,7 +93,7 @@ const EditableFieldValue = ({
     }
   };
 
-  const undoEdit = (e) => {
+  const undoEdit = e => {
     e.stopPropagation();
 
     resetFn();
@@ -102,12 +102,12 @@ const EditableFieldValue = ({
     setFieldState('default');
   };
 
-  const undoAddNew = (e) => {
+  const undoAddNew = e => {
     e.stopPropagation();
     removeFn();
   };
 
-  const handleClick = (e) => {
+  const handleClick = e => {
     clickHandler && clickHandler();
     fieldState !== 'editing' && startEdit(e);
   };
@@ -126,7 +126,7 @@ const EditableFieldValue = ({
     setValue(initialValue);
   }, [initialValue]);
 
-  const renderFieldLabel = (fieldState) => {
+  const renderFieldLabel = fieldState => {
     switch (fieldState) {
       case 'editing':
         return (
@@ -135,7 +135,7 @@ const EditableFieldValue = ({
               type="text"
               value={value}
               onChange={changeHandler}
-              onMouseDown={(e) => e.stopPropagation()}
+              onMouseDown={e => e.stopPropagation()}
               onBlur={saveEdit}
               innerRef={editableFieldRef}
             />
@@ -151,7 +151,7 @@ const EditableFieldValue = ({
     }
   };
 
-  const renderFieldState = (fieldState) => {
+  const renderFieldState = fieldState => {
     switch (fieldState) {
       case 'editing':
         return (

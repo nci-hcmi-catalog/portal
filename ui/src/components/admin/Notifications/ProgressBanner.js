@@ -71,7 +71,7 @@ const ProgressBanner = ({ renderIcon }) => {
       ...importProgress.failed,
       ...importProgress.stopped,
       ...importProgress.success,
-    ].filter((x) => x.importType === VARIANT_IMPORT_TYPES.bulk);
+    ].filter(x => x.importType === VARIANT_IMPORT_TYPES.bulk);
   };
 
   const getProgressBannerType = () => {
@@ -106,7 +106,7 @@ const ProgressBanner = ({ renderIcon }) => {
     } else if (importProgress.running && !getBulkImports().length) {
       // Only individual imports running, no bulk
       return BulkImportState.off;
-    } else if (getBulkImports().filter((x) => x.status === VARIANT_IMPORT_STATUS.stopped).length) {
+    } else if (getBulkImports().filter(x => x.status === VARIANT_IMPORT_STATUS.stopped).length) {
       // Bulk import has been stopped
       return BulkImportState.stopped;
     } else {
@@ -119,9 +119,7 @@ const ProgressBanner = ({ renderIcon }) => {
     let completeImports;
     switch (getImportState()) {
       case BulkImportState.complete:
-        completeImports = getBulkImports().filter(
-          (x) => x.status === VARIANT_IMPORT_STATUS.complete,
-        );
+        completeImports = getBulkImports().filter(x => x.status === VARIANT_IMPORT_STATUS.complete);
         return `Import Complete: Research somatic variants for ${completeImports.length} model${
           completeImports.length === 1 ? ' has' : 's have'
         } successfully imported.`;
@@ -130,9 +128,7 @@ const ProgressBanner = ({ renderIcon }) => {
           getBulkImports().length === 1 ? ' is' : 's are'
         } currently importing.`;
       case BulkImportState.stopped:
-        completeImports = getBulkImports().filter(
-          (x) => x.status === VARIANT_IMPORT_STATUS.complete,
-        );
+        completeImports = getBulkImports().filter(x => x.status === VARIANT_IMPORT_STATUS.complete);
         return `Import Stopped: Research somatic variants for ${completeImports.length} model${
           completeImports.length === 1 ? ' has' : 's have'
         } successfully imported.`;
@@ -143,10 +139,10 @@ const ProgressBanner = ({ renderIcon }) => {
   };
 
   const ProgressBar = () => {
-    const success = getBulkImports().filter((x) => x.status === VARIANT_IMPORT_STATUS.complete);
-    const failed = getBulkImports().filter((x) => x.status === VARIANT_IMPORT_STATUS.error);
+    const success = getBulkImports().filter(x => x.status === VARIANT_IMPORT_STATUS.complete);
+    const failed = getBulkImports().filter(x => x.status === VARIANT_IMPORT_STATUS.error);
     const incomplete = getBulkImports().filter(
-      (x) =>
+      x =>
         x.status === VARIANT_IMPORT_STATUS.active ||
         x.status === VARIANT_IMPORT_STATUS.waiting ||
         x.status === VARIANT_IMPORT_STATUS.stopped,
@@ -236,11 +232,11 @@ const ProgressBanner = ({ renderIcon }) => {
           onConfirm: async () => {
             setWorking(true);
             stopAllImports()
-              .then(async (_) => {
+              .then(async _ => {
                 await fetchImportStatus();
                 setWorking(false);
               })
-              .catch((error) => {
+              .catch(error => {
                 showUnexpectedImportError(error);
               });
           },
@@ -268,11 +264,11 @@ const ProgressBanner = ({ renderIcon }) => {
             }
 
             setWorking(true);
-            acknowledgeBulkImportStatus(getBulkImports().map((x) => x.modelName))
-              .then(async (data) => {
+            acknowledgeBulkImportStatus(getBulkImports().map(x => x.modelName))
+              .then(async data => {
                 if (data.success) {
                   // Remove error notifications for acknowledged errors
-                  (data.acknowledged || []).forEach((model) => {
+                  (data.acknowledged || []).forEach(model => {
                     hideErrorImportNotification(model.modelName);
                   });
                   // Remove bulk nonactionable error notification
@@ -280,7 +276,7 @@ const ProgressBanner = ({ renderIcon }) => {
                 }
                 await fetchImportStatus();
               })
-              .catch((error) => {
+              .catch(error => {
                 showUnexpectedImportError(error);
               });
           }}
