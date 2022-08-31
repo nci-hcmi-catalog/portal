@@ -62,7 +62,7 @@ const UserModal = ({
   const actionTitle = 'add' === type ? `Add new` : `Edit`;
   return (
     <ModalStateContext.Consumer>
-      {(modalState) => (
+      {modalState => (
         <ModalWrapper>
           <Header>
             <Title>{`${actionTitle} User`}</Title>

@@ -34,7 +34,7 @@ const ModelsManager = () => {
             <ModelManagerContext.Consumer>
               {({ bulkImportVariants, state }) => (
                 <ModalStateContext.Consumer>
-                  {(modalState) => (
+                  {modalState => (
                     <ButtonPill
                       primary
                       marginRight="8px"
@@ -57,7 +57,7 @@ const ModelsManager = () => {
             <ModelManagerContext.Consumer>
               {({ uploadModelsFromSheet, state }) => (
                 <ModalStateContext.Consumer>
-                  {(modalState) => (
+                  {modalState => (
                     <ButtonPill
                       primary
                       marginRight="8px"

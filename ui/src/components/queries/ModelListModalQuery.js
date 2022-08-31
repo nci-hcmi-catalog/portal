@@ -77,7 +77,7 @@ const fetchData = async ({ setState, modelIds }) => {
     },
   });
   setState({
-    models: get(data, `models.hits.edges`, []).map((edge) => edge.node),
+    models: get(data, `models.hits.edges`, []).map(edge => edge.node),
     loading: false,
   });
 };
@@ -95,8 +95,8 @@ const ModelListModalQuery = ({ selected, ...props }) => (
       // no need to query everytime we remove items from the list
       const newModelId = props.selected.state.modelIds;
       if (newModelId.length < prevProps.selected.state.modelIds.length && !state.loading) {
-        setState((state) => ({
-          models: state.models.filter((model) => newModelId.indexOf(model.id) !== -1),
+        setState(state => ({
+          models: state.models.filter(model => newModelId.indexOf(model.id) !== -1),
         }));
       }
     }}

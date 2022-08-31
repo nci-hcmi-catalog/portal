@@ -24,11 +24,11 @@ class SelectedModelsProvider extends React.Component {
         value={{
           state: this.state,
           storageKey: this.storageKey,
-          setModels: (modelIds) => {
+          setModels: modelIds => {
             window.sessionStorage.setItem(this.storageKey, JSON.stringify(modelIds));
             this.setState({ modelIds });
           },
-          toggleModel: (modelId) => {
+          toggleModel: modelId => {
             const modelIds = xor(this.state.modelIds, [modelId]);
             window.sessionStorage.setItem(this.storageKey, JSON.stringify(modelIds));
             return this.setState({ ...this.state, modelIds });

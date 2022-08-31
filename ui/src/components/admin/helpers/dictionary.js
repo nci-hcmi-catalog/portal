@@ -14,10 +14,10 @@ export const getDictionary = async () => {
 export const getDictionaryDraft = async () => {
   const url = DICTIONARY_DRAFT_URL;
   const response = await get({ url })
-    .then((res) => {
+    .then(res => {
       return res;
     })
-    .catch((err) => {
+    .catch(err => {
       return err.response;
     });
 
@@ -28,10 +28,10 @@ export const getDictionaryDraft = async () => {
 export const deleteDictionaryDraft = async () => {
   const url = DICTIONARY_DRAFT_URL;
   const response = await fetchData({ url, method: 'delete', data: '' })
-    .then((res) => {
+    .then(res => {
       return res;
     })
-    .catch((err) => {
+    .catch(err => {
       return err.response;
     });
 
@@ -42,10 +42,10 @@ export const deleteDictionaryDraft = async () => {
 export const publishDictionaryDraft = async () => {
   const url = `${DICTIONARY_DRAFT_URL}/publish`;
   const response = await post({ url, data: '' })
-    .then((res) => {
+    .then(res => {
       return res;
     })
-    .catch((err) => {
+    .catch(err => {
       return err.response;
     });
 
@@ -67,10 +67,10 @@ export const addDictionaryDraftValue = async ({
     value,
   };
   const response = await post({ url, data })
-    .then((res) => {
+    .then(res => {
       return res;
     })
-    .catch((err) => {
+    .catch(err => {
       return err.response;
     });
 
@@ -94,10 +94,10 @@ export const editDictionaryDraftValue = async ({
     updated,
   };
   const response = await patch({ url, data })
-    .then((res) => {
+    .then(res => {
       return res;
     })
-    .catch((err) => {
+    .catch(err => {
       return err.response;
     });
 
@@ -119,10 +119,10 @@ export const removeDictionaryDraftValue = async ({
     value,
   };
   const response = await post({ url, data })
-    .then((res) => {
+    .then(res => {
       return res;
     })
-    .catch((err) => {
+    .catch(err => {
       return err.response;
     });
 

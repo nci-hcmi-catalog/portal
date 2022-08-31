@@ -31,8 +31,7 @@ import searchStyles from 'theme/searchStyles';
 
 import tsvDownloader, { convertColumnsToTableData } from 'utils/tsvDownloader';
 
-const normalizeOption = (option) =>
-  option === 'true' ? true : option === 'false' ? false : option;
+const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
 const importAllOptions = [
   { label: `Import only new variant data for models with no current variant data.`, value: false },
@@ -51,7 +50,10 @@ const auditTableColumns = (importedLength, cleanLength) => [
 ];
 
 const generateTsvFilename = () => {
-  const date = moment.utc(new Date()).local().format('YYYY-MM-DD_HH∶mm∶ss');
+  const date = moment
+    .utc(new Date())
+    .local()
+    .format('YYYY-MM-DD_HH∶mm∶ss');
   return `research-somatic-variant-audit_${date}`;
 };
 
@@ -67,7 +69,7 @@ const VariantAuditModal = ({ bulkImportVariants }) => {
   let [error, setError] = useState(null);
 
   const closeModal = () => modalState.setModalState({ component: null });
-  const onImportAllChange = (value) => setImportAll(value);
+  const onImportAllChange = value => setImportAll(value);
   const onImportClick = async () => {
     setLoading(true);
     const modelNames = normalizeOption(importAll) ? [...imported, ...clean] : [...clean];
@@ -166,10 +168,10 @@ const VariantAuditModal = ({ bulkImportVariants }) => {
                           id={`import-all-option-${idx}`}
                           value={optionValue}
                           checked={formValue === optionValue}
-                          onChange={(e) => {
+                          onChange={e => {
                             onImportAllChange(e.currentTarget.value);
                           }}
-                          onClick={(e) => {
+                          onClick={e => {
                             onImportAllChange(e.currentTarget.value);
                           }}
                         />

@@ -4,7 +4,7 @@ const SHOW_UNEXPANDED_KEY = 'show-unexpanded';
 
 export const ExpandedUnexpandedContext = React.createContext([{}, () => {}]);
 
-export const ExpandedUnexpandedProvider = (props) => {
+export const ExpandedUnexpandedProvider = props => {
   const [showUnexpanded, setShowUnexpanded] = useState(
     JSON.parse(localStorage.getItem(SHOW_UNEXPANDED_KEY)) || false,
   );
@@ -31,7 +31,7 @@ export const useExpandedUnexpanded = () => {
     return showUnexpanded;
   };
 
-  const set = (val) => {
+  const set = val => {
     setShowUnexpanded(val);
     localStorage.setItem(SHOW_UNEXPANDED_KEY, val);
   };

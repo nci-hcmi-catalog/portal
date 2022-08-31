@@ -26,7 +26,7 @@ const TopVariantsChart = ({ sqon, setSQON }) => (
         return (
           <Component
             top10={(aggState.buckets || [])
-              .filter((b) => b.key !== '__missing__')
+              .filter(b => b.key !== '__missing__')
               .sort((a, b) => {
                 if (b.doc_count === a.doc_count) {
                   if (a.key > b.key) {
@@ -57,7 +57,7 @@ const TopVariantsChart = ({ sqon, setSQON }) => (
               const { coloredTop10 } = props.top10.reduce(
                 (acc, bucket) => {
                   const color = byKey[bucket.key] || acc.palette[0];
-                  const palette = acc.palette.filter((pColor) => pColor !== color);
+                  const palette = acc.palette.filter(pColor => pColor !== color);
                   return {
                     coloredTop10: [
                       ...acc.coloredTop10,
@@ -104,13 +104,13 @@ const TopVariantsChart = ({ sqon, setSQON }) => (
                     padding={0.4}
                     indexBy="key"
                     keys={['doc_count']}
-                    colorBy={(data) => (data || { data: { color: 'white' } }).data.color}
+                    colorBy={data => (data || { data: { color: 'white' } }).data.color}
                     axisBottom={{
                       tickSize: 0,
                       tickPadding: 5,
                       tickRotation: 45,
                       legendOffset: 50,
-                      format: (value) => {
+                      format: value => {
                         const cutoffLength = 6;
                         const dashIndex = value.indexOf('-');
                         const spaceIndex = value.indexOf(' ');
@@ -151,7 +151,7 @@ const TopVariantsChart = ({ sqon, setSQON }) => (
                     }}
                     tooltip={({ value, data }) => ChartTooltip({ value, label: data.key })}
                     isInteractive={true}
-                    onClick={(data) =>
+                    onClick={data =>
                       setSQON(
                         addInSQON(
                           {

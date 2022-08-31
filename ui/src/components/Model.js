@@ -69,7 +69,7 @@ const HorizontalTable = ({
     // <table className="entity-horizontal-table" cellPadding="0" cellSpacing="0" css={css}>
     <table className="entity-horizontal-table" cellPadding="0" cellSpacing="0">
       <tbody>
-        {Object.keys(data).map((field) => {
+        {Object.keys(data).map(field => {
           const { key, value } = data[field];
           return (
             <tr key={key}>
@@ -95,7 +95,7 @@ const HorizontalTable = ({
   );
 };
 
-const MultipleModelContent = (match) => {
+const MultipleModelContent = match => {
   return (
     <div className="multiple-models__model" key={match.name}>
       <div className="multiple-models__model-icon">
@@ -168,10 +168,10 @@ const MolecularCharacterizationsTable = ({ characterizations }) => {
           <th>Tumor</th>
           <th>Normal</th>
         </tr>
-        {CHARS.map((characterization) => (
+        {CHARS.map(characterization => (
           <tr key={characterization}>
             <th>{characterization}</th>
-            {TYPES.map((type) => (
+            {TYPES.map(type => (
               <td key={`${characterization} of ${type}`}>
                 <MolecularCharacterizationsCell
                   isAvailable={characterizations.includes(`${characterization} of ${type}`)}
@@ -309,9 +309,7 @@ const Model = ({ modelName }) => (
                     </h3>
                     <MultipleModelsTooltip />
                     <MultipleModelsList
-                      matches={queryState.model.matched_models.hits.edges.map(
-                        (match) => match.node,
-                      )}
+                      matches={queryState.model.matched_models.hits.edges.map(match => match.node)}
                     />
                   </div>
 

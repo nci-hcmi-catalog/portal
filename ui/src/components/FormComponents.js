@@ -29,14 +29,13 @@ import CrossCircleIcon from 'icons/CrossCircleIcon';
 
 const hasErrors = (errors, touched, fieldName) => touched[fieldName] && errors[fieldName];
 
-const normalizeOption = (option) =>
-  option === 'true' ? true : option === 'false' ? false : option;
+const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
 // Map simple string/number options to keyed objects
-const processOptions = (options) =>
+const processOptions = options =>
   options
     .sort()
-    .map((option) =>
+    .map(option =>
       typeof option === 'object' && option.constructor === Object
         ? option
         : { label: option, value: normalizeOption(option) },
@@ -207,10 +206,10 @@ export const FormMultiCheckbox = ({
                 value={value}
                 checked={fieldValues.includes(value)}
                 name={fieldName}
-                onChange={(e) => {
+                onChange={e => {
                   const newSelects = e.target.checked
                     ? fieldValues.concat([value])
-                    : fieldValues.filter((option) => option !== value);
+                    : fieldValues.filter(option => option !== value);
                   setFieldValue(fieldName, newSelects);
                   setFieldTouched(fieldName);
                 }}
@@ -234,7 +233,7 @@ export const FormAutoComplete = ({
   clearable = false,
   onSelect = () => {},
 }) => {
-  const select = (value) => {
+  const select = value => {
     onSelect(value);
     setFieldValue(name, value);
   };
@@ -265,8 +264,8 @@ export const FormAutoComplete = ({
         shouldItemRender={(item, value) =>
           item.label.toLowerCase().indexOf(value.toLowerCase()) > -1
         }
-        getItemValue={(item) => item.label}
-        renderMenu={(items) => <AutoCompleteMenu children={items} />}
+        getItemValue={item => item.label}
+        renderMenu={items => <AutoCompleteMenu children={items} />}
         renderItem={(item, highlighted) => (
           <AutoCompleteOption
             id={item.value}
@@ -279,12 +278,12 @@ export const FormAutoComplete = ({
           </AutoCompleteOption>
         )}
         value={value}
-        onChange={(e) => {
+        onChange={e => {
           setFieldValue(name, e.target.value);
           setFieldTouched(name);
           onSelect();
         }}
-        onSelect={(value) => select(value)}
+        onSelect={value => select(value)}
       />
       {value && clearable && (
         <AutoCompleteClearButton onClick={() => select('')}>

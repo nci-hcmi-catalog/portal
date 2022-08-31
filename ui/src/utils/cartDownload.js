@@ -30,8 +30,8 @@ async function fetchColumns() {
   const extended = data?.models?.extended || [];
 
   const output = [];
-  columns.forEach((column) => {
-    const extendedData = extended.find((i) => i.field === column.field);
+  columns.forEach(column => {
+    const extendedData = extended.find(i => i.field === column.field);
     const extendedColumn = {
       ...column,
       ...extendedData,
@@ -47,7 +47,7 @@ async function fetchColumns() {
   return output;
 }
 
-const cartDownload = async function (selectedIds) {
+const cartDownload = async function(selectedIds) {
   await fetchColumns();
 
   const sqon = {

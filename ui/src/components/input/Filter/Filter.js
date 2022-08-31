@@ -70,7 +70,7 @@ const Filter = ({ onFilterValueChange }) => {
             height: 'unset',
             width: 'unset',
           }}
-          onClick={(e) => {
+          onClick={e => {
             e.preventDefault();
             setFilterValue('');
           }}

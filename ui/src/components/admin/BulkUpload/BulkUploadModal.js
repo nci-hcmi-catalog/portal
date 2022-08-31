@@ -23,10 +23,10 @@ const BulkUploadModal = ({ type, displayType, onUpload, backupURL, ...props }) =
   let [overwriteVariants, setOverwriteVariants] = useState(VARIANT_OVERWRITE_OPTIONS.cleanOnly);
   const [signedIn, setSignedIn] = useState(false);
 
-  const onSheetsURLChange = (newURL) => setSheetsURL(newURL);
+  const onSheetsURLChange = newURL => setSheetsURL(newURL);
   const onUploadClick = () => setUploadingGoogleSheet(true);
-  const onOverwriteChange = (value) => setOverwrite(value);
-  const onOverwriteVariantsChange = (value) => setOverwriteVariants(value);
+  const onOverwriteChange = value => setOverwrite(value);
+  const onOverwriteVariantsChange = value => setOverwriteVariants(value);
 
   const didUpdate = async () => {
     try {

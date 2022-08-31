@@ -27,19 +27,17 @@ export const PublishNotificationsProvider = ({ children }) => {
     return publishNotifications;
   };
 
-  const isPublishingModel = (modelName) => {
-    return getPublishNotifications().find(
-      (activePublish) => activePublish.modelName === modelName,
-    ) ||
+  const isPublishingModel = modelName => {
+    return getPublishNotifications().find(activePublish => activePublish.modelName === modelName) ||
       (publishProgress.running &&
-        publishProgress.queue.find((queuedPublish) => queuedPublish.modelName === modelName))
+        publishProgress.queue.find(queuedPublish => queuedPublish.modelName === modelName))
       ? true
       : false;
   };
 
   // ONLY USED FOR INDIVIDUAL PUBLISHES
-  const addPublishNotification = async (modelName) => {
-    const existingNotification = getPublishNotifications().find((x) => x.modelName === modelName);
+  const addPublishNotification = async modelName => {
+    const existingNotification = getPublishNotifications().find(x => x.modelName === modelName);
 
     if (existingNotification) {
       existingNotification.clear();
@@ -53,8 +51,8 @@ export const PublishNotificationsProvider = ({ children }) => {
       timeout: false,
     });
 
-    setPublishNotifications((notifications) => [
-      ...notifications.filter((notification) => notification.modelName !== modelName),
+    setPublishNotifications(notifications => [
+      ...notifications.filter(notification => notification.modelName !== modelName),
       {
         modelName: modelName,
         notificationId: notification.id,
@@ -64,20 +62,20 @@ export const PublishNotificationsProvider = ({ children }) => {
   };
 
   // ONLY USED FOR INDIVIDUAL PUBLISHES
-  const removePublishNotification = (modelName) => {
-    const existingNotification = getPublishNotifications().find((x) => x.modelName === modelName);
+  const removePublishNotification = modelName => {
+    const existingNotification = getPublishNotifications().find(x => x.modelName === modelName);
 
     if (existingNotification) {
       clearNotification(existingNotification.notificationId);
-      setPublishNotifications((notifications) =>
-        notifications.filter((notification) => notification.modelName !== modelName),
+      setPublishNotifications(notifications =>
+        notifications.filter(notification => notification.modelName !== modelName),
       );
     }
   };
 
   // ONLY USED FOR INDIVIDUAL PUBLISHES
-  const showSuccessfulPublishNotification = (modelName) => {
-    if (notifications.find((x) => x.modelName === modelName)) {
+  const showSuccessfulPublishNotification = modelName => {
+    if (notifications.find(x => x.modelName === modelName)) {
       return;
     }
 
@@ -96,8 +94,8 @@ export const PublishNotificationsProvider = ({ children }) => {
   };
 
   // ONLY USED FOR INDIVIDUAL PUBLISHES
-  const showStoppedPublishNotification = (modelName) => {
-    if (notifications.find((x) => x.modelName === modelName)) {
+  const showStoppedPublishNotification = modelName => {
+    if (notifications.find(x => x.modelName === modelName)) {
       return;
     }
 
@@ -115,7 +113,7 @@ export const PublishNotificationsProvider = ({ children }) => {
   };
 
   const showErrorPublishNotification = (modelName, error) => {
-    if (notifications.find((x) => x.modelName === modelName)) {
+    if (notifications.find(x => x.modelName === modelName)) {
       return;
     }
 
@@ -136,7 +134,9 @@ export const PublishNotificationsProvider = ({ children }) => {
         appendNotification({
           type: NOTIFICATION_TYPES.ERROR,
           message: 'Publish Error: Bad Request',
-          details: `The publish request for ${modelName} was not formed correctly: ${error.error.message}`,
+          details: `The publish request for ${modelName} was not formed correctly: ${
+            error.error.message
+          }`,
           timeout: false,
           modelName,
           onClose: () => {
@@ -188,15 +188,15 @@ export const PublishNotificationsProvider = ({ children }) => {
   };
 
   // Remove a model's error notification without triggering onClose function
-  const hideErrorPublishNotification = (modelName) => {
-    const existingNotification = notifications.find((x) => x.modelName === modelName);
+  const hideErrorPublishNotification = modelName => {
+    const existingNotification = notifications.find(x => x.modelName === modelName);
 
     if (existingNotification) {
       existingNotification.clear();
     }
   };
 
-  const showUnexpectedPublishError = (error) => {
+  const showUnexpectedPublishError = error => {
     appendNotification({
       type: NOTIFICATION_TYPES.ERROR,
       message: 'Publish Error: An unexpected error has occurred.',
@@ -210,20 +210,20 @@ export const PublishNotificationsProvider = ({ children }) => {
 
     // Add publish notifications for individual publishes in the queue
     const individualQueuedPublishes = (queue || []).filter(
-      (x) => x.publishType === PUBLISH_TYPES.individual,
+      x => x.publishType === PUBLISH_TYPES.individual,
     );
-    individualQueuedPublishes.forEach((publishTask) => {
+    individualQueuedPublishes.forEach(publishTask => {
       const modelName = publishTask.modelName;
-      if (!getPublishNotifications().find((x) => x.modelName === modelName)) {
+      if (!getPublishNotifications().find(x => x.modelName === modelName)) {
         addPublishNotification(modelName);
       }
     });
 
     // Remove publish notification and show stopped notification for stopped individual publishes
     const individualStoppedPublishes = (stopped || []).filter(
-      (x) => x.publishType === PUBLISH_TYPES.individual,
+      x => x.publishType === PUBLISH_TYPES.individual,
     );
-    individualStoppedPublishes.forEach((stoppedPublish) => {
+    individualStoppedPublishes.forEach(stoppedPublish => {
       const modelName = stoppedPublish.modelName;
       removePublishNotification(modelName);
       showStoppedPublishNotification(modelName);
@@ -231,26 +231,26 @@ export const PublishNotificationsProvider = ({ children }) => {
 
     // Remove publish notification and show success notification for completed individual publishes
     const individualCompletedPublishes = (success || []).filter(
-      (x) => x.publishType === PUBLISH_TYPES.individual,
+      x => x.publishType === PUBLISH_TYPES.individual,
     );
-    individualCompletedPublishes.forEach((completedPublish) => {
+    individualCompletedPublishes.forEach(completedPublish => {
       const modelName = completedPublish.modelName;
       removePublishNotification(modelName);
       showSuccessfulPublishNotification(modelName);
     });
 
     // Remove publish errors for re-queued bulk publishes (re-published)
-    const bulkQueuedPublishes = (queue || []).filter((x) => x.publishType === PUBLISH_TYPES.bulk);
-    bulkQueuedPublishes.forEach((queuedPublish) => {
+    const bulkQueuedPublishes = (queue || []).filter(x => x.publishType === PUBLISH_TYPES.bulk);
+    bulkQueuedPublishes.forEach(queuedPublish => {
       const modelName = queuedPublish.modelName;
       hideErrorPublishNotification(modelName);
     });
 
     // Remove publish errors for completed bulk publishes
     const bulkCompletedPublishes = (success || []).filter(
-      (x) => x.publishType === PUBLISH_TYPES.bulk,
+      x => x.publishType === PUBLISH_TYPES.bulk,
     );
-    bulkCompletedPublishes.forEach((completedPublish) => {
+    bulkCompletedPublishes.forEach(completedPublish => {
       const modelName = completedPublish.modelName;
       hideErrorPublishNotification(modelName);
     });
@@ -258,7 +258,7 @@ export const PublishNotificationsProvider = ({ children }) => {
     // Add error notifications for failed publishes
     const failedPublishes = failed || [];
 
-    failedPublishes.forEach((failedPublish) => {
+    failedPublishes.forEach(failedPublish => {
       const modelName = failedPublish.modelName;
 
       if (failedPublish.publishType === PUBLISH_TYPES.individual) {
@@ -271,20 +271,20 @@ export const PublishNotificationsProvider = ({ children }) => {
 
   const fetchPublishStatus = async () => {
     await checkPublishStatus()
-      .then((publishStatus) => {
+      .then(publishStatus => {
         setPublishProgress(publishStatus);
       })
-      .catch((error) => {
+      .catch(error => {
         showUnexpectedPublishError(error);
       });
   };
 
-  const acknowledgeModelAndUpdateNotifications = async (modelName) => {
+  const acknowledgeModelAndUpdateNotifications = async modelName => {
     await acknowledgePublishStatus(modelName)
-      .then(async (_) => {
+      .then(async _ => {
         await fetchPublishStatus();
       })
-      .catch((error) => {
+      .catch(error => {
         showUnexpectedPublishError(error);
       });
   };

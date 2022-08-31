@@ -21,8 +21,8 @@ export const googleSDK = () => {
           client_id: googleAppId,
           scope: 'profile email https://www.googleapis.com/auth/spreadsheets',
         })
-        .then((x) => resolve(x))
-        .catch((err) => reject(err));
+        .then(x => resolve(x))
+        .catch(err => reject(err));
     });
   });
 };
@@ -42,7 +42,7 @@ export const LoginWithGoogle = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { appendNotification } = useContext(NotificationsContext);
 
-  const authError = (errorDetails) => {
+  const authError = errorDetails => {
     appendNotification({
       type: NOTIFICATION_TYPES.ERROR,
       message: 'Google Auth Error.',
@@ -53,7 +53,7 @@ export const LoginWithGoogle = ({ children }) => {
     });
   };
 
-  const googleSignOut = async (e) => {
+  const googleSignOut = async e => {
     e.preventDefault();
 
     const auth2 = await window.gapi.auth2.getAuthInstance();
@@ -61,7 +61,7 @@ export const LoginWithGoogle = ({ children }) => {
     if (auth2) {
       auth2
         .signOut()
-        .then((success) => {
+        .then(success => {
           setState({
             loggedIn: false,
             googleAuth: null,
@@ -75,15 +75,18 @@ export const LoginWithGoogle = ({ children }) => {
             details: 'Account has been successfully disconnected.',
           });
         })
-        .catch((err) => {
+        .catch(err => {
           authError(err.details);
         });
     }
   };
 
-  const signInSuccess = async (successResponse) => {
+  const signInSuccess = async successResponse => {
     const googleAuth = await googleSDK();
-    var email = googleAuth.currentUser.get().getBasicProfile().getEmail();
+    var email = googleAuth.currentUser
+      .get()
+      .getBasicProfile()
+      .getEmail();
 
     setState({
       loggedIn: true,
@@ -105,15 +108,18 @@ export const LoginWithGoogle = ({ children }) => {
       attachGoogleSignIn(
         'googleSignin',
         googleAuth,
-        async (successResponse) => signInSuccess(successResponse),
-        (err) => authError(err.details),
+        async successResponse => signInSuccess(successResponse),
+        err => authError(err.details),
       );
       if (googleAuth.isSignedIn.get()) {
         setState({
           loggedIn: true,
           googleAuth: googleAuth,
           googleUser: googleAuth.currentUser.get(),
-          email: googleAuth.currentUser.get().getBasicProfile().getEmail(),
+          email: googleAuth.currentUser
+            .get()
+            .getBasicProfile()
+            .getEmail(),
         });
       }
     } catch (err) {

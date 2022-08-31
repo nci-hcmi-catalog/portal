@@ -7,21 +7,21 @@ export const checkPublishStatus = async () => {
   return new Promise(async (resolve, reject) => {
     const url = `${PUBLISH_URL}/status`;
     await get({ url })
-      .then((res) => {
+      .then(res => {
         resolve(res.data);
       })
-      .catch((err) => {
+      .catch(err => {
         reject(err.response ? err.response.data.error : err);
       });
   });
 };
 
-export const publish = async (modelName) => {
+export const publish = async modelName => {
   const url = `${PUBLISH_URL}/${modelName}`;
   return post({ url });
 };
 
-export const publishBulk = async (models) => {
+export const publishBulk = async models => {
   const url = `${PUBLISH_URL}/bulk`;
   return post({
     url,
@@ -32,20 +32,20 @@ export const publishBulk = async (models) => {
   });
 };
 
-export const acknowledgePublishStatus = async (modelName) => {
+export const acknowledgePublishStatus = async modelName => {
   return new Promise(async (resolve, reject) => {
     const url = `${PUBLISH_URL}/acknowledge/${modelName}`;
     await post({ url })
-      .then((res) => {
+      .then(res => {
         resolve(res.data);
       })
-      .catch((err) => {
+      .catch(err => {
         reject(err.response ? err.response.data.error : err);
       });
   });
 };
 
-export const acknowledgeBulkPublishStatus = async (models) => {
+export const acknowledgeBulkPublishStatus = async models => {
   return new Promise(async (resolve, reject) => {
     const url = `${PUBLISH_URL}/acknowledge/bulk`;
     await post({
@@ -54,10 +54,10 @@ export const acknowledgeBulkPublishStatus = async (models) => {
         models,
       },
     })
-      .then((res) => {
+      .then(res => {
         resolve(res.data);
       })
-      .catch((err) => {
+      .catch(err => {
         reject(err.response ? err.response.data.error : err);
       });
   });
@@ -67,10 +67,10 @@ export const stopAllPublishes = async () => {
   return new Promise(async (resolve, reject) => {
     const url = `${PUBLISH_URL}/stop/all`;
     await post({ url })
-      .then((res) => {
+      .then(res => {
         resolve(res.data);
       })
-      .catch((err) => {
+      .catch(err => {
         reject(err.response ? err.response.data.error : err);
       });
   });

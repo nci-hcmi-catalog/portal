@@ -62,7 +62,7 @@ const SidebarTextSearch = ({
           onBlur={() => {
             setShowOptions(false);
           }}
-          onChange={async (e) => {
+          onChange={async e => {
             const inputValue = e.target.value;
             setValue(inputValue);
 
@@ -101,11 +101,11 @@ const SidebarTextSearch = ({
               <SearchOptionsDropdown
                 options={options}
                 icon={ResultsIcon}
-                onSelect={(selected) => {
+                onSelect={selected => {
                   const currentFilterValues =
                     sqon && sqon.content
                       ? (
-                          sqon.content.find((i) => i.content.field === filterField) || {
+                          sqon.content.find(i => i.content.field === filterField) || {
                             content: { value: [] },
                           }
                         ).content.value

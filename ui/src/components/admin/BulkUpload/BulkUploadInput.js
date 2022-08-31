@@ -24,18 +24,17 @@ import googleSheetsLogo from 'assets/logo-googlesheets.png';
 
 import { BULK_UPLOAD_TYPES, VARIANT_OVERWRITE_OPTIONS } from 'utils/constants';
 
-const normalizeOption = (option) =>
-  option === 'true' ? true : option === 'false' ? false : option;
+const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
 // Map simple string/number options to keyed objects
-const processOptions = (options) =>
-  options.map((option) =>
+const processOptions = options =>
+  options.map(option =>
     typeof option === 'object' && option.constructor === Object
       ? option
       : { label: option, value: normalizeOption(option) },
   );
 
-const overwriteOptions = (type) => [
+const overwriteOptions = type => [
   { label: `No, do not overwrite existing ${type}s`, value: false },
   { label: `Yes, overwrite existing ${type}s`, value: true },
 ];
@@ -67,7 +66,7 @@ const BulkUploadInput = ({
   const [templateUrl, setTemplateUrl] = useState(null);
   const [generating, setGenerating] = useState(false);
 
-  const renderTemplateLink = (templateUrl) => {
+  const renderTemplateLink = templateUrl => {
     return generating ? (
       // Spinner while generating
       <BulkUploadTemplateLink>
@@ -126,9 +125,8 @@ const BulkUploadInput = ({
       <BulkUploadContentBlock>
         <UploadOverwrite>
           <UploadContentHeading>
-            {`Would you like to overwrite the existing ${
-              displayType || type
-            }s with the data from this google sheet?`}
+            {`Would you like to overwrite the existing ${displayType ||
+              type}s with the data from this google sheet?`}
           </UploadContentHeading>
           <RadioSelect>
             {processOptions(overwriteOptions(type)).map((option, idx) => {
@@ -142,10 +140,10 @@ const BulkUploadInput = ({
                     id={`overwrite-option-${idx}`}
                     value={optionValue}
                     checked={formValue === optionValue}
-                    onChange={(e) => {
+                    onChange={e => {
                       onOverwriteChange(e.currentTarget.value);
                     }}
-                    onClick={(e) => {
+                    onClick={e => {
                       onOverwriteChange(e.currentTarget.value);
                     }}
                   />
@@ -186,9 +184,8 @@ const BulkUploadInput = ({
         <BulkUploadContentBlock>
           <UploadOverwrite>
             <UploadContentHeading>
-              {`Would you like to overwrite the existing research somatic variants for the ${
-                displayType || type
-              }s within this google sheet?`}
+              {`Would you like to overwrite the existing research somatic variants for the ${displayType ||
+                type}s within this google sheet?`}
             </UploadContentHeading>
             <RadioSelect>
               {variantOverwriteOptions.map((option, idx) => {
@@ -202,10 +199,10 @@ const BulkUploadInput = ({
                       id={`overwrite-variants-option-${idx}`}
                       value={optionValue}
                       checked={formValue === optionValue}
-                      onChange={(e) => {
+                      onChange={e => {
                         onOverwriteVariantsChange(e.currentTarget.value);
                       }}
-                      onClick={(e) => {
+                      onClick={e => {
                         onOverwriteVariantsChange(e.currentTarget.value);
                       }}
                     />

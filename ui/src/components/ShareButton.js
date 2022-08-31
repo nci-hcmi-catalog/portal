@@ -14,7 +14,7 @@ import ShareIcon from 'icons/ShareIcon';
 import styles from 'theme/shareButtonStyles';
 import { Row, Col } from 'theme/system';
 
-let Bubble = (p) => <span className="share-button__bubble" {...p} />;
+let Bubble = p => <span className="share-button__bubble" {...p} />;
 
 const ItemRow = ({ xcss = '', ...props }) => (
   <Row
