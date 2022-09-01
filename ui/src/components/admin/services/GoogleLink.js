@@ -1,42 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useContext, useState } from 'react';
 import Popup from 'reactjs-popup';
+import axios from 'axios';
 import { css } from '@emotion/react';
+import { useGoogleLogin, googleLogout } from '@react-oauth/google';
 
 import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
 import config from '../config';
+import {
+  getAuth,
+  setAuth,
+  removeAuth,
+  getToken,
+  isTokenExpired,
+  getEmailFromToken,
+} from '../helpers/googleAuth';
 
 import { UserDropdown, DropdownItem } from 'theme/adminNavStyles';
 import CollapsibleArrow from 'icons/CollapsibleArrow';
 import GoogleLogo from 'icons/GoogleLogo';
 import { visuallyHidden } from 'theme';
 
-const { googleAppId } = config;
-
-export const googleSDK = () => {
-  return new Promise((resolve, reject) => {
-    window.gapi.load('auth2', () => {
-      window.gapi.auth2
-        .init({
-          client_id: googleAppId,
-          scope: 'profile email https://www.googleapis.com/auth/spreadsheets',
-        })
-        .then(x => resolve(x))
-        .catch(err => reject(err));
-    });
-  });
-};
-
-const attachGoogleSignIn = (elementId, googleAuth, onSuccess, onFailure) => {
-  const element = document.getElementById(elementId);
-  googleAuth.attachClickHandler(element, {}, onSuccess, onFailure);
-};
-
 export const LoginWithGoogle = ({ children }) => {
   const [state, setState] = useState({
     loggedIn: false,
-    googleAuth: null,
-    googleUser: null,
     email: null,
   });
   const [isOpen, setIsOpen] = useState(false);
@@ -56,79 +43,79 @@ export const LoginWithGoogle = ({ children }) => {
   const googleSignOut = async e => {
     e.preventDefault();
 
-    const auth2 = await window.gapi.auth2.getAuthInstance();
-
-    if (auth2) {
-      auth2
-        .signOut()
-        .then(success => {
-          setState({
-            loggedIn: false,
-            googleAuth: null,
-            googleUser: null,
-            email: null,
-          });
-          setIsOpen(false);
-          appendNotification({
-            type: NOTIFICATION_TYPES.SUCCESS,
-            message: 'Google Auth Success.',
-            details: 'Account has been successfully disconnected.',
-          });
-        })
-        .catch(err => {
-          authError(err.details);
-        });
-    }
-  };
-
-  const signInSuccess = async successResponse => {
-    const googleAuth = await googleSDK();
-    var email = googleAuth.currentUser
-      .get()
-      .getBasicProfile()
-      .getEmail();
-
-    setState({
-      loggedIn: true,
-      googleAuth: googleAuth,
-      googleUser: successResponse.getAuthResponse(),
-      email: email,
-    });
-
-    appendNotification({
-      type: NOTIFICATION_TYPES.SUCCESS,
-      message: 'Google Auth Success.',
-      details: 'Account has been successfully connected.',
-    });
-  };
-
-  const initGoogleSignIn = async () => {
     try {
-      const googleAuth = await googleSDK();
-      attachGoogleSignIn(
-        'googleSignin',
-        googleAuth,
-        async successResponse => signInSuccess(successResponse),
-        err => authError(err.details),
-      );
-      if (googleAuth.isSignedIn.get()) {
-        setState({
-          loggedIn: true,
-          googleAuth: googleAuth,
-          googleUser: googleAuth.currentUser.get(),
-          email: googleAuth.currentUser
-            .get()
-            .getBasicProfile()
-            .getEmail(),
-        });
-      }
+      googleLogout();
+      removeAuth();
+
+      setState({
+        loggedIn: false,
+        email: null,
+      });
+      setIsOpen(false);
+
+      appendNotification({
+        type: NOTIFICATION_TYPES.SUCCESS,
+        message: 'Google Auth Success.',
+        details: 'Account has been successfully disconnected.',
+      });
     } catch (err) {
       authError(err.details);
     }
   };
 
+  const signInSuccess = async ({ code }) => {
+    let response;
+
+    try {
+      response = await axios.post(`${config.urls.cmsBase}/auth/google`, {
+        code,
+      });
+    } catch (error) {
+      authError('An error occurred in the backend while requesting user tokens from Google.');
+      console.error(error);
+    }
+
+    if (response.data) {
+      setAuth(response.data);
+      const email = getEmailFromToken(response.data.id_token);
+
+      setState({
+        loggedIn: true,
+        email: email,
+      });
+
+      appendNotification({
+        type: NOTIFICATION_TYPES.SUCCESS,
+        message: 'Google Auth Success.',
+        details: 'Account has been successfully connected.',
+      });
+    } else {
+      authError('An error occurred in the backend while requesting user tokens from Google.');
+      console.warn('Google auth code flow token response did not contain `data`: ', response);
+    }
+  };
+
+  const googleSignIn = useGoogleLogin({
+    flow: 'auth-code',
+    onSuccess: async successResponse => signInSuccess(successResponse),
+    onError: errorResponse => {
+      authError(errorResponse.error_description);
+      console.warn('An error occurred while using Google sign-in: ', errorResponse);
+    },
+    scope: 'profile email https://www.googleapis.com/auth/spreadsheets',
+  });
+
+  const checkGoogleAuth = async () => {
+    if (getAuth() && getToken() && !isTokenExpired()) {
+      setState({
+        loggedIn: true,
+        email: getEmailFromToken(),
+      });
+    }
+  };
+
   useEffect(() => {
-    initGoogleSignIn();
+    checkGoogleAuth();
   }, []);
 
   return (
@@ -182,6 +169,7 @@ export const LoginWithGoogle = ({ children }) => {
       <UserDropdown
         key="google"
         id="googleSignin"
+        onClick={() => googleSignIn()}
         secondary
         // visually-hidden when logged in instead of removed from the virtual DOM to maintain binding
         css={state.loggedIn && visuallyHidden}
