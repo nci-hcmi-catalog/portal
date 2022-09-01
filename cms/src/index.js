@@ -22,6 +22,7 @@ import {
   templatesRouter,
   variantsRouter,
   publishRouter,
+  authRouter,
 } from './routes';
 import {
   preUpdate,
@@ -123,6 +124,7 @@ app.use('/api/v1/templates', templatesRouter);
 app.use('/api/v1/genomic-variants', variantsRouter);
 app.use('/api/v1/matches', matchedModelsActionsRouter);
 app.use('/api/v1/publish', publishRouter);
+app.use('/api/v1/auth', authRouter);
 app.use(matchedModelsRestifyRouter);
 app.use(modelRouter);
 app.use(userRouter);

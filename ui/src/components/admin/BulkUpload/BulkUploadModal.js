@@ -3,7 +3,7 @@ import React, { useEffect, useContext, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 
 import { ModalStateContext } from 'providers/ModalState';
-import { googleSDK } from '../services/GoogleLink';
+import { isTokenExpired } from '../helpers/googleAuth';
 
 import BulkUploadInput from './BulkUploadInput';
 
@@ -56,10 +56,7 @@ const BulkUploadModal = ({ type, displayType, onUpload, backupURL, ...props }) =
   }, [uploadingGoogleSheet]);
 
   const checkGoogleStatus = async () => {
-    const googleAuth = await googleSDK();
-    if (googleAuth.isSignedIn.get()) {
-      setSignedIn(true);
-    }
+    setSignedIn(!isTokenExpired());
   };
 
   useEffect(() => {
