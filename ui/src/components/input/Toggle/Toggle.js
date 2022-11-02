@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { ToggleButton } from 'theme/searchStyles';
 
-export default ({ id, initialValue, onValueChange, ...props }) => {
+const Toggle = ({ id, initialValue, onValueChange, ...props }) => {
   const [toggleValue, setToggleValue] = useState(initialValue);
 
   const toggle = e => {
@@ -30,3 +30,5 @@ export default ({ id, initialValue, onValueChange, ...props }) => {
     />
   );
 };
+
+export default Toggle;
