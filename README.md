@@ -10,10 +10,10 @@ To work on this project, running the UI, CMS, and API on a local device, make su
 
 ### Dependencies
 
-This project runs on **NodeJS 10** . Running this with more recent versions of NodeJS will have issues with some of the npm dependencies used.
+This project runs on **NodeJS v16**.
 
-- MongoDB - All model and variant data configured in the CMS is stored in MongoDB
-- Elasticsearch - The CMS publishes data into ElasticSearch and the API serves the ES data to the UI
+- MongoDB v4.4.16 - All model and variant data configured in the CMS is stored in MongoDB
+- Elasticsearch v7.7.6 - The CMS publishes data into ElasticSearch and the API serves the ES data to the UI
 - AWS S3 - Used for image storage and serving to the UI. One bucket with public READ access must be setup for this functionality. Alternately, an S3 compatible system such as MinIO can be used since it shares the same API.
 
   Note: This S3 bucket is only required for model images; the application will run without this, and local development can be done on all non-image functionality without S3 configured.

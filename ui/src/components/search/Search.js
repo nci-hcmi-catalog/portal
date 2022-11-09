@@ -9,8 +9,7 @@ import { SelectedModelsContext } from 'providers/SelectedModels';
 import ArrowIcon from 'icons/ArrowIcon';
 
 import LastUpdatedDate from 'components/LastUpdatedDate';
-// TODO: uncomment to re-enable Expanded/Unexpanded toggle
-// import ExpandedToggle from 'components/search/ExpandedToggle';
+import ExpandedToggle from 'components/search/ExpandedToggle';
 import GeneSearch from 'components/search/GeneSearch';
 import VariantSearch from 'components/search/VariantSearch';
 import ModelSearch from 'components/search/ModelSearch';
@@ -336,8 +335,7 @@ const Search = ({
                           url: `${globals.ARRANGER_API}/export/${version}/models`,
                         })}
                         fieldTypesForFilter={['text', 'keyword', 'id']}
-                        // TODO: uncomment to re-enable Expanded/Unexpanded toggle
-                        // customHeaderContent={<ExpandedToggle sqon={filterExpanded(sqon)} />}
+                        customHeaderContent={<ExpandedToggle sqon={filterExpanded(sqon)} />}
                         enableDropDownControls={true}
                         sessionStorage={true}
                         storageKey={selectedModelContext.storageKey}
