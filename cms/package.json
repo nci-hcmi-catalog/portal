@@ -22,7 +22,7 @@
     "decompress-gz": "^0.0.1",
     "dotenv": "^5.0.1",
     "elasticsearch": "^16.6.0",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "express-restify-mongoose": "^6.1.2",
     "fs": "^0.0.1-security",
     "google-auth-library": "^8.4.0",
