@@ -1,0 +1,97 @@
+name,type,category,genes
+NRAS G12C,Clinical ,SNV,NRAS
+NRAS G12D,Clinical ,SNV,NRAS
+NRAS G12S,Clinical ,SNV,NRAS
+NRAS G13R,Clinical ,SNV,NRAS
+NRAS G13V,Clinical ,SNV,NRAS
+NRAS Q61E,Clinical ,SNV,NRAS
+NRAS Q61H,Clinical ,SNV,NRAS
+NRAS Q61K,Clinical ,SNV,NRAS
+NRAS Q61L,Clinical ,SNV,NRAS
+NRAS Q61P,Clinical ,SNV,NRAS
+NRAS Q61R,Clinical ,SNV,NRAS
+NRAS Other,Clinical ,Other,NRAS
+C-KIT K642E,Clinical ,SNV,C-KIT
+C-KIT L647F,Clinical ,SNV,C-KIT
+C-KIT G648D,Clinical ,SNV,C-KIT
+C-KIT I653T,Clinical ,SNV,C-KIT
+C-KIT V654A,Clinical ,SNV,C-KIT
+C-KIT L813P,Clinical ,SNV,C-KIT
+C-KIT K818Q,Clinical ,SNV,C-KIT
+C-KIT D820Y,Clinical ,SNV,C-KIT
+C-KIT N822K,Clinical ,SNV,C-KIT
+C-KIT N822Y,Clinical ,SNV,C-KIT
+C-KIT A829P,Clinical ,SNV,C-KIT
+C-KIT L831P,Clinical ,SNV,C-KIT
+C-KIT S840I,Clinical ,SNV,C-KIT
+C-KIT Y846C,Clinical ,SNV,C-KIT
+C-KIT S850G,Clinical ,SNV,C-KIT
+C-KIT V852I,Clinical ,SNV,C-KIT
+C-KIT L859P,Clinical ,SNV,C-KIT
+C-KIT L862P,Clinical ,SNV,C-KIT
+C-KIT Other,Clinical ,Other,C-KIT
+MET M1250T,Clinical ,SNV,MET
+MET S1236R,Clinical ,SNV,MET
+MET Y1230H,Clinical ,SNV,MET
+MET Y1230C,Clinical ,SNV,MET
+MET D1228N,Clinical ,SNV,MET
+MET L1205V,Clinical ,SNV,MET
+MET F1200I,Clinical ,SNV,MET
+MET H1094Y,Clinical ,SNV,MET
+MET V1092I,Clinical ,SNV,MET
+MET V1070M,Clinical ,SNV,MET
+MET V1070G,Clinical ,SNV,MET
+MET V1070E,Clinical ,SNV,MET
+MET V504L,Clinical ,SNV,MET
+MET I639L,Clinical ,SNV,MET
+PIK3CA R88Q,Clinical ,SNV,PIK3CA
+PIK3CA E542K,Clinical ,SNV,PIK3CA
+PIK3CA E542A,Clinical ,SNV,PIK3CA
+PIK3CA E542Q,Clinical ,SNV,PIK3CA
+PIK3CA E542V,Clinical ,SNV,PIK3CA
+PIK3CA E545K,Clinical ,SNV,PIK3CA
+PIK3CA E545D,Clinical ,SNV,PIK3CA
+PIK3CA E545A,Clinical ,SNV,PIK3CA
+PIK3CA E545G,Clinical ,SNV,PIK3CA
+PIK3CA E545Q,Clinical ,SNV,PIK3CA
+PIK3CA H1047R,Clinical ,SNV,PIK3CA
+PIK3CA H1047L,Clinical ,SNV,PIK3CA
+PIK3CA H1047Y,Clinical ,SNV,PIK3CA
+PIK3CA H1047Q,Clinical ,SNV,PIK3CA
+PTEN R130G,Clinical ,SNV,PTEN
+PTEN R130Q,Clinical ,SNV,PTEN
+PTEN R130L,Clinical ,SNV,PTEN
+PTEN R130P,Clinical ,SNV,PTEN
+PTEN Other,Clinical ,Other,PTEN
+TP53 R273S,Clinical ,SNV,TP53
+TP53 R175C,Clinical ,SNV,TP53
+NUT-BRD4,Clinical ,Translocation,"NUT,BRD4"
+NUT-Other,Clinical ,Translocation,NUT
+PAX3-MAML3,Clinical ,Translocation,"PAX3,MAML3"
+PAX3-Other,Clinical ,Translocation,PAX3
+ETV6-NTRK3,Clinical ,Translocation,"ETV6,NTRK3"
+EWSR1-Other,Clinical ,Translocation,EWSR1
+ETV6-Other,Clinical ,Translocation,ETV6
+MAML2-CRTC1,Clinical ,Translocation,"MAML2,CRTC1"
+MAML2-CRTC3,Clinical ,Translocation,"MAML2,CRTC3"
+MAML2-Other,Clinical ,Translocation,MAML2
+MYB-NFIB,Clinical ,Translocation,"MYB,NFIB"
+MYB-Other,Clinical ,Translocation,MYB
+p53,Histopathological Biomarker,Histopathological biomarker,p53
+PAX8,Histopathological Biomarker,Histopathological biomarker,PAX8
+WT1,Histopathological Biomarker,Histopathological biomarker,WT1
+p16,Histopathological Biomarker,Histopathological biomarker,p16
+HNF1,Histopathological Biomarker,Histopathological biomarker,HNF1
+CDX2,Histopathological Biomarker,Histopathological biomarker,CDX2
+CK7,Histopathological Biomarker,Histopathological biomarker,CK7
+CK20,Histopathological Biomarker,Histopathological biomarker,CK20
+HPV-DNA,Histopathological Biomarker,Histopathological biomarker,HPV-DNA
+HPV-E6/E7,Histopathological Biomarker,Histopathological biomarker,HPV-E6/E7
+NUT,Histopathological Biomarker,Histopathological biomarker,NUT
+INI1,Histopathological Biomarker,Histopathological biomarker,INI1
+MYB,Histopathological Biomarker,Histopathological biomarker,MYB
+AR,Histopathological Biomarker,Histopathological biomarker,AR
+AR-V7,Histopathological Biomarker,Histopathological biomarker,AR-V7
+Microsatellite instability,Histopathological Biomarker,Histopathological biomarker,
+ER,Histopathological Biomarker,Histopathological biomarker,ER
+Microsatellite instability identified,Histopathological Biomarker,Histopathological biomarker,
