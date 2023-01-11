@@ -1,12 +1,13 @@
-const expressionOptionsData = require('../data/expressionOptions-23-01-06.json');
+const newExpressionOptionsData = require('../data/expressionOptions-23-01-06.json');
+const oldExpressionOptionsData = require('../data/expressionOptions-20-05-01.json');
 
 module.exports = {
   async up(db) {
     return db.collection('dictionary').updateMany(
       { 'fields.name': 'variantExpressionLevel' },
       {
-        $push: {
-          'fields.$.values': expressionOptionsData,
+        $set: {
+          'fields.$.values': newExpressionOptionsData,
         },
       },
     );
@@ -16,8 +17,8 @@ module.exports = {
     return db.collection('dictionary').updateMany(
       { 'fields.name': 'variantExpressionLevel' },
       {
-        $pullAll: {
-          'fields.$.values': expressionOptionsData,
+        $set: {
+          'fields.$.values': oldExpressionOptionsData,
         },
       },
     );

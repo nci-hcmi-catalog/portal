@@ -1,4 +1,23 @@
 [
+  { "value": "Amplified", "dependents": [] },
+  { "value": "Not amplified", "dependents": [] },
+  { "value": "Equivocal", "dependents": [] },
+  { "value": "Methylated", "dependents": [] },
+  { "value": "Unmethylated", "dependents": [] },
+  { "value": "Partially methylated", "dependents": [] },
+  { "value": "Not available", "dependents": [] },
+  { "value": "Negative", "dependents": [] },
+  { "value": "Positive", "dependents": [] },
+  { "value": "Not Done", "dependents": [] },
+  { "value": "Unknown", "dependents": [] },
+  { "value": "Indeterminate", "dependents": [] },
+  { "value": "Evidence of MMR mutation by sequencing", "dependents": [] },
+  { "value": "Evidence of MMR protein loss by IHC", "dependents": [] },
+  {
+    "value": "Evidence of MMR loss by hypermutation phenotype (>10 mutations/Mb)",
+    "dependents": []
+  },
+  { "value": "No evidence of MMR alteration", "dependents": [] },
   { "value": "Allred score 0", "dependents": [] },
   { "value": "Allred score 1", "dependents": [] },
   { "value": "Allred score 2", "dependents": [] },
