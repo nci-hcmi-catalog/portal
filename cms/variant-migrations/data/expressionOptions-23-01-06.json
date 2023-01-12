@@ -8,7 +8,7 @@
   { "value": "Not available", "dependents": [] },
   { "value": "Negative", "dependents": [] },
   { "value": "Positive", "dependents": [] },
-  { "value": "Not Done", "dependents": [] },
+  { "value": "Not done", "dependents": [] },
   { "value": "Unknown", "dependents": [] },
   { "value": "Indeterminate", "dependents": [] },
   { "value": "Evidence of MMR mutation by sequencing", "dependents": [] },

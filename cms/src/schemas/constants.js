@@ -1791,7 +1791,7 @@ export const variantExpressionLevel = [
   'Not available',
   'Negative',
   'Positive',
-  'Not Done',
+  'Not done',
   'Unknown',
   'Indeterminate',
   'Evidence of MMR mutation by sequencing',
