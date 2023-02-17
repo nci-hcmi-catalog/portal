@@ -33,8 +33,8 @@ const makeClinicalTumorDiagnosisDependentSchema = (
     .nullable(true)
     .oneOf(
       (
-        clinicalTumorDiagnosisDependent[fieldName.toLowerCase()][
-          clinical_tumor_diagnosis.toLowerCase()
+        clinicalTumorDiagnosisDependent[String(fieldName).toLowerCase()][
+          String(clinical_tumor_diagnosis).toLowerCase()
         ] || []
       ).concat([null, '']), // allow null values (to be removed by Mongoose schema set)
     );
