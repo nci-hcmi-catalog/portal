@@ -73,7 +73,7 @@ export const getPublishSchema = async (excludedNames, dictionary) => {
       .min(1)
       .max(99),
     split_ratio: string().oneOf(splitRatioOptions),
-    time_to_split: string(),
+    time_to_split: string().nullable(true),
     gender: string()
       .required('This is a required field')
       .oneOf(genderOptions),
@@ -91,15 +91,21 @@ export const getPublishSchema = async (excludedNames, dictionary) => {
       .transform(numberEmptyValueTransform)
       .min(0)
       .max(99),
-    date_of_availability: date(),
+    date_of_availability: date().nullable(true),
     primary_site: string()
       .required('This is a required field')
       .oneOf(primarySitesOptions, 'Invalid entry for Primary Site'),
-    tnm_stage: string(),
-    neoadjuvant_therapy: string().oneOf(neoadjuvantTherapyOptions),
+    tnm_stage: string().nullable(true),
+    neoadjuvant_therapy: string()
+      .oneOf(neoadjuvantTherapyOptions)
+      .nullable(true),
     chemotherapeutic_drugs: boolean().nullable(true),
-    disease_status: string().oneOf(diseaseStatusOptions),
-    vital_status: string().oneOf(vitalStatusOptions),
+    disease_status: string()
+      .oneOf(diseaseStatusOptions)
+      .nullable(true),
+    vital_status: string()
+      .oneOf(vitalStatusOptions)
+      .nullable(true),
     therapy: array()
       .of(string())
       .ensure()
@@ -158,11 +164,17 @@ export const getPublishSchema = async (excludedNames, dictionary) => {
           'tumor histological grade',
         ),
       ),
-    licensing_required: boolean(),
-    distributor_part_number: string(),
-    source_model_url: string().url(),
-    source_sequence_url: string().url(),
-    somatic_maf_url: string().url(),
+    licensing_required: boolean().nullable(true),
+    distributor_part_number: string().nullable(true),
+    source_model_url: string()
+      .url()
+      .nullable(true),
+    source_sequence_url: string()
+      .url()
+      .nullable(true),
+    somatic_maf_url: string()
+      .url()
+      .nullable(true),
     updatedBy: string(),
     status: string(),
     variants: array()
@@ -172,11 +184,6 @@ export const getPublishSchema = async (excludedNames, dictionary) => {
       .of(matchedModelSchema)
       .ensure(),
   });
-};
-
-export default async () => {
-  const dictionaryOptions = await getDictionaryOptions();
-  return await getPublishSchema([], dictionaryOptions);
 };
 
 // In order to save to ES, we do a minimal validation,
@@ -206,22 +213,33 @@ export const getSaveValidation = async () => {
     expanded: boolean(),
     growth_rate: number()
       .integer()
-      .transform(numberEmptyValueTransform),
+      .transform(numberEmptyValueTransform)
+      .nullable(true),
     split_ratio: string().oneOf(splitRatioOptions),
-    time_to_split: string(),
+    time_to_split: string().nullable(true),
     gender: string().oneOf(genderOptions),
     race: string()
       .nullable(true)
       .oneOf(raceOptions),
-    age_at_diagnosis: number().transform(numberEmptyValueTransform),
-    age_at_sample_acquisition: number().transform(numberEmptyValueTransform),
-    date_of_availability: date(),
+    age_at_diagnosis: number()
+      .transform(numberEmptyValueTransform)
+      .nullable(true),
+    age_at_sample_acquisition: number()
+      .transform(numberEmptyValueTransform)
+      .nullable(true),
+    date_of_availability: date().nullable(true),
     primary_site: string().oneOf(primarySitesOptions),
-    tnm_stage: string(),
-    neoadjuvant_therapy: string().oneOf(neoadjuvantTherapyOptions),
+    tnm_stage: string().nullable(true),
+    neoadjuvant_therapy: string()
+      .oneOf(neoadjuvantTherapyOptions)
+      .nullable(true),
     chemotherapeutic_drugs: boolean().nullable(true),
-    disease_status: string().oneOf(diseaseStatusOptions),
-    vital_status: string().oneOf(vitalStatusOptions),
+    disease_status: string()
+      .oneOf(diseaseStatusOptions)
+      .nullable(true),
+    vital_status: string()
+      .oneOf(vitalStatusOptions)
+      .nullable(true),
     therapy: array()
       .of(string())
       .ensure()
@@ -283,10 +301,16 @@ export const getSaveValidation = async () => {
         ),
       ),
     licensing_required: boolean().nullable(true),
-    distributor_part_number: string(),
-    source_model_url: string(),
-    source_sequence_url: string(),
-    somatic_maf_url: string().url(),
+    distributor_part_number: string().nullable(true),
+    source_model_url: string()
+      .url()
+      .nullable(true),
+    source_sequence_url: string()
+      .url()
+      .nullable(true),
+    somatic_maf_url: string()
+      .url()
+      .nullable(true),
     updatedBy: string(),
     status: string(),
     variants: array()
@@ -294,3 +318,10 @@ export const getSaveValidation = async () => {
       .ensure(),
   });
 };
+
+const model = async () => {
+  const dictionaryOptions = await getDictionaryOptions();
+  return await getPublishSchema([], dictionaryOptions);
+};
+
+export default model;
