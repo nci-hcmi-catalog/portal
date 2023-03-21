@@ -102,8 +102,7 @@ data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) =>
               {},
             ),
         )
-        .filter(Boolean)
-        .map(d => removeNullKeys(d));
+        .filter(Boolean);
       const validation = await getSaveValidation();
       return runYupValidatorFailSlow(validation, parsed);
     })

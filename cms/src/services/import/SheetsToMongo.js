@@ -67,6 +67,12 @@ export const typeToParser = {
   Array: data => (data ? data.split('|') : []),
   Date: data => data,
   Boolean: data => {
-    return { yes: true, no: false, true: true, false: false }[(data || '').toLowerCase()];
+    return {
+      yes: true,
+      no: false,
+      true: true,
+      false: false,
+      '': null,
+    }[(data || '').toLowerCase()];
   },
 };
