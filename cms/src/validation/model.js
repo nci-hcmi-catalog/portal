@@ -72,7 +72,9 @@ export const getPublishSchema = async (excludedNames, dictionary) => {
       .transform(numberEmptyValueTransform)
       .min(1)
       .max(99),
-    split_ratio: string().oneOf(splitRatioOptions),
+    split_ratio: string()
+      .oneOf(splitRatioOptions)
+      .nullable(true),
     time_to_split: string().nullable(true),
     gender: string()
       .required('This is a required field')
@@ -124,7 +126,9 @@ export const getPublishSchema = async (excludedNames, dictionary) => {
         )}`,
         arrItemIsOneOf(molecularCharacterizationsOptions),
       ),
-    tissue_type: string().oneOf(tissueTypesOptions),
+    tissue_type: string()
+      .oneOf(tissueTypesOptions)
+      .nullable(true),
     clinical_tumor_diagnosis: string()
       .required('This is a required field')
       .oneOf(clinicalTumorDiagnosisOptions),
@@ -215,7 +219,9 @@ export const getSaveValidation = async () => {
       .integer()
       .transform(numberEmptyValueTransform)
       .nullable(true),
-    split_ratio: string().oneOf(splitRatioOptions),
+    split_ratio: string()
+      .oneOf(splitRatioOptions)
+      .nullable(true),
     time_to_split: string().nullable(true),
     gender: string().oneOf(genderOptions),
     race: string()
@@ -262,7 +268,9 @@ export const getSaveValidation = async () => {
       .nullable(true)
       .notRequired()
       .oneOf(clinicalTumorDiagnosisOptions),
-    tissue_type: string().oneOf(tissueTypesOptions),
+    tissue_type: string()
+      .oneOf(tissueTypesOptions)
+      .nullable(true),
     histological_type: string().when('clinical_tumor_diagnosis', clinical_tumor_diagnosis =>
       makeClinicalTumorDiagnosisDependentSchema(
         clinicalTumorDiagnosisDependent,
