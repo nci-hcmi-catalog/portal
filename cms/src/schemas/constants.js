@@ -1721,9 +1721,9 @@ export const molecularCharacterizations = [
   'WXS of parent tumor',
   'WXS of normal',
   'WXS of model',
-  'DNA Methylation Array of parent tumor',
-  'DNA Methylation Array of normal',
-  'DNA Methylation Array of model',
+  'DNA Methylation of parent tumor',
+  'DNA Methylation of normal',
+  'DNA Methylation of model',
   'RNA-seq of parent tumor',
   'RNA-seq of model',
 ];
