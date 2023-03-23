@@ -23,7 +23,7 @@ const Footer = () => (
         <FooterNav>
           <FooterNavItem>
             <FooterLink
-              href="https://ocg.cancer.gov/programs/HCMI"
+              href="https://www.cancer.gov/ccg/research/functional-genomics/hcmi"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -31,8 +31,12 @@ const Footer = () => (
             </FooterLink>
           </FooterNavItem>
           <FooterNavItem>
-            <FooterLink href="https://ocg.cancer.gov/" target="_blank" rel="noopener noreferrer">
-              ocg.cancer.gov
+            <FooterLink
+              href="https://www.cancer.gov/ccg/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Center for Cancer Genomics
             </FooterLink>
           </FooterNavItem>
           <FooterNavItem>
@@ -46,7 +50,7 @@ const Footer = () => (
           </FooterNavItem>
           <FooterNavItem>
             <FooterLink
-              href="https://ocg.cancer.gov/programs/hcmi/frequently-asked-questions"
+              href="https://www.cancer.gov/ccg/research/functional-genomics/hcmi/using-hcmi/searchable-catalog"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -54,7 +58,11 @@ const Footer = () => (
             </FooterLink>
           </FooterNavItem>
           <FooterNavItem>
-            <FooterLink href="mailto:ocg@mail.nih.gov" target="_blank" rel="noopener noreferrer">
+            <FooterLink
+              href="mailto:NCICCGenomics@mail.nih.gov"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Contact Us
             </FooterLink>
           </FooterNavItem>
