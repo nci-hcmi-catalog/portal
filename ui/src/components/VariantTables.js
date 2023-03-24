@@ -58,7 +58,7 @@ const renderVariantBlurb = type => {
           <TooltipLink
             target="_blank"
             rel="noopener noreferrer"
-            href="https://ocg.cancer.gov/programs/hcmi/resources"
+            href="https://www.cancer.gov/ccg/research/functional-genomics/hcmi/using-hcmi/case-report-forms"
           >
             case report forms.
           </TooltipLink>
@@ -72,7 +72,7 @@ const renderVariantBlurb = type => {
           <TooltipLink
             target="_blank"
             rel="noopener noreferrer"
-            href="https://ocg.cancer.gov/programs/hcmi/resources"
+            href="https://www.cancer.gov/ccg/research/functional-genomics/hcmi/using-hcmi/case-report-forms"
           >
             case report forms.
           </TooltipLink>
