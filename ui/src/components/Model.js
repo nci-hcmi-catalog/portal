@@ -156,7 +156,7 @@ const MolecularCharacterizationsCell = ({ isAvailable }) => {
 };
 
 const MolecularCharacterizationsTable = ({ characterizations }) => {
-  const CHARS = ['WGS', 'WXS', 'RNA-seq', 'DNA Methylation Array'];
+  const CHARS = ['WGS', 'WXS', 'RNA-seq', 'DNA Methylation'];
   const TYPES = ['model', 'parent tumor', 'normal'];
 
   return (
@@ -370,9 +370,7 @@ const Model = ({ modelName }) => (
                         <ExternalLinkPill
                           primary
                           className="model-section__callout-button"
-                          href={
-                            'http://go.atcc.org/HCMIModels?utm_medium=eloqua_landing_page&utm_source=nci&utm_campaign=hcmi_organoid&utm_content=request_additonal_organoids'
-                          }
+                          href="https://www.atcc.org/hcmi-input"
                           target="_blank"
                           rel="noopener noreferrer"
                         >

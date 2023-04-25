@@ -914,7 +914,7 @@ export const Footer = styled('footer')`
   width: 100%;
   padding: 0 16px;
 
-  @media screen and (max-width: 1399px) {
+  @media screen and (max-width: 1479px) {
     min-height: 90px;
     flex-direction: column-reverse;
     justify-content: space-around;
