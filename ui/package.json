@@ -20,7 +20,7 @@
     "formik": "^1.0.1",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
-    "moment-timezone": "^0.5.23",
+    "moment-timezone": "^0.5.35",
     "prop-types": "^15.6.2",
     "query-string": "5.1.0",
     "react": "16.8.0",
