@@ -7,44 +7,48 @@ const NEW_MODEL = 'DNA Methylation of model';
 
 module.exports = {
   async up(db) {
-    await db
-      .collection('models')
-      .updateMany(
-        { molecular_characterizations: OLD_PARENT_TUMOR },
-        { $set: { 'molecular_characterizations.$': NEW_PARENT_TUMOR } },
-      );
-    await db
-      .collection('models')
-      .updateMany(
-        { molecular_characterizations: OLD_NORMAL },
-        { $set: { 'molecular_characterizations.$': NEW_NORMAL } },
-      );
-    await db
-      .collection('models')
-      .updateMany(
-        { molecular_characterizations: OLD_MODEL },
-        { $set: { 'molecular_characterizations.$': NEW_MODEL } },
-      );
+    return await Promise.all([
+      await db
+        .collection('models')
+        .updateMany(
+          { molecular_characterizations: OLD_PARENT_TUMOR },
+          { $set: { 'molecular_characterizations.$': NEW_PARENT_TUMOR } },
+        ),
+      await db
+        .collection('models')
+        .updateMany(
+          { molecular_characterizations: OLD_NORMAL },
+          { $set: { 'molecular_characterizations.$': NEW_NORMAL } },
+        ),
+      await db
+        .collection('models')
+        .updateMany(
+          { molecular_characterizations: OLD_MODEL },
+          { $set: { 'molecular_characterizations.$': NEW_MODEL } },
+        ),
+    ]);
   },
 
   async down(db) {
-    await db
-      .collection('models')
-      .updateMany(
-        { molecular_characterizations: NEW_PARENT_TUMOR },
-        { $set: { 'molecular_characterizations.$': OLD_PARENT_TUMOR } },
-      );
-    await db
-      .collection('models')
-      .updateMany(
-        { molecular_characterizations: NEW_NORMAL },
-        { $set: { 'molecular_characterizations.$': OLD_NORMAL } },
-      );
-    await db
-      .collection('models')
-      .updateMany(
-        { molecular_characterizations: NEW_MODEL },
-        { $set: { 'molecular_characterizations.$': OLD_MODEL } },
-      );
+    return await Promise.all([
+      await db
+        .collection('models')
+        .updateMany(
+          { molecular_characterizations: NEW_PARENT_TUMOR },
+          { $set: { 'molecular_characterizations.$': OLD_PARENT_TUMOR } },
+        ),
+      await db
+        .collection('models')
+        .updateMany(
+          { molecular_characterizations: NEW_NORMAL },
+          { $set: { 'molecular_characterizations.$': OLD_NORMAL } },
+        ),
+      await db
+        .collection('models')
+        .updateMany(
+          { molecular_characterizations: NEW_MODEL },
+          { $set: { 'molecular_characterizations.$': OLD_MODEL } },
+        ),
+    ]);
   },
 };
