@@ -1,37 +1,35 @@
 import { css } from '@emotion/react';
-import modelListDefault from 'assets/icon-modellist-empty-orange.svg';
-import modelListNotEmpty from 'assets/icon-modellist-full-orange.svg';
+import base from 'theme';
+
+const {
+  keyedPalette: { crimson, white },
+} = base;
 
 export default css`
-  .model-list-icon__wrapper {
+  .model-list-button__wrapper {
     display: flex;
     align-items: center;
   }
 
-  .model-list-icon {
+  .model-list-button {
     position: relative;
-    display: block;
-    width: 28px;
-    height: 32px;
     margin-left: 8px;
-    background: url(${modelListDefault}) no-repeat;
-    background-size: 21px auto;
     cursor: pointer;
   }
-  .model-list-icon.not-empty {
-    background: url(${modelListNotEmpty}) no-repeat;
-    background-size: 28px auto;
-  }
-  .model-list-icon span.count {
+
+  .model-list-button span.count {
     position: absolute;
     display: block;
-    width: 18px;
-    height: 17px;
-    line-height: 17px;
+    min-width: 16px;
+    padding: 0 4px;
+    height: 16px;
+    line-height: 16px;
     font-size: 10.5px;
     text-align: center;
-    bottom: 0px;
-    right: -1px;
-    color: #fff;
+    top: -9px;
+    right: -6px;
+    color: ${white};
+    background-color: ${crimson};
+    border-radius: 8px;
   }
 `;

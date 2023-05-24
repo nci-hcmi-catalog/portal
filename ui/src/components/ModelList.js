@@ -1,10 +1,11 @@
 import React from 'react';
-import { css } from '@emotion/react';
 import ModelListModal from 'components/modals/ModelListModal';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 import { ModalStateContext } from 'providers/ModalState';
 import styles from 'theme/modelListStyles';
 import modelListModalStyles from 'theme/modelListModalStyles';
+import { ButtonPill } from 'theme/adminControlsStyles';
+import ListIcon from 'icons/ListIcon';
 
 const ModelList = ({ className }) => (
   <ModalStateContext.Consumer>
@@ -14,13 +15,10 @@ const ModelList = ({ className }) => (
           const selectedCount = selected.state.modelIds.length;
           const hasSelected = selectedCount > 0;
           return (
-            <div className={'model-list-icon__wrapper'} css={styles}>
-              <button
+            <div className={'model-list-button__wrapper'} css={styles}>
+              <ButtonPill
                 aria-label={`Show models selected for download`}
-                className={`model-list-icon ${hasSelected ? 'not-empty' : ''} ${className}`}
-                css={css`
-                  border: none;
-                `}
+                className={`model-list-button ${className}`}
                 onClick={() =>
                   modalState.setModalState({
                     component: <ModelListModal />,
@@ -29,8 +27,10 @@ const ModelList = ({ className }) => (
                   })
                 }
               >
+                <ListIcon fill="#fff" with="16px" height="16px" />
+                VIEW LIST
                 {hasSelected && <span className="count">{selectedCount}</span>}
-              </button>
+              </ButtonPill>
             </div>
           );
         }}

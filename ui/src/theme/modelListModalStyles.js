@@ -54,14 +54,15 @@ export default css`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 18px;
+    min-width: 18px;
     height: 18px;
+    padding: 0 4px;
     font-family: ${openSans};
     font-weight: bold;
     font-size: 10px;
     color: ${white};
     background-color: ${crimson};
-    border-radius: 100%;
+    border-radius: 10px;
     margin-left: 10px;
   }
 
