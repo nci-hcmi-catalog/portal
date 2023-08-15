@@ -37,7 +37,7 @@ dataExportRouter.post('/:projectId/models', async (req, res) => {
     const project = getProject(projectId);
     const es = project.es;
     // sanitize user input
-    const params = getParamsObj(req.sanitize(req.body.params));
+    const params = getParamsObj(decodeLessThanGreaterThan(req.sanitize(req.body.params)));
     logger.debug(`params: ${JSON.stringify(params)}`);
     const file = params.files[0];
     const { index, sqon } = file;
@@ -180,6 +180,10 @@ const buildVariantTsv = async (data, type) => {
 const getParamsObj = params => {
   const paramsObj = JSON.parse(params);
   return paramsObj;
+};
+
+const decodeLessThanGreaterThan = sanitizedParams => {
+  return sanitizedParams.replace(/(&lt;)/g, '<').replace(/(&gt;)/g, '>');
 };
 
 export default dataExportRouter;
