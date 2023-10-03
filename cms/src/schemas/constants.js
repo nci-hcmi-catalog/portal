@@ -1816,6 +1816,9 @@ export const variantExpressionLevel = [
   'Cannot be determined',
   'Yes',
   'No',
+  'MLH1 promoter hypermethylation present',
+  'MLH1 promoter hypermethylation absent',
+  'MLH1 promoter hypermethylation not assessed',
 ];
 
 export const tissueTypes = ['Primary', 'Metastasis', 'Recurrent', 'Pre-malignant'];
