@@ -54,13 +54,13 @@
     http-errors "^1.7.3"
     object-path "^0.11.4"
 
-"@arranger/admin@^2.19.1":
-  version "2.19.1"
-  resolved "https://registry.yarnpkg.com/@arranger/admin/-/admin-2.19.1.tgz#7f993be096ad0258dbf4b3849223cf0e2a50ce23"
-  integrity sha512-smRa/5WI+TkNMNNODfwXQ3u8rv5kvRVJ8XaRqBafDOzuhKfiWHVZ9iuyZDJBPPa3TRRrQwRxtrASgt2bE96frQ==
+"@arranger/admin@^2.19.4":
+  version "2.19.4"
+  resolved "https://registry.yarnpkg.com/@arranger/admin/-/admin-2.19.4.tgz#93d548c181ddf26043364e189bef8311c8e16cb3"
+  integrity sha512-ATVOjiEfNkNuamYxZjlqonDksHInWYAwszeOKlKepp6Hf1cd5pB7uxtBPmC7fwVxdnUFCJG1Z+ggNX0VZaWE7g==
   dependencies:
-    "@arranger/mapping-utils" "^2.19.1"
-    "@arranger/schema" "^2.19.1"
+    "@arranger/mapping-utils" "^2.19.4"
+    "@arranger/schema" "^2.19.4"
     "@elastic/elasticsearch" "7.5.0"
     apollo-link-http "^1.5.5"
     apollo-server "^2.14.2"
@@ -78,14 +78,14 @@
     ramda "^0.26.1"
     tslib "^1.10.0"
 
-"@arranger/components@2.19.1":
-  version "2.19.1"
-  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-2.19.1.tgz#20e9593c626c6735d17d4c3d88370505753b2d82"
-  integrity sha512-eXzKh6fIUw9fR6rC7i0ybqbGj5Xle5R/xHiCqYGXdEiBkSFHbJzI6NzfP9AMY+HIixvwrQ53Aysr3id0e7dK6g==
+"@arranger/components@2.19.4":
+  version "2.19.4"
+  resolved "https://registry.yarnpkg.com/@arranger/components/-/components-2.19.4.tgz#385954ea41c2b5839dfc94ed2b516cccdb9a8dab"
+  integrity sha512-Mq9mGMpAN7w7tDF437eGY3wUw9N5z+BgbUW4WETT8OCkbeQudmQAZZXsBSsqI2R7+/RmeRCTuQeeZlQeVpbESA==
   dependencies:
-    "@arranger/mapping-utils" "^2.19.1"
+    "@arranger/mapping-utils" "^2.19.4"
+    "@babel/polyfill" "^7.12.1"
     ajv "^6.1.1"
-    babel-polyfill "^6.26.0"
     classnames "^2.2.5"
     convert-units "^2.3.4"
     date-fns "^2.21.1"
@@ -123,13 +123,13 @@
     url-parse "^1.2.0"
     uuid "^3.2.1"
 
-"@arranger/mapping-utils@^2.19.1":
-  version "2.19.1"
-  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-2.19.1.tgz#93bbf54a20dc4b1d39f5e1c855fc03b85e6194d0"
-  integrity sha512-qRtx0LMdbodWGk8ThhZKm0OyxbBxLHu+zfldHnV0cYsy3ZQAGftN4mnoIG5M/hQkfl2Lz/kBpcL6J65k4qamUA==
+"@arranger/mapping-utils@^2.19.4":
+  version "2.19.4"
+  resolved "https://registry.yarnpkg.com/@arranger/mapping-utils/-/mapping-utils-2.19.4.tgz#363834a4b6ff007f2684cf174992b81c9ff25d38"
+  integrity sha512-DnJeH9HfB0aKUjFYRF6k+9p5cTj9aJEP6ZvFL1Gebn2G/KYKPGBG1PO8E3Vm7zDBhWJtgs/bKvonZxEJoZRKXg==
   dependencies:
-    "@arranger/middleware" "^2.17.0"
-    babel-polyfill "^6.26.0"
+    "@arranger/middleware" "^2.19.4"
+    "@babel/polyfill" "^7.12.1"
     graphql-fields "^2.0.3"
     kind-of "^6.0.3"
     lodash "^4.17.20"
@@ -137,10 +137,10 @@
     node-fetch "^2.2.0"
     uuid "^3.2.1"
 
-"@arranger/middleware@^2.17.0":
-  version "2.17.0"
-  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-2.17.0.tgz#51f50f538e23c7f54f7ad4dd819ab6397c2a6f7a"
-  integrity sha512-4ByODzUUSeOQlaW3ZkO+X4UkIr6OsLCM+zNpaxwJTJjReBRC3YHYIvFhNcHWzgXviLrkBzUyW8D+37ObLytAIQ==
+"@arranger/middleware@^2.19.4":
+  version "2.19.4"
+  resolved "https://registry.yarnpkg.com/@arranger/middleware/-/middleware-2.19.4.tgz#49354dd1bf0dc706596690438a0a9ee44f892999"
+  integrity sha512-Vd5dWnTpC7uIT3YG9RkaP+pR4u5voQyxr3tfJVgG9lJay6zhaqAYRQvs3b17GB+W2Yj6ObKm6fsDY5Gtv+f4Cg==
   dependencies:
     body-parser "^1.18.2"
     cors "^2.8.4"
@@ -153,14 +153,14 @@
     utf8 "^3.0.0"
     winston "^2.4.0"
 
-"@arranger/schema@^2.19.1":
-  version "2.19.1"
-  resolved "https://registry.yarnpkg.com/@arranger/schema/-/schema-2.19.1.tgz#61a9b8a47aacdfd80d487fcfbf45ef51a4a66468"
-  integrity sha512-ewDkUXmQ5QNDo7YpySIFYR30bkw640h7HlZe7iwJxwUHl2sWdZbsXAoqkoshHHQsGCIzu+KMPaNhFmOM4wF82A==
+"@arranger/schema@^2.19.4":
+  version "2.19.4"
+  resolved "https://registry.yarnpkg.com/@arranger/schema/-/schema-2.19.4.tgz#a47d343ede9ca62554fb3919147f5a38f9108e9a"
+  integrity sha512-9EwCm+Mg0uhnqLJs3khHmxJl/LwQey/Sf4VKqVqqAdLEqba5G94yeKpUUfWPwJHOsJnJ/pwyIcjW56GTvT3Rvg==
   dependencies:
-    "@arranger/mapping-utils" "^2.19.1"
-    "@arranger/middleware" "^2.17.0"
-    babel-polyfill "^6.26.0"
+    "@arranger/mapping-utils" "^2.19.4"
+    "@arranger/middleware" "^2.19.4"
+    "@babel/polyfill" "^7.12.1"
     graphql-middleware "1.3.1"
     graphql-scalars "^0.1.5"
     graphql-tools "^4.0.0"
@@ -171,19 +171,19 @@
     paralleljs "^0.2.1"
     uuid "^3.2.1"
 
-"@arranger/server@2.19.1":
-  version "2.19.1"
-  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-2.19.1.tgz#ca5efdb0e8295a964872d3362770898c2f1df757"
-  integrity sha512-9ZC+CDeHyEUc3fb7kh9VO4PqN7vMnBJ+Cd1iqxkmXcHgnwuYa4LCJA9jDilhlq/IKnr3N4H4kttFgsdO3wc5jw==
+"@arranger/server@2.19.4":
+  version "2.19.4"
+  resolved "https://registry.yarnpkg.com/@arranger/server/-/server-2.19.4.tgz#1da4b7dccd57e4d49f4454bf4d2a03bf8d24b14e"
+  integrity sha512-W8g2o2D5S76PCp9DWqgxy+cb1sAo4EmCkV10pDgKoFmLgVSp5HcFyWTFu34qhu8sORfd9JhLJxxbSd4MWbFq9w==
   dependencies:
-    "@arranger/admin" "^2.19.1"
-    "@arranger/mapping-utils" "^2.19.1"
-    "@arranger/middleware" "^2.17.0"
-    "@arranger/schema" "^2.19.1"
+    "@arranger/admin" "^2.19.4"
+    "@arranger/mapping-utils" "^2.19.4"
+    "@arranger/middleware" "^2.19.4"
+    "@arranger/schema" "^2.19.4"
+    "@babel/polyfill" "^7.12.1"
     "@elastic/elasticsearch" "^7.5.0"
     apollo-server-core "^2.14.2"
     apollo-server-express "^2.14.2"
-    babel-polyfill "^6.26.0"
     body-parser "^1.18.2"
     chalk "^2.3.1"
     cors "^2.8.4"
@@ -2706,10 +2706,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@n1ru4l/push-pull-async-iterable-iterator@2.1.4", "@n1ru4l/push-pull-async-iterable-iterator@^3.1.0":
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/@n1ru4l/push-pull-async-iterable-iterator/-/push-pull-async-iterable-iterator-2.1.4.tgz#a90225474352f9f159bff979905f707b9c6bcf04"
-  integrity sha512-qLIvoOUJ+zritv+BlzcBMePKNjKQzH9Rb2i9W98YXxf/M62Lye8qH0peyiU8yJ1tL0kfulWi31BoK10E6BKJeA==
+"@n1ru4l/push-pull-async-iterable-iterator@^3.1.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@n1ru4l/push-pull-async-iterable-iterator/-/push-pull-async-iterable-iterator-3.2.0.tgz#c15791112db68dd9315d329d652b7e797f737655"
+  integrity sha512-3fkKj25kEjsfObL6IlKPAlHYPq/oYwUkkQ03zsTTiDjD7vg/RxjdiLeCydqtxHZP0JgsXL3D/X5oAkMGzuUp/Q==
 
 "@nicolo-ribaudo/chokidar-2@2.1.8-no-fsevents.3":
   version "2.1.8-no-fsevents.3"
@@ -5468,9 +5468,9 @@ codemirror-graphql@^1.2.14:
     graphql-language-service "^5.0.6"
 
 codemirror@^5.58.2:
-  version "5.65.11"
-  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.65.11.tgz#c818edc3274788c008f636520c5490a1f7009b4f"
-  integrity sha512-Gp62g2eKSCHYt10axmGhKq3WoJSvVpvhXmowNq7pZdRVowwtvBR/hi2LSP5srtctKkRT33T6/n8Kv1UGp7JW4A==
+  version "5.65.15"
+  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.65.15.tgz#66899278f44a7acde0eb641388cd563fe6dfbe19"
+  integrity sha512-YC4EHbbwQeubZzxLl5G4nlbLc1T21QTrKGaOal/Pkm9dVDMZXMH7+ieSPEOZCtO9I68i8/oteJKOxzHC2zR+0g==
 
 collect-v8-coverage@^1.0.0:
   version "1.0.1"
@@ -8538,9 +8538,9 @@ graphql-fields@^2.0.3:
   integrity sha512-x3VE5lUcR4XCOxPIqaO4CE+bTK8u6gVouOdpQX9+EKHr+scqtK5Pp/l8nIGqIpN1TUlkKE6jDCCycm/WtLRAwA==
 
 graphql-language-service@^5.0.1, graphql-language-service@^5.0.6:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/graphql-language-service/-/graphql-language-service-5.1.1.tgz#d7b46d46adad3b192489960cc939da7ad8dbf21a"
-  integrity sha512-gpaDT9E3+3eWhoqO4C81CGhkzr7Vp2jH/eq+ykoUbgfvMEpqhGTfCeNmrf+S4K/+4WTkAAJBsYT0/ZPZkqe/Hg==
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/graphql-language-service/-/graphql-language-service-5.2.0.tgz#cfe22b2e911292d724451580632c67d908e5606a"
+  integrity sha512-o/ZgTS0pBxWm3hSF4+6GwiV1//DxzoLWEbS38+jqpzzy1d/QXBidwQuVYTOksclbtOJZ3KR/tZ8fi/tI6VpVMg==
   dependencies:
     nullthrows "^1.0.0"
     vscode-languageserver-types "^3.17.1"
@@ -11176,10 +11176,10 @@ merge2@^1.3.0, merge2@^1.4.1:
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.4.1.tgz#4368892f885e907455a6fd7dc55c0c9d404990ae"
   integrity sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==
 
-meros@1.0.0, meros@^1.1.4:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/meros/-/meros-1.0.0.tgz#cb1fc818a60afc56bd86c577a9758b4510b3f027"
-  integrity sha512-gGhudbEI/7Z/5Mc3Mh2VsxWTm0byUB7O34azwchvvDRZ3oaxt5RaN80tF9mwN+plfi2JKDeIQQfJJWwuWmgqBQ==
+meros@^1.1.4:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/meros/-/meros-1.3.0.tgz#c617d2092739d55286bf618129280f362e6242f2"
+  integrity sha512-2BNGOimxEz5hmjUG2FwoxCt5HN7BXdaWyFqEwxPTrJzVdABtrL4TiHTcsWSFAxPQ/tOnEaQEJh3qWq71QRMY+w==
 
 method-override@^2.3.10:
   version "2.3.10"
@@ -16708,9 +16708,9 @@ vm-browserify@^1.0.1:
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
 
 vscode-languageserver-types@^3.17.1:
-  version "3.17.3"
-  resolved "https://registry.yarnpkg.com/vscode-languageserver-types/-/vscode-languageserver-types-3.17.3.tgz#72d05e47b73be93acb84d6e311b5786390f13f64"
-  integrity sha512-SYU4z1dL0PyIMd4Vj8YOqFvHu7Hz/enbWtpfnVbJHU4Nd1YNYx8u0ennumc6h48GQNeOLxmwySmnADouT/AuZA==
+  version "3.17.5"
+  resolved "https://registry.yarnpkg.com/vscode-languageserver-types/-/vscode-languageserver-types-3.17.5.tgz#3273676f0cf2eab40b3f44d085acbb7f08a39d8a"
+  integrity sha512-Ld1VelNuX9pdF39h2Hgaeb5hEZM2Z3jUrrMgWQAu82jMtZp7p3vJT3BzToKtZI7NgQssZje5o0zryOrhQvzQAg==
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"
