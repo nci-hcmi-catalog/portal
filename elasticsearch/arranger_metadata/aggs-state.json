@@ -45,6 +45,11 @@
     "active": true
   },
   {
+    "field": "tissue_type",
+    "show": true,
+    "active": true
+  },
+  {
     "field": "clinical_diagnosis__histological_type",
     "show": true,
     "active": true
@@ -236,11 +241,6 @@
   },
   {
     "field": "status",
-    "show": false,
-    "active": true
-  },
-  {
-    "field": "tissue_type",
     "show": false,
     "active": true
   },
