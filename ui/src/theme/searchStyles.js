@@ -557,6 +557,10 @@ export default css`
     }
   }
 
+  .aggregation-card .header .title-wrapper.collapsed .action-icon {
+    display: none;
+  }
+
   .aggregation-card .filter {
     padding: 10px 11px;
   }
