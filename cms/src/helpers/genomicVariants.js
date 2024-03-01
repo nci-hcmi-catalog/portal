@@ -67,9 +67,9 @@ const buildVariantId = ({
 
 const buildModelUrl = caseId => `${BASE_GDC_URL}/cases/${caseId}`;
 const buildMafUrl = fileId => `${BASE_GDC_URL}/files/${fileId}`;
-// URL encoded: /repository?facetTab=files&filters={"op":"and","content":[{"op":"in","content":{"field":"cases.case_id","value":["caseId"]}}]}&searchTableTab=files
+// URL encoded: /v1/repository?facetTab=files&filters={"op":"and","content":[{"op":"in","content":{"field":"cases.case_id","value":["caseId"]}}]}&searchTableTab=files
 const buildSequenceUrl = caseId =>
-  `${BASE_GDC_URL}/repository?facetTab=files&filters=%7B%22op%22%3A%22and%22%2C%22content%22%3A%5B%7B%22op%22%3A%22in%22%2C%22content%22%3A%7B%22field%22%3A%22cases.case_id%22%2C%22value%22%3A%5B%22${caseId}%22%5D%7D%7D%5D%7D&searchTableTab=files`;
+  `${BASE_GDC_URL}/v1/repository?facetTab=files&filters=%7B%22op%22%3A%22and%22%2C%22content%22%3A%5B%7B%22op%22%3A%22in%22%2C%22content%22%3A%7B%22field%22%3A%22cases.case_id%22%2C%22value%22%3A%5B%22${caseId}%22%5D%7D%7D%5D%7D&searchTableTab=files`;
 
 export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileId }, caseId) => {
   const model = await Model.findOne({ name });
