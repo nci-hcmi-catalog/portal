@@ -204,18 +204,26 @@ const ExternalResourceLink = ({ url, children }) =>
 
 const ExternalResourcesContent = ({
   distributorPartNumber,
+  proteomicsUrl,
+  somaticMafUrl,
   sourceModelUrl,
   sourceSequenceUrl,
-  somaticMafUrl,
 }) => {
-  const sequencingFilesLink = sourceSequenceUrl !== 'N/A' ? sourceSequenceUrl : null;
-  const modelSourceLink = sourceModelUrl !== 'N/A' ? sourceModelUrl : null;
-  const somaticMafLink = somaticMafUrl !== 'N/A' ? somaticMafUrl : null;
   const distributorLinkUrl = distributorPartNumber ? distributorLink(distributorPartNumber) : null;
+  const modelSourceLink = sourceModelUrl !== 'N/A' ? sourceModelUrl : null;
+  const proteomicsLink = proteomicsUrl !== 'N/A' ? proteomicsUrl : null;
+  const sequencingFilesLink = sourceSequenceUrl !== 'N/A' ? sourceSequenceUrl : null;
+  const somaticMafLink = somaticMafUrl !== 'N/A' ? somaticMafUrl : null;
+  const hasExternalResources =
+    distributorLinkUrl ||
+    modelSourceLink ||
+    sequencingFilesLink ||
+    somaticMafLink ||
+    (process.env.REACT_APP_ENABLE_PROTEOMICS && proteomicsLink);
 
   return (
     <div className="external-resources">
-      {!distributorPartNumber && !sequencingFilesLink && !modelSourceLink && !somaticMafLink ? (
+      {!hasExternalResources ? (
         <div className="model-details model-details--empty">
           {/* Manually adding a circle around this icon for the empty state */}
           <div
@@ -251,6 +259,12 @@ const ExternalResourcesContent = ({
             <ExternalLinkIcon />
             Case Metadata
           </ExternalResourceLink>
+          {process.env.REACT_APP_ENABLE_PROTEOMICS && (
+            <ExternalResourceLink url={proteomicsLink}>
+              <ExternalLinkIcon />
+              Proteomics Data
+            </ExternalResourceLink>
+          )}
           <ExternalResourceLink url={somaticMafLink}>
             <ExternalLinkIcon />
             Masked Somatic MAF
@@ -461,6 +475,7 @@ const Model = ({ modelName }) => (
                       <h3 className="model-section__card-title">External Resources</h3>
                       <ExternalResourcesContent
                         distributorPartNumber={get(queryState.model, 'distributor_part_number')}
+                        proteomicsUrl={get(queryState.model, 'proteomics_url')}
                         sourceModelUrl={get(queryState.model, 'source_model_url')}
                         sourceSequenceUrl={get(queryState.model, 'source_sequence_url')}
                         somaticMafUrl={get(queryState.model, 'somatic_maf_url')}

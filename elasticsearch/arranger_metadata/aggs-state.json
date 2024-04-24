@@ -165,6 +165,11 @@
     "active": true
   },
   {
+    "field": "proteomics_url",
+    "show": false,
+    "active": true
+  },
+  {
     "field": "source_sequence_url",
     "show": false,
     "active": true

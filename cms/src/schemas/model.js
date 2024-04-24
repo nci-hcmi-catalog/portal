@@ -85,6 +85,7 @@ export const ModelSchema = new mongoose.Schema(
     source_model_url: { type: String, es_indexed: true },
     source_sequence_url: { type: String, es_indexed: true },
     somatic_maf_url: { type: String, es_indexed: true },
+    proteomics_url: { type: String, es_indexed: true },
     expanded: { type: Boolean, es_indexed: true },
     files: { type: [FilesSchema], es_indexed: true },
     variants: { type: [VariantExpression], es_indexed: true },

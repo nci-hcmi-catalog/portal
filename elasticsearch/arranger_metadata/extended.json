@@ -517,6 +517,18 @@
     "rangeStep": 1
   },
   {
+    "field": "proteomics_url",
+    "type": "keyword",
+    "displayName": "Link To Proteomics Data",
+    "active": false,
+    "isArray": false,
+    "primaryKey": false,
+    "quickSearchEnabled": false,
+    "unit": null,
+    "displayValues": {},
+    "rangeStep": 1
+  },
+  {
     "field": "source_model_url",
     "type": "keyword",
     "displayName": "Link to Model Details",
@@ -552,7 +564,6 @@
     "displayValues": {},
     "rangeStep": 1
   },
-
   {
     "field": "status",
     "type": "text",
