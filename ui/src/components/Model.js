@@ -156,7 +156,9 @@ const MolecularCharacterizationsCell = ({ isAvailable }) => {
 };
 
 const MolecularCharacterizationsTable = ({ characterizations }) => {
-  const CHARS = ['WGS', 'WXS', 'RNA-seq', 'DNA Methylation'];
+  const CHARS = process.env.REACT_APP_ENABLE_PROTEOMICS
+    ? ['WGS', 'WXS', 'RNA-seq', 'DNA Methylation', 'Proteomics']
+    : ['WGS', 'WXS', 'RNA-seq', 'DNA Methylation'];
   const TYPES = ['model', 'parent tumor', 'normal'];
 
   return (
