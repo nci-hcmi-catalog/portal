@@ -51,6 +51,7 @@ const {
   source_model_url,
   source_sequence_url,
   somatic_maf_url,
+  proteomics_url,
   expanded,
   updatedAt,
 } = schemaObj;
@@ -430,6 +431,17 @@ const ModelFormTemplate = ({
                     name={source_model_url.accessor}
                     component={FormInput}
                     placeholder={`http://model_url.example.com`}
+                  />
+                </FormComponent>
+
+                <FormComponent
+                  labelText={proteomics_url.displayName}
+                  description="Please provide a url to the GDC webpage containing Proteomics data for this model."
+                >
+                  <Field
+                    name={proteomics_url.accessor}
+                    component={FormInput}
+                    placeholder={`http://proteomics_url.example.com`}
                   />
                 </FormComponent>
               </FormCol>

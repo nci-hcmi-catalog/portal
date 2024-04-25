@@ -179,6 +179,9 @@ export const getPublishSchema = async (excludedNames, dictionary) => {
     somatic_maf_url: string()
       .url()
       .nullable(true),
+    proteomics_url: string()
+      .url()
+      .nullable(true),
     updatedBy: string(),
     status: string(),
     variants: array()
@@ -317,6 +320,9 @@ export const getSaveValidation = async () => {
       .url()
       .nullable(true),
     somatic_maf_url: string()
+      .url()
+      .nullable(true),
+    proteomics_url: string()
       .url()
       .nullable(true),
     updatedBy: string(),

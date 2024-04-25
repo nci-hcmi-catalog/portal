@@ -1726,6 +1726,9 @@ export const molecularCharacterizations = [
   'DNA Methylation of model',
   'RNA-seq of parent tumor',
   'RNA-seq of model',
+  'Proteomics of parent tumor',
+  'Proteomics of normal',
+  'Proteomics of model',
 ];
 
 export const splitRatio = ['1:2', '1:4', '1:8'];
