@@ -17,6 +17,7 @@ const fetchData = async ({ setState, modelName }) => {
                       id
                       expanded
                       distributor_part_number
+                      proteomics_url
                       source_model_url
                       source_sequence_url
                       somatic_maf_url

@@ -136,6 +136,9 @@
       "primary_site": {
         "type": "keyword"
       },
+      "proteomics_url": {
+        "type": "keyword"
+      },
       "race": {
         "type": "keyword"
       },
