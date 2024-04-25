@@ -132,6 +132,10 @@ export const schemaArr = [
     accessor: 'somatic_maf_url',
   },
   {
+    displayName: 'Proteomics URL',
+    accessor: 'proteomics_url',
+  },
+  {
     displayName: 'Has Matched Models',
     accessor: 'has_matched_models',
   },

@@ -376,6 +376,16 @@
       "canChangeShow": false,
       "query": null,
       "jsonPath": null
+    },
+    {
+      "field": "proteomics_url",
+      "accessor": "proteomics_url",
+      "show": false,
+      "type": "string",
+      "sortable": false,
+      "canChangeShow": false,
+      "query": null,
+      "jsonPath": null
     }
   ],
   "timestamp": "2019-10-11T20:36:07.801Z"
