@@ -29,7 +29,7 @@ export const modelEditUrlBase = '/admin/model';
 export const dataDictionaryUrlBase = '/admin/data-dictionary';
 
 const AdminNav = ({ location: { pathname } }) => (
-  <AdminNavWrapper>
+  <AdminNavWrapper as="nav">
     <div>
       <NavLink
         active={isNavLinkActive(pathname, modelsNavPaths) ? `true` : undefined}

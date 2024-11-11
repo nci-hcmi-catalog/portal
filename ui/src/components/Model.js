@@ -271,6 +271,7 @@ const ExternalResourcesContent = ({
           </ExternalResourceLink>
           <ExternalResourceLink url={distributorLinkUrl}>
             <ShoppingCartIcon />
+            <ExternalLinkIcon />
             Visit {distributorPartNumber} to Purchase
           </ExternalResourceLink>
         </>
