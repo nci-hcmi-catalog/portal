@@ -32,7 +32,7 @@ The object properties are as follows:
   * Values: `INFO` | `WARNING` | `CRITICAL`
   * Default: `INFO`
 * `dismissible` <sup>*optional*</sup>
-  * Boolean representing whether the banner should be dismissible or not
+  * Tells the banner whether users should able to "close" the banner (e.g. display an `x` on the top right corner).
   * Values: `true` | `false`
   * Default: `true`
 
