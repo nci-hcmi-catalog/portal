@@ -13,7 +13,7 @@ const {
 
 export const HEADER_HEIGHT = '64px';
 
-export const HeaderWrapper = styled('div')`
+export const HeaderWrapper = styled('section')`
   display: flex;
   background-image: url(${bannerPath}),
     linear-gradient(to left, ${hotCinnamon} 0%, ${texasRose} 60%, ${orangeRough} 80%);
