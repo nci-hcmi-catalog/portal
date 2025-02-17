@@ -24,7 +24,7 @@
     "mongoose": "^5.7.5",
     "pino": "^6.5.1",
     "pino-http": "^5.2.0",
-    "sharp": "0.28.3"
+    "sharp": "0.30.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
