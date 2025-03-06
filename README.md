@@ -66,7 +66,7 @@ cd cms/variant-migrations
    From the project root directory run the following command. Note that you may need to change the ENV value used to match the environment declared in the `cms/pm2.config.json` file setup.
 
 ```
-ENV=prd npm run initializeEs
+ENV=env_prd npm run initializeEs
 ```
 
 5. Run the api:
