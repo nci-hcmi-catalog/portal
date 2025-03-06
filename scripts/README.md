@@ -53,7 +53,7 @@ ENV=prd npm run repairEs
 
 You can specify the following environment variables when running this script:
 
-- **`ENV`: PM2 environment (i.e. `dev`, `prd`, etc.) <sup>_required_</sup>**
+- **`ENV`: PM2 environment (i.e. `env_dev`, `env_prd`, etc.) <sup>_required_</sup>**
 - `CMS_CONFIG`: path to your CMS `pm2.config.js` file <sup>_optional_</sup>
 - `ES_INDEX`: models index name <sup>_optional_</sup>
 - `PROJECT_ID`: Arranger project id <sup>_optional_</sup>
@@ -71,7 +71,7 @@ ENV=prd npm run republish
 
 You can specify the following environment variables when running this script:
 
-- **`ENV`: PM2 environment (i.e. `dev`, `prd`, etc.) <sup>_required_</sup>**
+- **`ENV`: PM2 environment (i.e. `env_dev`, `env_prd`, etc.) <sup>_required_</sup>**
 - `CMS_CONFIG`: path to your CMS `pm2.config.js` file <sup>_optional_</sup>
 - `ES_INDEX`: models index name <sup>_optional_</sup>
 - `PROJECT_ID`: Arranger project id <sup>_optional_</sup>
@@ -89,7 +89,7 @@ ENV=prd npm run updateEs
 
 You can specify the following environment variables when running this script:
 
-- **`ENV`: PM2 environment (i.e. `dev`, `prd`, etc.) <sup>_required_</sup>**
+- **`ENV`: PM2 environment (i.e. `env_dev`, `env_prd`, etc.) <sup>_required_</sup>**
 - `CMS_CONFIG`: path to your CMS `pm2.config.js` file <sup>_optional_</sup>
 - `ES_INDEX`: models index name <sup>_optional_</sup>
 - `PROJECT_ID`: Arranger project id <sup>_optional_</sup>
