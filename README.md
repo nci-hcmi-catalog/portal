@@ -46,7 +46,7 @@ cd cms/variant-migrations
 1. Run dependencies through docker:
 
 ```
-docker-compose up
+docker compose up -d
 ```
 
 2. Install node dependcies using yarn, from this project's root directory. This will not work correctly using `npm i`, the three projects are linked and yarn manages the shared dependencies.
