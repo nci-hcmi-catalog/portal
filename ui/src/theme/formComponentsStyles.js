@@ -279,7 +279,7 @@ const checkboxRadioSharedStyles = css`
     -ms-user-select: none;
     user-select: none;
 
-    &:first-child {
+    &:first-of-type {
       margin-top: 5px;
     }
   }

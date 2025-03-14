@@ -73,7 +73,7 @@ export const ActionsMenuItem = styled('div')`
     background-color: ${lightPorcelain};
   }
 
-  &:first-child {
+  &:first-of-type {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
   }
