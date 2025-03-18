@@ -1,0 +1,396 @@
+{
+  "table": {
+    "type": "models",
+    "keyField": "id",
+    "defaultSorted": [
+      {
+        "id": "gene_metadata.genomic_variant_count",
+        "desc": true
+      }
+    ],
+    "columns": [
+      {
+        "field": "name",
+        "accessor": "name",
+        "show": true,
+        "type": "entity",
+        "sortable": true,
+        "canChangeShow": false,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "primary_site",
+        "accessor": "primary_site",
+        "show": true,
+        "type": "string",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "clinical_diagnosis.clinical_tumor_diagnosis",
+        "accessor": "clinical_diagnosis.clinical_tumor_diagnosis",
+        "show": true,
+        "type": "string",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "clinical_diagnosis.histological_type",
+        "accessor": "clinical_diagnosis.histological_type",
+        "show": false,
+        "type": "string",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "tissue_type",
+        "accessor": "tissue_type",
+        "show": true,
+        "type": "string",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "clinical_diagnosis.site_of_sample_acquisition",
+        "accessor": "clinical_diagnosis.site_of_sample_acquisition",
+        "show": false,
+        "type": "string",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+
+      {
+        "field": "gender",
+        "accessor": "gender",
+        "show": false,
+        "type": "string",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "race",
+        "accessor": "race",
+        "show": false,
+        "type": "string",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "age_at_sample_acquisition",
+        "accessor": "age_at_sample_acquisition",
+        "show": true,
+        "type": "age_at_sample_acquisition",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "age_at_diagnosis",
+        "accessor": "age_at_diagnosis",
+        "show": true,
+        "type": "number",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "disease_status",
+        "accessor": "disease_status",
+        "show": false,
+        "type": "string",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "vital_status",
+        "accessor": "vital_status",
+        "show": false,
+        "type": "string",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "tnm_stage",
+        "accessor": "tnm_stage",
+        "show": false,
+        "type": "string",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "clinical_diagnosis.clinical_stage_grouping",
+        "accessor": "clinical_diagnosis.clinical_stage_grouping",
+        "show": false,
+        "type": "string",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "clinical_diagnosis.tumor_histological_grade",
+        "accessor": "clinical_diagnosis.tumor_histological_grade",
+        "show": false,
+        "type": "string",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "matched_models_list",
+        "accessor": "matched_models_list",
+        "show": true,
+        "type": "matched_models",
+        "sortable": false,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "neoadjuvant_therapy",
+        "accessor": "neoadjuvant_therapy",
+        "show": false,
+        "type": "keyword",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "chemotherapeutic_drugs",
+        "accessor": "chemotherapeutic_drugs",
+        "show": false,
+        "type": "boolean",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "therapy",
+        "accessor": "therapy",
+        "show": false,
+        "type": "list",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "molecular_characterizations",
+        "accessor": "molecular_characterizations",
+        "show": false,
+        "type": "list",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "distributor_part_number",
+        "accessor": "distributor_part_number",
+        "show": false,
+        "type": "distributor_link",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "type",
+        "accessor": "type",
+        "show": false,
+        "type": "string",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "licensing_required",
+        "accessor": "licensing_required",
+        "show": false,
+        "type": "boolean",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "expanded",
+        "accessor": "expanded",
+        "show": true,
+        "type": "expanded",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "gene_metadata.genes_count",
+        "accessor": "gene_metadata.genes_count",
+        "show": false,
+        "type": "genes_count",
+        "sortable": true,
+        "canChangeShow": false,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "gene_metadata.mutated_genes_count",
+        "accessor": "gene_metadata.mutated_genes_count",
+        "show": true,
+        "type": "genes_count",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "gene_metadata.genomic_variant_count",
+        "accessor": "gene_metadata.genomic_variant_count",
+        "show": true,
+        "type": "number",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "gene_metadata.clinical_variant_count",
+        "accessor": "gene_metadata.clinical_variant_count",
+        "show": true,
+        "type": "number",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "gene_metadata.histopathological_variant_count",
+        "accessor": "gene_metadata.histopathological_variant_count",
+        "show": true,
+        "type": "histo_variant_count",
+        "sortable": true,
+        "canChangeShow": true,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "split_ratio",
+        "accessor": "split_ratio",
+        "show": false,
+        "type": "string",
+        "sortable": true,
+        "canChangeShow": false,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "growth_rate",
+        "accessor": "growth_rate",
+        "show": false,
+        "type": "number",
+        "sortable": true,
+        "canChangeShow": false,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "time_to_split",
+        "accessor": "time_to_split",
+        "show": false,
+        "type": "string",
+        "sortable": true,
+        "canChangeShow": false,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "createdAt",
+        "accessor": "createdAt",
+        "show": false,
+        "type": "date",
+        "sortable": false,
+        "canChangeShow": false,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "date_of_availability",
+        "accessor": "date_of_availability",
+        "show": false,
+        "type": "date",
+        "sortable": false,
+        "canChangeShow": false,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "source_model_url",
+        "accessor": "source_model_url",
+        "show": false,
+        "type": "string",
+        "sortable": false,
+        "canChangeShow": false,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "source_sequence_url",
+        "accessor": "source_sequence_url",
+        "show": false,
+        "type": "string",
+        "sortable": false,
+        "canChangeShow": false,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "somatic_maf_url",
+        "accessor": "somatic_maf_url",
+        "show": false,
+        "type": "string",
+        "sortable": false,
+        "canChangeShow": false,
+        "query": null,
+        "jsonPath": null
+      },
+      {
+        "field": "proteomics_url",
+        "accessor": "proteomics_url",
+        "show": false,
+        "type": "string",
+        "sortable": false,
+        "canChangeShow": false,
+        "query": null,
+        "jsonPath": null
+      }
+    ],
+    "timestamp": "2019-10-11T20:36:07.801Z"
+  }
+}
