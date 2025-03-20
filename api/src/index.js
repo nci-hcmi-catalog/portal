@@ -40,7 +40,7 @@ const appConfig = {
   graphqlOptions: {},
 };
 
-ArrangerServer(appConfig).then(router => {
+ArrangerServer(appConfig).then((router) => {
   app.use('/last-updated', lastUpdatedRouter);
   app.use('/health', healthRouter);
   app.use('/search', searchRouter);

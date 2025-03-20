@@ -1,8 +1,8 @@
 {
   "table": {
     "type": "models",
-    "keyField": "id",
-    "defaultSorted": [
+    "rowIdFieldName": "id",
+    "defaultSorting": [
       {
         "id": "gene_metadata.genomic_variant_count",
         "desc": true
@@ -10,7 +10,7 @@
     ],
     "columns": [
       {
-        "field": "name",
+        "fieldName": "name",
         "accessor": "name",
         "show": true,
         "type": "entity",
@@ -20,7 +20,7 @@
         "jsonPath": null
       },
       {
-        "field": "primary_site",
+        "fieldName": "primary_site",
         "accessor": "primary_site",
         "show": true,
         "type": "string",
@@ -30,7 +30,7 @@
         "jsonPath": null
       },
       {
-        "field": "clinical_diagnosis.clinical_tumor_diagnosis",
+        "fieldName": "clinical_diagnosis.clinical_tumor_diagnosis",
         "accessor": "clinical_diagnosis.clinical_tumor_diagnosis",
         "show": true,
         "type": "string",
@@ -40,7 +40,7 @@
         "jsonPath": null
       },
       {
-        "field": "clinical_diagnosis.histological_type",
+        "fieldName": "clinical_diagnosis.histological_type",
         "accessor": "clinical_diagnosis.histological_type",
         "show": false,
         "type": "string",
@@ -50,7 +50,7 @@
         "jsonPath": null
       },
       {
-        "field": "tissue_type",
+        "fieldName": "tissue_type",
         "accessor": "tissue_type",
         "show": true,
         "type": "string",
@@ -60,7 +60,7 @@
         "jsonPath": null
       },
       {
-        "field": "clinical_diagnosis.site_of_sample_acquisition",
+        "fieldName": "clinical_diagnosis.site_of_sample_acquisition",
         "accessor": "clinical_diagnosis.site_of_sample_acquisition",
         "show": false,
         "type": "string",
@@ -71,7 +71,7 @@
       },
 
       {
-        "field": "gender",
+        "fieldName": "gender",
         "accessor": "gender",
         "show": false,
         "type": "string",
@@ -81,7 +81,7 @@
         "jsonPath": null
       },
       {
-        "field": "race",
+        "fieldName": "race",
         "accessor": "race",
         "show": false,
         "type": "string",
@@ -91,7 +91,7 @@
         "jsonPath": null
       },
       {
-        "field": "age_at_sample_acquisition",
+        "fieldName": "age_at_sample_acquisition",
         "accessor": "age_at_sample_acquisition",
         "show": true,
         "type": "age_at_sample_acquisition",
@@ -101,7 +101,7 @@
         "jsonPath": null
       },
       {
-        "field": "age_at_diagnosis",
+        "fieldName": "age_at_diagnosis",
         "accessor": "age_at_diagnosis",
         "show": true,
         "type": "number",
@@ -111,7 +111,7 @@
         "jsonPath": null
       },
       {
-        "field": "disease_status",
+        "fieldName": "disease_status",
         "accessor": "disease_status",
         "show": false,
         "type": "string",
@@ -121,7 +121,7 @@
         "jsonPath": null
       },
       {
-        "field": "vital_status",
+        "fieldName": "vital_status",
         "accessor": "vital_status",
         "show": false,
         "type": "string",
@@ -131,7 +131,7 @@
         "jsonPath": null
       },
       {
-        "field": "tnm_stage",
+        "fieldName": "tnm_stage",
         "accessor": "tnm_stage",
         "show": false,
         "type": "string",
@@ -141,7 +141,7 @@
         "jsonPath": null
       },
       {
-        "field": "clinical_diagnosis.clinical_stage_grouping",
+        "fieldName": "clinical_diagnosis.clinical_stage_grouping",
         "accessor": "clinical_diagnosis.clinical_stage_grouping",
         "show": false,
         "type": "string",
@@ -151,7 +151,7 @@
         "jsonPath": null
       },
       {
-        "field": "clinical_diagnosis.tumor_histological_grade",
+        "fieldName": "clinical_diagnosis.tumor_histological_grade",
         "accessor": "clinical_diagnosis.tumor_histological_grade",
         "show": false,
         "type": "string",
@@ -161,7 +161,7 @@
         "jsonPath": null
       },
       {
-        "field": "matched_models_list",
+        "fieldName": "matched_models_list",
         "accessor": "matched_models_list",
         "show": true,
         "type": "matched_models",
@@ -171,7 +171,7 @@
         "jsonPath": null
       },
       {
-        "field": "neoadjuvant_therapy",
+        "fieldName": "neoadjuvant_therapy",
         "accessor": "neoadjuvant_therapy",
         "show": false,
         "type": "keyword",
@@ -181,7 +181,7 @@
         "jsonPath": null
       },
       {
-        "field": "chemotherapeutic_drugs",
+        "fieldName": "chemotherapeutic_drugs",
         "accessor": "chemotherapeutic_drugs",
         "show": false,
         "type": "boolean",
@@ -191,7 +191,7 @@
         "jsonPath": null
       },
       {
-        "field": "therapy",
+        "fieldName": "therapy",
         "accessor": "therapy",
         "show": false,
         "type": "list",
@@ -201,7 +201,7 @@
         "jsonPath": null
       },
       {
-        "field": "molecular_characterizations",
+        "fieldName": "molecular_characterizations",
         "accessor": "molecular_characterizations",
         "show": false,
         "type": "list",
@@ -211,7 +211,7 @@
         "jsonPath": null
       },
       {
-        "field": "distributor_part_number",
+        "fieldName": "distributor_part_number",
         "accessor": "distributor_part_number",
         "show": false,
         "type": "distributor_link",
@@ -221,7 +221,7 @@
         "jsonPath": null
       },
       {
-        "field": "type",
+        "fieldName": "type",
         "accessor": "type",
         "show": false,
         "type": "string",
@@ -231,7 +231,7 @@
         "jsonPath": null
       },
       {
-        "field": "licensing_required",
+        "fieldName": "licensing_required",
         "accessor": "licensing_required",
         "show": false,
         "type": "boolean",
@@ -241,7 +241,7 @@
         "jsonPath": null
       },
       {
-        "field": "expanded",
+        "fieldName": "expanded",
         "accessor": "expanded",
         "show": true,
         "type": "expanded",
@@ -251,7 +251,7 @@
         "jsonPath": null
       },
       {
-        "field": "gene_metadata.genes_count",
+        "fieldName": "gene_metadata.genes_count",
         "accessor": "gene_metadata.genes_count",
         "show": false,
         "type": "genes_count",
@@ -261,7 +261,7 @@
         "jsonPath": null
       },
       {
-        "field": "gene_metadata.mutated_genes_count",
+        "fieldName": "gene_metadata.mutated_genes_count",
         "accessor": "gene_metadata.mutated_genes_count",
         "show": true,
         "type": "genes_count",
@@ -271,7 +271,7 @@
         "jsonPath": null
       },
       {
-        "field": "gene_metadata.genomic_variant_count",
+        "fieldName": "gene_metadata.genomic_variant_count",
         "accessor": "gene_metadata.genomic_variant_count",
         "show": true,
         "type": "number",
@@ -281,7 +281,7 @@
         "jsonPath": null
       },
       {
-        "field": "gene_metadata.clinical_variant_count",
+        "fieldName": "gene_metadata.clinical_variant_count",
         "accessor": "gene_metadata.clinical_variant_count",
         "show": true,
         "type": "number",
@@ -291,7 +291,7 @@
         "jsonPath": null
       },
       {
-        "field": "gene_metadata.histopathological_variant_count",
+        "fieldName": "gene_metadata.histopathological_variant_count",
         "accessor": "gene_metadata.histopathological_variant_count",
         "show": true,
         "type": "histo_variant_count",
@@ -301,7 +301,7 @@
         "jsonPath": null
       },
       {
-        "field": "split_ratio",
+        "fieldName": "split_ratio",
         "accessor": "split_ratio",
         "show": false,
         "type": "string",
@@ -311,7 +311,7 @@
         "jsonPath": null
       },
       {
-        "field": "growth_rate",
+        "fieldName": "growth_rate",
         "accessor": "growth_rate",
         "show": false,
         "type": "number",
@@ -321,7 +321,7 @@
         "jsonPath": null
       },
       {
-        "field": "time_to_split",
+        "fieldName": "time_to_split",
         "accessor": "time_to_split",
         "show": false,
         "type": "string",
@@ -331,7 +331,7 @@
         "jsonPath": null
       },
       {
-        "field": "createdAt",
+        "fieldName": "createdAt",
         "accessor": "createdAt",
         "show": false,
         "type": "date",
@@ -341,7 +341,7 @@
         "jsonPath": null
       },
       {
-        "field": "date_of_availability",
+        "fieldName": "date_of_availability",
         "accessor": "date_of_availability",
         "show": false,
         "type": "date",
@@ -351,7 +351,7 @@
         "jsonPath": null
       },
       {
-        "field": "source_model_url",
+        "fieldName": "source_model_url",
         "accessor": "source_model_url",
         "show": false,
         "type": "string",
@@ -361,7 +361,7 @@
         "jsonPath": null
       },
       {
-        "field": "source_sequence_url",
+        "fieldName": "source_sequence_url",
         "accessor": "source_sequence_url",
         "show": false,
         "type": "string",
@@ -371,7 +371,7 @@
         "jsonPath": null
       },
       {
-        "field": "somatic_maf_url",
+        "fieldName": "somatic_maf_url",
         "accessor": "somatic_maf_url",
         "show": false,
         "type": "string",
@@ -381,7 +381,7 @@
         "jsonPath": null
       },
       {
-        "field": "proteomics_url",
+        "fieldName": "proteomics_url",
         "accessor": "proteomics_url",
         "show": false,
         "type": "string",

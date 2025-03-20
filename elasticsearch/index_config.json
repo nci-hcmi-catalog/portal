@@ -1,0 +1,323 @@
+{
+  "mappings": {
+    "properties": {
+      "age_at_diagnosis": {
+        "type": "long"
+      },
+      "age_at_sample_acquisition": {
+        "type": "long"
+      },
+      "autocomplete": {
+        "type": "text",
+        "analyzer": "autocomplete_analyzed"
+      },
+      "chemotherapeutic_drugs": {
+        "type": "boolean"
+      },
+      "clinical_diagnosis": {
+        "properties": {
+          "clinical_stage_grouping": {
+            "type": "keyword"
+          },
+          "clinical_tumor_diagnosis": {
+            "type": "keyword"
+          },
+          "histological_type": {
+            "type": "keyword"
+          },
+          "site_of_sample_acquisition": {
+            "type": "keyword"
+          },
+          "tumor_histological_grade": {
+            "type": "keyword"
+          }
+        }
+      },
+      "createdAt": {
+        "type": "date"
+      },
+      "date_of_availability": {
+        "type": "date"
+      },
+      "disease_status": {
+        "type": "keyword"
+      },
+      "distributor_part_number": {
+        "type": "keyword"
+      },
+      "expanded": {
+        "type": "boolean"
+      },
+      "files": {
+        "type": "nested",
+        "properties": {
+          "file_id": {
+            "type": "keyword"
+          },
+          "file_name": {
+            "type": "keyword"
+          },
+          "file_type": {
+            "type": "keyword"
+          },
+          "file_url": {
+            "type": "keyword"
+          },
+          "magnification": {
+            "type": "keyword"
+          },
+          "passage_number": {
+            "type": "keyword"
+          },
+          "scale_bar_length": {
+            "type": "keyword"
+          }
+        }
+      },
+      "gender": {
+        "type": "keyword"
+      },
+      "gene_metadata": {
+        "properties": {
+          "clinical_variant_count": {
+            "type": "long"
+          },
+          "file_id": {
+            "type": "keyword"
+          },
+          "filename": {
+            "type": "keyword"
+          },
+          "genes": {
+            "type": "keyword"
+          },
+          "genes_count": {
+            "type": "long"
+          },
+          "genomic_variant_count": {
+            "type": "long"
+          },
+          "histopathological_variant_count": {
+            "type": "long"
+          },
+          "import_date": {
+            "type": "date"
+          },
+          "mutated_genes": {
+            "type": "keyword"
+          },
+          "mutated_genes_count": {
+            "type": "long"
+          }
+        }
+      },
+      "genomic_variants": {
+        "type": "nested",
+        "properties": {
+          "aa_change": {
+            "type": "keyword"
+          },
+          "chromosome": {
+            "type": "keyword"
+          },
+          "class": {
+            "type": "keyword"
+          },
+          "classification": {
+            "type": "keyword"
+          },
+          "consequence_type": {
+            "type": "keyword"
+          },
+          "end_position": {
+            "type": "keyword"
+          },
+          "entrez_id": {
+            "type": "keyword"
+          },
+          "gene": {
+            "type": "keyword"
+          },
+          "gene_biotype": {
+            "type": "keyword"
+          },
+          "gene_name": {
+            "type": "keyword"
+          },
+          "name": {
+            "type": "keyword"
+          },
+          "specific_change": {
+            "type": "keyword"
+          },
+          "start_position": {
+            "type": "keyword"
+          },
+          "synonyms": {
+            "type": "keyword"
+          },
+          "transcript_id": {
+            "type": "keyword"
+          },
+          "type": {
+            "type": "keyword"
+          },
+          "variant_id": {
+            "type": "keyword"
+          }
+        }
+      },
+      "growth_rate": {
+        "type": "long"
+      },
+      "has_matched_models": {
+        "type": "boolean"
+      },
+      "licensing_required": {
+        "type": "boolean"
+      },
+      "matched_models": {
+        "type": "nested",
+        "properties": {
+          "name": {
+            "type": "keyword"
+          },
+          "tissue_type": {
+            "type": "keyword"
+          }
+        }
+      },
+      "matched_models_list": {
+        "type": "keyword"
+      },
+      "molecular_characterizations": {
+        "type": "keyword"
+      },
+      "name": {
+        "type": "keyword",
+        "copy_to": ["autocomplete"]
+      },
+      "neoadjuvant_therapy": {
+        "type": "keyword"
+      },
+      "primary_site": {
+        "type": "keyword"
+      },
+      "proteomics_url": {
+        "type": "keyword"
+      },
+      "race": {
+        "type": "keyword"
+      },
+      "somatic_maf_url": {
+        "type": "keyword"
+      },
+      "source_model_url": {
+        "type": "keyword"
+      },
+      "source_sequence_url": {
+        "type": "keyword"
+      },
+      "split_ratio": {
+        "type": "keyword"
+      },
+      "status": {
+        "type": "keyword"
+      },
+      "therapy": {
+        "type": "keyword"
+      },
+      "time_to_split": {
+        "type": "keyword"
+      },
+      "tissue_type": {
+        "type": "keyword"
+      },
+      "tnm_stage": {
+        "type": "keyword"
+      },
+      "type": {
+        "type": "keyword"
+      },
+      "updatedAt": {
+        "type": "date"
+      },
+      "updatedBy": {
+        "type": "keyword"
+      },
+      "variants": {
+        "type": "nested",
+        "properties": {
+          "assessment_type": {
+            "type": "keyword"
+          },
+          "category": {
+            "type": "keyword"
+          },
+          "expression_level": {
+            "type": "keyword"
+          },
+          "genes": {
+            "type": "keyword",
+            "copy_to": ["autocomplete"]
+          },
+          "name": {
+            "type": "keyword",
+            "copy_to": ["autocomplete"]
+          },
+          "type": {
+            "type": "keyword"
+          }
+        }
+      },
+      "vital_status": {
+        "type": "keyword"
+      }
+    }
+  },
+  "settings": {
+    "index": {
+      "routing": {
+        "allocation": {
+          "include": {
+            "_tier_preference": "data_content"
+          }
+        }
+      },
+      "mapping": {
+        "nested_fields": {
+          "limit": "100"
+        }
+      },
+      "number_of_shards": "1",
+      "blocks": {
+        "read_only_allow_delete": "true"
+      },
+      "provided_name": "hcmi",
+      "max_result_window": "100000000",
+      "creation_date": "1741025078382",
+      "analysis": {
+        "filter": {
+          "edge_ngram": {
+            "custom_token_chars": "-",
+            "min_gram": "1",
+            "side": "front",
+            "type": "edge_ngram",
+            "max_gram": "20"
+          }
+        },
+        "analyzer": {
+          "autocomplete_analyzed": {
+            "filter": ["lowercase", "edge_ngram"],
+            "tokenizer": "whitespace"
+          }
+        }
+      },
+      "number_of_replicas": "1",
+      "uuid": "qyWO_ysgQlmAayqTSXYYew",
+      "version": {
+        "created": "7170699"
+      }
+    }
+  }
+}
