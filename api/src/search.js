@@ -1,13 +1,13 @@
 import express from 'express';
 import esClient from './services/elasticsearch';
-import { get, trim } from 'lodash';
+import { get } from 'lodash';
 
 const GENES_INDEX = 'genes';
 const VARIANTS_INDEX = 'genomic_variants';
 
 const geneSearchRouter = express.Router();
 
-const removeTroubleChars = input => {
+const removeTroubleChars = (input) => {
   return input.replace(/[}"]/g, '');
 };
 
@@ -32,7 +32,7 @@ geneSearchRouter.get('/gene', async (req, res) => {
       index: GENES_INDEX,
       body: { query },
     });
-    const genes = get(response, 'body.hits.hits', []).map(i => i._source);
+    const genes = get(response, 'body.hits.hits', []).map((i) => i._source);
     res.status(200).json({ genes });
   } catch (err) {
     console.log('Failure performing gene search:', err);
@@ -61,7 +61,7 @@ geneSearchRouter.get('/variant', async (req, res) => {
       index: VARIANTS_INDEX,
       body: { query },
     });
-    const genes = get(response, 'body.hits.hits', []).map(i => i._source);
+    const genes = get(response, 'body.hits.hits', []).map((i) => i._source);
     res.status(200).json({ genes });
   } catch (err) {
     console.log('Failure performing genomic variants search:', err);
