@@ -100,7 +100,7 @@ https://wiki.oicr.on.ca/display/HCMI/HCMI+Spec+Guide
 
 #### API Tech
 
-- [@arranger/server](https://github.com/overture-stack/arranger/tree/master/modules/server) (ships with express, socket.io)
+- [@overture-stack/arranger-server](https://github.com/overture-stack/arranger/tree/master/modules/server) (ships with express, socket.io)
 
 #### UI Tech
 

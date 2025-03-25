@@ -1,7 +1,7 @@
 {
   "name": "@hcmi-portal/api",
   "version": "0.0.1",
-  "description": "``` npm i @arranger/server ```",
+  "description": "``` npm i @overture-stack/arranger-server ```",
   "private": true,
   "main": "index.js",
   "scripts": {

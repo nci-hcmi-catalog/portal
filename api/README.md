@@ -104,7 +104,7 @@ downloadKey: dc9e3c25-130c-43ab-a662-fe248add0f4c
 
 ### Arranger
 
-The Portal API is a wrapper for [@arranger/server](https://github.com/overture-stack/arranger/tree/master/modules/server) . Arranger provides a GraphQL endpoint to access the data stored in ElasticSearch, and can be configured without modifying code to stay compatible with any changes in the ES data model.
+The Portal API is a wrapper for [@overture-stack/arranger-server](https://github.com/overture-stack/arranger/tree/master/modules/server) . Arranger provides a GraphQL endpoint to access the data stored in ElasticSearch, and can be configured without modifying code to stay compatible with any changes in the ES data model.
 
 **URL** : /api/:projectId/graphql
 
