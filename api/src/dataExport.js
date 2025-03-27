@@ -7,13 +7,11 @@ import getAllData from '@arranger/server/dist/utils/getAllData';
 import JSZip from 'jszip';
 import map from 'map-stream';
 import through2 from 'through2';
-const { Transform } = require('readable-stream');
 
 import getLogger from './logger';
 const logger = getLogger('dataExport');
 
 const dataExportRouter = express.Router();
-const NEW_LINE = '\n';
 const VARIANT_TYPES = {
   clinical: 'clinical',
   histopathological: 'histopathological biomarker',
@@ -143,7 +141,7 @@ dataExportRouter.post('/:projectId/models', async (req, res) => {
     // Return zipfile
     res.set('Content-Type', 'application/zip');
     res.set('Content-disposition', `attachment; filename=hcmi-models-export.zip`);
-    const zipfile = zip
+    zip
       .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
       .pipe(res)
       .on('error', err => {

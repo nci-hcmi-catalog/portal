@@ -1,6 +1,6 @@
 import express from 'express';
 import esClient from './services/elasticsearch';
-import { get, trim } from 'lodash';
+import { get } from 'lodash';
 
 const GENES_INDEX = 'genes';
 const VARIANTS_INDEX = 'genomic_variants';
