@@ -9,7 +9,6 @@ import { api } from '@arranger/components';
 import SparkMeter from 'components/SparkMeter';
 
 import { VARIANT_TYPES } from 'utils/constants';
-import globals from 'utils/globals';
 
 export const VariantsContext = React.createContext([{}, () => {}]);
 
@@ -79,7 +78,7 @@ export const useVariants = () => {
 
   const getGenomicVariants = async modelName => {
     const variantsData = await api({
-      endpoint: `/${globals.VERSION}/graphql`,
+      endpoint: `/graphql`,
       body: {
         query: `query($modelsSqon: JSON) {
                     models {
@@ -158,7 +157,7 @@ export const useVariants = () => {
     }
 
     const variantsData = await api({
-      endpoint: `/${globals.VERSION}/graphql`,
+      endpoint: `/graphql`,
       body: {
         query: `query($modelsSqon: JSON) {
                     models {
@@ -203,7 +202,7 @@ export const useVariants = () => {
 
     const freqsData = variantNames.length
       ? await api({
-          endpoint: `/${globals.VERSION}/graphql`,
+          endpoint: `/graphql`,
           body: {
             query: `query(${variantNames.map(({ safe }) => '$' + safe + ': JSON').join(',')}) {
                     models {
@@ -297,7 +296,7 @@ export const useVariants = () => {
 
   const fetchGeneMetadata = async modelName => {
     const geneMetadata = await api({
-      endpoint: `/${globals.VERSION}/graphql`,
+      endpoint: `/graphql`,
       body: {
         query: `query($modelsSqon: JSON) {
           models {

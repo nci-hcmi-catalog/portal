@@ -43,7 +43,7 @@ export const searchModels = async inputValue => {
   };
   const variables = { sqon };
   try {
-    const response = await axios.post(`${globals.ARRANGER_API}/${globals.VERSION}/graphql`, {
+    const response = await axios.post(`${globals.ARRANGER_API}/graphql`, {
       query,
       variables,
     });

@@ -5,7 +5,7 @@ import globals from 'utils/globals';
 
 async function fetchColumns() {
   const { data } = await defaultApi({
-    endpoint: `${globals.VERSION}/graphql/columnsStateQuery`,
+    endpoint: `/graphql/columnsStateQuery`,
     body: {
       query: `query {
             models {
@@ -30,8 +30,8 @@ async function fetchColumns() {
   const extended = data?.models?.extended || [];
 
   const output = [];
-  columns.forEach((column) => {
-    const extendedData = extended.find((i) => i.field === column.field);
+  columns.forEach(column => {
+    const extendedData = extended.find(i => i.field === column.field);
     const extendedColumn = {
       ...column,
       ...extendedData,
@@ -47,7 +47,7 @@ async function fetchColumns() {
   return output;
 }
 
-const cartDownload = async function (selectedIds) {
+const cartDownload = async function(selectedIds) {
   await fetchColumns();
 
   const sqon = {
@@ -65,7 +65,7 @@ const cartDownload = async function (selectedIds) {
   const params = { files: [{ index: 'models', sqon, columns }] };
   return download({
     method: 'post',
-    url: `${globals.ARRANGER_API}/export/${globals.VERSION}/models`,
+    url: `${globals.ARRANGER_API}/export/models`,
     params,
   });
 };
