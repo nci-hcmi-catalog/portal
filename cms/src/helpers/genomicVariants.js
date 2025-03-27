@@ -2,7 +2,11 @@ import Model from '../schemas/model';
 import { modelStatus } from '../helpers/modelStatus';
 import Gene from '../schemas/genes';
 import VariantImporter from '../services/gdc-importer/VariantImporter';
-import { GDC_MODEL_STATES, IMPORT_ERRORS, BASE_GDC_URL } from '../services/gdc-importer/gdcConstants';
+import {
+  GDC_MODEL_STATES,
+  IMPORT_ERRORS,
+  BASE_GDC_URL,
+} from '../services/gdc-importer/gdcConstants';
 
 import getLogger from '../logger';
 const logger = getLogger('helpers/genomicVariants');

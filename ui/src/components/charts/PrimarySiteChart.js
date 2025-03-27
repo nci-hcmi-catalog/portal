@@ -18,9 +18,7 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
       padding: 12px 0 4px;
     `}
   >
-    <span className="sqon-field sqon-field--chart-title">
-      Models by Primary Site
-    </span>
+    <span className="sqon-field sqon-field--chart-title">Models by Primary Site</span>
     <AggregationQuery sqon={sqon} field="primary_site">
       {({ state }) => {
         return state.loading ? (
@@ -74,12 +72,12 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
                 )
               }
               onMouseEnter={(_data, event) => {
-                event.currentTarget.style.cursor = 'pointer'
+                event.currentTarget.style.cursor = 'pointer';
               }}
               onMouseLeave={(_data, event) => {
-                event.currentTarget.style.cursor = 'auto'
+                event.currentTarget.style.cursor = 'auto';
               }}
-        />
+            />
           </>
         );
       }}
