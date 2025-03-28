@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { Row, Col } from 'theme/system';
 import { BulkUploadSubTitle } from 'theme/adminBulkUploadStyles';
 
-export default ({ type, displayType, uploadResults }) => {
+const bulkUploadResult = ({ type, displayType, uploadResults }) => {
   //TODO: handle other error types
   const {
     data: { docs, error },
@@ -54,3 +54,5 @@ export default ({ type, displayType, uploadResults }) => {
     </>
   );
 };
+
+export default bulkUploadResult;

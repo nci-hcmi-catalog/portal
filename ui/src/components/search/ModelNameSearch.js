@@ -3,8 +3,6 @@ import Spinner from 'react-spinkit';
 import { QuickSearch } from '@arranger/components/dist/Arranger';
 import TextInput from 'components/TextInput';
 import SidebarSection from 'components/search/SidebarSection';
-import { QuickSearchDropdownItem } from './SearchOptionsDropdown';
-
 /* 
 
   Deprecated File.
@@ -15,7 +13,7 @@ import { QuickSearchDropdownItem } from './SearchOptionsDropdown';
   Keeping this for short term convenience. Should be removed once release is approved.
 */
 
-export default (
+const modelNameSearch = (
   { props, ...rest }, // super subtle bug due to `props` name collision
 ) => {
   return (
@@ -34,3 +32,5 @@ export default (
     </SidebarSection>
   );
 };
+
+export default modelNameSearch;
