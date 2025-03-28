@@ -6,8 +6,6 @@ import MatchUtils from '../../helpers/matchedModels';
 import indexEsUpdate from './update';
 import { updateGeneSearchIndicies } from './genomicVariants';
 
-import { get } from 'lodash';
-
 import getLogger from '../../logger';
 const logger = getLogger('services/elastic-search/publish');
 

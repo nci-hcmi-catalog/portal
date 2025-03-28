@@ -1,6 +1,5 @@
 import Model from '../schemas/model';
 import { modelStatus } from '../helpers/modelStatus';
-import Gene from '../schemas/genes';
 import VariantImporter from '../services/gdc-importer/VariantImporter';
 import {
   GDC_MODEL_STATES,

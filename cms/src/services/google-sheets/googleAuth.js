@@ -1,6 +1,7 @@
 import { google } from 'googleapis';
+import fs from 'fs';
 
-export default userToken => {
+const googleAuth = userToken => {
   const OAuth2Client = google.auth.OAuth2;
   const TOKEN_PATH = 'token.json';
 
@@ -14,3 +15,5 @@ export default userToken => {
   oAuth2Client.setCredentials(JSON.parse(token));
   return oAuth2Client;
 };
+
+export default googleAuth;

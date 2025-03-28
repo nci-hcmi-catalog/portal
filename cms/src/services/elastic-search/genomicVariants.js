@@ -1,5 +1,4 @@
 import esClient from './common/client';
-import Gene from '../../schemas/genes';
 
 import { get, flatten, uniq } from 'lodash';
 

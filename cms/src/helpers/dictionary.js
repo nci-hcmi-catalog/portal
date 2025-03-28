@@ -177,10 +177,10 @@ export const countDraftStats = draft => {
         // Ensure we are only looking for edits in dependcies that are listed in the draft.dependentValues list
         if (draft.dependentValues.includes(dependent.name)) {
           for (let dependentValue of dependent.values) {
-            if (dependentValue.status == draftStatus.edited) {
+            if (dependentValue.status === draftStatus.edited) {
               output.edited += 1;
             }
-            if (dependentValue.status == draftStatus.new) {
+            if (dependentValue.status === draftStatus.new) {
               output.new += 1;
             }
           }
