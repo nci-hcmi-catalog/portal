@@ -23,10 +23,8 @@ lastUpdatedRouter.get('/', async (req, res) => {
         ],
       },
     });
-    console.log('response.body', response.body);
     return res.json(response.body.hits.hits[0]._source);
   } catch (error) {
-    console.log('error', error);
     return res.status(500).json({
       error: error,
     });
