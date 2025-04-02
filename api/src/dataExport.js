@@ -31,7 +31,6 @@ dataExportRouter.use(expressSanitizer());
 dataExportRouter.post('/models', async (req, res) => {
   try {
     // sanitize user input
-    // TODO: Use req.body.params
     const params = req.body.params || '{}';
     const sanitizedParams = req.sanitize(params);
     const decodedParams = getParamsObj(decodeLessThanGreaterThan(sanitizedParams));
