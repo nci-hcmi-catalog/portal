@@ -7,6 +7,7 @@ import globals from 'utils/globals';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Dashboard as ArrangerDashboard } from '@arranger/components';
+import { ArrangerDataProvider } from '@overture-stack/arranger-components';
 
 import SkipNav from 'components/SkipNav';
 import SearchWrapper from 'components/search/SearchWrapper';
@@ -17,7 +18,8 @@ import Footer from 'components/Footer';
 import Modal from 'components/modals/Modal';
 import WarningModal from 'components/modals/WarningModal';
 
-import RootProvider from 'providers/RootProvider';
+// import RootProvider from 'providers/RootProvider';
+
 import { ModalStateContext } from 'providers/ModalState';
 import { ExpandedUnexpandedProvider } from 'providers/ExpandedUnexpanded';
 import base from 'theme';
@@ -102,12 +104,12 @@ injectGlobal`
 `;
 
 const App = () => (
-  <RootProvider>
+  <ArrangerDataProvider>
     <Router>
       <ProvidedRoutes />
     </Router>
     <Modal />
-  </RootProvider>
+  </ArrangerDataProvider>
 );
 
 export default App;
