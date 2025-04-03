@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { Row, Col } from 'theme/system';
 import { BulkUploadSubTitle } from 'theme/adminBulkUploadStyles';
 
-export default ({ type, displayType, uploadResults }) => {
+const bulkUploadResult = ({ type, displayType, uploadResults }) => {
   //TODO: handle other error types
   const {
     data: { docs, error },
@@ -20,7 +20,8 @@ export default ({ type, displayType, uploadResults }) => {
             width: fit-content;
           `}
         >
-          {`Your ${displayType || type}s have been checked for required fields and all submitted fields were validated against permissible values.`}
+          {`Your ${displayType ||
+            type}s have been checked for required fields and all submitted fields were validated against permissible values.`}
         </div>
       </Row>
       <BulkUploadSubTitle> Upload Summary </BulkUploadSubTitle>
@@ -53,3 +54,5 @@ export default ({ type, displayType, uploadResults }) => {
     </>
   );
 };
+
+export default bulkUploadResult;

@@ -5,7 +5,7 @@ const NEW_LINE = '\n';
 /** Given a mongoose schema object, produces a comma separated file. The nested objects are not exported
  * Export of nested object to is left to caller; caller can stream nested objects each as its own different file
  */
-export default ({
+const streamAsCSV = ({
   schemaObj = undefined,
   data = undefined,
   fields = [],
@@ -52,3 +52,5 @@ export default ({
     response.end();
   }
 };
+
+export default streamAsCSV;
