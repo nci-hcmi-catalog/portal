@@ -111,7 +111,8 @@ variantsRouter.post('/import/bulk', async (req, res) => {
       success: false,
       error: {
         code: IMPORT_ERRORS.badRequest,
-        message: 'Bulk import failed due to a bad request. `models` must be an array of model names.',
+        message:
+          'Bulk import failed due to a bad request. `models` must be an array of model names.',
       },
     });
   }
@@ -172,7 +173,8 @@ variantsRouter.post('/check-gdc', async (req, res) => {
       success: false,
       error: {
         code: IMPORT_ERRORS.badRequest,
-        message: 'GDC model status check failed due to a bad request. `models` must be an array of model names.',
+        message:
+          'GDC model status check failed due to a bad request. `models` must be an array of model names.',
       },
     });
   }
@@ -274,8 +276,9 @@ variantsRouter.post('/acknowledge/bulk', async (req, res) => {
       success: false,
       error: {
         code: IMPORT_ERRORS.badRequest,
-        message: 'Bulk acknowledge failed due to a bad request. `models` must be an array of model names.',
-      }
+        message:
+          'Bulk acknowledge failed due to a bad request. `models` must be an array of model names.',
+      },
     });
   }
 

@@ -6,7 +6,7 @@ const logger = getLogger('services/elastic-search/update');
 
 const index = process.env.ES_UPDATE_INDEX;
 
-export default () =>
+const update = () =>
   elasticClient
     .index({
       index,
@@ -19,3 +19,5 @@ export default () =>
       // Catch here as we do not want an error here to block execution of the app
       logger.error(error, index, `Error creating a new update for index`),
     );
+
+export default update;

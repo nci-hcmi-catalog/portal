@@ -135,7 +135,7 @@ dataExportRouter.post('/models', async (req, res) => {
     // Return zipfile
     res.set('Content-Type', 'application/zip');
     res.set('Content-disposition', `attachment; filename=hcmi-models-export.zip`);
-    const zipfile = zip
+    zip
       .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
       .pipe(res)
       .on('error', err => {

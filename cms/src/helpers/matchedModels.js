@@ -105,7 +105,7 @@ const clearModelFromSets = async model => {
 const removeFromSet = async nameToRemove => {
   const model = await Model.findOne({ name: nameToRemove });
   if (!model) {
-    throw new Error(`Could not find model with the name: ${nameToAdd}.`);
+    throw new Error(`Could not find model with the name: ${nameToRemove}.`);
   }
   return await clearModelFromSets(model);
 };
@@ -187,7 +187,9 @@ const connectWithMatchedModels = async (nameToAdd, setMemberName) => {
   }
 };
 
-export default {
+const matchedModels = {
   removeFromSet,
   connectWithMatchedModels,
 };
+
+export default matchedModels;

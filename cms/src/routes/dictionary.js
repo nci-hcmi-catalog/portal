@@ -2,8 +2,7 @@ import express from 'express';
 
 import * as DictionaryHelper from '../helpers/dictionary';
 
-import Dictionary from '../schemas/dictionary';
-import Draft, { draftStatus } from '../schemas/dictionaryDraft';
+import { draftStatus } from '../schemas/dictionaryDraft';
 
 import getLogger from '../logger';
 const logger = getLogger('routes/dictionary');
@@ -362,7 +361,7 @@ draftRouter.post('/remove', async (req, res) => {
 
 draftRouter.post('/publish', async (req, res) => {
   try {
-    const { dictionary, updatedModels } = await DictionaryHelper.publishDraft();
+    const { updatedModels } = await DictionaryHelper.publishDraft();
     const output = await DictionaryHelper.resetDraft();
 
     res.json({ ...output.toObject(), updatedModels });

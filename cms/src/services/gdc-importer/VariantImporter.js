@@ -386,36 +386,40 @@ const VariantImporter = (function() {
         }),
       ),
       // Actionable errors (multiple ngcm, no ngcm)
-      ...(await Promise.all(modelsStatus[GDC_MODEL_STATES.multipleNgcm].map(async modelName =>
-        Import({
-          modelName,
-          caseId: modelsFileData[modelName].caseId,
-          status: ImportStatus.error,
-          error: {
-            code: GDC_MODEL_STATES.multipleNgcm,
-            message: getGdcImportErrorMessage(GDC_MODEL_STATES.multipleNgcm, modelName),
-          },
-          actionable: true,
-          files: getCancerModelFilesFromMafFileData(modelsFileData[modelName], true),
-          importType: ImportTypes.bulk,
-          tissueStatus: await getTissueStatus(modelName),
-        }),
-      ))),
-      ...(await Promise.all(modelsStatus[GDC_MODEL_STATES.noNgcm].map(async modelName =>
-        Import({
-          modelName,
-          caseId: modelsFileData[modelName].caseId,
-          status: ImportStatus.error,
-          error: {
-            code: GDC_MODEL_STATES.noNgcm,
-            message: getGdcImportErrorMessage(GDC_MODEL_STATES.noNgcm, modelName),
-          },
-          actionable: true,
-          files: getCancerModelFilesFromMafFileData(modelsFileData[modelName], true),
-          importType: ImportTypes.bulk,
-          tissueStatus: await getTissueStatus(modelName),
-        }),
-      ))),
+      ...(await Promise.all(
+        modelsStatus[GDC_MODEL_STATES.multipleNgcm].map(async modelName =>
+          Import({
+            modelName,
+            caseId: modelsFileData[modelName].caseId,
+            status: ImportStatus.error,
+            error: {
+              code: GDC_MODEL_STATES.multipleNgcm,
+              message: getGdcImportErrorMessage(GDC_MODEL_STATES.multipleNgcm, modelName),
+            },
+            actionable: true,
+            files: getCancerModelFilesFromMafFileData(modelsFileData[modelName], true),
+            importType: ImportTypes.bulk,
+            tissueStatus: await getTissueStatus(modelName),
+          }),
+        ),
+      )),
+      ...(await Promise.all(
+        modelsStatus[GDC_MODEL_STATES.noNgcm].map(async modelName =>
+          Import({
+            modelName,
+            caseId: modelsFileData[modelName].caseId,
+            status: ImportStatus.error,
+            error: {
+              code: GDC_MODEL_STATES.noNgcm,
+              message: getGdcImportErrorMessage(GDC_MODEL_STATES.noNgcm, modelName),
+            },
+            actionable: true,
+            files: getCancerModelFilesFromMafFileData(modelsFileData[modelName], true),
+            importType: ImportTypes.bulk,
+            tissueStatus: await getTissueStatus(modelName),
+          }),
+        ),
+      )),
     ];
 
     // Queue imports for conflict-free models (single NGCM, single NGCM+)
@@ -472,10 +476,7 @@ const VariantImporter = (function() {
     let targets = [];
     if (modelNames.length) {
       modelNames.forEach(modelName => {
-        targets = [
-          ...targets,
-          ...queue.filter(i => i && i.modelName === modelName),
-        ];
+        targets = [...targets, ...queue.filter(i => i && i.modelName === modelName)];
       });
     } else {
       targets = queue;

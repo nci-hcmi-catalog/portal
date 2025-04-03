@@ -3,7 +3,7 @@ import { modelStatus } from '../helpers/modelStatus';
 import { flatten, uniq } from 'lodash';
 
 import getLogger from '../logger';
-const logger = getLogger('schemas/model');
+getLogger('schemas/model');
 
 // Used to remove values that are empty strings from document
 const deleteEmptyStrings = v => {
