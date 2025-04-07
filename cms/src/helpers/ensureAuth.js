@@ -1,6 +1,6 @@
 import { getAuthClient } from '../services/import/SheetsToMongo';
 
-export default function(req) {
+const ensureAuth = function(req) {
   return new Promise((resolve, reject) => {
     const {
       headers: { authorization },
@@ -14,4 +14,6 @@ export default function(req) {
       reject(error);
     }
   });
-}
+};
+
+export default ensureAuth;

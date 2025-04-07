@@ -64,19 +64,6 @@ data_sync_router.get('/wrangle-cde/:spreadsheetId/:sheetId', async (req, res) =>
     });
 });
 
-const removeNullKeys = data =>
-  Object.entries(data).reduce(
-    (acc, [key, value]) => ({
-      ...acc,
-      ...(value !== null
-        ? {
-            [key]: value,
-          }
-        : {}),
-    }),
-    {},
-  );
-
 const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
 
 data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) => {
