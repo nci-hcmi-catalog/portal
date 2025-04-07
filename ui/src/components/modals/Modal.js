@@ -13,11 +13,11 @@ const Modal = () => (
       <ClassNames>
         {({ css }) => (
           <ReactModal
-            isOpen={!!modalState.state.component}
+            isOpen={!!modalState?.state.component}
             appElement={document.getElementById('root')}
-            css={modalState.state.styles || styles}
-            onRequestClose={() => modalState.setModalState({ component: null })}
-            contentRef={(node) => modalState.setModalState({ contentRef: node })}
+            css={modalState?.state.styles || styles}
+            onRequestClose={() => modalState?.setModalState({ component: null })}
+            contentRef={(node) => modalState?.setModalState({ contentRef: node })}
             overlayClassName={css`
               position: fixed;
               top: 0px;
@@ -29,7 +29,7 @@ const Modal = () => (
               z-index: 1000;
             `}
           >
-            {modalState.state.component}
+            {modalState?.state.component}
           </ReactModal>
         )}
       </ClassNames>
