@@ -15,7 +15,7 @@ import Model from 'components/Model';
 import Admin from 'components/admin';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
-import Modal from 'components/modals/Modal';
+// import Modal from 'components/modals/Modal';
 import WarningModal from 'components/modals/WarningModal';
 
 // import RootProvider from 'providers/RootProvider';
@@ -30,7 +30,7 @@ import base from 'theme';
 // https://github.com/ReactTraining/react-router/issues/6072
 const ProvidedRoutes = () => (
   <ModalStateContext.Consumer>
-    {modalState => (
+    {(modalState) => (
       <Component
         initialState={{
           version: globals.VERSION,
@@ -51,7 +51,7 @@ const ProvidedRoutes = () => (
                 render={() => (
                   <>
                     <Header />
-                    <SearchWrapper version={state.version} index="models" />
+                    {/* <SearchWrapper version={state.version} index="models" /> */}
                   </>
                 )}
               />
@@ -108,7 +108,7 @@ const App = () => (
     <Router>
       <ProvidedRoutes />
     </Router>
-    <Modal />
+    {/* <Modal /> */}
   </ArrangerDataProvider>
 );
 
