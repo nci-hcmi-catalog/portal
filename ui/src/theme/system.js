@@ -39,7 +39,7 @@ let Row = styled.div`
   ${maxWidth}
 `;
 
-let Col = p => <Row flexDirection="column" {...p} />;
+let Col = (p) => <Row flexDirection="column" {...p} />;
 
 let Button = styled.button`
   ${buttons};

@@ -20,8 +20,9 @@ const bulkUploadResult = ({ type, displayType, uploadResults }) => {
             width: fit-content;
           `}
         >
-          {`Your ${displayType ||
-            type}s have been checked for required fields and all submitted fields were validated against permissible values.`}
+          {`Your ${
+            displayType || type
+          }s have been checked for required fields and all submitted fields were validated against permissible values.`}
         </div>
       </Row>
       <BulkUploadSubTitle> Upload Summary </BulkUploadSubTitle>

@@ -26,7 +26,7 @@ export const toggleExpanded = (sqon, showUnexpanded = false) => {
       );
 };
 
-export const getNumUnexpanded = async sqon => {
+export const getNumUnexpanded = async (sqon) => {
   const numUnexpanded = await api({
     endpoint: `/graphql`,
     body: {

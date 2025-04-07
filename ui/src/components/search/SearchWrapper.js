@@ -6,17 +6,17 @@ import Url from 'components/Url';
 import { SavedSetsContext } from 'providers/SavedSets';
 import Search from 'components/search/Search';
 
-const SearchWrapper = props => (
+const SearchWrapper = (props) => (
   <Component initialState={{ sorted: [], panelSize: 300 }}>
-    {state => (
+    {(state) => (
       <Url
-        render={urlProps => (
+        render={(urlProps) => (
           <SavedSetsContext.Consumer>
-            {savedSetsContext => (
+            {(savedSetsContext) => (
               <Arranger
                 {...props}
                 projectId={props.version}
-                render={props => (
+                render={(props) => (
                   <Search
                     {...props}
                     {...urlProps}

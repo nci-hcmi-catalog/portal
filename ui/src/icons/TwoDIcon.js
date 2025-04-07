@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineSvg } from 'icons';
 
-const twoDIcon = props =>
+const twoDIcon = (props) =>
   InlineSvg({
     viewBox: '0 0 33.07 33.28',
     width: '20px',

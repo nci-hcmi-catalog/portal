@@ -19,19 +19,16 @@ const PublishModel = ({ close, ...props }) => {
       matchedModels,
     },
   } = useContext(ModelSingleContext);
-  const {
-    isPublishingModel,
-    addPublishNotification,
-    showErrorPublishNotification,
-  } = usePublishNotifications();
+  const { isPublishingModel, addPublishNotification, showErrorPublishNotification } =
+    usePublishNotifications();
   const disabled = !isReadyToPublish || isPublishingModel(values.name);
 
-  const publishForm = async modelName => {
+  const publishForm = async (modelName) => {
     await publish(modelName)
       .then(async () => {
         await addPublishNotification(modelName);
       })
-      .catch(async error => {
+      .catch(async (error) => {
         const data = error.response ? error.response.data : error;
         showErrorPublishNotification(modelName, data);
       });
@@ -44,8 +41,8 @@ const PublishModel = ({ close, ...props }) => {
           disabled,
           next: () => isReadyToPublish && publishForm(values.name),
           modelNames: matchedModels
-            .filter(i => i.status === modelStatus.unpublishedChanges)
-            .map(i => i.name),
+            .filter((i) => i.status === modelStatus.unpublishedChanges)
+            .map((i) => i.name),
         })(
           <div>
             <ButtonPill primary disabled={disabled} {...props}>

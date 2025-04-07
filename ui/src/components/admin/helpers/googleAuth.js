@@ -10,7 +10,7 @@ export const getAuth = () => {
   return JSON.parse(localStorage.getItem(GOOGLE_AUTH_KEY));
 };
 
-export const setAuth = googleAuth => {
+export const setAuth = (googleAuth) => {
   localStorage.setItem(GOOGLE_AUTH_KEY, JSON.stringify(googleAuth));
 };
 
@@ -26,7 +26,7 @@ export const getToken = () => {
   return getAuth()?.id_token;
 };
 
-export const decodeToken = googleJwt => {
+export const decodeToken = (googleJwt) => {
   const token = googleJwt || getToken();
 
   try {
@@ -50,14 +50,14 @@ export const getTokenValue = (key, googleJwt) => {
 };
 
 // Basic JWT expiry check for UI, proper validation in CMS
-export const isTokenExpired = googleJwt => {
+export const isTokenExpired = (googleJwt) => {
   const token = googleJwt || getToken();
   const expiry = getTokenValue('exp', token);
 
   return !expiry || expiry <= new Date() / 1000;
 };
 
-export const getEmailFromToken = googleJwt => {
+export const getEmailFromToken = (googleJwt) => {
   const token = googleJwt || getToken();
 
   return getTokenValue('email', token);

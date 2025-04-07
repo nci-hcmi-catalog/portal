@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineSvg } from 'icons';
 
-const threeDIcon = props =>
+const threeDIcon = (props) =>
   InlineSvg({
     viewBox: '0 0 48.36 46.54',
     width: '20px',

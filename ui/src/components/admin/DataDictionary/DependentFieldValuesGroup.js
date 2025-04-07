@@ -58,7 +58,7 @@ const DependentFieldValuesGroup = ({
       {expanded && (
         <>
           <Row>
-            <AddFieldForm onSubmit={e => add(e, newFieldValue, fieldKey)}>
+            <AddFieldForm onSubmit={(e) => add(e, newFieldValue, fieldKey)}>
               <AddFieldInput
                 type="text"
                 id="new-dependent-field"
@@ -66,7 +66,7 @@ const DependentFieldValuesGroup = ({
                 placeholder="Add a new value..."
                 aria-label="Add a new value..."
                 value={newFieldValue}
-                onChange={e => {
+                onChange={(e) => {
                   e.preventDefault();
                   setNewFieldValue(e.target.value);
                 }}
@@ -79,13 +79,13 @@ const DependentFieldValuesGroup = ({
           </Row>
           {fieldValues && (
             <FieldValueList>
-              {fieldValues.map(x => (
+              {fieldValues.map((x) => (
                 <EditableFieldValue
                   key={x._id}
                   initialValue={x.value}
                   initialState={x.status}
                   original={x.original}
-                  editFn={updatedValue => edit(x.original || x.value, updatedValue, fieldKey)}
+                  editFn={(updatedValue) => edit(x.original || x.value, updatedValue, fieldKey)}
                   removeFn={() => remove(x.value, fieldKey)}
                   resetFn={() => edit(x.original, x.original, fieldKey)}
                 />

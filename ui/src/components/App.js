@@ -10,7 +10,7 @@ import { Dashboard as ArrangerDashboard } from '@arranger/components';
 import { ArrangerDataProvider } from '@overture-stack/arranger-components';
 
 import SkipNav from 'components/SkipNav';
-import SearchWrapper from 'components/search/SearchWrapper';
+// import SearchWrapper from 'components/search/SearchWrapper';
 import Model from 'components/Model';
 import Admin from 'components/admin';
 import Header from 'components/Header';
