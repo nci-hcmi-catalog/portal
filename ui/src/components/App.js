@@ -124,7 +124,7 @@ injectGlobal`
 // }}
 
 const App = () => (
-  <ArrangerDataProvider apiUrl={globals.ARRANGER_API} documentType={'file'}>
+  <ArrangerDataProvider apiUrl={`${globals.ARRANGER_API}/graphql`} documentType={'file'}>
     <Router>
       <ProvidedRoutes />
     </Router>
