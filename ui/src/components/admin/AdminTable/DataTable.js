@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import ReactTable from 'react-table';
-import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
-import EnhancedReactTable from '@arranger/components/dist/DataTable/Table/EnhancedReactTable';
+// import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
+// import EnhancedReactTable from '@arranger/components/dist/DataTable/Table/EnhancedReactTable';
 
 import searchStyles from 'theme/searchStyles';
 
@@ -77,21 +77,22 @@ const TableWithPagination = ({
         // there is no page property for the table. Table always displays single page of data coming from server
         // paging component is responsible for keeping track of the page # (offset) of server data
         PaginationComponent: () => (
-          <CustomPagination
-            {...state}
-            {...{
-              pageSize,
-              pages: Math.ceil(rowCount / pageSize),
-              showPageSizeOptions: true,
-              pageSizeOptions: [10, 20, 50, 100],
-              showPageJump: rowCount > pageSize,
-              canPrevious: true,
-              canNext: true,
-              maxPagesOptions: 10,
-              onPageChange: onPageChange,
-              onPageSizeChange: pageSizeChangeHandler(onPageSizeChange, storageKey),
-            }}
-          />
+          <></>
+          // <CustomPagination
+          //   {...state}
+          //   {...{
+          //     pageSize,
+          //     pages: Math.ceil(rowCount / pageSize),
+          //     showPageSizeOptions: true,
+          //     pageSizeOptions: [10, 20, 50, 100],
+          //     showPageJump: rowCount > pageSize,
+          //     canPrevious: true,
+          //     canNext: true,
+          //     maxPagesOptions: 10,
+          //     onPageChange: onPageChange,
+          //     onPageSizeChange: pageSizeChangeHandler(onPageSizeChange, storageKey),
+          //   }}
+          // />
         ),
         onPageChange: onPageChange,
       }}
@@ -116,7 +117,8 @@ const DataTable = ({
   storageKey,
   ...props
 }) => {
-  let TableComponent = simpleTableWithPagination ? ReactTable : EnhancedReactTable;
+  let TableComponent = simpleTableWithPagination ? ReactTable : <></>;
+  //EnhancedReactTable;
   return (
     <div css={searchStyles}>
       {disablePagination ? (
@@ -149,21 +151,22 @@ export const GenomicDataTable = ({
           pageSize,
           page: state.page,
           PaginationComponent: () => (
-            <CustomPagination
-              {...state}
-              {...{
-                pageSize,
-                pages: Math.ceil(state.rowCount / state.pageSize),
-                showPageSizeOptions: true,
-                pageSizeOptions: [10, 20, 50, 100],
-                showPageJump: state.rowCount > state.pageSize,
-                canPrevious: true,
-                canNext: true,
-                maxPagesOptions: 10,
-                onPageChange: onPageChange,
-                onPageSizeChange: pageSizeChangeHandler(onPageSizeChange, storageKey),
-              }}
-            />
+            <></>
+            // <CustomPagination
+            //   {...state}
+            //   {...{
+            //     pageSize,
+            //     pages: Math.ceil(state.rowCount / state.pageSize),
+            //     showPageSizeOptions: true,
+            //     pageSizeOptions: [10, 20, 50, 100],
+            //     showPageJump: state.rowCount > state.pageSize,
+            //     canPrevious: true,
+            //     canNext: true,
+            //     maxPagesOptions: 10,
+            //     onPageChange: onPageChange,
+            //     onPageSizeChange: pageSizeChangeHandler(onPageSizeChange, storageKey),
+            //   }}
+            // />
           ),
         }}
       />

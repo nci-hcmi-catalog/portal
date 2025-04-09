@@ -6,13 +6,10 @@ import { injectGlobal } from '@emotion/css';
 import globals from 'utils/globals';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-// import { Dashboard as ArrangerDashboard } from '@arranger/components';
 import { ArrangerDataProvider, ArrangerDataContext } from '@overture-stack/arranger-components';
-// import QuickSearchWrapper from '@overture-stack/arranger-components/dist/QuickSearch/QuickSearchWrapper';
-import QuickSearch from '@overture-stack/arranger-components/dist/QuickSearch';
 
 import SkipNav from 'components/SkipNav';
-// import SearchWrapper from 'components/search/SearchWrapper';
+import SearchWrapper from 'components/search/SearchWrapper';
 import Model from 'components/Model';
 import Admin from 'components/admin';
 import Header from 'components/Header';
@@ -20,7 +17,7 @@ import Footer from 'components/Footer';
 import Modal from 'components/modals/Modal';
 import WarningModal from 'components/modals/WarningModal';
 
-// import RootProvider from 'providers/RootProvider';
+import RootProvider from 'providers/RootProvider';
 import { ModalStateContext } from 'providers/ModalState';
 import { ExpandedUnexpandedProvider } from 'providers/ExpandedUnexpanded';
 import base from 'theme';
@@ -56,15 +53,7 @@ const ProvidedRoutes = () => (
                       render={() => (
                         <>
                           <Header />
-                          <QuickSearch
-                            disabled={false}
-                            fieldNames={'model'}
-                            displayFieldName={'Search by Model Name'}
-                            version={state.version}
-                            index="models"
-                          />
-                          {/* <QuickSearchWrapper version={state.version} index="models" /> */}
-                          {/* <SearchWrapper version={state.version} index="models" /> */}
+                          <SearchWrapper version={state.version} index="models" />
                         </>
                       )}
                     />
@@ -120,11 +109,13 @@ injectGlobal`
 `;
 
 const App = () => (
-  <ArrangerDataProvider apiUrl={`${globals.ARRANGER_API}/graphql`} documentType={'file'}>
-    <Router>
-      <ProvidedRoutes />
-    </Router>
-    <Modal />
+  <ArrangerDataProvider apiUrl={`${globals.ARRANGER_API}`} documentType={'file'}>
+    <RootProvider>
+      <Router>
+        <ProvidedRoutes />
+      </Router>
+      <Modal />
+    </RootProvider>
   </ArrangerDataProvider>
 );
 

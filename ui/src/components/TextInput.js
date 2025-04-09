@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import ArrangerTextInput from '@arranger/components/dist/Input';
+// import ArrangerTextInput from '@arranger/components/dist/Input';
 import CrossCircleOutlineIcon from 'icons/CrossCircleOutlineIcon';
 
 const TextInputWrapper = styled('div')`
@@ -11,7 +11,8 @@ const TextInputWrapper = styled('div')`
 `;
 
 const RefArrangerTextInput = React.forwardRef((props, ref) => (
-  <ArrangerTextInput componentRef={ref} shouldAutoFocus={false} {...props} />
+  <div ref={ref}></div>
+  // <ArrangerTextInput componentRef={ref} shouldAutoFocus={false} {...props} />
 ));
 
 const TextInput = styled(RefArrangerTextInput)`
