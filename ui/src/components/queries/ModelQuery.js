@@ -95,17 +95,19 @@ import globals from 'utils/globals';
 
 const ModelQuery = ({ modelName, ...props }) => {
   const { ARRANGER_API } = globals;
-  const context = useDataContext({ apiUrl: ARRANGER_API, callerName: `${props.field}Aggregation` });
-  console.log('model props', props);
-  console.log('model context', context);
-  const { fetchData } = context;
+  const context = useDataContext({ apiUrl: ARRANGER_API, callerName: `ModelQuery` });
+  const { apiFetcher } = context;
   return (
     <Component
       {...props}
       modelName={modelName}
       initialState={{ model: null, loading: true, extended: [] }}
       didMount={async ({ setState, props }) => {
-        // await fetchData({ setState, modelName: props.modelName });
+        // modelName: props.modelName
+        const data = await apiFetcher({
+          body: { endpoint: '/graphql/ModelDataQuery', queryName: 'ModelDataQuery' },
+        });
+        console.log('model query data', data);
       }}
       didUpdate={async ({ setState, props, prevProps, state }) => {
         if (props.modelName !== prevProps.modelName && !state.loading) {

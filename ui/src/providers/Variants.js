@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
 import { css } from '@emotion/react';
 import { get, uniqBy } from 'lodash';
 import { stringify } from 'query-string';
@@ -8,6 +9,7 @@ import { Link } from 'react-router-dom';
 
 import SparkMeter from 'components/SparkMeter';
 
+import globals from 'utils/globals';
 import { VARIANT_TYPES } from 'utils/constants';
 
 export const VariantsContext = React.createContext([{}, () => {}]);
@@ -46,6 +48,12 @@ export const useVariants = () => {
     [pageSize, setPageSize],
   ] = useContext(VariantsContext);
 
+  const arrangerContext = useDataContext({
+    apiUrl: globals.ARRANGER_API,
+    callerName: `ModelQuery`,
+  });
+  const { fetchData: arrangerFetcher } = arrangerContext;
+
   const getData = () => {
     if (!data) return [];
     return data;
@@ -80,46 +88,47 @@ export const useVariants = () => {
     // const variantsData = await api({
     //   endpoint: `/graphql`,
     //   body: {
-    //     query: `query($modelsSqon: JSON) {
-    //                 models {
-    //                   hits(filters: $modelsSqon, first: 1) {
-    //                     edges {
-    //                       node {
-    //                       name
-    //                         genomic_variants {
-    //                           hits {
-    //                             edges {
-    //                               node {
-    //                                 gene
-    //                                 aa_change
-    //                                 transcript_id
-    //                                 consequence_type
-    //                                 class
-    //                                 chromosome
-    //                                 start_position
-    //                                 end_position
-    //                                 specific_change
-    //                                 classification
-    //                                 entrez_id
-    //                                 variant_id
-    //                                 name
-    //                                 type
-    //                               }
-    //                             }
-    //                           }
-    //                         }
-    //                       }
-    //                     }
-    //                   }
-    //                 }
-    //               }
-    //             `,
+    const query = `query($modelsSqon: JSON) {
+                    models {
+                      hits(filters: $modelsSqon, first: 1) {
+                        edges {
+                          node {
+                          name
+                            genomic_variants {
+                              hits {
+                                edges {
+                                  node {
+                                    gene
+                                    aa_change
+                                    transcript_id
+                                    consequence_type
+                                    class
+                                    chromosome
+                                    start_position
+                                    end_position
+                                    specific_change
+                                    classification
+                                    entrez_id
+                                    variant_id
+                                    name
+                                    type
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                `;
     //     variables: {
-    //       modelsSqon: { op: 'in', content: { field: 'name', value: modelName } },
+    const modelsSqon = { op: 'in', content: { field: 'name', value: modelName } };
     //     },
     //   },
     // });
-    const data = [];
+    const data = arrangerFetcher({ query, endpoint: '/graphql', sqon: modelsSqon });
+    console.log('gene variants data', data);
     // const data = get(
     //   variantsData,
     //   `data.models.hits.edges[0].node.genomic_variants.hits.edges`,

@@ -44,8 +44,7 @@ const Loading = () => (
 const ModelListModal = () => {
   const { ARRANGER_API } = globals;
   const context = useDataContext({ apiUrl: ARRANGER_API, callerName: `columnsStateQuery` });
-  console.log('modelList model context', context);
-  const { fetchData } = context;
+  const { apiFetcher } = context;
   return (
     <ModalStateContext.Consumer>
       {(modalState) => (
@@ -158,7 +157,7 @@ const ModelListModal = () => {
                           <ButtonPill
                             primary
                             disabled={!hasSelected}
-                            onClick={() => cartDownload(selected.state.modelIds, fetchData)}
+                            onClick={() => cartDownload(selected.state.modelIds, apiFetcher)}
                           >
                             <DownloadIcon
                               width={'12px'}

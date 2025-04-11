@@ -35,9 +35,10 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
               height={156}
               data={state.buckets.map((x, i) => {
                 return {
-                  id: x.key,
+                  // TODO: Investigate `id undefined` error
+                  id: String(x.key),
                   key: x.key_as_string,
-                  label: state.extended.displayValues[x.key_as_string],
+                  label: state?.extended?.displayValues[x.key_as_string],
                   value: x.doc_count,
                   color:
                     theme.multipleModelsChartPalette[i % theme.multipleModelsChartPalette.length],

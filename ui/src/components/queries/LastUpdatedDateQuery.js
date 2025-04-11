@@ -22,16 +22,15 @@ import globals from 'utils/globals';
 
 const LastUpdatedDateQuery = ({ ...props }) => {
   const { ARRANGER_API } = globals;
-  const context = useDataContext({ apiUrl: ARRANGER_API, callerName: `lastUpdatedDate` });
-  console.log('lastUpdated props', props);
-  console.log('lastUpdated context', context);
-  const { fetchData } = context;
+  const context = useDataContext({ apiUrl: ARRANGER_API, callerName: `LastUpdatedDateQuery` });
+  const { apiFetcher } = context;
   return (
     <Component
       {...props}
       initialState={{ date: null, loading: true }}
       didMount={async ({ setState }) => {
-        // const data = await fetchData();
+        const data = await apiFetcher({ endpoint: '/last-updated' });
+        console.log('last updated data', data);
       }}
     />
   );

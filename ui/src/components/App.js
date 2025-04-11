@@ -42,7 +42,6 @@ const ProvidedRoutes = () => (
             }}
           >
             {({ state }) => {
-              console.log('context', context);
               return (
                 <ExpandedUnexpandedProvider>
                   <SkipNav />

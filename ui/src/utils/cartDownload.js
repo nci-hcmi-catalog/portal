@@ -2,6 +2,8 @@
 
 // import defaultApi from '@arranger/components/dist/utils/api';
 
+import FetchDataFn from '@overture-stack/arranger-components/dist/types';
+
 import globals from 'utils/globals';
 
 // async function fetchColumns() {
@@ -47,7 +49,7 @@ import globals from 'utils/globals';
 //   return output;
 // }
 
-const cartDownload = async function (selectedIds, fetchData) {
+const cartDownload = async function (selectedIds, apiFetcher) {
   // await fetchColumns();
 
   const sqon = {
@@ -64,7 +66,7 @@ const cartDownload = async function (selectedIds, fetchData) {
 
   const params = { files: [{ index: 'models', sqon, columns: [] }] };
 
-  const data = fetchData();
+  const data = apiFetcher({ body: { endpoint: '/columnsStateQuery', sqon } });
   console.log('cart data', data);
   return {};
   // return download({
