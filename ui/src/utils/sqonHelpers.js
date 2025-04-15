@@ -1,4 +1,3 @@
-// import { api } from '@arranger/components';
 // import { addInSQON, removeSQON } from '@arranger/components/dist/SQONView/utils';
 // import { get } from 'lodash';
 
