@@ -7,7 +7,7 @@ import Component from 'react-component-component';
 import { Col } from 'theme/system';
 import theme from 'theme';
 import AggregationQuery from 'components/queries/AggregationQuery';
-// import { addInSQON } from '@arranger/components/dist/SQONView/utils';
+import { addInSQON } from '@overture-stack/arranger-components/dist/SQONViewer/utils';
 
 import { ChartTooltip } from './';
 
@@ -151,25 +151,24 @@ const TopVariantsChart = ({ sqon, setSQON }) => (
                     }}
                     tooltip={({ value, data }) => ChartTooltip({ value, label: data.key })}
                     isInteractive={true}
-                    onClick={
-                      (data) => {}
-                      // setSQON(
-                      //   addInSQON(
-                      //     {
-                      //       op: 'and',
-                      //       content: [
-                      //         {
-                      //           op: 'in',
-                      //           content: {
-                      //             field: 'gene_metadata.mutated_genes',
-                      //             value: [].concat(data.data.key || []),
-                      //           },
-                      //         },
-                      //       ],
-                      //     },
-                      //     sqon,
-                      //   ),
-                      // )
+                    onClick={(data) =>
+                      setSQON(
+                        addInSQON(
+                          {
+                            op: 'and',
+                            content: [
+                              {
+                                op: 'in',
+                                content: {
+                                  field: 'gene_metadata.mutated_genes',
+                                  value: [].concat(data.data.key || []),
+                                },
+                              },
+                            ],
+                          },
+                          sqon,
+                        ),
+                      )
                     }
                   />
                 </>

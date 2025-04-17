@@ -8,7 +8,7 @@ import { Col } from 'theme/system';
 import SidebarSection from 'components/search/SidebarSection';
 import SearchOptionsDropdown from 'components/search/SearchOptionsDropdown';
 
-// import * as SQONUtils from '@arranger/components/dist/SQONView/utils';
+import { addInSQON, removeSQON } from '@overture-stack/arranger-components/dist/SQONViewer/utils';
 
 const LoadingIcon = (
   <Spinner
@@ -124,9 +124,9 @@ const SidebarTextSearch = ({
                     ],
                   };
 
-                  // const clearedSqon = SQONUtils.removeSQON(filterField, sqon);
-                  // const newSqon = selected ? SQONUtils.addInSQON(query, clearedSqon) : clearedSqon;
-                  // setSQON(newSqon);
+                  const clearedSqon = removeSQON(filterField, sqon);
+                  const newSqon = selected ? addInSQON(query, clearedSqon) : clearedSqon;
+                  setSQON(newSqon);
                   setValue('');
                 }}
               />

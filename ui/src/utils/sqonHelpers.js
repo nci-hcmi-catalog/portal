@@ -1,30 +1,28 @@
-// import { addInSQON, removeSQON } from '@arranger/components/dist/SQONView/utils';
+import { addInSQON, removeSQON } from '@overture-stack/arranger-components/dist/SQONViewer/utils';
 // import { get } from 'lodash';
 
 export const filterExpanded = (sqon, showExpandedStatus = false) => {
   return showExpandedStatus ? sqon : {}; //removeSQON('expanded', sqon);
 };
 
-export const toggleExpanded = (sqon, showUnexpanded = false) => {
-  return {};
-  // showUnexpanded
-  //   ? removeSQON('expanded', sqon)
-  //   : addInSQON(
-  //       {
-  //         op: 'and',
-  //         content: [
-  //           {
-  //             op: 'in',
-  //             content: {
-  //               field: 'expanded',
-  //               value: ['true'],
-  //             },
-  //           },
-  //         ],
-  //       },
-  //       sqon,
-  //     );
-};
+export const toggleExpanded = (sqon, showUnexpanded = false) =>
+  showUnexpanded
+    ? removeSQON('expanded', sqon)
+    : addInSQON(
+        {
+          op: 'and',
+          content: [
+            {
+              op: 'in',
+              content: {
+                field: 'expanded',
+                value: ['true'],
+              },
+            },
+          ],
+        },
+        sqon,
+      );
 
 export const getNumUnexpanded = async (sqon) => {
   // const numUnexpanded = await api({
