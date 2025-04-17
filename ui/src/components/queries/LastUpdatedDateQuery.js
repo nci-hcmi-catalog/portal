@@ -29,8 +29,8 @@ const LastUpdatedDateQuery = ({ ...props }) => {
       {...props}
       initialState={{ date: null, loading: true }}
       didMount={async ({ setState }) => {
-        const data = await apiFetcher({ endpoint: '/last-updated' });
-        console.log('last updated data', data);
+        // const data = await apiFetcher({ endpoint: '/last-updated' });
+        // console.log('last updated data', data);
       }}
     />
   );
