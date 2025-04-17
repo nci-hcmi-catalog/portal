@@ -43,7 +43,6 @@ const HorizontalTable = ({
   fieldNames,
   rawData,
   extended,
-  // css,
   customUnits = {},
   customValue = {},
   data = (extended || [])
@@ -66,7 +65,6 @@ const HorizontalTable = ({
     }, {}),
 }) => {
   return (
-    // <table className="entity-horizontal-table" cellPadding="0" cellSpacing="0" css={css}>
     <table className="entity-horizontal-table" cellPadding="0" cellSpacing="0">
       <tbody>
         {Object.keys(data).map((field) => {
