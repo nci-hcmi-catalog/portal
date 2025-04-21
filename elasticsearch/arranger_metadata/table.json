@@ -4,7 +4,7 @@
     "rowIdFieldName": "id",
     "defaultSorting": [
       {
-        "id": "gene_metadata.genomic_variant_count",
+        "fieldName": "gene_metadata.genomic_variant_count",
         "desc": true
       }
     ],

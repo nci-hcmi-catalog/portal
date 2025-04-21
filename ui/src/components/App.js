@@ -49,7 +49,7 @@ const ProvidedRoutes = () => (
                   render={() => (
                     <>
                       <Header />
-                      <SearchWrapper version={state.version} index="models" />
+                      <SearchWrapper version={state.version} index="model" />
                     </>
                   )}
                 />

@@ -4,15 +4,15 @@ import { useDataContext } from '@overture-stack/arranger-components/dist/DataCon
 import globals from 'utils/globals';
 import Component from 'react-component-component';
 
-const fetchAggregationData = async ({ apiFetcher, field, sqon }) => {
-  const queryName = `${field}Aggregation`;
+const fetchAggregationData = async ({ apiFetcher, fieldName, sqon }) => {
+  const queryName = `${fieldName}Aggregation`;
   const query = `query ${queryName} ($filters: JSON) {
-      file {
+      model {
         aggregations(
           filters: $filters
           aggregations_filter_themselves: true
         ) {
-          ${field} {
+          ${fieldName} {
             bucket_count
             buckets {
               doc_count
@@ -27,6 +27,7 @@ const fetchAggregationData = async ({ apiFetcher, field, sqon }) => {
   const { data } = await apiFetcher({
     body: { sqon, query, queryName },
     endpoint: '/graphql',
+    endpointTag: `${queryName}Query`,
   }).catch((err) => {
     console.log(err);
     throw err;
@@ -37,17 +38,16 @@ const fetchAggregationData = async ({ apiFetcher, field, sqon }) => {
 
 const AggregationQuery = ({ sqon, ...props }) => {
   const { field } = props;
-  const { ARRANGER_API } = globals;
-  const context = useDataContext({ apiUrl: ARRANGER_API, callerName: 'AggregationQuery' });
-  const { apiFetcher } = context;
+  const { apiFetcher } = useDataContext({ callerName: 'HCMIAggregationQuery' });
+
   return (
     <Component
       {...props}
       sqon={sqon}
       initialState={{ buckets: null, loading: true }}
       didMount={async ({ setState, props }) => {
-        const { data } = await fetchAggregationData({ apiFetcher, field, sqon });
-        const aggregation = data?.file?.aggregations?.[props.field];
+        const { data } = await fetchAggregationData({ apiFetcher, fieldName: field, sqon });
+        const aggregation = data?.model?.aggregations?.[props.field];
         const update = aggregation
           ? {
               total: aggregation.bucket_count,
@@ -62,8 +62,8 @@ const AggregationQuery = ({ sqon, ...props }) => {
       }}
       didUpdate={async ({ setState, prevProps }) => {
         if (!isEqual(sqon, prevProps.sqon)) {
-          const { data } = await fetchAggregationData({ apiFetcher, field, sqon });
-          const aggregation = data?.data?.file?.aggregations?.[props.field];
+          const { data } = await fetchAggregationData({ apiFetcher, fieldName: field, sqon });
+          const aggregation = data?.model?.aggregations?.[props.field];
           const update = aggregation
             ? {
                 total: aggregation.bucket_count,
