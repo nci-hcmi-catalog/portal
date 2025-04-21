@@ -1,7 +1,6 @@
 import React from 'react';
 import { isEqual } from 'lodash';
 import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
-import globals from 'utils/globals';
 import Component from 'react-component-component';
 
 const fetchAggregationData = async ({ apiFetcher, fieldName, sqon }) => {
