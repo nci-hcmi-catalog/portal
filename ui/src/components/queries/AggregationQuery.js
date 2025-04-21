@@ -3,9 +3,8 @@ import { isEqual } from 'lodash';
 import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
 import Component from 'react-component-component';
 
-const fetchAggregationData = async ({ apiFetcher, fieldName, sqon }) => {
-  const queryName = `${fieldName}Aggregation`;
-  const query = `query ${queryName} ($filters: JSON) {
+const getQuery = (fieldName) =>
+  `query ${fieldName}Aggregation ($filters: JSON) {
       model {
         aggregations(
           filters: $filters
@@ -23,21 +22,16 @@ const fetchAggregationData = async ({ apiFetcher, fieldName, sqon }) => {
       }
     }`;
 
-  const { data } = await apiFetcher({
+const AggregationQuery = ({ sqon, ...props }) => {
+  const { field: fieldName } = props;
+  const { apiFetcher } = useDataContext({ callerName: 'HCMIAggregationQuery' });
+  const queryName = `${fieldName}Aggregation`;
+  const query = getQuery(fieldName);
+  const options = {
     body: { sqon, query, queryName },
     endpoint: '/graphql',
     endpointTag: `${queryName}Query`,
-  }).catch((err) => {
-    console.log(err);
-    throw err;
-  });
-
-  return data;
-};
-
-const AggregationQuery = ({ sqon, ...props }) => {
-  const { field } = props;
-  const { apiFetcher } = useDataContext({ callerName: 'HCMIAggregationQuery' });
+  };
 
   return (
     <Component
@@ -45,7 +39,11 @@ const AggregationQuery = ({ sqon, ...props }) => {
       sqon={sqon}
       initialState={{ buckets: null, loading: true }}
       didMount={async ({ setState, props }) => {
-        const { data } = await fetchAggregationData({ apiFetcher, fieldName: field, sqon });
+        const { data } = await apiFetcher(options).catch((err) => {
+          console.log(err);
+          throw err;
+        });
+
         const aggregation = data?.model?.aggregations?.[props.field];
         const update = aggregation
           ? {
@@ -61,7 +59,11 @@ const AggregationQuery = ({ sqon, ...props }) => {
       }}
       didUpdate={async ({ setState, prevProps }) => {
         if (!isEqual(sqon, prevProps.sqon)) {
-          const { data } = await fetchAggregationData({ apiFetcher, fieldName: field, sqon });
+          const { data } = await apiFetcher(options).catch((err) => {
+            console.log(err);
+            throw err;
+          });
+
           const aggregation = data?.model?.aggregations?.[props.field];
           const update = aggregation
             ? {

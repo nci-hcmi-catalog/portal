@@ -3,9 +3,8 @@ import { css } from '@emotion/react';
 import Component from 'react-component-component';
 import SplitPane from 'react-split-pane';
 import {
-  Aggregations,
+  Aggregations as ArrangerAggregations,
   Table,
-  useTableContext,
   TableContextProvider,
   CurrentSQON,
 } from '@overture-stack/arranger-components';
@@ -70,7 +69,14 @@ const Search = ({
   ...props
 }) => {
   const { showUnexpanded } = useExpandedUnexpanded();
+  const { apiFetcher } = useDataContext({ callerName: 'HCMISearch' });
+  const expandedSqon = toggleExpanded(sqon, showUnexpanded);
 
+  const options = {
+    body: { sqon: expandedSqon },
+    endpoint: '/graphql',
+    endpointTag: `SearchAggregate`,
+  };
   return (
     <TableContextProvider>
       <Col css={searchStyles}>
@@ -89,14 +95,19 @@ const Search = ({
             <Component>
               {() => (
                 <>
-                  <ModelSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
+                  <ModelSearch sqon={expandedSqon} setSQON={setSQON} />
                   <GeneSearch
-                    sqon={toggleExpanded(sqon, showUnexpanded)}
+                    sqon={expandedSqon}
                     setSQON={setSQON}
                     tooltipWidth={state?.panelSize - facetTooltipPadding}
                   />
-                  <VariantSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
-                  <Aggregations
+                  <VariantSearch sqon={expandedSqon} setSQON={setSQON} />
+                  <ArrangerAggregations
+                    apiFetcher={async () => await apiFetcher(options).then((data) => data)}
+                    sqon={expandedSqon}
+                    setSQON={setSQON}
+                  />
+                  {/* <Aggregations
                     {...props}
                     sqon={toggleExpanded(sqon, showUnexpanded)}
                     setSQON={setSQON}
@@ -156,7 +167,7 @@ const Search = ({
                         },
                       },
                     ]}
-                  />
+                  /> */}
                 </>
               )}
             </Component>
@@ -263,7 +274,8 @@ const Search = ({
                       });
                     }
                     return (
-                      <Table
+                      <Table />
+                      // Old Table Props
                       // {...props}
                       // {...tableContext}
                       // showFilterInput={false}
@@ -438,7 +450,6 @@ const Search = ({
                       //     },
                       //   },
                       // ]}
-                      />
                     );
                   }}
                 </SelectedModelsContext.Consumer>
