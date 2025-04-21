@@ -6,7 +6,7 @@ import Component from 'react-component-component';
 
 const fetchAggregationData = async ({ apiFetcher, field, sqon }) => {
   const queryName = `${field}Aggregation`;
-  const query = `query ${field}Aggregation ($filters: JSON) {
+  const query = `query ${queryName} ($filters: JSON) {
       file {
         aggregations(
           filters: $filters
