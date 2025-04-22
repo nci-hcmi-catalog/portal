@@ -6,7 +6,7 @@ import {
   Aggregations as ArrangerAggregations,
   Table,
   TableContextProvider,
-  CurrentSQON,
+  SQONViewer,
 } from '@overture-stack/arranger-components';
 import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
 
@@ -69,14 +69,21 @@ const Search = ({
   ...props
 }) => {
   const { showUnexpanded } = useExpandedUnexpanded();
-  const { apiFetcher } = useDataContext({ callerName: 'HCMISearch' });
+  const { apiFetcher, fetchData } = useDataContext({ callerName: 'HCMISearch' });
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
-
   const options = {
     body: { sqon: expandedSqon },
     endpoint: '/graphql',
     endpointTag: `SearchAggregate`,
   };
+
+  const aggFetcher = async (args) => {
+    console.log('Search fetchData args', args);
+    const data = await apiFetcher({ ...args, ...options });
+    console.logI('fetchnData data', data);
+    return data;
+  };
+
   return (
     <TableContextProvider>
       <Col css={searchStyles}>
@@ -103,7 +110,7 @@ const Search = ({
                   />
                   <VariantSearch sqon={expandedSqon} setSQON={setSQON} />
                   <ArrangerAggregations
-                    apiFetcher={async () => await apiFetcher(options).then((data) => data)}
+                    apiFetcher={aggFetcher}
                     sqon={expandedSqon}
                     setSQON={setSQON}
                   />
@@ -207,13 +214,21 @@ const Search = ({
                   </span>
                 </Row>
               )}
-              <CurrentSQON
+              <SQONViewer
+                displayName="SearchSQON"
                 {...props}
                 sqon={filterExpanded(sqon)}
                 setSQON={setSQON}
                 index={props.index}
                 graphqlField={props.index}
               />
+              {/* <CurrentSQON
+                {...props}
+                sqon={filterExpanded(sqon)}
+                setSQON={setSQON}
+                index={props.index}
+                graphqlField={props.index}
+              /> */}
               <div className="search-header-actions">
                 <ShareButton link={`${window.location.origin}/`} quote={`HCMI Search`} />
                 <ModelList className="search-header-model-list" />
