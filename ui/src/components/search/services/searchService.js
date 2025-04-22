@@ -1,7 +1,7 @@
-import globals from 'utils/globals';
 import axios from 'axios';
-
 import { get } from 'lodash';
+
+import globals from 'utils/globals';
 
 export const searchGenes = async (inputValue) => {
   try {
@@ -29,9 +29,9 @@ export const searchVariants = async (inputValue) => {
     It's been modified to remove the size limit (can be added in if speed issues arise) and now also returns primary_site
     This can be modified further to allow a custom list of model properties to return in the search results.
 */
-export const searchModels = async (inputValue) => {
+export const searchModels = async (inputValue, apiFetcher) => {
   const query =
-    'query ModelsQuickSearchResults($sqon: JSON) {\n          models {\n            hits(filters: $sqon) {\n              total\n              edges {\n                node {\n                  primaryKey: name\n                  autocomplete: autocomplete\n primary_site\n                }\n              }\n            }\n          }\n        }';
+    'query ModelsQuickSearchResults($sqon: JSON) {\n          model {\n            hits(filters: $sqon) {\n              total\n              edges {\n                node {\n                  primaryKey: name\n                  autocomplete: autocomplete\n primary_site\n                }\n              }\n            }\n          }\n        }';
   const sqon = {
     op: 'or',
     content: [
@@ -41,14 +41,9 @@ export const searchModels = async (inputValue) => {
       },
     ],
   };
-  const variables = { sqon };
   try {
-    // const response = await axios.post(`${globals.ARRANGER_API}/graphql`, {
-    //   query,
-    //   variables,
-    // });
-    // return get(response, 'data.data.models.hits.edges', []).map((i) => i.node);
-    return {};
+    const response = await apiFetcher({ endpoint: '/graphql', body: { query, sqon } });
+    return get(response, 'data.model.hits.edges', []).map((i) => i.node);
   } catch (e) {
     return [];
   }
