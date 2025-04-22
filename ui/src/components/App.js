@@ -18,6 +18,7 @@ import Modal from 'components/modals/Modal';
 import WarningModal from 'components/modals/WarningModal';
 
 import RootProvider from 'providers/RootProvider';
+
 import { ModalStateContext } from 'providers/ModalState';
 import { ExpandedUnexpandedProvider } from 'providers/ExpandedUnexpanded';
 import base from 'theme';
