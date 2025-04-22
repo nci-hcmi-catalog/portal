@@ -1,6 +1,5 @@
 import React from 'react';
 import { api } from '@arranger/components';
-import globals from 'utils/globals';
 
 export const SavedSetsContext = React.createContext();
 
@@ -21,7 +20,7 @@ class SavedSetsProvider extends React.Component {
                 saveSet: { setId, ids },
               },
             } = await api({
-              endpoint: `${globals.VERSION}/graphql`,
+              endpoint: `/graphql`,
               body: {
                 query: `
                 mutation ($sqon: JSON!, $sort: [Sort]) {
@@ -49,7 +48,7 @@ class SavedSetsProvider extends React.Component {
           fetchSets: async ({ sqon }) => {
             this.setState({ loading: true, sets: this.state.sets });
             const { data } = await api({
-              endpoint: `${globals.VERSION}/graphql`,
+              endpoint: `/graphql`,
               body: {
                 query: `query($sqon: JSON) {
                 sets {

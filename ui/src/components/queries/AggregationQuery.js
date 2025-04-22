@@ -1,12 +1,11 @@
 import React from 'react';
 import { isEqual } from 'lodash';
-import globals from 'utils/globals';
 import { api } from '@arranger/components';
 import Component from 'react-component-component';
 
 const fetchData = async ({ setState, sqon, field }) => {
   const { data } = await api({
-    endpoint: `${globals.VERSION}/graphql`,
+    endpoint: `/graphql`,
     body: {
       query: `query ${field}Aggregation ($filters: JSON, $fields: [String]) {
         models {

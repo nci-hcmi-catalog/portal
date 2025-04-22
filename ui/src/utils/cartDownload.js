@@ -5,7 +5,7 @@ import globals from 'utils/globals';
 
 async function fetchColumns() {
   const { data } = await defaultApi({
-    endpoint: `${globals.VERSION}/graphql/columnsStateQuery`,
+    endpoint: `/graphql/columnsStateQuery`,
     body: {
       query: `query {
             models {
@@ -65,7 +65,7 @@ const cartDownload = async function(selectedIds) {
   const params = { files: [{ index: 'models', sqon, columns }] };
   return download({
     method: 'post',
-    url: `${globals.ARRANGER_API}/export/${globals.VERSION}/models`,
+    url: `${globals.ARRANGER_API}/export/models`,
     params,
   });
 };

@@ -1,12 +1,11 @@
 import React from 'react';
 import { get } from 'lodash';
-import globals from 'utils/globals';
 import { api } from '@arranger/components';
 import Component from 'react-component-component';
 
 const fetchData = async ({ setState, modelIds }) => {
   const { data } = await api({
-    endpoint: `${globals.VERSION}/graphql/ModelDataQuery`,
+    endpoint: `/graphql/ModelDataQuery`,
     body: {
       query: `query ModelListModal($filters: JSON) {
             models {

@@ -1,0 +1,39 @@
+{
+  "matchbox": [
+    {
+      "keyField": "createdAt",
+      "field": "",
+      "displayName": "models",
+      "searchFields": [],
+      "isActive": false
+    },
+    {
+      "keyField": null,
+      "field": "variants",
+      "displayName": "Variants",
+      "searchFields": [],
+      "isActive": false
+    },
+    {
+      "keyField": null,
+      "field": "files",
+      "displayName": "Files",
+      "searchFields": [],
+      "isActive": false
+    },
+    {
+      "keyField": null,
+      "field": "multiple_models",
+      "displayName": "Multiple Models",
+      "searchFields": [],
+      "isActive": false
+    },
+    {
+      "keyField": null,
+      "field": "gene_metadata",
+      "displayName": "Gene Metadata",
+      "searchFields": [],
+      "isActive": false
+    }
+  ]
+}

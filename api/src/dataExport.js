@@ -1,14 +1,13 @@
-// @ts-check
 import express from 'express';
 import bodyParser from 'body-parser';
-import { dataStream } from '@arranger/server/dist/download';
-import { getProject } from '@arranger/server/dist/utils/projects';
-import getAllData from '@arranger/server/dist/utils/getAllData';
+import expressSanitizer from 'express-sanitizer';
+import { dataStream } from '@overture-stack/arranger-server/dist/download';
+import getAllData from '@overture-stack/arranger-server/dist/utils/getAllData';
 import JSZip from 'jszip';
 import map from 'map-stream';
 import through2 from 'through2';
-
 import getLogger from './logger';
+
 const logger = getLogger('dataExport');
 
 const dataExportRouter = express.Router();
@@ -27,18 +26,16 @@ const CLINICAL_COLUMNS = [
 ];
 
 dataExportRouter.use(bodyParser.urlencoded({ extended: true }));
+dataExportRouter.use(expressSanitizer());
 
-dataExportRouter.post('/:projectId/models', async (req, res) => {
+dataExportRouter.post('/models', async (req, res) => {
   try {
-    const projectId = req.params['projectId'];
-    logger.debug(`projectId: ${projectId}`);
-    const project = getProject(projectId);
-    const es = project.es;
     // sanitize user input
-    const params = getParamsObj(decodeLessThanGreaterThan(req.sanitize(req.body.params)));
-    logger.debug(`params: ${JSON.stringify(params)}`);
-    const file = params.files[0];
-    const { index, sqon } = file;
+    const params = req.body.params || '{}';
+    const sanitizedParams = req.sanitize(params);
+    const decodedParams = getParamsObj(decodeLessThanGreaterThan(sanitizedParams));
+    logger.debug(`params: ${JSON.stringify(decodedParams)}`);
+    const { sqon } = decodedParams?.files?.[0] || { sqon: {} };
 
     const genomicVariantData = {};
     const clinicalVariantData = {};
@@ -51,7 +48,7 @@ dataExportRouter.post('/:projectId/models', async (req, res) => {
      * We can get a stream from arranger using the getAllData method and then can store the variant data for each model
      * for future processing.
      */
-    const allDataStream = await getAllData({ projectId, sqon, es, index });
+    const allDataStream = await getAllData({ sqon, maxRows: 100, mock: {}, ctx: req.context });
     const collectVariantData = through2.obj(function({ hits }, enc, callback) {
       const models = hits.map(h => h._source);
       models.forEach(model => {
@@ -68,18 +65,15 @@ dataExportRouter.post('/:projectId/models', async (req, res) => {
     await new Promise((resolve, reject) => {
       allDataStream
         .pipe(collectVariantData)
-        .on('finish', () => resolve())
+        .on('finish', () => resolve(undefined))
         .on('error', reject);
     });
-
     /**
      * Use Arranger's download tool dataStream to fetch the tsv for the search table
      */
     const { output } = await dataStream({
-      es,
-      projectId,
-      params,
-      fileType: 'tsv',
+      params: decodedParams,
+      ctx: req.context,
     });
     const models = [];
 
@@ -132,8 +126,8 @@ dataExportRouter.post('/:projectId/models', async (req, res) => {
         );
         if (clinicalVariants || genomicVariants) {
           const modelFolder = zip.folder(modelId);
-          !!clinicalVariants && modelFolder.file(`clinical-${modelId}.tsv`, clinicalVariants);
-          !!genomicVariants && modelFolder.file(`somatic-${modelId}.tsv`, genomicVariants);
+          !!clinicalVariants && modelFolder?.file(`clinical-${modelId}.tsv`, clinicalVariants);
+          !!genomicVariants && modelFolder?.file(`somatic-${modelId}.tsv`, genomicVariants);
         }
       }),
     );
@@ -180,7 +174,7 @@ const getParamsObj = params => {
   return paramsObj;
 };
 
-const decodeLessThanGreaterThan = sanitizedParams => {
+const decodeLessThanGreaterThan = (sanitizedParams = '') => {
   return sanitizedParams.replace(/(&lt;)/g, '<').replace(/(&gt;)/g, '>');
 };
 

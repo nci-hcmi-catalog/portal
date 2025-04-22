@@ -2,8 +2,6 @@ import { api } from '@arranger/components';
 import { addInSQON, removeSQON } from '@arranger/components/dist/SQONView/utils';
 import { get } from 'lodash';
 
-import globals from 'utils/globals';
-
 export const filterExpanded = (sqon, showExpandedStatus = false) => {
   return showExpandedStatus ? sqon : removeSQON('expanded', sqon);
 };
@@ -30,7 +28,7 @@ export const toggleExpanded = (sqon, showUnexpanded = false) => {
 
 export const getNumUnexpanded = async sqon => {
   const numUnexpanded = await api({
-    endpoint: `/${globals.VERSION}/graphql`,
+    endpoint: `/graphql`,
     body: {
       query: `query($filters: JSON) {
                   models {

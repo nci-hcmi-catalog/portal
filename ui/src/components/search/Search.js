@@ -332,7 +332,7 @@ const Search = ({
                         exporter={exporterOptions}
                         transformParams={params => ({
                           ...params,
-                          url: `${globals.ARRANGER_API}/export/${version}/models`,
+                          url: `${globals.ARRANGER_API}/export/models`,
                         })}
                         fieldTypesForFilter={['text', 'keyword', 'id']}
                         customHeaderContent={<ExpandedToggle sqon={filterExpanded(sqon)} />}

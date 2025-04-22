@@ -670,7 +670,7 @@ export default css`
     margin-right: 2px;
   }
 
-  .aggregation-card .bucket .toggle-button .toggle-button-option:first-child {
+  .aggregation-card .bucket .toggle-button .toggle-button-option:first-of-type {
     border-top-left-radius: unset;
     border-bottom-left-radius: unset;
   }
@@ -867,7 +867,7 @@ export default css`
     padding: 5px 10px;
     color: black;
 
-    &:first-child {
+    &:first-of-type {
       padding-top: 10px;
     }
 
@@ -939,7 +939,7 @@ export const FooterNavItem = styled('li')`
   padding: 0 8px;
   border-right: 1px solid ${black};
 
-  &:first-child {
+  &:first-of-type {
     padding-left: 4px;
   }
 
@@ -952,7 +952,7 @@ export const FooterNavItem = styled('li')`
 export const FooterImg = styled('img')`
   padding-left: 32px;
 
-  &:first-child {
+  &:first-of-type {
     padding-left: 0;
   }
 `;

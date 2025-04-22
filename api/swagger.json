@@ -28,7 +28,7 @@
         }
       }
     },
-    "/export/{projectId}/models": {
+    "/export/models": {
       "post": {
         "summary": "Data Export",
         "description": ".tsv file export. This is a wrapper for Arranger's export functionality.",
