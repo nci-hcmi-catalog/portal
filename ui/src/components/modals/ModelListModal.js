@@ -41,9 +41,9 @@ const Loading = () => (
 
 const ModelListModal = () => (
   <ModalStateContext.Consumer>
-    {modalState => (
+    {(modalState) => (
       <SelectedModelsContext.Consumer>
-        {selected => (
+        {(selected) => (
           <ModelListModalQuery selected={selected}>
             {({ state: queryState }) => (
               <Component

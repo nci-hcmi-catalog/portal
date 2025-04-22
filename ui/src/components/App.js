@@ -7,17 +7,19 @@ import globals from 'utils/globals';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Dashboard as ArrangerDashboard } from '@arranger/components';
+import { ArrangerDataProvider } from '@overture-stack/arranger-components';
 
 import SkipNav from 'components/SkipNav';
-import SearchWrapper from 'components/search/SearchWrapper';
+// import SearchWrapper from 'components/search/SearchWrapper';
 import Model from 'components/Model';
 import Admin from 'components/admin';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
-import Modal from 'components/modals/Modal';
+// import Modal from 'components/modals/Modal';
 import WarningModal from 'components/modals/WarningModal';
 
-import RootProvider from 'providers/RootProvider';
+// import RootProvider from 'providers/RootProvider';
+
 import { ModalStateContext } from 'providers/ModalState';
 import { ExpandedUnexpandedProvider } from 'providers/ExpandedUnexpanded';
 import base from 'theme';
@@ -28,7 +30,7 @@ import base from 'theme';
 // https://github.com/ReactTraining/react-router/issues/6072
 const ProvidedRoutes = () => (
   <ModalStateContext.Consumer>
-    {modalState => (
+    {(modalState) => (
       <Component
         initialState={{
           version: globals.VERSION,
@@ -49,7 +51,7 @@ const ProvidedRoutes = () => (
                 render={() => (
                   <>
                     <Header />
-                    <SearchWrapper version={state.version} index="models" />
+                    {/* <SearchWrapper version={state.version} index="models" /> */}
                   </>
                 )}
               />
@@ -102,12 +104,12 @@ injectGlobal`
 `;
 
 const App = () => (
-  <RootProvider>
+  <ArrangerDataProvider>
     <Router>
       <ProvidedRoutes />
     </Router>
-    <Modal />
-  </RootProvider>
+    {/* <Modal /> */}
+  </ArrangerDataProvider>
 );
 
 export default App;

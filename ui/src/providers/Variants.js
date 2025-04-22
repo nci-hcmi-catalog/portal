@@ -12,7 +12,7 @@ import { VARIANT_TYPES } from 'utils/constants';
 
 export const VariantsContext = React.createContext([{}, () => {}]);
 
-export const VariantsProvider = props => {
+export const VariantsProvider = (props) => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [geneMetadata, setGeneMetadata] = useState(null);
@@ -76,7 +76,7 @@ export const useVariants = () => {
     return pageSize;
   };
 
-  const getGenomicVariants = async modelName => {
+  const getGenomicVariants = async (modelName) => {
     const variantsData = await api({
       endpoint: `/graphql`,
       body: {
@@ -128,8 +128,8 @@ export const useVariants = () => {
 
     return data.length && data.length > 0
       ? data
-          .filter(variant => !!variant.gene)
-          .map(variant => {
+          .filter((variant) => !!variant.gene)
+          .map((variant) => {
             const entrez_link = `https://www.ncbi.nlm.nih.gov/gene/${variant.entrez_id}`;
             const geneComponent =
               variant.entrez_id && variant.entrez_id !== '0' ? (
@@ -193,7 +193,7 @@ export const useVariants = () => {
 
     const data = get(variantsData, `data.models.hits.edges[0].node.variants.hits.edges`, [])
       .map(({ node }) => node)
-      .filter(node => node.type && node.type.toLowerCase() === type.toLowerCase());
+      .filter((node) => node.type && node.type.toLowerCase() === type.toLowerCase());
 
     const variantNames = uniqBy(
       data.map(({ name }) => ({ name, safe: name.replace(/ |-|\.|\(|\)/g, '') })),
@@ -234,15 +234,13 @@ export const useVariants = () => {
     const freqs = Object.keys(freqsData.data.models).reduce(
       (acc, key) => ({
         ...acc,
-        [variantNames.reduce(
-          (found, { name, safe }) => (safe === key ? name : found),
-          '',
-        )]: freqsData.data.models[key].total,
+        [variantNames.reduce((found, { name, safe }) => (safe === key ? name : found), '')]:
+          freqsData.data.models[key].total,
       }),
       {},
     );
 
-    const dataWithFreqs = data.map(d => ({
+    const dataWithFreqs = data.map((d) => ({
       ...d,
       genes: (d.genes || '').join(', '),
       frequency: {
@@ -294,7 +292,7 @@ export const useVariants = () => {
     return dataWithFreqs;
   };
 
-  const fetchGeneMetadata = async modelName => {
+  const fetchGeneMetadata = async (modelName) => {
     const geneMetadata = await api({
       endpoint: `/graphql`,
       body: {

@@ -12,7 +12,7 @@ const VariantSearch = ({ sqon, setSQON, ...props }) => (
     header="Search by Research Somatic Variant"
     placeholder="e.g. BRAF V600E, IDH1 R132H, ..."
     ResultsIcon={GeneIcon}
-    optionTransformer={option => {
+    optionTransformer={(option) => {
       const details = [option.transcript_id, option.variant_id];
 
       return { title: option.name, details, value: option.variant_id };

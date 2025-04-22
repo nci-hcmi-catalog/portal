@@ -71,7 +71,7 @@ const Search = ({
           split="vertical"
           minSize={50}
           defaultSize={state.panelSize}
-          onChange={panelSize => {
+          onChange={(panelSize) => {
             setState({ panelSize });
           }}
           onDragStarted={() => (stable = false)}
@@ -232,7 +232,7 @@ const Search = ({
             <Component shouldUpdate={() => stable}>
               {() => (
                 <SelectedModelsContext.Consumer>
-                  {selectedModelContext => {
+                  {(selectedModelContext) => {
                     // Options for Export drop down
                     const exporterOptions = [
                       {
@@ -245,7 +245,7 @@ const Search = ({
                         columns: [],
                       },
                     ];
-                    if (selectedModelContext.state.modelIds.length > 0) {
+                    if (selectedModelContext?.state.modelIds.length > 0) {
                       exporterOptions.unshift({
                         label: (
                           <div className="selectedModelsLabel">
@@ -258,16 +258,16 @@ const Search = ({
                       <Table
                         {...props}
                         showFilterInput={false}
-                        setSelectedTableRows={selectedRows =>
+                        setSelectedTableRows={(selectedRows) =>
                           selectedModelContext.setModels(selectedRows)
                         }
                         selectedTableRows={selectedModelContext.state.modelIds}
                         loading={savedSetsContext.state.loading || props.loading}
                         sqon={toggleExpanded(sqon, showUnexpanded)}
                         setSQON={setSQON}
-                        onSortedChange={sorted => setState({ sorted })}
+                        onSortedChange={(sorted) => setState({ sorted })}
                         customTypes={{
-                          entity: props => (
+                          entity: (props) => (
                             <TableEntity
                               {...props}
                               savedSetsContext={savedSetsContext}
@@ -276,7 +276,7 @@ const Search = ({
                               history={history}
                             />
                           ),
-                          distributor_link: props => (
+                          distributor_link: (props) => (
                             <TableDistributorCell
                               {...props}
                               value={props.value}
@@ -286,7 +286,7 @@ const Search = ({
                               history={history}
                             />
                           ),
-                          expanded: props => (
+                          expanded: (props) => (
                             <TableExpandedCell
                               {...props}
                               value={props.value}
@@ -296,7 +296,7 @@ const Search = ({
                               history={history}
                             />
                           ),
-                          matched_models: props => (
+                          matched_models: (props) => (
                             <TableMatchedModelsCell
                               {...props}
                               value={props.value}
@@ -306,7 +306,7 @@ const Search = ({
                               history={history}
                             />
                           ),
-                          list: props => <TableList {...props} />,
+                          list: (props) => <TableList {...props} />,
                         }}
                         customTypeConfigs={{
                           entity: {
@@ -330,7 +330,7 @@ const Search = ({
                         selectedRowsFilterPropertyName="_id"
                         exporterLabel="Export"
                         exporter={exporterOptions}
-                        transformParams={params => ({
+                        transformParams={(params) => ({
                           ...params,
                           url: `${globals.ARRANGER_API}/export/models`,
                         })}

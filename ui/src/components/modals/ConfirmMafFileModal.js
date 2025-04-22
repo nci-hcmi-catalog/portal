@@ -57,8 +57,8 @@ const confirmMafFileTableColumns = [
   },
 ];
 
-const getCancerModelEntity = entities => {
-  return entities.find(entity => GDC_CANCER_MODEL_SAMPLE_TYPES.indexOf(entity.sampleType) > -1);
+const getCancerModelEntity = (entities) => {
+  return entities.find((entity) => GDC_CANCER_MODEL_SAMPLE_TYPES.indexOf(entity.sampleType) > -1);
 };
 
 const doThenClose = (next, modalState) => async () => {
@@ -87,16 +87,16 @@ const ConfirmMafFile = ({
   const [fileSelection, setFileSelection] = useState(defaultSelection);
   const [loading, setLoading] = useState(false);
 
-  const onFileSelectionChange = value => {
-    const filename = files.find(x => x.fileId === value).filename;
+  const onFileSelectionChange = (value) => {
+    const filename = files.find((x) => x.fileId === value).filename;
     setFileSelection({
       fileId: value,
       filename: filename,
     });
   };
 
-  const getConfirmMafFileTableData = files => {
-    return files.map(file => {
+  const getConfirmMafFileTableData = (files) => {
+    return files.map((file) => {
       const entity = getCancerModelEntity(file.entities);
       return {
         selection: (
@@ -116,10 +116,10 @@ const ConfirmMafFile = ({
               id={`confirm-maf-${file.fileId}`}
               value={file.fileId}
               checked={fileSelection.fileId === file.fileId}
-              onChange={e => {
+              onChange={(e) => {
                 onFileSelectionChange(e.currentTarget.value);
               }}
-              onClick={e => {
+              onClick={(e) => {
                 onFileSelectionChange(e.currentTarget.value);
               }}
               style={{ cursor: 'pointer' }}
@@ -146,8 +146,8 @@ const ConfirmMafFile = ({
   const confirmMafFile = async () => {
     setLoading(true);
     await resolveMafFileConflict(modelName, fileSelection.fileId, fileSelection.filename)
-      .then(async _ => {
-        const existingNotification = notifications.find(x => x.modelName === modelName);
+      .then(async (_) => {
+        const existingNotification = notifications.find((x) => x.modelName === modelName);
 
         if (existingNotification) {
           existingNotification.clear();
@@ -157,7 +157,7 @@ const ConfirmMafFile = ({
           await onConfirm();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         appendNotification({
           type: NOTIFICATION_TYPES.ERROR,
           message: `Import Error with No Action Required: An unexpected error occured while confirming a MAF file for ${modelName}`,
@@ -171,7 +171,7 @@ const ConfirmMafFile = ({
 
   return (
     <ModalStateContext.Consumer>
-      {modalState => (
+      {(modalState) => (
         <ModalWrapper>
           <Header>
             <Title>{title}</Title>
@@ -212,50 +212,44 @@ const ConfirmMafFile = ({
   );
 };
 
-const ConfirmMafFileModal = ({
-  title,
-  confirmLabel,
-  cancelLabel,
-  onConfirm,
-  onCancel,
-  modelName,
-  tissueStatus,
-  files,
-}) => Component => (
-  <NotificationsContext.Consumer>
-    {({ notifications, appendNotification, importProgress, setImportProgress }) => (
-      <ModalStateContext.Consumer>
-        {modalState =>
-          React.cloneElement(Component, {
-            onClick: () => {
-              modalState.setModalState({
-                component: (
-                  <ConfirmMafFile
-                    {...{
-                      title,
-                      confirmLabel,
-                      cancelLabel,
-                      onConfirm,
-                      onCancel,
-                      modelName,
-                      tissueStatus,
-                      files,
-                      notifications,
-                      appendNotification,
-                      importProgress,
-                      setImportProgress,
-                    }}
-                  />
-                ),
-                shouldCloseOnOverlayClick: true,
-                styles: AdminModalStyleWide,
-              });
-            },
-          })
-        }
-      </ModalStateContext.Consumer>
-    )}
-  </NotificationsContext.Consumer>
-);
+const ConfirmMafFileModal =
+  ({ title, confirmLabel, cancelLabel, onConfirm, onCancel, modelName, tissueStatus, files }) =>
+  (Component) =>
+    (
+      <NotificationsContext.Consumer>
+        {({ notifications, appendNotification, importProgress, setImportProgress }) => (
+          <ModalStateContext.Consumer>
+            {(modalState) =>
+              React.cloneElement(Component, {
+                onClick: () => {
+                  modalState.setModalState({
+                    component: (
+                      <ConfirmMafFile
+                        {...{
+                          title,
+                          confirmLabel,
+                          cancelLabel,
+                          onConfirm,
+                          onCancel,
+                          modelName,
+                          tissueStatus,
+                          files,
+                          notifications,
+                          appendNotification,
+                          importProgress,
+                          setImportProgress,
+                        }}
+                      />
+                    ),
+                    shouldCloseOnOverlayClick: true,
+                    styles: AdminModalStyleWide,
+                  });
+                },
+              })
+            }
+          </ModalStateContext.Consumer>
+        )}
+      </NotificationsContext.Consumer>
+    );
 
 export default ConfirmMafFileModal;

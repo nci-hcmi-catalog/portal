@@ -29,7 +29,7 @@ export const LoginWithGoogle = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { appendNotification } = useContext(NotificationsContext);
 
-  const authError = errorDetails => {
+  const authError = (errorDetails) => {
     appendNotification({
       type: NOTIFICATION_TYPES.ERROR,
       message: 'Google Auth Error.',
@@ -40,7 +40,7 @@ export const LoginWithGoogle = ({ children }) => {
     });
   };
 
-  const googleSignOut = async e => {
+  const googleSignOut = async (e) => {
     e.preventDefault();
 
     try {
@@ -97,8 +97,8 @@ export const LoginWithGoogle = ({ children }) => {
 
   const googleSignIn = useGoogleLogin({
     flow: 'auth-code',
-    onSuccess: async successResponse => signInSuccess(successResponse),
-    onError: errorResponse => {
+    onSuccess: async (successResponse) => signInSuccess(successResponse),
+    onError: (errorResponse) => {
       authError(errorResponse.error_description);
       console.warn('An error occurred while using Google sign-in: ', errorResponse);
     },

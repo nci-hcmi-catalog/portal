@@ -78,24 +78,19 @@ const LinkedModelDetails = ({ model }) => (
   </div>
 );
 
-const MatchedModelsFormComponent = ({
-  currentModel,
-  linkedModels,
-  modelsData,
-  addMatchedModel,
-}) => {
+const MatchedModelsFormComponent = ({ currentModel, modelsData }) => {
   const [warning, setWarning] = useState(false);
-  const fetchMatchedModels = async selectedName => {
-    const selected = modelsData.find(model => model.name === selectedName);
+  const fetchMatchedModels = async (selectedName) => {
+    const selected = modelsData.find((model) => model.name === selectedName);
 
-    const outputItem = data => ({ name: data.name, status: data.status });
+    const outputItem = (data) => ({ name: data.name, status: data.status });
     const output = [];
 
     if (selected.matchedModels) {
       try {
         const response = await getMatchedModelSet(config.urls.cmsBase, selected.matchedModels);
         if (response.status === 200) {
-          response.data.models.forEach(model => output.push(outputItem(model)));
+          response.data.models.forEach((model) => output.push(outputItem(model)));
         }
       } catch (e) {
         // TODO:
@@ -117,13 +112,13 @@ const MatchedModelsFormComponent = ({
           >
             <Field
               name="modelToConnect"
-              options={(modelsData || []).map(other => other.name)}
+              options={(modelsData || []).map((other) => other.name)}
               errorText="No existing model with the given name"
               component={FormAutoComplete}
               clearable={true}
               warning={warning}
               warningText={'Warning: the model you are linking to is from a different center.'}
-              onSelect={async value => {
+              onSelect={async (value) => {
                 if (value) {
                   const response = await fetchMatchedModels(value);
                   setMatchedModels(response);
@@ -145,7 +140,7 @@ const MatchedModelsFormComponent = ({
                   flex-wrap: wrap;
                 `}
               >
-                {matchedModels.map(match => (
+                {matchedModels.map((match) => (
                   <LinkedModelDetails key={match.name} model={match} />
                 ))}
               </div>

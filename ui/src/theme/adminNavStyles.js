@@ -60,7 +60,7 @@ export const NavLink = styled(Link)`
     background-color: ${brandPrimary70};
   }
 
-  ${props => props.active && activeNavLink};
+  ${(props) => props.active && activeNavLink};
 `;
 
 export const Account = styled('div')`

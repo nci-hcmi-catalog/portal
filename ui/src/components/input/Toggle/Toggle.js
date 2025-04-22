@@ -5,7 +5,7 @@ import { ToggleButton } from 'theme/searchStyles';
 const Toggle = ({ id, initialValue, onValueChange, ...props }) => {
   const [toggleValue, setToggleValue] = useState(initialValue);
 
-  const toggle = e => {
+  const toggle = (e) => {
     e.preventDefault();
 
     setToggleValue(!toggleValue);
