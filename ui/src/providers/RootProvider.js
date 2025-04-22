@@ -8,7 +8,7 @@ import axios from 'axios';
 import urlJoin from 'url-join';
 
 const arrangerFetcher = async (args) => {
-  const { body, endpoint = '', endpointTag = '', headers = {}, method = 'POST' } = args;
+  const { body, endpoint = '/graphql', endpointTag = '', headers = {}, method = 'POST' } = args;
 
   const response = await axios(urlJoin(globals.ARRANGER_API, endpoint, endpointTag), {
     data: JSON.stringify(body),

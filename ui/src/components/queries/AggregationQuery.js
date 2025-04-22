@@ -29,7 +29,6 @@ const AggregationQuery = ({ sqon, ...props }) => {
   const query = getQuery(fieldName);
   const options = {
     body: { sqon, query, queryName },
-    endpoint: '/graphql',
     endpointTag: `${queryName}Query`,
   };
 

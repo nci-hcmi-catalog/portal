@@ -73,7 +73,6 @@ const Search = ({
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
   const options = {
     body: { sqon: expandedSqon },
-    endpoint: '/graphql',
     endpointTag: `SearchAggregate`,
   };
 
@@ -109,11 +108,7 @@ const Search = ({
                     tooltipWidth={state?.panelSize - facetTooltipPadding}
                   />
                   <VariantSearch sqon={expandedSqon} setSQON={setSQON} />
-                  <ArrangerAggregations
-                    apiFetcher={aggFetcher}
-                    sqon={expandedSqon}
-                    setSQON={setSQON}
-                  />
+                  <ArrangerAggregations sqon={expandedSqon} setSQON={setSQON} />
                   {/* <Aggregations
                     {...props}
                     sqon={toggleExpanded(sqon, showUnexpanded)}

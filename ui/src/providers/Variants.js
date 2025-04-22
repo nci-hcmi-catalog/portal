@@ -125,7 +125,7 @@ export const useVariants = () => {
     //     },
     //   },
     // });
-    const data = arrangerFetcher({ query, endpoint: '/graphql', sqon: modelsSqon });
+    const data = arrangerFetcher({ query, sqon: modelsSqon });
     console.log('gene variants data', data);
     // const data = get(
     //   variantsData,
