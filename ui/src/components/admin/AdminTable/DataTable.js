@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import ReactTable from 'react-table';
+import { Table, TableContextProvider, Pagination } from '@overture-stack/arranger-components';
 // import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
 // import EnhancedReactTable from '@arranger/components/dist/DataTable/Table/EnhancedReactTable';
 
@@ -117,15 +118,19 @@ const DataTable = ({
   storageKey,
   ...props
 }) => {
-  let TableComponent = simpleTableWithPagination ? ReactTable : <></>;
+  // let TableComponent = simpleTableWithPagination ? ReactTable : <></>;
   //EnhancedReactTable;
   return (
     <div css={searchStyles}>
-      {disablePagination ? (
-        <TableWithoutPagination {...{ TableComponent }} {...props} />
-      ) : (
-        <TableWithPagination {...{ TableComponent, onPageSizeChange, storageKey }} {...props} />
-      )}
+      <TableContextProvider>
+        <Table />
+        {disablePagination ? null : <Pagination />}
+        {/* {disablePagination ? (
+          <TableWithoutPagination {...{ TableComponent }} {...props} />
+          ) : (
+            <TableWithPagination {...{ TableComponent, onPageSizeChange, storageKey }} {...props} />
+            )} */}
+      </TableContextProvider>
     </div>
   );
 };
