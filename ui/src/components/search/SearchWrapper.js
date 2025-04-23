@@ -13,13 +13,7 @@ const SearchWrapper = (props) => (
         render={(urlProps) => (
           <SavedSetsContext.Consumer>
             {(savedSetsContext) => (
-              <Search
-                {...props}
-                {...urlProps}
-                {...state}
-                savedSetsContext={savedSetsContext}
-                version={props.projectId}
-              />
+              <Search {...props} {...urlProps} {...state} savedSetsContext={savedSetsContext} />
             )}
           </SavedSetsContext.Consumer>
         )}
