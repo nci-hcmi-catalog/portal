@@ -42,9 +42,7 @@ const Loading = () => (
 );
 
 const ModelListModal = () => {
-  const { ARRANGER_API } = globals;
-  const context = useDataContext({ apiUrl: ARRANGER_API, callerName: `columnsStateQuery` });
-  const { apiFetcher } = context;
+  const { apiFetcher } = useDataContext({ callerName: `ModelListModal` });
   return (
     <ModalStateContext.Consumer>
       {(modalState) => (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrangerDataProvider } from '@overture-stack/arranger-components';
+import { ArrangerDataProvider, TableContextProvider } from '@overture-stack/arranger-components';
 import SavedSetsProvider from './SavedSets';
 import SelectedModelsProvider from './SelectedModels';
 import ModalStateProvider from './ModalState';
@@ -18,13 +18,15 @@ const arrangerFetcher = async (args) => {
 };
 
 const RootProvider = ({ children }) => (
-  <SelectedModelsProvider>
-    <ArrangerDataProvider documentType={'model'} customFetcher={arrangerFetcher}>
-      <SavedSetsProvider>
-        <ModalStateProvider>{children}</ModalStateProvider>
-      </SavedSetsProvider>
-    </ArrangerDataProvider>
-  </SelectedModelsProvider>
+  <ArrangerDataProvider documentType={'model'} customFetcher={arrangerFetcher}>
+    <TableContextProvider>
+      <SelectedModelsProvider>
+        <SavedSetsProvider>
+          <ModalStateProvider>{children}</ModalStateProvider>
+        </SavedSetsProvider>
+      </SelectedModelsProvider>
+    </TableContextProvider>
+  </ArrangerDataProvider>
 );
 
 export default RootProvider;
