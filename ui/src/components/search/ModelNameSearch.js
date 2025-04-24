@@ -1,7 +1,6 @@
 import React from 'react';
 import Spinner from 'react-spinkit';
 import { QuickSearch } from '@overture-stack/arranger-components/';
-// import { QuickSearch } from '@arranger/components/dist/Arranger';
 import TextInput from 'components/TextInput';
 import SidebarSection from 'components/search/SidebarSection';
 /* 

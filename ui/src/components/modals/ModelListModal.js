@@ -7,7 +7,6 @@ import { useDataContext } from '@overture-stack/arranger-components/dist/DataCon
 
 import ModelListModalQuery from 'components/queries/ModelListModalQuery';
 import cartDownload from 'utils/cartDownload';
-import globals from 'utils/globals';
 import modelImageProcessor from 'utils/modelImageProcessor';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 import { ModalStateContext } from 'providers/ModalState';

@@ -6,66 +6,67 @@ import { useDataContext } from '@overture-stack/arranger-components/dist/DataCon
 import Component from 'react-component-component';
 
 const modelListQuery = `query ModelListModal ($count: Int) {
-    model {
-      hits(first: $count) {
-      edges {
-        node {
-        expanded
-        distributor_part_number
-        proteomics_url
-        source_model_url
-        source_sequence_url
-        somatic_maf_url
-        name
-        type
-        split_ratio
-        time_to_split
-        growth_rate
-        primary_site
-        neoadjuvant_therapy
-        tnm_stage
-        molecular_characterizations
-        age_at_diagnosis
-        age_at_sample_acquisition
-        vital_status
-        gender
-        race
-        chemotherapeutic_drugs
-        disease_status
-        tissue_type
-        files {
-          hits{
-            edges {
-              node {
-                file_id
-                file_url
-                file_name
-                file_type
-                scale_bar_length
-                magnification
-                passage_number
+      model {
+        hits(first: $count) {
+        edges {
+          node {
+          expanded
+          distributor_part_number
+          proteomics_url
+          source_model_url
+          source_sequence_url
+          somatic_maf_url
+          name
+          type
+          split_ratio
+          time_to_split
+          growth_rate
+          primary_site
+          neoadjuvant_therapy
+          tnm_stage
+          molecular_characterizations
+          age_at_diagnosis
+          age_at_sample_acquisition
+          vital_status
+          gender
+          race
+          chemotherapeutic_drugs
+          disease_status
+          tissue_type
+          files {
+            hits{
+              edges {
+                node {
+                  file_id
+                  file_url
+                  file_name
+                  file_type
+                  scale_bar_length
+                  magnification
+                  passage_number
+                }
               }
             }
           }
-        }
-        therapy
-        licensing_required
-        date_of_availability
-        createdAt
-        updatedAt
-        clinical_diagnosis {
-          clinical_tumor_diagnosis
-          site_of_sample_acquisition
-          histological_type
-          tumor_histological_grade
-          clinical_stage_grouping
-        }
-        matched_models {
-          hits {
-            edges {
-              node {
-                name
-                tissue_type
+          therapy
+          licensing_required
+          date_of_availability
+          createdAt
+          updatedAt
+          clinical_diagnosis {
+            clinical_tumor_diagnosis
+            site_of_sample_acquisition
+            histological_type
+            tumor_histological_grade
+            clinical_stage_grouping
+          }
+          matched_models {
+            hits {
+              edges {
+                node {
+                  name
+                  tissue_type
+                }
               }
             }
           }
@@ -73,7 +74,6 @@ const modelListQuery = `query ModelListModal ($count: Int) {
       }
     }
   }
-}
 }`;
 
 const ModelListModalQuery = ({ selected, ...props }) => {
