@@ -259,11 +259,13 @@ const Search = ({ setState, state, sqon, savedSetsContext, history, ...props }) 
                     });
                   }
                   return (
-                    <TableContextProvider>
+                    <>
                       <Toolbar />
                       <Table />
                       <Pagination />
-                    </TableContextProvider>
+                    </>
+                    // <TableContextProvider>
+                    // </TableContextProvider>
                     // Old Table Props
                     // {...props}
                     // {...tableContext}

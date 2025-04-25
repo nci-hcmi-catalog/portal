@@ -65,6 +65,8 @@ const ModelListModal = () => {
                   {({ props: { loading, models } }) => {
                     const selectedCount = selected.state.modelIds.length;
                     const hasSelected = selectedCount > 0;
+                    console.log('model lust modal queryState', queryState);
+                    console.log('selected models context', selected);
                     return (
                       <>
                         <div className="model-list-drawer-header">
