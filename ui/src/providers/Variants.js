@@ -182,7 +182,6 @@ export const useVariants = () => {
       }
     }`;
 
-    console.log('modelName');
     const modelsSqon = { op: 'in', content: { field: 'name', value: modelName } };
 
     const response = await apiFetcher({
