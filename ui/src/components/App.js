@@ -38,44 +38,54 @@ const ProvidedRoutes = () => (
           }
         }}
       >
-        {({ state }) => {
-          return (
-            <ExpandedUnexpandedProvider>
-              <SkipNav />
-              <Switch>
+        {({ state }) => (
+          <ExpandedUnexpandedProvider>
+            <SkipNav />
+            <Switch>
+              <Route
+                path="/"
+                exact
+                render={() => (
+                  <>
+                    <Header />
+                    <SearchWrapper index="model" />
+                  </>
+                )}
+              />
+              {process.env.REACT_APP_ENABLE_ADMIN ? (
                 <Route
-                  path="/"
-                  exact
-                  render={() => (
-                    <>
-                      <Header />
-                      <SearchWrapper version={state.version} index="model" />
-                    </>
-                  )}
-                />
-                <Route
-                  path="/admin"
-                  render={({ location }) => (
-                    <>
-                      <Header subheading="Searchable Catalog CMS" />
-                      <Admin location={location} />
-                    </>
-                  )}
-                />
-                <Route
-                  path="/model/:modelName"
+                  path="/arranger"
                   render={({ match }) => (
                     <>
                       <Header />
-                      <Model modelName={match.params.modelName} />
                     </>
                   )}
                 />
-              </Switch>
-              <Footer />
-            </ExpandedUnexpandedProvider>
-          );
-        }}
+              ) : (
+                ''
+              )}
+              <Route
+                path="/admin"
+                render={({ location }) => (
+                  <>
+                    <Header subheading="Searchable Catalog CMS" />
+                    <Admin location={location} />
+                  </>
+                )}
+              />
+              <Route
+                path="/model/:modelName"
+                render={({ match }) => (
+                  <>
+                    <Header />
+                    <Model modelName={match.params.modelName} />
+                  </>
+                )}
+              />
+            </Switch>
+            <Footer />
+          </ExpandedUnexpandedProvider>
+        )}
       </Component>
     )}
   </ModalStateContext.Consumer>
