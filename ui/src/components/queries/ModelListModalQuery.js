@@ -89,23 +89,23 @@ const ModelListModalQuery = ({ selected, ...props }) => {
       initialState={{ models: [], loading: true }}
       selected={selected}
       didMount={async ({ setState }) => {
-        const modelIds = selected?.state?.modelIds;
+        const modelIds = selected?.state?.modelIds || [];
         const first = modelIds?.length || 0;
         const query = modelListQuery;
 
         const data = await apiFetcher({
-          endpoint: '/graphql/ModelListQuery',
-          endpointTag: 'ModelListQuery',
+          endpoint: '/graphql',
+          endpointTag: 'ModelListModal',
           body: {
             query,
-            first,
-            sqon: { op: 'in', content: { field: 'name', value: modelIds } },
+            variables: {
+              first,
+              sqon: { op: 'in', content: { fieldName: '_id', value: modelIds } },
+            },
           },
         });
-        // TODO: Something isn't working with 'first'
-        const models = get(data, `data.model.hits.edges`, [])
-          .map((edge) => edge.node)
-          .slice(0, first);
+
+        const models = get(data, `data.model.hits.edges`, []).map((edge) => edge.node);
 
         setState({
           models,
