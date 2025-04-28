@@ -264,8 +264,6 @@ const Search = ({ setState, state, sqon, savedSetsContext, history, ...props }) 
                       <Table />
                       <Pagination />
                     </>
-                    // <TableContextProvider>
-                    // </TableContextProvider>
                     // Old Table Props
                     // {...props}
                     // {...tableContext}

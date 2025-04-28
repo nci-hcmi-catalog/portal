@@ -5,11 +5,12 @@ import { useDataContext } from '@overture-stack/arranger-components/dist/DataCon
 
 import Component from 'react-component-component';
 
-const modelListQuery = `query ModelListModal ($count: Int) {
-      model {
-        hits(first: $count) {
-        edges {
-          node {
+const modelListQuery = `query ModelListModal ($first: Int, $sqon: JSON) {
+    model {
+      hits(first: $first, filters: $sqon) {
+      total
+      edges {
+        node {
           expanded
           distributor_part_number
           proteomics_url
@@ -89,33 +90,36 @@ const ModelListModalQuery = ({ selected, ...props }) => {
       selected={selected}
       didMount={async ({ setState }) => {
         const modelIds = selected?.state?.modelIds;
-        const count = modelIds?.length || 0;
+        const first = modelIds?.length || 0;
         const query = modelListQuery;
 
         const data = await apiFetcher({
           endpoint: '/graphql/ModelListQuery',
+          endpointTag: 'ModelListQuery',
           body: {
             query,
-            queryName: 'ModelListQuery',
-            first: count,
-            filters: {
-              sqon: { op: 'in', content: { field: '_id', value: modelIds } },
-            },
+            first,
+            sqon: { op: 'in', content: { field: 'name', value: modelIds } },
           },
         });
+        // TODO: Something isn't working with 'first'
+        const models = get(data, `data.model.hits.edges`, [])
+          .map((edge) => edge.node)
+          .slice(0, first);
 
         setState({
-          models: get(data, `data.model.hits.edges`, []).map((edge) => edge.node),
+          models,
           loading: false,
         });
       }}
       didUpdate={async ({ setState, props, prevProps, state }) => {
         // Currently we can only remove items from this component so
         // no need to query everytime we remove items from the list
-        const newModelId = props.selected.state.modelIds;
-        if (newModelId.length < prevProps.selected.state.modelIds.length && !state.loading) {
+        const newModelIds = props.selected.state.modelIds;
+
+        if (newModelIds.length < prevProps.selected.state.modelIds.length && !state.loading) {
           setState((state) => ({
-            models: state?.models.filter((model) => newModelId.indexOf(model.id) !== -1),
+            models: state.models.filter((model) => newModelIds.indexOf(model.id) !== -1),
           }));
         }
       }}
