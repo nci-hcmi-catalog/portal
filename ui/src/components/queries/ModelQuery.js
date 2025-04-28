@@ -92,7 +92,7 @@ const ModelQuery = ({ modelName, ...props }) => {
             query: modelDataQuery,
             first: 1,
             filters: {
-              sqon: { op: 'in', content: { field: 'name', value: [modelName] } },
+              sqon: { op: 'in', content: { fieldName: 'name', value: [modelName] } },
             },
           },
         }).catch((err) => {
@@ -117,7 +117,7 @@ const ModelQuery = ({ modelName, ...props }) => {
               query: modelDataQuery,
               first: 1,
               filters: {
-                sqon: { op: 'in', content: { field: 'name', value: [props.modelName] } },
+                sqon: { op: 'in', content: { fieldName: 'name', value: [props.modelName] } },
               },
             },
           }).catch((err) => {

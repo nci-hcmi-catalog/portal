@@ -57,7 +57,7 @@ const cartDownload = async function (selectedIds, apiFetcher) {
     content: [
       {
         op: 'in',
-        content: { field: '_id', value: selectedIds },
+        content: { fieldName: '_id', value: selectedIds },
       },
     ],
   };

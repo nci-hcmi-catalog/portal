@@ -115,10 +115,10 @@ export const useVariants = () => {
       }
     }`;
 
-    const modelsSqon = { op: 'in', content: { field: 'name', value: modelName } };
+    const modelsSqon = { op: 'in', content: { fieldName: 'name', value: modelName } };
 
     const response = await apiFetcher({
-      body: { query, queryName: 'GenomicVariants', filters: { sqon: modelsSqon } },
+      body: { query, variables: { sqon: modelsSqon } },
       endpointTag: 'GenomicVariants',
     });
 
@@ -182,10 +182,10 @@ export const useVariants = () => {
       }
     }`;
 
-    const modelsSqon = { op: 'in', content: { field: 'name', value: modelName } };
+    const modelsSqon = { op: 'in', content: { fieldName: 'name', value: modelName } };
 
     const response = await apiFetcher({
-      body: { query, queryName: 'VariantsData', filters: { sqon: modelsSqon } },
+      body: { query, queryName: 'VariantsData', variables: { sqon: modelsSqon } },
       endpointTag: 'VariantsData',
     });
 
@@ -266,7 +266,7 @@ export const useVariants = () => {
                     content: [
                       {
                         op: 'in',
-                        content: { field: 'variants.name', value: d.name },
+                        content: { fieldName: 'variants.name', value: d.name },
                       },
                     ],
                   }),
@@ -313,10 +313,10 @@ export const useVariants = () => {
       }
     }`;
 
-    const modelSqon = { op: 'in', content: { field: 'name', value: modelName } };
+    const modelSqon = { op: 'in', content: { fieldName: 'name', value: modelName } };
 
     const response = await apiFetcher({
-      body: { query, queryName: 'GeneMetadata', filters: { sqon: modelSqon } },
+      body: { query, queryName: 'GeneMetadata', variables: { sqon: modelSqon } },
       endpointTag: 'GeneMetadata',
     });
 

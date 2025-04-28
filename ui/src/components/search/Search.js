@@ -60,9 +60,9 @@ const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 
 let stable = true;
 
-const Search = ({ setState, state, sqon, savedSetsContext, history, ...props }) => {
+const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
   const { showUnexpanded } = useExpandedUnexpanded();
-  const { setSQON } = useDataContext({ callerName: 'HCMISearch' });
+  const { setSQON, sqon } = useDataContext({ callerName: 'HCMISearch' });
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
 
   return (

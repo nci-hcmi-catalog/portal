@@ -23,7 +23,7 @@ const TableEntity = ({ sqon, savedSetsContext, state, value, history }) => (
           search: stringify({
             sqon: JSON.stringify({
               op: 'in',
-              content: { field: 'setId', value: setId },
+              content: { fieldName: 'setId', value: setId },
             }),
           }),
         });

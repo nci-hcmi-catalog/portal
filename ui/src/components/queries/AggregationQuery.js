@@ -4,10 +4,10 @@ import { useDataContext } from '@overture-stack/arranger-components/dist/DataCon
 import Component from 'react-component-component';
 
 const getQuery = (fieldName) =>
-  `query ${fieldName}Aggregation ($filters: JSON) {
+  `query ${fieldName}Aggregation ($sqon: JSON) {
       model {
         aggregations(
-          filters: $filters
+          filters: $sqon
           aggregations_filter_themselves: true
         ) {
           ${fieldName} {
@@ -28,7 +28,7 @@ const AggregationQuery = ({ sqon, ...props }) => {
   const queryName = `${fieldName}Aggregation`;
   const query = getQuery(fieldName);
   const options = {
-    body: { sqon, query, queryName },
+    body: { query, queryName, variables: { sqon } },
     endpoint: '/graphql',
     endpointTag: `${queryName}Query`,
   };
