@@ -151,7 +151,7 @@ const TopVariantsChart = ({ sqon, setSQON }) => (
                     }}
                     tooltip={({ value, data }) => ChartTooltip({ value, label: data.key })}
                     isInteractive={true}
-                    onClick={(data) =>
+                    onClick={(data) => {
                       setSQON(
                         addInSQON(
                           {
@@ -168,8 +168,8 @@ const TopVariantsChart = ({ sqon, setSQON }) => (
                           },
                           sqon,
                         ),
-                      )
-                    }
+                      );
+                    }}
                   />
                 </>
               );
