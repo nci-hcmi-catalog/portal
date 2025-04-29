@@ -43,11 +43,12 @@ export const searchModels = async (inputValue) => {
   };
   const variables = { sqon };
   try {
-    const response = await axios.post(`${globals.ARRANGER_API}/graphql`, {
-      query,
-      variables,
-    });
-    return get(response, 'data.data.models.hits.edges', []).map((i) => i.node);
+    // const response = await axios.post(`${globals.ARRANGER_API}/graphql`, {
+    //   query,
+    //   variables,
+    // });
+    // return get(response, 'data.data.models.hits.edges', []).map((i) => i.node);
+    return {};
   } catch (e) {
     return [];
   }

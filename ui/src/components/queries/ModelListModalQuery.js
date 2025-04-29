@@ -1,16 +1,19 @@
 import React from 'react';
-import { get } from 'lodash';
-import { api } from '@arranger/components';
+// import { get } from 'lodash';
+// import { api } from '@arranger/components';
+import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
+import globals from 'utils/globals';
 import Component from 'react-component-component';
 
-const fetchData = async ({ setState, modelIds }) => {
-  const { data } = await api({
-    endpoint: `/graphql/ModelDataQuery`,
-    body: {
-      query: `query ModelListModal($filters: JSON) {
+// const fetchData = async ({ setState, modelIds }) => {
+//   const { data } = await api({
+//     endpoint: `/graphql/ModelDataQuery`,
+//     body: {
+
+const query = (count) => `query ModelListModal($filters: JSON) {
             models {
               extended
-              hits(first: ${modelIds.length} filters: $filters) {
+              hits(first: ${count} filters: $filters) {
                 edges {
                   node {
                     id
@@ -70,37 +73,50 @@ const fetchData = async ({ setState, modelIds }) => {
                 }
               }
             }
-          }`,
-      variables: {
-        filters: { op: 'in', content: { field: '_id', value: modelIds } },
-      },
-    },
-  });
-  setState({
-    models: get(data, `models.hits.edges`, []).map((edge) => edge.node),
-    loading: false,
-  });
-};
+          }`;
 
-const ModelListModalQuery = ({ selected, ...props }) => (
-  <Component
-    {...props}
-    initialState={{ models: [], loading: true }}
-    selected={selected}
-    didMount={async ({ setState }) => {
-      await fetchData({ setState, modelIds: selected.state.modelIds });
-    }}
-    didUpdate={async ({ setState, props, prevProps, state }) => {
-      // Currently we can only remove items from this component so
-      // no need to query everytime we remove items from the list
-      const newModelId = props.selected.state.modelIds;
-      if (newModelId.length < prevProps.selected.state.modelIds.length && !state.loading) {
-        setState((state) => ({
-          models: state.models.filter((model) => newModelId.indexOf(model.id) !== -1),
-        }));
-      }
-    }}
-  />
-);
+//       variables: {
+//         filters: { op: 'in', content: { field: '_id', value: modelIds } },
+//       },
+//     },
+//   });
+//   setState({
+//     models: get(data, `models.hits.edges`, []).map((edge) => edge.node),
+//     loading: false,
+//   });
+// };
+
+const ModelListModalQuery = ({ selected, ...props }) => {
+  const { ARRANGER_API } = globals;
+  const context = useDataContext({
+    apiUrl: ARRANGER_API,
+    callerName: `ModelListModalQuery`,
+  });
+  const { apiFetcher } = context;
+  return (
+    <Component
+      {...props}
+      initialState={{ models: [], loading: true }}
+      selected={selected}
+      didMount={async ({ setState }) => {
+        const count = selected?.state?.modelIds?.length || 0;
+        const data = await apiFetcher({
+          endpoint: '/graphql/ModelDataQuery',
+          body: { query: query(count), queryName: 'ModelDataQuery' },
+        });
+      }}
+      didUpdate={async ({ setState, props, prevProps, state }) => {
+        // Currently we can only remove items from this component so
+        // no need to query everytime we remove items from the list
+        const newModelId = props.selected.state.modelIds;
+        if (newModelId.length < prevProps.selected.state.modelIds.length && !state.loading) {
+          setState((state) => ({
+            models: state?.models.filter((model) => newModelId.indexOf(model.id) !== -1),
+          }));
+        }
+      }}
+    />
+  );
+};
 
 export default ModelListModalQuery;

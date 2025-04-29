@@ -1,7 +1,12 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import Component from 'react-component-component';
-import { Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
+import { Aggregations } from '@overture-stack/arranger-components';
+// import {
+//Aggregations,
+// CurrentSQON,
+// Table,
+// } from '@arranger/components/dist/Arranger';
 import SplitPane from 'react-split-pane';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
@@ -24,7 +29,7 @@ import TableMatchedModelsCell from 'components/TableMatchedModelsCell';
 import TableList from 'components/TableList';
 import ShareButton from 'components/ShareButton';
 import ModelList from 'components/ModelList';
-import TextInput from 'components/TextInput';
+// import TextInput from 'components/TextInput';
 import {
   MultipleModelsTooltip,
   MolecularCharacterizationsTooltip,
@@ -47,7 +52,7 @@ import { Row, Col } from 'theme/system';
 // approx. 20px for scrollbar width, plus 28px padding
 const facetTooltipPadding = 48;
 // non-searchable facets require less padding since they have no search button
-const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
+// const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 
 let stable = true;
 
@@ -70,7 +75,7 @@ const Search = ({
           className="search-split-pane"
           split="vertical"
           minSize={50}
-          defaultSize={state.panelSize}
+          defaultSize={state?.panelSize}
           onChange={(panelSize) => {
             setState({ panelSize });
           }}
@@ -85,69 +90,69 @@ const Search = ({
                   <GeneSearch
                     sqon={toggleExpanded(sqon, showUnexpanded)}
                     setSQON={setSQON}
-                    tooltipWidth={state.panelSize - facetTooltipPadding}
+                    tooltipWidth={state?.panelSize - facetTooltipPadding}
                   />
                   <VariantSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
                   <Aggregations
-                    {...props}
-                    sqon={toggleExpanded(sqon, showUnexpanded)}
-                    setSQON={setSQON}
-                    index={props.index}
-                    graphqlField={props.index}
-                    componentProps={{
-                      getTermAggProps: () => ({ maxTerms: 4 }),
-                      InputComponent: TextInput,
-                    }}
-                    customFacets={[
-                      {
-                        content: {
-                          field: 'genomic_variants.classification',
-                          displayName: (
-                            <Row justifyContent="space-between">
-                              Research Somatic Variant Type
-                              <GenomicVariantsTooltip
-                                isFacet={true}
-                                width={state.panelSize - facetTooltipPadding}
-                              />
-                            </Row>
-                          ),
-                        },
-                      },
-                      {
-                        content: {
-                          field: 'type',
-                          displayName: 'Model Type',
-                        },
-                      },
-                      {
-                        content: {
-                          field: 'has_matched_models',
-                          displayName: (
-                            <Row justifyContent="space-between">
-                              Has Multiple Models
-                              <MultipleModelsTooltip
-                                isFacet={true}
-                                width={state.panelSize - nonSearchableFacetTooltipPadding}
-                              />
-                            </Row>
-                          ),
-                        },
-                      },
-                      {
-                        content: {
-                          field: 'molecular_characterizations',
-                          displayName: (
-                            <Row justifyContent="space-between">
-                              Available Molecular Characterizations
-                              <MolecularCharacterizationsTooltip
-                                isFacet={true}
-                                width={state.panelSize - facetTooltipPadding}
-                              />
-                            </Row>
-                          ),
-                        },
-                      },
-                    ]}
+                  // {...props}
+                  // sqon={toggleExpanded(sqon, showUnexpanded)}
+                  // setSQON={setSQON}
+                  // index={props.index}
+                  // graphqlField={props.index}
+                  // componentProps={{
+                  //   getTermAggProps: () => ({ maxTerms: 4 }),
+                  //   InputComponent: TextInput,
+                  // }}
+                  // customFacets={[
+                  //   {
+                  //     content: {
+                  //       field: 'genomic_variants.classification',
+                  //       displayName: (
+                  //         <Row justifyContent="space-between">
+                  //           Research Somatic Variant Type
+                  //           <GenomicVariantsTooltip
+                  //             isFacet={true}
+                  //             width={state.panelSize - facetTooltipPadding}
+                  //           />
+                  //         </Row>
+                  //       ),
+                  //     },
+                  //   },
+                  //   {
+                  //     content: {
+                  //       field: 'type',
+                  //       displayName: 'Model Type',
+                  //     },
+                  //   },
+                  //   {
+                  //     content: {
+                  //       field: 'has_matched_models',
+                  //       displayName: (
+                  //         <Row justifyContent="space-between">
+                  //           Has Multiple Models
+                  //           <MultipleModelsTooltip
+                  //             isFacet={true}
+                  //             width={state.panelSize - nonSearchableFacetTooltipPadding}
+                  //           />
+                  //         </Row>
+                  //       ),
+                  //     },
+                  //   },
+                  //   {
+                  //     content: {
+                  //       field: 'molecular_characterizations',
+                  //       displayName: (
+                  //         <Row justifyContent="space-between">
+                  //           Available Molecular Characterizations
+                  //           <MolecularCharacterizationsTooltip
+                  //             isFacet={true}
+                  //             width={state.panelSize - facetTooltipPadding}
+                  //           />
+                  //         </Row>
+                  //       ),
+                  //     },
+                  //   },
+                  // ]}
                   />
                 </>
               )}
@@ -188,13 +193,13 @@ const Search = ({
                   </span>
                 </Row>
               )}
-              <CurrentSQON
+              {/* <CurrentSQON
                 {...props}
                 sqon={filterExpanded(sqon)}
                 setSQON={setSQON}
                 index={props.index}
                 graphqlField={props.index}
-              />
+              /> */}
               <div className="search-header-actions">
                 <ShareButton link={`${window.location.origin}/`} quote={`HCMI Search`} />
                 <ModelList className="search-header-model-list" />
@@ -245,185 +250,186 @@ const Search = ({
                         columns: [],
                       },
                     ];
-                    if (selectedModelContext?.state.modelIds.length > 0) {
+                    if (selectedModelContext?.state?.modelIds.length > 0) {
                       exporterOptions.unshift({
                         label: (
                           <div className="selectedModelsLabel">
-                            ({selectedModelContext.state.modelIds.length} models selected)
+                            ({selectedModelContext?.state?.modelIds.length} models selected)
                           </div>
                         ),
                       });
                     }
                     return (
-                      <Table
-                        {...props}
-                        showFilterInput={false}
-                        setSelectedTableRows={(selectedRows) =>
-                          selectedModelContext.setModels(selectedRows)
-                        }
-                        selectedTableRows={selectedModelContext.state.modelIds}
-                        loading={savedSetsContext.state.loading || props.loading}
-                        sqon={toggleExpanded(sqon, showUnexpanded)}
-                        setSQON={setSQON}
-                        onSortedChange={(sorted) => setState({ sorted })}
-                        customTypes={{
-                          entity: (props) => (
-                            <TableEntity
-                              {...props}
-                              savedSetsContext={savedSetsContext}
-                              state={state}
-                              sqon={toggleExpanded(sqon, showUnexpanded)}
-                              history={history}
-                            />
-                          ),
-                          distributor_link: (props) => (
-                            <TableDistributorCell
-                              {...props}
-                              value={props.value}
-                              savedSetsContext={savedSetsContext}
-                              state={state}
-                              sqon={toggleExpanded(sqon, showUnexpanded)}
-                              history={history}
-                            />
-                          ),
-                          expanded: (props) => (
-                            <TableExpandedCell
-                              {...props}
-                              value={props.value}
-                              savedSetsContext={savedSetsContext}
-                              state={state}
-                              sqon={toggleExpanded(sqon, showUnexpanded)}
-                              history={history}
-                            />
-                          ),
-                          matched_models: (props) => (
-                            <TableMatchedModelsCell
-                              {...props}
-                              value={props.value}
-                              savedSetsContext={savedSetsContext}
-                              state={state}
-                              sqon={toggleExpanded(sqon, showUnexpanded)}
-                              history={history}
-                            />
-                          ),
-                          list: (props) => <TableList {...props} />,
-                        }}
-                        customTypeConfigs={{
-                          entity: {
-                            minWidth: 140,
-                          },
-                          list: {
-                            minWidth: 160,
-                          },
-                          age_at_sample_acquisition: { minWidth: 85 },
-                          mutated_genes_count: { minWidth: 88 },
-                          number: { minWidth: 88 },
-                          expanded: { minWidth: 105 },
-                          histo_variant_count: { minWidth: 108 },
-                          matched_models: { minWidth: 84 },
-                        }}
-                        index={props.index}
-                        graphqlField={props.index}
-                        InputComponent={TextInput}
-                        columnDropdownText="Columns"
-                        enableSelectedTableRowsExporterFilter={true}
-                        selectedRowsFilterPropertyName="_id"
-                        exporterLabel="Export"
-                        exporter={exporterOptions}
-                        transformParams={(params) => ({
-                          ...params,
-                          url: `${globals.ARRANGER_API}/export/models`,
-                        })}
-                        fieldTypesForFilter={['text', 'keyword', 'id']}
-                        customHeaderContent={<ExpandedToggle sqon={filterExpanded(sqon)} />}
-                        enableDropDownControls={true}
-                        sessionStorage={true}
-                        storageKey={selectedModelContext.storageKey}
-                        customColumns={[
-                          {
-                            content: {
-                              field: 'matched_models_list',
-                              displayName: 'Has Multiple Models',
-                              Header: () => (
-                                <Row justifyContent="space-between">
-                                  Has Multiple Models <MultipleModelsTooltip isColumn={true} />
-                                </Row>
-                              ),
-                            },
-                          },
-                          {
-                            content: {
-                              field: 'expanded',
-                              displayName: 'Expansion Status',
-                              Header: () => (
-                                <Row justifyContent="space-between">
-                                  Expansion Status <ExpansionStatusTooltip />
-                                </Row>
-                              ),
-                            },
-                          },
-                          {
-                            content: {
-                              field: 'molecular_characterizations',
-                              displayName: 'Available Molecular Characterizations',
-                              Header: () => (
-                                <Row justifyContent="space-between">
-                                  Available Molecular Characterizations
-                                  <MolecularCharacterizationsTooltip isColumn={true} />
-                                </Row>
-                              ),
-                            },
-                          },
-                          {
-                            content: {
-                              field: 'gene_metadata.mutated_genes_count',
-                              displayName: '# Mutated Genes',
-                              Header: () => (
-                                <Row justifyContent="space-between">
-                                  # Mutated Genes
-                                  <MutatedGenesTooltip />
-                                </Row>
-                              ),
-                            },
-                          },
-                          {
-                            content: {
-                              field: 'gene_metadata.genomic_variant_count',
-                              displayName: '# Research Somatic Variants',
-                              Header: () => (
-                                <Row justifyContent="space-between">
-                                  # Research Somatic Variants
-                                  <GenomicVariantsTooltip />
-                                </Row>
-                              ),
-                            },
-                          },
-                          {
-                            content: {
-                              field: 'gene_metadata.clinical_variant_count',
-                              displayName: '# Clinical Variants',
-                              Header: () => (
-                                <Row justifyContent="space-between">
-                                  # Clinical Variants
-                                  <ClinicalVariantsTooltip />
-                                </Row>
-                              ),
-                            },
-                          },
-                          {
-                            content: {
-                              field: 'gene_metadata.histopathological_variant_count',
-                              displayName: '# Histo-pathological Biomarkers',
-                              Header: () => (
-                                <Row justifyContent="space-between">
-                                  # Histo-pathological Biomarkers
-                                  <HistopathologicalBiomarkersTooltip />
-                                </Row>
-                              ),
-                            },
-                          },
-                        ]}
-                      />
+                      // <Table
+                      //   {...props}
+                      //   showFilterInput={false}
+                      //   setSelectedTableRows={(selectedRows) =>
+                      //     selectedModelContext?.setModels(selectedRows)
+                      //   }
+                      //   selectedTableRows={selectedModelContext?.state?.modelIds}
+                      //   loading={savedSetsContext?.state?.loading || props.loading}
+                      //   sqon={toggleExpanded(sqon, showUnexpanded)}
+                      //   setSQON={setSQON}
+                      //   onSortedChange={(sorted) => setState({ sorted })}
+                      //   customTypes={{
+                      //     entity: (props) => (
+                      //       <TableEntity
+                      //         {...props}
+                      //         savedSetsContext={savedSetsContext}
+                      //         state={state}
+                      //         sqon={toggleExpanded(sqon, showUnexpanded)}
+                      //         history={history}
+                      //       />
+                      //     ),
+                      //     distributor_link: (props) => (
+                      //       <TableDistributorCell
+                      //         {...props}
+                      //         value={props.value}
+                      //         savedSetsContext={savedSetsContext}
+                      //         state={state}
+                      //         sqon={toggleExpanded(sqon, showUnexpanded)}
+                      //         history={history}
+                      //       />
+                      //     ),
+                      //     expanded: (props) => (
+                      //       <TableExpandedCell
+                      //         {...props}
+                      //         value={props.value}
+                      //         savedSetsContext={savedSetsContext}
+                      //         state={state}
+                      //         sqon={toggleExpanded(sqon, showUnexpanded)}
+                      //         history={history}
+                      //       />
+                      //     ),
+                      //     matched_models: (props) => (
+                      //       <TableMatchedModelsCell
+                      //         {...props}
+                      //         value={props.value}
+                      //         savedSetsContext={savedSetsContext}
+                      //         state={state}
+                      //         sqon={toggleExpanded(sqon, showUnexpanded)}
+                      //         history={history}
+                      //       />
+                      //     ),
+                      //     list: (props) => <TableList {...props} />,
+                      //   }}
+                      //   customTypeConfigs={{
+                      //     entity: {
+                      //       minWidth: 140,
+                      //     },
+                      //     list: {
+                      //       minWidth: 160,
+                      //     },
+                      //     age_at_sample_acquisition: { minWidth: 85 },
+                      //     mutated_genes_count: { minWidth: 88 },
+                      //     number: { minWidth: 88 },
+                      //     expanded: { minWidth: 105 },
+                      //     histo_variant_count: { minWidth: 108 },
+                      //     matched_models: { minWidth: 84 },
+                      //   }}
+                      //   index={props.index}
+                      //   graphqlField={props.index}
+                      //   InputComponent={TextInput}
+                      //   columnDropdownText="Columns"
+                      //   enableSelectedTableRowsExporterFilter={true}
+                      //   selectedRowsFilterPropertyName="_id"
+                      //   exporterLabel="Export"
+                      //   exporter={exporterOptions}
+                      //   transformParams={(params) => ({
+                      //     ...params,
+                      //     url: `${globals.ARRANGER_API}/export/models`,
+                      //   })}
+                      //   fieldTypesForFilter={['text', 'keyword', 'id']}
+                      //   customHeaderContent={<ExpandedToggle sqon={filterExpanded(sqon)} />}
+                      //   enableDropDownControls={true}
+                      //   sessionStorage={true}
+                      //   storageKey={selectedModelContext?.storageKey}
+                      //   customColumns={[
+                      //     {
+                      //       content: {
+                      //         field: 'matched_models_list',
+                      //         displayName: 'Has Multiple Models',
+                      //         Header: () => (
+                      //           <Row justifyContent="space-between">
+                      //             Has Multiple Models <MultipleModelsTooltip isColumn={true} />
+                      //           </Row>
+                      //         ),
+                      //       },
+                      //     },
+                      //     {
+                      //       content: {
+                      //         field: 'expanded',
+                      //         displayName: 'Expansion Status',
+                      //         Header: () => (
+                      //           <Row justifyContent="space-between">
+                      //             Expansion Status <ExpansionStatusTooltip />
+                      //           </Row>
+                      //         ),
+                      //       },
+                      //     },
+                      //     {
+                      //       content: {
+                      //         field: 'molecular_characterizations',
+                      //         displayName: 'Available Molecular Characterizations',
+                      //         Header: () => (
+                      //           <Row justifyContent="space-between">
+                      //             Available Molecular Characterizations
+                      //             <MolecularCharacterizationsTooltip isColumn={true} />
+                      //           </Row>
+                      //         ),
+                      //       },
+                      //     },
+                      //     {
+                      //       content: {
+                      //         field: 'gene_metadata.mutated_genes_count',
+                      //         displayName: '# Mutated Genes',
+                      //         Header: () => (
+                      //           <Row justifyContent="space-between">
+                      //             # Mutated Genes
+                      //             <MutatedGenesTooltip />
+                      //           </Row>
+                      //         ),
+                      //       },
+                      //     },
+                      //     {
+                      //       content: {
+                      //         field: 'gene_metadata.genomic_variant_count',
+                      //         displayName: '# Research Somatic Variants',
+                      //         Header: () => (
+                      //           <Row justifyContent="space-between">
+                      //             # Research Somatic Variants
+                      //             <GenomicVariantsTooltip />
+                      //           </Row>
+                      //         ),
+                      //       },
+                      //     },
+                      //     {
+                      //       content: {
+                      //         field: 'gene_metadata.clinical_variant_count',
+                      //         displayName: '# Clinical Variants',
+                      //         Header: () => (
+                      //           <Row justifyContent="space-between">
+                      //             # Clinical Variants
+                      //             <ClinicalVariantsTooltip />
+                      //           </Row>
+                      //         ),
+                      //       },
+                      //     },
+                      //     {
+                      //       content: {
+                      //         field: 'gene_metadata.histopathological_variant_count',
+                      //         displayName: '# Histo-pathological Biomarkers',
+                      //         Header: () => (
+                      //           <Row justifyContent="space-between">
+                      //             # Histo-pathological Biomarkers
+                      //             <HistopathologicalBiomarkersTooltip />
+                      //           </Row>
+                      //         ),
+                      //       },
+                      //     },
+                      //   ]}
+                      // />
+                      <></>
                     );
                   }}
                 </SelectedModelsContext.Consumer>

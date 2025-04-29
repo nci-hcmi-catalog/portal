@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import { css } from '@emotion/react';
-import { addInSQON } from '@arranger/components/dist/SQONView/utils';
+// import { addInSQON } from '@arranger/components/dist/SQONView/utils';
 import AggregationQuery from 'components/queries/AggregationQuery';
 import { Col } from 'theme/system';
 import theme from 'theme';
@@ -35,9 +35,10 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
               height={156}
               data={state.buckets.map((x, i) => {
                 return {
-                  id: x.key,
+                  // TODO: Investigate `id undefined` error
+                  id: String(x.key),
                   key: x.key_as_string,
-                  label: state.extended.displayValues[x.key_as_string],
+                  label: state?.extended?.displayValues[x.key_as_string],
                   value: x.doc_count,
                   color:
                     theme.multipleModelsChartPalette[i % theme.multipleModelsChartPalette.length],
@@ -52,24 +53,25 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
               enableSlicesLabels={false}
               slicesLabelsSkipAngle={10}
               animate={false}
-              onClick={(data) =>
-                setSQON(
-                  addInSQON(
-                    {
-                      op: 'and',
-                      content: [
-                        {
-                          op: 'in',
-                          content: {
-                            field: 'has_matched_models',
-                            value: [data.key],
-                          },
-                        },
-                      ],
-                    },
-                    sqon,
-                  ),
-                )
+              onClick={
+                (data) => {}
+                // setSQON(
+                //   addInSQON(
+                //     {
+                //       op: 'and',
+                //       content: [
+                //         {
+                //           op: 'in',
+                //           content: {
+                //             field: 'has_matched_models',
+                //             value: [data.key],
+                //           },
+                //         },
+                //       ],
+                //     },
+                //     sqon,
+                //   ),
+                // )
               }
               onMouseEnter={(_data, event) => {
                 event.currentTarget.style.cursor = 'pointer';
