@@ -32,7 +32,7 @@ import TableMatchedModelsCell from 'components/TableMatchedModelsCell';
 import TableList from 'components/TableList';
 import ShareButton from 'components/ShareButton';
 import ModelList from 'components/ModelList';
-import TextInput from 'components/TextInput';
+// import TextInput from 'components/TextInput';
 import {
   MultipleModelsTooltip,
   MolecularCharacterizationsTooltip,
@@ -56,7 +56,7 @@ import { useTable } from 'react-table';
 // approx. 20px for scrollbar width, plus 28px padding
 const facetTooltipPadding = 48;
 // non-searchable facets require less padding since they have no search button
-const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
+// const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 
 let stable = true;
 

@@ -52,7 +52,7 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
               enableSlicesLabels={false}
               slicesLabelsSkipAngle={10}
               animate={false}
-              onClick={(data) =>
+              onClick={(data) => {
                 setSQON(
                   addInSQON(
                     {
@@ -69,8 +69,8 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
                     },
                     sqon,
                   ),
-                )
-              }
+                );
+              }}
               onMouseEnter={(_data, event) => {
                 event.currentTarget.style.cursor = 'pointer';
               }}
