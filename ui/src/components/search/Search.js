@@ -94,7 +94,7 @@ const Search = ({
                     tooltipWidth={state?.panelSize - facetTooltipPadding}
                   />
                   <VariantSearch sqon={expandedSqon} setSQON={setSQON} />
-                  <ArrangerAggregations sqon={expandedSqon} setSQON={setSQON} />
+                  <ArrangerAggregations />
                   {/* <Aggregations
                     {...props}
                     sqon={toggleExpanded(sqon, showUnexpanded)}
@@ -195,21 +195,7 @@ const Search = ({
                   </span>
                 </Row>
               )}
-              <SQONViewer
-                displayName="SearchSQON"
-                {...props}
-                sqon={filterExpanded(sqon)}
-                setSQON={setSQON}
-                index={props.index}
-                graphqlField={props.index}
-              />
-              {/* <CurrentSQON
-                {...props}
-                sqon={filterExpanded(sqon)}
-                setSQON={setSQON}
-                index={props.index}
-                graphqlField={props.index}
-              /> */}
+              <SQONViewer displayName="SearchSQON" />
               <div className="search-header-actions">
                 <ShareButton link={`${window.location.origin}/`} quote={`HCMI Search`} />
                 <ModelList className="search-header-model-list" />
