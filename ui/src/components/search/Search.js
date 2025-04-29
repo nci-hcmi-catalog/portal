@@ -7,7 +7,6 @@ import {
   Pagination,
   SQONViewer,
   Table,
-  TableContextProvider,
   Toolbar,
 } from '@overture-stack/arranger-components';
 import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
@@ -32,7 +31,7 @@ import TableMatchedModelsCell from 'components/TableMatchedModelsCell';
 import TableList from 'components/TableList';
 import ShareButton from 'components/ShareButton';
 import ModelList from 'components/ModelList';
-// import TextInput from 'components/TextInput';
+import TextInput from 'components/TextInput';
 import {
   MultipleModelsTooltip,
   MolecularCharacterizationsTooltip,
