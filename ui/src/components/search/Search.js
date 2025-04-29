@@ -8,7 +8,6 @@ import {
   TableContextProvider,
   SQONViewer,
 } from '@overture-stack/arranger-components';
-import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
 
@@ -43,7 +42,6 @@ import {
 
 import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
 
-import globals from 'utils/globals';
 import { filterExpanded, toggleExpanded } from 'utils/sqonHelpers';
 
 import searchStyles, { MainCol } from 'theme/searchStyles';
@@ -69,19 +67,7 @@ const Search = ({
   ...props
 }) => {
   const { showUnexpanded } = useExpandedUnexpanded();
-  const { apiFetcher, fetchData } = useDataContext({ callerName: 'HCMISearch' });
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
-  const options = {
-    body: { sqon: expandedSqon },
-    endpointTag: `SearchAggregate`,
-  };
-
-  const aggFetcher = async (args) => {
-    console.log('Search fetchData args', args);
-    const data = await apiFetcher({ ...args, ...options });
-    console.logI('fetchnData data', data);
-    return data;
-  };
 
   return (
     <TableContextProvider>
