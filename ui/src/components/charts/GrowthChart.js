@@ -77,7 +77,7 @@ const GrowthChart = ({ sqon, setSQON }) => (
                   animate={false}
                   tooltip={({ id, value, label }) => ChartTooltip({ value, label })}
                   theme={theme.chart}
-                  onClick={(data) =>
+                  onClick={(data) => {
                     setSQON(
                       addInSQON(
                         {
@@ -94,8 +94,8 @@ const GrowthChart = ({ sqon, setSQON }) => (
                         },
                         sqon,
                       ),
-                    )
-                  }
+                    );
+                  }}
                   onMouseEnter={(_data, event) => {
                     event.currentTarget.style.cursor = 'pointer';
                   }}
