@@ -6,6 +6,9 @@ import { useDataContext } from '@overture-stack/arranger-components/dist/DataCon
 
 const modelDataQuery = `query ModelDataQuery($filters: JSON) {
   model {
+    configs {
+      extended(fieldNames: [])
+    }
     hits(first: 1, filters: $filters) {
       edges {
         node {
@@ -99,10 +102,10 @@ const ModelQuery = ({ modelName, ...props }) => {
           console.log(err);
         });
 
+        const extendedMapping = get(data, `data.model.configs.extended`);
         setState({
           model: get(data, `data.model.hits.edges[0].node`, {}),
-          // TODO: model.configs.extended?
-          // extended: get(data, `models.extended`),
+          extended: extendedMapping,
           loading: false,
         });
       }}
@@ -123,11 +126,11 @@ const ModelQuery = ({ modelName, ...props }) => {
           }).catch((err) => {
             console.log(err);
           });
+          const extendedMapping = get(data, `data.model.configs.extended`);
 
           setState({
             model: get(data, `data.model.hits.edges[0].node`, {}),
-            // TODO: model.configs.extended?
-            // extended: get(data, `models.extended`),
+            extended: extendedMapping,
             loading: false,
           });
         }
