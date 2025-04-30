@@ -88,7 +88,6 @@ const ModelQuery = ({ modelName, ...props }) => {
       modelName={modelName}
       initialState={{ model: null, loading: true, extended: [] }}
       didMount={async ({ setState }) => {
-        console.log('modelName', modelName);
         const data = await apiFetcher({
           endpoint: '/graphql/ModelDataQuery',
           endpointTag: 'ModelDataQuery',
