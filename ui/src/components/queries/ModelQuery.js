@@ -4,12 +4,12 @@ import { get } from 'lodash';
 import Component from 'react-component-component';
 import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
 
-const modelDataQuery = `query ModelDataQuery($filters: JSON) {
+const modelDataQuery = `query ModelDataQuery($sqon: JSON) {
   model {
     configs {
       extended(fieldNames: [])
     }
-    hits(first: 1, filters: $filters) {
+    hits(first: 1, filters: $sqon) {
       edges {
         node {
           id
@@ -88,13 +88,13 @@ const ModelQuery = ({ modelName, ...props }) => {
       modelName={modelName}
       initialState={{ model: null, loading: true, extended: [] }}
       didMount={async ({ setState }) => {
+        console.log('modelName', modelName);
         const data = await apiFetcher({
           endpoint: '/graphql/ModelDataQuery',
+          endpointTag: 'ModelDataQuery',
           body: {
-            queryName: 'ModelDataQuery',
             query: modelDataQuery,
-            first: 1,
-            filters: {
+            variables: {
               sqon: { op: 'in', content: { fieldName: 'name', value: [modelName] } },
             },
           },
@@ -116,10 +116,9 @@ const ModelQuery = ({ modelName, ...props }) => {
           const data = await apiFetcher({
             endpoint: '/graphql/ModelDataQuery',
             body: {
-              queryName: 'ModelDataQuery',
+              endpointTag: 'ModelDataQuery',
               query: modelDataQuery,
-              first: 1,
-              filters: {
+              variables: {
                 sqon: { op: 'in', content: { fieldName: 'name', value: [props.modelName] } },
               },
             },
