@@ -116,7 +116,7 @@ const SidebarTextSearch = ({
                       {
                         op: 'in',
                         content: {
-                          field: filterField,
+                          fieldName: filterField,
                           value: [...currentFilterValues, selected],
                         },
                       },
@@ -125,6 +125,7 @@ const SidebarTextSearch = ({
 
                   const clearedSqon = removeSQON(filterField, sqon);
                   const newSqon = selected ? addInSQON(query, clearedSqon) : clearedSqon;
+
                   setSQON(newSqon);
                   setValue('');
                 }}
