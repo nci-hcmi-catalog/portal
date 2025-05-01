@@ -1,57 +1,52 @@
-// import download from '@arranger/components/dist/utils/download';
-
-// import defaultApi from '@arranger/components/dist/utils/api';
-
-import FetchDataFn from '@overture-stack/arranger-components/dist/types';
-
+import download from '@overture-stack/arranger-components/dist/utils/download';
 import globals from 'utils/globals';
 
-// async function fetchColumns() {
-// const { data } = await defaultApi({
-//   endpoint: `/graphql/columnsStateQuery`,
-//   body: {
-//     query: `query {
-//           models {
-//             columnsState {
-//               state {
-//                 columns {
-//                   field
-//                   accessor
-//                   show
-//                 }
-//               }
-//             }
-//             extended
-//           }
-//         }
-//         `,
-//   },
-// });
+const query = `query ModelColumns {
+  model {
+    configs {
+      table {
+        columns {
+          fieldName
+          accessor
+          show
+        }
+      }
+      extended  
+    }
+  }
+}`;
 
-//   const columns = data?.models?.columnsState?.state?.columns || [];
-//   const extended = data?.models?.extended || [];
+async function fetchColumns(apiFetcher) {
+  const { data } = await apiFetcher({
+    endpointTag: `columnsStateQuery`,
+    body: {
+      query,
+    },
+  });
 
-//   const output = [];
-//   columns.forEach((column) => {
-//     const extendedData = extended.find((i) => i.field === column.field);
-//     const extendedColumn = {
-//       ...column,
-//       ...extendedData,
-//       Header: extendedData.displayName || column.field,
+  const columns = data?.model?.configs?.table?.columns || [];
+  const extended = data?.model?.configs?.extended || [];
+  console.log('columns', columns);
+  console.log('extended', extended);
+  const output = [];
+  columns.forEach((column) => {
+    const extendedData = extended.find((i) => i.fieldName === column.fieldName);
+    const extendedColumn = {
+      ...column,
+      ...extendedData,
+      Header: extendedData.displayName || column.field,
 
-//       // display values and type are renamed by arranger into extendedDisplayValues and extendedDisplayType before being sent into the tsv downloader.
-//       extendedDisplayValues: extendedData.displayValues,
-//       extendedDisplayType: extendedData.type,
-//     };
-//     output.push(extendedColumn);
-//   });
+      // display values and type are renamed by arranger into extendedDisplayValues and extendedDisplayType before being sent into the tsv downloader.
+      extendedDisplayValues: extendedData.displayValues,
+      extendedDisplayType: extendedData.type,
+    };
+    output.push(extendedColumn);
+  });
 
-//   return output;
-// }
+  return output;
+}
 
 const cartDownload = async function (selectedIds, apiFetcher) {
-  // await fetchColumns();
-
   const sqon = {
     op: 'and',
     content: [
@@ -62,18 +57,15 @@ const cartDownload = async function (selectedIds, apiFetcher) {
     ],
   };
 
-  // const columns = await fetchColumns();
+  const columns = await fetchColumns(apiFetcher);
 
-  const params = { files: [{ index: 'models', sqon, columns: [] }] };
+  const params = { files: [{ index: 'model', sqon, columns }] };
 
-  const data = apiFetcher({ body: { endpoint: '/columnsStateQuery', sqon } });
-  console.log('cart data', data);
-  return {};
-  // return download({
-  //   method: 'post',
-  //   url: `${globals.ARRANGER_API}/export/models`,
-  //   params,
-  // });
+  return download({
+    method: 'post',
+    url: `${globals.ARRANGER_API}/export/models`,
+    params,
+  });
 };
 
 export default cartDownload;
