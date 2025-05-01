@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import Popup from 'reactjs-popup';
+import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
 
 import Toggle from 'components/input/Toggle';
 
@@ -13,14 +14,16 @@ import { getNumUnexpanded } from 'utils/sqonHelpers';
 const ExpandedToggle = ({ sqon }) => {
   const { showUnexpanded, setShowUnexpanded } = useExpandedUnexpanded();
   const [numUnexpanded, setNumUnexpanded] = useState('');
+  const { apiFetcher } = useDataContext({ callerName: 'ExpandedToggle' });
 
   useEffect(() => {
     const fetchNumUnexpanded = async () => {
-      const data = await getNumUnexpanded(sqon);
+      const data = await getNumUnexpanded(sqon, apiFetcher);
       setNumUnexpanded(data);
     };
 
     fetchNumUnexpanded(sqon);
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, [sqon]);
 
   return (

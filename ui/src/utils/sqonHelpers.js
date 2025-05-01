@@ -1,8 +1,8 @@
 import { addInSQON, removeSQON } from '@overture-stack/arranger-components/dist/SQONViewer/utils';
-// import { get } from 'lodash';
+import { get } from 'lodash';
 
 export const filterExpanded = (sqon, showExpandedStatus = false) => {
-  return showExpandedStatus ? sqon : {}; //removeSQON('expanded', sqon);
+  return showExpandedStatus ? sqon : removeSQON('expanded', sqon);
 };
 
 export const toggleExpanded = (sqon, showUnexpanded = false) =>
@@ -24,40 +24,34 @@ export const toggleExpanded = (sqon, showUnexpanded = false) =>
         sqon,
       );
 
-export const getNumUnexpanded = async (sqon) => {
-  // const numUnexpanded = await api({
-  //   endpoint: `/graphql`,
-  //   body: {
-  //     query: `query($filters: JSON) {
-  //                 models {
-  //                   hits(filters: $filters) {
-  //                     total
-  //                   }
-  //                 }
-  //               }
-  //             `,
-  //     variables: {
-  //       filters: addInSQON(
-  //         {
-  //           op: 'and',
-  //           content: [
-  //             {
-  //               op: 'in',
-  //               content: {
-  //                 field: 'expanded',
-  //                 value: ['false'],
-  //               },
-  //             },
-  //           ],
-  //         },
-  //         sqon,
-  //       ),
-  //     },
-  //   },
-  // });
+export const getNumUnexpanded = async (sqon, apiFetcher) => {
+  const query = `query NumberUnexpanded ($filters: JSON) {
+          model {
+            hits(filters: $filters) {
+              total
+            }
+          }
+        }`;
 
-  // const data = await get(numUnexpanded, `data.models.hits.total`, 0);
-  const data = [];
+  const filters = addInSQON(
+    {
+      op: 'and',
+      content: [
+        {
+          op: 'in',
+          content: {
+            fieldName: 'expanded',
+            value: ['false'],
+          },
+        },
+      ],
+    },
+    sqon,
+  );
+
+  const response = apiFetcher({ body: { query, variables: { filters } } });
+
+  const data = await get(response, `data.model.hits.total`, 0);
 
   return data;
 };
