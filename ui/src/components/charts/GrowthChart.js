@@ -86,7 +86,7 @@ const GrowthChart = ({ sqon, setSQON }) => (
                             {
                               op: 'in',
                               content: {
-                                field: 'type',
+                                fieldName: 'type',
                                 value: (data.keys || []).sort(),
                               },
                             },

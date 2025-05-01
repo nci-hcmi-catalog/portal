@@ -61,7 +61,7 @@ let stable = true;
 
 const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
   const { showUnexpanded } = useExpandedUnexpanded();
-  const { setSQON, sqon } = useDataContext({ callerName: 'HCMISearch' });
+  const { setSQON, sqon, extendedMapping } = useDataContext({ callerName: 'HCMISearch' });
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
 
   return (
@@ -225,6 +225,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                   <MultipleModelsChart
                     sqon={toggleExpanded(sqon, showUnexpanded)}
                     setSQON={setSQON}
+                    extendedMapping={extendedMapping}
                   />
                   <GrowthChart sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
                   <TopVariantsChart sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />

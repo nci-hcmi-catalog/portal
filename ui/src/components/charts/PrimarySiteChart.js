@@ -61,7 +61,7 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
                         {
                           op: 'in',
                           content: {
-                            field: 'primary_site',
+                            fieldName: 'primary_site',
                             value: [].concat(data.id || []),
                           },
                         },

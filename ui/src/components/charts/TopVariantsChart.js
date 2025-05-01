@@ -160,7 +160,7 @@ const TopVariantsChart = ({ sqon, setSQON }) => (
                               {
                                 op: 'in',
                                 content: {
-                                  field: 'gene_metadata.mutated_genes',
+                                  fieldName: 'gene_metadata.mutated_genes',
                                   value: [].concat(data.data.key || []),
                                 },
                               },
