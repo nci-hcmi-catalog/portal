@@ -26,8 +26,7 @@ async function fetchColumns(apiFetcher) {
 
   const columns = data?.model?.configs?.table?.columns || [];
   const extended = data?.model?.configs?.extended || [];
-  console.log('columns', columns);
-  console.log('extended', extended);
+
   const output = [];
   columns.forEach((column) => {
     const extendedData = extended.find((i) => i.fieldName === column.fieldName);
