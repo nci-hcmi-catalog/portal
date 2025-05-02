@@ -43,7 +43,7 @@ const AggregationQuery = ({ sqon, ...props }) => {
           throw err;
         });
 
-        const aggregation = data?.model?.aggregations?.[props.field];
+        const aggregation = data?.model?.aggregations?.[props.fieldName];
         const update = aggregation
           ? {
               total: aggregation.bucket_count,
@@ -63,7 +63,7 @@ const AggregationQuery = ({ sqon, ...props }) => {
             throw err;
           });
 
-          const aggregation = data?.model?.aggregations?.[props.field];
+          const aggregation = data?.model?.aggregations?.[props.fieldName];
           const update = aggregation
             ? {
                 total: aggregation.bucket_count,
