@@ -23,7 +23,7 @@ const getQuery = (fieldName) =>
     }`;
 
 const AggregationQuery = ({ sqon, ...props }) => {
-  const { field: fieldName } = props;
+  const { fieldName } = props;
   const { apiFetcher } = useDataContext({ callerName: 'HCMIAggregationQuery' });
   const queryName = `${fieldName}Aggregation`;
   const query = getQuery(fieldName);

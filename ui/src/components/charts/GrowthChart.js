@@ -28,7 +28,7 @@ const GrowthChart = ({ sqon, setSQON }) => (
         `}
       >
         <span className="sqon-field sqon-field--chart-title">2D versus 3D Growth</span>
-        <AggregationQuery sqon={sqon} field="type">
+        <AggregationQuery sqon={sqon} fieldName="type">
           {({
             state,
             data = [
