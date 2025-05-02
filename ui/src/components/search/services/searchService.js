@@ -36,9 +36,9 @@ export const searchModels = async (inputValue, apiFetcher) => {
         total
         edges {
           node {
-          primaryKey: name
-          autocomplete: autocomplete
-          primary_site
+            primaryKey: name
+            autocomplete: autocomplete
+            primary_site
         }
       }
     }

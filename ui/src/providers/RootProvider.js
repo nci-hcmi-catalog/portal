@@ -1,11 +1,12 @@
-import React from 'react';
+import axios from 'axios';
 import { ArrangerDataProvider } from '@overture-stack/arranger-components';
+import React from 'react';
+import urlJoin from 'url-join';
+
+import globals from 'utils/globals';
+import ModalStateProvider from './ModalState';
 import SavedSetsProvider from './SavedSets';
 import SelectedModelsProvider from './SelectedModels';
-import ModalStateProvider from './ModalState';
-import globals from 'utils/globals';
-import axios from 'axios';
-import urlJoin from 'url-join';
 
 const arrangerFetcher = async (args) => {
   const { body, endpoint = '/graphql', endpointTag = '', headers = {}, method = 'POST' } = args;
