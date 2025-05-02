@@ -8,6 +8,7 @@ import {
   SQONViewer,
   Table,
   Toolbar,
+  useArrangerTheme,
 } from '@overture-stack/arranger-components';
 import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
 
@@ -55,7 +56,7 @@ import { useTable } from 'react-table';
 // approx. 20px for scrollbar width, plus 28px padding
 const facetTooltipPadding = 48;
 // non-searchable facets require less padding since they have no search button
-// const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
+const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 
 let stable = true;
 
@@ -63,6 +64,8 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
   const { showUnexpanded } = useExpandedUnexpanded();
   const { setSQON, sqon } = useDataContext({ callerName: 'HCMISearch' });
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
+
+  useArrangerTheme({});
 
   return (
     <Col css={searchStyles}>
@@ -443,7 +446,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
               </SelectedModelsContext.Consumer>
             )}
           </Component>
-          <LastUpdatedDate />
+          {/* <LastUpdatedDate /> */}
         </MainCol>
       </SplitPane>
     </Col>
