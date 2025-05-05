@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import Component from 'react-component-component';
 import SplitPane from 'react-split-pane';
 import {
-  Aggregations as ArrangerAggregations,
+  Aggregations,
   Pagination,
   SQONViewer,
   Table,
@@ -91,7 +91,58 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                   tooltipWidth={state?.panelSize - facetTooltipPadding}
                 />
                 <VariantSearch sqon={expandedSqon} setSQON={setSQON} />
-                <ArrangerAggregations />
+                <Aggregations
+                  customFacets={[
+                    {
+                      content: {
+                        fieldName: 'genomic_variants.classification',
+                        displayName: (
+                          <Row justifyContent="space-between">
+                            Research Somatic Variant Type
+                            <GenomicVariantsTooltip
+                              isFacet={true}
+                              width={state.panelSize - facetTooltipPadding}
+                            />
+                          </Row>
+                        ),
+                      },
+                    },
+                    {
+                      content: {
+                        fieldName: 'type',
+                        displayName: 'Model Type',
+                      },
+                    },
+                    {
+                      content: {
+                        fieldName: 'has_matched_models',
+                        displayName: (
+                          <Row justifyContent="space-between">
+                            Has Multiple Models
+                            <MultipleModelsTooltip
+                              isFacet={true}
+                              width={state.panelSize - nonSearchableFacetTooltipPadding}
+                            />
+                          </Row>
+                        ),
+                      },
+                    },
+                    {
+                      content: {
+                        fieldName: 'molecular_characterizations',
+                        displayName: (
+                          <Row justifyContent="space-between">
+                            Available Molecular Characterizations
+                            <MolecularCharacterizationsTooltip
+                              isFacet={true}
+                              width={state.panelSize - facetTooltipPadding}
+                            />
+                          </Row>
+                        ),
+                      },
+                    },
+                  ]}
+                />
                 {/* <Aggregations
                     {...props}
                     sqon={toggleExpanded(sqon, showUnexpanded)}
@@ -102,56 +153,6 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                       getTermAggProps: () => ({ maxTerms: 4 }),
                       InputComponent: TextInput,
                     }}
-                    customFacets={[
-                      {
-                        content: {
-                          field: 'genomic_variants.classification',
-                          displayName: (
-                            <Row justifyContent="space-between">
-                              Research Somatic Variant Type
-                              <GenomicVariantsTooltip
-                                isFacet={true}
-                                width={state.panelSize - facetTooltipPadding}
-                              />
-                            </Row>
-                          ),
-                        },
-                      },
-                      {
-                        content: {
-                          field: 'type',
-                          displayName: 'Model Type',
-                        },
-                      },
-                      {
-                        content: {
-                          field: 'has_matched_models',
-                          displayName: (
-                            <Row justifyContent="space-between">
-                              Has Multiple Models
-                              <MultipleModelsTooltip
-                                isFacet={true}
-                                width={state.panelSize - nonSearchableFacetTooltipPadding}
-                              />
-                            </Row>
-                          ),
-                        },
-                      },
-                      {
-                        content: {
-                          field: 'molecular_characterizations',
-                          displayName: (
-                            <Row justifyContent="space-between">
-                              Available Molecular Characterizations
-                              <MolecularCharacterizationsTooltip
-                                isFacet={true}
-                                width={state.panelSize - facetTooltipPadding}
-                              />
-                            </Row>
-                          ),
-                        },
-                      },
-                    ]}
                   /> */}
               </>
             )}
