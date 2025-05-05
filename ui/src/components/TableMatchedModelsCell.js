@@ -2,15 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { stringify } from 'query-string';
 
-const TableMatchedModelsCell = ({
-  row,
-  sqon,
-  savedSetsContext,
-  state,
-  value,
-  history,
-  ...props
-}) => {
+const TableMatchedModelsCell = ({ row, savedSetsContext, state, value, history }) => {
   const matches = (value && value.split(',')) || 0;
   const matchCount = matches.length;
   return matchCount > 1 ? (

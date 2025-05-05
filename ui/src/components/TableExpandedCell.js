@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import theme from 'theme';
 
-const TableExpandedCell = ({ sqon, savedSetsContext, state, value, history }) => {
+const TableExpandedCell = ({ value }) => {
   return (
     <span
       css={css`
