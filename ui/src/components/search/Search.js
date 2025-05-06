@@ -61,7 +61,7 @@ const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 let stable = true;
 
 const getColumnTypes = ({ savedSetsContext, state, expandedSqon, history }) => ({
-  entity: {
+  name: {
     cellValue: (props) => (
       <TableEntity
         {...props}
