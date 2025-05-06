@@ -418,7 +418,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
               </SelectedModelsContext.Consumer>
             )}
           </Component>
-          {/* <LastUpdatedDate /> */}
+          <LastUpdatedDate />
         </MainCol>
       </SplitPane>
     </Col>
