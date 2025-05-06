@@ -72,7 +72,14 @@ const getColumnTypes = ({ savedSetsContext, state, expandedSqon, history }) => (
       />
     ),
   },
-  distributor_link: {
+  chemotherapeutic_drugs: {
+    cellValue: (props) => {
+      const { value } = props;
+      const { displayValues } = props.column;
+      return displayValues[value] || value;
+    },
+  },
+  distributor_part_number: {
     cellValue: (props) => <TableDistributorCell {...props} value={props.value} />,
   },
   expanded: {
@@ -99,6 +106,13 @@ const getColumnTypes = ({ savedSetsContext, state, expandedSqon, history }) => (
         Has Multiple Models <MultipleModelsTooltip isColumn={true} />
       </Row>
     ),
+  },
+  licensing_required: {
+    cellValue: (props) => {
+      const { value } = props;
+      const { displayValues } = props.column;
+      return displayValues[value] || value;
+    },
   },
   list: { cellValue: (props) => <TableList {...props} /> },
   molecular_characterizations: {
@@ -145,11 +159,13 @@ const getColumnTypes = ({ savedSetsContext, state, expandedSqon, history }) => (
 
 const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
   const { showUnexpanded } = useExpandedUnexpanded();
-  const { setSQON, sqon } = useDataContext({ callerName: 'HCMISearch' });
+  const context = useDataContext({ callerName: 'HCMISearch' });
+  const { setSQON, sqon } = context;
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
   const columnTypes = getColumnTypes({ savedSetsContext, state, expandedSqon, history });
-
-  useArrangerTheme({
+  console.log('use data context', context);
+  const filteredSqon = filterExpanded(sqon);
+  const theme = useArrangerTheme({
     components: {
       Table: {
         columnTypes,
@@ -340,6 +356,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                       ),
                     });
                   }
+                  console.log('selectedModelContext', selectedModelContext);
                   return (
                     <>
                       <Toolbar />
