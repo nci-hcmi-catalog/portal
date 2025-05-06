@@ -129,7 +129,7 @@ Let's imagine one wants to build a web app displaying a gallery view, with 10 mo
 A GraphQL query listing only models containing images:
 
 ```graphql
-query($sort: [Sort], $first: Int, $offset: Int, $sqon: JSON) {
+query ($sort: [Sort], $first: Int, $offset: Int, $sqon: JSON) {
   models {
     hits(first: $first, offset: $offset, sort: $sort, filters: $sqon) {
       total
@@ -158,14 +158,14 @@ This query would take the following variables:
 {
   "first": 10,
   "offset": 0,
-  "sort": [{ "field": "name", "order": "asc" }],
+  "sort": [{ "fieldName": "name", "order": "asc" }],
   "sqon": {
     "op": "and",
     "content": [
       {
         "op": "in",
         "content": {
-          "field": "files.file_type",
+          "fieldName": "files.file_type",
           "value": ["image/jpeg"]
         }
       }
