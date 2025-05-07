@@ -34,7 +34,6 @@ import TableMatchedModelsCell from 'components/TableMatchedModelsCell';
 import TableList from 'components/TableList';
 import ShareButton from 'components/ShareButton';
 import ModelList from 'components/ModelList';
-import TextInput from 'components/TextInput';
 import {
   MultipleModelsTooltip,
   MolecularCharacterizationsTooltip,
@@ -47,7 +46,6 @@ import {
 
 import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
 
-import globals from 'utils/globals';
 import { filterExpanded, toggleExpanded } from 'utils/sqonHelpers';
 
 import searchStyles, { MainCol } from 'theme/searchStyles';
@@ -254,7 +252,6 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                 <Aggregations
                     componentProps={{
                       getTermAggProps: () => ({ maxTerms: 4 }),
-                      InputComponent: TextInput,
                     }}
                   /> */}
               </>
@@ -401,7 +398,6 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                     // }}
                     // index={props.index}
                     // graphqlField={props.index}
-                    // InputComponent={TextInput}
                     // columnDropdownText="Columns"
                     // enableSelectedTableRowsExporterFilter={true}
                     // selectedRowsFilterPropertyName="_id"
