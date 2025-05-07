@@ -530,23 +530,27 @@ export default css`
     height: 8px;
   }
 
-  .aggregations .aggregation-card .header {
+  .aggregations .aggregation-card .header,
+  .aggregations .aggregation-group .header {
     position: relative;
   }
 
-  .aggregation-card .header .title-wrapper {
+  .aggregation-card .header .title-wrapper,
+  .aggregation-group .header .title-wrapper {
     padding: 10px;
     background-image: linear-gradient(to bottom, ${athensGray} 9%, ${athensLightGray} 91%);
     border-bottom: none;
   }
 
-  .aggregation-card .header .title-wrapper > div {
+  .aggregation-card .header .title-wrapper > div,
+  .aggregation-group .header .title-wrapper > div {
     display: flex;
     flex-direction: row;
     align-items: center;
   }
 
-  .aggregation-card .header .title-wrapper .action-icon svg {
+  .aggregation-card .header .title-wrapper .action-icon svg,
+  .aggregation-group .header .title-wrapper .action-icon svg {
     fill: ${bombay};
     width: 14px;
     heigth: 14px;
@@ -557,11 +561,13 @@ export default css`
     }
   }
 
-  .aggregation-card .header .title-wrapper.collapsed .action-icon {
+  .aggregation-card .header .title-wrapper.collapsed .action-icon,
+  .aggregation-group .header .title-wrapper .action-icon {
     display: none;
   }
 
-  .aggregation-card .filter {
+  .aggregation-card .filter,
+  .aggregation-group .filter {
     padding: 10px 11px;
   }
 
@@ -576,12 +582,14 @@ export default css`
     width: 100%;
   }
 
-  .aggregation-card .title-wrapper {
+  .aggregation-card .title-wrapper,
+  .aggregation-group .title-wrapper {
     background-color: #f4f5f7;
     padding: 8px;
   }
 
-  .aggregation-card .title-wrapper .title {
+  .aggregation-card .title-wrapper .title,
+  .aggregation-group .title-wrapper .title {
     font-family: ${openSans};
     font-size: 13px;
     font-weight: bold;
@@ -591,7 +599,8 @@ export default css`
     width: 100%;
   }
 
-  .aggregation-card {
+  .aggregation-card,
+  .aggregation-group {
     border-left: none;
     border-top: none;
     border-color: ${mischka};
@@ -599,15 +608,18 @@ export default css`
     margin: 0px !important;
   }
 
-  .aggregation-card .header {
+  .aggregation-card .header,
+  .aggregation-group .header {
     margin: 0;
   }
 
-  .aggregation-card .bucket {
+  .aggregation-card .bucket,
+  .aggregation-group .bucket {
     padding: 0;
   }
 
-  .aggregation-card .bucket .bucket-item {
+  .aggregation-card .bucket .bucket-item,
+  .aggregation-group .bucket .bucket-item {
     padding: 2px 6px;
     display: flex;
     align-items: baseline;
@@ -617,22 +629,27 @@ export default css`
     }
   }
 
-  .aggregation-card .bucket-item .bucket-link {
+  .aggregation-card .bucket-item .bucket-link,
+  .aggregation-group .bucket-item .bucket-link {
     display: flex;
     align-items: flex-start;
   }
 
-  .aggregation-card .bucket-item .bucket-link input[type='checkbox'] {
+  .aggregation-card .bucket-item .bucket-link input[type='checkbox'],
+  .aggregation-group .bucket-item .bucket-link input[type='checkbox'] {
     margin-right: 6px;
   }
 
-  .aggregation-card .bucket-item .bucket-link .textHighlight {
+  .aggregation-card .bucket-item .bucket-link .textHighlight,
+  ..aggregation-group .bucket-item .bucket-link .textHighlight {
     font-size: 12px;
     margin-top: 1px;
   }
 
   .aggregation-card .bucket-item .bucket-count,
-  .aggregation-card .toggle-button .toggle-button-option .bucket-count {
+  .aggregation-card .toggle-button .toggle-button-option .bucket-count,
+  .aggregation-group .bucket-item .bucket-count,
+  .aggregation-group .toggle-button .toggle-button-option .bucket-count {
     border-radius: 6px;
     background-color: ${sandyBeach};
     color: ${black};
@@ -648,14 +665,16 @@ export default css`
     padding: 4px;
   }
 
-  .aggregation-card .bucket .toggle-button {
+  .aggregation-card .bucket .toggle-button,
+  .aggregation-group .bucket .toggle-button {
     margin: 4px 10px;
     border-radius: 10px;
     border: 1px solid ${graySuit};
     overflow: hidden;
   }
 
-  .aggregation-card .bucket .toggle-button .toggle-button-option {
+  .aggregation-card .bucket .toggle-button .toggle-button-option,
+  .aggregation-group .bucket .toggle-button .toggle-button-option {
     font-size: 12px;
     border-color: ${graySuit};
     border-width: 0;
@@ -666,26 +685,31 @@ export default css`
     }
   }
 
-  .aggregation-card .bucket .toggle-button .toggle-button-option .textHighlight {
+  .aggregation-card .bucket .toggle-button .toggle-button-option .textHighlight,
+  .aggregation-group .bucket .toggle-button .toggle-button-option .textHighlight {
     margin-right: 2px;
   }
 
-  .aggregation-card .bucket .toggle-button .toggle-button-option:first-of-type {
+  .aggregation-card .bucket .toggle-button .toggle-button-option:first-of-type,
+  .aggregation-group .bucket .toggle-button .toggle-button-option:first-of-type {
     border-top-left-radius: unset;
     border-bottom-left-radius: unset;
   }
 
-  .aggregation-card .bucket .toggle-button .toggle-button-option:last-child {
+  .aggregation-card .bucket .toggle-button .toggle-button-option:last-child,
+  .aggregation-group .bucket .toggle-button .toggle-button-option:last-child {
     border-top-right-radius: unset;
     border-bottom-right-radius: unset;
     border-right-width: 0 !important;
   }
 
-  .aggregation-card .bucket .toggle-button .toggle-button-option.active {
+  .aggregation-card .bucket .toggle-button .toggle-button-option.active,
+  .aggregation-group .bucket .toggle-button .toggle-button-option.active {
     background-color: ${linen};
   }
 
-  .aggregations .aggregation-card .title-wrapper {
+  .aggregations .aggregation-card .title-wrapper,
+  .aggregations .aggregation-group .title-wrapper {
     .title-control {
       width: 100%;
 
