@@ -19,7 +19,7 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
     `}
   >
     <span className="sqon-field sqon-field--chart-title">Models by Primary Site</span>
-    <AggregationQuery sqon={sqon} field="primary_site">
+    <AggregationQuery sqon={sqon} fieldName="primary_site">
       {({ state }) => {
         return state.loading ? (
           'loading'
