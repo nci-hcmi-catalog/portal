@@ -53,18 +53,6 @@ const ProvidedRoutes = () => (
                   </>
                 )}
               />
-              {process.env.REACT_APP_ENABLE_ADMIN ? (
-                <Route
-                  path="/arranger"
-                  render={({ match }) => (
-                    <>
-                      <Header />
-                    </>
-                  )}
-                />
-              ) : (
-                ''
-              )}
               <Route
                 path="/admin"
                 render={({ location }) => (

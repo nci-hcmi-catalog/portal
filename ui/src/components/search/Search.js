@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import Component from 'react-component-component';
 import SplitPane from 'react-split-pane';
 import {
-  Aggregations as ArrangerAggregations,
+  Aggregations,
   Pagination,
   SQONViewer,
   Table,
@@ -44,7 +44,6 @@ import {
 
 import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
 
-import globals from 'utils/globals';
 import { filterExpanded, toggleExpanded } from 'utils/sqonHelpers';
 
 import searchStyles, { MainCol } from 'theme/searchStyles';
@@ -88,7 +87,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                   tooltipWidth={state?.panelSize - facetTooltipPadding}
                 />
                 <VariantSearch sqon={expandedSqon} setSQON={setSQON} />
-                <ArrangerAggregations />
+                <Aggregations />
                 {/* <Aggregations
                     {...props}
                     sqon={toggleExpanded(sqon, showUnexpanded)}
