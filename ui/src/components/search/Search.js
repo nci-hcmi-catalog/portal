@@ -7,9 +7,11 @@ import {
   Pagination,
   SQONViewer,
   Table,
-  Toolbar,
   useArrangerTheme,
 } from '@overture-stack/arranger-components';
+import CountDisplay from '@overture-stack/arranger-components/dist/Table/CountDisplay/index';
+import ColumnSelectButton from '@overture-stack/arranger-components/dist/Table/ColumnsSelectButton/index';
+import DownloadButton from '@overture-stack/arranger-components/dist/Table/DownloadButton/index';
 import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
@@ -163,7 +165,6 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
   const { setSQON, sqon } = context;
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
   const columnTypes = getColumnTypes({ savedSetsContext, state, expandedSqon, history });
-  console.log('use data context', context);
   const filteredSqon = filterExpanded(sqon);
   const theme = useArrangerTheme({
     components: {
@@ -356,10 +357,15 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                       ),
                     });
                   }
-                  console.log('selectedModelContext', selectedModelContext);
                   return (
                     <>
-                      <Toolbar />
+                      {/* TODO: Placeholder for Toolbar requiring Arranger/Node update  */}
+                      <Row>
+                        <CountDisplay />
+                        <ExpandedToggle sqon={filteredSqon} />
+                        <ColumnSelectButton />
+                        <DownloadButton theme={{ customExporters: exporterOptions }} />
+                      </Row>
                       <Table />
                       <Pagination />
                     </>
@@ -378,10 +384,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                     //   tableContext.loading ||
                     //   props.loading
                     // }
-                    // sqon={toggleExpanded(sqon, showUnexpanded)}
-                    // setSQON={setSQON}
                     // onSortedChange={(sorted) => setState({ sorted })}
-
                     // customTypeConfigs={{
                     //   entity: {
                     //     minWidth: 140,
@@ -403,13 +406,11 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                     // enableSelectedTableRowsExporterFilter={true}
                     // selectedRowsFilterPropertyName="_id"
                     // exporterLabel="Export"
-                    // exporter={exporterOptions}
                     // transformParams={(params) => ({
                     //   ...params,
                     //   url: `${globals.ARRANGER_API}/export/models`,
                     // })}
                     // fieldTypesForFilter={['text', 'keyword', 'id']}
-                    // customHeaderContent={<ExpandedToggle sqon={filterExpanded(sqon)} />}
                     // enableDropDownControls={true}
                     // sessionStorage={true}
                     // storageKey={selectedModelContext?.storageKey}
