@@ -5,7 +5,7 @@ import AggregationQuery from 'components/queries/AggregationQuery';
 import { Col } from 'theme/system';
 import theme from 'theme';
 import { ChartTooltip } from './';
-// import { addInSQON } from '@arranger/components/dist/SQONView/utils';
+import { addInSQON } from '@overture-stack/arranger-components/dist/SQONViewer/utils';
 import { SizeMe } from 'react-sizeme';
 
 const is2d = (bucket) => bucket.key.slice(0, 3) === '2-D';
@@ -28,7 +28,7 @@ const GrowthChart = ({ sqon, setSQON }) => (
         `}
       >
         <span className="sqon-field sqon-field--chart-title">2D versus 3D Growth</span>
-        <AggregationQuery sqon={sqon} field="type">
+        <AggregationQuery sqon={sqon} fieldName="type">
           {({
             state,
             data = [
@@ -77,26 +77,25 @@ const GrowthChart = ({ sqon, setSQON }) => (
                   animate={false}
                   tooltip={({ id, value, label }) => ChartTooltip({ value, label })}
                   theme={theme.chart}
-                  onClick={
-                    (data) => ({})
-                    // setSQON(
-                    //   addInSQON(
-                    //     {
-                    //       op: 'and',
-                    //       content: [
-                    //         {
-                    //           op: 'in',
-                    //           content: {
-                    //             field: 'type',
-                    //             value: (data.keys || []).sort(),
-                    //           },
-                    //         },
-                    //       ],
-                    //     },
-                    //     sqon,
-                    //   ),
-                    // )
-                  }
+                  onClick={(data) => {
+                    setSQON(
+                      addInSQON(
+                        {
+                          op: 'and',
+                          content: [
+                            {
+                              op: 'in',
+                              content: {
+                                field: 'type',
+                                value: (data.keys || []).sort(),
+                              },
+                            },
+                          ],
+                        },
+                        sqon,
+                      ),
+                    );
+                  }}
                   onMouseEnter={(_data, event) => {
                     event.currentTarget.style.cursor = 'pointer';
                   }}

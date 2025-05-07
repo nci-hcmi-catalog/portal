@@ -4,11 +4,11 @@ import Spinner from 'react-spinkit';
 import SearchIcon from 'react-icons/lib/fa/search';
 
 import { Col } from 'theme/system';
-// import TextInput from 'components/TextInput';
+import TextInput from 'components/TextInput';
 import SidebarSection from 'components/search/SidebarSection';
 import SearchOptionsDropdown from 'components/search/SearchOptionsDropdown';
 
-// import * as SQONUtils from '@arranger/components/dist/SQONView/utils';
+import { addInSQON, removeSQON } from '@overture-stack/arranger-components/dist/SQONViewer/utils';
 
 const LoadingIcon = (
   <Spinner
@@ -47,7 +47,7 @@ const SidebarTextSearch = ({
           width: 100%;
         `}
       >
-        {/* <TextInput
+        <TextInput
           css={css`
             border: none;
             flex: 1 1 0%;
@@ -69,7 +69,6 @@ const SidebarTextSearch = ({
             if (inputValue) {
               setLoading(true);
               const searchResults = await searchService(inputValue);
-
               const searchOptions = searchResults.slice(0, resultSize).map(optionTransformer);
               setOptions(searchOptions);
               setShowOptions(true);
@@ -79,7 +78,7 @@ const SidebarTextSearch = ({
               setShowOptions(false);
             }
           }}
-        /> */}
+        />
         {showOptions && options.length > 0 && (
           <div
             css={css`
@@ -124,9 +123,9 @@ const SidebarTextSearch = ({
                     ],
                   };
 
-                  // const clearedSqon = SQONUtils.removeSQON(filterField, sqon);
-                  // const newSqon = selected ? SQONUtils.addInSQON(query, clearedSqon) : clearedSqon;
-                  // setSQON(newSqon);
+                  const clearedSqon = removeSQON(filterField, sqon);
+                  const newSqon = selected ? addInSQON(query, clearedSqon) : clearedSqon;
+                  setSQON(newSqon);
                   setValue('');
                 }}
               />

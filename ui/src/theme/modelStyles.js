@@ -348,11 +348,11 @@ export default css`
     width: 100%;
     text-align: left;
 
-    tr:nth-child(even) {
+    tr:nth-of-type(even) {
       background: ${white};
     }
 
-    tr:nth-child(odd) {
+    tr:nth-of-type(odd) {
       background: ${athensGray};
     }
 

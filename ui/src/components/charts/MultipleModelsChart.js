@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react';
 import { css } from '@emotion/react';
-// import { addInSQON } from '@arranger/components/dist/SQONView/utils';
+import { addInSQON } from '@overture-stack/arranger-components/dist/SQONViewer/utils';
 import AggregationQuery from 'components/queries/AggregationQuery';
 import { Col } from 'theme/system';
 import theme from 'theme';
@@ -19,7 +19,7 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
     `}
   >
     <span className="sqon-field sqon-field--chart-title">Has Multiple Models</span>
-    <AggregationQuery sqon={sqon} field="has_matched_models">
+    <AggregationQuery sqon={sqon} fieldName="has_matched_models">
       {({ state }) => {
         return state.loading ? (
           'loading'
@@ -53,26 +53,25 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
               enableSlicesLabels={false}
               slicesLabelsSkipAngle={10}
               animate={false}
-              onClick={
-                (data) => {}
-                // setSQON(
-                //   addInSQON(
-                //     {
-                //       op: 'and',
-                //       content: [
-                //         {
-                //           op: 'in',
-                //           content: {
-                //             field: 'has_matched_models',
-                //             value: [data.key],
-                //           },
-                //         },
-                //       ],
-                //     },
-                //     sqon,
-                //   ),
-                // )
-              }
+              onClick={(data) => {
+                setSQON(
+                  addInSQON(
+                    {
+                      op: 'and',
+                      content: [
+                        {
+                          op: 'in',
+                          content: {
+                            field: 'has_matched_models',
+                            value: [data.key],
+                          },
+                        },
+                      ],
+                    },
+                    sqon,
+                  ),
+                );
+              }}
               onMouseEnter={(_data, event) => {
                 event.currentTarget.style.cursor = 'pointer';
               }}
