@@ -23,13 +23,12 @@ const getQuery = (fieldName) =>
     }`;
 
 const AggregationQuery = ({ sqon, ...props }) => {
-  const { field: fieldName } = props;
+  const { fieldName } = props;
   const { apiFetcher } = useDataContext({ callerName: 'HCMIAggregationQuery' });
   const queryName = `${fieldName}Aggregation`;
   const query = getQuery(fieldName);
   const options = {
     body: { query, variables: { sqon } },
-    endpoint: '/graphql',
     endpointTag: `${queryName}Query`,
   };
 
@@ -44,7 +43,7 @@ const AggregationQuery = ({ sqon, ...props }) => {
           throw err;
         });
 
-        const aggregation = data?.model?.aggregations?.[props.field];
+        const aggregation = data?.model?.aggregations?.[props.fieldName];
         const update = aggregation
           ? {
               total: aggregation.bucket_count,
@@ -64,7 +63,7 @@ const AggregationQuery = ({ sqon, ...props }) => {
             throw err;
           });
 
-          const aggregation = data?.model?.aggregations?.[props.field];
+          const aggregation = data?.model?.aggregations?.[props.fieldName];
           const update = aggregation
             ? {
                 total: aggregation.bucket_count,

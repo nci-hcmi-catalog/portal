@@ -21,7 +21,7 @@ const TopVariantsChart = ({ sqon, setSQON }) => (
       padding: 12px 0 4px;
     `}
   >
-    <AggregationQuery sqon={sqon} field="gene_metadata__mutated_genes">
+    <AggregationQuery sqon={sqon} fieldName="gene_metadata__mutated_genes">
       {({ state: aggState }) => {
         return (
           <Component

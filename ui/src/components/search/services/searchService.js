@@ -30,8 +30,20 @@ export const searchVariants = async (inputValue) => {
     This can be modified further to allow a custom list of model properties to return in the search results.
 */
 export const searchModels = async (inputValue, apiFetcher) => {
-  const query =
-    'query ModelsQuickSearchResults($sqon: JSON) {\n          model {\n            hits(filters: $sqon) {\n              total\n              edges {\n                node {\n                  primaryKey: name\n                  autocomplete: autocomplete\n primary_site\n                }\n              }\n            }\n          }\n        }';
+  const query = `query ModelsQuickSearchResults($sqon: JSON) {
+    model {
+      hits(filters: $sqon) {
+        total
+        edges {
+          node {
+            primaryKey: name
+            autocomplete: autocomplete
+            primary_site
+        }
+      }
+    }
+  }
+}`;
   const sqon = {
     op: 'or',
     content: [
@@ -43,7 +55,6 @@ export const searchModels = async (inputValue, apiFetcher) => {
   };
   try {
     const response = await apiFetcher({
-      endpoint: '/graphql',
       body: { query, variables: { sqon } },
     });
     return get(response, 'data.model.hits.edges', []).map((i) => i.node);

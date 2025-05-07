@@ -19,7 +19,7 @@ export default ({ sqon, setSQON, victoryRef = React.createRef(), extendedMapping
     `}
   >
     <span className="sqon-field sqon-field--chart-title">Has Multiple Models</span>
-    <AggregationQuery sqon={sqon} field="has_matched_models">
+    <AggregationQuery sqon={sqon} fieldName="has_matched_models">
       {({ state }) => {
         return state.loading ? (
           'loading'
