@@ -109,13 +109,21 @@ export const inputDropdownButtonStyle = css`
 `;
 
 export default css`
-  .ReactTable {
+  .ReactTable,
+  .TableWrapper {
     border: none;
     background: transparent;
   }
 
-  .ReactTable .rt-table {
+  .ReactTable .rt-table,
+  .TableWrapper table {
     border: 1px solid ${mischka};
+  }
+
+  .TableWrapper tbody {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
   }
 
   .ReactTable.-striped.audit-table .rt-table .rt-tbody {
@@ -128,11 +136,13 @@ export default css`
     margin-bottom: 24px;
   }
 
-  .ReactTable .rt-table input[type='checkbox'] {
+  .ReactTable .rt-table input[type='checkbox'],
+  .TableWrapper table input[type='checkbox'] {
     cursor: pointer;
   }
 
-  .ReactTable .rt-td {
+  .ReactTable .rt-td,
+  .TableWrapper .cell {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -141,7 +151,8 @@ export default css`
   }
 
   /* Additional padding for scroll bars */
-  .ReactTable .rt-td:last-child {
+  .ReactTable .rt-td:last-child,
+  .TableWrapper .cell:last-child {
     padding-right: 18px;
   }
 
@@ -177,11 +188,13 @@ export default css`
     padding: 0;
   }
 
-  .ReactTable .rt-thead {
+  .ReactTable .rt-thead,
+  .TableWrapper .TableHeaderGroup {
     background-color: #ffffff;
   }
 
-  .ReactTable .rt-table {
+  .ReactTable .rt-table,
+  .TableWrapper table {
     overflow-x: scroll;
     overflow-y: visible;
 
@@ -190,7 +203,8 @@ export default css`
     }
   }
 
-  .ReactTable .rt-thead .rt-tr .rt-th {
+  .ReactTable .rt-thead .rt-tr .rt-th,
+  .TableWrapper .TableHeaderGroup .TableHeaderRow .table_header {
     padding-top: 4px;
     padding-bottom: 4px;
     border-color: ${mischka};
@@ -211,11 +225,13 @@ export default css`
     box-shadow: inset 0 -3px 0 0 ${seaBuckthorn};
   }
 
-  .ReactTable.-striped .rt-tr.-odd {
+  .ReactTable.-striped .rt-tr.-odd,
+  .TableWrapper .Row:nth-child(odd) {
     background-color: ${white};
   }
 
-  .ReactTable.-striped .rt-tr.-even {
+  .ReactTable.-striped .rt-tr.-even,
+  .TableWrapper .Row:nth-child(even) {
     background-color: ${athensGray};
   }
 
@@ -225,6 +241,12 @@ export default css`
 
   .ReactTable .rt-tr-group {
     flex: none;
+  }
+
+  .TableWrapper .Row {
+    display: inline-flex;
+    flex-direction: row;
+    height: fit-content;
   }
 
   .ReactTable .pagination-bottom {
