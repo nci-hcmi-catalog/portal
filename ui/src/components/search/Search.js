@@ -355,7 +355,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                   return (
                     <>
                       {/* TODO: Placeholder for Toolbar requiring Arranger/Node update  */}
-                      <Row>
+                      <Row className="tableToolbar">
                         <CountDisplay />
                         <ExpandedToggle sqon={filteredSqon} apiFetcher={apiFetcher} />
                         <ColumnSelectButton />
