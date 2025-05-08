@@ -66,7 +66,6 @@ const TableWithPagination = ({
     const pageSize = storedPageSize ? parseInt(storedPageSize) : state.pageSize || 10;
     onPageSizeChange(pageSize);
   }, []);
-
   return (
     <TableComponent
       {...commonDataTableProps({ state, onSortedChange, ...props })}
