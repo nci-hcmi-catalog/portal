@@ -89,7 +89,6 @@ const ModelQuery = ({ modelName, ...props }) => {
       initialState={{ model: null, loading: true, extended: [] }}
       didMount={async ({ setState }) => {
         const data = await apiFetcher({
-          endpoint: '/graphql/ModelDataQuery',
           endpointTag: 'ModelDataQuery',
           body: {
             query: modelDataQuery,
@@ -113,9 +112,8 @@ const ModelQuery = ({ modelName, ...props }) => {
           setState({ loading: true });
 
           const data = await apiFetcher({
-            endpoint: '/graphql/ModelDataQuery',
+            endpointTag: 'ModelDataQuery',
             body: {
-              endpointTag: 'ModelDataQuery',
               query: modelDataQuery,
               variables: {
                 sqon: { op: 'in', content: { fieldName: 'name', value: [props.modelName] } },

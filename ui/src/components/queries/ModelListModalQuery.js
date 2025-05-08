@@ -90,7 +90,6 @@ const ModelListModalQuery = ({ selected, ...props }) => {
         const query = modelListQuery;
 
         const data = await apiFetcher({
-          endpoint: '/graphql',
           endpointTag: 'ModelListModal',
           body: {
             query,

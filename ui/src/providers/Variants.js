@@ -185,7 +185,7 @@ export const useVariants = () => {
     const modelsSqon = { op: 'in', content: { fieldName: 'name', value: modelName } };
 
     const response = await apiFetcher({
-      body: { query, queryName: 'VariantsData', variables: { sqon: modelsSqon } },
+      body: { query, variables: { sqon: modelsSqon } },
       endpointTag: 'VariantsData',
     });
 
@@ -316,7 +316,7 @@ export const useVariants = () => {
     const modelSqon = { op: 'in', content: { fieldName: 'name', value: modelName } };
 
     const response = await apiFetcher({
-      body: { query, queryName: 'GeneMetadata', variables: { sqon: modelSqon } },
+      body: { query, variables: { sqon: modelSqon } },
       endpointTag: 'GeneMetadata',
     });
 
