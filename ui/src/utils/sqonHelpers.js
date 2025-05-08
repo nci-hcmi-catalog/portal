@@ -15,7 +15,7 @@ export const toggleExpanded = (sqon, showUnexpanded = false) =>
             {
               op: 'in',
               content: {
-                field: 'expanded',
+                fieldName: 'expanded',
                 value: ['true'],
               },
             },
