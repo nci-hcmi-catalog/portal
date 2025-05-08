@@ -226,12 +226,12 @@ export default css`
   }
 
   .ReactTable.-striped .rt-tr.-odd,
-  .TableWrapper .Row:nth-child(odd) {
+  .TableWrapper .Row:nth-of-type(odd) {
     background-color: ${white};
   }
 
   .ReactTable.-striped .rt-tr.-even,
-  .TableWrapper .Row:nth-child(even) {
+  .TableWrapper .Row:nth-of-type(even) {
     background-color: ${athensGray};
   }
 

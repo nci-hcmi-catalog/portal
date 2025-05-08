@@ -158,12 +158,11 @@ const getColumnTypes = ({ savedSetsContext, state, expandedSqon, history }) => (
 
 const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
   const { showUnexpanded } = useExpandedUnexpanded();
-  const context = useDataContext({ callerName: 'HCMISearch' });
-  const { setSQON, sqon } = context;
+  const { setSQON, sqon, apiFetcher } = useDataContext({ callerName: 'HCMISearch' });
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
   const columnTypes = getColumnTypes({ savedSetsContext, state, expandedSqon, history });
   const filteredSqon = filterExpanded(sqon);
-  const theme = useArrangerTheme({
+  useArrangerTheme({
     components: {
       Table: {
         columnTypes,
@@ -275,7 +274,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
               min-height: 50px;
             `}
           >
-            {!filterExpanded(sqon) && (
+            {/* {!filteredSqon && (
               <Row
                 css={css`
                   padding: 0 14px;
@@ -291,11 +290,11 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                   Use the filter panel on the left to customize your model search.
                 </span>
               </Row>
-            )}
+            )} */}
             <SQONViewer
               displayName="SearchSQON"
               {...props}
-              sqon={filterExpanded(sqon)}
+              sqon={filteredSqon}
               setSQON={setSQON}
               index={props.index}
               graphqlField={props.index}
@@ -358,7 +357,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                       {/* TODO: Placeholder for Toolbar requiring Arranger/Node update  */}
                       <Row>
                         <CountDisplay />
-                        <ExpandedToggle sqon={filteredSqon} />
+                        <ExpandedToggle sqon={filteredSqon} apiFetcher={apiFetcher} />
                         <ColumnSelectButton />
                         <DownloadButton theme={{ customExporters: exporterOptions }} />
                       </Row>

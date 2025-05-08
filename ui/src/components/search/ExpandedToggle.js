@@ -10,13 +10,13 @@ import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
 
 import { getNumUnexpanded } from 'utils/sqonHelpers';
 
-const ExpandedToggle = ({ sqon }) => {
+const ExpandedToggle = ({ sqon, apiFetcher }) => {
   const { showUnexpanded, setShowUnexpanded } = useExpandedUnexpanded();
   const [numUnexpanded, setNumUnexpanded] = useState('');
 
   useEffect(() => {
     const fetchNumUnexpanded = async () => {
-      const data = await getNumUnexpanded(sqon);
+      const data = await getNumUnexpanded(sqon, apiFetcher);
       setNumUnexpanded(data);
     };
 
