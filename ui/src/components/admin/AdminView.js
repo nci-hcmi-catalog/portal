@@ -42,7 +42,7 @@ const AdminView = ({ location }) => {
     async () => {
       // Set polling interval to null until request completes to prevent spamming the server
       setImportPollingInterval(null);
-      // await fetchImportStatus();
+      await fetchImportStatus();
       setImportPollingInterval(500);
     },
     importRunning || !isEmpty(importNotifications) ? importPollingInterval : null,
@@ -52,7 +52,7 @@ const AdminView = ({ location }) => {
   useInterval(
     async () => {
       setPublishPollingInterval(null);
-      // await fetchPublishStatus();
+      await fetchPublishStatus();
       setPublishPollingInterval(500);
     },
     publishRunning || !isEmpty(publishNotifications) ? publishPollingInterval : null,
