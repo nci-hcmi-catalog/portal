@@ -55,7 +55,7 @@ export const searchModels = async (inputValue, apiFetcher) => {
   };
   try {
     const response = await apiFetcher({
-      body: { query, variables: { sqon } },
+      body: { query, endpointTag: 'ModelsQuickSearch', variables: { sqon } },
     });
     return get(response, 'data.model.hits.edges', []).map((i) => i.node);
   } catch (e) {
