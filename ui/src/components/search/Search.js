@@ -50,6 +50,7 @@ import { filterExpanded, toggleExpanded } from 'utils/sqonHelpers';
 
 import searchStyles, { MainCol } from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
+import { useTable } from 'react-table';
 
 // prevents facet tooltips from extending beyond the window
 // approx. 20px for scrollbar width, plus 28px padding

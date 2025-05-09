@@ -11,7 +11,7 @@ const TextInputWrapper = styled('div')`
 `;
 
 const RefArrangerTextInput = React.forwardRef((props, ref) => (
-  <ArrangerInput ref={ref} shouldautofocus={'false'} {...props} />
+  <ArrangerInput {...props} ref={ref} />
 ));
 
 const TextInput = styled(RefArrangerTextInput)`
@@ -78,7 +78,7 @@ const TextInputComponent = ({ className, value, disabled, ref = React.createRef(
 
   return (
     <TextInputWrapper disabled={disabled} className={className}>
-      <TextInput ref={ref} {...{ value, disabled, ...props }} />
+      <TextInput {...{ value, disabled, ...props }} ref={ref} />
       {value && value.length && <CrossCircleOutlineIcon css={closeStyle} onClick={clearInput} />}
     </TextInputWrapper>
   );

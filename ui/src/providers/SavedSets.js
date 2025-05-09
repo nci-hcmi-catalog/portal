@@ -64,7 +64,7 @@ const SavedSetsProvider = (props) => {
           setState({ loading: true, sets: state.sets });
           const { data } = await apiFetcher({
             endpointTag: 'FetchSets',
-            body: { query: fetchSetsQuery, sqon },
+            body: { query: fetchSetsQuery, variables: { sqon } },
           });
           const { sets } = data;
           setState({
