@@ -17,7 +17,6 @@ import Modal from 'components/modals/Modal';
 import WarningModal from 'components/modals/WarningModal';
 
 import RootProvider from 'providers/RootProvider';
-
 import { ModalStateContext } from 'providers/ModalState';
 import { ExpandedUnexpandedProvider } from 'providers/ExpandedUnexpanded';
 import base from 'theme';
@@ -39,44 +38,42 @@ const ProvidedRoutes = () => (
           }
         }}
       >
-        {({ state }) => {
-          return (
-            <ExpandedUnexpandedProvider>
-              <SkipNav />
-              <Switch>
-                <Route
-                  path="/"
-                  exact
-                  render={() => (
-                    <>
-                      <Header />
-                      <SearchWrapper version={state.version} index="model" />
-                    </>
-                  )}
-                />
-                <Route
-                  path="/admin"
-                  render={({ location }) => (
-                    <>
-                      <Header subheading="Searchable Catalog CMS" />
-                      <Admin location={location} />
-                    </>
-                  )}
-                />
-                <Route
-                  path="/model/:modelName"
-                  render={({ match }) => (
-                    <>
-                      <Header />
-                      <Model modelName={match.params.modelName} />
-                    </>
-                  )}
-                />
-              </Switch>
-              <Footer />
-            </ExpandedUnexpandedProvider>
-          );
-        }}
+        {({ state }) => (
+          <ExpandedUnexpandedProvider>
+            <SkipNav />
+            <Switch>
+              <Route
+                path="/"
+                exact
+                render={() => (
+                  <>
+                    <Header />
+                    <SearchWrapper version={state.version} index="model" />
+                  </>
+                )}
+              />
+              <Route
+                path="/admin"
+                render={({ location }) => (
+                  <>
+                    <Header subheading="Searchable Catalog CMS" />
+                    <Admin location={location} />
+                  </>
+                )}
+              />
+              <Route
+                path="/model/:modelName"
+                render={({ match }) => (
+                  <>
+                    <Header />
+                    <Model modelName={match.params.modelName} />
+                  </>
+                )}
+              />
+            </Switch>
+            <Footer />
+          </ExpandedUnexpandedProvider>
+        )}
       </Component>
     )}
   </ModalStateContext.Consumer>

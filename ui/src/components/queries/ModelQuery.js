@@ -2,7 +2,7 @@ import React from 'react';
 // import { get } from 'lodash';
 
 import Component from 'react-component-component';
-import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
+import { useArrangerData } from '@overture-stack/arranger-components/';
 import globals from 'utils/globals';
 
 // const fetchData = async ({ setState, modelName }) => {
@@ -95,7 +95,7 @@ import globals from 'utils/globals';
 
 const ModelQuery = ({ modelName, ...props }) => {
   const { ARRANGER_API } = globals;
-  const context = useDataContext({ apiUrl: ARRANGER_API, callerName: `ModelQuery` });
+  const context = useArrangerData({ apiUrl: ARRANGER_API, callerName: `ModelQuery` });
   const { apiFetcher } = context;
   return (
     <Component

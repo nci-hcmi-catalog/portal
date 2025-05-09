@@ -1,6 +1,6 @@
 import React from 'react';
 import Component from 'react-component-component';
-// import '@arranger/components/public/themeStyles/beagle/beagle.css';
+import './../admin/AdminTable/beagle.css';
 
 import Url from 'components/Url';
 import { SavedSetsContext } from 'providers/SavedSets';
@@ -13,13 +13,7 @@ const SearchWrapper = (props) => (
         render={(urlProps) => (
           <SavedSetsContext.Consumer>
             {(savedSetsContext) => (
-              <Search
-                {...props}
-                {...urlProps}
-                {...state}
-                savedSetsContext={savedSetsContext}
-                version={props.projectId}
-              />
+              <Search {...props} {...urlProps} {...state} savedSetsContext={savedSetsContext} />
             )}
           </SavedSetsContext.Consumer>
         )}

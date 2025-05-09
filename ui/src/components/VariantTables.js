@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ReactTable from 'react-table';
 import { css } from '@emotion/react';
 
-// import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
+import CustomPagination from './admin/AdminTable/CustomPagination';
 
 import Filter from 'components/input/Filter';
 import TabGroup from 'components/layout/VerticalTabs';
@@ -226,13 +226,12 @@ const VariantTable = React.memo(({ type, modelName, columns, storageKey }) => {
             setPageSize(props.pageSize);
             setPage(props.page);
             return (
-              <></>
-              // <CustomPagination
-              //   {...props}
-              //   pageSize={pageSize}
-              //   onPageSizeChange={pageSizeChangeHandler}
-              //   maxPagesOptions={10}
-              // />
+              <CustomPagination
+                {...props}
+                pageSize={pageSize}
+                onPageSizeChange={pageSizeChangeHandler}
+                maxPagesOptions={10}
+              />
             );
           }}
           onPageChange={(newPage) => setPage(newPage)}
