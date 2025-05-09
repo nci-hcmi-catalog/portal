@@ -151,7 +151,7 @@ export default css`
     flex-direction: row;
     align-items: flex-start;
     padding: 4px 8px 4px 4px;
-    border-color: ${mischka};
+    border-right: 1px solid ${mischka};
   }
 
   /* Additional padding for scroll bars */
@@ -177,7 +177,8 @@ export default css`
     white-space: normal;
   }
 
-  .ReactTable .rt-thead .rt-resizable-header:last-child {
+  .ReactTable .rt-thead .rt-resizable-header:last-child,
+  .TableWrapper .TableHeaderGroup .table_header:last-child {
     overflow: unset;
 
     .rt-resizer {
@@ -222,12 +223,14 @@ export default css`
   }
 
   .ReactTable .rt-thead .rt-th.-sort-asc,
-  .ReactTable .rt-thead .rt-td.-sort-asc {
+  .ReactTable .rt-thead .rt-td.-sort-asc,
+  .TableWrapper .TableHeaderGroup .table_header.asc {
     box-shadow: inset 0 3px 0 0 ${seaBuckthorn};
   }
 
   .ReactTable .rt-thead .rt-th.-sort-desc,
-  .ReactTable .rt-thead .rt-td.-sort-desc {
+  .ReactTable .rt-thead .rt-td.-sort-desc,
+  .TableWrapper .TableHeaderGroup .table_header.desc {
     box-shadow: inset 0 -3px 0 0 ${seaBuckthorn};
   }
 
@@ -644,6 +647,7 @@ export default css`
 
   .aggregation-card .header,
   .aggregation-group .header {
+    padding: 0px;
     margin: 0;
   }
 
