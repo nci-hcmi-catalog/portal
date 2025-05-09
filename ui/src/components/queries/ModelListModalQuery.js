@@ -1,6 +1,6 @@
 import React from 'react';
 // import { get } from 'lodash';
-import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
+import { useArrangerData } from '@overture-stack/arranger-components/';
 import globals from 'utils/globals';
 import Component from 'react-component-component';
 
@@ -87,7 +87,7 @@ const query = (count) => `query ModelListModal($filters: JSON) {
 
 const ModelListModalQuery = ({ selected, ...props }) => {
   const { ARRANGER_API } = globals;
-  const context = useDataContext({
+  const context = useArrangerData({
     apiUrl: ARRANGER_API,
     callerName: `ModelListModalQuery`,
   });
