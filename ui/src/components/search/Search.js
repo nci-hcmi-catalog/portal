@@ -189,21 +189,7 @@ const Search = ({ setState, state, sqon, savedSetsContext, history, ...props }) 
                 </span>
               </Row>
             )}
-            <SQONViewer
-              displayName="SearchSQON"
-              {...props}
-              sqon={filterExpanded(sqon)}
-              setSQON={setSQON}
-              index={props.index}
-              graphqlField={props.index}
-            />
-            {/* <CurrentSQON
-                {...props}
-                sqon={filterExpanded(sqon)}
-                setSQON={setSQON}
-                index={props.index}
-                graphqlField={props.index}
-              /> */}
+            <SQONViewer sqon={filterExpanded(sqon)} setSQON={setSQON} />
             <div className="search-header-actions">
               <ShareButton link={`${window.location.origin}/`} quote={`HCMI Search`} />
               <ModelList className="search-header-model-list" />
