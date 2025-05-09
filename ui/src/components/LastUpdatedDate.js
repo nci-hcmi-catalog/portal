@@ -18,7 +18,7 @@ const LastUpdatedDate = () => (
           letter-spacing: normal;
           color: #000;
           text-align: center;
-          margin-top: -25px;
+          margin-top: -18px;
           padding-bottom: 25px;
         `}
       >

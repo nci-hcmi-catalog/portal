@@ -121,6 +121,10 @@ export default css`
   }
 
   .TableWrapper tbody {
+    border: none;
+  }
+
+  .TableWrapper tbody {
     display: flex;
     flex-direction: column;
     width: fit-content;
@@ -156,11 +160,13 @@ export default css`
     padding-right: 18px;
   }
 
-  .ReactTable .rt-resizable-header {
+  .ReactTable .rt-resizable-header,
+  .TableWrapper .TableHeaderGroup .table_header {
     padding: 4px 8px;
   }
 
-  .ReactTable .rt-resizable-header-content {
+  .ReactTable .rt-resizable-header-content,
+  .TableWrapper .TableHeaderGroup .table_header {
     color: ${black};
     text-transform: capitalize;
     text-align: left;
@@ -204,7 +210,7 @@ export default css`
   }
 
   .ReactTable .rt-thead .rt-tr .rt-th,
-  .TableWrapper .TableHeaderGroup .TableHeaderRow .table_header {
+  .TableWrapper .TableHeaderGroup .table_header {
     padding-top: 4px;
     padding-bottom: 4px;
     border-color: ${mischka};
@@ -249,13 +255,19 @@ export default css`
     height: fit-content;
   }
 
+  .TableBody tr.Row:first-of-type {
+    padding-top: 0px;
+  }
+
+  .pagination-bottom,
   .ReactTable .pagination-bottom {
     height: auto;
     background: transparent;
     padding: 4px 0 0;
   }
 
-  .ReactTable .-pagination {
+  .ReactTable .-pagination,
+  .-pagination {
     font-family: ${openSans};
     box-shadow: none;
     border: none;

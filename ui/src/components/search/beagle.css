@@ -35,7 +35,8 @@ div {
   font-family: 'Open Sans', sans-serif;
 }
 
-.ReactTable.-striped .rt-th {
+.ReactTable.-striped .rt-th,
+.TableWrapper .TableHeaderGroup .table_header {
   font-weight: bolder;
   padding-top: 10px;
   padding-bottom: 10px;

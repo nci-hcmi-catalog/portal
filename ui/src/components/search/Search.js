@@ -364,7 +364,10 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                         <DownloadButton theme={{ customExporters: exporterOptions }} />
                       </Row>
                       <Table />
-                      <Pagination />
+                      <div className={'pagination-bottom'}>
+                        <Pagination />
+                        <LastUpdatedDate />
+                      </div>
                     </>
                     // Old Table Props
                     // {...props}
@@ -415,7 +418,6 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
               </SelectedModelsContext.Consumer>
             )}
           </Component>
-          <LastUpdatedDate />
         </MainCol>
       </SplitPane>
     </Col>
