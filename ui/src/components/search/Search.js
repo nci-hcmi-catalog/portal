@@ -157,8 +157,10 @@ const getColumnTypes = ({ savedSetsContext, state, expandedSqon, history }) => (
 });
 
 const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
+  const { setSQON, sqon, apiFetcher } = useDataContext({
+    callerName: 'HCMISearch',
+  });
   const { showUnexpanded } = useExpandedUnexpanded();
-  const { setSQON, sqon, apiFetcher } = useDataContext({ callerName: 'HCMISearch' });
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
   const columnTypes = getColumnTypes({ savedSetsContext, state, expandedSqon, history });
   const filteredSqon = filterExpanded(sqon);

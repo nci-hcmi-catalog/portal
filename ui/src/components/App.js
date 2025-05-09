@@ -102,7 +102,7 @@ injectGlobal`
 
 const App = () => (
   <RootProvider>
-    <Router>
+    <Router forceRefresh={true}>
       <ProvidedRoutes />
     </Router>
     <Modal />
