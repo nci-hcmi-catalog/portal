@@ -39,8 +39,13 @@ const {
   keyedPalette: { bombay, brandPrimary, pelorousapprox },
 } = base;
 
-const HorizontalTable = ({ fieldNames, rawData, extended, customUnits = {}, customValue = {} }) => {
-  const fieldData = extended || [];
+const HorizontalTable = ({
+  fieldNames = [],
+  rawData,
+  extended: fieldData = [],
+  customUnits = {},
+  customValue = {},
+}) => {
   const fieldHelper = (acc, { field, type, displayName, unit }) =>
     fieldNames.includes(field)
       ? {
@@ -54,7 +59,7 @@ const HorizontalTable = ({ fieldNames, rawData, extended, customUnits = {}, cust
 
   const formattedData = fieldData
     .slice()
-    .sort((a, b) => (fieldNames || []).indexOf(a) - (fieldNames || []).indexOf(b))
+    .sort((a, b) => fieldNames.indexOf(a.fieldName) - fieldNames.indexOf(b.fieldName))
     .reduce((acc, { fieldName, type, displayName, unit }) => {
       return !Object.keys(customUnits).includes(fieldName)
         ? fieldHelper(acc, { field: fieldName, type, displayName, unit })
