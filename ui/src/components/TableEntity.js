@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { stringify } from 'query-string';
 
-const TableEntity = ({ sqon, savedSetsContext, state, value, history }) => {
+const TableEntity = ({ sqon, savedSetsContext, setState, state, value, history }) => {
   return (
     <button
       className="clickable"
@@ -11,7 +11,8 @@ const TableEntity = ({ sqon, savedSetsContext, state, value, history }) => {
         border: none;
       `}
       onClick={async () => {
-        const { setId } = await savedSetsContext.createSet({
+        setState({ loading: true });
+        const { setId, ids } = await savedSetsContext.createSet({
           sqon,
           sort: [...(state?.sorted || []), { id: 'name', desc: false }].map(({ id, desc }) => ({
             fieldName: id,
@@ -19,6 +20,13 @@ const TableEntity = ({ sqon, savedSetsContext, state, value, history }) => {
           })),
         });
         if (setId) {
+          setState({
+            loading: false,
+            sets: {
+              ...state.sets,
+              [setId]: { sqon, ids },
+            },
+          });
           history.push({
             pathname: `/model/${value}`,
             search: stringify({

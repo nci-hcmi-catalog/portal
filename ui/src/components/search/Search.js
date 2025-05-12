@@ -8,8 +8,9 @@ import {
   SQONViewer,
   Table,
   Toolbar,
+  useArrangerTheme,
+  useArrangerData,
 } from '@overture-stack/arranger-components';
-import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
 
@@ -58,10 +59,33 @@ const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 
 let stable = true;
 
+const getColumnTypes = ({ savedSetsContext, setState, state, expandedSqon, history }) => ({
+  name: {
+    cellValue: (props) => (
+      <TableEntity
+        {...props}
+        savedSetsContext={savedSetsContext}
+        setState={setState}
+        state={state}
+        sqon={expandedSqon}
+        history={history}
+      />
+    ),
+  },
+});
+
 const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
   const { showUnexpanded } = useExpandedUnexpanded();
-  const { setSQON, sqon, extendedMapping } = useDataContext({ callerName: 'HCMISearch' });
+  const { setSQON, sqon, extendedMapping } = useArrangerData({ callerName: 'HCMISearch' });
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
+  const columnTypes = getColumnTypes({ savedSetsContext, setState, state, expandedSqon, history });
+  useArrangerTheme({
+    components: {
+      Table: {
+        columnTypes,
+      },
+    },
+  });
 
   return (
     <Col css={searchStyles}>

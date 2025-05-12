@@ -24,7 +24,7 @@ const ExpandedPill = ({ isExpanded }) => {
 
 const ModelBar = ({ name, id, isExpanded }) => {
   const {
-    state: { sets },
+    state: { sets = {} },
   } = useContext(SavedSetsContext);
   const {
     state: { modelIds },
@@ -34,16 +34,12 @@ const ModelBar = ({ name, id, isExpanded }) => {
 
   const getBackRoute = (sqon) => {
     // need to avoid empty sqon object
-    return sqon &&
-      sqon.content &&
-      sqon.content.value &&
-      sets[sqon.content.value] &&
-      sets[sqon.content.value].sqon &&
-      Object.keys(sets[sqon.content.value].sqon).length !== 0
+    const value = sqon?.content?.value || null;
+    return sqon && value && sets[value]?.sqon && Object.keys(sets[value]?.sqon).length !== 0
       ? {
           pathname: '/',
           search: stringify({
-            sqon: JSON.stringify(filterExpanded(sets[sqon.content.value].sqon)),
+            sqon: JSON.stringify(filterExpanded(sets[value]?.sqon)),
           }),
         }
       : '/';
