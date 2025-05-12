@@ -10,8 +10,13 @@ import SavedSetsProvider from './SavedSets';
 import SelectedModelsProvider from './SelectedModels';
 import ModalStateProvider from './ModalState';
 
-const arrangerFetcher = async (args) => {
-  const { body, endpoint = 'graphql', endpointTag = '', headers = {}, method = 'POST' } = args;
+const arrangerFetcher = async ({
+  body,
+  endpoint = 'graphql',
+  endpointTag = '',
+  headers = {},
+  method = 'POST',
+}) => {
   const response = await axios(urlJoin(globals.ARRANGER_API, endpoint, endpointTag), {
     data: JSON.stringify(body),
     headers: { 'Content-Type': 'application/json', ...headers },

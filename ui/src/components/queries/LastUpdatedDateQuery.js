@@ -1,6 +1,6 @@
 import React from 'react';
 import Component from 'react-component-component';
-import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
+import { useArrangerData } from '@overture-stack/arranger-components/';
 import globals from 'utils/globals';
 // import axios from 'axios';
 
@@ -22,7 +22,7 @@ import globals from 'utils/globals';
 
 const LastUpdatedDateQuery = ({ ...props }) => {
   const { ARRANGER_API } = globals;
-  const context = useDataContext({ apiUrl: ARRANGER_API, callerName: `LastUpdatedDateQuery` });
+  const context = useArrangerData({ apiUrl: ARRANGER_API, callerName: `LastUpdatedDateQuery` });
   const { apiFetcher } = context;
   return (
     <Component

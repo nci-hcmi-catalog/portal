@@ -2,11 +2,12 @@
 
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React from 'react';
 import classnames from 'classnames';
 import { range } from 'lodash';
-import ReactTablePagination from 'react-table/lib/pagination';
+import React from 'react';
+import ReactTablePagination from 'react-table/lib/pagination.js';
 
+import beagleCSS from './beagle.css';
 export default class CustomPagination extends ReactTablePagination {
   onPreviousPageClick = () => {
     const { canPrevious, page } = this.props;
@@ -53,6 +54,7 @@ export default class CustomPagination extends ReactTablePagination {
     return (
       <div
         className={classnames(className, '-pagination')}
+        css={beagleCSS}
         style={{
           display: 'flex',
           justifyContent: 'space-between',

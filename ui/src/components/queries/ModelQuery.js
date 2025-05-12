@@ -2,7 +2,7 @@ import React from 'react';
 import { get } from 'lodash';
 
 import Component from 'react-component-component';
-import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
+import { useArrangerData } from '@overture-stack/arranger-components/';
 
 const modelDataQuery = `query ModelDataQuery($sqon: JSON) {
   model {
@@ -80,8 +80,7 @@ const modelDataQuery = `query ModelDataQuery($sqon: JSON) {
 }`;
 
 const ModelQuery = ({ modelName, ...props }) => {
-  const context = useDataContext({ callerName: `ModelQuery` });
-  const { apiFetcher } = context;
+  const { apiFetcher } = useArrangerData({ callerName: `ModelQuery` });
   return (
     <Component
       {...props}

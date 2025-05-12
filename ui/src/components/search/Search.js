@@ -54,7 +54,7 @@ import { useTable } from 'react-table';
 // approx. 20px for scrollbar width, plus 28px padding
 const facetTooltipPadding = 48;
 // non-searchable facets require less padding since they have no search button
-// const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
+const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 
 let stable = true;
 
@@ -196,13 +196,6 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
               index={props.index}
               graphqlField={props.index}
             />
-            {/* <CurrentSQON
-                {...props}
-                sqon={filterExpanded(sqon)}
-                setSQON={setSQON}
-                index={props.index}
-                graphqlField={props.index}
-              /> */}
             <div className="search-header-actions">
               <ShareButton link={`${window.location.origin}/`} quote={`HCMI Search`} />
               <ModelList className="search-header-model-list" />

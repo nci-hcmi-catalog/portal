@@ -1,6 +1,6 @@
 import React from 'react';
 import Component from 'react-component-component';
-import './beagle.css';
+import './../admin/AdminTable/beagle.css';
 
 import Url from 'components/Url';
 import { SavedSetsContext } from 'providers/SavedSets';

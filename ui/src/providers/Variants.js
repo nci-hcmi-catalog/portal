@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
+import { useArrangerData } from '@overture-stack/arranger-components/';
 import { css } from '@emotion/react';
 import { get, uniqBy } from 'lodash';
 import { stringify } from 'query-string';
@@ -45,7 +45,7 @@ export const useVariants = () => {
     [pageSize, setPageSize],
   ] = useContext(VariantsContext);
 
-  const arrangerContext = useDataContext({
+  const arrangerContext = useArrangerData({
     callerName: `VariantsProvider`,
   });
   const { apiFetcher } = arrangerContext;
