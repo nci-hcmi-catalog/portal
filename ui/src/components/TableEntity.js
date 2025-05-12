@@ -2,7 +2,15 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { stringify } from 'query-string';
 
-const TableEntity = ({ sqon, savedSetsContext, setState, state, value, history }) => {
+const TableEntity = ({
+  sqon,
+  savedSetsContext,
+  searchWrapperSetState,
+  tableState,
+  value,
+  history,
+}) => {
+  const { setSavedSets, state: savedSetsContextState } = savedSetsContext;
   return (
     <button
       className="clickable"
@@ -11,19 +19,21 @@ const TableEntity = ({ sqon, savedSetsContext, setState, state, value, history }
         border: none;
       `}
       onClick={async () => {
-        setState({ loading: true });
+        searchWrapperSetState({ loading: true });
         const { setId, ids } = await savedSetsContext.createSet({
           sqon,
-          sort: [...(state?.sorted || []), { id: 'name', desc: false }].map(({ id, desc }) => ({
-            fieldName: id,
-            order: desc ? 'desc' : 'asc',
-          })),
+          sort: [...(tableState?.sorted || []), { id: 'name', desc: false }].map(
+            ({ id, desc }) => ({
+              fieldName: id,
+              order: desc ? 'desc' : 'asc',
+            }),
+          ),
         });
         if (setId) {
-          setState({
+          setSavedSets({
             loading: false,
             sets: {
-              ...state.sets,
+              ...savedSetsContextState.sets,
               [setId]: { sqon, ids },
             },
           });

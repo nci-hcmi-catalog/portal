@@ -59,14 +59,20 @@ const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 
 let stable = true;
 
-const getColumnTypes = ({ savedSetsContext, setState, state, expandedSqon, history }) => ({
+const getColumnTypes = ({
+  savedSetsContext,
+  searchWrapperSetState,
+  tableState,
+  expandedSqon,
+  history,
+}) => ({
   name: {
     cellValue: (props) => (
       <TableEntity
         {...props}
         savedSetsContext={savedSetsContext}
-        setState={setState}
-        state={state}
+        searchWrapperSetState={searchWrapperSetState}
+        tableState={tableState}
         sqon={expandedSqon}
         history={history}
       />
@@ -74,11 +80,23 @@ const getColumnTypes = ({ savedSetsContext, setState, state, expandedSqon, histo
   },
 });
 
-const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
+const Search = ({
+  setState: searchWrapperSetState,
+  state: tableState,
+  savedSetsContext,
+  history,
+  ...props
+}) => {
   const { showUnexpanded } = useExpandedUnexpanded();
   const { setSQON, sqon, extendedMapping } = useArrangerData({ callerName: 'HCMISearch' });
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
-  const columnTypes = getColumnTypes({ savedSetsContext, setState, state, expandedSqon, history });
+  const columnTypes = getColumnTypes({
+    savedSetsContext,
+    searchWrapperSetState,
+    tableState,
+    expandedSqon,
+    history,
+  });
   useArrangerTheme({
     components: {
       Table: {
@@ -93,9 +111,9 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
         className="search-split-pane"
         split="vertical"
         minSize={50}
-        defaultSize={state?.panelSize}
+        defaultSize={tableState?.panelSize}
         onChange={(panelSize) => {
-          setState({ panelSize });
+          searchWrapperSetState({ panelSize });
         }}
         onDragStarted={() => (stable = false)}
         onDragFinished={() => (stable = true)}
@@ -108,7 +126,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                 <GeneSearch
                   sqon={expandedSqon}
                   setSQON={setSQON}
-                  tooltipWidth={state?.panelSize - facetTooltipPadding}
+                  tooltipWidth={tableState?.panelSize - facetTooltipPadding}
                 />
                 <VariantSearch sqon={expandedSqon} setSQON={setSQON} />
                 <Aggregations />
@@ -183,7 +201,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
           p={30}
           flex={1}
           css={css`
-            width: calc(100vw - ${state.panelSize}px);
+            width: calc(100vw - ${tableState.panelSize}px);
             overflow-y: scroll !important;
           `}
         >

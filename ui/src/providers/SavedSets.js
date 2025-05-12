@@ -80,7 +80,7 @@ const SavedSetsProvider = (props) => {
             },
           });
         },
-        setSet: ({ setId, ids, sqon }) =>
+        setSavedSets: ({ setId, ids, sqon }) =>
           setState({
             sets: {
               ...state.sets,
