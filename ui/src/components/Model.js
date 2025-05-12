@@ -46,13 +46,13 @@ const HorizontalTable = ({
   customUnits = {},
   customValue = {},
 }) => {
-  const fieldHelper = (acc, { field, type, displayName, unit }) =>
-    fieldNames.includes(field)
+  const fieldHelper = (acc, { fieldName, type, displayName, unit }) =>
+    fieldNames.includes(fieldName)
       ? {
           ...acc,
-          [field]: {
+          [fieldName]: {
             key: displayName,
-            value: apiDataProcessor({ data: get(rawData, field), type, unit }),
+            value: apiDataProcessor({ data: get(rawData, fieldName), type, unit }),
           },
         }
       : acc;
@@ -62,9 +62,9 @@ const HorizontalTable = ({
     .sort((a, b) => fieldNames.indexOf(a.fieldName) - fieldNames.indexOf(b.fieldName))
     .reduce((acc, { fieldName, type, displayName, unit }) => {
       return !Object.keys(customUnits).includes(fieldName)
-        ? fieldHelper(acc, { field: fieldName, type, displayName, unit })
+        ? fieldHelper(acc, { fieldName, type, displayName, unit })
         : fieldHelper(acc, {
-            field: fieldName,
+            fieldName,
             type,
             displayName,
             unit: customUnits[fieldName] || unit,
