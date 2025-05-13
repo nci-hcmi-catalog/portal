@@ -140,7 +140,7 @@ export const GenomicDataTable = ({
 }) => {
   const storedPageSize = pageSizeFromStorage(storageKey);
   const pageSize = storedPageSize ? parseInt(storedPageSize) : state.pageSize || 10;
-  console.log('genomic data table');
+
   return (
     <div css={searchStyles}>
       <ReactTable
