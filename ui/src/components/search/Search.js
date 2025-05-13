@@ -7,12 +7,12 @@ import {
   Pagination,
   Table,
   SQONViewer,
+  useArrangerData,
   useArrangerTheme,
 } from '@overture-stack/arranger-components';
 import CountDisplay from '@overture-stack/arranger-components/dist/Table/CountDisplay/index';
 import ColumnSelectButton from '@overture-stack/arranger-components/dist/Table/ColumnsSelectButton/index';
 import DownloadButton from '@overture-stack/arranger-components/dist/Table/DownloadButton/index';
-import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
 
@@ -80,7 +80,7 @@ const getColumnTypes = ({ savedSetsContext, state, expandedSqon, history }) => (
     },
   },
   distributor_part_number: {
-    cellValue: (props) => <TableDistributorCell {...props} value={props.value} />,
+    cellValue: (props) => <TableDistributorCell {...props} />,
   },
   expanded: {
     cellValue: (props) => <TableExpandedCell {...props} value={props.value} />,
@@ -158,7 +158,7 @@ const getColumnTypes = ({ savedSetsContext, state, expandedSqon, history }) => (
 });
 
 const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
-  const { setSQON, sqon, apiFetcher } = useDataContext({
+  const { setSQON, sqon, apiFetcher } = useArrangerData({
     callerName: 'HCMISearch',
   });
   const { showUnexpanded } = useExpandedUnexpanded();

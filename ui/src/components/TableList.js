@@ -8,7 +8,7 @@ const TableList = ({
   liStyle,
   toggleStyle,
   limit = 2,
-  expandText = `${value.length - limit} more`,
+  expandText = `${(value ? value : []).length - limit} more`,
   collapseText = 'less',
 }) => (
   <Component
@@ -17,9 +17,9 @@ const TableList = ({
     }}
   >
     {({ state: { expanded }, setState }) =>
-      value.length > 0 ? (
+      value?.length > 0 ? (
         <List style={style || {}}>
-          {value.slice(0, expanded ? value.length : limit).map((d, i) => (
+          {value.slice(0, expanded ? value?.length : limit).map((d, i) => (
             <div key={i} style={liStyle}>
               {d}
             </div>
