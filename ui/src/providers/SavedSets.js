@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import globals from 'utils/globals';
-import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
+import { useArrangerData } from '@overture-stack/arranger-components/';
 
 export const SavedSetsContext = React.createContext();
 
@@ -33,7 +33,7 @@ const SavedSetsProvider = (props) => {
   });
 
   const { ARRANGER_API } = globals;
-  const { apiFetcher } = useDataContext({ apiUrl: ARRANGER_API, callerName: 'AggregationQuery' });
+  const { apiFetcher } = useArrangerData({ apiUrl: ARRANGER_API, callerName: 'AggregationQuery' });
   return (
     <SavedSetsContext.Provider
       value={{

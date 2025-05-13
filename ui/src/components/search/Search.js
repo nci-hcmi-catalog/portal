@@ -5,6 +5,7 @@ import SplitPane from 'react-split-pane';
 import {
   Aggregations,
   Pagination,
+  Table,
   SQONViewer,
   Table,
   useArrangerTheme,
@@ -269,43 +270,11 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
             overflow-y: scroll !important;
           `}
         >
-          <Row
-            css={css`
-              background-color: #f6f6f8;
-              border: 1px solid #d9d9df;
-              align-items: center;
-              min-height: 50px;
-            `}
-          >
-            {/* {!filteredSqon && (
-              <Row
-                css={css`
-                  padding: 0 14px;
-                  flex: 1;
-                `}
-              >
-                <span className="sqon-field no-sqon-message">
-                  <ArrowIcon
-                    css={css`
-                      transform: rotate(180deg);
-                    `}
-                  />
-                  Use the filter panel on the left to customize your model search.
-                </span>
-              </Row>
-            )} */}
-            <SQONViewer
-              displayName="SearchSQON"
-              {...props}
-              sqon={filteredSqon}
-              setSQON={setSQON}
-              index={props.index}
-              graphqlField={props.index}
-            />
-            <div className="search-header-actions">
-              <ShareButton link={`${window.location.origin}/`} quote={`HCMI Search`} />
-              <ModelList className="search-header-model-list" />
-            </div>
+          <Row className="tableToolbar">
+            <CountDisplay />
+            <ExpandedToggle sqon={filteredSqon} apiFetcher={apiFetcher} />
+            <ColumnSelectButton />
+            <DownloadButton theme={{ customExporters: exporterOptions }} />
           </Row>
           <Row
             bg="white"
@@ -357,63 +326,21 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                   }
                   return (
                     <>
-                      {/* TODO: Placeholder for Toolbar requiring Arranger/Node update  */}
-                      <Row className="tableToolbar">
-                        <CountDisplay />
-                        <ExpandedToggle sqon={filteredSqon} apiFetcher={apiFetcher} />
-                        <ColumnSelectButton />
-                        <DownloadButton theme={{ customExporters: exporterOptions }} />
+                      <Row
+                        css={css`
+                          background-color: #f6f6f8;
+                          border: 1px solid #d9d9df;
+                          align-items: center;
+                          min-height: 50px;
+                        `}
+                      >
+                        <Table />
+                        <div className={'pagination-bottom'}>
+                          <Pagination />
+                          <LastUpdatedDate />
+                        </div>
                       </Row>
-                      <Table />
-                      <div className={'pagination-bottom'}>
-                        <Pagination />
-                        <LastUpdatedDate />
-                      </div>
                     </>
-                    // Old Table Props
-                    // {...props}
-                    // {...tableContext}
-                    // showFilterInput={false}
-                    // setSelectedTableRows={(selectedRows) =>
-                    //   selectedModelContext?.setModels(selectedRows)
-                    // }
-                    // selectedRows={
-                    //   selectedModelContext?.state?.modelIds || tableContext.selectedRows
-                    // }
-                    // isLoading={
-                    //   savedSetsContext?.state?.loading ||
-                    //   tableContext.loading ||
-                    //   props.loading
-                    // }
-                    // onSortedChange={(sorted) => setState({ sorted })}
-                    // customTypeConfigs={{
-                    //   entity: {
-                    //     minWidth: 140,
-                    //   },
-                    //   list: {
-                    //     minWidth: 160,
-                    //   },
-                    //   age_at_sample_acquisition: { minWidth: 85 },
-                    //   mutated_genes_count: { minWidth: 88 },
-                    //   number: { minWidth: 88 },
-                    //   expanded: { minWidth: 105 },
-                    //   histo_variant_count: { minWidth: 108 },
-                    //   matched_models: { minWidth: 84 },
-                    // }}
-                    // index={props.index}
-                    // graphqlField={props.index}
-                    // columnDropdownText="Columns"
-                    // enableSelectedTableRowsExporterFilter={true}
-                    // selectedRowsFilterPropertyName="_id"
-                    // exporterLabel="Export"
-                    // transformParams={(params) => ({
-                    //   ...params,
-                    //   url: `${globals.ARRANGER_API}/export/models`,
-                    // })}
-                    // fieldTypesForFilter={['text', 'keyword', 'id']}
-                    // enableDropDownControls={true}
-                    // sessionStorage={true}
-                    // storageKey={selectedModelContext?.storageKey}
                   );
                 }}
               </SelectedModelsContext.Consumer>
@@ -423,6 +350,52 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
       </SplitPane>
     </Col>
   );
+
+  /* TODO: Placeholder for Toolbar requiring Arranger/Node update  */
+  // Old Table Props
+  // {...props}
+  // {...tableContext}
+  // showFilterInput={false}
+  // setSelectedTableRows={(selectedRows) =>
+  //   selectedModelContext?.setModels(selectedRows)
+  // }
+  // selectedRows={
+  //   selectedModelContext?.state?.modelIds || tableContext.selectedRows
+  // }
+  // isLoading={
+  //   savedSetsContext?.state?.loading ||
+  //   tableContext.loading ||
+  //   props.loading
+  // }
+  // onSortedChange={(sorted) => setState({ sorted })}
+  // customTypeConfigs={{
+  //   entity: {
+  //     minWidth: 140,
+  //   },
+  //   list: {
+  //     minWidth: 160,
+  //   },
+  //   age_at_sample_acquisition: { minWidth: 85 },
+  //   mutated_genes_count: { minWidth: 88 },
+  //   number: { minWidth: 88 },
+  //   expanded: { minWidth: 105 },
+  //   histo_variant_count: { minWidth: 108 },
+  //   matched_models: { minWidth: 84 },
+  // }}
+  // index={props.index}
+  // graphqlField={props.index}
+  // columnDropdownText="Columns"
+  // enableSelectedTableRowsExporterFilter={true}
+  // selectedRowsFilterPropertyName="_id"
+  // exporterLabel="Export"
+  // transformParams={(params) => ({
+  //   ...params,
+  //   url: `${globals.ARRANGER_API}/export/models`,
+  // })}
+  // fieldTypesForFilter={['text', 'keyword', 'id']}
+  // enableDropDownControls={true}
+  // sessionStorage={true}
+  // storageKey={selectedModelContext?.storageKey}
 };
 
 export default Search;

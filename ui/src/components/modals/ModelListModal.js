@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import Component from 'react-component-component';
 import Spinner from 'react-spinkit';
 import moment from 'moment-timezone';
-import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
+import { useArrangerData } from '@overture-stack/arranger-components/';
 
 import ModelListModalQuery from 'components/queries/ModelListModalQuery';
 import cartDownload from 'utils/cartDownload';
@@ -41,7 +41,7 @@ const Loading = () => (
 );
 
 const ModelListModal = () => {
-  const { apiFetcher } = useDataContext({ callerName: `ModelListModal` });
+  const { apiFetcher } = useArrangerData({ callerName: `ModelListModal` });
   return (
     <ModalStateContext.Consumer>
       {(modalState) => (
