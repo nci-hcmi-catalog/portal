@@ -10,7 +10,7 @@ const TableEntity = ({
   value,
   history,
 }) => {
-  const { setSavedSets, state: savedSetsContextState } = savedSetsContext;
+  const { createSet } = savedSetsContext;
   return (
     <button
       className="clickable"
@@ -20,7 +20,7 @@ const TableEntity = ({
       `}
       onClick={async () => {
         searchWrapperSetState({ loading: true });
-        const { setId, ids } = await savedSetsContext.createSet({
+        const { setId } = await createSet({
           sqon,
           sort: [...(tableState?.sorted || []), { id: 'name', desc: false }].map(
             ({ id, desc }) => ({
@@ -30,13 +30,6 @@ const TableEntity = ({
           ),
         });
         if (setId) {
-          setSavedSets({
-            loading: false,
-            sets: {
-              ...savedSetsContextState.sets,
-              [setId]: { sqon, ids },
-            },
-          });
           history.push({
             pathname: `/model/${value}`,
             search: stringify({

@@ -42,7 +42,7 @@ const {
 const HorizontalTable = ({
   fieldNames = [],
   rawData,
-  extended: fieldData = [],
+  extended = [],
   customUnits = {},
   customValue = {},
 }) => {
@@ -57,7 +57,7 @@ const HorizontalTable = ({
         }
       : acc;
 
-  const formattedData = fieldData
+  const formattedData = extended
     .slice()
     .sort((a, b) => fieldNames.indexOf(a.fieldName) - fieldNames.indexOf(b.fieldName))
     .reduce((acc, { fieldName, type, displayName, unit }) => {
