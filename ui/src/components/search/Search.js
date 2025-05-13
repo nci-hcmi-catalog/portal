@@ -5,11 +5,12 @@ import SplitPane from 'react-split-pane';
 import {
   Aggregations,
   Pagination,
+  TableContextProvider,
+  useArrangerData,
   SQONViewer,
   Table,
   Toolbar,
 } from '@overture-stack/arranger-components';
-import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
 
@@ -54,13 +55,13 @@ import { useTable } from 'react-table';
 // approx. 20px for scrollbar width, plus 28px padding
 const facetTooltipPadding = 48;
 // non-searchable facets require less padding since they have no search button
-// const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
+const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 
 let stable = true;
 
 const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
   const { showUnexpanded } = useExpandedUnexpanded();
-  const { setSQON, sqon } = useDataContext({ callerName: 'HCMISearch' });
+  const { setSQON, sqon } = useArrangerData({ callerName: 'HCMISearch' });
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
 
   return (
@@ -188,21 +189,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                 </span>
               </Row>
             )}
-            <SQONViewer
-              displayName="SearchSQON"
-              {...props}
-              sqon={filterExpanded(sqon)}
-              setSQON={setSQON}
-              index={props.index}
-              graphqlField={props.index}
-            />
-            {/* <CurrentSQON
-                {...props}
-                sqon={filterExpanded(sqon)}
-                setSQON={setSQON}
-                index={props.index}
-                graphqlField={props.index}
-              /> */}
+            <SQONViewer sqon={filterExpanded(sqon)} setSQON={setSQON} />
             <div className="search-header-actions">
               <ShareButton link={`${window.location.origin}/`} quote={`HCMI Search`} />
               <ModelList className="search-header-model-list" />

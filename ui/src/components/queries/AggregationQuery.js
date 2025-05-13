@@ -1,6 +1,6 @@
 import React from 'react';
 import { isEqual } from 'lodash';
-import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
+import { useArrangerData } from '@overture-stack/arranger-components/';
 import Component from 'react-component-component';
 
 const getQuery = (fieldName) =>
@@ -24,7 +24,7 @@ const getQuery = (fieldName) =>
 
 const AggregationQuery = ({ sqon, ...props }) => {
   const { fieldName } = props;
-  const { apiFetcher } = useDataContext({ callerName: 'HCMIAggregationQuery' });
+  const { apiFetcher } = useArrangerData({ callerName: 'HCMIAggregationQuery' });
   const queryName = `${fieldName}Aggregation`;
   const query = getQuery(fieldName);
   const options = {

@@ -1,12 +1,12 @@
 import React from 'react';
-import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
+import { useArrangerData } from '@overture-stack/arranger-components/';
 
 import ModelIcon from 'icons/ModelIcon';
 import SidebarTextSearch from 'components/search/SidebarTextSearch';
 import { searchModels } from 'components/search/services/searchService';
 
 const ModelSearch = ({ sqon, setSQON, ...props }) => {
-  const context = useDataContext({
+  const context = useArrangerData({
     callerName: `ModelSearch`,
   });
   const { apiFetcher } = context;

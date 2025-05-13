@@ -1,7 +1,7 @@
 import React from 'react';
 import { get } from 'lodash';
 
-import { useDataContext } from '@overture-stack/arranger-components/dist/DataContext';
+import { useArrangerData } from '@overture-stack/arranger-components/';
 
 import Component from 'react-component-component';
 
@@ -78,10 +78,9 @@ const modelListQuery = `query ModelListModal ($first: Int, $sqon: JSON) {
 }`;
 
 const ModelListModalQuery = ({ selected, ...props }) => {
-  const context = useDataContext({
+  const { apiFetcher } = useArrangerData({
     callerName: `ModelListModalQuery`,
   });
-  const { apiFetcher } = context;
 
   return (
     <Component
