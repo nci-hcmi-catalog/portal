@@ -308,7 +308,7 @@ export const useVariants = () => {
     const modelSqon = { op: 'in', content: { fieldName: 'name', value: modelName } };
 
     const response = await apiFetcher({
-      body: { query, queryName: 'GeneMetadata', variables: { sqon: modelSqon } },
+      body: { query, variables: { sqon: modelSqon } },
       endpointTag: 'GeneMetadata',
     });
 
