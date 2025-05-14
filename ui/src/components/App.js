@@ -48,7 +48,7 @@ const ProvidedRoutes = () => (
                 render={() => (
                   <>
                     <Header />
-                    <SearchWrapper version={state.version} index="model" />
+                    <SearchWrapper index="model" />
                   </>
                 )}
               />

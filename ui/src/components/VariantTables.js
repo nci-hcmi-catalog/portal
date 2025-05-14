@@ -252,7 +252,7 @@ const VariantTable = React.memo(({ type, modelName, columns, storageKey }) => {
             <p className="model-details__empty-message">
               {loading
                 ? 'Loading...'
-                : type === VARIANT_TYPES.genomic && geneMetadata && geneMetadata.filename
+                : type === VARIANT_TYPES.genomic && geneMetadata && geneMetadata?.filename
                 ? 'No variants were identified in the Masked Somatic MAF file.'
                 : 'No variants available.'}
             </p>
@@ -493,10 +493,10 @@ const VariantTables = ({ modelName }) => {
         clinicalVariants.length === 0 &&
         genomicVariants.length === 0 &&
         histopathologicalBiomarkers.length === 0 &&
-        !geneMetadata.filename
+        !geneMetadata?.filename
       ) {
         setIsEmpty(true);
-      } else if (genomicVariants.length > 0 || (geneMetadata && geneMetadata.filename)) {
+      } else if (genomicVariants.length > 0 || (geneMetadata && geneMetadata?.filename)) {
         setIsEmpty(false);
         setActiveTab(VARIANT_TYPES.genomic);
         setData(genomicVariants);

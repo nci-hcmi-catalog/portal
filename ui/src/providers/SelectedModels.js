@@ -1,5 +1,6 @@
 import React from 'react';
-import { xor } from 'lodash';
+import { xor, isEqual } from 'lodash';
+import { withTableContext } from '@overture-stack/arranger-components';
 
 export const SelectedModelsContext = React.createContext();
 
@@ -15,6 +16,14 @@ class SelectedModelsProvider extends React.Component {
     const storedSelectedModels = JSON.parse(window.sessionStorage.getItem(`${this.storageKey}`));
     if (storedSelectedModels) {
       this.setState({ modelIds: storedSelectedModels });
+    }
+  }
+
+  componentDidUpdate() {
+    if (!isEqual(this.props.selectedRows, this.state.modelIds)) {
+      const modelIds = this.props.selectedRows;
+      window.sessionStorage.setItem(this.storageKey, JSON.stringify(modelIds));
+      this.setState({ modelIds });
     }
   }
 
@@ -43,4 +52,4 @@ class SelectedModelsProvider extends React.Component {
     );
   }
 }
-export default SelectedModelsProvider;
+export default withTableContext(SelectedModelsProvider);

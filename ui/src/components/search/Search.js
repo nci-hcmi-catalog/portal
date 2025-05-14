@@ -5,11 +5,11 @@ import SplitPane from 'react-split-pane';
 import {
   Aggregations,
   Pagination,
-  Table,
   TableContextProvider,
-  Toolbar,
   useArrangerData,
   SQONViewer,
+  Table,
+  Toolbar,
 } from '@overture-stack/arranger-components';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
@@ -59,9 +59,9 @@ const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 
 let stable = true;
 
-const Search = ({ setState, state, sqon, savedSetsContext, history, ...props }) => {
+const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
   const { showUnexpanded } = useExpandedUnexpanded();
-  const { setSQON } = useArrangerData({ callerName: 'HCMISearch' });
+  const { setSQON, sqon } = useArrangerData({ callerName: 'HCMISearch' });
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
 
   return (
@@ -244,11 +244,11 @@ const Search = ({ setState, state, sqon, savedSetsContext, history, ...props }) 
                     });
                   }
                   return (
-                    <TableContextProvider>
+                    <>
                       <Toolbar />
                       <Table />
                       <Pagination />
-                    </TableContextProvider>
+                    </>
                     // Old Table Props
                     // {...props}
                     // {...tableContext}

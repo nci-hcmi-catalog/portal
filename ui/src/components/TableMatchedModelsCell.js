@@ -24,7 +24,7 @@ const TableMatchedModelsCell = ({
         const { setId } = await savedSetsContext.createSet({
           sqon: {
             op: 'and',
-            content: [{ op: 'in', content: { field: 'name', value: matches } }],
+            content: [{ op: 'in', content: { fieldName: 'name', value: matches } }],
           },
           sort: [...state.sorted, { id: 'name', desc: false }].map(({ id, desc }) => ({
             field: id,
@@ -37,7 +37,7 @@ const TableMatchedModelsCell = ({
             search: stringify({
               sqon: JSON.stringify({
                 op: 'in',
-                content: { field: 'setId', value: setId },
+                content: { fieldName: 'setId', value: setId },
               }),
             }),
           });

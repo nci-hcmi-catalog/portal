@@ -36,7 +36,7 @@ const SavedSetsProvider = (props) => {
             data: {
               saveSet: { setId, ids },
             },
-          } = await apiFetcher({ query: fetchSetsQuery, sqon });
+          } = await apiFetcher({ query: fetchSetsQuery, variables: { sqon } });
           // await api({
           //   endpoint: `/graphql`,
           //   body: {

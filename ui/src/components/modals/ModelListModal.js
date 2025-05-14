@@ -7,7 +7,6 @@ import { useArrangerData } from '@overture-stack/arranger-components/';
 
 import ModelListModalQuery from 'components/queries/ModelListModalQuery';
 import cartDownload from 'utils/cartDownload';
-import globals from 'utils/globals';
 import modelImageProcessor from 'utils/modelImageProcessor';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 import { ModalStateContext } from 'providers/ModalState';
@@ -42,9 +41,7 @@ const Loading = () => (
 );
 
 const ModelListModal = () => {
-  const { ARRANGER_API } = globals;
-  const context = useArrangerData({ apiUrl: ARRANGER_API, callerName: `columnsStateQuery` });
-  const { apiFetcher } = context;
+  const { apiFetcher } = useArrangerData({ callerName: `ModelListModal` });
   return (
     <ModalStateContext.Consumer>
       {(modalState) => (

@@ -66,6 +66,7 @@ const TableWithPagination = ({
     const pageSize = storedPageSize ? parseInt(storedPageSize) : state.pageSize || 10;
     onPageSizeChange(pageSize);
   }, []);
+
   return (
     <TableComponent
       {...commonDataTableProps({ state, onSortedChange, ...props })}
@@ -139,6 +140,7 @@ export const GenomicDataTable = ({
 }) => {
   const storedPageSize = pageSizeFromStorage(storageKey);
   const pageSize = storedPageSize ? parseInt(storedPageSize) : state.pageSize || 10;
+
   return (
     <div css={searchStyles}>
       <ReactTable
