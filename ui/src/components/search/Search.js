@@ -5,8 +5,8 @@ import { css } from '@emotion/react';
 import {
   Aggregations,
   Pagination,
-  Table,
   SQONViewer,
+  Table,
   useArrangerData,
   useArrangerTheme,
 } from '@overture-stack/arranger-components';
@@ -363,10 +363,7 @@ const Search = ({
   );
 };
 
-/* TODO: Placeholder for Toolbar requiring Arranger/Node update  */
 // Old Table Props
-// {...props}
-// {...tableContext}
 // showFilterInput={false}
 // setSelectedTableRows={(selectedRows) =>
 //   selectedModelContext?.setModels(selectedRows)
