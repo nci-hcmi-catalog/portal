@@ -59,19 +59,12 @@ const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 
 let stable = true;
 
-const getColumnTypes = ({
-  savedSetsContext,
-  searchWrapperSetState,
-  tableState,
-  expandedSqon,
-  history,
-}) => ({
+const getColumnTypes = ({ savedSetsContext, tableState, expandedSqon, history }) => ({
   name: {
     cellValue: (props) => (
       <TableEntity
         {...props}
         savedSetsContext={savedSetsContext}
-        searchWrapperSetState={searchWrapperSetState}
         tableState={tableState}
         sqon={expandedSqon}
         history={history}
@@ -92,7 +85,6 @@ const Search = ({
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
   const columnTypes = getColumnTypes({
     savedSetsContext,
-    searchWrapperSetState,
     tableState,
     expandedSqon,
     history,

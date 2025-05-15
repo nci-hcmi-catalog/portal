@@ -2,14 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { stringify } from 'query-string';
 
-const TableEntity = ({
-  sqon,
-  savedSetsContext,
-  searchWrapperSetState,
-  tableState,
-  value,
-  history,
-}) => {
+const TableEntity = ({ sqon, savedSetsContext, tableState, value, history }) => {
   const { createSet } = savedSetsContext;
   return (
     <button
@@ -19,7 +12,6 @@ const TableEntity = ({
         border: none;
       `}
       onClick={async () => {
-        searchWrapperSetState({ loading: true });
         const { setId } = await createSet({
           sqon,
           sort: [...(tableState?.sorted || []), { id: 'name', desc: false }].map(
