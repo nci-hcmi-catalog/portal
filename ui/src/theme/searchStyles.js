@@ -416,7 +416,7 @@ export default css`
   }
 
   .input-range__track.input-range__track--active {
-    background-color: #fc7678;
+    background-color: #fc7678 !important;
   }
 
   .showMore-wrapper.more,
