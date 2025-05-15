@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import globals from 'utils/globals';
+import React, { useEffect, useState } from 'react';
 import { useArrangerData } from '@overture-stack/arranger-components/';
 
 export const SavedSetsContext = React.createContext();
@@ -18,68 +17,70 @@ const fetchSetsQuery = `query($sqon: JSON) {
   }
 }`;
 
+const createSetsQuery = `mutation ($sqon: JSON!, $sort: [Sort]) {
+  saveSet(sqon: $sqon, type: model, path:"name", sort: $sort) {
+    sqon
+    setId
+    ids
+  }
+}`;
+
 const SavedSetsProvider = (props) => {
   const [state, setState] = useState({
     sets: {},
     loading: false,
   });
 
-  const { ARRANGER_API } = globals;
-  const { apiFetcher } = useArrangerData({ apiUrl: ARRANGER_API, callerName: 'AggregationQuery' });
+  const { apiFetcher, isLoadingConfigs } = useArrangerData({ callerName: 'SavedSetsProvider' });
+  useEffect(() => {
+    setState({ loading: isLoadingConfigs });
+  }, [isLoadingConfigs]);
+
   return (
     <SavedSetsContext.Provider
       value={{
         state,
         createSet: async ({ sqon, sort }) => {
-          setState({ loading: true, sets: this.state.sets });
+          setState({ loading: true, sets: state.sets });
           const {
             data: {
               saveSet: { setId, ids },
             },
-          } = await apiFetcher({ query: fetchSetsQuery, variables: { sqon } });
-          // await api({
-          //   endpoint: `/graphql`,
-          //   body: {
-          //     query: `
-          //     mutation ($sqon: JSON!, $sort: [Sort]) {
-          //       saveSet(sqon: $sqon type: models path:"name" sort:$sort) {
-          //         sqon
-          //         setId
-          //         ids
-          //       }
-          //     }`,
-          //     variables: {
-          //       sqon: sqon || {},
-          //       sort,
-          //     },
-          //   },
-          // });
+          } = await apiFetcher({
+            endpointTag: 'CreateSets',
+            body: {
+              query: createSetsQuery,
+              variables: { sqon, sort },
+            },
+          });
           setState({
             loading: false,
             sets: {
-              ...this.state.sets,
+              ...state.sets,
               [setId]: { sqon, ids },
             },
           });
           return { setId, ids };
         },
         fetchSets: async ({ sqon }) => {
-          setState({ loading: true, sets: this.state.sets });
-          const { data } = await apiFetcher({ query: fetchSetsQuery, sqon });
-          console.log('sets data', data);
+          setState({ loading: true, sets: state.sets });
+          const { data } = await apiFetcher({
+            endpointTag: 'FetchSets',
+            body: { query: fetchSetsQuery, variables: { sqon } },
+          });
           const { sets } = data;
           setState({
             loading: false,
             sets: {
               ...state.sets,
-              // ...sets.hits.edges.reduce(
-              //   (acc, { node: { setId, ids, sqon } }) => ({ ...acc, [setId]: { ids, sqon } }),
-              //   {},
-              // ),
+              ...(sets?.hits?.edges.reduce(
+                (acc, { node: { setId, ids, sqon } }) => ({ ...acc, [setId]: { ids, sqon } }),
+                {},
+              ) || {}),
             },
           });
         },
-        setSet: ({ setId, ids, sqon }) =>
+        setSavedSets: ({ setId, ids, sqon }) =>
           setState({
             sets: {
               ...state.sets,

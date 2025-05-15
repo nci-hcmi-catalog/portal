@@ -19,8 +19,8 @@ class SelectedModelsProvider extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    if (!isEqual(this.props.selectedRows, this.state.modelIds)) {
+  componentDidUpdate(prevProps, prevState) {
+    if (!isEqual(this.props.selectedRows, prevState.modelIds)) {
       const modelIds = this.props.selectedRows;
       window.sessionStorage.setItem(this.storageKey, JSON.stringify(modelIds));
       this.setState({ modelIds });
@@ -40,11 +40,11 @@ class SelectedModelsProvider extends React.Component {
           toggleModel: (modelId) => {
             const modelIds = xor(this.state.modelIds, [modelId]);
             window.sessionStorage.setItem(this.storageKey, JSON.stringify(modelIds));
-            return this.setState({ ...this.state, modelIds });
+            this.setState({ ...this.state, modelIds });
           },
           clearModels: () => {
             window.sessionStorage.setItem(this.storageKey, JSON.stringify([]));
-            return this.setState({ ...this.state, modelIds: [] });
+            this.setState({ ...this.state, modelIds: [] });
           },
         }}
         {...this.props}

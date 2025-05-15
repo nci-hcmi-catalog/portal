@@ -1,18 +1,19 @@
-import React from 'react';
 import { get } from 'lodash';
-
-import { useArrangerData } from '@overture-stack/arranger-components/';
-
+import React from 'react';
 import Component from 'react-component-component';
+import { useArrangerData } from '@overture-stack/arranger-components/';
 
 const modelListQuery = `query ModelListModal ($first: Int, $sqon: JSON) {
     model {
+      configs {
+        extended
+      }
       hits(first: $first, filters: $sqon) {
       total
       edges {
         node {
+          id
           expanded
-          distributor_part_number
           proteomics_url
           source_model_url
           source_sequence_url
@@ -20,20 +21,18 @@ const modelListQuery = `query ModelListModal ($first: Int, $sqon: JSON) {
           name
           type
           split_ratio
-          time_to_split
           growth_rate
           primary_site
           neoadjuvant_therapy
           tnm_stage
           molecular_characterizations
-          age_at_diagnosis
           age_at_sample_acquisition
           vital_status
           gender
           race
           chemotherapeutic_drugs
+          age_at_sample_acquisition
           disease_status
-          tissue_type
           files {
             hits{
               edges {
@@ -42,9 +41,6 @@ const modelListQuery = `query ModelListModal ($first: Int, $sqon: JSON) {
                   file_url
                   file_name
                   file_type
-                  scale_bar_length
-                  magnification
-                  passage_number
                 }
               }
             }
@@ -52,8 +48,6 @@ const modelListQuery = `query ModelListModal ($first: Int, $sqon: JSON) {
           therapy
           licensing_required
           date_of_availability
-          createdAt
-          updatedAt
           clinical_diagnosis {
             clinical_tumor_diagnosis
             site_of_sample_acquisition
@@ -93,7 +87,6 @@ const ModelListModalQuery = ({ selected, ...props }) => {
         const query = modelListQuery;
 
         const data = await apiFetcher({
-          endpoint: '/graphql',
           endpointTag: 'ModelListModal',
           body: {
             query,

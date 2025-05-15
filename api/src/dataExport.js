@@ -50,8 +50,7 @@ dataExportRouter.post('/models', async (req, res) => {
      */
     const allDataStream = await getAllData({ sqon, maxRows: 100, mock: {}, ctx: req.context });
     const collectVariantData = through2.obj(function ({ hits }, enc, callback) {
-      const models = hits.map((h) => h._source);
-      models.forEach((model) => {
+      hits.forEach((model) => {
         if (model?.genomic_variants && model?.genomic_variants.length > 0) {
           genomicVariantData[model.name] = model.genomic_variants;
         }

@@ -8,7 +8,7 @@ import theme from 'theme';
 import { ResponsivePie } from '@nivo/pie';
 import { ChartTooltip } from './';
 
-export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
+export default ({ sqon, setSQON, victoryRef = React.createRef(), extendedMapping }) => (
   <Col
     alignItems="center"
     css={css`
@@ -38,7 +38,9 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
                   // TODO: Investigate `id undefined` error
                   id: String(x.key),
                   key: x.key_as_string,
-                  label: state?.extended?.displayValues[x.key_as_string],
+                  label:
+                    extendedMapping.find((field) => field.fieldName === 'has_matched_models')
+                      ?.displayValues[x.key_as_string] || x.key_as_string,
                   value: x.doc_count,
                   color:
                     theme.multipleModelsChartPalette[i % theme.multipleModelsChartPalette.length],
@@ -62,7 +64,7 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
                         {
                           op: 'in',
                           content: {
-                            field: 'has_matched_models',
+                            fieldName: 'has_matched_models',
                             value: [data.key],
                           },
                         },

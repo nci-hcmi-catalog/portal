@@ -28,7 +28,7 @@ const AggregationQuery = ({ sqon, ...props }) => {
   const queryName = `${fieldName}Aggregation`;
   const query = getQuery(fieldName);
   const options = {
-    body: { query, queryName, variables: { sqon } },
+    body: { query, variables: { sqon } },
     endpointTag: `${queryName}Query`,
   };
 

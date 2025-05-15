@@ -5,11 +5,11 @@ import SplitPane from 'react-split-pane';
 import {
   Aggregations,
   Pagination,
-  TableContextProvider,
-  useArrangerData,
   SQONViewer,
   Table,
   Toolbar,
+  useArrangerTheme,
+  useArrangerData,
 } from '@overture-stack/arranger-components';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
@@ -59,10 +59,43 @@ const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 
 let stable = true;
 
-const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
+const getColumnTypes = ({ savedSetsContext, tableState, expandedSqon, history }) => ({
+  name: {
+    cellValue: (props) => (
+      <TableEntity
+        {...props}
+        savedSetsContext={savedSetsContext}
+        tableState={tableState}
+        sqon={expandedSqon}
+        history={history}
+      />
+    ),
+  },
+});
+
+const Search = ({
+  setState: searchWrapperSetState,
+  state: tableState,
+  savedSetsContext,
+  history,
+  ...props
+}) => {
   const { showUnexpanded } = useExpandedUnexpanded();
-  const { setSQON, sqon } = useArrangerData({ callerName: 'HCMISearch' });
+  const { setSQON, sqon, extendedMapping } = useArrangerData({ callerName: 'HCMISearch' });
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
+  const columnTypes = getColumnTypes({
+    savedSetsContext,
+    tableState,
+    expandedSqon,
+    history,
+  });
+  useArrangerTheme({
+    components: {
+      Table: {
+        columnTypes,
+      },
+    },
+  });
 
   return (
     <Col css={searchStyles}>
@@ -70,9 +103,9 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
         className="search-split-pane"
         split="vertical"
         minSize={50}
-        defaultSize={state?.panelSize}
+        defaultSize={tableState?.panelSize}
         onChange={(panelSize) => {
-          setState({ panelSize });
+          searchWrapperSetState({ panelSize });
         }}
         onDragStarted={() => (stable = false)}
         onDragFinished={() => (stable = true)}
@@ -85,7 +118,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                 <GeneSearch
                   sqon={expandedSqon}
                   setSQON={setSQON}
-                  tooltipWidth={state?.panelSize - facetTooltipPadding}
+                  tooltipWidth={tableState?.panelSize - facetTooltipPadding}
                 />
                 <VariantSearch sqon={expandedSqon} setSQON={setSQON} />
                 <Aggregations />
@@ -160,7 +193,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
           p={30}
           flex={1}
           css={css`
-            width: calc(100vw - ${state.panelSize}px);
+            width: calc(100vw - ${tableState.panelSize}px);
             overflow-y: scroll !important;
           `}
         >
@@ -211,6 +244,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                   <MultipleModelsChart
                     sqon={toggleExpanded(sqon, showUnexpanded)}
                     setSQON={setSQON}
+                    extendedMapping={extendedMapping}
                   />
                   <GrowthChart sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
                   <TopVariantsChart sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />

@@ -20,9 +20,8 @@ const ModelCarousel = ({ modelName, sqon }) => {
     fetchSets,
     state: { loading, sets },
   } = useContext(SavedSetsContext);
-  const items =
-    (sets[(sqon || { content: { value: '' } }).content.value.replace('set_id', '')] || { ids: [] })
-      .ids || [];
+  const setValue = (sqon || { content: { value: '' } }).content.value.replace('set_id', '');
+  const items = (sets?.[setValue] || { ids: [] }).ids || [];
   const currentIndex = items.indexOf(modelName);
   const prevName = items[currentIndex - 1] || items[items.length - 1] || '';
   const nextName = items[currentIndex + 1] || items[0] || '';
