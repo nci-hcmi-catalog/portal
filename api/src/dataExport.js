@@ -49,13 +49,12 @@ dataExportRouter.post('/models', async (req, res) => {
      * for future processing.
      */
     const allDataStream = await getAllData({ sqon, maxRows: 100, mock: {}, ctx: req.context });
-    const collectVariantData = through2.obj(function({ hits }, enc, callback) {
-      const models = hits.map(h => h._source);
-      models.forEach(model => {
-        if (model.genomic_variants && model.genomic_variants.length > 0) {
+    const collectVariantData = through2.obj(function ({ hits }, enc, callback) {
+      hits.forEach((model) => {
+        if (model?.genomic_variants && model?.genomic_variants.length > 0) {
           genomicVariantData[model.name] = model.genomic_variants;
         }
-        if (model.variants && model.variants.length > 0) {
+        if (model?.variants && model?.variants.length > 0) {
           clinicalVariantData[model.name] = model.variants;
         }
       });
@@ -95,14 +94,14 @@ dataExportRouter.post('/models', async (req, res) => {
             cb(null, `${dataRow}`);
           }),
         )
-        .on('error', err => {
+        .on('error', (err) => {
           reject(err);
         })
         .on('end', () => {
           // Use empty string in .join('') to prevent commas at the start of every line in the TSV
           resolve(tsvData.join(''));
         });
-    }).catch(err => {
+    }).catch((err) => {
       logger.error(`Error processing downlaod TSV data stream from arranger: ${err}`);
       return res.status(500).send(err);
     });
@@ -114,7 +113,7 @@ dataExportRouter.post('/models', async (req, res) => {
     zip.file('model-table.tsv', modelsTsv);
 
     await Promise.all(
-      models.map(async modelId => {
+      models.map(async (modelId) => {
         // Get Clinical and Somatic variants for the model
         const clinicalVariants = await buildVariantTsv(
           clinicalVariantData[modelId],
@@ -138,7 +137,7 @@ dataExportRouter.post('/models', async (req, res) => {
     zip
       .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
       .pipe(res)
-      .on('error', err => {
+      .on('error', (err) => {
         res.status(500).write(err);
         res.end();
       })
@@ -156,9 +155,9 @@ const buildVariantTsv = async (data, type) => {
     return null;
   } else {
     const keys = type === VARIANT_TYPES.clinical ? CLINICAL_COLUMNS : Object.keys(data[0]);
-    const records = data.map(record => {
+    const records = data.map((record) => {
       const row = [];
-      keys.forEach(key => {
+      keys.forEach((key) => {
         row.push(record[key]);
       });
       return row.join('\t');
@@ -169,7 +168,7 @@ const buildVariantTsv = async (data, type) => {
   }
 };
 
-const getParamsObj = params => {
+const getParamsObj = (params) => {
   const paramsObj = JSON.parse(params);
   return paramsObj;
 };

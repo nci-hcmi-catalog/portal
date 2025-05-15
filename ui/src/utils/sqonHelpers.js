@@ -50,7 +50,8 @@ export const getNumUnexpanded = async (sqon, apiFetcher) => {
   );
 
   const response = await apiFetcher({
-    body: { endpointTag: 'NumberUnexpanded', query, variables: { filters } },
+    endpointTag: 'NumberUnexpanded',
+    body: { query, variables: { filters } },
   });
 
   const data = get(response, `data.model.hits.total`, 0);

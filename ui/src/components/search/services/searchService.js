@@ -48,13 +48,16 @@ export const searchModels = async (inputValue, apiFetcher) => {
     op: 'or',
     content: [
       {
-        op: 'filter',
-        content: { value: `*${inputValue.toLowerCase()}*`, fields: ['autocomplete'] },
+        op: 'in',
+        content: { value: `*${inputValue.toLowerCase()}*`, fieldName: 'autocomplete' },
       },
     ],
   };
   try {
-    const response = await apiFetcher({ endpoint: '/graphql', body: { query, sqon } });
+    const response = await apiFetcher({
+      endpointTag: 'ModelsQuickSearch',
+      body: { query, variables: { sqon } },
+    });
     return get(response, 'data.model.hits.edges', []).map((i) => i.node);
   } catch (e) {
     return [];

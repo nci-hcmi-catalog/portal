@@ -2,7 +2,8 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { stringify } from 'query-string';
 
-const TableEntity = ({ sqon, savedSetsContext, state, value, history }) => {
+const TableEntity = ({ sqon, savedSetsContext, tableState, value, history }) => {
+  const { createSet } = savedSetsContext;
   return (
     <button
       className="clickable"
@@ -11,12 +12,14 @@ const TableEntity = ({ sqon, savedSetsContext, state, value, history }) => {
         border: none;
       `}
       onClick={async () => {
-        const { setId } = await savedSetsContext.createSet({
+        const { setId } = await createSet({
           sqon,
-          sort: [...(state?.sorted || []), { id: 'name', desc: false }].map(({ id, desc }) => ({
-            fieldName: id,
-            order: desc ? 'desc' : 'asc',
-          })),
+          sort: [...(tableState?.sorted || []), { id: 'name', desc: false }].map(
+            ({ id, desc }) => ({
+              fieldName: id,
+              order: desc ? 'desc' : 'asc',
+            }),
+          ),
         });
         if (setId) {
           history.push({

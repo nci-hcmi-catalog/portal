@@ -1,7 +1,7 @@
 import React from 'react';
-import { css } from '@emotion/react';
 import Component from 'react-component-component';
 import SplitPane from 'react-split-pane';
+import { css } from '@emotion/react';
 import {
   Aggregations,
   Pagination,
@@ -13,8 +13,6 @@ import {
 import CountDisplay from '@overture-stack/arranger-components/dist/Table/CountDisplay/index';
 import ColumnSelectButton from '@overture-stack/arranger-components/dist/Table/ColumnsSelectButton/index';
 import DownloadButton from '@overture-stack/arranger-components/dist/Table/DownloadButton/index';
-
-import { SelectedModelsContext } from 'providers/SelectedModels';
 
 import ArrowIcon from 'icons/ArrowIcon';
 
@@ -45,12 +43,12 @@ import {
 } from 'components/tooltips';
 
 import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
+import { SelectedModelsContext } from 'providers/SelectedModels';
 
 import { filterExpanded, toggleExpanded } from 'utils/sqonHelpers';
 
 import searchStyles, { MainCol } from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
-import { useTable } from 'react-table';
 
 // prevents facet tooltips from extending beyond the window
 // approx. 20px for scrollbar width, plus 28px padding
@@ -60,13 +58,13 @@ const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 
 let stable = true;
 
-const getColumnTypes = ({ savedSetsContext, state, expandedSqon, history }) => ({
+const getColumnTypes = ({ savedSetsContext, tableState, expandedSqon, history }) => ({
   name: {
     cellValue: (props) => (
       <TableEntity
         {...props}
         savedSetsContext={savedSetsContext}
-        state={state}
+        tableState={tableState}
         sqon={expandedSqon}
         history={history}
       />
@@ -96,7 +94,7 @@ const getColumnTypes = ({ savedSetsContext, state, expandedSqon, history }) => (
         {...props}
         value={props.value}
         savedSetsContext={savedSetsContext}
-        state={state}
+        state={tableState}
         sqon={expandedSqon}
         history={history}
       />
@@ -157,13 +155,19 @@ const getColumnTypes = ({ savedSetsContext, state, expandedSqon, history }) => (
   },
 });
 
-const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
-  const { setSQON, sqon, apiFetcher } = useArrangerData({
+const Search = ({
+  setState: searchWrapperSetState,
+  state: tableState,
+  savedSetsContext,
+  history,
+  ...props
+}) => {
+  const { setSQON, sqon, apiFetcher, extendedMapping } = useArrangerData({
     callerName: 'HCMISearch',
   });
   const { showUnexpanded } = useExpandedUnexpanded();
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
-  const columnTypes = getColumnTypes({ savedSetsContext, state, expandedSqon, history });
+  const columnTypes = getColumnTypes({ savedSetsContext, tableState, expandedSqon, history });
   const filteredSqon = filterExpanded(sqon);
   useArrangerTheme({
     components: {
@@ -179,9 +183,9 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
         className="search-split-pane"
         split="vertical"
         minSize={50}
-        defaultSize={state?.panelSize}
+        defaultSize={tableState?.panelSize}
         onChange={(panelSize) => {
-          setState({ panelSize });
+          searchWrapperSetState({ panelSize });
         }}
         onDragStarted={() => (stable = false)}
         onDragFinished={() => (stable = true)}
@@ -194,7 +198,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                 <GeneSearch
                   sqon={expandedSqon}
                   setSQON={setSQON}
-                  tooltipWidth={state?.panelSize - facetTooltipPadding}
+                  tooltipWidth={tableState?.panelSize - facetTooltipPadding}
                 />
                 <VariantSearch sqon={expandedSqon} setSQON={setSQON} />
                 <Aggregations
@@ -207,7 +211,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                             Research Somatic Variant Type
                             <GenomicVariantsTooltip
                               isFacet={true}
-                              width={state.panelSize - facetTooltipPadding}
+                              width={tableState.panelSize - facetTooltipPadding}
                             />
                           </Row>
                         ),
@@ -227,7 +231,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                             Has Multiple Models
                             <MultipleModelsTooltip
                               isFacet={true}
-                              width={state.panelSize - nonSearchableFacetTooltipPadding}
+                              width={tableState.panelSize - nonSearchableFacetTooltipPadding}
                             />
                           </Row>
                         ),
@@ -241,7 +245,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                             Available Molecular Characterizations
                             <MolecularCharacterizationsTooltip
                               isFacet={true}
-                              width={state.panelSize - facetTooltipPadding}
+                              width={tableState.panelSize - facetTooltipPadding}
                             />
                           </Row>
                         ),
@@ -265,7 +269,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
           p={30}
           flex={1}
           css={css`
-            width: calc(100vw - ${state.panelSize}px);
+            width: calc(100vw - ${tableState.panelSize}px);
             overflow-y: scroll !important;
           `}
         >
@@ -277,14 +281,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
               min-height: 50px;
             `}
           >
-            <SQONViewer
-              displayName="SearchSQON"
-              {...props}
-              sqon={filteredSqon}
-              setSQON={setSQON}
-              index={props.index}
-              graphqlField={props.index}
-            />
+            <SQONViewer sqon={filteredSqon} setSQON={setSQON} />
             <div className="search-header-actions">
               <ShareButton link={`${window.location.origin}/`} quote={`HCMI Search`} />
               <ModelList className="search-header-model-list" />
@@ -306,6 +303,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                   <MultipleModelsChart
                     sqon={toggleExpanded(sqon, showUnexpanded)}
                     setSQON={setSQON}
+                    extendedMapping={extendedMapping}
                   />
                   <GrowthChart sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
                   <TopVariantsChart sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
@@ -318,7 +316,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
               <SelectedModelsContext.Consumer>
                 {(selectedModelContext) => {
                   // Options for Export drop down
-                  const exporterOptions = [
+                  const customExporters = [
                     {
                       label: 'TSV (current columns)',
                       function: 'saveTSV',
@@ -330,7 +328,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                     },
                   ];
                   if (selectedModelContext?.state?.modelIds.length > 0) {
-                    exporterOptions.unshift({
+                    customExporters.unshift({
                       label: (
                         <div className="selectedModelsLabel">
                           ({selectedModelContext?.state?.modelIds.length} models selected)
@@ -345,7 +343,7 @@ const Search = ({ setState, state, savedSetsContext, history, ...props }) => {
                         <CountDisplay />
                         <ExpandedToggle sqon={filteredSqon} apiFetcher={apiFetcher} />
                         <ColumnSelectButton />
-                        <DownloadButton theme={{ customExporters: exporterOptions }} />
+                        <DownloadButton theme={{ customExporters }} />
                       </Row>
                       <Table />
                       <div className={'pagination-bottom'}>

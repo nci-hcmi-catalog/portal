@@ -116,7 +116,7 @@ const SidebarTextSearch = ({
                       {
                         op: 'in',
                         content: {
-                          field: filterField,
+                          fieldName: filterField,
                           value: [...currentFilterValues, selected],
                         },
                       },

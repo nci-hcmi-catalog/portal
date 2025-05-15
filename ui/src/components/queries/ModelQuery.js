@@ -4,9 +4,12 @@ import { get } from 'lodash';
 import Component from 'react-component-component';
 import { useArrangerData } from '@overture-stack/arranger-components/';
 
-const modelDataQuery = `query ModelDataQuery($filters: JSON) {
+const modelDataQuery = `query ModelDataQuery($sqon: JSON) {
   model {
-    hits(first: 1, filters: $filters) {
+    configs {
+      extended(fieldNames: [])
+    }
+    hits(first: 1, filters: $sqon) {
       edges {
         node {
           id
@@ -77,8 +80,7 @@ const modelDataQuery = `query ModelDataQuery($filters: JSON) {
 }`;
 
 const ModelQuery = ({ modelName, ...props }) => {
-  const context = useArrangerData({ callerName: `ModelQuery` });
-  const { apiFetcher } = context;
+  const { apiFetcher } = useArrangerData({ callerName: `ModelQuery` });
   return (
     <Component
       {...props}
@@ -86,12 +88,10 @@ const ModelQuery = ({ modelName, ...props }) => {
       initialState={{ model: null, loading: true, extended: [] }}
       didMount={async ({ setState }) => {
         const data = await apiFetcher({
-          endpoint: '/graphql/ModelDataQuery',
+          endpointTag: 'ModelDataQuery',
           body: {
-            queryName: 'ModelDataQuery',
             query: modelDataQuery,
-            first: 1,
-            filters: {
+            variables: {
               sqon: { op: 'in', content: { fieldName: 'name', value: [modelName] } },
             },
           },
@@ -99,10 +99,10 @@ const ModelQuery = ({ modelName, ...props }) => {
           console.log(err);
         });
 
+        const extendedMapping = get(data, `data.model.configs.extended`);
         setState({
           model: get(data, `data.model.hits.edges[0].node`, {}),
-          // TODO: model.configs.extended?
-          // extended: get(data, `models.extended`),
+          extended: extendedMapping,
           loading: false,
         });
       }}
@@ -111,23 +111,21 @@ const ModelQuery = ({ modelName, ...props }) => {
           setState({ loading: true });
 
           const data = await apiFetcher({
-            endpoint: '/graphql/ModelDataQuery',
+            endpointTag: 'ModelDataQuery',
             body: {
-              queryName: 'ModelDataQuery',
               query: modelDataQuery,
-              first: 1,
-              filters: {
+              variables: {
                 sqon: { op: 'in', content: { fieldName: 'name', value: [props.modelName] } },
               },
             },
           }).catch((err) => {
             console.log(err);
           });
+          const extendedMapping = get(data, `data.model.configs.extended`);
 
           setState({
             model: get(data, `data.model.hits.edges[0].node`, {}),
-            // TODO: model.configs.extended?
-            // extended: get(data, `models.extended`),
+            extended: extendedMapping,
             loading: false,
           });
         }

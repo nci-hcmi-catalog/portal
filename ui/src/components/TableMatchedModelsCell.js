@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { stringify } from 'query-string';
 
 const TableMatchedModelsCell = ({ row, savedSetsContext, state, value, history }) => {
-  const matches = (value && value.split(',')) || 0;
+  const matches = (value && value.split(',')) || [];
   const matchCount = matches.length;
   return matchCount > 1 ? (
     <button
@@ -19,7 +19,7 @@ const TableMatchedModelsCell = ({ row, savedSetsContext, state, value, history }
             content: [{ op: 'in', content: { fieldName: 'name', value: matches } }],
           },
           sort: [...state.sorted, { id: 'name', desc: false }].map(({ id, desc }) => ({
-            field: id,
+            fieldName: id,
             order: desc ? 'desc' : 'asc',
           })),
         });
