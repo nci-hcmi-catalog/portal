@@ -64,8 +64,8 @@ const getColumnTypes = ({ savedSetsContext, tableState, expandedSqon, history })
       <TableEntity
         {...props}
         savedSetsContext={savedSetsContext}
+        expandedSqon={expandedSqon}
         tableState={tableState}
-        sqon={expandedSqon}
         history={history}
       />
     ),
@@ -167,8 +167,9 @@ const Search = ({
   });
   const { showUnexpanded } = useExpandedUnexpanded();
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
-  const columnTypes = getColumnTypes({ savedSetsContext, tableState, expandedSqon, history });
   const filteredSqon = filterExpanded(sqon);
+
+  const columnTypes = getColumnTypes({ savedSetsContext, tableState, expandedSqon, history });
   useArrangerTheme({
     components: {
       Table: {
