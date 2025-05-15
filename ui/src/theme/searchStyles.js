@@ -174,6 +174,7 @@ export default css`
     font-size: 12px;
     font-weight: bold;
     overflow-wrap: break-word;
+    overflow: visible;
     white-space: normal;
   }
 
