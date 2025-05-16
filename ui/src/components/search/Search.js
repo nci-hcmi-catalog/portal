@@ -122,7 +122,7 @@ const getColumnTypes = ({ savedSetsContext, tableState, expandedSqon, history })
   },
   list: { size: 160, cellValue: (props) => <TableList {...props} /> },
   matched_models_list: {
-    minWidth: 84,
+    size: 84,
     cellValue: (props) => (
       <TableMatchedModelsCell
         {...props}
