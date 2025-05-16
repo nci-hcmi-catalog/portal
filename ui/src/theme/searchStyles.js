@@ -702,7 +702,6 @@ export default css`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: auto;
     padding: 4px;
   }
 
@@ -720,6 +719,7 @@ export default css`
     border-color: ${graySuit};
     border-width: 0;
     border-right-width: 1px;
+    border-radius: unset;
 
     &:not(.active):hover {
       background-color: ${lightPorcelain};
