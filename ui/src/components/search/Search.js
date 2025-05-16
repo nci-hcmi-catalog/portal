@@ -14,7 +14,7 @@ import CountDisplay from '@overture-stack/arranger-components/dist/Table/CountDi
 import ColumnSelectButton from '@overture-stack/arranger-components/dist/Table/ColumnsSelectButton/index';
 import DownloadButton from '@overture-stack/arranger-components/dist/Table/DownloadButton/index';
 
-import ArrowIcon from 'icons/ArrowIcon';
+// import ArrowIcon from 'icons/ArrowIcon';
 
 import LastUpdatedDate from 'components/LastUpdatedDate';
 import ExpandedToggle from 'components/search/ExpandedToggle';
@@ -59,18 +59,7 @@ const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 let stable = true;
 
 const getColumnTypes = ({ savedSetsContext, tableState, expandedSqon, history }) => ({
-  name: {
-    size: 150,
-    cellValue: (props) => (
-      <TableEntity
-        {...props}
-        savedSetsContext={savedSetsContext}
-        expandedSqon={expandedSqon}
-        tableState={tableState}
-        history={history}
-      />
-    ),
-  },
+  age_at_sample_acquisition: { size: 85 },
   chemotherapeutic_drugs: {
     cellValue: (props) => {
       const { value } = props;
@@ -82,6 +71,7 @@ const getColumnTypes = ({ savedSetsContext, tableState, expandedSqon, history })
     cellValue: (props) => <TableDistributorCell {...props} />,
   },
   expanded: {
+    size: 105,
     cellValue: (props) => <TableExpandedCell {...props} value={props.value} />,
     headerValue: () => (
       <Row justifyContent="space-between">
@@ -89,40 +79,8 @@ const getColumnTypes = ({ savedSetsContext, tableState, expandedSqon, history })
       </Row>
     ),
   },
-  matched_models_list: {
-    cellValue: (props) => (
-      <TableMatchedModelsCell
-        {...props}
-        value={props.value}
-        savedSetsContext={savedSetsContext}
-        state={tableState}
-        sqon={expandedSqon}
-        history={history}
-      />
-    ),
-    headerValue: () => (
-      <Row justifyContent="space-between">
-        Has Multiple Models <MultipleModelsTooltip isColumn={true} />
-      </Row>
-    ),
-  },
-  licensing_required: {
-    cellValue: (props) => {
-      const { value } = props;
-      const { displayValues } = props.column;
-      return displayValues[value] || value;
-    },
-  },
-  list: { cellValue: (props) => <TableList {...props} /> },
-  molecular_characterizations: {
-    headerValue: () => (
-      <Row justifyContent="space-between">
-        Available Molecular Characterizations
-        <MolecularCharacterizationsTooltip isColumn={true} />
-      </Row>
-    ),
-  },
   'gene_metadata.mutated_genes_count': {
+    size: 88,
     headerValue: () => (
       <Row justifyContent="space-between">
         # Mutated Genes
@@ -147,6 +105,7 @@ const getColumnTypes = ({ savedSetsContext, tableState, expandedSqon, history })
     ),
   },
   'gene_metadata.histopathological_variant_count': {
+    size: 108,
     headerValue: () => (
       <Row justifyContent="space-between">
         # Histo-pathological Biomarkers
@@ -154,6 +113,53 @@ const getColumnTypes = ({ savedSetsContext, tableState, expandedSqon, history })
       </Row>
     ),
   },
+  licensing_required: {
+    cellValue: (props) => {
+      const { value } = props;
+      const { displayValues } = props.column;
+      return displayValues[value] || value;
+    },
+  },
+  list: { size: 160, cellValue: (props) => <TableList {...props} /> },
+  matched_models_list: {
+    minWidth: 84,
+    cellValue: (props) => (
+      <TableMatchedModelsCell
+        {...props}
+        value={props.value}
+        savedSetsContext={savedSetsContext}
+        state={tableState}
+        sqon={expandedSqon}
+        history={history}
+      />
+    ),
+    headerValue: () => (
+      <Row justifyContent="space-between">
+        Has Multiple Models <MultipleModelsTooltip isColumn={true} />
+      </Row>
+    ),
+  },
+  molecular_characterizations: {
+    headerValue: () => (
+      <Row justifyContent="space-between">
+        Available Molecular Characterizations
+        <MolecularCharacterizationsTooltip isColumn={true} />
+      </Row>
+    ),
+  },
+  name: {
+    size: 150,
+    cellValue: (props) => (
+      <TableEntity
+        {...props}
+        savedSetsContext={savedSetsContext}
+        expandedSqon={expandedSqon}
+        tableState={tableState}
+        history={history}
+      />
+    ),
+  },
+  number: { size: 88 },
 });
 
 const Search = ({
@@ -378,20 +384,6 @@ const Search = ({
 //   props.loading
 // }
 // onSortedChange={(sorted) => setState({ sorted })}
-// customTypeConfigs={{
-//   entity: {
-//     minWidth: 140,
-//   },
-//   list: {
-//     minWidth: 160,
-//   },
-//   age_at_sample_acquisition: { minWidth: 85 },
-//   mutated_genes_count: { minWidth: 88 },
-//   number: { minWidth: 88 },
-//   expanded: { minWidth: 105 },
-//   histo_variant_count: { minWidth: 108 },
-//   matched_models: { minWidth: 84 },
-// }}
 // index={props.index}
 // graphqlField={props.index}
 // columnDropdownText="Columns"
