@@ -216,7 +216,9 @@ export default css`
     padding-top: 4px;
     padding-bottom: 4px;
     border-color: ${mischka};
+    border-right: 1px solid ${mischka};
     align-items: baseline;
+    vertical-align: top;
 
     &:hover {
       background-color: ${lightPorcelain};
