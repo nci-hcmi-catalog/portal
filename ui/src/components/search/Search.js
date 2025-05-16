@@ -60,6 +60,7 @@ let stable = true;
 
 const getColumnTypes = ({ savedSetsContext, tableState, expandedSqon, history }) => ({
   name: {
+    size: 150,
     cellValue: (props) => (
       <TableEntity
         {...props}
