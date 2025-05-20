@@ -920,7 +920,14 @@ export default css`
     padding: 0px;
   }
 
-  .dropDownHeader .dropDownContent {
+  .DropdownContainer,
+  .SelectionControls,
+  .ListItem {
+    background: white;
+  }
+
+  .dropDownHeader .dropDownContent,
+  .List {
     max-height: 360px;
     overflow-y: auto;
     font-size: 13px;
@@ -928,7 +935,8 @@ export default css`
     padding: 0;
   }
 
-  .dropDownContent .dropDownContentElement.clickable {
+  .dropDownContent .dropDownContentElement.clickable,
+  .List .ListItem {
     padding: 5px 10px;
     color: black;
 
@@ -941,7 +949,8 @@ export default css`
     }
   }
 
-  .dropDownContent .dropDownContentElement.clickable:hover {
+  .dropDownContent .dropDownContentElement.clickable:hover,
+  .List .ListItem:hover {
     background-color: #f3f6f7;
   }
   .dropDownContent .dropDownContentElement.custom .selectedModelsLabel {

@@ -354,8 +354,10 @@ const Search = ({
                       <Row className="tableToolbar">
                         <CountDisplay />
                         <ExpandedToggle sqon={filteredSqon} apiFetcher={apiFetcher} />
-                        <ColumnSelectButton />
-                        <DownloadButton theme={{ customExporters }} />
+                        <div className="group">
+                          <ColumnSelectButton />
+                          <DownloadButton theme={{ customExporters }} />
+                        </div>
                       </Row>
                       <Table />
                       <div className={'pagination-bottom'}>
