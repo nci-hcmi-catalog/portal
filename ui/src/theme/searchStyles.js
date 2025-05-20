@@ -886,6 +886,7 @@ export default css`
     padding: 0;
   }
 
+  .tableToolbar .group .DropdownContainer button.DropDownButton,
   .tableToolbar .dropDownHeader button,
   .tableToolbar .buttonWrapper button,
   .toolbar button {
