@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useReducer } from 'react';
 import Component from 'react-component-component';
 import SplitPane from 'react-split-pane';
 import { css } from '@emotion/react';
@@ -169,13 +169,13 @@ const Search = ({
   history,
   ...props
 }) => {
-  const { setSQON, sqon, apiFetcher, extendedMapping } = useArrangerData({
+  const context = useArrangerData({
     callerName: 'HCMISearch',
   });
+  const { apiFetcher, extendedMapping, setSQON, sqon } = context;
   const { showUnexpanded } = useExpandedUnexpanded();
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
   const filteredSqon = filterExpanded(sqon);
-
   const columnTypes = getColumnTypes({ savedSetsContext, tableState, expandedSqon, history });
   useArrangerTheme({
     components: {
@@ -184,6 +184,13 @@ const Search = ({
       },
     },
   });
+
+  // Force Aggregations re-render on page reload
+  // https://legacy.reactjs.org/docs/hooks-faq.html#is-there-something-like-forceupdate
+  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+  useEffect(() => {
+    forceUpdate();
+  }, []);
 
   return (
     <Col css={searchStyles}>
@@ -200,75 +207,72 @@ const Search = ({
       >
         <Col className="aggregations-wrapper" role="complementary">
           <Component>
-            {() => (
-              <>
-                <ModelSearch sqon={expandedSqon} setSQON={setSQON} />
-                <GeneSearch
-                  sqon={expandedSqon}
-                  setSQON={setSQON}
-                  tooltipWidth={tableState?.panelSize - facetTooltipPadding}
-                />
-                <VariantSearch sqon={expandedSqon} setSQON={setSQON} />
-                <Aggregations
-                  customFacets={[
-                    {
-                      content: {
-                        fieldName: 'genomic_variants.classification',
-                        displayName: (
-                          <Row justifyContent="space-between">
-                            Research Somatic Variant Type
-                            <GenomicVariantsTooltip
-                              isFacet={true}
-                              width={tableState.panelSize - facetTooltipPadding}
-                            />
-                          </Row>
-                        ),
-                      },
+            <>
+              <ModelSearch sqon={expandedSqon} setSQON={setSQON} />
+              <GeneSearch
+                sqon={expandedSqon}
+                setSQON={setSQON}
+                tooltipWidth={tableState?.panelSize - facetTooltipPadding}
+              />
+              <VariantSearch sqon={expandedSqon} setSQON={setSQON} />
+              <Aggregations
+                // Bug related to Facets not reloading on navigation
+                isLoading={ignored}
+                componentProps={{
+                  getTermAggProps: () => ({ maxTerms: 4 }),
+                }}
+                customFacets={[
+                  {
+                    content: {
+                      fieldName: 'genomic_variants.classification',
+                      displayName: (
+                        <Row justifyContent="space-between">
+                          Research Somatic Variant Type
+                          <GenomicVariantsTooltip
+                            isFacet={true}
+                            width={tableState.panelSize - facetTooltipPadding}
+                          />
+                        </Row>
+                      ),
                     },
-                    {
-                      content: {
-                        fieldName: 'type',
-                        displayName: 'Model Type',
-                      },
+                  },
+                  {
+                    content: {
+                      fieldName: 'type',
+                      displayName: 'Model Type',
                     },
-                    {
-                      content: {
-                        fieldName: 'has_matched_models',
-                        displayName: (
-                          <Row justifyContent="space-between">
-                            Has Multiple Models
-                            <MultipleModelsTooltip
-                              isFacet={true}
-                              width={tableState.panelSize - nonSearchableFacetTooltipPadding}
-                            />
-                          </Row>
-                        ),
-                      },
+                  },
+                  {
+                    content: {
+                      fieldName: 'has_matched_models',
+                      displayName: (
+                        <Row justifyContent="space-between">
+                          Has Multiple Models
+                          <MultipleModelsTooltip
+                            isFacet={true}
+                            width={tableState.panelSize - nonSearchableFacetTooltipPadding}
+                          />
+                        </Row>
+                      ),
                     },
-                    {
-                      content: {
-                        fieldName: 'molecular_characterizations',
-                        displayName: (
-                          <Row justifyContent="space-between">
-                            Available Molecular Characterizations
-                            <MolecularCharacterizationsTooltip
-                              isFacet={true}
-                              width={tableState.panelSize - facetTooltipPadding}
-                            />
-                          </Row>
-                        ),
-                      },
+                  },
+                  {
+                    content: {
+                      fieldName: 'molecular_characterizations',
+                      displayName: (
+                        <Row justifyContent="space-between">
+                          Available Molecular Characterizations
+                          <MolecularCharacterizationsTooltip
+                            isFacet={true}
+                            width={tableState.panelSize - facetTooltipPadding}
+                          />
+                        </Row>
+                      ),
                     },
-                  ]}
-                />
-                {/* TODO: Review componentProps
-                <Aggregations
-                    componentProps={{
-                      getTermAggProps: () => ({ maxTerms: 4 }),
-                    }}
-                  /> */}
-              </>
-            )}
+                  },
+                ]}
+              />
+            </>
           </Component>
         </Col>
         <MainCol
