@@ -1,8 +1,4 @@
-import {
-  addInSQON,
-  removeSQON,
-  replaceFieldSQON,
-} from '@overture-stack/arranger-components/dist/SQONViewer/utils';
+import { addInSQON, removeSQON } from '@overture-stack/arranger-components/dist/SQONViewer/utils';
 import { get } from 'lodash';
 
 export const filterExpanded = (sqon, showExpandedStatus = false) => {
@@ -25,6 +21,7 @@ export const toggleExpanded = (currentSqon, showUnexpanded = false) => {
         ],
         op: 'and',
       };
+
   return showUnexpanded
     ? addInSQON(
         {
@@ -41,7 +38,21 @@ export const toggleExpanded = (currentSqon, showUnexpanded = false) => {
         },
         sqon,
       )
-    : replaceFieldSQON('expanded', ['true'], sqon);
+    : addInSQON(
+        {
+          op: 'and',
+          content: [
+            {
+              op: 'in',
+              content: {
+                fieldName: 'expanded',
+                value: ['true'],
+              },
+            },
+          ],
+        },
+        removeSQON('expanded', sqon),
+      );
 };
 
 const unexpandedFilter = {

@@ -162,19 +162,6 @@ const getColumnTypes = ({ savedSetsContext, tableState, expandedSqon, history })
   number: { size: 88 },
 });
 
-const defaultSqon = {
-  content: [
-    {
-      content: {
-        fieldName: 'expanded',
-        value: ['true'],
-      },
-      op: 'in',
-    },
-  ],
-  op: 'and',
-};
-
 const Search = ({
   setState: searchWrapperSetState,
   state: tableState,
@@ -187,21 +174,29 @@ const Search = ({
   });
   const { apiFetcher, extendedMapping, setSQON, sqon } = context;
   const { showUnexpanded } = useExpandedUnexpanded();
+  console.log('showUnexpanded', showUnexpanded);
+  // Context SQON is initially `null`, then updated to match page Unexpanded state, which is stored in localStorage
+  // Default SQON is potentially null or a single 'expanded' filter
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
-
+  console.log('expandedSqon', expandedSqon);
   const isDefaultSqon =
-    sqon?.op === defaultSqon.op &&
-    sqon?.content.length === 1 &&
-    sqon?.content[0].content.fieldName === 'expanded' &&
-    sqon?.content[0].content.value[0] === 'true';
+    !sqon ||
+    (sqon.op === expandedSqon?.op &&
+      sqon.content.length === 1 &&
+      sqon.content[0].content.fieldName === 'expanded');
 
   useEffect(() => {
     if (!sqon) {
-      setSQON(defaultSqon);
+      setSQON(expandedSqon);
     }
-  }, [sqon, setSQON, showUnexpanded]);
+  }, [expandedSqon, sqon, setSQON, showUnexpanded]);
 
-  const columnTypes = getColumnTypes({ savedSetsContext, tableState, expandedSqon, history });
+  const columnTypes = getColumnTypes({
+    savedSetsContext,
+    tableState,
+    expandedSqon: expandedSqon,
+    history,
+  });
   useArrangerTheme({
     components: {
       Table: {
@@ -209,7 +204,7 @@ const Search = ({
       },
       SQONViewer: {
         EmptyMessage: {
-          arrowColor: '#ffffff',
+          arrowColor: '#f6f6f8',
         },
       },
     },
@@ -238,13 +233,13 @@ const Search = ({
         <Col className="aggregations-wrapper" role="complementary">
           <Component>
             <>
-              <ModelSearch sqon={expandedSqon} setSQON={setSQON} />
+              <ModelSearch sqon={sqon} setSQON={setSQON} />
               <GeneSearch
-                sqon={expandedSqon}
+                sqon={sqon}
                 setSQON={setSQON}
                 tooltipWidth={tableState?.panelSize - facetTooltipPadding}
               />
-              <VariantSearch sqon={expandedSqon} setSQON={setSQON} />
+              <VariantSearch sqon={sqon} setSQON={setSQON} />
               <Aggregations
                 // Bug related to Facets not reloading on navigation
                 isLoading={ignored}
@@ -340,7 +335,7 @@ const Search = ({
                 </span>
               </Row>
             )}
-            <SQONViewer emptyMessage={''} setSQON={setSQON} />
+            {!isDefaultSqon && <SQONViewer emptyMessage={''} setSQON={setSQON} />}
             <div className="search-header-actions">
               <ShareButton link={`${window.location.origin}/`} quote={`HCMI Search`} />
               <ModelList className="search-header-model-list" />
@@ -358,14 +353,14 @@ const Search = ({
             <Component shouldUpdate={() => stable}>
               {() => (
                 <>
-                  <PrimarySiteChart sqon={expandedSqon} setSQON={setSQON} />
+                  <PrimarySiteChart sqon={sqon} setSQON={setSQON} />
                   <MultipleModelsChart
-                    sqon={expandedSqon}
+                    sqon={sqon}
                     setSQON={setSQON}
                     extendedMapping={extendedMapping}
                   />
-                  <GrowthChart sqon={expandedSqon} setSQON={setSQON} />
-                  <TopVariantsChart sqon={expandedSqon} setSQON={setSQON} />
+                  <GrowthChart sqon={sqon} setSQON={setSQON} />
+                  <TopVariantsChart sqon={sqon} setSQON={setSQON} />
                 </>
               )}
             </Component>
