@@ -601,11 +601,6 @@ export default css`
     }
   }
 
-  .aggregation-card .header .title-wrapper.collapsed .action-icon,
-  .aggregation-group .header .title-wrapper .action-icon {
-    display: none;
-  }
-
   .aggregation-card .filter,
   .aggregation-group .filter {
     padding: 10px 11px;
