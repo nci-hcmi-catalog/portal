@@ -9,6 +9,7 @@ import {
   Table,
   useArrangerData,
   useArrangerTheme,
+  useTableContext,
 } from '@overture-stack/arranger-components';
 import CountDisplay from '@overture-stack/arranger-components/dist/Table/CountDisplay/index';
 import ColumnSelectButton from '@overture-stack/arranger-components/dist/Table/ColumnsSelectButton/index';
@@ -174,23 +175,22 @@ const Search = ({
   });
   const { apiFetcher, extendedMapping, setSQON, sqon } = context;
   const { showUnexpanded } = useExpandedUnexpanded();
+  const expandedSqon = toggleExpanded(sqon, showUnexpanded);
 
   // Context SQON is initially `null`, then updated in useEffect to match page Expanded state
   // which is stored in localStorage
-  // Default SQON is when sqon is either null or a single 'expanded' filter
-  const expandedSqon = toggleExpanded(sqon, showUnexpanded);
-
-  const isDefaultSqon =
-    !sqon ||
-    (sqon.op === expandedSqon?.op &&
-      sqon.content.length === 1 &&
-      sqon.content[0].content.fieldName === 'expanded');
-
   useEffect(() => {
     if (!sqon) {
       setSQON(expandedSqon);
     }
   }, [expandedSqon, sqon, setSQON, showUnexpanded]);
+
+  // Default SQON is when sqon is either null or a single 'expanded' filter
+  const isDefaultSqon =
+    !sqon ||
+    (sqon.op === expandedSqon?.op &&
+      sqon.content.length === 1 &&
+      sqon.content[0].content.fieldName === 'expanded');
 
   const columnTypes = getColumnTypes({
     savedSetsContext,
@@ -198,6 +198,7 @@ const Search = ({
     expandedSqon: expandedSqon,
     history,
   });
+
   useArrangerTheme({
     components: {
       Table: {
