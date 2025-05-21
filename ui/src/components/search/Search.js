@@ -174,11 +174,12 @@ const Search = ({
   });
   const { apiFetcher, extendedMapping, setSQON, sqon } = context;
   const { showUnexpanded } = useExpandedUnexpanded();
-  console.log('showUnexpanded', showUnexpanded);
-  // Context SQON is initially `null`, then updated to match page Unexpanded state, which is stored in localStorage
-  // Default SQON is potentially null or a single 'expanded' filter
+
+  // Context SQON is initially `null`, then updated in useEffect to match page Expanded state
+  // which is stored in localStorage
+  // Default SQON is when sqon is either null or a single 'expanded' filter
   const expandedSqon = toggleExpanded(sqon, showUnexpanded);
-  console.log('expandedSqon', expandedSqon);
+
   const isDefaultSqon =
     !sqon ||
     (sqon.op === expandedSqon?.op &&
@@ -419,13 +420,15 @@ const Search = ({
 };
 
 // Old Table Props
-// showFilterInput={false}
 // setSelectedTableRows={(selectedRows) =>
 //   selectedModelContext?.setModels(selectedRows)
 // }
 // selectedRows={
 //   selectedModelContext?.state?.modelIds || tableContext.selectedRows
 // }
+// selectedRowsFilterPropertyName="_id"
+
+// showFilterInput={false}
 // isLoading={
 //   savedSetsContext?.state?.loading ||
 //   tableContext.loading ||
@@ -436,7 +439,6 @@ const Search = ({
 // graphqlField={props.index}
 // columnDropdownText="Columns"
 // enableSelectedTableRowsExporterFilter={true}
-// selectedRowsFilterPropertyName="_id"
 // exporterLabel="Export"
 // transformParams={(params) => ({
 //   ...params,
