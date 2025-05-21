@@ -9,8 +9,23 @@ export const filterExpanded = (sqon, showExpandedStatus = false) => {
   return showExpandedStatus ? sqon : removeSQON('expanded', sqon);
 };
 
-export const toggleExpanded = (sqon, showUnexpanded = false) =>
-  showUnexpanded
+export const toggleExpanded = (currentSqon, showUnexpanded = false) => {
+  // Default SQON value using expanded state
+  const sqon = currentSqon
+    ? currentSqon
+    : {
+        content: [
+          {
+            content: {
+              fieldName: 'expanded',
+              value: [`${showUnexpanded}`],
+            },
+            op: 'in',
+          },
+        ],
+        op: 'and',
+      };
+  return showUnexpanded
     ? addInSQON(
         {
           op: 'and',
@@ -27,6 +42,15 @@ export const toggleExpanded = (sqon, showUnexpanded = false) =>
         sqon,
       )
     : replaceFieldSQON('expanded', ['true'], sqon);
+};
+
+const unexpandedFilter = {
+  op: 'in',
+  content: {
+    fieldName: 'expanded',
+    value: ['false'],
+  },
+};
 
 export const getNumUnexpanded = async (sqon, apiFetcher) => {
   const query = `query NumberUnexpanded ($filters: JSON) {
@@ -37,21 +61,38 @@ export const getNumUnexpanded = async (sqon, apiFetcher) => {
           }
         }`;
 
-  const filters = addInSQON(
-    {
-      op: 'and',
-      content: [
-        {
-          op: 'in',
-          content: {
-            fieldName: 'expanded',
-            value: ['false'],
+  const isExpandedFilter = (item) =>
+    item.op === unexpandedFilter.op &&
+    item.content.fieldName === unexpandedFilter.content.fieldName;
+  const hasExpandedFilter = sqon?.content.find(isExpandedFilter);
+  const filters = sqon
+    ? hasExpandedFilter
+      ? {
+          ...sqon,
+          content: sqon.content.map((item) => {
+            if (isExpandedFilter(item)) {
+              return unexpandedFilter;
+            }
+
+            return item;
+          }),
+        }
+      : {
+          ...sqon,
+          content: [...sqon.content, unexpandedFilter],
+        }
+    : {
+        op: 'and',
+        content: [
+          {
+            op: 'in',
+            content: {
+              fieldName: 'expanded',
+              value: ['false'],
+            },
           },
-        },
-      ],
-    },
-    sqon,
-  );
+        ],
+      };
 
   const response = await apiFetcher({
     endpointTag: 'NumberUnexpanded',

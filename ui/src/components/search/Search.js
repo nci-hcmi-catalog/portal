@@ -14,7 +14,7 @@ import CountDisplay from '@overture-stack/arranger-components/dist/Table/CountDi
 import ColumnSelectButton from '@overture-stack/arranger-components/dist/Table/ColumnsSelectButton/index';
 import DownloadButton from '@overture-stack/arranger-components/dist/Table/DownloadButton/index';
 
-// import ArrowIcon from 'icons/ArrowIcon';
+import ArrowIcon from 'icons/ArrowIcon';
 
 import LastUpdatedDate from 'components/LastUpdatedDate';
 import ExpandedToggle from 'components/search/ExpandedToggle';
@@ -187,20 +187,30 @@ const Search = ({
   });
   const { apiFetcher, extendedMapping, setSQON, sqon } = context;
   const { showUnexpanded } = useExpandedUnexpanded();
+  const expandedSqon = toggleExpanded(sqon, showUnexpanded);
 
-  const currentSqon = sqon || defaultSqon;
-  const expandedSqon = toggleExpanded(currentSqon, showUnexpanded);
+  const isDefaultSqon =
+    sqon?.op === defaultSqon.op &&
+    sqon?.content.length === 1 &&
+    sqon?.content[0].content.fieldName === 'expanded' &&
+    sqon?.content[0].content.value[0] === 'true';
+
   useEffect(() => {
     if (!sqon) {
       setSQON(defaultSqon);
     }
-  }, [sqon, setSQON]);
+  }, [sqon, setSQON, showUnexpanded]);
 
   const columnTypes = getColumnTypes({ savedSetsContext, tableState, expandedSqon, history });
   useArrangerTheme({
     components: {
       Table: {
         columnTypes,
+      },
+      SQONViewer: {
+        EmptyMessage: {
+          arrowColor: '#ffffff',
+        },
       },
     },
   });
@@ -313,7 +323,24 @@ const Search = ({
               min-height: 50px;
             `}
           >
-            <SQONViewer sqon={currentSqon} setSQON={setSQON} />
+            {isDefaultSqon && (
+              <Row
+                css={css`
+                  padding: 0 14px;
+                  flex: 1;
+                `}
+              >
+                <span className="sqon-field no-sqon-message">
+                  <ArrowIcon
+                    css={css`
+                      transform: rotate(180deg);
+                    `}
+                  />
+                  Use the filter panel on the left to customize your model search.
+                </span>
+              </Row>
+            )}
+            <SQONViewer emptyMessage={''} setSQON={setSQON} />
             <div className="search-header-actions">
               <ShareButton link={`${window.location.origin}/`} quote={`HCMI Search`} />
               <ModelList className="search-header-model-list" />
@@ -331,14 +358,14 @@ const Search = ({
             <Component shouldUpdate={() => stable}>
               {() => (
                 <>
-                  <PrimarySiteChart sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
+                  <PrimarySiteChart sqon={expandedSqon} setSQON={setSQON} />
                   <MultipleModelsChart
-                    sqon={toggleExpanded(sqon, showUnexpanded)}
+                    sqon={expandedSqon}
                     setSQON={setSQON}
                     extendedMapping={extendedMapping}
                   />
-                  <GrowthChart sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
-                  <TopVariantsChart sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
+                  <GrowthChart sqon={expandedSqon} setSQON={setSQON} />
+                  <TopVariantsChart sqon={expandedSqon} setSQON={setSQON} />
                 </>
               )}
             </Component>
@@ -373,11 +400,7 @@ const Search = ({
                       {/* TODO: Placeholder for Toolbar requiring Arranger/Node update  */}
                       <Row className="tableToolbar">
                         <CountDisplay />
-                        <ExpandedToggle
-                          sqon={currentSqon}
-                          setSQON={setSQON}
-                          apiFetcher={apiFetcher}
-                        />
+                        <ExpandedToggle sqon={sqon} setSQON={setSQON} apiFetcher={apiFetcher} />
                         <div className="group">
                           <ColumnSelectButton />
                           <DownloadButton theme={{ customExporters }} />
