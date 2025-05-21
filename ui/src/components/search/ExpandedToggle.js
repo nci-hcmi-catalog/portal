@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
+import React, { useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
 
 import Toggle from 'components/input/Toggle';
-
 import QuestionMarkIcon from 'icons/QuestionMarkIcon';
-
 import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
+import { getNumUnexpanded, toggleExpanded } from 'utils/sqonHelpers';
 
-import { getNumUnexpanded } from 'utils/sqonHelpers';
-
-const ExpandedToggle = ({ sqon, apiFetcher }) => {
+const ExpandedToggle = ({ sqon, setSQON, apiFetcher }) => {
   const { showUnexpanded, setShowUnexpanded } = useExpandedUnexpanded();
   const [numUnexpanded, setNumUnexpanded] = useState('');
 
@@ -31,7 +28,11 @@ const ExpandedToggle = ({ sqon, apiFetcher }) => {
         disabled={numUnexpanded === 0}
         id="expanded-toggle"
         initialValue={showUnexpanded}
-        onValueChange={() => setShowUnexpanded(!showUnexpanded)}
+        onValueChange={() => {
+          const expandedSqon = toggleExpanded(sqon, !showUnexpanded);
+          setShowUnexpanded(!showUnexpanded);
+          setSQON(expandedSqon);
+        }}
       />
       <label
         id="expanded-toggle-label"

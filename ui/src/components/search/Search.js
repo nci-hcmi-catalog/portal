@@ -45,7 +45,7 @@ import {
 import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 
-import { filterExpanded, toggleExpanded } from 'utils/sqonHelpers';
+import { toggleExpanded } from 'utils/sqonHelpers';
 
 import searchStyles, { MainCol } from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
@@ -162,6 +162,19 @@ const getColumnTypes = ({ savedSetsContext, tableState, expandedSqon, history })
   number: { size: 88 },
 });
 
+const defaultSqon = {
+  content: [
+    {
+      content: {
+        fieldName: 'expanded',
+        value: ['true'],
+      },
+      op: 'in',
+    },
+  ],
+  op: 'and',
+};
+
 const Search = ({
   setState: searchWrapperSetState,
   state: tableState,
@@ -174,8 +187,15 @@ const Search = ({
   });
   const { apiFetcher, extendedMapping, setSQON, sqon } = context;
   const { showUnexpanded } = useExpandedUnexpanded();
-  const expandedSqon = toggleExpanded(sqon, showUnexpanded);
-  const filteredSqon = filterExpanded(sqon);
+
+  const currentSqon = sqon || defaultSqon;
+  const expandedSqon = toggleExpanded(currentSqon, showUnexpanded);
+  useEffect(() => {
+    if (!sqon) {
+      setSQON(defaultSqon);
+    }
+  }, [sqon, setSQON]);
+
   const columnTypes = getColumnTypes({ savedSetsContext, tableState, expandedSqon, history });
   useArrangerTheme({
     components: {
@@ -293,7 +313,7 @@ const Search = ({
               min-height: 50px;
             `}
           >
-            <SQONViewer sqon={filteredSqon} setSQON={setSQON} />
+            <SQONViewer sqon={currentSqon} setSQON={setSQON} />
             <div className="search-header-actions">
               <ShareButton link={`${window.location.origin}/`} quote={`HCMI Search`} />
               <ModelList className="search-header-model-list" />
@@ -353,7 +373,11 @@ const Search = ({
                       {/* TODO: Placeholder for Toolbar requiring Arranger/Node update  */}
                       <Row className="tableToolbar">
                         <CountDisplay />
-                        <ExpandedToggle sqon={filteredSqon} apiFetcher={apiFetcher} />
+                        <ExpandedToggle
+                          sqon={currentSqon}
+                          setSQON={setSQON}
+                          apiFetcher={apiFetcher}
+                        />
                         <div className="group">
                           <ColumnSelectButton />
                           <DownloadButton theme={{ customExporters }} />
