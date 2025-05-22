@@ -9,13 +9,13 @@ import {
   Table,
   useArrangerData,
   useArrangerTheme,
-  useTableContext,
 } from '@overture-stack/arranger-components';
 import CountDisplay from '@overture-stack/arranger-components/dist/Table/CountDisplay/index';
 import ColumnSelectButton from '@overture-stack/arranger-components/dist/Table/ColumnsSelectButton/index';
 import DownloadButton from '@overture-stack/arranger-components/dist/Table/DownloadButton/index';
 
 import ArrowIcon from 'icons/ArrowIcon';
+import DownloadIcon from 'icons/DownloadIcon';
 
 import LastUpdatedDate from 'components/LastUpdatedDate';
 import ExpandedToggle from 'components/search/ExpandedToggle';
@@ -203,6 +203,14 @@ const Search = ({
     components: {
       Table: {
         columnTypes,
+        DownloadButton: {
+          label: () => (
+            <span>
+              <DownloadIcon />
+              Export
+            </span>
+          ),
+        },
       },
       SQONViewer: {
         EmptyMessage: {
