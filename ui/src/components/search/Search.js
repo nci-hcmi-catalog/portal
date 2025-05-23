@@ -443,34 +443,4 @@ const Search = ({
   );
 };
 
-// Old Table Props
-// setSelectedTableRows={(selectedRows) =>
-//   selectedModelContext?.setModels(selectedRows)
-// }
-// selectedRows={
-//   selectedModelContext?.state?.modelIds || tableContext.selectedRows
-// }
-// selectedRowsFilterPropertyName="_id"
-
-// showFilterInput={false}
-// isLoading={
-//   savedSetsContext?.state?.loading ||
-//   tableContext.loading ||
-//   props.loading
-// }
-// onSortedChange={(sorted) => setState({ sorted })}
-// index={props.index}
-// graphqlField={props.index}
-// columnDropdownText="Columns"
-// enableSelectedTableRowsExporterFilter={true}
-// exporterLabel="Export"
-// transformParams={(params) => ({
-//   ...params,
-//   url: `${globals.ARRANGER_API}/export/models`,
-// })}
-// fieldTypesForFilter={['text', 'keyword', 'id']}
-// enableDropDownControls={true}
-// sessionStorage={true}
-// storageKey={selectedModelContext?.storageKey}};
-
 export default Search;
