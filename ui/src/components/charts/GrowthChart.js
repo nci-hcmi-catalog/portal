@@ -5,7 +5,7 @@ import AggregationQuery from 'components/queries/AggregationQuery';
 import { Col } from 'theme/system';
 import theme from 'theme';
 import { ChartTooltip } from './';
-import { addInSQON } from '@overture-stack/arranger-components/dist/SQONViewer/utils';
+import { addInSQON } from 'utils/sqonHelpers';
 import { SizeMe } from 'react-sizeme';
 
 const is2d = (bucket) => bucket.key.slice(0, 3) === '2-D';

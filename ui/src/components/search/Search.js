@@ -1,6 +1,7 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import Component from 'react-component-component';
 import SplitPane from 'react-split-pane';
+import { isEqual } from 'lodash';
 import { css } from '@emotion/react';
 import {
   Aggregations,
@@ -44,11 +45,9 @@ import {
   MutatedGenesTooltip,
 } from 'components/tooltips';
 
-import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 
 import cartDownload from 'utils/cartDownload';
-import { toggleExpanded } from 'utils/sqonHelpers';
 
 import searchStyles, { MainCol } from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
@@ -61,7 +60,7 @@ const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 
 let stable = true;
 
-const getColumnTypes = ({ savedSetsContext, tableState, expandedSqon, history }) => ({
+const getColumnTypes = ({ savedSetsContext, sqon, history }) => ({
   age_at_sample_acquisition: { size: 85 },
   chemotherapeutic_drugs: {
     cellValue: (props) => {
@@ -131,8 +130,6 @@ const getColumnTypes = ({ savedSetsContext, tableState, expandedSqon, history })
         {...props}
         value={props.value}
         savedSetsContext={savedSetsContext}
-        state={tableState}
-        sqon={expandedSqon}
         history={history}
       />
     ),
@@ -153,13 +150,7 @@ const getColumnTypes = ({ savedSetsContext, tableState, expandedSqon, history })
   name: {
     size: 150,
     cellValue: (props) => (
-      <TableEntity
-        {...props}
-        savedSetsContext={savedSetsContext}
-        expandedSqon={expandedSqon}
-        tableState={tableState}
-        history={history}
-      />
+      <TableEntity {...props} savedSetsContext={savedSetsContext} sqon={sqon} history={history} />
     ),
   },
   number: { size: 88 },
@@ -170,34 +161,30 @@ const Search = ({
   state: tableState,
   savedSetsContext,
   history,
+  urlSqon,
+  setUrlSQON,
   ...props
 }) => {
   const context = useArrangerData({
     callerName: 'HCMISearch',
   });
-  const { apiFetcher, extendedMapping, setSQON, sqon } = context;
-  const { showUnexpanded } = useExpandedUnexpanded();
-  const expandedSqon = toggleExpanded(sqon, showUnexpanded);
+  const { apiFetcher, extendedMapping, sqon, setSQON } = context;
+  const [firstRender, setFirstRender] = useState(true);
 
-  // Context SQON is initially `null`, then updated in useEffect to match page Expanded state
-  // which is stored in localStorage
   useEffect(() => {
-    if (!sqon) {
-      setSQON(expandedSqon);
+    if (firstRender) {
+      setSQON(urlSqon);
+      setFirstRender(false);
+    } else {
+      if (!isEqual(sqon, urlSqon)) {
+        setUrlSQON(sqon);
+      }
     }
-  }, [expandedSqon, sqon, setSQON, showUnexpanded]);
-
-  // Default SQON is when sqon is either null or a single 'expanded' filter
-  const isDefaultSqon =
-    !sqon ||
-    (sqon.op === expandedSqon?.op &&
-      sqon.content.length === 1 &&
-      sqon.content[0].content.fieldName === 'expanded');
+  }, [sqon, urlSqon, firstRender, setSQON, setUrlSQON]);
 
   const columnTypes = getColumnTypes({
     savedSetsContext,
-    tableState,
-    expandedSqon,
+    sqon,
     history,
   });
 
@@ -208,7 +195,7 @@ const Search = ({
       },
       SQONViewer: {
         EmptyMessage: {
-          arrowColor: '#f6f6f8',
+          arrowColor: '#CD0D32',
         },
       },
       Table: {
@@ -258,6 +245,7 @@ const Search = ({
               />
               <VariantSearch sqon={sqon} setSQON={setSQON} />
               <Aggregations
+                {...props}
                 // Bug related to Facets not reloading on navigation
                 isLoading={ignored}
                 componentProps={{
@@ -335,24 +323,10 @@ const Search = ({
               min-height: 50px;
             `}
           >
-            {isDefaultSqon && (
-              <Row
-                css={css`
-                  padding: 0 14px;
-                  flex: 1;
-                `}
-              >
-                <span className="sqon-field no-sqon-message">
-                  <ArrowIcon
-                    css={css`
-                      transform: rotate(180deg);
-                    `}
-                  />
-                  Use the filter panel on the left to customize your model search.
-                </span>
-              </Row>
-            )}
-            {!isDefaultSqon && <SQONViewer emptyMessage={''} setSQON={setSQON} />}
+            <SQONViewer
+              {...props}
+              emptyMessage={'Use the filter panel on the left to customize your model search.'}
+            />
             <div className="search-header-actions">
               <ShareButton link={`${window.location.origin}/`} quote={`HCMI Search`} />
               <ModelList className="search-header-model-list" />
@@ -396,13 +370,14 @@ const Search = ({
                         cartDownload(
                           selectedModelContext?.state?.modelIds,
                           apiFetcher,
+                          sqon,
                           currentColumns,
                         ),
                     },
                     {
                       label: 'TSV (all columns)',
                       function: () =>
-                        cartDownload(selectedModelContext?.state?.modelIds, apiFetcher),
+                        cartDownload(selectedModelContext?.state?.modelIds, apiFetcher, sqon),
                     },
                   ];
                   if (selectedModelContext?.state?.modelIds.length > 0) {
@@ -419,7 +394,7 @@ const Search = ({
                       {/* TODO: Placeholder for Toolbar requiring Arranger/Node update  */}
                       <Row className="tableToolbar">
                         <CountDisplay />
-                        <ExpandedToggle sqon={sqon} setSQON={setSQON} apiFetcher={apiFetcher} />
+                        <ExpandedToggle sqon={sqon} apiFetcher={apiFetcher} />
                         <div className="group">
                           <ColumnSelectButton />
                           <DownloadButton
@@ -429,7 +404,7 @@ const Search = ({
                           />
                         </div>
                       </Row>
-                      <Table />
+                      <Table {...props} />
                       <div className={'pagination-bottom'}>
                         <Pagination />
                         <LastUpdatedDate />

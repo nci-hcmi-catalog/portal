@@ -114,7 +114,10 @@ export const useVariants = () => {
       }
     }`;
 
-    const modelsSqon = { op: 'in', content: { fieldName: 'name', value: modelName } };
+    const modelsSqon = {
+      content: [{ op: 'in', content: { fieldName: 'name', value: modelName } }],
+      op: 'and',
+    };
 
     const response = await apiFetcher({
       body: { query, variables: { sqon: modelsSqon } },
@@ -181,7 +184,10 @@ export const useVariants = () => {
       }
     }`;
 
-    const modelsSqon = { op: 'in', content: { fieldName: 'name', value: modelName } };
+    const modelsSqon = {
+      content: [{ op: 'in', content: { fieldName: 'name', value: modelName } }],
+      op: 'and',
+    };
 
     const response = await apiFetcher({
       body: { query, variables: { sqon: modelsSqon } },
@@ -304,7 +310,10 @@ export const useVariants = () => {
       }
     }`;
 
-    const modelSqon = { op: 'in', content: { fieldName: 'name', value: modelName } };
+    const modelSqon = {
+      content: [{ op: 'in', content: { fieldName: 'name', value: modelName } }],
+      op: 'and',
+    };
 
     const response = await apiFetcher({
       body: { query, variables: { sqon: modelSqon } },

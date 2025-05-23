@@ -45,20 +45,64 @@ async function fetchColumns(apiFetcher) {
   return output;
 }
 
-const cartDownload = async function (selectedIds, apiFetcher, selectedColumns) {
-  const sqon = {
-    op: 'and',
-    content: [
-      {
-        op: 'in',
-        content: { fieldName: '_id', value: selectedIds },
+const modelIdsQuery = `query ModelIds($first: Int, $sqon: JSON) {
+  model {
+    hits(filters: $sqon, first: $first) {
+      total
+      edges {
+        node {
+          id
+        }
+      }
+    }
+  }
+}`;
+
+const fetchModelIds = async (apiFetcher, sqon) => {
+  const { data } = await apiFetcher({
+    endpointTag: `modelIdsQuery`,
+    body: {
+      query: modelIdsQuery,
+      variables: {
+        first: 1000,
+        sqon,
       },
-    ],
+    },
+  });
+
+  return data?.model?.hits?.edges.map((edge) => edge.node.id) || [];
+};
+
+const cartDownload = async function (selectedIds, apiFetcher, sqon, selectedColumns) {
+  const modelIds = [];
+
+  if (selectedIds.length) {
+    // if selectedIds, download those models
+    modelIds.push(...selectedIds);
+  } else if (sqon) {
+    // if no selectedIds but sqon, fetch model IDs based on sqon, then download those models
+    const fetchedModelIds = await fetchModelIds(apiFetcher, sqon);
+    modelIds.push(...fetchedModelIds);
+  } else {
+    // if no selectedIds and no sqon, download ALL models
+    // (don't need to do anything here, modelIds will be empty)
+  }
+
+  const downloadSqon = {
+    op: 'and',
+    content: modelIds.length
+      ? [
+          {
+            op: 'in',
+            content: { fieldName: '_id', value: modelIds },
+          },
+        ]
+      : [],
   };
 
   const columns = selectedColumns ? selectedColumns : await fetchColumns(apiFetcher);
 
-  const params = { files: [{ index: 'model', sqon, columns }] };
+  const params = { files: [{ index: 'model', sqon: downloadSqon, columns }] };
 
   return download({
     method: 'post',

@@ -7,8 +7,7 @@ import { Col } from 'theme/system';
 import TextInput from 'components/TextInput';
 import SidebarSection from 'components/search/SidebarSection';
 import SearchOptionsDropdown from 'components/search/SearchOptionsDropdown';
-
-import { addInSQON, removeSQON } from '@overture-stack/arranger-components/dist/SQONViewer/utils';
+import { addInSQON, removeSQON } from 'utils/sqonHelpers';
 
 const LoadingIcon = (
   <Spinner
@@ -55,6 +54,7 @@ const SidebarTextSearch = ({
           aria-label={header}
           placeholder={placeholder}
           value={value}
+          setValue={setValue}
           icon={loading ? LoadingIcon : <SearchIcon />}
           onFocus={() => {
             setShowOptions(!!options);

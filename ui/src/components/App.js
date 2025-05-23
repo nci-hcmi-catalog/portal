@@ -39,7 +39,7 @@ const ProvidedRoutes = () => (
         }}
       >
         {({ state }) => (
-          <ExpandedUnexpandedProvider>
+          <>
             <SkipNav />
             <Switch>
               <Route
@@ -72,7 +72,7 @@ const ProvidedRoutes = () => (
               />
             </Switch>
             <Footer />
-          </ExpandedUnexpandedProvider>
+          </>
         )}
       </Component>
     )}
@@ -88,12 +88,14 @@ injectGlobal`
 `;
 
 const App = () => (
-  <RootProvider>
-    <Router>
-      <ProvidedRoutes />
-    </Router>
-    <Modal />
-  </RootProvider>
+  <ExpandedUnexpandedProvider>
+    <RootProvider>
+      <Router>
+        <ProvidedRoutes />
+      </Router>
+      <Modal />
+    </RootProvider>
+  </ExpandedUnexpandedProvider>
 );
 
 export default App;
