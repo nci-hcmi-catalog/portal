@@ -751,9 +751,18 @@ export default css`
     }
   }
 
-  .model-name-search-wrapper .title-wrapper {
+  .custom-search-wrapper .title-wrapper {
     flex: 1;
     justify-content: start;
+    align-items: center;
+
+    .arrow:not(.collapsed) {
+      transform: rotate(90deg);
+    }
+  }
+
+  .title-wrapper:not(.collapsed) .title-control > img {
+    transform: rotate(90deg);
   }
 
   .quick-search {

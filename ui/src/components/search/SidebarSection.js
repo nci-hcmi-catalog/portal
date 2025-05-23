@@ -6,7 +6,7 @@ const SidebarSection = ({ title, children, ...props }) => {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <div // display: flex is causing this component to have zero height for reasons I do not understand.
-      className="model-name-search-wrapper aggregation-card"
+      className="custom-search-wrapper aggregation-card"
     >
       {title ? (
         <SidebarHeader onArrowClick={() => setCollapsed(!collapsed)} collapsed={collapsed}>

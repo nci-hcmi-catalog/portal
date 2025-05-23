@@ -203,6 +203,14 @@ const Search = ({
 
   useArrangerTheme({
     components: {
+      Aggregations: {
+        TreeJointIcon: { Icon: () => <ArrowIcon fill={'#900000'} width={'9px'} height={'9px'} /> },
+      },
+      SQONViewer: {
+        EmptyMessage: {
+          arrowColor: '#f6f6f8',
+        },
+      },
       Table: {
         columnTypes,
         DownloadButton: {
@@ -212,11 +220,6 @@ const Search = ({
               Export
             </span>
           ),
-        },
-      },
-      SQONViewer: {
-        EmptyMessage: {
-          arrowColor: '#f6f6f8',
         },
       },
     },
