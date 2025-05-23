@@ -761,6 +761,10 @@ export default css`
     }
   }
 
+  .custom-search-wrapper .title-wrapper {
+    cursor: pointer;
+  }
+
   .title-wrapper:not(.collapsed) .title-control > img {
     transform: rotate(90deg);
   }
