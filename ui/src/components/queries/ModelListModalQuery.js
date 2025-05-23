@@ -92,7 +92,10 @@ const ModelListModalQuery = ({ selected, ...props }) => {
             query,
             variables: {
               first,
-              sqon: { op: 'in', content: { fieldName: '_id', value: modelIds } },
+              sqon: {
+                content: [{ op: 'in', content: { fieldName: '_id', value: modelIds } }],
+                op: 'and',
+              },
             },
           },
         });

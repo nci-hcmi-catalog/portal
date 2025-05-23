@@ -5,9 +5,9 @@ import Popup from 'reactjs-popup';
 import Toggle from 'components/input/Toggle';
 import QuestionMarkIcon from 'icons/QuestionMarkIcon';
 import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
-import { getNumUnexpanded, toggleExpanded } from 'utils/sqonHelpers';
+import { getNumUnexpanded } from 'utils/sqonHelpers';
 
-const ExpandedToggle = ({ sqon, setSQON, apiFetcher }) => {
+const ExpandedToggle = ({ sqon, apiFetcher }) => {
   const { showUnexpanded, setShowUnexpanded } = useExpandedUnexpanded();
   const [numUnexpanded, setNumUnexpanded] = useState('');
 
@@ -29,9 +29,9 @@ const ExpandedToggle = ({ sqon, setSQON, apiFetcher }) => {
         id="expanded-toggle"
         initialValue={showUnexpanded}
         onValueChange={() => {
-          const expandedSqon = toggleExpanded(sqon, !showUnexpanded);
           setShowUnexpanded(!showUnexpanded);
-          setSQON(expandedSqon);
+          // Workaround to force a re-fetch of the data
+          window.location.reload();
         }}
       />
       <label

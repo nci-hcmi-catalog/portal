@@ -92,7 +92,10 @@ const ModelQuery = ({ modelName, ...props }) => {
           body: {
             query: modelDataQuery,
             variables: {
-              sqon: { op: 'in', content: { fieldName: 'name', value: [modelName] } },
+              sqon: {
+                content: [{ op: 'in', content: { fieldName: 'name', value: [modelName] } }],
+                op: 'and',
+              },
             },
           },
         }).catch((err) => {
@@ -115,7 +118,10 @@ const ModelQuery = ({ modelName, ...props }) => {
             body: {
               query: modelDataQuery,
               variables: {
-                sqon: { op: 'in', content: { fieldName: 'name', value: [props.modelName] } },
+                sqon: {
+                  content: [{ op: 'in', content: { fieldName: 'name', value: [props.modelName] } }],
+                  op: 'and',
+                },
               },
             },
           }).catch((err) => {

@@ -1,9 +1,14 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { stringify } from 'query-string';
+import { useTableContext } from '@overture-stack/arranger-components';
+import { isNil } from 'lodash';
 
-const TableEntity = ({ expandedSqon, savedSetsContext, tableState, value, history }) => {
+const TableEntity = ({ sqon, savedSetsContext, value, history }) => {
   const { createSet } = savedSetsContext;
+  const { sorting } = useTableContext({
+    callerName: 'TableEntity',
+  });
   return (
     <button
       className="clickable"
@@ -12,23 +17,26 @@ const TableEntity = ({ expandedSqon, savedSetsContext, tableState, value, histor
         border: none;
       `}
       onClick={async () => {
-        const sqon = expandedSqon || { op: 'in', content: { fieldName: 'name', value: [value] } };
+        const entitySqon = isNil(sqon) ? { op: 'and', content: [] } : sqon;
         const { setId } = await createSet({
-          sqon,
-          sort: [...(tableState?.sorted || []), { id: 'name', desc: false }].map(
-            ({ id, desc }) => ({
-              fieldName: id,
-              order: desc ? 'desc' : 'asc',
-            }),
-          ),
+          sqon: entitySqon,
+          sort: [...sorting, { fieldName: 'name', desc: false }].map(({ fieldName, desc }) => ({
+            fieldName,
+            order: desc ? 'desc' : 'asc',
+          })),
         });
         if (setId) {
           history.push({
             pathname: `/model/${value}`,
             search: stringify({
               sqon: JSON.stringify({
-                op: 'in',
-                content: { fieldName: 'setId', value: setId },
+                content: [
+                  {
+                    op: 'in',
+                    content: { fieldName: 'setId', value: setId },
+                  },
+                ],
+                op: 'and',
               }),
             }),
           });

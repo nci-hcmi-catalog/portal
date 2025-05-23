@@ -7,7 +7,7 @@ import Component from 'react-component-component';
 import { Col } from 'theme/system';
 import theme from 'theme';
 import AggregationQuery from 'components/queries/AggregationQuery';
-import { addInSQON } from '@overture-stack/arranger-components/dist/SQONViewer/utils';
+import { addInSQON } from 'utils/sqonHelpers';
 
 import { ChartTooltip } from './';
 

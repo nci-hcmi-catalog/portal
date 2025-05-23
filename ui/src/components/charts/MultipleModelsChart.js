@@ -1,12 +1,12 @@
 /* eslint-disable */
 import React from 'react';
 import { css } from '@emotion/react';
-import { addInSQON } from '@overture-stack/arranger-components/dist/SQONViewer/utils';
 import AggregationQuery from 'components/queries/AggregationQuery';
 import { Col } from 'theme/system';
 import theme from 'theme';
 import { ResponsivePie } from '@nivo/pie';
 import { ChartTooltip } from './';
+import { addInSQON } from 'utils/sqonHelpers';
 
 export default ({ sqon, setSQON, victoryRef = React.createRef(), extendedMapping }) => (
   <Col
