@@ -3,12 +3,11 @@
 import express from 'express';
 import Model from '../schemas/model';
 import getPublishValidation from '../validation/model';
-import { runYupValidatorFailFast, modelStatus } from '../helpers';
-import { publishModel, indexMatchedModelsToES } from '../services/elastic-search/publish';
-import { unpublishModel, unpublishOneFromES } from '../services/elastic-search/unpublish';
+import { runYupValidatorFailFast } from '../helpers';
+import { publishModel } from '../services/elastic-search/publish';
+import { unpublishModel } from '../services/elastic-search/unpublish';
 import { backupFields } from '../schemas/descriptions/modelVariant';
 import csvStream from '../helpers/streamAsCSV';
-import { getLoggedInUser } from '../helpers/authorizeUserAccess';
 
 import getLogger from '../logger';
 const logger = getLogger('routes/action');

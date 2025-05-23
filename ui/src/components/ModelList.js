@@ -9,10 +9,10 @@ import ListIcon from 'icons/ListIcon';
 
 const ModelList = ({ className }) => (
   <ModalStateContext.Consumer>
-    {modalState => (
+    {(modalState) => (
       <SelectedModelsContext.Consumer>
-        {selected => {
-          const selectedCount = selected.state.modelIds.length;
+        {(selected) => {
+          const selectedCount = selected?.state ? selected.state.modelIds.length : 0;
           const hasSelected = selectedCount > 0;
           return (
             <div className={'model-list-button__wrapper'} css={styles}>

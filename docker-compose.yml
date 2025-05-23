@@ -19,6 +19,7 @@ services:
     environment:
       - discovery.type=single-node
       - cluster.name=workflow.elasticsearch
+      - cluster.routing.allocation.disk.threshold_enabled=false
       - 'ES_JAVA_OPTS=-Xms512m -Xmx2048m'
       - search.max_buckets=65535
   kibana:

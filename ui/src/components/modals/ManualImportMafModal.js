@@ -44,8 +44,8 @@ const ManualImportMaf = ({
   const confirmMafFile = async () => {
     setLoading(true);
     await manualMafImport(modelName, fileId, filename)
-      .then(async _ => {
-        const existingNotification = notifications.find(x => x.modelName === modelName);
+      .then(async (_) => {
+        const existingNotification = notifications.find((x) => x.modelName === modelName);
 
         if (existingNotification) {
           existingNotification.clear();
@@ -55,7 +55,7 @@ const ManualImportMaf = ({
           await onConfirm();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         appendNotification({
           type: NOTIFICATION_TYPES.ERROR,
           message: `Import Error with No Action Required: An unexpected error occured while trying to import a MAF file for ${modelName}`,
@@ -69,7 +69,7 @@ const ManualImportMaf = ({
 
   return (
     <ModalStateContext.Consumer>
-      {modalState => (
+      {(modalState) => (
         <ModalWrapper>
           <Header>
             <Title>{title}</Title>
@@ -115,46 +115,42 @@ const ManualImportMaf = ({
   );
 };
 
-const ManualImportMafModal = ({
-  title,
-  confirmLabel,
-  cancelLabel,
-  onConfirm,
-  onCancel,
-  modelName,
-}) => Component => (
-  <NotificationsContext.Consumer>
-    {({ notifications, appendNotification, importProgress, setImportProgress }) => (
-      <ModalStateContext.Consumer>
-        {modalState =>
-          React.cloneElement(Component, {
-            onClick: () => {
-              modalState.setModalState({
-                component: (
-                  <ManualImportMaf
-                    {...{
-                      title,
-                      confirmLabel,
-                      cancelLabel,
-                      onConfirm,
-                      onCancel,
-                      modelName,
-                      notifications,
-                      appendNotification,
-                      importProgress,
-                      setImportProgress,
-                    }}
-                  />
-                ),
-                shouldCloseOnOverlayClick: true,
-                styles: AdminModalStyle,
-              });
-            },
-          })
-        }
-      </ModalStateContext.Consumer>
-    )}
-  </NotificationsContext.Consumer>
-);
+const ManualImportMafModal =
+  ({ title, confirmLabel, cancelLabel, onConfirm, onCancel, modelName }) =>
+  (Component) =>
+    (
+      <NotificationsContext.Consumer>
+        {({ notifications, appendNotification, importProgress, setImportProgress }) => (
+          <ModalStateContext.Consumer>
+            {(modalState) =>
+              React.cloneElement(Component, {
+                onClick: () => {
+                  modalState.setModalState({
+                    component: (
+                      <ManualImportMaf
+                        {...{
+                          title,
+                          confirmLabel,
+                          cancelLabel,
+                          onConfirm,
+                          onCancel,
+                          modelName,
+                          notifications,
+                          appendNotification,
+                          importProgress,
+                          setImportProgress,
+                        }}
+                      />
+                    ),
+                    shouldCloseOnOverlayClick: true,
+                    styles: AdminModalStyle,
+                  });
+                },
+              })
+            }
+          </ModalStateContext.Consumer>
+        )}
+      </NotificationsContext.Consumer>
+    );
 
 export default ManualImportMafModal;

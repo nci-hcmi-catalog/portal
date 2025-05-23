@@ -130,8 +130,8 @@ const inputSelectSharedStyles = css`
 
 export const Input = styled('input')`
   ${inputSelectSharedStyles};
-  width: ${props => props.width || '100%'};
-  ${props => !!props.errors && fieldErrorStyles};
+  width: ${(props) => props.width || '100%'};
+  ${(props) => !!props.errors && fieldErrorStyles};
 
   &[type='number'] {
     -moz-appearance: textfield;
@@ -146,7 +146,7 @@ export const Input = styled('input')`
 // TODO: refactor shared Select/Dropdown styles into a component
 export const Select = styled('select')`
   ${inputSelectSharedStyles};
-  width: ${props => props.width || '100%'};
+  width: ${(props) => props.width || '100%'};
 
   appearance: none;
   box-sizing: border-box;
@@ -183,21 +183,21 @@ export const Select = styled('select')`
     }
   }
 
-  ${props => !!props.errors && fieldErrorStyles};
+  ${(props) => !!props.errors && fieldErrorStyles};
 `;
 
 export const AutoCompleteWrapper = styled('div')`
-  width: ${props => props.width || '100%'};
+  width: ${(props) => props.width || '100%'};
 
   > div {
-    width: ${props => props.width || '100%'};
+    width: ${(props) => props.width || '100%'};
   }
 
   input {
     ${inputSelectSharedStyles};
-    width: ${props => props.width || '100%'};
-    ${props => !!props.errors && fieldErrorStyles};
-    ${props => !!props.warning && fieldWarningStyles};
+    width: ${(props) => props.width || '100%'};
+    ${(props) => !!props.errors && fieldErrorStyles};
+    ${(props) => !!props.warning && fieldWarningStyles};
   }
 `;
 
@@ -279,7 +279,7 @@ const checkboxRadioSharedStyles = css`
     -ms-user-select: none;
     user-select: none;
 
-    &:first-child {
+    &:first-of-type {
       margin-top: 5px;
     }
   }

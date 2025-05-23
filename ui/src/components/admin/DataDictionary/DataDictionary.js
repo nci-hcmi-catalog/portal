@@ -18,7 +18,7 @@ const DataDictionary = () => {
   const [state, setState] = useContext(DictionaryContext);
 
   useEffect(() => {
-    getDictionaryDraft().then(dictionaryData =>
+    getDictionaryDraft().then((dictionaryData) =>
       setState({
         ...state,
         dictionary: dictionaryData,

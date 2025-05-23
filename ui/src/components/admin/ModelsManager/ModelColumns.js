@@ -72,7 +72,7 @@ export const ModelStatusPillWithPublish = ({ name, data }) => {
       location &&
       location.pathname === '/admin' &&
       publishState.current === 'publishing' &&
-      publishProgress.success.find(model => model.modelName === name)
+      publishProgress.success.find((model) => model.modelName === name)
     ) {
       publishState.current = 'published';
       setStatus('published');
@@ -93,8 +93,8 @@ const actionAndClose = (action, close) => () => {
 };
 
 export const columns = schemaArr
-  .filter(field => selectedColumns.indexOf(field.accessor) !== -1)
-  .map(field => {
+  .filter((field) => selectedColumns.indexOf(field.accessor) !== -1)
+  .map((field) => {
     field.Header = field.displayName;
     return field;
   });
@@ -105,7 +105,7 @@ const nameColumn = [
   {
     Header: 'Name',
     accessor: 'name',
-    Cell: row => (
+    Cell: (row) => (
       <Link secondary={`true`} to={modelEditUrlBase + '/' + row.value}>
         {row.value}
       </Link>
@@ -117,7 +117,7 @@ const modelManagerCustomColumns = [
     Header: 'Updated',
     accessor: 'updatedAt',
     queryFilter: filters.date,
-    Cell: row => {
+    Cell: (row) => {
       const value = row.value;
       return (
         <Popup
@@ -190,7 +190,7 @@ const modelManagerCustomColumns = [
             }}
             arrow={false}
           >
-            {close => (
+            {(close) => (
               <ModelManagerContext.Consumer>
                 {({ publishOne, unpublishOne, deleteOne }) => (
                   <ActionsMenu>
@@ -220,5 +220,5 @@ const modelManagerCustomColumns = [
 ];
 
 export const ModelTableColumns = nameColumn
-  .concat(columns.filter(col => ['type', 'updatedBy'].includes(col.accessor)))
+  .concat(columns.filter((col) => ['type', 'updatedBy'].includes(col.accessor)))
   .concat(modelManagerCustomColumns);

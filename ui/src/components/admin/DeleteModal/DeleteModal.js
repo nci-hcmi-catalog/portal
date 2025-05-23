@@ -20,7 +20,7 @@ const doThenClose = (next, modalState) => () => {
 
 const DeleteModalComponent = ({ next, target, onCancel = () => false }) => (
   <ModalStateContext.Consumer>
-    {modalState => (
+    {(modalState) => (
       <ModalWrapper>
         <Header>
           <Title>Delete</Title>
@@ -44,19 +44,22 @@ const DeleteModalComponent = ({ next, target, onCancel = () => false }) => (
   </ModalStateContext.Consumer>
 );
 
-const DeleteModal = ({ next, target, onCancel }) => Component => (
-  <ModalStateContext.Consumer>
-    {modalState =>
-      React.cloneElement(Component, {
-        onClick: () =>
-          modalState.setModalState({
-            component: <DeleteModalComponent {...{ next, target, onCancel }} />,
-            shouldCloseOnOverlayClick: true,
-            styles: AdminModalStyleNarrow,
-          }),
-      })
-    }
-  </ModalStateContext.Consumer>
-);
+const DeleteModal =
+  ({ next, target, onCancel }) =>
+  (Component) =>
+    (
+      <ModalStateContext.Consumer>
+        {(modalState) =>
+          React.cloneElement(Component, {
+            onClick: () =>
+              modalState.setModalState({
+                component: <DeleteModalComponent {...{ next, target, onCancel }} />,
+                shouldCloseOnOverlayClick: true,
+                styles: AdminModalStyleNarrow,
+              }),
+          })
+        }
+      </ModalStateContext.Consumer>
+    );
 
 export default DeleteModal;

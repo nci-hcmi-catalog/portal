@@ -10,7 +10,6 @@ const run = async () => {
   await esUtils.deleteVariantsIndex();
   await esUtils.createVariantsIndex();
 
-  await esUtils.updateArrangerProject();
   await republishModels();
 };
 

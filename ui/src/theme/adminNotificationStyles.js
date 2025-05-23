@@ -169,7 +169,7 @@ export const NotificationTableHeaderRow = styled(Row)`
 export const NotificationTableHeaderCol = styled(Col)`
   width: 50%;
 
-  &:first-child {
+  &:first-of-type {
     border-right: 1px solid ${bombay};
   }
 

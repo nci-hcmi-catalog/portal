@@ -1,7 +1,7 @@
 import { fetchData } from '../services/Fetcher';
 import { makeOrDataQuery } from './queryFilters';
 
-const sortQuery = sorted => (sorted.desc ? `-${sorted.id}` : `${sorted.id}`);
+const sortQuery = (sorted) => (sorted.desc ? `-${sorted.id}` : `${sorted.id}`);
 const paginatedUrl = ({ baseUrl, page, pageSize, filterValue, tableColumns, sorted }) =>
   (filterValue || '').length > 0
     ? `${baseUrl}?skip=${page * pageSize}&limit=${page * pageSize + pageSize}&sort=${sortQuery(

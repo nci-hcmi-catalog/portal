@@ -12,8 +12,6 @@ import { SavedSetsContext } from 'providers/SavedSets';
 import { SelectedModelsContext } from 'providers/SelectedModels';
 import ModelList from 'components/ModelList';
 
-import { filterExpanded } from 'utils/sqonHelpers';
-
 const ExpandedPill = ({ isExpanded }) => {
   return (
     <div className={`model-bar__pill model-bar__pill--${isExpanded ? 'expanded' : 'unexpanded'}`}>
@@ -24,7 +22,7 @@ const ExpandedPill = ({ isExpanded }) => {
 
 const ModelBar = ({ name, id, isExpanded }) => {
   const {
-    state: { sets },
+    state: { sets = {} },
   } = useContext(SavedSetsContext);
   const {
     state: { modelIds },
@@ -32,18 +30,14 @@ const ModelBar = ({ name, id, isExpanded }) => {
   } = useContext(SelectedModelsContext);
   const isSelected = modelIds.includes(id);
 
-  const getBackRoute = sqon => {
+  const getBackRoute = (sqon) => {
     // need to avoid empty sqon object
-    return sqon &&
-      sqon.content &&
-      sqon.content.value &&
-      sets[sqon.content.value] &&
-      sets[sqon.content.value].sqon &&
-      Object.keys(sets[sqon.content.value].sqon).length !== 0
+    const value = sqon?.content[0]?.content?.value || null;
+    return sqon && value && sets[value]?.sqon && Object.keys(sets[value]?.sqon).length !== 0
       ? {
           pathname: '/',
           search: stringify({
-            sqon: JSON.stringify(filterExpanded(sets[sqon.content.value].sqon)),
+            sqon: JSON.stringify(sets[value]?.sqon),
           }),
         }
       : '/';
@@ -51,7 +45,7 @@ const ModelBar = ({ name, id, isExpanded }) => {
 
   return (
     <Url
-      render={({ sqon }) => (
+      render={({ urlSqon }) => (
         <Row className="model-bar">
           <div className="model-bar__group">
             <h2 className="model-bar__heading">
@@ -61,7 +55,7 @@ const ModelBar = ({ name, id, isExpanded }) => {
           </div>
 
           <div className="model-bar__group">
-            <Link className="model-bar__back" to={getBackRoute(sqon)}>
+            <Link className="model-bar__back" to={getBackRoute(urlSqon)}>
               <ArrowLeftIcon />
               BACK TO SEARCH
             </Link>

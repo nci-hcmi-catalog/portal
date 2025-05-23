@@ -1,9 +1,9 @@
-import globals from 'utils/globals';
 import axios from 'axios';
-
 import { get } from 'lodash';
 
-export const searchGenes = async inputValue => {
+import globals from 'utils/globals';
+
+export const searchGenes = async (inputValue) => {
   try {
     const response = await axios.get(`${globals.ARRANGER_API}/search/gene`, {
       params: { q: inputValue },
@@ -14,7 +14,7 @@ export const searchGenes = async inputValue => {
   }
 };
 
-export const searchVariants = async inputValue => {
+export const searchVariants = async (inputValue) => {
   try {
     const response = await axios.get(`${globals.ARRANGER_API}/search/variant`, {
       params: { q: inputValue },
@@ -29,25 +29,36 @@ export const searchVariants = async inputValue => {
     It's been modified to remove the size limit (can be added in if speed issues arise) and now also returns primary_site
     This can be modified further to allow a custom list of model properties to return in the search results.
 */
-export const searchModels = async inputValue => {
-  const query =
-    'query ModelsQuickSearchResults($sqon: JSON) {\n          models {\n            hits(filters: $sqon) {\n              total\n              edges {\n                node {\n                  primaryKey: name\n                  autocomplete: autocomplete\n primary_site\n                }\n              }\n            }\n          }\n        }';
+export const searchModels = async (inputValue, apiFetcher) => {
+  const query = `query ModelsQuickSearchResults($sqon: JSON) {
+    model {
+      hits(filters: $sqon) {
+        total
+        edges {
+          node {
+            primaryKey: name
+            autocomplete: autocomplete
+            primary_site
+        }
+      }
+    }
+  }
+}`;
   const sqon = {
     op: 'or',
     content: [
       {
-        op: 'filter',
-        content: { value: `*${inputValue.toLowerCase()}*`, fields: ['autocomplete'] },
+        op: 'in',
+        content: { value: `*${inputValue.toLowerCase()}*`, fieldName: 'autocomplete' },
       },
     ],
   };
-  const variables = { sqon };
   try {
-    const response = await axios.post(`${globals.ARRANGER_API}/${globals.VERSION}/graphql`, {
-      query,
-      variables,
+    const response = await apiFetcher({
+      endpointTag: 'ModelsQuickSearch',
+      body: { query, variables: { sqon } },
     });
-    return get(response, 'data.data.models.hits.edges', []).map(i => i.node);
+    return get(response, 'data.model.hits.edges', []).map((i) => i.node);
   } catch (e) {
     return [];
   }

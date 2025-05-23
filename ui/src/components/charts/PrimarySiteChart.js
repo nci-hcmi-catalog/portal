@@ -1,12 +1,12 @@
 /* eslint-disable */
 import React from 'react';
 import { css } from '@emotion/react';
-import { addInSQON } from '@arranger/components/dist/SQONView/utils';
 import AggregationQuery from 'components/queries/AggregationQuery';
 import { Col } from 'theme/system';
 import theme from 'theme';
 import { ResponsivePie } from '@nivo/pie';
 import { ChartTooltip } from './';
+import { addInSQON } from 'utils/sqonHelpers';
 
 export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
   <Col
@@ -18,10 +18,8 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
       padding: 12px 0 4px;
     `}
   >
-    <span className="sqon-field sqon-field--chart-title">
-      Models by Primary Site
-    </span>
-    <AggregationQuery sqon={sqon} field="primary_site">
+    <span className="sqon-field sqon-field--chart-title">Models by Primary Site</span>
+    <AggregationQuery sqon={sqon} fieldName="primary_site">
       {({ state }) => {
         return state.loading ? (
           'loading'
@@ -54,7 +52,7 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
               enableSlicesLabels={false}
               slicesLabelsSkipAngle={10}
               animate={false}
-              onClick={data =>
+              onClick={(data) => {
                 setSQON(
                   addInSQON(
                     {
@@ -63,7 +61,7 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
                         {
                           op: 'in',
                           content: {
-                            field: 'primary_site',
+                            fieldName: 'primary_site',
                             value: [].concat(data.id || []),
                           },
                         },
@@ -71,15 +69,15 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
                     },
                     sqon,
                   ),
-                )
-              }
+                );
+              }}
               onMouseEnter={(_data, event) => {
-                event.currentTarget.style.cursor = 'pointer'
+                event.currentTarget.style.cursor = 'pointer';
               }}
               onMouseLeave={(_data, event) => {
-                event.currentTarget.style.cursor = 'auto'
+                event.currentTarget.style.cursor = 'auto';
               }}
-        />
+            />
           </>
         );
       }}

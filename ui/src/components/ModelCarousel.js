@@ -15,21 +15,20 @@ const {
   keyedPalette: { brandPrimary },
 } = base;
 
-const ModelCarousel = ({ modelName, sqon }) => {
+const ModelCarousel = ({ modelName, urlSqon }) => {
   const {
     fetchSets,
     state: { loading, sets },
   } = useContext(SavedSetsContext);
-  const items =
-    (sets[(sqon || { content: { value: '' } }).content.value.replace('set_id', '')] || { ids: [] })
-      .ids || [];
+  const setValue = urlSqon?.content[0]?.content?.value;
+  const items = (sets?.[setValue] || { ids: [] }).ids || [];
   const currentIndex = items.indexOf(modelName);
   const prevName = items[currentIndex - 1] || items[items.length - 1] || '';
   const nextName = items[currentIndex + 1] || items[0] || '';
 
   useEffect(() => {
     if (items.length === 0) {
-      fetchSets({ sqon });
+      fetchSets({ sqon: urlSqon });
     }
   }, []);
 
@@ -44,7 +43,7 @@ const ModelCarousel = ({ modelName, sqon }) => {
       <Link
         to={{
           pathname: `/model/${prevName}`,
-          search: stringify({ sqon: JSON.stringify(sqon) }),
+          search: stringify({ sqon: JSON.stringify(urlSqon) }),
         }}
         className="pagination__item pagination__link"
         css={css`
@@ -72,7 +71,7 @@ const ModelCarousel = ({ modelName, sqon }) => {
       <Link
         to={{
           pathname: `/model/${nextName}`,
-          search: stringify({ sqon: JSON.stringify(sqon) }),
+          search: stringify({ sqon: JSON.stringify(urlSqon) }),
         }}
         className="pagination__item pagination__link"
         css={css`

@@ -1,7 +1,7 @@
 import React from 'react';
 import { InlineSvg } from 'icons';
 
-export default props =>
+const threeDIcon = (props) =>
   InlineSvg({
     viewBox: '0 0 48.36 46.54',
     width: '20px',
@@ -11,3 +11,5 @@ export default props =>
     ),
     ...props,
   });
+
+export default threeDIcon;

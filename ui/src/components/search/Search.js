@@ -1,12 +1,23 @@
-import React from 'react';
-import { css } from '@emotion/react';
+import React, { useEffect, useReducer, useState } from 'react';
 import Component from 'react-component-component';
-import { Aggregations, CurrentSQON, Table } from '@arranger/components/dist/Arranger';
 import SplitPane from 'react-split-pane';
-
-import { SelectedModelsContext } from 'providers/SelectedModels';
+import { isEqual } from 'lodash';
+import { css } from '@emotion/react';
+import {
+  Aggregations,
+  Pagination,
+  SQONViewer,
+  Table,
+  useArrangerData,
+  useArrangerTheme,
+  useTableContext,
+} from '@overture-stack/arranger-components';
+import CountDisplay from '@overture-stack/arranger-components/dist/Table/CountDisplay/index';
+import ColumnSelectButton from '@overture-stack/arranger-components/dist/Table/ColumnsSelectButton/index';
+import DownloadButton from '@overture-stack/arranger-components/dist/Table/DownloadButton/index';
 
 import ArrowIcon from 'icons/ArrowIcon';
+import DownloadIcon from 'icons/DownloadIcon';
 
 import LastUpdatedDate from 'components/LastUpdatedDate';
 import ExpandedToggle from 'components/search/ExpandedToggle';
@@ -24,7 +35,6 @@ import TableMatchedModelsCell from 'components/TableMatchedModelsCell';
 import TableList from 'components/TableList';
 import ShareButton from 'components/ShareButton';
 import ModelList from 'components/ModelList';
-import TextInput from 'components/TextInput';
 import {
   MultipleModelsTooltip,
   MolecularCharacterizationsTooltip,
@@ -35,10 +45,9 @@ import {
   MutatedGenesTooltip,
 } from 'components/tooltips';
 
-import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
+import { SelectedModelsContext } from 'providers/SelectedModels';
 
-import globals from 'utils/globals';
-import { filterExpanded, toggleExpanded } from 'utils/sqonHelpers';
+import cartDownload from 'utils/cartDownload';
 
 import searchStyles, { MainCol } from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
@@ -51,389 +60,364 @@ const nonSearchableFacetTooltipPadding = facetTooltipPadding - 16;
 
 let stable = true;
 
+const getColumnTypes = ({ savedSetsContext, sqon, history }) => ({
+  age_at_sample_acquisition: { size: 85 },
+  chemotherapeutic_drugs: {
+    cellValue: (props) => {
+      const { value } = props;
+      const { displayValues } = props.column;
+      return displayValues[value] || value;
+    },
+  },
+  distributor_part_number: {
+    cellValue: (props) => <TableDistributorCell {...props} />,
+  },
+  expanded: {
+    size: 105,
+    cellValue: (props) => <TableExpandedCell {...props} value={props.value} />,
+    headerValue: () => (
+      <Row justifyContent="space-between">
+        Expansion Status <ExpansionStatusTooltip />
+      </Row>
+    ),
+  },
+  'gene_metadata.mutated_genes_count': {
+    size: 88,
+    headerValue: () => (
+      <Row justifyContent="space-between">
+        # Mutated Genes
+        <MutatedGenesTooltip />
+      </Row>
+    ),
+  },
+  'gene_metadata.genomic_variant_count': {
+    headerValue: () => (
+      <Row justifyContent="space-between">
+        # Research Somatic Variants
+        <GenomicVariantsTooltip />
+      </Row>
+    ),
+  },
+  'gene_metadata.clinical_variant_count': {
+    headerValue: () => (
+      <Row justifyContent="space-between">
+        # Clinical Variants
+        <ClinicalVariantsTooltip />
+      </Row>
+    ),
+  },
+  'gene_metadata.histopathological_variant_count': {
+    size: 108,
+    headerValue: () => (
+      <Row justifyContent="space-between">
+        # Histo-pathological Biomarkers
+        <HistopathologicalBiomarkersTooltip />
+      </Row>
+    ),
+  },
+  licensing_required: {
+    cellValue: (props) => {
+      const { value } = props;
+      const { displayValues } = props.column;
+      return displayValues[value] || value;
+    },
+  },
+  list: { size: 160, cellValue: (props) => <TableList {...props} /> },
+  matched_models_list: {
+    size: 84,
+    cellValue: (props) => (
+      <TableMatchedModelsCell
+        {...props}
+        value={props.value}
+        savedSetsContext={savedSetsContext}
+        history={history}
+      />
+    ),
+    headerValue: () => (
+      <Row justifyContent="space-between">
+        Has Multiple Models <MultipleModelsTooltip isColumn={true} />
+      </Row>
+    ),
+  },
+  molecular_characterizations: {
+    headerValue: () => (
+      <Row justifyContent="space-between">
+        Available Molecular Characterizations
+        <MolecularCharacterizationsTooltip isColumn={true} />
+      </Row>
+    ),
+  },
+  name: {
+    size: 150,
+    cellValue: (props) => (
+      <TableEntity {...props} savedSetsContext={savedSetsContext} sqon={sqon} history={history} />
+    ),
+  },
+  number: { size: 88 },
+});
+
 const Search = ({
-  setState,
-  state,
-  setSQON,
-  sqon,
+  setState: searchWrapperSetState,
+  state: tableState,
   savedSetsContext,
   history,
-  version,
+  urlSqon,
+  setUrlSQON,
   ...props
 }) => {
-  const { showUnexpanded } = useExpandedUnexpanded();
+  const context = useArrangerData({
+    callerName: 'HCMISearch',
+  });
+  const { apiFetcher, extendedMapping, sqon, setSQON } = context;
+  const [firstRender, setFirstRender] = useState(true);
+
+  useEffect(() => {
+    if (firstRender) {
+      setSQON(urlSqon);
+      setFirstRender(false);
+    } else {
+      if (!isEqual(sqon, urlSqon)) {
+        setUrlSQON(sqon);
+      }
+    }
+  }, [sqon, urlSqon, firstRender, setSQON, setUrlSQON]);
+
+  const columnTypes = getColumnTypes({
+    savedSetsContext,
+    sqon,
+    history,
+  });
+
+  useArrangerTheme({
+    components: {
+      Aggregations: {
+        TreeJointIcon: { Icon: () => <ArrowIcon fill={'#900000'} width={'9px'} height={'9px'} /> },
+      },
+      SQONViewer: {
+        EmptyMessage: {
+          arrowColor: '#CD0D32',
+        },
+      },
+      Table: {
+        columnTypes,
+        DownloadButton: {
+          label: () => (
+            <span>
+              <DownloadIcon />
+              Export
+            </span>
+          ),
+        },
+      },
+    },
+  });
+
+  const tableContext = useTableContext({ callerName: 'SearchTable' });
+
+  // Force Aggregations re-render on page reload
+  // https://legacy.reactjs.org/docs/hooks-faq.html#is-there-something-like-forceupdate
+  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+  useEffect(() => {
+    forceUpdate();
+  }, []);
 
   return (
-    <>
-      <Col css={searchStyles}>
-        <SplitPane
-          className="search-split-pane"
-          split="vertical"
-          minSize={50}
-          defaultSize={state.panelSize}
-          onChange={panelSize => {
-            setState({ panelSize });
-          }}
-          onDragStarted={() => (stable = false)}
-          onDragFinished={() => (stable = true)}
+    <Col css={searchStyles}>
+      <SplitPane
+        className="search-split-pane"
+        split="vertical"
+        minSize={50}
+        defaultSize={tableState?.panelSize}
+        onChange={(panelSize) => {
+          searchWrapperSetState({ panelSize });
+        }}
+        onDragStarted={() => (stable = false)}
+        onDragFinished={() => (stable = true)}
+      >
+        <Col className="aggregations-wrapper" role="complementary">
+          <Component>
+            <>
+              <ModelSearch sqon={sqon} setSQON={setSQON} />
+              <GeneSearch
+                sqon={sqon}
+                setSQON={setSQON}
+                tooltipWidth={tableState?.panelSize - facetTooltipPadding}
+              />
+              <VariantSearch sqon={sqon} setSQON={setSQON} />
+              <Aggregations
+                {...props}
+                // Bug related to Facets not reloading on navigation
+                isLoading={ignored}
+                componentProps={{
+                  getTermAggProps: () => ({ maxTerms: 4 }),
+                }}
+                customFacets={[
+                  {
+                    content: {
+                      fieldName: 'genomic_variants.classification',
+                      displayName: (
+                        <Row justifyContent="space-between">
+                          Research Somatic Variant Type
+                          <GenomicVariantsTooltip
+                            isFacet={true}
+                            width={tableState.panelSize - facetTooltipPadding}
+                          />
+                        </Row>
+                      ),
+                    },
+                  },
+                  {
+                    content: {
+                      fieldName: 'type',
+                      displayName: 'Model Type',
+                    },
+                  },
+                  {
+                    content: {
+                      fieldName: 'has_matched_models',
+                      displayName: (
+                        <Row justifyContent="space-between">
+                          Has Multiple Models
+                          <MultipleModelsTooltip
+                            isFacet={true}
+                            width={tableState.panelSize - nonSearchableFacetTooltipPadding}
+                          />
+                        </Row>
+                      ),
+                    },
+                  },
+                  {
+                    content: {
+                      fieldName: 'molecular_characterizations',
+                      displayName: (
+                        <Row justifyContent="space-between">
+                          Available Molecular Characterizations
+                          <MolecularCharacterizationsTooltip
+                            isFacet={true}
+                            width={tableState.panelSize - facetTooltipPadding}
+                          />
+                        </Row>
+                      ),
+                    },
+                  },
+                ]}
+              />
+            </>
+          </Component>
+        </Col>
+        <MainCol
+          id="main"
+          className="search-results-wrapper"
+          p={30}
+          flex={1}
+          css={css`
+            width: calc(100vw - ${tableState.panelSize}px);
+            overflow-y: scroll !important;
+          `}
         >
-          <Col className="aggregations-wrapper" role="complementary">
-            <Component>
+          <Row
+            css={css`
+              background-color: #f6f6f8;
+              border: 1px solid #d9d9df;
+              align-items: center;
+              min-height: 50px;
+            `}
+          >
+            <SQONViewer
+              {...props}
+              emptyMessage={'Use the filter panel on the left to customize your model search.'}
+            />
+            <div className="search-header-actions">
+              <ShareButton link={`${window.location.origin}/`} quote={`HCMI Search`} />
+              <ModelList className="search-header-model-list" />
+            </div>
+          </Row>
+          <Row
+            bg="white"
+            css={css`
+              margin: 8px 0;
+              justify-content: space-around;
+              border: 1px solid #d9d9df;
+            `}
+            aria-hidden={true}
+          >
+            <Component shouldUpdate={() => stable}>
               {() => (
                 <>
-                  <ModelSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
-                  <GeneSearch
-                    sqon={toggleExpanded(sqon, showUnexpanded)}
+                  <PrimarySiteChart sqon={sqon} setSQON={setSQON} />
+                  <MultipleModelsChart
+                    sqon={sqon}
                     setSQON={setSQON}
-                    tooltipWidth={state.panelSize - facetTooltipPadding}
+                    extendedMapping={extendedMapping}
                   />
-                  <VariantSearch sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
-                  <Aggregations
-                    {...props}
-                    sqon={toggleExpanded(sqon, showUnexpanded)}
-                    setSQON={setSQON}
-                    index={props.index}
-                    graphqlField={props.index}
-                    componentProps={{
-                      getTermAggProps: () => ({ maxTerms: 4 }),
-                      InputComponent: TextInput,
-                    }}
-                    customFacets={[
-                      {
-                        content: {
-                          field: 'genomic_variants.classification',
-                          displayName: (
-                            <Row justifyContent="space-between">
-                              Research Somatic Variant Type
-                              <GenomicVariantsTooltip
-                                isFacet={true}
-                                width={state.panelSize - facetTooltipPadding}
-                              />
-                            </Row>
-                          ),
-                        },
-                      },
-                      {
-                        content: {
-                          field: 'type',
-                          displayName: 'Model Type',
-                        },
-                      },
-                      {
-                        content: {
-                          field: 'has_matched_models',
-                          displayName: (
-                            <Row justifyContent="space-between">
-                              Has Multiple Models
-                              <MultipleModelsTooltip
-                                isFacet={true}
-                                width={state.panelSize - nonSearchableFacetTooltipPadding}
-                              />
-                            </Row>
-                          ),
-                        },
-                      },
-                      {
-                        content: {
-                          field: 'molecular_characterizations',
-                          displayName: (
-                            <Row justifyContent="space-between">
-                              Available Molecular Characterizations
-                              <MolecularCharacterizationsTooltip
-                                isFacet={true}
-                                width={state.panelSize - facetTooltipPadding}
-                              />
-                            </Row>
-                          ),
-                        },
-                      },
-                    ]}
-                  />
+                  <GrowthChart sqon={sqon} setSQON={setSQON} />
+                  <TopVariantsChart sqon={sqon} setSQON={setSQON} />
                 </>
               )}
             </Component>
-          </Col>
-          <MainCol
-            id="main"
-            className="search-results-wrapper"
-            p={30}
-            flex={1}
-            css={css`
-              width: calc(100vw - ${state.panelSize}px);
-              overflow-y: scroll !important;
-            `}
-          >
-            <Row
-              css={css`
-                background-color: #f6f6f8;
-                border: 1px solid #d9d9df;
-                align-items: center;
-                min-height: 50px;
-              `}
-            >
-              {!filterExpanded(sqon) && (
-                <Row
-                  css={css`
-                    padding: 0 14px;
-                    flex: 1;
-                  `}
-                >
-                  <span className="sqon-field no-sqon-message">
-                    <ArrowIcon
-                      css={css`
-                        transform: rotate(180deg);
-                      `}
-                    />
-                    Use the filter panel on the left to customize your model search.
-                  </span>
-                </Row>
-              )}
-              <CurrentSQON
-                {...props}
-                sqon={filterExpanded(sqon)}
-                setSQON={setSQON}
-                index={props.index}
-                graphqlField={props.index}
-              />
-              <div className="search-header-actions">
-                <ShareButton link={`${window.location.origin}/`} quote={`HCMI Search`} />
-                <ModelList className="search-header-model-list" />
-              </div>
-            </Row>
-            <Row
-              bg="white"
-              css={css`
-                margin: 8px 0;
-                justify-content: space-around;
-                border: 1px solid #d9d9df;
-              `}
-              aria-hidden={true}
-            >
-              <Component shouldUpdate={() => stable}>
-                {() => (
-                  <>
-                    <PrimarySiteChart
-                      sqon={toggleExpanded(sqon, showUnexpanded)}
-                      setSQON={setSQON}
-                    />
-                    <MultipleModelsChart
-                      sqon={toggleExpanded(sqon, showUnexpanded)}
-                      setSQON={setSQON}
-                    />
-                    <GrowthChart sqon={toggleExpanded(sqon, showUnexpanded)} setSQON={setSQON} />
-                    <TopVariantsChart
-                      sqon={toggleExpanded(sqon, showUnexpanded)}
-                      setSQON={setSQON}
-                    />
-                  </>
-                )}
-              </Component>
-            </Row>
-            <Component shouldUpdate={() => stable}>
-              {() => (
-                <SelectedModelsContext.Consumer>
-                  {selectedModelContext => {
-                    // Options for Export drop down
-                    const exporterOptions = [
-                      {
-                        label: 'TSV (current columns)',
-                        function: 'saveTSV',
-                      },
-                      {
-                        label: 'TSV (all columns)',
-                        function: 'saveTSV',
-                        columns: [],
-                      },
-                    ];
-                    if (selectedModelContext.state.modelIds.length > 0) {
-                      exporterOptions.unshift({
-                        label: (
-                          <div className="selectedModelsLabel">
-                            ({selectedModelContext.state.modelIds.length} models selected)
-                          </div>
+          </Row>
+          <Component shouldUpdate={() => stable}>
+            {() => (
+              <SelectedModelsContext.Consumer>
+                {(selectedModelContext) => {
+                  // Options for Export drop down
+                  const { visibleColumnsDict } = tableContext;
+                  const currentColumns = Object.values(visibleColumnsDict);
+                  const customExporters = [
+                    {
+                      label: 'TSV (current columns)',
+                      function: () =>
+                        cartDownload(
+                          selectedModelContext?.state?.modelIds,
+                          apiFetcher,
+                          sqon,
+                          currentColumns,
                         ),
-                      });
-                    }
-                    return (
-                      <Table
-                        {...props}
-                        showFilterInput={false}
-                        setSelectedTableRows={selectedRows =>
-                          selectedModelContext.setModels(selectedRows)
-                        }
-                        selectedTableRows={selectedModelContext.state.modelIds}
-                        loading={savedSetsContext.state.loading || props.loading}
-                        sqon={toggleExpanded(sqon, showUnexpanded)}
-                        setSQON={setSQON}
-                        onSortedChange={sorted => setState({ sorted })}
-                        customTypes={{
-                          entity: props => (
-                            <TableEntity
-                              {...props}
-                              savedSetsContext={savedSetsContext}
-                              state={state}
-                              sqon={toggleExpanded(sqon, showUnexpanded)}
-                              history={history}
-                            />
-                          ),
-                          distributor_link: props => (
-                            <TableDistributorCell
-                              {...props}
-                              value={props.value}
-                              savedSetsContext={savedSetsContext}
-                              state={state}
-                              sqon={toggleExpanded(sqon, showUnexpanded)}
-                              history={history}
-                            />
-                          ),
-                          expanded: props => (
-                            <TableExpandedCell
-                              {...props}
-                              value={props.value}
-                              savedSetsContext={savedSetsContext}
-                              state={state}
-                              sqon={toggleExpanded(sqon, showUnexpanded)}
-                              history={history}
-                            />
-                          ),
-                          matched_models: props => (
-                            <TableMatchedModelsCell
-                              {...props}
-                              value={props.value}
-                              savedSetsContext={savedSetsContext}
-                              state={state}
-                              sqon={toggleExpanded(sqon, showUnexpanded)}
-                              history={history}
-                            />
-                          ),
-                          list: props => <TableList {...props} />,
-                        }}
-                        customTypeConfigs={{
-                          entity: {
-                            minWidth: 140,
-                          },
-                          list: {
-                            minWidth: 160,
-                          },
-                          age_at_sample_acquisition: { minWidth: 85 },
-                          mutated_genes_count: { minWidth: 88 },
-                          number: { minWidth: 88 },
-                          expanded: { minWidth: 105 },
-                          histo_variant_count: { minWidth: 108 },
-                          matched_models: { minWidth: 84 },
-                        }}
-                        index={props.index}
-                        graphqlField={props.index}
-                        InputComponent={TextInput}
-                        columnDropdownText="Columns"
-                        enableSelectedTableRowsExporterFilter={true}
-                        selectedRowsFilterPropertyName="_id"
-                        exporterLabel="Export"
-                        exporter={exporterOptions}
-                        transformParams={params => ({
-                          ...params,
-                          url: `${globals.ARRANGER_API}/export/${version}/models`,
-                        })}
-                        fieldTypesForFilter={['text', 'keyword', 'id']}
-                        customHeaderContent={<ExpandedToggle sqon={filterExpanded(sqon)} />}
-                        enableDropDownControls={true}
-                        sessionStorage={true}
-                        storageKey={selectedModelContext.storageKey}
-                        customColumns={[
-                          {
-                            content: {
-                              field: 'matched_models_list',
-                              displayName: 'Has Multiple Models',
-                              Header: () => (
-                                <Row justifyContent="space-between">
-                                  Has Multiple Models <MultipleModelsTooltip isColumn={true} />
-                                </Row>
-                              ),
-                            },
-                          },
-                          {
-                            content: {
-                              field: 'expanded',
-                              displayName: 'Expansion Status',
-                              Header: () => (
-                                <Row justifyContent="space-between">
-                                  Expansion Status <ExpansionStatusTooltip />
-                                </Row>
-                              ),
-                            },
-                          },
-                          {
-                            content: {
-                              field: 'molecular_characterizations',
-                              displayName: 'Available Molecular Characterizations',
-                              Header: () => (
-                                <Row justifyContent="space-between">
-                                  Available Molecular Characterizations
-                                  <MolecularCharacterizationsTooltip isColumn={true} />
-                                </Row>
-                              ),
-                            },
-                          },
-                          {
-                            content: {
-                              field: 'gene_metadata.mutated_genes_count',
-                              displayName: '# Mutated Genes',
-                              Header: () => (
-                                <Row justifyContent="space-between">
-                                  # Mutated Genes
-                                  <MutatedGenesTooltip />
-                                </Row>
-                              ),
-                            },
-                          },
-                          {
-                            content: {
-                              field: 'gene_metadata.genomic_variant_count',
-                              displayName: '# Research Somatic Variants',
-                              Header: () => (
-                                <Row justifyContent="space-between">
-                                  # Research Somatic Variants
-                                  <GenomicVariantsTooltip />
-                                </Row>
-                              ),
-                            },
-                          },
-                          {
-                            content: {
-                              field: 'gene_metadata.clinical_variant_count',
-                              displayName: '# Clinical Variants',
-                              Header: () => (
-                                <Row justifyContent="space-between">
-                                  # Clinical Variants
-                                  <ClinicalVariantsTooltip />
-                                </Row>
-                              ),
-                            },
-                          },
-                          {
-                            content: {
-                              field: 'gene_metadata.histopathological_variant_count',
-                              displayName: '# Histo-pathological Biomarkers',
-                              Header: () => (
-                                <Row justifyContent="space-between">
-                                  # Histo-pathological Biomarkers
-                                  <HistopathologicalBiomarkersTooltip />
-                                </Row>
-                              ),
-                            },
-                          },
-                        ]}
-                      />
-                    );
-                  }}
-                </SelectedModelsContext.Consumer>
-              )}
-            </Component>
-            <LastUpdatedDate />
-          </MainCol>
-        </SplitPane>
-      </Col>
-    </>
+                    },
+                    {
+                      label: 'TSV (all columns)',
+                      function: () =>
+                        cartDownload(selectedModelContext?.state?.modelIds, apiFetcher, sqon),
+                    },
+                  ];
+                  if (selectedModelContext?.state?.modelIds.length > 0) {
+                    customExporters.unshift({
+                      label: (
+                        <div className="selectedModelsLabel">
+                          ({selectedModelContext?.state?.modelIds.length} models selected)
+                        </div>
+                      ),
+                    });
+                  }
+                  return (
+                    <>
+                      {/* TODO: Placeholder for Toolbar requiring Arranger/Node update  */}
+                      <Row className="tableToolbar">
+                        <CountDisplay />
+                        <ExpandedToggle sqon={sqon} apiFetcher={apiFetcher} />
+                        <div className="group">
+                          <ColumnSelectButton />
+                          <DownloadButton
+                            theme={{
+                              customExporters,
+                            }}
+                          />
+                        </div>
+                      </Row>
+                      <Table {...props} />
+                      <div className={'pagination-bottom'}>
+                        <Pagination />
+                        <LastUpdatedDate />
+                      </div>
+                    </>
+                  );
+                }}
+              </SelectedModelsContext.Consumer>
+            )}
+          </Component>
+        </MainCol>
+      </SplitPane>
+    </Col>
   );
 };
 

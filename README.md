@@ -49,7 +49,7 @@ cd cms/variant-migrations
 docker-compose up
 ```
 
-2. Install node dependcies using yarn, from this project's root directory. This will not work correctly using `npm i`, the three projects are linked and yarn manages the shared dependencies.
+2. Install node dependencies using yarn, from this project's root directory. This will not work correctly using `npm i`, the three projects are linked and yarn manages the shared dependencies.
 
 ```
 yarn
@@ -100,7 +100,7 @@ https://wiki.oicr.on.ca/display/HCMI/HCMI+Spec+Guide
 
 #### API Tech
 
-- [@arranger/server](https://github.com/overture-stack/arranger/tree/master/modules/server) (ships with express, socket.io)
+- [@overture-stack/arranger-server](https://github.com/overture-stack/arranger/tree/master/modules/server) (ships with express, socket.io)
 
 #### UI Tech
 

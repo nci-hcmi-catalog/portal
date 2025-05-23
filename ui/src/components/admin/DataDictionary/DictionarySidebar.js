@@ -11,7 +11,7 @@ const DictionarySidebar = ({ width }) => {
   const label = 'Editable Fields';
   const { activeField, dictionary, setActiveField } = useDictionary();
 
-  const generateStatsString = field => {
+  const generateStatsString = (field) => {
     return field && field.stats
       ? `${field.stats.edited || 0} edited | ${field.stats.new || 0} new`
       : null;
@@ -34,13 +34,13 @@ const DictionarySidebar = ({ width }) => {
       {dictionary &&
         dictionary.fields &&
         dictionary.fields
-          .filter(field => EDITABLE_FIELDS.indexOf(field.name) > -1)
+          .filter((field) => EDITABLE_FIELDS.indexOf(field.name) > -1)
           .sort((a, b) => {
             if (a.displayName.toLowerCase() < b.displayName.toLowerCase()) return -1;
             if (a.displayName.toLowerCase() > b.displayName.toLowerCase()) return 1;
             return 0;
           })
-          .map(field => (
+          .map((field) => (
             <Tab
               key={field._id}
               heading={field.displayName}

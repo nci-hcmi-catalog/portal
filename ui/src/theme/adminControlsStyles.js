@@ -98,10 +98,10 @@ const PillBase = styled('div')`
   opacity: ${({ disabled }) => (disabled ? '0.5' : '1')};
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   border: solid 1px ${pillBorderColour};
-  color: ${props => pillColour(props).base};
-  background: ${props => pillBackgroundColour(props).base};
-  margin-left: ${props => (props.marginLeft ? props.marginLeft : '0')};
-  margin-right: ${props => (props.marginRight ? props.marginRight : '0')};
+  color: ${(props) => pillColour(props).base};
+  background: ${(props) => pillBackgroundColour(props).base};
+  margin-left: ${(props) => (props.marginLeft ? props.marginLeft : '0')};
+  margin-right: ${(props) => (props.marginRight ? props.marginRight : '0')};
 `;
 
 export const SmallPill = styled(PillBase)`
@@ -123,12 +123,12 @@ export const Pill = styled(PillBase)`
 `;
 
 export const SmallHoverPill = styled(SmallPill)`
-  ${props => adminPillHover(pillColour(props), pillBackgroundColour(props))};
+  ${(props) => adminPillHover(pillColour(props), pillBackgroundColour(props))};
   cursor: pointer;
 `;
 
 export const HoverPill = styled(Pill)`
-  ${props => adminPillHover(pillColour(props), pillBackgroundColour(props))};
+  ${(props) => adminPillHover(pillColour(props), pillBackgroundColour(props))};
 `;
 
 export const SmallLinkPill = SmallHoverPill.withComponent(Link);
@@ -175,7 +175,7 @@ export const ActionsMenuItem = styled('div')`
     background-color: ${actionsMenuHover};
   }
 
-  &:first-child {
+  &:first-of-type {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
   }

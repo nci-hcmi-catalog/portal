@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
+import React, { useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
 
 import Toggle from 'components/input/Toggle';
-
 import QuestionMarkIcon from 'icons/QuestionMarkIcon';
-
 import { useExpandedUnexpanded } from 'providers/ExpandedUnexpanded';
-
 import { getNumUnexpanded } from 'utils/sqonHelpers';
 
-const ExpandedToggle = ({ sqon }) => {
+const ExpandedToggle = ({ sqon, apiFetcher }) => {
   const { showUnexpanded, setShowUnexpanded } = useExpandedUnexpanded();
   const [numUnexpanded, setNumUnexpanded] = useState('');
 
   useEffect(() => {
     const fetchNumUnexpanded = async () => {
-      const data = await getNumUnexpanded(sqon);
+      const data = await getNumUnexpanded(sqon, apiFetcher);
       setNumUnexpanded(data);
     };
 
     fetchNumUnexpanded(sqon);
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, [sqon]);
 
   return (
@@ -30,7 +28,11 @@ const ExpandedToggle = ({ sqon }) => {
         disabled={numUnexpanded === 0}
         id="expanded-toggle"
         initialValue={showUnexpanded}
-        onValueChange={() => setShowUnexpanded(!showUnexpanded)}
+        onValueChange={() => {
+          setShowUnexpanded(!showUnexpanded);
+          // Workaround to force a re-fetch of the data
+          window.location.reload();
+        }}
       />
       <label
         id="expanded-toggle-label"

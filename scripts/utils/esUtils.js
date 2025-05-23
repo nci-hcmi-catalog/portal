@@ -1,11 +1,5 @@
 const es = require('@elastic/elasticsearch');
 
-/** Arranger metadatas: **/
-const aggsState = require('../../elasticsearch/arranger_metadata/aggs-state.json');
-const columnsState = require('../../elasticsearch/arranger_metadata/columns-state.json');
-const extended = require('../../elasticsearch/arranger_metadata/extended.json');
-const matchboxState = require('../../elasticsearch/arranger_metadata/matchbox-state.json');
-
 const pm2Path = process.env.CMS_CONFIG || '../../cms/pm2.config.js';
 const pm2Env = process.env.ENV;
 if (!pm2Env) {
@@ -26,7 +20,6 @@ const modelsIndexConfig = require('../../elasticsearch/modelsIndex.json');
 const genesIndexConfig = require('../../elasticsearch/genesIndex.json');
 const variantsIndexConfig = require('../../elasticsearch/variantsIndex.json');
 const modelsIndexName = process.env.ES_INDEX || pm2.ES_INDEX || 'hcmi';
-const arrangerProject = process.env.PROJECT_ID || pm2.ES_INDEX || 'hcmi';
 const esHost = process.env.ES_HOST || `${pm2.ES_HOST}:${pm2.ES_PORT}`;
 
 const GENES_INDEX = 'genes';
@@ -35,7 +28,6 @@ const VARIANTS_INDEX = 'genomic_variants';
 const client = new es.Client({
   node: esHost,
 });
-const date = new Date();
 
 /* ******** Index creation and deletion ******** */
 const createIndex = async (index, config) => {
@@ -114,76 +106,6 @@ module.exports.updateSearchIndices = async () => {
     settings: variantsIndexConfig.settings,
     mapping: variantsIndexConfig.mapping,
   });
-};
-
-module.exports.createArrangerProjectList = async () => {
-  try {
-    console.log(`\nCreating arranger project list: arranger-projects`);
-    await client.indices.create({
-      index: 'arranger-projects',
-    });
-    console.log(`\nAdding project to arranger project list: ${arrangerProject}`);
-    await client.index({
-      index: 'arranger-projects',
-      body: {
-        id: arrangerProject,
-        active: true,
-        timestamp: date,
-      },
-    });
-    console.log('Success! Created arranger-projects and added project:', arrangerProject);
-  } catch (e) {
-    console.log('Unable to initialize arranger-projects');
-    console.log(e);
-  }
-};
-
-const createArrangerProject = async () => {
-  const projectIndex = `arranger-projects-${arrangerProject}`;
-  try {
-    console.log(`\nCreating arranger project: ${arrangerProject}`);
-    await client.indices.create({
-      index: projectIndex,
-    });
-    await client.index({
-      index: projectIndex,
-      body: {
-        index: modelsIndexName,
-        name: 'models',
-        timestamp: date,
-        active: true,
-        config: {
-          'aggs-state': {
-            timestamp: date,
-            state: aggsState,
-          },
-          'columns-state': {
-            timestamp: date,
-            state: columnsState,
-          },
-          'matchbox-state': {
-            timestamp: date,
-            state: matchboxState,
-          },
-          extended: extended,
-        },
-      },
-    });
-    console.log('Success! Created and configured project index:', arrangerProject);
-  } catch (e) {
-    console.log('Unable to set up project meta data:', projectIndex);
-    console.log(e);
-  }
-};
-
-module.exports.createArrangerProject = createArrangerProject;
-
-module.exports.updateArrangerProject = async () => {
-  try {
-    console.log(`\nDeleting existing index (if present): arranger-projects-${arrangerProject}`);
-    await client.indices.delete({ index: `arranger-projects-${arrangerProject}` });
-  } catch (e) {}
-  await createArrangerProject();
 };
 
 module.exports.configureArrangerSets = async () => {

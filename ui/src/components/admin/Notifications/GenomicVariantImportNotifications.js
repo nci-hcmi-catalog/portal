@@ -26,9 +26,9 @@ import {
 import { Row } from 'theme/system';
 
 // Unicode 'NON-BREAKING HYPHEN' (U+2011), prevents word-wrap on model names
-const replaceHyphens = text => text.replaceAll('-', '‑');
+const replaceHyphens = (text) => text.replaceAll('-', '‑');
 
-const getImportErrorMessage = error => {
+const getImportErrorMessage = (error) => {
   switch (error) {
     case GDC_MODEL_STATES.singleNgcmPlusEngcm:
       return 'other unexpected MAF files were found.';
@@ -132,8 +132,8 @@ const useGenomicVariantImportNotifications = () => {
   };
 
   // ONLY USED FOR INDIVIDUAL IMPORTS
-  const addImportNotification = async modelName => {
-    const existingNotification = getImportNotifications().find(x => x.modelName === modelName);
+  const addImportNotification = async (modelName) => {
+    const existingNotification = getImportNotifications().find((x) => x.modelName === modelName);
 
     if (existingNotification) {
       existingNotification.clear();
@@ -146,8 +146,8 @@ const useGenomicVariantImportNotifications = () => {
       timeout: false,
     });
 
-    setImportNotifications(notifications => [
-      ...notifications.filter(notification => notification.modelName !== modelName),
+    setImportNotifications((notifications) => [
+      ...notifications.filter((notification) => notification.modelName !== modelName),
       {
         modelName: modelName,
         notificationId: notification.id,
@@ -157,20 +157,20 @@ const useGenomicVariantImportNotifications = () => {
   };
 
   // ONLY USED FOR INDIVIDUAL IMPORTS
-  const removeImportNotification = modelName => {
-    const existingNotification = getImportNotifications().find(x => x.modelName === modelName);
+  const removeImportNotification = (modelName) => {
+    const existingNotification = getImportNotifications().find((x) => x.modelName === modelName);
 
     if (existingNotification) {
       clearNotification(existingNotification.notificationId);
-      setImportNotifications(notifications =>
-        notifications.filter(notification => notification.modelName !== modelName),
+      setImportNotifications((notifications) =>
+        notifications.filter((notification) => notification.modelName !== modelName),
       );
     }
   };
 
   // ONLY USED FOR INDIVIDUAL IMPORTS
-  const showSuccessfulImportNotification = modelName => {
-    if (notifications.find(x => x.modelName === modelName)) {
+  const showSuccessfulImportNotification = (modelName) => {
+    if (notifications.find((x) => x.modelName === modelName)) {
       return;
     }
 
@@ -188,8 +188,8 @@ const useGenomicVariantImportNotifications = () => {
   };
 
   // ONLY USED FOR INDIVIDUAL IMPORTS
-  const showStoppedImportNotification = modelName => {
-    if (notifications.find(x => x.modelName === modelName)) {
+  const showStoppedImportNotification = (modelName) => {
+    if (notifications.find((x) => x.modelName === modelName)) {
       return;
     }
 
@@ -207,7 +207,7 @@ const useGenomicVariantImportNotifications = () => {
   };
 
   const showErrorImportNotification = (modelName, error) => {
-    if (notifications.find(x => x.modelName === modelName)) {
+    if (notifications.find((x) => x.modelName === modelName)) {
       return;
     }
 
@@ -375,15 +375,15 @@ const useGenomicVariantImportNotifications = () => {
   };
 
   // Remove a model's error notification without triggering onClose function
-  const hideErrorImportNotification = modelName => {
-    const existingNotification = notifications.find(x => x.modelName === modelName);
+  const hideErrorImportNotification = (modelName) => {
+    const existingNotification = notifications.find((x) => x.modelName === modelName);
 
     if (existingNotification) {
       existingNotification.clear();
     }
   };
 
-  const showUnexpectedImportError = error => {
+  const showUnexpectedImportError = (error) => {
     appendNotification({
       type: NOTIFICATION_TYPES.ERROR,
       message:
@@ -403,7 +403,7 @@ const useGenomicVariantImportNotifications = () => {
     }
 
     // Remove existing notification before adding new values, brings it back to the top of the list
-    if (notifications.find(x => x.modelName === modelName)) {
+    if (notifications.find((x) => x.modelName === modelName)) {
       hideBulkNonActionableImportErrors();
     }
 
@@ -417,7 +417,7 @@ const useGenomicVariantImportNotifications = () => {
         // Can't access the latest state normally since the callback is bound when the notification is created
         // Use 'setState' without updating the state to access the latest value within a bound callback
         // Via: https://stackoverflow.com/q/57847594
-        setNonactionableImports(currentNonActionableImports => {
+        setNonactionableImports((currentNonActionableImports) => {
           acknowledgeBulkAndUpdateNotifications([
             ...currentNonActionableImports[GDC_MODEL_STATES.modelNotFound],
             ...currentNonActionableImports[GDC_MODEL_STATES.noMafs],
@@ -444,20 +444,20 @@ const useGenomicVariantImportNotifications = () => {
 
     // Add import notifications for individual imports in the queue
     const individualQueuedImports = (queue || []).filter(
-      x => x.importType === VARIANT_IMPORT_TYPES.individual,
+      (x) => x.importType === VARIANT_IMPORT_TYPES.individual,
     );
-    individualQueuedImports.forEach(importItem => {
+    individualQueuedImports.forEach((importItem) => {
       const modelName = importItem.modelName;
-      if (!getImportNotifications().find(x => x.modelName === modelName)) {
+      if (!getImportNotifications().find((x) => x.modelName === modelName)) {
         addImportNotification(modelName);
       }
     });
 
     // Remove import notification and show stopped notification for stopped individual imports
     const individualStoppedImports = (stopped || []).filter(
-      x => x.importType === VARIANT_IMPORT_TYPES.individual,
+      (x) => x.importType === VARIANT_IMPORT_TYPES.individual,
     );
-    individualStoppedImports.forEach(stoppedImport => {
+    individualStoppedImports.forEach((stoppedImport) => {
       const modelName = stoppedImport.modelName;
       removeImportNotification(modelName);
       showStoppedImportNotification(modelName);
@@ -465,26 +465,28 @@ const useGenomicVariantImportNotifications = () => {
 
     // Remove import notification and show success notification for completed individual imports
     const individualCompletedImports = (success || []).filter(
-      x => x.importType === VARIANT_IMPORT_TYPES.individual,
+      (x) => x.importType === VARIANT_IMPORT_TYPES.individual,
     );
-    individualCompletedImports.forEach(completedImport => {
+    individualCompletedImports.forEach((completedImport) => {
       const modelName = completedImport.modelName;
       removeImportNotification(modelName);
       showSuccessfulImportNotification(modelName);
     });
 
     // Remove import errors for re-queued bulk imports (resolved errors)
-    const bulkQueuedImports = (queue || []).filter(x => x.importType === VARIANT_IMPORT_TYPES.bulk);
-    bulkQueuedImports.forEach(queuedImport => {
+    const bulkQueuedImports = (queue || []).filter(
+      (x) => x.importType === VARIANT_IMPORT_TYPES.bulk,
+    );
+    bulkQueuedImports.forEach((queuedImport) => {
       const modelName = queuedImport.modelName;
       hideErrorImportNotification(modelName);
     });
 
     // Remove import errors for completed bulk imports
     const bulkCompletedImports = (success || []).filter(
-      x => x.importType === VARIANT_IMPORT_TYPES.bulk,
+      (x) => x.importType === VARIANT_IMPORT_TYPES.bulk,
     );
-    bulkCompletedImports.forEach(completedImport => {
+    bulkCompletedImports.forEach((completedImport) => {
       const modelName = completedImport.modelName;
       hideErrorImportNotification(modelName);
     });
@@ -496,7 +498,7 @@ const useGenomicVariantImportNotifications = () => {
     let newBulkModelNotFound = [];
     let newBulkNoMafs = [];
 
-    failedImports.forEach(failedImport => {
+    failedImports.forEach((failedImport) => {
       const modelName = failedImport.modelName;
 
       if (failedImport.importType === VARIANT_IMPORT_TYPES.individual) {
@@ -532,30 +534,30 @@ const useGenomicVariantImportNotifications = () => {
 
   const fetchImportStatus = async () => {
     await checkImportStatus()
-      .then(importStatus => {
+      .then((importStatus) => {
         setImportProgress(importStatus);
       })
-      .catch(error => {
+      .catch((error) => {
         showUnexpectedImportError(error);
       });
   };
 
-  const acknowledgeModelAndUpdateNotifications = async modelName => {
+  const acknowledgeModelAndUpdateNotifications = async (modelName) => {
     await acknowledgeImportStatus(modelName)
-      .then(async _ => {
+      .then(async (_) => {
         await fetchImportStatus();
       })
-      .catch(error => {
+      .catch((error) => {
         showUnexpectedImportError(error);
       });
   };
 
-  const acknowledgeBulkAndUpdateNotifications = async modelNames => {
+  const acknowledgeBulkAndUpdateNotifications = async (modelNames) => {
     await acknowledgeBulkImportStatus(modelNames)
-      .then(async _ => {
+      .then(async (_) => {
         await fetchImportStatus();
       })
-      .catch(error => {
+      .catch((error) => {
         showUnexpectedImportError(error);
       });
   };

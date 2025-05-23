@@ -1,0 +1,281 @@
+{
+  "facets": {
+    "aggregations": [
+      {
+        "fieldName": "primary_site",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "genomic_variants__classification",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "genomic_variants__consequence_type",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "type",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "has_matched_models",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "expanded",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "clinical_diagnosis__site_of_sample_acquisition",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "clinical_diagnosis__clinical_tumor_diagnosis",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "clinical_diagnosis__clinical_stage_grouping",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "tissue_type",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "clinical_diagnosis__histological_type",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "clinical_diagnosis__tumor_histological_grade",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "age_at_sample_acquisition",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "age_at_diagnosis",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "disease_status",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "gender",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "molecular_characterizations",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "neoadjuvant_therapy",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "chemotherapeutic_drugs",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "createdAt",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "date_of_availability",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "updatedAt",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "growth_rate",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "licensing_required",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "name",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "race",
+        "show": true,
+        "active": true
+      },
+      {
+        "fieldName": "variants__genes",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "source_model_url",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "files__file_id",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "files__file_name",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "files__file_type",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "matched_models__name",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "matched_models__tissue_type",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "proteomics_url",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "source_sequence_url",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "somatic_maf_url",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "split_ratio",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "therapy",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "tnm_stage",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "variants__assessment_type",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "variants__category",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "variants__expression_level",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "variants__name",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "variants__type",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "vital_status",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "autocomplete",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "files__magnification",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "files__passage_number",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "files__scale_bar_length",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "status",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "distributor_part_number",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "time_to_split",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "matched_models_list",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "gene_metadata__genes",
+        "show": false,
+        "active": true
+      },
+      {
+        "fieldName": "gene_metadata__mutated_genes",
+        "show": false,
+        "active": true
+      }
+    ]
+  }
+}

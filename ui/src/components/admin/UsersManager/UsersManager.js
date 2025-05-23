@@ -76,7 +76,7 @@ const content = () => {
                   <AdminHeaderH1>User Management</AdminHeaderH1>
                   <AdminHeaderBlock>
                     <ModalStateContext.Consumer>
-                      {modalState => (
+                      {(modalState) => (
                         <ButtonPill
                           primary
                           onClick={() =>
