@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import ArrangerInput from '@overture-stack/arranger-components/dist/Input';
 import CrossCircleOutlineIcon from 'icons/CrossCircleOutlineIcon';
+import FilterIcon from 'icons/FilterIcon';
 
 const TextInputWrapper = styled('div')`
   position: relative;
@@ -11,7 +12,12 @@ const TextInputWrapper = styled('div')`
 `;
 
 const RefArrangerTextInput = React.forwardRef((props, ref) => (
-  <ArrangerInput ref={ref} shouldautofocus={'false'} {...props} />
+  <ArrangerInput
+    ref={ref}
+    shouldautofocus={'false'}
+    theme={{ leftIcon: { Icon: FilterIcon } }}
+    {...props}
+  />
 ));
 
 const TextInput = styled(RefArrangerTextInput)`
