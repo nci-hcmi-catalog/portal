@@ -366,13 +366,14 @@ const Search = ({
                         cartDownload(
                           selectedModelContext?.state?.modelIds,
                           apiFetcher,
+                          sqon,
                           currentColumns,
                         ),
                     },
                     {
                       label: 'TSV (all columns)',
                       function: () =>
-                        cartDownload(selectedModelContext?.state?.modelIds, apiFetcher),
+                        cartDownload(selectedModelContext?.state?.modelIds, apiFetcher, sqon),
                     },
                   ];
                   if (selectedModelContext?.state?.modelIds.length > 0) {
