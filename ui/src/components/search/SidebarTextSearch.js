@@ -54,6 +54,7 @@ const SidebarTextSearch = ({
           aria-label={header}
           placeholder={placeholder}
           value={value}
+          setValue={setValue}
           icon={loading ? LoadingIcon : <SearchIcon />}
           onFocus={() => {
             setShowOptions(!!options);

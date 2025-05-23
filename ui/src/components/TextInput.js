@@ -63,23 +63,16 @@ const closeStyle = css`
   border-radius: 6px;
 `;
 
-const setNativeValue = (element, value) => {
-  const valueSetter = Object.getOwnPropertyDescriptor(element, 'value').set;
-  const prototype = Object.getPrototypeOf(element);
-  const prototypeValueSetter = Object.getOwnPropertyDescriptor(prototype, 'value').set;
-
-  if (valueSetter && valueSetter !== prototypeValueSetter) {
-    prototypeValueSetter.call(element, value);
-  } else {
-    valueSetter.call(element, value);
-  }
-};
-
-const TextInputComponent = ({ className, value, disabled, ref = React.createRef(), ...props }) => {
+const TextInputComponent = ({
+  className,
+  value,
+  setValue,
+  disabled,
+  ref = React.createRef(),
+  ...props
+}) => {
   const clearInput = () => {
-    const input = ref.current.children[1];
-    setNativeValue(input, '');
-    input.dispatchEvent(new Event('input', { bubbles: true }));
+    setValue('');
   };
 
   return (
