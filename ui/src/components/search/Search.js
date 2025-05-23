@@ -16,6 +16,7 @@ import CountDisplay from '@overture-stack/arranger-components/dist/Table/CountDi
 import ColumnSelectButton from '@overture-stack/arranger-components/dist/Table/ColumnsSelectButton/index';
 import DownloadButton from '@overture-stack/arranger-components/dist/Table/DownloadButton/index';
 
+import ArrowIcon from 'icons/ArrowIcon';
 import DownloadIcon from 'icons/DownloadIcon';
 
 import LastUpdatedDate from 'components/LastUpdatedDate';
@@ -189,6 +190,14 @@ const Search = ({
 
   useArrangerTheme({
     components: {
+      Aggregations: {
+        TreeJointIcon: { Icon: () => <ArrowIcon fill={'#900000'} width={'9px'} height={'9px'} /> },
+      },
+      SQONViewer: {
+        EmptyMessage: {
+          arrowColor: '#CD0D32',
+        },
+      },
       Table: {
         columnTypes,
         DownloadButton: {
@@ -198,11 +207,6 @@ const Search = ({
               Export
             </span>
           ),
-        },
-      },
-      SQONViewer: {
-        EmptyMessage: {
-          arrowColor: '#CD0D32',
         },
       },
     },
@@ -416,35 +420,5 @@ const Search = ({
     </Col>
   );
 };
-
-// Old Table Props
-// setSelectedTableRows={(selectedRows) =>
-//   selectedModelContext?.setModels(selectedRows)
-// }
-// selectedRows={
-//   selectedModelContext?.state?.modelIds || tableContext.selectedRows
-// }
-// selectedRowsFilterPropertyName="_id"
-
-// showFilterInput={false}
-// isLoading={
-//   savedSetsContext?.state?.loading ||
-//   tableContext.loading ||
-//   props.loading
-// }
-// onSortedChange={(sorted) => setState({ sorted })}
-// index={props.index}
-// graphqlField={props.index}
-// columnDropdownText="Columns"
-// enableSelectedTableRowsExporterFilter={true}
-// exporterLabel="Export"
-// transformParams={(params) => ({
-//   ...params,
-//   url: `${globals.ARRANGER_API}/export/models`,
-// })}
-// fieldTypesForFilter={['text', 'keyword', 'id']}
-// enableDropDownControls={true}
-// sessionStorage={true}
-// storageKey={selectedModelContext?.storageKey}};
 
 export default Search;
