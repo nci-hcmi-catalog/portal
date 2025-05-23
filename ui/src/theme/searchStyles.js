@@ -111,23 +111,12 @@ export const inputDropdownButtonStyle = css`
 export default css`
   .ReactTable,
   .TableWrapper {
-    border: none;
     background: transparent;
   }
 
   .ReactTable .rt-table,
-  .TableWrapper table {
+  .TableWrapper {
     border: 1px solid ${mischka};
-  }
-
-  .TableWrapper tbody {
-    border: none;
-  }
-
-  .TableWrapper tbody {
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
   }
 
   .ReactTable.-striped.audit-table .rt-table .rt-tbody {
@@ -145,11 +134,14 @@ export default css`
     cursor: pointer;
   }
 
-  .ReactTable .rt-td,
-  .TableWrapper .cell {
+  .ReactTable .rt-td {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+  }
+
+  .ReactTable .rt-td,
+  .TableWrapper .cell {
     padding: 4px 8px 4px 4px;
     border-right: 1px solid ${mischka};
   }
@@ -158,6 +150,7 @@ export default css`
   .ReactTable .rt-td:last-child,
   .TableWrapper .cell:last-child {
     padding-right: 18px;
+    border-right: none;
   }
 
   .ReactTable .rt-resizable-header,
@@ -181,6 +174,7 @@ export default css`
   .ReactTable .rt-thead .rt-resizable-header:last-child,
   .TableWrapper .TableHeaderGroup .table_header:last-child {
     overflow: unset;
+    border-right: none;
 
     .rt-resizer {
       width: 18px;
@@ -194,6 +188,10 @@ export default css`
     cursor: pointer;
     text-decoration: underline;
     padding: 0;
+  }
+
+  .TableWrapper thead {
+    border: none;
   }
 
   .ReactTable .rt-thead,
@@ -215,8 +213,8 @@ export default css`
   .TableWrapper .TableHeaderGroup .table_header {
     padding-top: 4px;
     padding-bottom: 4px;
-    border-color: ${mischka};
     border-right: 1px solid ${mischka};
+    border-bottom: 1px solid ${mischka};
     align-items: baseline;
     vertical-align: top;
 
@@ -237,6 +235,10 @@ export default css`
     box-shadow: inset 0 -3px 0 0 ${seaBuckthorn};
   }
 
+  .TableWrapper .Row {
+    border-bottom: 1px solid ${mischka};
+  }
+
   .ReactTable.-striped .rt-tr.-odd,
   .TableWrapper .Row:nth-of-type(odd) {
     background-color: ${white};
@@ -247,22 +249,16 @@ export default css`
     background-color: ${athensGray};
   }
 
+  .TableBody tr.Row:first-of-type {
+    padding-top: 0px;
+  }
+
   .ReactTable.-highlight .rt-tbody .rt-tr:not(.-padRow):hover {
     background-color: ${whisper};
   }
 
   .ReactTable .rt-tr-group {
     flex: none;
-  }
-
-  .TableWrapper .Row {
-    display: inline-flex;
-    flex-direction: row;
-    height: fit-content;
-  }
-
-  .TableBody tr.Row:first-of-type {
-    padding-top: 0px;
   }
 
   .pagination-bottom,
