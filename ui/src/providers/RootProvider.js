@@ -1,10 +1,9 @@
 import axios from 'axios';
-import urlJoin from 'url-join';
 import React from 'react';
+import urlJoin from 'url-join';
+import globals from 'utils/globals';
 
 import { ArrangerDataProvider, TableContextProvider } from '@overture-stack/arranger-components';
-
-import globals from 'utils/globals';
 
 import SavedSetsProvider from './SavedSets';
 import SelectedModelsProvider from './SelectedModels';

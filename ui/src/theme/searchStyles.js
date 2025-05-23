@@ -109,12 +109,13 @@ export const inputDropdownButtonStyle = css`
 `;
 
 export default css`
-  .ReactTable {
-    border: none;
+  .ReactTable,
+  .TableWrapper {
     background: transparent;
   }
 
-  .ReactTable .rt-table {
+  .ReactTable .rt-table,
+  .TableWrapper {
     border: 1px solid ${mischka};
   }
 
@@ -128,7 +129,8 @@ export default css`
     margin-bottom: 24px;
   }
 
-  .ReactTable .rt-table input[type='checkbox'] {
+  .ReactTable .rt-table input[type='checkbox'],
+  .TableWrapper table input[type='checkbox'] {
     cursor: pointer;
   }
 
@@ -136,20 +138,28 @@ export default css`
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+  }
+
+  .ReactTable .rt-td,
+  .TableWrapper .cell {
     padding: 4px 8px 4px 4px;
-    border-color: ${mischka};
+    border-right: 1px solid ${mischka};
   }
 
   /* Additional padding for scroll bars */
-  .ReactTable .rt-td:last-child {
+  .ReactTable .rt-td:last-child,
+  .TableWrapper .cell:last-child {
     padding-right: 18px;
+    border-right: none;
   }
 
-  .ReactTable .rt-resizable-header {
+  .ReactTable .rt-resizable-header,
+  .TableWrapper .TableHeaderGroup .table_header {
     padding: 4px 8px;
   }
 
-  .ReactTable .rt-resizable-header-content {
+  .ReactTable .rt-resizable-header-content,
+  .TableWrapper .TableHeaderGroup .table_header {
     color: ${black};
     text-transform: capitalize;
     text-align: left;
@@ -157,11 +167,14 @@ export default css`
     font-size: 12px;
     font-weight: bold;
     overflow-wrap: break-word;
+    overflow: visible;
     white-space: normal;
   }
 
-  .ReactTable .rt-thead .rt-resizable-header:last-child {
+  .ReactTable .rt-thead .rt-resizable-header:last-child,
+  .TableWrapper .TableHeaderGroup .table_header:last-child {
     overflow: unset;
+    border-right: none;
 
     .rt-resizer {
       width: 18px;
@@ -177,11 +190,17 @@ export default css`
     padding: 0;
   }
 
-  .ReactTable .rt-thead {
+  .TableWrapper thead {
+    border: none;
+  }
+
+  .ReactTable .rt-thead,
+  .TableWrapper .TableHeaderGroup {
     background-color: #ffffff;
   }
 
-  .ReactTable .rt-table {
+  .ReactTable .rt-table,
+  .TableWrapper table {
     overflow-x: scroll;
     overflow-y: visible;
 
@@ -190,11 +209,14 @@ export default css`
     }
   }
 
-  .ReactTable .rt-thead .rt-tr .rt-th {
+  .ReactTable .rt-thead .rt-tr .rt-th,
+  .TableWrapper .TableHeaderGroup .table_header {
     padding-top: 4px;
     padding-bottom: 4px;
-    border-color: ${mischka};
+    border-right: 1px solid ${mischka};
+    border-bottom: 1px solid ${mischka};
     align-items: baseline;
+    vertical-align: top;
 
     &:hover {
       background-color: ${lightPorcelain};
@@ -202,21 +224,33 @@ export default css`
   }
 
   .ReactTable .rt-thead .rt-th.-sort-asc,
-  .ReactTable .rt-thead .rt-td.-sort-asc {
+  .ReactTable .rt-thead .rt-td.-sort-asc,
+  .TableWrapper .TableHeaderGroup .table_header.asc {
     box-shadow: inset 0 3px 0 0 ${seaBuckthorn};
   }
 
   .ReactTable .rt-thead .rt-th.-sort-desc,
-  .ReactTable .rt-thead .rt-td.-sort-desc {
+  .ReactTable .rt-thead .rt-td.-sort-desc,
+  .TableWrapper .TableHeaderGroup .table_header.desc {
     box-shadow: inset 0 -3px 0 0 ${seaBuckthorn};
   }
 
-  .ReactTable.-striped .rt-tr.-odd {
+  .TableWrapper .Row {
+    border-bottom: 1px solid ${mischka};
+  }
+
+  .ReactTable.-striped .rt-tr.-odd,
+  .TableWrapper .Row:nth-of-type(odd) {
     background-color: ${white};
   }
 
-  .ReactTable.-striped .rt-tr.-even {
+  .ReactTable.-striped .rt-tr.-even,
+  .TableWrapper .Row:nth-of-type(even) {
     background-color: ${athensGray};
+  }
+
+  .TableBody tr.Row:first-of-type {
+    padding-top: 0px;
   }
 
   .ReactTable.-highlight .rt-tbody .rt-tr:not(.-padRow):hover {
@@ -227,13 +261,15 @@ export default css`
     flex: none;
   }
 
+  .pagination-bottom,
   .ReactTable .pagination-bottom {
     height: auto;
     background: transparent;
     padding: 4px 0 0;
   }
 
-  .ReactTable .-pagination {
+  .ReactTable .-pagination,
+  .-pagination {
     font-family: ${openSans};
     box-shadow: none;
     border: none;
@@ -378,7 +414,7 @@ export default css`
   }
 
   .input-range__track.input-range__track--active {
-    background-color: #fc7678;
+    background-color: #fc7678 !important;
   }
 
   .showMore-wrapper.more,
@@ -530,23 +566,27 @@ export default css`
     height: 8px;
   }
 
-  .aggregations .aggregation-card .header {
+  .aggregations .aggregation-card .header,
+  .aggregations .aggregation-group .header {
     position: relative;
   }
 
-  .aggregation-card .header .title-wrapper {
+  .aggregation-card .header .title-wrapper,
+  .aggregation-group .header .title-wrapper {
     padding: 10px;
     background-image: linear-gradient(to bottom, ${athensGray} 9%, ${athensLightGray} 91%);
     border-bottom: none;
   }
 
-  .aggregation-card .header .title-wrapper > div {
+  .aggregation-card .header .title-wrapper > div,
+  .aggregation-group .header .title-wrapper > div {
     display: flex;
     flex-direction: row;
     align-items: center;
   }
 
-  .aggregation-card .header .title-wrapper .action-icon svg {
+  .aggregation-card .header .title-wrapper .action-icon svg,
+  .aggregation-group .header .title-wrapper .action-icon svg {
     fill: ${bombay};
     width: 14px;
     heigth: 14px;
@@ -557,11 +597,8 @@ export default css`
     }
   }
 
-  .aggregation-card .header .title-wrapper.collapsed .action-icon {
-    display: none;
-  }
-
-  .aggregation-card .filter {
+  .aggregation-card .filter,
+  .aggregation-group .filter {
     padding: 10px 11px;
   }
 
@@ -576,12 +613,14 @@ export default css`
     width: 100%;
   }
 
-  .aggregation-card .title-wrapper {
+  .aggregation-card .title-wrapper,
+  .aggregation-group .title-wrapper {
     background-color: #f4f5f7;
     padding: 8px;
   }
 
-  .aggregation-card .title-wrapper .title {
+  .aggregation-card .title-wrapper .title,
+  .aggregation-group .title-wrapper .title {
     font-family: ${openSans};
     font-size: 13px;
     font-weight: bold;
@@ -591,7 +630,8 @@ export default css`
     width: 100%;
   }
 
-  .aggregation-card {
+  .aggregation-card,
+  .aggregation-group {
     border-left: none;
     border-top: none;
     border-color: ${mischka};
@@ -599,15 +639,19 @@ export default css`
     margin: 0px !important;
   }
 
-  .aggregation-card .header {
+  .aggregation-card .header,
+  .aggregation-group .header {
+    padding: 0px;
     margin: 0;
   }
 
-  .aggregation-card .bucket {
+  .aggregation-card .bucket,
+  .aggregation-group .bucket {
     padding: 0;
   }
 
-  .aggregation-card .bucket .bucket-item {
+  .aggregation-card .bucket .bucket-item,
+  .aggregation-group .bucket .bucket-item {
     padding: 2px 6px;
     display: flex;
     align-items: baseline;
@@ -617,22 +661,27 @@ export default css`
     }
   }
 
-  .aggregation-card .bucket-item .bucket-link {
+  .aggregation-card .bucket-item .bucket-link,
+  .aggregation-group .bucket-item .bucket-link {
     display: flex;
     align-items: flex-start;
   }
 
-  .aggregation-card .bucket-item .bucket-link input[type='checkbox'] {
+  .aggregation-card .bucket-item .bucket-link input[type='checkbox'],
+  .aggregation-group .bucket-item .bucket-link input[type='checkbox'] {
     margin-right: 6px;
   }
 
-  .aggregation-card .bucket-item .bucket-link .textHighlight {
+  .aggregation-card .bucket-item .bucket-link .textHighlight,
+  ..aggregation-group .bucket-item .bucket-link .textHighlight {
     font-size: 12px;
     margin-top: 1px;
   }
 
   .aggregation-card .bucket-item .bucket-count,
-  .aggregation-card .toggle-button .toggle-button-option .bucket-count {
+  .aggregation-card .toggle-button .toggle-button-option .bucket-count,
+  .aggregation-group .bucket-item .bucket-count,
+  .aggregation-group .toggle-button .toggle-button-option .bucket-count {
     border-radius: 6px;
     background-color: ${sandyBeach};
     color: ${black};
@@ -644,48 +693,55 @@ export default css`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: auto;
     padding: 4px;
   }
 
-  .aggregation-card .bucket .toggle-button {
+  .aggregation-card .bucket .toggle-button,
+  .aggregation-group .bucket .toggle-button {
     margin: 4px 10px;
     border-radius: 10px;
     border: 1px solid ${graySuit};
     overflow: hidden;
   }
 
-  .aggregation-card .bucket .toggle-button .toggle-button-option {
+  .aggregation-card .bucket .toggle-button .toggle-button-option,
+  .aggregation-group .bucket .toggle-button .toggle-button-option {
     font-size: 12px;
     border-color: ${graySuit};
     border-width: 0;
     border-right-width: 1px;
+    border-radius: unset;
 
     &:not(.active):hover {
       background-color: ${lightPorcelain};
     }
   }
 
-  .aggregation-card .bucket .toggle-button .toggle-button-option .textHighlight {
+  .aggregation-card .bucket .toggle-button .toggle-button-option .textHighlight,
+  .aggregation-group .bucket .toggle-button .toggle-button-option .textHighlight {
     margin-right: 2px;
   }
 
-  .aggregation-card .bucket .toggle-button .toggle-button-option:first-of-type {
+  .aggregation-card .bucket .toggle-button .toggle-button-option:first-of-type,
+  .aggregation-group .bucket .toggle-button .toggle-button-option:first-of-type {
     border-top-left-radius: unset;
     border-bottom-left-radius: unset;
   }
 
-  .aggregation-card .bucket .toggle-button .toggle-button-option:last-child {
+  .aggregation-card .bucket .toggle-button .toggle-button-option:last-child,
+  .aggregation-group .bucket .toggle-button .toggle-button-option:last-child {
     border-top-right-radius: unset;
     border-bottom-right-radius: unset;
     border-right-width: 0 !important;
   }
 
-  .aggregation-card .bucket .toggle-button .toggle-button-option.active {
+  .aggregation-card .bucket .toggle-button .toggle-button-option.active,
+  .aggregation-group .bucket .toggle-button .toggle-button-option.active {
     background-color: ${linen};
   }
 
-  .aggregations .aggregation-card .title-wrapper {
+  .aggregations .aggregation-card .title-wrapper,
+  .aggregations .aggregation-group .title-wrapper {
     .title-control {
       width: 100%;
 
@@ -695,9 +751,22 @@ export default css`
     }
   }
 
-  .model-name-search-wrapper .title-wrapper {
+  .custom-search-wrapper .title-wrapper {
     flex: 1;
     justify-content: start;
+    align-items: center;
+
+    .arrow:not(.collapsed) {
+      transform: rotate(90deg);
+    }
+  }
+
+  .custom-search-wrapper .title-wrapper {
+    cursor: pointer;
+  }
+
+  .title-wrapper:not(.collapsed) .title-control > img {
+    transform: rotate(90deg);
   }
 
   .quick-search {
@@ -821,6 +890,7 @@ export default css`
     padding: 0;
   }
 
+  .tableToolbar .group .DropdownContainer button.DropDownButton,
   .tableToolbar .dropDownHeader button,
   .tableToolbar .buttonWrapper button,
   .toolbar button {
@@ -855,7 +925,19 @@ export default css`
     padding: 0px;
   }
 
-  .dropDownHeader .dropDownContent {
+  .DropdownContainer,
+  .SelectionControls,
+  .ListItem {
+    background: white;
+  }
+
+  .DropdownContainer fieldset.ListWrapper {
+    right: 7px;
+    top: 28px;
+  }
+
+  .dropDownHeader .dropDownContent,
+  .List {
     max-height: 360px;
     overflow-y: auto;
     font-size: 13px;
@@ -863,7 +945,8 @@ export default css`
     padding: 0;
   }
 
-  .dropDownContent .dropDownContentElement.clickable {
+  .dropDownContent .dropDownContentElement.clickable,
+  .List .ListItem {
     padding: 5px 10px;
     color: black;
 
@@ -876,7 +959,8 @@ export default css`
     }
   }
 
-  .dropDownContent .dropDownContentElement.clickable:hover {
+  .dropDownContent .dropDownContentElement.clickable:hover,
+  .List .ListItem:hover {
     background-color: #f3f6f7;
   }
   .dropDownContent .dropDownContentElement.custom .selectedModelsLabel {

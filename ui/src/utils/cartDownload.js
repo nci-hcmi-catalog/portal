@@ -45,7 +45,7 @@ async function fetchColumns(apiFetcher) {
   return output;
 }
 
-const cartDownload = async function (selectedIds, apiFetcher) {
+const cartDownload = async function (selectedIds, apiFetcher, selectedColumns) {
   const sqon = {
     op: 'and',
     content: [
@@ -56,7 +56,7 @@ const cartDownload = async function (selectedIds, apiFetcher) {
     ],
   };
 
-  const columns = await fetchColumns(apiFetcher);
+  const columns = selectedColumns ? selectedColumns : await fetchColumns(apiFetcher);
 
   const params = { files: [{ index: 'model', sqon, columns }] };
 

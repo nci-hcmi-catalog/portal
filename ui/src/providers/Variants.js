@@ -45,10 +45,9 @@ export const useVariants = () => {
     [pageSize, setPageSize],
   ] = useContext(VariantsContext);
 
-  const arrangerContext = useArrangerData({
+  const { apiFetcher } = useArrangerData({
     callerName: `VariantsProvider`,
   });
-  const { apiFetcher } = arrangerContext;
 
   const getData = () => {
     if (!data) return [];

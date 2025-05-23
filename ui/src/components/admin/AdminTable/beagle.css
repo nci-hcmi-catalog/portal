@@ -482,9 +482,7 @@ div {
 }
 
 .tableToolbar .group > * {
-  background-color: none;
   display: flex;
-  border: solid 1px #cacbcf;
   padding-left: 10px;
   padding-right: 10px;
 }
