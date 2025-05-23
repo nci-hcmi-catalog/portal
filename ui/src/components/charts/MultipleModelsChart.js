@@ -1,14 +1,14 @@
 /* eslint-disable */
 import React from 'react';
 import { css } from '@emotion/react';
-import { addInSQON } from '@arranger/components/dist/SQONView/utils';
 import AggregationQuery from 'components/queries/AggregationQuery';
 import { Col } from 'theme/system';
 import theme from 'theme';
 import { ResponsivePie } from '@nivo/pie';
 import { ChartTooltip } from './';
+import { addInSQON } from 'utils/sqonHelpers';
 
-export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
+export default ({ sqon, setSQON, victoryRef = React.createRef(), extendedMapping }) => (
   <Col
     alignItems="center"
     css={css`
@@ -18,10 +18,8 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
       padding: 12px 0 4px;
     `}
   >
-    <span className="sqon-field sqon-field--chart-title">
-      Has Multiple Models
-    </span>
-    <AggregationQuery sqon={sqon} field="has_matched_models">
+    <span className="sqon-field sqon-field--chart-title">Has Multiple Models</span>
+    <AggregationQuery sqon={sqon} fieldName="has_matched_models">
       {({ state }) => {
         return state.loading ? (
           'loading'
@@ -37,11 +35,15 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
               height={156}
               data={state.buckets.map((x, i) => {
                 return {
-                  id: x.key,
+                  // TODO: Investigate `id undefined` error
+                  id: String(x.key),
                   key: x.key_as_string,
-                  label: state.extended.displayValues[x.key_as_string],
+                  label:
+                    extendedMapping.find((field) => field.fieldName === 'has_matched_models')
+                      ?.displayValues[x.key_as_string] || x.key_as_string,
                   value: x.doc_count,
-                  color: theme.multipleModelsChartPalette[i % theme.multipleModelsChartPalette.length],
+                  color:
+                    theme.multipleModelsChartPalette[i % theme.multipleModelsChartPalette.length],
                 };
               })}
               tooltip={({ value, label }) => ChartTooltip({ value, label })}
@@ -53,7 +55,7 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
               enableSlicesLabels={false}
               slicesLabelsSkipAngle={10}
               animate={false}
-              onClick={data =>
+              onClick={(data) => {
                 setSQON(
                   addInSQON(
                     {
@@ -62,7 +64,7 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
                         {
                           op: 'in',
                           content: {
-                            field: 'has_matched_models',
+                            fieldName: 'has_matched_models',
                             value: [data.key],
                           },
                         },
@@ -70,15 +72,15 @@ export default ({ sqon, setSQON, victoryRef = React.createRef() }) => (
                     },
                     sqon,
                   ),
-                )
-              }
+                );
+              }}
               onMouseEnter={(_data, event) => {
-                event.currentTarget.style.cursor = 'pointer'
+                event.currentTarget.style.cursor = 'pointer';
               }}
               onMouseLeave={(_data, event) => {
-                event.currentTarget.style.cursor = 'auto'
+                event.currentTarget.style.cursor = 'auto';
               }}
-        />
+            />
           </>
         );
       }}

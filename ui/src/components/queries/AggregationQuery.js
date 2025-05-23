@@ -1,62 +1,84 @@
 import React from 'react';
 import { isEqual } from 'lodash';
-import globals from 'utils/globals';
-import { api } from '@arranger/components';
+import { useArrangerData } from '@overture-stack/arranger-components/';
 import Component from 'react-component-component';
 
-const fetchData = async ({ setState, sqon, field }) => {
-  const { data } = await api({
-    endpoint: `${globals.VERSION}/graphql`,
-    body: {
-      query: `query ${field}Aggregation ($filters: JSON, $fields: [String]) {
-        models {
-          extended(fields: $fields)
-          hits(filters: $filters) {
-            total
-          }
-          aggregations(
-            filters: $filters
-            aggregations_filter_themselves: true
-          ) {
-            ${field} {
-              buckets {
-                doc_count
-                key
-                key_as_string
-              }
+const getQuery = (fieldName) =>
+  `query ${fieldName}Aggregation ($sqon: JSON) {
+      model {
+        aggregations(
+          filters: $sqon
+          aggregations_filter_themselves: true
+        ) {
+          ${fieldName} {
+            bucket_count
+            buckets {
+              doc_count
+              key
+              key_as_string
             }
           }
         }
-      }`,
-      variables: {
-        filters: sqon,
-        fields: [field],
-      },
-    },
-  });
-
-  setState({
-    total: data.models.hits.total,
-    buckets: data.models.aggregations[field].buckets,
-    extended: data.models.extended[0],
-    loading: false,
-  });
-};
-
-const AggregationQuery = ({ sqon, ...props }) => (
-  <Component
-    {...props}
-    sqon={sqon}
-    initialState={{ buckets: null, loading: true }}
-    didMount={({ setState, props }) => {
-      fetchData({ setState, sqon, field: props.field });
-    }}
-    didUpdate={({ setState, prevProps }) => {
-      if (!isEqual(sqon, prevProps.sqon)) {
-        fetchData({ setState, sqon, field: props.field });
       }
-    }}
-  />
-);
+    }`;
+
+const AggregationQuery = ({ sqon, ...props }) => {
+  const { fieldName } = props;
+  const { apiFetcher } = useArrangerData({ callerName: 'HCMIAggregationQuery' });
+  const queryName = `${fieldName}Aggregation`;
+  const query = getQuery(fieldName);
+  const options = {
+    body: { query, variables: { sqon } },
+    endpointTag: `${queryName}Query`,
+  };
+
+  return (
+    <Component
+      {...props}
+      sqon={sqon}
+      initialState={{ buckets: null, loading: true }}
+      didMount={async ({ setState, props }) => {
+        const { data } = await apiFetcher(options).catch((err) => {
+          console.log(err);
+          throw err;
+        });
+
+        const aggregation = data?.model?.aggregations?.[props.fieldName];
+        const update = aggregation
+          ? {
+              total: aggregation.bucket_count,
+              buckets: aggregation.buckets,
+            }
+          : {
+              total: 0,
+              buckets: [],
+            };
+
+        setState({ ...update, loading: false });
+      }}
+      didUpdate={async ({ setState, prevProps }) => {
+        if (!isEqual(sqon, prevProps.sqon)) {
+          const { data } = await apiFetcher(options).catch((err) => {
+            console.log(err);
+            throw err;
+          });
+
+          const aggregation = data?.model?.aggregations?.[props.fieldName];
+          const update = aggregation
+            ? {
+                total: aggregation.bucket_count,
+                buckets: aggregation.buckets,
+              }
+            : {
+                total: 0,
+                buckets: [],
+              };
+
+          setState({ ...update, loading: false });
+        }
+      }}
+    />
+  );
+};
 
 export default AggregationQuery;

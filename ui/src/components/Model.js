@@ -40,37 +40,42 @@ const {
 } = base;
 
 const HorizontalTable = ({
-  fieldNames,
+  fieldNames = [],
   rawData,
-  extended,
-  // css,
+  extended = [],
   customUnits = {},
   customValue = {},
-  data = (extended || [])
-    .slice()
-    .sort((a, b) => (fieldNames || []).indexOf(a) - (fieldNames || []).indexOf(b))
-    .reduce((acc, { field, type, displayName, unit }) => {
-      const fieldHelper = ({ field, type, displayName, unit }) =>
-        fieldNames.includes(field)
-          ? {
-              ...acc,
-              [field]: {
-                key: displayName,
-                value: apiDataProcessor({ data: get(rawData, field), type, unit }),
-              },
-            }
-          : acc;
-      return !Object.keys(customUnits).includes(field)
-        ? fieldHelper({ field, type, displayName, unit })
-        : fieldHelper({ field: field, type, displayName, unit: customUnits[field] || unit });
-    }, {}),
 }) => {
+  const fieldHelper = (acc, { fieldName, type, displayName, unit }) =>
+    fieldNames.includes(fieldName)
+      ? {
+          ...acc,
+          [fieldName]: {
+            key: displayName,
+            value: apiDataProcessor({ data: get(rawData, fieldName), type, unit }),
+          },
+        }
+      : acc;
+
+  const formattedData = extended
+    .slice()
+    .sort((a, b) => fieldNames.indexOf(a.fieldName) - fieldNames.indexOf(b.fieldName))
+    .reduce((acc, { fieldName, type, displayName, unit }) => {
+      return !Object.keys(customUnits).includes(fieldName)
+        ? fieldHelper(acc, { fieldName, type, displayName, unit })
+        : fieldHelper(acc, {
+            fieldName,
+            type,
+            displayName,
+            unit: customUnits[fieldName] || unit,
+          });
+    }, {});
+
   return (
-    // <table className="entity-horizontal-table" cellPadding="0" cellSpacing="0" css={css}>
     <table className="entity-horizontal-table" cellPadding="0" cellSpacing="0">
       <tbody>
-        {Object.keys(data).map(field => {
-          const { key, value } = data[field];
+        {Object.keys(formattedData).map((field) => {
+          const { key, value } = formattedData[field];
           return (
             <tr key={key}>
               <td className="heading">{key}</td>
@@ -95,7 +100,7 @@ const HorizontalTable = ({
   );
 };
 
-const MultipleModelContent = match => {
+const MultipleModelContent = (match) => {
   return (
     <div className="multiple-models__model" key={match.name}>
       <div className="multiple-models__model-icon">
@@ -170,10 +175,10 @@ const MolecularCharacterizationsTable = ({ characterizations }) => {
           <th>Tumor</th>
           <th>Normal</th>
         </tr>
-        {CHARS.map(characterization => (
+        {CHARS.map((characterization) => (
           <tr key={characterization}>
             <th>{characterization}</th>
-            {TYPES.map(type => (
+            {TYPES.map((type) => (
               <td key={`${characterization} of ${type}`}>
                 <MolecularCharacterizationsCell
                   isAvailable={characterizations.includes(`${characterization} of ${type}`)}
@@ -326,7 +331,9 @@ const Model = ({ modelName }) => (
                     </h3>
                     <MultipleModelsTooltip />
                     <MultipleModelsList
-                      matches={queryState.model.matched_models.hits.edges.map(match => match.node)}
+                      matches={queryState.model.matched_models.hits.edges.map(
+                        (match) => match.node,
+                      )}
                     />
                   </div>
 

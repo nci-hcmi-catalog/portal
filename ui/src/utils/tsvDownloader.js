@@ -9,15 +9,15 @@ import { clone } from 'lodash';
  * @param {[Object]} tableData - array of like objects
  * @param {[String]} columnOrder - ordered array of column headers
  */
-const tsvDownloader = function(fileName, tableData, columnOrder = []) {
+const tsvDownloader = (fileName, tableData, columnOrder = []) => {
   saveAs(
     new Blob(
       [
         [
           (columnOrder.length ? columnOrder : Object.keys(tableData[0])).join('\t'),
-          ...tableData.map(row =>
+          ...tableData.map((row) =>
             orderColumns(addColumnSpecificCustomizations(row), columnOrder)
-              .map(value => (value ? (typeof value === 'string' ? value : value.export) : ''))
+              .map((value) => (value ? (typeof value === 'string' ? value : value.export) : ''))
               .join('\t'),
           ),
         ].join('\n'),
@@ -28,7 +28,7 @@ const tsvDownloader = function(fileName, tableData, columnOrder = []) {
   );
 };
 
-const addColumnSpecificCustomizations = row => {
+const addColumnSpecificCustomizations = (row) => {
   const output = clone(row);
   if (output['split_ratio']) {
     output['split_ratio'] = (`${output['split_ratio']}` || '').includes(':')
@@ -48,7 +48,7 @@ const orderColumns = (data, columnOrder) => {
     return Object.values(data);
   }
 
-  return columnOrder.map(col => data[col]);
+  return columnOrder.map((col) => data[col]);
 };
 
 export const convertColumnsToTableData = (columnHeaders, columnData) => {

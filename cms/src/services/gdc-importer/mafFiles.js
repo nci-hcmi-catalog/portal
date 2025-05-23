@@ -10,34 +10,11 @@ import {
   GDC_MODEL_STATES,
   GDC_CANCER_MODEL_SAMPLE_TYPES,
   GDC_GRAPHQL_BASE_URL,
-  FETCH_CASE_ID_QUERY,
   FETCH_MODEL_FILE_DATA_QUERY,
 } from './gdcConstants';
 
 import getLogger from '../../logger';
 const logger = getLogger('services/gdc-importer/mafFiles');
-
-const fetchCaseId = async name => {
-  const query = FETCH_CASE_ID_QUERY;
-  const variables = {
-    filter: {
-      op: 'and',
-      content: [
-        {
-          op: 'in',
-          content: {
-            field: 'cases.submitter_id',
-            value: [name],
-          },
-        },
-      ],
-    },
-  };
-
-  const response = await axios.post(GDC_GRAPHQL_BASE_URL, { query, variables });
-
-  return get(response, 'data.data.repository.cases.hits.edges[0].node.case_id', '');
-};
 
 export const fetchModelFileData = async modelNames => {
   if (!Array.isArray(modelNames) || !modelNames.length) {

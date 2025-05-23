@@ -1,21 +1,30 @@
+import { parse, stringify } from 'query-string';
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { parse, stringify } from 'query-string';
 
-const Url = props => (
-  <Route>
-    {p => {
-      let search = parse(p.location.search);
-      if (search.sqon) search.sqon = JSON.parse(search.sqon);
-      return props.render({
-        history: p.history,
-        sqon: search.sqon,
-        setSQON: sqon => {
-          p.history.push({ search: stringify({ ...search, sqon: JSON.stringify(sqon) }) });
-        },
-      });
-    }}
-  </Route>
-);
+const Url = (props) => {
+  return (
+    <Route>
+      {(routingProps) => {
+        const { sqon: sqonString, ...searchParams } = parse(routingProps.location.search);
+        const currentUrlSqon = sqonString ? JSON.parse(sqonString) : null;
+        const setUrlSQON = (newSqon) => {
+          routingProps.history.push({
+            search: stringify({
+              ...searchParams,
+              ...(newSqon && { sqon: JSON.stringify(newSqon) }),
+            }),
+          });
+        };
+
+        return props.render({
+          history: routingProps.history,
+          urlSqon: currentUrlSqon,
+          setUrlSQON,
+        });
+      }}
+    </Route>
+  );
+};
 
 export default Url;

@@ -6,7 +6,6 @@ import { injectGlobal } from '@emotion/css';
 import globals from 'utils/globals';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Dashboard as ArrangerDashboard } from '@arranger/components';
 
 import SkipNav from 'components/SkipNav';
 import SearchWrapper from 'components/search/SearchWrapper';
@@ -28,7 +27,7 @@ import base from 'theme';
 // https://github.com/ReactTraining/react-router/issues/6072
 const ProvidedRoutes = () => (
   <ModalStateContext.Consumer>
-    {modalState => (
+    {(modalState) => (
       <Component
         initialState={{
           version: globals.VERSION,
@@ -40,7 +39,7 @@ const ProvidedRoutes = () => (
         }}
       >
         {({ state }) => (
-          <ExpandedUnexpandedProvider>
+          <>
             <SkipNav />
             <Switch>
               <Route
@@ -49,23 +48,10 @@ const ProvidedRoutes = () => (
                 render={() => (
                   <>
                     <Header />
-                    <SearchWrapper version={state.version} index="models" />
+                    <SearchWrapper index="model" />
                   </>
                 )}
               />
-              {process.env.REACT_APP_ENABLE_ADMIN ? (
-                <Route
-                  path="/arranger"
-                  render={({ match }) => (
-                    <>
-                      <Header />
-                      <ArrangerDashboard basename={match.url} />
-                    </>
-                  )}
-                />
-              ) : (
-                ''
-              )}
               <Route
                 path="/admin"
                 render={({ location }) => (
@@ -86,7 +72,7 @@ const ProvidedRoutes = () => (
               />
             </Switch>
             <Footer />
-          </ExpandedUnexpandedProvider>
+          </>
         )}
       </Component>
     )}
@@ -102,12 +88,14 @@ injectGlobal`
 `;
 
 const App = () => (
-  <RootProvider>
-    <Router>
-      <ProvidedRoutes />
-    </Router>
-    <Modal />
-  </RootProvider>
+  <ExpandedUnexpandedProvider>
+    <RootProvider>
+      <Router>
+        <ProvidedRoutes />
+      </Router>
+      <Modal />
+    </RootProvider>
+  </ExpandedUnexpandedProvider>
 );
 
 export default App;

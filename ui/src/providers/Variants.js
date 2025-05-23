@@ -1,19 +1,17 @@
 import React, { useState, useContext } from 'react';
+import { useArrangerData } from '@overture-stack/arranger-components/';
 import { css } from '@emotion/react';
 import { get, uniqBy } from 'lodash';
 import { stringify } from 'query-string';
 import { Link } from 'react-router-dom';
 
-import { api } from '@arranger/components';
-
 import SparkMeter from 'components/SparkMeter';
 
 import { VARIANT_TYPES } from 'utils/constants';
-import globals from 'utils/globals';
 
 export const VariantsContext = React.createContext([{}, () => {}]);
 
-export const VariantsProvider = props => {
+export const VariantsProvider = (props) => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [geneMetadata, setGeneMetadata] = useState(null);
@@ -47,6 +45,10 @@ export const useVariants = () => {
     [pageSize, setPageSize],
   ] = useContext(VariantsContext);
 
+  const { apiFetcher } = useArrangerData({
+    callerName: `VariantsProvider`,
+  });
+
   const getData = () => {
     if (!data) return [];
     return data;
@@ -77,60 +79,59 @@ export const useVariants = () => {
     return pageSize;
   };
 
-  const getGenomicVariants = async modelName => {
-    const variantsData = await api({
-      endpoint: `/${globals.VERSION}/graphql`,
-      body: {
-        query: `query($modelsSqon: JSON) {
-                    models {
-                      hits(filters: $modelsSqon, first: 1) {
-                        edges {
-                          node {
-                          name
-                            genomic_variants {
-                              hits {
-                                edges {
-                                  node {
-                                    gene
-                                    aa_change
-                                    transcript_id
-                                    consequence_type
-                                    class
-                                    chromosome
-                                    start_position
-                                    end_position
-                                    specific_change
-                                    classification
-                                    entrez_id
-                                    variant_id
-                                    name
-                                    type
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
+  const getGenomicVariants = async (modelName) => {
+    const query = `query GenomicVariants($sqon: JSON) {
+      model {
+        hits(filters: $sqon, first: 1) {
+          edges {
+            node {
+            name
+              genomic_variants {
+                hits {
+                  edges {
+                    node {
+                      gene
+                      aa_change
+                      transcript_id
+                      consequence_type
+                      class
+                      chromosome
+                      start_position
+                      end_position
+                      specific_change
+                      classification
+                      entrez_id
+                      variant_id
+                      name
+                      type
                     }
                   }
-                `,
-        variables: {
-          modelsSqon: { op: 'in', content: { field: 'name', value: modelName } },
-        },
-      },
+                }
+              }
+            }
+          }
+        }
+      }
+    }`;
+
+    const modelsSqon = {
+      content: [{ op: 'in', content: { fieldName: 'name', value: modelName } }],
+      op: 'and',
+    };
+
+    const response = await apiFetcher({
+      body: { query, variables: { sqon: modelsSqon } },
+      endpointTag: 'GenomicVariants',
     });
 
-    const data = get(
-      variantsData,
-      `data.models.hits.edges[0].node.genomic_variants.hits.edges`,
-      [],
-    ).map(({ node }) => node);
+    const data = get(response, `data.model.hits.edges[0].node.genomic_variants.hits.edges`, []).map(
+      ({ node }) => node,
+    );
 
     return data.length && data.length > 0
       ? data
-          .filter(variant => !!variant.gene)
-          .map(variant => {
+          .filter((variant) => !!variant.gene)
+          .map((variant) => {
             const entrez_link = `https://www.ncbi.nlm.nih.gov/gene/${variant.entrez_id}`;
             const geneComponent =
               variant.entrez_id && variant.entrez_id !== '0' ? (
@@ -157,44 +158,45 @@ export const useVariants = () => {
       return getGenomicVariants(modelName);
     }
 
-    const variantsData = await api({
-      endpoint: `/${globals.VERSION}/graphql`,
-      body: {
-        query: `query($modelsSqon: JSON) {
-                    models {
-                      hits(filters: $modelsSqon, first: 1) {
-                        edges {
-                          node {
-                          name
-                            variants {
-                              hits {
-                                edges {
-                                  node {
-                                    name
-                                    category
-                                    assessment_type
-                                    type
-                                    expression_level
-                                    genes
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
+    const query = `query VariantsData($sqon: JSON) {
+      model {
+        hits(filters: $sqon, first: 1) {
+          edges {
+            node {
+            name
+              variants {
+                hits {
+                  edges {
+                    node {
+                      name
+                      category
+                      assessment_type
+                      type
+                      expression_level
+                      genes
                     }
                   }
-                `,
-        variables: {
-          modelsSqon: { op: 'in', content: { field: 'name', value: modelName } },
-        },
-      },
+                }
+              }
+            }
+          }
+        }
+      }
+    }`;
+
+    const modelsSqon = {
+      content: [{ op: 'in', content: { fieldName: 'name', value: modelName } }],
+      op: 'and',
+    };
+
+    const response = await apiFetcher({
+      body: { query, variables: { sqon: modelsSqon } },
+      endpointTag: 'VariantsData',
     });
 
-    const data = get(variantsData, `data.models.hits.edges[0].node.variants.hits.edges`, [])
+    const data = get(response, `data.model.hits.edges[0].node.variants.hits.edges`, [])
       .map(({ node }) => node)
-      .filter(node => node.type && node.type.toLowerCase() === type.toLowerCase());
+      .filter((node) => node.type && node.type.toLowerCase() === type.toLowerCase());
 
     const variantNames = uniqBy(
       data.map(({ name }) => ({ name, safe: name.replace(/ |-|\.|\(|\)/g, '') })),
@@ -202,48 +204,46 @@ export const useVariants = () => {
     );
 
     const freqsData = variantNames.length
-      ? await api({
-          endpoint: `/${globals.VERSION}/graphql`,
+      ? await apiFetcher({
+          endpointTag: 'VariantFreqsData',
           body: {
             query: `query(${variantNames.map(({ safe }) => '$' + safe + ': JSON').join(',')}) {
-                    models {
-                    all: hits(first: 0) {
-                      total
-                    }
-                    ${variantNames.map(
-                      ({ safe }) => `${safe} : hits(filters: ${'$' + safe}, first: 0) {
-                        total
-                      }`,
-                    )}
-                    }
+                  model {
+                  all: hits(first: 0) {
+                    total
                   }
-                `,
+                  ${variantNames.map(
+                    ({ safe }) => `${safe} : hits(filters: ${'$' + safe}, first: 0) {
+                      total
+                    }`,
+                  )}
+                  }
+                }
+              `,
             variables: variantNames.reduce(
               (acc, { name, safe }) => ({
                 ...acc,
                 [safe]: {
                   op: 'in',
-                  content: { field: 'variants.name', value: name },
+                  content: { fieldName: 'variants.name', value: name },
                 },
               }),
               {},
             ),
           },
         })
-      : { data: { models: [] } };
+      : { data: { model: [] } };
 
-    const freqs = Object.keys(freqsData.data.models).reduce(
+    const freqs = Object.keys(freqsData.data.model).reduce(
       (acc, key) => ({
         ...acc,
-        [variantNames.reduce(
-          (found, { name, safe }) => (safe === key ? name : found),
-          '',
-        )]: freqsData.data.models[key].total,
+        [variantNames.reduce((found, { name, safe }) => (safe === key ? name : found), '')]:
+          freqsData.data.model[key].total,
       }),
       {},
     );
 
-    const dataWithFreqs = data.map(d => ({
+    const dataWithFreqs = data.map((d) => ({
       ...d,
       genes: (d.genes || '').join(', '),
       frequency: {
@@ -265,7 +265,7 @@ export const useVariants = () => {
                     content: [
                       {
                         op: 'in',
-                        content: { field: 'variants.name', value: d.name },
+                        content: { fieldName: 'variants.name', value: d.name },
                       },
                     ],
                   }),
@@ -276,16 +276,14 @@ export const useVariants = () => {
             </Link>
             <SparkMeter
               width={47}
-              percentage={get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)}
+              percentage={get(freqs, d.name, 0) / get(freqsData, 'data.model.all.total', 0)}
             />
-            {((get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)) * 100).toFixed(
-              2,
-            )}
+            {((get(freqs, d.name, 0) / get(freqsData, 'data.model.all.total', 0)) * 100).toFixed(2)}
             %
           </div>
         ),
         export: `${(
-          (get(freqs, d.name, 0) / get(freqsData, 'data.models.all.total', 0)) *
+          (get(freqs, d.name, 0) / get(freqsData, 'data.model.all.total', 0)) *
           100
         ).toFixed(2)}%`,
         raw: get(freqs, d.name, 0),
@@ -295,32 +293,35 @@ export const useVariants = () => {
     return dataWithFreqs;
   };
 
-  const fetchGeneMetadata = async modelName => {
-    const geneMetadata = await api({
-      endpoint: `/${globals.VERSION}/graphql`,
-      body: {
-        query: `query($modelsSqon: JSON) {
-          models {
-            hits(filters: $modelsSqon, first: 1) {
-              edges {
-                node {
-                  name
-                  gene_metadata {
-                    filename
-                    import_date
-                  }
-                }
+  const fetchGeneMetadata = async (modelName) => {
+    const query = `query GeneMetadata($sqon: JSON) {
+      model {
+        hits(filters: $sqon, first: 1) {
+          edges {
+            node {
+              name
+              gene_metadata {
+                filename
+                import_date
               }
             }
           }
-        }`,
-        variables: {
-          modelsSqon: { op: 'in', content: { field: 'name', value: modelName } },
-        },
-      },
+        }
+      }
+    }`;
+
+    const modelSqon = {
+      content: [{ op: 'in', content: { fieldName: 'name', value: modelName } }],
+      op: 'and',
+    };
+
+    const response = await apiFetcher({
+      body: { query, variables: { sqon: modelSqon } },
+      endpointTag: 'GeneMetadata',
     });
 
-    const data = get(geneMetadata, `data.models.hits.edges[0].node.gene_metadata`);
+    const data = get(response, `data.models.hits.edges[0].node.gene_metadata`);
+
     setGeneMetadata(data);
 
     return data;

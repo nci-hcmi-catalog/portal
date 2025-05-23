@@ -27,7 +27,7 @@ const ConfirmationModalContents = ({
   onCancel = () => false,
 }) => (
   <ModalStateContext.Consumer>
-    {modalState => (
+    {(modalState) => (
       <ModalWrapper>
         <Header>
           <Title>{title}</Title>
@@ -49,36 +49,39 @@ const ConfirmationModalContents = ({
   </ModalStateContext.Consumer>
 );
 
-const ConfirmationModal = ({
-  title,
-  message,
-  confirmationRequired = true,
-  confirmLabel,
-  cancelLabel,
-  onConfirm,
-  onCancel,
-}) => Component => (
-  <ModalStateContext.Consumer>
-    {modalState =>
-      React.cloneElement(Component, {
-        onClick: () => {
-          if (confirmationRequired) {
-            modalState.setModalState({
-              component: (
-                <ConfirmationModalContents
-                  {...{ title, message, confirmLabel, cancelLabel, onConfirm, onCancel }}
-                />
-              ),
-              shouldCloseOnOverlayClick: true,
-              styles: AdminModalStyleNarrow,
-            });
-          } else {
-            onConfirm();
-          }
-        },
-      })
-    }
-  </ModalStateContext.Consumer>
-);
+const ConfirmationModal =
+  ({
+    title,
+    message,
+    confirmationRequired = true,
+    confirmLabel,
+    cancelLabel,
+    onConfirm,
+    onCancel,
+  }) =>
+  (Component) =>
+    (
+      <ModalStateContext.Consumer>
+        {(modalState) =>
+          React.cloneElement(Component, {
+            onClick: () => {
+              if (confirmationRequired) {
+                modalState.setModalState({
+                  component: (
+                    <ConfirmationModalContents
+                      {...{ title, message, confirmLabel, cancelLabel, onConfirm, onCancel }}
+                    />
+                  ),
+                  shouldCloseOnOverlayClick: true,
+                  styles: AdminModalStyleNarrow,
+                });
+              } else {
+                onConfirm();
+              }
+            },
+          })
+        }
+      </ModalStateContext.Consumer>
+    );
 
 export default ConfirmationModal;

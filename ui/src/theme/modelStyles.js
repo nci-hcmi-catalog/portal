@@ -322,7 +322,7 @@ export default css`
       }
     }
 
-    th:first-child {
+    th:first-of-type {
       text-align: left;
     }
   }
@@ -333,7 +333,7 @@ export default css`
     font-weight: bold;
     color: ${black};
 
-    &:not(:first-child) {
+    &:not(:first-of-type) {
       padding-left: 8px;
     }
 
@@ -348,11 +348,11 @@ export default css`
     width: 100%;
     text-align: left;
 
-    tr:nth-child(even) {
+    tr:nth-of-type(even) {
       background: ${white};
     }
 
-    tr:nth-child(odd) {
+    tr:nth-of-type(odd) {
       background: ${athensGray};
     }
 

@@ -24,7 +24,7 @@ const DictionaryDependentFieldValues = () => {
   });
   const [shouldExpand, setShouldExpand] = useState(true);
 
-  const expandAll = e => {
+  const expandAll = (e) => {
     e.preventDefault();
     setExpanded({
       [DEPENDENT_FIELD_KEYS.histologicalType]: true,
@@ -35,7 +35,7 @@ const DictionaryDependentFieldValues = () => {
     setShouldExpand(false);
   };
 
-  const collapseAll = e => {
+  const collapseAll = (e) => {
     e.preventDefault();
     setExpanded({
       [DEPENDENT_FIELD_KEYS.histologicalType]: false,
@@ -46,17 +46,17 @@ const DictionaryDependentFieldValues = () => {
     setShouldExpand(true);
   };
 
-  const toggleExpanded = key => {
+  const toggleExpanded = (key) => {
     setExpanded({
       ...expanded,
       [key]: !expanded[key],
     });
   };
 
-  const getDependents = dependentKey => {
+  const getDependents = (dependentKey) => {
     if (!activeValue || !activeValueDependents) return [];
 
-    let dependentsObj = activeValueDependents.find(x => x.name === dependentKey);
+    let dependentsObj = activeValueDependents.find((x) => x.name === dependentKey);
 
     if (dependentsObj && dependentsObj.values) {
       return dependentsObj.values.sort((a, b) => {

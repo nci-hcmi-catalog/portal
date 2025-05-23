@@ -7,8 +7,7 @@ import { Col } from 'theme/system';
 import TextInput from 'components/TextInput';
 import SidebarSection from 'components/search/SidebarSection';
 import SearchOptionsDropdown from 'components/search/SearchOptionsDropdown';
-
-import * as SQONUtils from '@arranger/components/dist/SQONView/utils';
+import { addInSQON, removeSQON } from 'utils/sqonHelpers';
 
 const LoadingIcon = (
   <Spinner
@@ -55,6 +54,7 @@ const SidebarTextSearch = ({
           aria-label={header}
           placeholder={placeholder}
           value={value}
+          setValue={setValue}
           icon={loading ? LoadingIcon : <SearchIcon />}
           onFocus={() => {
             setShowOptions(!!options);
@@ -62,14 +62,13 @@ const SidebarTextSearch = ({
           onBlur={() => {
             setShowOptions(false);
           }}
-          onChange={async e => {
+          onChange={async (e) => {
             const inputValue = e.target.value;
             setValue(inputValue);
 
             if (inputValue) {
               setLoading(true);
               const searchResults = await searchService(inputValue);
-
               const searchOptions = searchResults.slice(0, resultSize).map(optionTransformer);
               setOptions(searchOptions);
               setShowOptions(true);
@@ -101,11 +100,11 @@ const SidebarTextSearch = ({
               <SearchOptionsDropdown
                 options={options}
                 icon={ResultsIcon}
-                onSelect={selected => {
+                onSelect={(selected) => {
                   const currentFilterValues =
                     sqon && sqon.content
                       ? (
-                          sqon.content.find(i => i.content.field === filterField) || {
+                          sqon.content.find((i) => i.content.field === filterField) || {
                             content: { value: [] },
                           }
                         ).content.value
@@ -117,15 +116,15 @@ const SidebarTextSearch = ({
                       {
                         op: 'in',
                         content: {
-                          field: filterField,
+                          fieldName: filterField,
                           value: [...currentFilterValues, selected],
                         },
                       },
                     ],
                   };
 
-                  const clearedSqon = SQONUtils.removeSQON(filterField, sqon);
-                  const newSqon = selected ? SQONUtils.addInSQON(query, clearedSqon) : clearedSqon;
+                  const clearedSqon = removeSQON(filterField, sqon);
+                  const newSqon = selected ? addInSQON(query, clearedSqon) : clearedSqon;
                   setSQON(newSqon);
                   setValue('');
                 }}

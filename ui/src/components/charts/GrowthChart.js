@@ -5,15 +5,15 @@ import AggregationQuery from 'components/queries/AggregationQuery';
 import { Col } from 'theme/system';
 import theme from 'theme';
 import { ChartTooltip } from './';
-import { addInSQON } from '@arranger/components/dist/SQONView/utils';
+import { addInSQON } from 'utils/sqonHelpers';
 import { SizeMe } from 'react-sizeme';
 
-const is2d = bucket => bucket.key.slice(0, 3) === '2-D';
-const is3d = bucket => bucket.key.slice(0, 3) === '3-D';
-const isOther = bucket => bucket.key.match(/^[A-Z]/i);
+const is2d = (bucket) => bucket.key.slice(0, 3) === '2-D';
+const is3d = (bucket) => bucket.key.slice(0, 3) === '3-D';
+const isOther = (bucket) => bucket.key.match(/^[A-Z]/i);
 const getCount = (buckets, filterBy) =>
   buckets.filter(filterBy).reduce((acc, curr) => acc + curr.doc_count, 0);
-const getKeys = (buckets, filterBy) => buckets.filter(filterBy).map(x => x.key);
+const getKeys = (buckets, filterBy) => buckets.filter(filterBy).map((x) => x.key);
 
 const GrowthChart = ({ sqon, setSQON }) => (
   <SizeMe>
@@ -28,7 +28,7 @@ const GrowthChart = ({ sqon, setSQON }) => (
         `}
       >
         <span className="sqon-field sqon-field--chart-title">2D versus 3D Growth</span>
-        <AggregationQuery sqon={sqon} field="type">
+        <AggregationQuery sqon={sqon} fieldName="type">
           {({
             state,
             data = [
@@ -77,7 +77,7 @@ const GrowthChart = ({ sqon, setSQON }) => (
                   animate={false}
                   tooltip={({ id, value, label }) => ChartTooltip({ value, label })}
                   theme={theme.chart}
-                  onClick={data =>
+                  onClick={(data) => {
                     setSQON(
                       addInSQON(
                         {
@@ -86,7 +86,7 @@ const GrowthChart = ({ sqon, setSQON }) => (
                             {
                               op: 'in',
                               content: {
-                                field: 'type',
+                                fieldName: 'type',
                                 value: (data.keys || []).sort(),
                               },
                             },
@@ -94,8 +94,8 @@ const GrowthChart = ({ sqon, setSQON }) => (
                         },
                         sqon,
                       ),
-                    )
-                  }
+                    );
+                  }}
                   onMouseEnter={(_data, event) => {
                     event.currentTarget.style.cursor = 'pointer';
                   }}

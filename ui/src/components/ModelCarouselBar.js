@@ -6,10 +6,10 @@ import ModelCarousel from 'components/ModelCarousel';
 
 const ModelCarouselBar = ({ name, className }) => (
   <Url
-    render={({ sqon }) => {
-      return sqon ? (
+    render={({ urlSqon }) => {
+      return urlSqon ? (
         <Row className={`model-carousel-bar ${className}`}>
-          <ModelCarousel modelName={name} sqon={sqon} />
+          <ModelCarousel modelName={name} urlSqon={urlSqon} />
         </Row>
       ) : null;
     }}

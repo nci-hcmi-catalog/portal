@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ReactTable from 'react-table';
 import { css } from '@emotion/react';
 
-import CustomPagination from '@arranger/components/dist/DataTable/Table/CustomPagination';
+import CustomPagination from './admin/AdminTable/CustomPagination';
 
 import Filter from 'components/input/Filter';
 import TabGroup from 'components/layout/VerticalTabs';
@@ -36,7 +36,7 @@ const generateTsvFilename = (modelName, type) => {
   }
 };
 
-const getColumnOrder = type => {
+const getColumnOrder = (type) => {
   switch (type) {
     case VARIANT_TYPES.clinical:
       return ['name', 'genes', 'type', 'category'];
@@ -48,7 +48,7 @@ const getColumnOrder = type => {
   }
 };
 
-const renderVariantBlurb = type => {
+const renderVariantBlurb = (type) => {
   switch (type) {
     case VARIANT_TYPES.clinical:
       return (
@@ -120,13 +120,13 @@ const VariantTable = React.memo(({ type, modelName, columns, storageKey }) => {
 
   const from = filteredData.length === 0 ? 0 : page * pageSize + 1;
   const to = page * pageSize + pageSize;
-  const sortedData = useMemo(() => filteredData.slice().sort((a, b) => sortFilteredData(a, b)), [
-    filteredData,
-    sortFilteredData,
-  ]);
+  const sortedData = useMemo(
+    () => filteredData.slice().sort((a, b) => sortFilteredData(a, b)),
+    [filteredData, sortFilteredData],
+  );
 
   const pageSizeStorageKey = `varianttable-${storageKey}-pagesize`;
-  const pageSizeChangeHandler = size => {
+  const pageSizeChangeHandler = (size) => {
     if (storageKey) {
       window.sessionStorage.setItem(pageSizeStorageKey, size);
     }
@@ -162,11 +162,11 @@ const VariantTable = React.memo(({ type, modelName, columns, storageKey }) => {
     // using a ref to mimic 'componentDidUpdate' behaviour (avoids running this on initial mount)
     if (didMountRef && didMountRef.current && data) {
       const newFilteredData = data.filter(
-        d =>
+        (d) =>
           Object.values(d)
-            .filter(d => typeof d === 'string')
-            .map(d => d.toLowerCase().includes(filterValue.toLowerCase()))
-            .filter(v => v).length > 0,
+            .filter((d) => typeof d === 'string')
+            .map((d) => d.toLowerCase().includes(filterValue.toLowerCase()))
+            .filter((v) => v).length > 0,
       );
 
       setFilteredData(newFilteredData);
@@ -222,7 +222,7 @@ const VariantTable = React.memo(({ type, modelName, columns, storageKey }) => {
           pageSize={pageSize}
           minRows={0}
           page={page}
-          PaginationComponent={props => {
+          PaginationComponent={(props) => {
             setPageSize(props.pageSize);
             setPage(props.page);
             return (
@@ -234,7 +234,7 @@ const VariantTable = React.memo(({ type, modelName, columns, storageKey }) => {
               />
             );
           }}
-          onPageChange={newPage => setPage(newPage)}
+          onPageChange={(newPage) => setPage(newPage)}
         />
         {sortedData.length === 0 && (
           <div
@@ -252,7 +252,7 @@ const VariantTable = React.memo(({ type, modelName, columns, storageKey }) => {
             <p className="model-details__empty-message">
               {loading
                 ? 'Loading...'
-                : type === VARIANT_TYPES.genomic && geneMetadata && geneMetadata.filename
+                : type === VARIANT_TYPES.genomic && geneMetadata && geneMetadata?.filename
                 ? 'No variants were identified in the Masked Somatic MAF file.'
                 : 'No variants available.'}
             </p>
@@ -493,10 +493,10 @@ const VariantTables = ({ modelName }) => {
         clinicalVariants.length === 0 &&
         genomicVariants.length === 0 &&
         histopathologicalBiomarkers.length === 0 &&
-        !geneMetadata.filename
+        !geneMetadata?.filename
       ) {
         setIsEmpty(true);
-      } else if (genomicVariants.length > 0 || (geneMetadata && geneMetadata.filename)) {
+      } else if (genomicVariants.length > 0 || (geneMetadata && geneMetadata?.filename)) {
         setIsEmpty(false);
         setActiveTab(VARIANT_TYPES.genomic);
         setData(genomicVariants);

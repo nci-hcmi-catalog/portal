@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import ArrangerTextInput from '@arranger/components/dist/Input';
+import ArrangerInput from '@overture-stack/arranger-components/dist/Input';
 import CrossCircleOutlineIcon from 'icons/CrossCircleOutlineIcon';
+import FilterIcon from 'icons/FilterIcon';
 
 const TextInputWrapper = styled('div')`
   position: relative;
@@ -11,7 +12,12 @@ const TextInputWrapper = styled('div')`
 `;
 
 const RefArrangerTextInput = React.forwardRef((props, ref) => (
-  <ArrangerTextInput componentRef={ref} shouldAutoFocus={false} {...props} />
+  <ArrangerInput
+    ref={ref}
+    shouldautofocus={'false'}
+    theme={{ leftIcon: { Icon: FilterIcon } }}
+    {...props}
+  />
 ));
 
 const TextInput = styled(RefArrangerTextInput)`
@@ -57,28 +63,21 @@ const closeStyle = css`
   border-radius: 6px;
 `;
 
-const setNativeValue = (element, value) => {
-  const valueSetter = Object.getOwnPropertyDescriptor(element, 'value').set;
-  const prototype = Object.getPrototypeOf(element);
-  const prototypeValueSetter = Object.getOwnPropertyDescriptor(prototype, 'value').set;
-
-  if (valueSetter && valueSetter !== prototypeValueSetter) {
-    prototypeValueSetter.call(element, value);
-  } else {
-    valueSetter.call(element, value);
-  }
-};
-
-const TextInputComponent = ({ className, value, disabled, ref = React.createRef(), ...props }) => {
+const TextInputComponent = ({
+  className,
+  value,
+  setValue,
+  disabled,
+  ref = React.createRef(),
+  ...props
+}) => {
   const clearInput = () => {
-    const input = ref.current.children[1];
-    setNativeValue(input, '');
-    input.dispatchEvent(new Event('input', { bubbles: true }));
+    setValue('');
   };
 
   return (
     <TextInputWrapper disabled={disabled} className={className}>
-      <TextInput {...{ value, disabled, ...props }} componentRef={ref} />
+      <TextInput ref={ref} {...{ value, disabled, ...props }} />
       {value && value.length && <CrossCircleOutlineIcon css={closeStyle} onClick={clearInput} />}
     </TextInputWrapper>
   );

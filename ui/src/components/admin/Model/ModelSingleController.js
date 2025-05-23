@@ -43,7 +43,7 @@ const addMatchedModelsToModelResponse = async (baseUrl, modelResponse) => {
       // Just ensure we don't have an empty set, if we do we can ignore it
       if (matchedModelsResponse.data.models && matchedModelsResponse.data.models.length > 0) {
         const linkedModels = matchedModelsResponse.data.models.filter(
-          model => model.name !== modelResponse.data.name,
+          (model) => model.name !== modelResponse.data.name,
         );
 
         // Check if the data needs a modelToConnect
@@ -129,7 +129,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
         didMount={async ({ setState }) => {
           if (modelName) {
             // Set loading true
-            setState(state => ({
+            setState((state) => ({
               data: {
                 ...state.data,
                 isLoading: true,
@@ -140,7 +140,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               const modelDataResponse = await getModel(baseUrl, modelName);
               await addMatchedModelsToModelResponse(baseUrl, modelDataResponse);
 
-              setState(state => ({
+              setState((state) => ({
                 data: {
                   ...state.data,
                   isLoading: false,
@@ -158,7 +158,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 matchedModels: modelDataResponse.data.linkedModels || [],
               }));
             } catch (err) {
-              setState(state => ({
+              setState((state) => ({
                 data: {
                   ...state.data,
                   isLoading: false,
@@ -171,9 +171,9 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
           try {
             const otherModelOptions = await getOtherModelOptions(baseUrl, modelName);
             const dictionary = await getDictionary();
-            const excludeNames = otherModelOptions.map(option => option.name);
+            const excludeNames = otherModelOptions.map((option) => option.name);
             const validator = await getPublishSchema(excludeNames, dictionary);
-            setState(state => ({
+            setState((state) => ({
               otherModelOptions,
               dictionary,
               validator,
@@ -191,7 +191,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               state.genomicVariantTable.sorted !== prevState.genomicVariantTable.sorted
             ) {
               try {
-                setState(state => ({
+                setState((state) => ({
                   ...state,
                   genomicVariantTable: {
                     ...state.genomicVariantTable,
@@ -199,7 +199,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   },
                 }));
               } catch (err) {
-                setState(state => ({
+                setState((state) => ({
                   ...state,
                   genomicVariantTable: {
                     ...state.genomicVariantTable,
@@ -222,8 +222,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
           <ModelSingleContext.Provider
             value={{
               state: state,
-              setUIActiveTab: tabName => {
-                setState(state => ({
+              setUIActiveTab: (tabName) => {
+                setState((state) => ({
                   ui: {
                     ...state.ModelSingle,
                     activeTab: tabName,
@@ -234,8 +234,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   },
                 }));
               },
-              syncFormState: async formState => {
-                setState(state => ({
+              syncFormState: async (formState) => {
+                setState((state) => ({
                   form: {
                     ...state.form,
                     ...formState,
@@ -248,8 +248,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   },
                 }));
               },
-              setMatchedModels: async matches => {
-                await setState(state => ({
+              setMatchedModels: async (matches) => {
+                await setState((state) => ({
                   matchedModels: matches,
                 }));
               },
@@ -263,7 +263,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 },
               }) => {
                 // Set loading true (lock UI)
-                await setState(state => ({
+                await setState((state) => ({
                   data: {
                     ...state.data,
                     isLoading: true,
@@ -282,7 +282,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
                   // If we're doing something with images send the files key
                   if (images.length > 0) {
-                    data.files = uniqBy(images, image => image.file_id);
+                    data.files = uniqBy(images, (image) => image.file_id);
                   }
 
                   // When saving, the only time we pass status is when we need to
@@ -304,7 +304,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     baseUrl,
                     modelDataResponse.data.name,
                   );
-                  await setState(state => ({
+                  await setState((state) => ({
                     // Set form to unsavable status (will release on next form interaction)
                     form: {
                       ...state.form,
@@ -330,7 +330,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   }));
                   successNotification && (await appendNotification(successNotification));
                 } catch (err) {
-                  await setState(state => ({
+                  await setState((state) => ({
                     data: {
                       ...state.data,
                       isLoading: false,
@@ -346,9 +346,9 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   });
                 }
               },
-              publishForm: async values => {
+              publishForm: async (values) => {
                 // Set loading true (lock UI)
-                await setState(state => ({
+                await setState((state) => ({
                   data: {
                     ...state.data,
                     isLoading: true,
@@ -368,7 +368,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       modelDataResponse.data.name,
                     );
 
-                    await setState(state => ({
+                    await setState((state) => ({
                       form: {
                         ...state.form,
                         isReadyToPublish: false,
@@ -390,10 +390,10 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       linkText: name,
                     });
                   })
-                  .catch(async err => {
+                  .catch(async (err) => {
                     const errorText = extractErrorText(err);
 
-                    await setState(state => ({
+                    await setState((state) => ({
                       data: {
                         ...state.data,
                         isLoading: false,
@@ -411,11 +411,11 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     });
                   });
               },
-              unpublishModel: async values => {
+              unpublishModel: async (values) => {
                 const { name } = values;
 
                 // Set loading true (lock UI)
-                await setState(state => ({
+                await setState((state) => ({
                   data: {
                     ...state.data,
                     isLoading: true,
@@ -436,7 +436,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     modelDataResponse.data.name,
                   );
 
-                  await setState(state => ({
+                  await setState((state) => ({
                     form: {
                       ...state.form,
                       isReadyToPublish: false,
@@ -456,7 +456,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     details: `${name} has been successfully unpublished and will no longer appear on the public portal.`,
                   });
                 } catch (err) {
-                  await setState(state => ({
+                  await setState((state) => ({
                     data: {
                       ...state.data,
                       isLoading: false,
@@ -474,7 +474,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               },
               deleteModel: async (name, next = () => null) => {
                 // Set loading true (lock UI)
-                await setState(state => ({
+                await setState((state) => ({
                   data: {
                     ...state.data,
                     isLoading: true,
@@ -485,7 +485,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   await deleteModel(baseUrl, name);
                   next();
                 } catch (err) {
-                  setState(state => ({
+                  setState((state) => ({
                     data: {
                       ...state.data,
                       isLoading: false,
@@ -503,7 +503,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
               },
               attachVariants: async (sheetURL, overwrite, modelName) => {
                 // Set loading true (lock UI)
-                await setState(state => ({
+                await setState((state) => ({
                   data: {
                     ...state.data,
                     isLoading: true,
@@ -513,8 +513,8 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 attachVariants(baseUrl, sheetURL, overwrite, modelName)
                   .then(({ data: { result } }) =>
                     // Reload model data with new variants
-                    getModel(baseUrl, modelName).then(async modelDataResponse => {
-                      await setState(state => ({
+                    getModel(baseUrl, modelName).then(async (modelDataResponse) => {
+                      await setState((state) => ({
                         form: {
                           ...state.form,
                           values: modelDataResponse.data,
@@ -557,10 +557,10 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       });
                     }),
                   )
-                  .catch(async err => {
+                  .catch(async (err) => {
                     const errorText = extractErrorText(err);
 
-                    await setState(state => ({
+                    await setState((state) => ({
                       data: {
                         ...state.data,
                         isLoading: false,
@@ -574,9 +574,9 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     });
                   });
               },
-              deleteVariant: async id => {
+              deleteVariant: async (id) => {
                 // Set loading true (lock UI)
-                await setState(state => ({
+                await setState((state) => ({
                   data: {
                     ...state.data,
                     isLoading: true,
@@ -595,7 +595,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
                   const modelDataResponse = await saveModel(baseUrl, modelUpdate, true);
 
-                  await setState(state => ({
+                  await setState((state) => ({
                     // Set form to unsavable status (will release on next form interaction)
                     form: {
                       ...state.form,
@@ -627,7 +627,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     details: 'Model variant relation has been successfully deleted.',
                   });
                 } catch (err) {
-                  await setState(state => ({
+                  await setState((state) => ({
                     data: {
                       ...state.data,
                       isLoading: false,
@@ -643,7 +643,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   });
                 }
               },
-              uploadImages: async files => {
+              uploadImages: async (files) => {
                 const uploaded = await files.reduce(async (accPromise, file) => {
                   let acc = await accPromise;
                   let formData = new FormData();
@@ -664,7 +664,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       'Content-Type': 'multipart/form-data',
                     },
                   })
-                    .then(response => {
+                    .then((response) => {
                       if (response.status >= 200 && response.status < 300) {
                         window.URL.revokeObjectURL(file.preview);
                         return [
@@ -678,7 +678,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                         ];
                       }
                     })
-                    .catch(async err => {
+                    .catch(async (err) => {
                       await appendNotification({
                         type: NOTIFICATION_TYPES.ERROR,
                         message: 'Image Upload Error',
@@ -703,10 +703,10 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                 state.data.response.genomic_variants || [],
                 'genomicVariantTable',
               ),
-              fetchGenomicVariantData: async modelName => {
+              fetchGenomicVariantData: async (modelName) => {
                 if (modelName) {
                   // Set loading true
-                  setState(state => ({
+                  setState((state) => ({
                     data: {
                       ...state.data,
                       isLoading: true,
@@ -716,7 +716,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   try {
                     const modelDataResponse = await getModel(baseUrl, modelName);
 
-                    setState(state => ({
+                    setState((state) => ({
                       form: {
                         ...state.form,
                         values: modelDataResponse.data,
@@ -744,7 +744,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       },
                     }));
                   } catch (err) {
-                    setState(state => ({
+                    setState((state) => ({
                       data: {
                         ...state.data,
                         isLoading: false,
@@ -754,9 +754,9 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                   }
                 }
               },
-              fetchModelData: async modelName => {
+              fetchModelData: async (modelName) => {
                 if (modelName) {
-                  setState(state => ({
+                  setState((state) => ({
                     data: {
                       ...state.data,
                       isLoading: true,
@@ -773,7 +773,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       modelDataResponse.data.name,
                     );
 
-                    await setState(state => ({
+                    await setState((state) => ({
                       form: {
                         ...state.form,
                         isReadyToPublish: false,
@@ -787,7 +787,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                       otherModelOptions,
                     }));
                   } catch (err) {
-                    setState(state => ({
+                    setState((state) => ({
                       data: {
                         ...state.data,
                         isLoading: false,

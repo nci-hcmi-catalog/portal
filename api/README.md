@@ -55,7 +55,7 @@ Currently only stored image data is available through this path.
 
 This is a wrapper for Arranger's table export functionality
 
-**URL** : `/export/:projectId/models`
+**URL** : `/export/models`
 
 **Method** : POST
 
@@ -75,7 +75,7 @@ This is a wrapper for Arranger's table export functionality
 **curl Example** :
 
 ```
-curl -X POST https://hcmi-searchable-catalog.nci.nih.gov/api/export/hcmi/models -H 'Authorization: Bearer ENCODED.JWT.DATA -d 'params=%7B%22files%22%3A%5B%7B%22fileName%22%3A%22models-table.tsv%22%2C%22fileType%22%3A%22tsv%22%2C%22index%22%3A%22models%22%2C%22columns%22%3A%5B%7B%22field%22%3A%22name%22%2C%22accessor%22%3A%22name%22%2C%22show%22%3Atrue%2C%22type%22%3A%22entity%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Name%22%2C%22extendedType%22%3A%22keyword%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Atrue%2C%22minWidth%22%3A140%7D%2C%7B%22field%22%3A%22primary_site%22%2C%22accessor%22%3A%22primary_site%22%2C%22show%22%3Atrue%2C%22type%22%3A%22string%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Primary+Site%22%2C%22extendedType%22%3A%22keyword%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%2C%7B%22field%22%3A%22clinical_diagnosis.clinical_tumor_diagnosis%22%2C%22accessor%22%3A%22clinical_diagnosis.clinical_tumor_diagnosis%22%2C%22show%22%3Atrue%2C%22type%22%3A%22string%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Clinical+Tumor+Diagnosis%22%2C%22extendedType%22%3A%22keyword%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%2C%7B%22field%22%3A%22gender%22%2C%22accessor%22%3A%22gender%22%2C%22show%22%3Atrue%2C%22type%22%3A%22string%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Gender%22%2C%22extendedType%22%3A%22keyword%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%2C%7B%22field%22%3A%22race%22%2C%22accessor%22%3A%22race%22%2C%22show%22%3Atrue%2C%22type%22%3A%22string%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Race%22%2C%22extendedType%22%3A%22keyword%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%2C%7B%22field%22%3A%22age_at_sample_acquisition%22%2C%22accessor%22%3A%22age_at_sample_acquisition%22%2C%22show%22%3Atrue%2C%22type%22%3A%22number%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Age+At+Acquisition+%28Years%29%22%2C%22extendedType%22%3A%22long%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%2C%7B%22field%22%3A%22age_at_diagnosis%22%2C%22accessor%22%3A%22age_at_diagnosis%22%2C%22show%22%3Atrue%2C%22type%22%3A%22number%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Age+At+Diagnosis+%28Years%29%22%2C%22extendedType%22%3A%22long%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%5D%7D%5D%7D&httpHeaders=%7B%7D&downloadKey=dc9e3c25-130c-43ab-a662-fe248add0f4c'
+curl -X POST https://hcmi-searchable-catalog.nci.nih.gov/api/export/models -H 'Authorization: Bearer ENCODED.JWT.DATA -d 'params=%7B%22files%22%3A%5B%7B%22fileName%22%3A%22models-table.tsv%22%2C%22fileType%22%3A%22tsv%22%2C%22index%22%3A%22models%22%2C%22columns%22%3A%5B%7B%22field%22%3A%22name%22%2C%22accessor%22%3A%22name%22%2C%22show%22%3Atrue%2C%22type%22%3A%22entity%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Name%22%2C%22extendedType%22%3A%22keyword%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Atrue%2C%22minWidth%22%3A140%7D%2C%7B%22field%22%3A%22primary_site%22%2C%22accessor%22%3A%22primary_site%22%2C%22show%22%3Atrue%2C%22type%22%3A%22string%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Primary+Site%22%2C%22extendedType%22%3A%22keyword%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%2C%7B%22field%22%3A%22clinical_diagnosis.clinical_tumor_diagnosis%22%2C%22accessor%22%3A%22clinical_diagnosis.clinical_tumor_diagnosis%22%2C%22show%22%3Atrue%2C%22type%22%3A%22string%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Clinical+Tumor+Diagnosis%22%2C%22extendedType%22%3A%22keyword%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%2C%7B%22field%22%3A%22gender%22%2C%22accessor%22%3A%22gender%22%2C%22show%22%3Atrue%2C%22type%22%3A%22string%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Gender%22%2C%22extendedType%22%3A%22keyword%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%2C%7B%22field%22%3A%22race%22%2C%22accessor%22%3A%22race%22%2C%22show%22%3Atrue%2C%22type%22%3A%22string%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Race%22%2C%22extendedType%22%3A%22keyword%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%2C%7B%22field%22%3A%22age_at_sample_acquisition%22%2C%22accessor%22%3A%22age_at_sample_acquisition%22%2C%22show%22%3Atrue%2C%22type%22%3A%22number%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Age+At+Acquisition+%28Years%29%22%2C%22extendedType%22%3A%22long%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%2C%7B%22field%22%3A%22age_at_diagnosis%22%2C%22accessor%22%3A%22age_at_diagnosis%22%2C%22show%22%3Atrue%2C%22type%22%3A%22number%22%2C%22sortable%22%3Atrue%2C%22canChangeShow%22%3Atrue%2C%22query%22%3Anull%2C%22jsonPath%22%3Anull%2C%22Header%22%3A%22Age+At+Diagnosis+%28Years%29%22%2C%22extendedType%22%3A%22long%22%2C%22extendedDisplayValues%22%3A%7B%7D%2C%22hasCustomType%22%3Afalse%7D%5D%7D%5D%7D&httpHeaders=%7B%7D&downloadKey=dc9e3c25-130c-43ab-a662-fe248add0f4c'
 ```
 
 **Unencoded Example Request Body** :
@@ -104,9 +104,9 @@ downloadKey: dc9e3c25-130c-43ab-a662-fe248add0f4c
 
 ### Arranger
 
-The Portal API is a wrapper for [@arranger/server](https://github.com/overture-stack/arranger/tree/master/modules/server) . Arranger provides a GraphQL endpoint to access the data stored in ElasticSearch, and can be configured without modifying code to stay compatible with any changes in the ES data model.
+The Portal API is a wrapper for [@overture-stack/arranger-server](https://github.com/overture-stack/arranger/tree/master/modules/server) . Arranger provides a GraphQL endpoint to access the data stored in ElasticSearch, and can be configured without modifying code to stay compatible with any changes in the ES data model.
 
-**URL** : /api/:projectId/graphql
+**URL** : /api/graphql
 
 **Method** : POST
 
@@ -124,7 +124,7 @@ The Portal API is a wrapper for [@arranger/server](https://github.com/overture-s
 
 This request searches the project with ID `hcmi` for data from the models index. It filters models to only those with `primary_site="Brain"`, sorted by `age_at_sample_acquisition` and then `name`, and limited to first 20 results. It returns a list of 8 fields, specified within the `node` object.
 
-https://hcmi-searchable-catalog.nci.nih.gov/api/hcmi/graphql
+https://hcmi-searchable-catalog.nci.nih.gov/api/graphql
 
 Body:
 

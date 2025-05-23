@@ -77,7 +77,7 @@ const closeStyles = css`
   cursor: pointer;
 `;
 
-export const CloseModal = props => <CrossIcon fill={trout} css={closeStyles} {...props} />;
+export const CloseModal = (props) => <CrossIcon fill={trout} css={closeStyles} {...props} />;
 
 export const Content = styled('div')`
   display: flex;

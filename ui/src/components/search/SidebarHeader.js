@@ -6,8 +6,8 @@ import { Row } from 'theme/system';
 
 const SidebarHeader = ({ onArrowClick, collapsed, children }) => (
   <Row className="header">
-    <Row className="title-wrapper">
-      <span className={`arrow ${collapsed ? 'collapsed' : ''}`} onClick={onArrowClick} />
+    <Row className="title-wrapper" onClick={onArrowClick}>
+      <span className={`arrow ${collapsed ? 'collapsed' : ''}`} />
       <span className="title">{children}</span>
     </Row>
   </Row>

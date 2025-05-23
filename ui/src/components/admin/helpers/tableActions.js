@@ -15,12 +15,12 @@ const nestedStateResolver = (state, update, key) =>
     : update;
 
 export const generateTableActions = (setState, data, nestedStateKey = false) => ({
-  onPageChange: newPage =>
-    setState(state =>
+  onPageChange: (newPage) =>
+    setState((state) =>
       nestedStateResolver(state, { page: newPage, isLoading: true }, nestedStateKey),
     ),
-  onFilterValueChange: newValue =>
-    setState(state =>
+  onFilterValueChange: (newValue) =>
+    setState((state) =>
       nestedStateResolver(
         state,
         {
@@ -32,30 +32,32 @@ export const generateTableActions = (setState, data, nestedStateKey = false) => 
         nestedStateKey,
       ),
     ),
-  onPageSizeChange: newValue =>
-    setState(state =>
+  onPageSizeChange: (newValue) =>
+    setState((state) =>
       nestedStateResolver(state, { page: 0, pageSize: newValue, isLoading: true }, nestedStateKey),
     ),
-  onSortedChange: sorted =>
+  onSortedChange: (sorted) =>
     // since multisort is disabled; there is always one sorted field
-    setState(state => nestedStateResolver(state, { sorted: sorted[0], page: 0 }, nestedStateKey)),
-  toggleSelection: id =>
-    setState(state =>
+    setState((state) => nestedStateResolver(state, { sorted: sorted[0], page: 0 }, nestedStateKey)),
+  toggleSelection: (id) => {
+    const parsedId = id.includes('select-') ? id.split('select-')[1] : id;
+    setState((state) =>
       nestedStateResolver(
         state,
         {
           // Becasue we can have a nested key we use the lodash get function to extract the correct value
           selection: xor(get(state, nestedStateKey ? `${nestedStateKey}.selection` : 'selection'), [
-            id,
+            parsedId,
           ]),
         },
         nestedStateKey,
       ),
-    ),
+    );
+  },
   toggleAll: () => {
     const ids = data.map(({ _id }) => _id);
 
-    return setState(state =>
+    return setState((state) =>
       nestedStateResolver(
         state,
         {

@@ -54,63 +54,59 @@ const initPagingState = {
   },
 };
 
-const bulkActionCreator = ({
-  action,
-  baseUrl,
-  state,
-  setState,
-  appendNotification,
-}) => async () => {
-  if (state.selection.length === 0) {
-    return console.error('Cannot publish a null selection');
-  }
+const bulkActionCreator =
+  ({ action, baseUrl, state, setState, appendNotification }) =>
+  async () => {
+    if (state.selection.length === 0) {
+      return console.error('Cannot publish a null selection');
+    }
 
-  // Set loading true (lock UI)
-  await setState({ isLoading: true });
+    // Set loading true (lock UI)
+    await setState({ isLoading: true });
 
-  bulkAction(action, state.selection)
-    .then(({ data: { success, errors } }) =>
-      loadData(baseUrl, state).then(async ([dataResponse, countResponse]) => {
-        await setState(() => ({
+    bulkAction(action, state.selection)
+      .then(({ data: { success, errors } }) =>
+        loadData(baseUrl, state).then(async ([dataResponse, countResponse]) => {
+          await setState(() => ({
+            isLoading: false,
+            data: dataResponse.data,
+            error: null,
+            rowCount: countResponse.data.count,
+            ...initPagingState,
+          }));
+
+          await appendNotification({
+            type:
+              action === 'publish' && errors.length > 0
+                ? NOTIFICATION_TYPES.WARNING
+                : NOTIFICATION_TYPES.SUCCESS,
+            message: `Bulk ${action} complete.`,
+            details:
+              success +
+              (action === 'publish' && errors.length > 0
+                ? `. ${errors.length} error${errors.length > 1 ? 's' : ''} detected.`
+                : ''),
+            bulkErrors: action === 'publish' && errors.length > 0 && errors,
+            timeout: action === 'publish' && errors.length > 0 ? false : 10000, // do not auto-remove this notification when bulk publishing
+          });
+        }),
+      )
+      .catch(async (err) => {
+        const errorText = extractErrorText(err);
+
+        await setState({
           isLoading: false,
-          data: dataResponse.data,
-          error: null,
-          rowCount: countResponse.data.count,
-          ...initPagingState,
-        }));
+          selection: [],
+          selectAll: false,
+        });
 
         await appendNotification({
-          type:
-            action === 'publish' && errors.length > 0
-              ? NOTIFICATION_TYPES.WARNING
-              : NOTIFICATION_TYPES.SUCCESS,
-          message: `Bulk ${action} complete.`,
-          details:
-            success +
-            (action === 'publish' && errors.length > 0
-              ? `. ${errors.length} error${errors.length > 1 ? 's' : ''} detected.`
-              : ''),
-          bulkErrors: action === 'publish' && errors.length > 0 && errors,
-          timeout: action === 'publish' && errors.length > 0 ? false : 10000, // do not auto-remove this notification when bulk publishing
+          type: NOTIFICATION_TYPES.ERROR,
+          message: `Bulk ${action} error.`,
+          details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
         });
-      }),
-    )
-    .catch(async err => {
-      const errorText = extractErrorText(err);
-
-      await setState({
-        isLoading: false,
-        selection: [],
-        selectAll: false,
       });
-
-      await appendNotification({
-        type: NOTIFICATION_TYPES.ERROR,
-        message: `Bulk ${action} error.`,
-        details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
-      });
-    });
-};
+  };
 
 /*
 Model table state transitions for each action:
@@ -232,7 +228,7 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                               }
 
                               await importBulkGenomicVariants(modelNames)
-                                .then(response => {
+                                .then((response) => {
                                   if (response.data.success) {
                                     setImportProgress({
                                       ...importProgress,
@@ -240,7 +236,7 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                                     });
                                   }
                                 })
-                                .catch(async error => {
+                                .catch(async (error) => {
                                   await appendNotification({
                                     type: NOTIFICATION_TYPES.ERROR,
                                     message: 'Bulk Import of Research Somatic Variants Failed.',
@@ -257,11 +253,10 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                                 return;
                               }
 
-                              const checkVariantsResponse = await auditGenomicVariantsSpecificModels(
-                                modelNames,
-                              );
+                              const checkVariantsResponse =
+                                await auditGenomicVariantsSpecificModels(modelNames);
                               await importBulkGenomicVariants(checkVariantsResponse.data.clean)
-                                .then(response => {
+                                .then((response) => {
                                   if (response.data.success) {
                                     setImportProgress({
                                       ...importProgress,
@@ -269,7 +264,7 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                                     });
                                   }
                                 })
-                                .catch(async error => {
+                                .catch(async (error) => {
                                   await appendNotification({
                                     type: NOTIFICATION_TYPES.ERROR,
                                     message: 'Bulk Import of Research Somatic Variants Failed.',
@@ -286,7 +281,7 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                           }
                         }),
                       )
-                      .catch(async err => {
+                      .catch(async (err) => {
                         const errorText = extractErrorText(err);
 
                         await setState({
@@ -300,9 +295,9 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                         });
                       });
                   },
-                  bulkImportVariants: async modelNames => {
+                  bulkImportVariants: async (modelNames) => {
                     return importBulkGenomicVariants(modelNames)
-                      .then(response => {
+                      .then((response) => {
                         if (response.data.success) {
                           setImportProgress({
                             ...importProgress,
@@ -310,7 +305,7 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                           });
                         }
                       })
-                      .catch(async error => {
+                      .catch(async (error) => {
                         await appendNotification({
                           type: NOTIFICATION_TYPES.ERROR,
                           message: 'Bulk Import of Research Somatic Variants Failed.',
@@ -331,7 +326,7 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                       timeout: false,
                     });
                     await publishBulk(state.selection)
-                      .then(async response => {
+                      .then(async (response) => {
                         if (response.data.success) {
                           await setPublishProgress({
                             ...publishProgress,
@@ -340,7 +335,7 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                           await tempNotification.clear();
                         }
                       })
-                      .catch(async error => {
+                      .catch(async (error) => {
                         await appendNotification({
                           type: NOTIFICATION_TYPES.ERROR,
                           message: 'Bulk Publish Failed.',
@@ -366,17 +361,17 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                     setState,
                     appendNotification,
                   }),
-                  publishOne: async name => {
+                  publishOne: async (name) => {
                     await publish(name)
                       .then(async () => {
                         await addPublishNotification(name);
                       })
-                      .catch(async error => {
+                      .catch(async (error) => {
                         const data = error.response ? error.response.data : error;
                         showErrorPublishNotification(name, data);
                       });
                   },
-                  unpublishOne: async name => {
+                  unpublishOne: async (name) => {
                     // Set loading true (lock UI)
                     await setState({
                       isLoading: true,
@@ -398,7 +393,7 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                           details: `${name} has been successfully unpublished`,
                         });
                       })
-                      .catch(async err => {
+                      .catch(async (err) => {
                         const errorText = extractErrorText(err);
 
                         await setState({
@@ -414,7 +409,7 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                         });
                       });
                   },
-                  deleteOne: async name => {
+                  deleteOne: async (name) => {
                     // Set loading true (lock UI)
                     await setState({ isLoading: true });
 
@@ -434,7 +429,7 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                           details: `${name} has been successfully deleted`,
                         });
                       })
-                      .catch(async err => {
+                      .catch(async (err) => {
                         const errorText = extractErrorText(err);
 
                         await setState({

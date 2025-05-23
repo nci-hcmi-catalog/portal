@@ -639,7 +639,7 @@ const singleNgcmPlusEngcm = {
         },
       },
     },
-  }
+  },
 };
 
 // example: HCM-CSHL-0434-C24
