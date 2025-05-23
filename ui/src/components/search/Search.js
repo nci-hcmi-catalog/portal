@@ -10,10 +10,13 @@ import {
   Table,
   useArrangerData,
   useArrangerTheme,
+  useTableContext,
 } from '@overture-stack/arranger-components';
 import CountDisplay from '@overture-stack/arranger-components/dist/Table/CountDisplay/index';
 import ColumnSelectButton from '@overture-stack/arranger-components/dist/Table/ColumnsSelectButton/index';
 import DownloadButton from '@overture-stack/arranger-components/dist/Table/DownloadButton/index';
+
+import DownloadIcon from 'icons/DownloadIcon';
 
 import LastUpdatedDate from 'components/LastUpdatedDate';
 import ExpandedToggle from 'components/search/ExpandedToggle';
@@ -42,6 +45,8 @@ import {
 } from 'components/tooltips';
 
 import { SelectedModelsContext } from 'providers/SelectedModels';
+
+import cartDownload from 'utils/cartDownload';
 
 import searchStyles, { MainCol } from 'theme/searchStyles';
 import { Row, Col } from 'theme/system';
@@ -186,6 +191,14 @@ const Search = ({
     components: {
       Table: {
         columnTypes,
+        DownloadButton: {
+          label: () => (
+            <span>
+              <DownloadIcon />
+              Export
+            </span>
+          ),
+        },
       },
       SQONViewer: {
         EmptyMessage: {
@@ -194,6 +207,8 @@ const Search = ({
       },
     },
   });
+
+  const tableContext = useTableContext({ callerName: 'SearchTable' });
 
   // Force Aggregations re-render on page reload
   // https://legacy.reactjs.org/docs/hooks-faq.html#is-there-something-like-forceupdate
@@ -342,15 +357,22 @@ const Search = ({
               <SelectedModelsContext.Consumer>
                 {(selectedModelContext) => {
                   // Options for Export drop down
+                  const { visibleColumnsDict } = tableContext;
+                  const currentColumns = Object.values(visibleColumnsDict);
                   const customExporters = [
                     {
                       label: 'TSV (current columns)',
-                      function: 'saveTSV',
+                      function: () =>
+                        cartDownload(
+                          selectedModelContext?.state?.modelIds,
+                          apiFetcher,
+                          currentColumns,
+                        ),
                     },
                     {
                       label: 'TSV (all columns)',
-                      function: 'saveTSV',
-                      columns: [],
+                      function: () =>
+                        cartDownload(selectedModelContext?.state?.modelIds, apiFetcher),
                     },
                   ];
                   if (selectedModelContext?.state?.modelIds.length > 0) {
@@ -370,7 +392,11 @@ const Search = ({
                         <ExpandedToggle sqon={sqon} apiFetcher={apiFetcher} />
                         <div className="group">
                           <ColumnSelectButton />
-                          <DownloadButton theme={{ customExporters }} />
+                          <DownloadButton
+                            theme={{
+                              customExporters,
+                            }}
+                          />
                         </div>
                       </Row>
                       <Table {...props} />

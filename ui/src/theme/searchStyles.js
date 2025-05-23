@@ -922,6 +922,11 @@ export default css`
     background: white;
   }
 
+  .DropdownContainer fieldset.ListWrapper {
+    right: 7px;
+    top: 28px;
+  }
+
   .dropDownHeader .dropDownContent,
   .List {
     max-height: 360px;
