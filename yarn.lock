@@ -2876,7 +2876,7 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@overture-stack/arranger-components@^3.0.0-beta.37":
+"@overture-stack/arranger-components@3.0.0-beta.37":
   version "3.0.0-beta.37"
   resolved "https://registry.yarnpkg.com/@overture-stack/arranger-components/-/arranger-components-3.0.0-beta.37.tgz#fc4e6e86a1a733a8ae4614dd3d0d4289acb98a8d"
   integrity sha512-ezhi9w37sIrNP3BRKwrv/C7Nc24jn3zl65hIhGPQ66ltHNVqHnSwIt7ZKJY7yuSGxhbfkZvyh5a66Ps2+8sFog==
@@ -2923,7 +2923,7 @@
     url-join "^4.0.1"
     uuid "^9.0.0"
 
-"@overture-stack/arranger-server@^3.0.0-beta.36":
+"@overture-stack/arranger-server@3.0.0-beta.36":
   version "3.0.0-beta.36"
   resolved "https://registry.yarnpkg.com/@overture-stack/arranger-server/-/arranger-server-3.0.0-beta.36.tgz#7320167eff6aee187226e81d7955a35b58b8492e"
   integrity sha512-RyB0SrEVbkC5Wh52KZVRy4+azWLL4j9GR1as2MirPyn8zPawxoHyYbWcJy5TgQDQLLw7lzSA83Ds5d7QkZY9UA==
