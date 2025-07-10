@@ -46,7 +46,7 @@ cd cms/variant-migrations
 1. Run dependencies through docker:
 
 ```
-docker-compose up
+docker compose up -d
 ```
 
 2. Install node dependencies using yarn, from this project's root directory. This will not work correctly using `npm i`, the three projects are linked and yarn manages the shared dependencies.
@@ -66,7 +66,7 @@ cd cms/variant-migrations
    From the project root directory run the following command. Note that you may need to change the ENV value used to match the environment declared in the `cms/pm2.config.json` file setup.
 
 ```
-ENV=prd npm run initializeEs
+ENV=env_prd npm run initializeEs
 ```
 
 5. Run the api:
