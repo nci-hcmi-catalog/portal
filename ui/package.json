@@ -54,9 +54,9 @@
     "build": "NODE_PATH=src react-app-rewired build"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.17.0",
-    "@babel/eslint-plugin": "^7.17.7",
-    "@babel/preset-react": "^7.17.12",
+    "@babel/eslint-parser": "^7.28.0",
+    "@babel/eslint-plugin": "^7.27.1",
+    "@babel/preset-react": "^7.27.1",
     "@emotion/babel-plugin": "^11.9.2",
     "@emotion/babel-preset-css-prop": "^11.2.0",
     "customize-cra": "^1.0.0",
