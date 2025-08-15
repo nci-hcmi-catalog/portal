@@ -4,7 +4,7 @@ import { ResponsivePie } from '@nivo/pie';
 import AggregationQuery from 'components/queries/AggregationQuery';
 import { Col } from 'theme/system';
 import theme from 'theme';
-import { ChartTooltip } from './';
+import ChartTooltip from './ChartTooltip';
 import { addInSQON } from 'utils/sqonHelpers';
 import { SizeMe } from 'react-sizeme';
 
