@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import {
@@ -49,8 +48,7 @@ const PublishProgress = ({ renderIcon }) => {
   const { publishProgress, location } = useContext(NotificationsContext);
   const { refreshModelsTable } =
     location && location.pathname === '/admin'
-      ? // eslint-disable-next-line react-hooks/rules-of-hooks
-        useContext(ModelManagerContext)
+      ? useContext(ModelManagerContext)
       : { refreshModelsTable: null };
   const { fetchPublishStatus, showUnexpectedPublishError, hideErrorPublishNotification } =
     usePublishNotifications();
@@ -218,7 +216,6 @@ const PublishProgress = ({ renderIcon }) => {
         <ProgressBar />
       </Col>
       {getProgressBannerType() === NOTIFICATION_TYPES.LOADING &&
-        // eslint-disable-next-line react-hooks/rules-of-hooks
         useConfirmationModal({
           title: 'Stop Bulk Publish?',
           message: 'Are you sure you want to stop this bulk publish?',

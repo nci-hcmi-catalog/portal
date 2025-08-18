@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import {
@@ -49,8 +48,7 @@ const ProgressBanner = ({ renderIcon }) => {
   const { importProgress, location } = useContext(NotificationsContext);
   const { refreshModelsTable } =
     location && location.pathname === '/admin'
-      ? // eslint-disable-next-line react-hooks/rules-of-hooks
-        useContext(ModelManagerContext)
+      ? useContext(ModelManagerContext)
       : { refreshModelsTable: null };
   const {
     fetchImportStatus,
@@ -228,7 +226,6 @@ const ProgressBanner = ({ renderIcon }) => {
         <ProgressBar />
       </Col>
       {getProgressBannerType() === NOTIFICATION_TYPES.LOADING &&
-        // eslint-disable-next-line react-hooks/rules-of-hooks
         useConfirmationModal({
           title: 'Stop Variant Import?',
           message: 'Are you sure you want to stop this variant import?',

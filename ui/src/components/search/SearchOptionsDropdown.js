@@ -37,7 +37,6 @@ const DropdownItem = ({
   onMouseDown = () => {},
   ...props
 }) => (
-  // eslint-disable-next-line jsx-a11y/no-static-element-interactions
   <div
     css={css`
       cursor: pointer;

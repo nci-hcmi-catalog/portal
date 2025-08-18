@@ -90,34 +90,31 @@ const TabView = ({
                 Imported: <b>{geneMeta.fileName}</b> on <b>{geneMeta.importDate}</b>
               </>
             )}
-            {
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              useConfirmationModal({
-                title: 'Clear Existing Variants?',
-                message: 'Are you sure you want to clear the existing list of variants?',
-                confirmLabel: 'Yes, Clear',
-                onConfirm: () =>
-                  clearGenomicVariants(modelName)
-                    .then((_) => fetchGenomicVariantData(modelName))
-                    .catch((error) =>
-                      appendNotification({
-                        type: NOTIFICATION_TYPES.ERROR,
-                        message: `Clear Error: An unexpected error occured while clearing research variants for ${modelName}`,
-                        details: error.message,
-                        timeout: false,
-                      }),
-                    ),
-              })(
-                <ButtonPill
-                  secondary
-                  css={css`
-                    margin-left: 5px;
-                  `}
-                >
-                  Clear List
-                </ButtonPill>,
-              )
-            }
+            {useConfirmationModal({
+              title: 'Clear Existing Variants?',
+              message: 'Are you sure you want to clear the existing list of variants?',
+              confirmLabel: 'Yes, Clear',
+              onConfirm: () =>
+                clearGenomicVariants(modelName)
+                  .then((_) => fetchGenomicVariantData(modelName))
+                  .catch((error) =>
+                    appendNotification({
+                      type: NOTIFICATION_TYPES.ERROR,
+                      message: `Clear Error: An unexpected error occured while clearing research variants for ${modelName}`,
+                      details: error.message,
+                      timeout: false,
+                    }),
+                  ),
+            })(
+              <ButtonPill
+                secondary
+                css={css`
+                  margin-left: 5px;
+                `}
+              >
+                Clear List
+              </ButtonPill>,
+            )}
           </ToolbarHeader>
           {genomicVariantsData.length > 0 ? (
             <>
@@ -306,26 +303,23 @@ const ModelVariants = ({
                         onClose={() => setDropdownOpen(false)}
                       >
                         <>
-                          {
-                            // eslint-disable-next-line react-hooks/rules-of-hooks
-                            useConfirmationModal({
-                              title: 'Overwrite Existing Variants?',
-                              message:
-                                'Are you sure you want to import new research variants and overwrite the existing list?',
-                              confirmLabel: 'Yes, Import',
-                              onConfirm: () => {
-                                importGenomicVariants(name)
-                                  .then(async (_) => {
-                                    await addImportNotification(name);
-                                  })
-                                  .catch((error) => {
-                                    const data = error.response ? error.response.data : error;
-                                    showErrorImportNotification(name, data);
-                                  });
-                              },
-                              confirmationRequired: genomicVariantsData.length > 0,
-                            })(<DropdownItem size={12}>Automatic Import from GDC</DropdownItem>)
-                          }
+                          {useConfirmationModal({
+                            title: 'Overwrite Existing Variants?',
+                            message:
+                              'Are you sure you want to import new research variants and overwrite the existing list?',
+                            confirmLabel: 'Yes, Import',
+                            onConfirm: () => {
+                              importGenomicVariants(name)
+                                .then(async (_) => {
+                                  await addImportNotification(name);
+                                })
+                                .catch((error) => {
+                                  const data = error.response ? error.response.data : error;
+                                  showErrorImportNotification(name, data);
+                                });
+                            },
+                            confirmationRequired: genomicVariantsData.length > 0,
+                          })(<DropdownItem size={12}>Automatic Import from GDC</DropdownItem>)}
                           {withManualImportMafModal({
                             modelName: name,
                             onConfirm: async () => await addImportNotification(name),

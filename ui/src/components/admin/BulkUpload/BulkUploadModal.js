@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useContext, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import ReactTable from 'react-table';
 import CustomPagination from './CustomPagination';

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useRef } from 'react';
 import Popup from 'reactjs-popup';
 import { css } from '@emotion/react';

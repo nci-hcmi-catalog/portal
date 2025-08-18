@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ReactTable from 'react-table';
 import { css } from '@emotion/react';

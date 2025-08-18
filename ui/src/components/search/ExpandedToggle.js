@@ -18,7 +18,6 @@ const ExpandedToggle = ({ sqon, apiFetcher }) => {
     };
 
     fetchNumUnexpanded(sqon);
-    /* eslint-disable react-hooks/exhaustive-deps */
   }, [sqon]);
 
   return (

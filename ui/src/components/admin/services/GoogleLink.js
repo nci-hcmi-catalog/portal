@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useContext, useState } from 'react';
 import Popup from 'reactjs-popup';
 import axios from 'axios';
