@@ -1,0 +1,13 @@
+import React from 'react';
+import { Row } from '../../theme/system';
+
+const SidebarHeader = ({ onArrowClick, collapsed, children }) => (
+  <Row className="header">
+    <Row className="title-wrapper" onClick={onArrowClick}>
+      <span className={`arrow ${collapsed ? 'collapsed' : ''}`} />
+      <span className="title">{children}</span>
+    </Row>
+  </Row>
+);
+
+export default SidebarHeader;
