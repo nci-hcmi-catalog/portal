@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { flatten, uniq } from 'lodash';
 import { modelStatus } from '../helpers/modelStatus';
-// import getLogger from '../logger';
+// TODO: import getLogger from '../logger';
 
 // getLogger('schemas/model');
 
@@ -234,7 +234,7 @@ export const ModelSchema = new mongoose.Schema(
       },
     },
     timestamps: true,
-    collection: process.env.MONGO_COLLECTION,
+    // TODO: collection: process.env.MONGO_COLLECTION,
   },
 );
 

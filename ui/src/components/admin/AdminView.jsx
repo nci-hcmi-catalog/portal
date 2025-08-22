@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Route } from 'react-router-dom';
+// TODO: import { Route } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import { useGenomicVariantImportNotifications, usePublishNotifications } from './Notifications';
 
 import AdminNav from './AdminNav';
-import DataDictionary from './DataDictionary';
-import ModelsManager from './ModelsManager';
-import UsersManager from './UsersManager';
-import { ModelSingle } from './Model';
+// import DataDictionary from './DataDictionary';
+// import ModelsManager from './ModelsManager';
+// import UsersManager from './UsersManager';
+// import { ModelSingle } from './Model';
 
 import { AdminMain, AdminWrapper } from '../../theme/adminStyles';
 
@@ -61,10 +61,10 @@ const AdminView = ({ location }) => {
       <GoogleOAuthProvider clientId={googleAppId}>
         <AdminNav location={location} />
         <AdminMain id="main">
-          <Route exact path="/admin" component={ModelsManager} />
+          {/* TODO: <Route exact path="/admin" component={ModelsManager} />
           <Route exact path="/admin/model/:name?" component={ModelSingle} />
           <Route exact path="/admin/manage-users" component={UsersManager} />
-          <Route exact path="/admin/data-dictionary" component={DataDictionary} />
+          <Route exact path="/admin/data-dictionary" component={DataDictionary} /> */}
         </AdminMain>
       </GoogleOAuthProvider>
     </AdminWrapper>

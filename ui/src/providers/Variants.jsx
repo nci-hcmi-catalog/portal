@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useArrangerData } from '@overture-stack/arranger-components/';
+// TODO: import { useArrangerData } from '@overture-stack/arranger-components/';
 import { css } from '@emotion/react';
 import { get, uniqBy } from 'lodash';
 import querystring from 'query-string';
@@ -47,9 +47,9 @@ export const useVariants = () => {
     [pageSize, setPageSize],
   ] = useContext(VariantsContext);
 
-  const { apiFetcher } = useArrangerData({
-    callerName: `VariantsProvider`,
-  });
+  // TODO: const { apiFetcher } = useArrangerData({
+  //   callerName: `VariantsProvider`,
+  // });
 
   const getData = () => {
     if (!data) return [];
@@ -121,10 +121,11 @@ export const useVariants = () => {
       op: 'and',
     };
 
-    const response = await apiFetcher({
-      body: { query, variables: { sqon: modelsSqon } },
-      endpointTag: 'GenomicVariants',
-    });
+    // TODO: const response = await apiFetcher({
+    //   body: { query, variables: { sqon: modelsSqon } },
+    //   endpointTag: 'GenomicVariants',
+    // });
+    const response = {};
 
     const data = get(response, `data.model.hits.edges[0].node.genomic_variants.hits.edges`, []).map(
       ({ node }) => node,
@@ -191,10 +192,11 @@ export const useVariants = () => {
       op: 'and',
     };
 
-    const response = await apiFetcher({
-      body: { query, variables: { sqon: modelsSqon } },
-      endpointTag: 'VariantsData',
-    });
+    // TODO: const response = await apiFetcher({
+    //   body: { query, variables: { sqon: modelsSqon } },
+    //   endpointTag: 'VariantsData',
+    // });
+    const response = {};
 
     const data = get(response, `data.model.hits.edges[0].node.variants.hits.edges`, [])
       .map(({ node }) => node)
@@ -205,36 +207,37 @@ export const useVariants = () => {
       ({ name }) => name,
     );
 
-    const freqsData = variantNames.length
-      ? await apiFetcher({
-          endpointTag: 'VariantFreqsData',
-          body: {
-            query: `query(${variantNames.map(({ safe }) => '$' + safe + ': JSON').join(',')}) {
-                  model {
-                  all: hits(first: 0) {
-                    total
-                  }
-                  ${variantNames.map(
-                    ({ safe }) => `${safe} : hits(filters: ${'$' + safe}, first: 0) {
-                      total
-                    }`,
-                  )}
-                  }
-                }
-              `,
-            variables: variantNames.reduce(
-              (acc, { name, safe }) => ({
-                ...acc,
-                [safe]: {
-                  op: 'in',
-                  content: { fieldName: 'variants.name', value: name },
-                },
-              }),
-              {},
-            ),
-          },
-        })
-      : { data: { model: [] } };
+    // TODO: const freqsData = variantNames.length
+    //   ? await apiFetcher({
+    //       endpointTag: 'VariantFreqsData',
+    //       body: {
+    //         query: `query(${variantNames.map(({ safe }) => '$' + safe + ': JSON').join(',')}) {
+    //               model {
+    //               all: hits(first: 0) {
+    //                 total
+    //               }
+    //               ${variantNames.map(
+    //                 ({ safe }) => `${safe} : hits(filters: ${'$' + safe}, first: 0) {
+    //                   total
+    //                 }`,
+    //               )}
+    //               }
+    //             }
+    //           `,
+    //         variables: variantNames.reduce(
+    //           (acc, { name, safe }) => ({
+    //             ...acc,
+    //             [safe]: {
+    //               op: 'in',
+    //               content: { fieldName: 'variants.name', value: name },
+    //             },
+    //           }),
+    //           {},
+    //         ),
+    //       },
+    //     })
+    //   : { data: { model: [] } };
+    const freqsData = { data: { model: [] } };
 
     const freqs = Object.keys(freqsData.data.model).reduce(
       (acc, key) => ({
@@ -317,10 +320,11 @@ export const useVariants = () => {
       op: 'and',
     };
 
-    const response = await apiFetcher({
-      body: { query, variables: { sqon: modelSqon } },
-      endpointTag: 'GeneMetadata',
-    });
+    // const response = await apiFetcher({
+    //   body: { query, variables: { sqon: modelSqon } },
+    //   endpointTag: 'GeneMetadata',
+    // });
+    const response = {};
 
     const data = get(response, `data.models.hits.edges[0].node.gene_metadata`);
 

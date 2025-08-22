@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { css } from '@emotion/react';
 
 import Downshift from 'downshift';
-import Spinner from 'react-spinkit';
+// TODO: import Spinner from 'react-spinkit';
 import {
   FaLink as ChainIcon,
   FaFacebook as FBIcon,
@@ -55,15 +55,16 @@ const ShareButton = ({ link, error, quote, leftOffset = '-135px' }) => {
                     {error ? (
                       <span>Sorry something went wrong.</span>
                     ) : (
-                      <Spinner
-                        fadeIn="none"
-                        name="circle"
-                        style={{
-                          width: 15,
-                          height: 15,
-                          margin: '0 auto',
-                        }}
-                      />
+                      <>Spinner</>
+                      // TODO: <Spinner
+                      //   fadeIn="none"
+                      //   name="circle"
+                      //   style={{
+                      //     width: 15,
+                      //     height: 15,
+                      //     margin: '0 auto',
+                      //   }}
+                      // />
                     )}
                   </ItemRow>
                 ) : (

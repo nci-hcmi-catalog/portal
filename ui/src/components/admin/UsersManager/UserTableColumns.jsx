@@ -1,5 +1,5 @@
 import React from 'react';
-import Moment from 'react-moment';
+//TODO: import Moment from 'react-moment';
 import Popup from 'reactjs-popup';
 import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/user';
 import { filters } from '@hcmi-portal/cms/src/helpers/dataFilters';
@@ -32,7 +32,9 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
         <Popup
           trigger={() => (
             <div>
-              <Moment fromNow>{value}</Moment>
+              {/* TODO: <Moment fromNow> */}
+              {value}
+              {/*</Moment> */}
             </div>
           )}
           position="top center"
@@ -80,7 +82,9 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
           arrow={true}
         >
           <ToolbarText>
-            <Moment parse="YYYY-MM-DD HH:mm">{value}</Moment>
+            {/* <Moment parse="YYYY-MM-DD HH:mm"> */}
+            {value}
+            {/* </Moment> */}
           </ToolbarText>
         </Popup>
       );

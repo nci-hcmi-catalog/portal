@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useRef, useState } from 'react';
 import { css } from '@emotion/react';
-import Spinner from 'react-spinkit';
+// TODO: import Spinner from 'react-spinkit';
 import ReactTable from 'react-table';
 import moment from 'moment-timezone';
 
@@ -108,12 +108,12 @@ const VariantAuditModal = ({ bulkImportVariants }) => {
       <Content>
         {loading ? (
           <SpinnerBlock>
-            <Spinner
+            {/* TODO: <Spinner
               fadeIn="none"
               name="circle"
               color="#000"
               style={{ width: 24, height: 24, marginBottom: 6 }}
-            />
+            /> */}
             Searching GDC
           </SpinnerBlock>
         ) : !error ? (

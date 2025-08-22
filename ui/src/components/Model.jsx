@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { get } from 'lodash';
 import { Link } from 'react-router-dom';
-import Spinner from 'react-spinkit';
+// TODO: import Spinner from 'react-spinkit';
 
 import ModelQuery from './queries/ModelQuery';
 import ModelBar from './ModelBar';
@@ -507,7 +507,7 @@ const Model = ({ modelName }) => (
           </>
         ) : (
           <Row justifyContent="center">
-            <Spinner
+            {/* TODO: <Spinner
               fadeIn="full"
               name="circle"
               style={{
@@ -516,7 +516,7 @@ const Model = ({ modelName }) => (
                 height: 48,
                 color: brandPrimary,
               }}
-            />
+            /> */}
           </Row>
         )}
 
