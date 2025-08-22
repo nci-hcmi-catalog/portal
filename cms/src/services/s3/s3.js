@@ -1,7 +1,7 @@
 // Use of require instead of import is used here because this file is used by the migrateImages script.
 //  Scripts executed directly and not run through babel have issues with import statements.
 
-const getLogger = require('../../logger');
+import getLogger from '../../logger';
 const logger = getLogger('services/s3');
 
 const aws = require('aws-sdk');
@@ -26,7 +26,7 @@ const uploadToS3 = async (fileName, fileStream, modelName) => {
   logger.debug({ Key }, 'Attempting upload of file to S3');
 
   return new Promise((resolve, reject) => {
-    fileStream.once('error', error => reject({ error, fileName, modelName }));
+    fileStream.once('error', (error) => reject({ error, fileName, modelName }));
     s3.upload(params, (error, data) => {
       if (error) {
         reject({ error, fileName, modelName });
@@ -42,7 +42,7 @@ const uploadToS3 = async (fileName, fileStream, modelName) => {
   });
 };
 
-const deleteFromS3 = async id => {
+const deleteFromS3 = async (id) => {
   const params = {
     Bucket: S3_BUCKET,
     Key: id,

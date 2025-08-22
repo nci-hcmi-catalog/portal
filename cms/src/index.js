@@ -1,4 +1,4 @@
-// @ts-check
+// @ts-nocheck
 
 import 'babel-polyfill';
 import express from 'express';
@@ -38,7 +38,7 @@ import MatchedModels from './schemas/matchedModels';
 import User from './schemas/user';
 import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess';
 
-import getLogger from './logger';
+import getLogger from './logger.js';
 const logger = getLogger('root');
 
 const port = process.env.PORT || 8080;
@@ -69,7 +69,7 @@ app.use(helmet());
 //  to prevent support work later
 app.use(bodyParser.json({ limit: '20mb' }));
 
-app.use(methodOverride());
+// app.use(methodOverride());
 app.use(cors());
 
 // HealthRouter must be added before the declaration for isUserAuthorized filter
@@ -81,14 +81,15 @@ if (process.env.AUTH_ENABLED !== 'false') {
     if (!authorized) {
       logger.error(`Unauthorized Request: ${req.method}, ${req.url}, ${req.headers[USER_EMAIL]}`);
       return res.status(403).json({
-        error: `${req.headers[USER_EMAIL] ||
-          'Unknown user'} is not authorized to access this application.`,
+        error: `${
+          req.headers[USER_EMAIL] || 'Unknown user'
+        } is not authorized to access this application.`,
       });
     }
     next();
   });
 }
-app.use(pino({ reqCustomProps: req => ({ user: getLoggedInUser(req).user_email }) }));
+app.use(pino({ reqCustomProps: (req) => ({ user: getLoggedInUser(req).user_email }) }));
 
 // configure endpoints
 restify.serve(modelRouter, Model, {

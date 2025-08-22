@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
-import { modelStatus } from '../helpers/modelStatus';
 import { flatten, uniq } from 'lodash';
+import { modelStatus } from '../helpers/modelStatus';
+// import getLogger from '../logger';
 
-import getLogger from '../logger';
-getLogger('schemas/model');
+// getLogger('schemas/model');
 
 // Used to remove values that are empty strings from document
-const deleteEmptyStrings = v => {
+const deleteEmptyStrings = (v) => {
   return v === null || v.length === 0 ? undefined : v;
 };
 
@@ -116,7 +116,7 @@ export const ModelSchema = new mongoose.Schema(
     es_extend: {
       clinical_diagnosis: {
         es_type: 'object',
-        es_value: doc => ({
+        es_value: (doc) => ({
           clinical_tumor_diagnosis: doc.clinical_tumor_diagnosis,
           histological_type: doc.histological_type,
           clinical_stage_grouping: doc.clinical_stage_grouping,
@@ -126,8 +126,8 @@ export const ModelSchema = new mongoose.Schema(
       },
       variants: {
         es_type: 'nested',
-        es_value: doc =>
-          doc.variants.map(variant => ({
+        es_value: (doc) =>
+          doc.variants.map((variant) => ({
             assessment_type: variant.assessment_type,
             expression_level: variant.expression_level,
             category: variant.variant.category,
@@ -138,8 +138,8 @@ export const ModelSchema = new mongoose.Schema(
       },
       genomic_variants: {
         es_type: 'nested',
-        es_value: doc =>
-          doc.genomic_variants.map(variant => ({
+        es_value: (doc) =>
+          doc.genomic_variants.map((variant) => ({
             gene: variant.gene,
             aa_change: variant.aa_change,
             type: variant.type,
@@ -161,16 +161,16 @@ export const ModelSchema = new mongoose.Schema(
       },
       gene_metadata: {
         es_type: 'object',
-        es_value: doc => {
+        es_value: (doc) => {
           // Assemble list of genes from genomic_variants.gene and variants.variant.genes
-          const genomic_variant_genes = doc.genomic_variants.map(gv => gv.gene);
-          const variant_genes = flatten(doc.variants.map(wrapper => wrapper.variant.genes));
+          const genomic_variant_genes = doc.genomic_variants.map((gv) => gv.gene);
+          const variant_genes = flatten(doc.variants.map((wrapper) => wrapper.variant.genes));
           const genes = uniq([...genomic_variant_genes, ...variant_genes]);
           // As of #946, "Mutated Genes" are Research Somatic Variants (`genomic_variants` in the codebase) and Clinical Variants only
           const clinical_variant_genes = flatten(
             doc.variants
-              .filter(variant => variant.variant && variant.variant.type === 'Clinical')
-              .map(wrapper => wrapper.variant.genes),
+              .filter((variant) => variant.variant && variant.variant.type === 'Clinical')
+              .map((wrapper) => wrapper.variant.genes),
           );
           const mutated_genes = uniq([...genomic_variant_genes, ...clinical_variant_genes]);
 
@@ -179,10 +179,10 @@ export const ModelSchema = new mongoose.Schema(
           const mutated_genes_count = mutated_genes.length;
           const genomic_variant_count = doc.genomic_variants.length;
           const clinical_variant_count = doc.variants.filter(
-            variant => variant.variant && variant.variant.type === 'Clinical',
+            (variant) => variant.variant && variant.variant.type === 'Clinical',
           ).length;
           const histopathological_variant_count = doc.variants.filter(
-            variant => variant.variant && variant.variant.type === 'Histopathological Biomarker',
+            (variant) => variant.variant && variant.variant.type === 'Histopathological Biomarker',
           ).length;
 
           const output = {
@@ -206,31 +206,31 @@ export const ModelSchema = new mongoose.Schema(
       //   an array of models that should be included as matched_models before calling esIndex()
       matched_models: {
         es_type: 'nested',
-        es_value: doc =>
-          (doc.populatedMatches || []).map(match => ({
+        es_value: (doc) =>
+          (doc.populatedMatches || []).map((match) => ({
             name: match.name,
             tissue_type: match.tissue_type,
           })),
       },
       has_matched_models: {
         es_type: 'boolean',
-        es_value: doc => (doc.populatedMatches ? doc.populatedMatches.length >= 1 : false),
+        es_value: (doc) => (doc.populatedMatches ? doc.populatedMatches.length >= 1 : false),
       },
       matched_models_list: {
-        es_value: doc =>
+        es_value: (doc) =>
           (doc.populatedMatches || [])
             .concat([doc])
-            .map(i => i.name)
+            .map((i) => i.name)
             .join(','),
       },
 
       createdAt: {
         es_type: 'date',
-        es_value: doc => doc.createdAt,
+        es_value: (doc) => doc.createdAt,
       },
       updatedAt: {
         es_type: 'date',
-        es_value: doc => doc.updatedAt,
+        es_value: (doc) => doc.updatedAt,
       },
     },
     timestamps: true,
