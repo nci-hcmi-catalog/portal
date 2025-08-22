@@ -1,7 +1,6 @@
 let globals = ['VERSION', 'ES_HOST', 'ARRANGER_API'];
 
-// || process.env[`REACT_APP_${val}`
-console.log(import.meta.env);
+// TODO: || process.env[`REACT_APP_${val}`
 export default globals.reduce(
   (acc, val) => ({
     ...acc,

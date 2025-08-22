@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useArrangerData } from '@overture-stack/arranger-components/';
+// TODO: import { useArrangerData } from '@overture-stack/arranger-components/';
 
 export const SavedSetsContext = React.createContext();
 
@@ -31,10 +31,10 @@ const SavedSetsProvider = (props) => {
     loading: false,
   });
 
-  const { apiFetcher, isLoadingConfigs } = useArrangerData({ callerName: 'SavedSetsProvider' });
-  useEffect(() => {
-    setState({ loading: isLoadingConfigs });
-  }, [isLoadingConfigs]);
+  // const { apiFetcher, isLoadingConfigs } = useArrangerData({ callerName: 'SavedSetsProvider' });
+  // useEffect(() => {
+  //   setState({ loading: isLoadingConfigs });
+  // }, [isLoadingConfigs]);
 
   return (
     <SavedSetsContext.Provider

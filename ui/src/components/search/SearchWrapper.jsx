@@ -4,7 +4,7 @@ import '../admin/AdminTable/beagle.css';
 
 import { SavedSetsContext } from '../../providers/SavedSets';
 import Url from '../Url';
-import Search from './Search';
+// TODO: import Search from './Search';
 
 const SearchWrapper = (props) => (
   <Component initialState={{ sorted: [], panelSize: 300 }}>
@@ -12,9 +12,10 @@ const SearchWrapper = (props) => (
       <Url
         render={(urlProps) => (
           <SavedSetsContext.Consumer>
-            {(savedSetsContext) => (
-              <Search {...props} {...urlProps} {...state} savedSetsContext={savedSetsContext} />
-            )}
+            {
+              (savedSetsContext) => <p>Search Wrapper</p>
+              // <Search {...props} {...urlProps} {...state} savedSetsContext={savedSetsContext} />
+            }
           </SavedSetsContext.Consumer>
         )}
       />

@@ -1,12 +1,9 @@
-// @ts-nocheck
-
 import 'babel-polyfill';
 import React from 'react';
 import Component from 'react-component-component';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { injectGlobal } from '@emotion/css';
 
-import moment from 'moment-timezone';
 import globals from '../utils/globals';
 import RootProvider from '../providers/RootProvider';
 import { ModalStateContext } from '../providers/ModalState';
@@ -14,23 +11,38 @@ import { ExpandedUnexpandedProvider } from '../providers/ExpandedUnexpanded';
 import base from '../theme/index';
 
 import SkipNav from './SkipNav';
-import SearchWrapper from './search/SearchWrapper';
-import Model from './Model';
-import Admin from './admin';
+// import SearchWrapper from './search/SearchWrapper';
+// import Model from './Model';
+// import Admin from './admin';
 import Header from './Header';
 import Footer from './Footer';
 import Modal from './modals/Modal';
 import WarningModal from './modals/WarningModal';
-import '../index.css';
+// import '../index.css';
 
-// Set global timezone to UTC
-moment.tz.setDefault('UTC');
-moment.updateLocale('en', {
-  meridiem: (hour, minute, isLowercase) => {
-    if (hour >= 12) return isLowercase ? 'p.m.' : 'P.M.';
-    else return isLowercase ? 'a.m.' : 'A.M.';
-  },
-});
+// TODO:
+const SearchRoute = (
+  <>
+    <Header subheading="Search Arranger Data" />
+    {/* <SearchWrapper index="model" /> */}
+  </>
+);
+
+// TODO: ({ location }) => (
+const AdminRoute = (
+  <>
+    <Header subheading="Searchable Catalog CMS" />
+    {/* <Admin location={location} /> */}
+  </>
+);
+
+// TODO: ({ match }) => (
+const ModelRoute = (
+  <>
+    <Header subheading="Model Data" />
+    {/* <Model modelName={match.params.modelName} /> */}
+  </>
+);
 
 // issue with react-router and react context provider workaround:
 // Router and Context must be rendered in seperate render calls, else
@@ -49,38 +61,13 @@ const ProvidedRoutes = () => (
           }
         }}
       >
-        {({ state }) => (
+        {() => (
           <>
             <SkipNav />
             <Routes>
-              <Route
-                path="/"
-                exact
-                render={() => (
-                  <>
-                    <Header />
-                    <SearchWrapper index="model" />
-                  </>
-                )}
-              />
-              <Route
-                path="/admin"
-                render={({ location }) => (
-                  <>
-                    <Header subheading="Searchable Catalog CMS" />
-                    <Admin location={location} />
-                  </>
-                )}
-              />
-              <Route
-                path="/model/:modelName"
-                render={({ match }) => (
-                  <>
-                    <Header />
-                    <Model modelName={match.params.modelName} />
-                  </>
-                )}
-              />
+              <Route path="/" element={SearchRoute} />
+              <Route path="/admin" element={AdminRoute} />
+              <Route path="/model/:modelName" element={ModelRoute} />
             </Routes>
             <Footer />
           </>
@@ -98,21 +85,15 @@ injectGlobal`
   }
 `;
 
-// const App = ({ loaderData, actionData, params, matches }: Route.ComponentProps) => (
-//   <ExpandedUnexpandedProvider>
-//     <RootProvider>
-//       Hello World
-//       <Router>
-//         <ProvidedRoutes />
-//       </Router>
-//       <Modal />
-//     </RootProvider>
-//   </ExpandedUnexpandedProvider>
-// );
-
-const App = ({ loaderData, actionData, params, matches }: Route.ComponentProps) => {
-  console.log('App props', loaderData, actionData, params, matches);
-  return <div>Hello World</div>;
-};
+const App = ({ loaderData, actionData, params, matches }: Route.ComponentProps) => (
+  <ExpandedUnexpandedProvider>
+    <RootProvider>
+      <Router>
+        <ProvidedRoutes />
+      </Router>
+      <Modal />
+    </RootProvider>
+  </ExpandedUnexpandedProvider>
+);
 
 export default App;

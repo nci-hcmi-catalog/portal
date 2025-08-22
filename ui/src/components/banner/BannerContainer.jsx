@@ -5,7 +5,8 @@ import Banner from './Banner';
 const BannerContainer = () => {
   const [banners, setBanners] = useState([]);
 
-  const bannerData = process.env.REACT_APP_BANNERS;
+  // TODO: const bannerData = process.env.REACT_APP_BANNERS;
+  const bannerData = '';
 
   useEffect(() => {
     if (bannerData) {

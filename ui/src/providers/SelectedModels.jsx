@@ -1,6 +1,6 @@
 import React from 'react';
 import { xor, isEqual } from 'lodash';
-import { withTableContext } from '@overture-stack/arranger-components';
+// TODO: import { withTableContext } from '@overture-stack/arranger-components';
 
 export const SelectedModelsContext = React.createContext();
 
@@ -17,8 +17,9 @@ class SelectedModelsProvider extends React.Component {
   }
 
   componentDidMount() {
-    const storedSelectedModels = JSON.parse(window.sessionStorage.getItem(`${this.storageKey}`));
-    if (storedSelectedModels) {
+    const hasStoredModels = window.sessionStorage.getItem(`${this.storageKey}`);
+    if (hasStoredModels && hasStoredModels !== 'undefined') {
+      const storedSelectedModels = JSON.parse(window.sessionStorage.getItem(`${this.storageKey}`));
       const { setSelectedRowsDict } = this.props;
       this.setState({ modelIds: storedSelectedModels });
       const selectedRows = storedSelectedModels.reduce(selectedRowsReducer, {});
@@ -29,8 +30,10 @@ class SelectedModelsProvider extends React.Component {
   componentDidUpdate() {
     if (!isEqual(this.props.selectedRows, this.state.modelIds)) {
       const { selectedRows: modelIds } = this.props;
-      window.sessionStorage.setItem(this.storageKey, JSON.stringify(modelIds));
-      this.setState({ modelIds });
+      if (modelIds) {
+        window.sessionStorage.setItem(this.storageKey, JSON.stringify(modelIds));
+        this.setState({ modelIds });
+      }
     }
   }
 
@@ -67,4 +70,5 @@ class SelectedModelsProvider extends React.Component {
     );
   }
 }
-export default withTableContext(SelectedModelsProvider);
+export default SelectedModelsProvider;
+// export default withTableContext(SelectedModelsProvider);
