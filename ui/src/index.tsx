@@ -1,4 +1,4 @@
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import moment from 'moment-timezone';
 import './index.css';
 import App from './components/App';
@@ -12,4 +12,4 @@ moment.updateLocale('en', {
   },
 });
 
-createRoot(document.getElementById('root')!).render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));

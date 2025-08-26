@@ -1,4 +1,4 @@
-import download from '@overture-stack/arranger-components/dist/utils/download';
+// import download from '@overture-stack/arranger-components/dist/utils/download';
 import globals from './globals';
 
 const query = `query ModelColumns {
@@ -104,11 +104,11 @@ const cartDownload = async function (selectedIds, apiFetcher, sqon, selectedColu
 
   const params = { files: [{ index: 'model', sqon: downloadSqon, columns }] };
 
-  return download({
-    method: 'post',
-    url: `${globals.ARRANGER_API}/export/models`,
-    params,
-  });
+  // return download({
+  //   method: 'post',
+  //   url: `${globals.ARRANGER_API}/export/models`,
+  //   params,
+  // });
 };
 
 export default cartDownload;

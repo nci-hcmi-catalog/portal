@@ -1,3 +1,4 @@
+//@ts-nocheck
 import 'babel-polyfill';
 import React from 'react';
 import Component from 'react-component-component';
@@ -18,9 +19,8 @@ import Header from './Header';
 import Footer from './Footer';
 import Modal from './modals/Modal';
 import WarningModal from './modals/WarningModal';
-// import '../index.css';
+import '../index.css';
 
-// TODO:
 const SearchRoute = (
   <>
     <Header subheading="Search Arranger Data" />
@@ -28,7 +28,7 @@ const SearchRoute = (
   </>
 );
 
-// TODO: ({ location }) => (
+// TODO: Get Param From Route ({ location }) => (
 // location={location}
 const AdminRoute = (
   <>
@@ -37,7 +37,7 @@ const AdminRoute = (
   </>
 );
 
-// TODO: ({ match }) => (
+// TODO: Get Param From Route ({ match }) => (
 const ModelRoute = (
   <>
     <Header subheading="Model Data" />

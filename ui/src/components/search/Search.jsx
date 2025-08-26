@@ -12,9 +12,9 @@ import {
   useArrangerTheme,
   useTableContext,
 } from '@overture-stack/arranger-components';
-import CountDisplay from '@overture-stack/arranger-components/dist/Table/CountDisplay/index';
-import ColumnSelectButton from '@overture-stack/arranger-components/dist/Table/ColumnsSelectButton/index';
-import DownloadButton from '@overture-stack/arranger-components/dist/Table/DownloadButton/index';
+// import CountDisplay from '@overture-stack/arranger-components/dist/Table/CountDisplay/index';
+// import ColumnSelectButton from '@overture-stack/arranger-components/dist/Table/ColumnsSelectButton/index';
+// import DownloadButton from '@overture-stack/arranger-components/dist/Table/DownloadButton/index';
 
 import ArrowIcon from '../../icons/ArrowIcon';
 import DownloadIcon from '../../icons/DownloadIcon';
@@ -178,7 +178,7 @@ const Search = ({
         setUrlSQON(sqon);
       }
     }
-  }, [sqon, urlSqon, firstRender, setSQON, setUrlSQON]);
+  }, [sqon, setSQON, urlSqon, firstRender, setUrlSQON]);
 
   const columnTypes = getColumnTypes({
     savedSetsContext,
@@ -186,31 +186,31 @@ const Search = ({
     history,
   });
 
-  useArrangerTheme({
-    components: {
-      Aggregations: {
-        TreeJointIcon: { Icon: () => <ArrowIcon fill={'#900000'} width={'9px'} height={'9px'} /> },
-      },
-      SQONViewer: {
-        EmptyMessage: {
-          arrowColor: '#CD0D32',
-        },
-      },
-      Table: {
-        columnTypes,
-        DownloadButton: {
-          label: () => (
-            <span>
-              <DownloadIcon />
-              Export
-            </span>
-          ),
-        },
-      },
-    },
-  });
+  // useArrangerTheme({
+  //   components: {
+  //     Aggregations: {
+  //       TreeJointIcon: { Icon: () => <ArrowIcon fill={'#900000'} width={'9px'} height={'9px'} /> },
+  //     },
+  //     SQONViewer: {
+  //       EmptyMessage: {
+  //         arrowColor: '#CD0D32',
+  //       },
+  //     },
+  //     Table: {
+  //       columnTypes,
+  //       DownloadButton: {
+  //         label: () => (
+  //           <span>
+  //             <DownloadIcon />
+  //             Export
+  //           </span>
+  //         ),
+  //       },
+  //     },
+  //   },
+  // });
 
-  const tableContext = useTableContext({ callerName: 'SearchTable' });
+  // const tableContext = useTableContext({ callerName: 'SearchTable' });
 
   // Force Aggregations re-render on page reload
   // https://legacy.reactjs.org/docs/hooks-faq.html#is-there-something-like-forceupdate
@@ -235,14 +235,14 @@ const Search = ({
         <Col className="aggregations-wrapper" role="complementary">
           <Component>
             <>
-              <ModelSearch sqon={sqon} setSQON={setSQON} />
+              {/* <ModelSearch sqon={sqon} setSQON={setSQON} />
               <GeneSearch
                 sqon={sqon}
                 setSQON={setSQON}
                 tooltipWidth={tableState?.panelSize - facetTooltipPadding}
               />
-              <VariantSearch sqon={sqon} setSQON={setSQON} />
-              <Aggregations
+              <VariantSearch sqon={sqon} setSQON={setSQON} /> */}
+              {/* <Aggregations
                 {...props}
                 // Bug related to Facets not reloading on navigation
                 isLoading={ignored}
@@ -299,7 +299,7 @@ const Search = ({
                     },
                   },
                 ]}
-              />
+               /> */}
             </>
           </Component>
         </Col>
@@ -321,10 +321,10 @@ const Search = ({
               min-height: 50px;
             `}
           >
-            <SQONViewer
+            {/* <SQONViewer
               {...props}
               emptyMessage={'Use the filter panel on the left to customize your model search.'}
-            />
+            /> */}
             <div className="search-header-actions">
               <ShareButton link={`${window.location.origin}/`} quote={`HCMI Search`} />
               <ModelList className="search-header-model-list" />
@@ -342,14 +342,14 @@ const Search = ({
             <Component shouldUpdate={() => stable}>
               {() => (
                 <>
-                  <PrimarySiteChart sqon={sqon} setSQON={setSQON} />
+                  {/* <PrimarySiteChart sqon={sqon} setSQON={setSQON} />
                   <MultipleModelsChart
                     sqon={sqon}
                     setSQON={setSQON}
                     extendedMapping={extendedMapping}
                   />
                   <GrowthChart sqon={sqon} setSQON={setSQON} />
-                  <TopVariantsChart sqon={sqon} setSQON={setSQON} />
+                  <TopVariantsChart sqon={sqon} setSQON={setSQON} /> */}
                 </>
               )}
             </Component>
@@ -359,8 +359,8 @@ const Search = ({
               <SelectedModelsContext.Consumer>
                 {(selectedModelContext) => {
                   // Options for Export drop down
-                  const { visibleColumnsDict } = tableContext;
-                  const currentColumns = Object.values(visibleColumnsDict);
+                  // const { visibleColumnsDict } = tableContext;
+                  // const currentColumns = Object.values(visibleColumnsDict);
                   const customExporters = [
                     {
                       label: 'TSV (current columns)',
@@ -368,7 +368,7 @@ const Search = ({
                         cartDownload(
                           selectedModelContext?.state?.modelIds,
                           apiFetcher,
-                          sqon,
+                          // sqon,
                           currentColumns,
                         ),
                     },
@@ -391,20 +391,20 @@ const Search = ({
                     <>
                       {/* TODO: Placeholder for Toolbar requiring Arranger/Node update  */}
                       <Row className="tableToolbar">
-                        <CountDisplay />
-                        <ExpandedToggle sqon={sqon} apiFetcher={apiFetcher} />
+                        {/* <CountDisplay /> */}
+                        {/* <ExpandedToggle sqon={sqon} apiFetcher={apiFetcher} /> */}
                         <div className="group">
-                          <ColumnSelectButton />
-                          <DownloadButton
+                          {/* <ColumnSelectButton /> */}
+                          {/* <DownloadButton
                             theme={{
                               customExporters,
                             }}
-                          />
+                          /> */}
                         </div>
                       </Row>
-                      <Table {...props} />
+                      {/* <Table {...props} /> */}
                       <div className={'pagination-bottom'}>
-                        <Pagination />
+                        {/* <Pagination /> */}
                         <LastUpdatedDate />
                       </div>
                     </>

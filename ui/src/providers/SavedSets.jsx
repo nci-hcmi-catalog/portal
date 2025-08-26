@@ -42,43 +42,43 @@ const SavedSetsProvider = (props) => {
         state,
         createSet: async ({ sqon, sort }) => {
           setState({ loading: true, sets: state.sets });
-          const {
-            data: {
-              saveSet: { setId, ids },
-            },
-          } = await apiFetcher({
-            endpointTag: 'CreateSets',
-            body: {
-              query: createSetsQuery,
-              variables: { sqon, sort },
-            },
-          });
-          setState({
-            loading: false,
-            sets: {
-              ...state.sets,
-              [setId]: { sqon, ids },
-            },
-          });
-          return { setId, ids };
+          // const {
+          //   data: {
+          //     saveSet: { setId, ids },
+          //   },
+          // } = await apiFetcher({
+          //   endpointTag: 'CreateSets',
+          //   body: {
+          //     query: createSetsQuery,
+          //     variables: { sqon, sort },
+          //   },
+          // });
+          // setState({
+          //   loading: false,
+          //   sets: {
+          //     ...state.sets,
+          //     [setId]: { sqon, ids },
+          //   },
+          // });
+          // return { setId, ids };
         },
         fetchSets: async ({ sqon }) => {
           setState({ loading: true, sets: state.sets });
-          const { data } = await apiFetcher({
-            endpointTag: 'FetchSets',
-            body: { query: fetchSetsQuery, variables: { sqon } },
-          });
-          const { sets } = data;
-          setState({
-            loading: false,
-            sets: {
-              ...state.sets,
-              ...(sets?.hits?.edges.reduce(
-                (acc, { node: { setId, ids, sqon } }) => ({ ...acc, [setId]: { ids, sqon } }),
-                {},
-              ) || {}),
-            },
-          });
+          // const { data } = await apiFetcher({
+          //   endpointTag: 'FetchSets',
+          //   body: { query: fetchSetsQuery, variables: { sqon } },
+          // });
+          // const { sets } = data;
+          // setState({
+          //   loading: false,
+          //   sets: {
+          //     ...state.sets,
+          //     ...(sets?.hits?.edges.reduce(
+          //       (acc, { node: { setId, ids, sqon } }) => ({ ...acc, [setId]: { ids, sqon } }),
+          //       {},
+          //     ) || {}),
+          //   },
+          // });
         },
         setSavedSets: ({ setId, ids, sqon }) =>
           setState({

@@ -2,7 +2,7 @@ import React from 'react';
 import { get } from 'lodash';
 
 import Component from 'react-component-component';
-import { useArrangerData } from '@overture-stack/arranger-components/';
+// import { useArrangerData } from '@overture-stack/arranger-components/';
 
 const modelDataQuery = `query ModelDataQuery($sqon: JSON) {
   model {

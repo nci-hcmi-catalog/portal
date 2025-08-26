@@ -1,21 +1,22 @@
 import querystring from 'query-string';
 import React from 'react';
-// TODO: import { Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const { parse, stringify } = querystring;
-
+// TODO: Rename
 const Url = (props) => {
   return (
-    <Route>
-      {(routingProps) => {
-        const { sqon: sqonString, ...searchParams } = parse(routingProps.location.search);
+    <Link>
+      {/* {(routingProps) => {
+        console.log('routingProps', routingProps);
+        const { sqon: sqonString, ...searchParams } = parse(routingProps?.location?.search);
         const currentUrlSqon = sqonString ? JSON.parse(sqonString) : null;
         const setUrlSQON = (newSqon) => {
           routingProps.history.push({
-            search: stringify({
-              ...searchParams,
-              ...(newSqon && { sqon: JSON.stringify(newSqon) }),
-            }),
+            // TODO: search: stringify({
+            //   ...searchParams,
+            //   ...(newSqon && { sqon: JSON.stringify(newSqon) }),
+            // }),
           });
         };
 
@@ -24,8 +25,8 @@ const Url = (props) => {
           urlSqon: currentUrlSqon,
           setUrlSQON,
         });
-      }}
-    </Route>
+      }} */}
+    </Link>
   );
 };
 

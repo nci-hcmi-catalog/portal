@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import Component from 'react-component-component';
 // import Spinner from 'react-spinkit';
 import moment from 'moment-timezone';
-import { useArrangerData } from '@overture-stack/arranger-components/';
+// import { useArrangerData } from '@overture-stack/arranger-components/';
 
 import ModelListModalQuery from '../queries/ModelListModalQuery';
 
