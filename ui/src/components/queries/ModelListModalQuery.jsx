@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 import React from 'react';
 import Component from 'react-component-component';
-// import { useArrangerData } from '@overture-stack/arranger-components/';
+import { useArrangerData } from '@overture-stack/arranger-components/';
 
 const modelListQuery = `query ModelListModal ($first: Int, $sqon: JSON) {
     model {

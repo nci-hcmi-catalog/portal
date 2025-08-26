@@ -13,7 +13,7 @@ import base from '../theme/index';
 
 import SkipNav from './SkipNav';
 import SearchWrapper from './search/SearchWrapper';
-// import Model from './Model';
+import Model from './Model';
 import Admin from './admin';
 import Header from './Header';
 import Footer from './Footer';

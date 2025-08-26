@@ -4,21 +4,21 @@ import '../admin/AdminTable/beagle.css';
 
 import { SavedSetsContext } from '../../providers/SavedSets';
 import Url from '../Url';
-// import Search from './Search';
+import Search from './Search';
 
 const SearchWrapper = (props) => (
   <Component initialState={{ sorted: [], panelSize: 300 }}>
     {(state) => (
-      <Url
-        render={(urlProps) => (
-          <SavedSetsContext.Consumer>
-            {/* {(savedSetsContext) => (
-          {...urlProps}
+      // <Url
+      //   render={(urlProps) => (
+      <SavedSetsContext.Consumer>
+        {(savedSetsContext) => (
+          // {...urlProps}
           <Search {...props} {...state} savedSetsContext={savedSetsContext} />
-        )} */}
-          </SavedSetsContext.Consumer>
         )}
-      />
+      </SavedSetsContext.Consumer>
+      //   )}
+      // />
     )}
   </Component>
 );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { xor, isEqual } from 'lodash';
-// TODO: import { withTableContext } from '@overture-stack/arranger-components';
+import { withTableContext } from '@overture-stack/arranger-components';
 
 export const SelectedModelsContext = React.createContext();
 
@@ -70,5 +70,4 @@ class SelectedModelsProvider extends React.Component {
     );
   }
 }
-export default SelectedModelsProvider;
-// export default withTableContext(SelectedModelsProvider);
+export default withTableContext(SelectedModelsProvider);

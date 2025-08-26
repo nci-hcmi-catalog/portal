@@ -13,10 +13,10 @@ const Url = (props) => {
         const currentUrlSqon = sqonString ? JSON.parse(sqonString) : null;
         const setUrlSQON = (newSqon) => {
           routingProps.history.push({
-            // TODO: search: stringify({
-            //   ...searchParams,
-            //   ...(newSqon && { sqon: JSON.stringify(newSqon) }),
-            // }),
+            search: stringify({
+              ...searchParams,
+              ...(newSqon && { sqon: JSON.stringify(newSqon) }),
+            }),
           });
         };
 

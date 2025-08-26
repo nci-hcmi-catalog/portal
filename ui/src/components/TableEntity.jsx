@@ -1,16 +1,16 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import querystring from 'query-string';
-// import { useTableContext } from '@overture-stack/arranger-components';
+import { useTableContext } from '@overture-stack/arranger-components';
 import { isNil } from 'lodash';
 
 const { stringify } = querystring;
 
 const TableEntity = ({ sqon, savedSetsContext, value, history }) => {
   const { createSet } = savedSetsContext;
-  // const { sorting } = useTableContext({
-  //   callerName: 'TableEntity',
-  // });
+  const { sorting } = useTableContext({
+    callerName: 'TableEntity',
+  });
   return (
     <button
       className="clickable"

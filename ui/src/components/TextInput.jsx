@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-// import ArrangerInput from '@overture-stack/arranger-components/dist/Input';
+import ArrangerInput from '@overture-stack/arranger-components/dist/Input';
 import CrossCircleOutlineIcon from '../icons/CrossCircleOutlineIcon';
 import FilterIcon from '../icons/FilterIcon';
 
@@ -11,15 +11,14 @@ const TextInputWrapper = styled('div')`
   label: text-input-wrapper;
 `;
 
-// const RefArrangerTextInput = React.forwardRef((props, ref) => (
-//   <ArrangerInput
-//     ref={ref}
-//     shouldautofocus={'false'}
-//     theme={{ leftIcon: { Icon: FilterIcon } }}
-//     {...props}
-//   />
-// ));
-const RefArrangerTextInput = () => <Input />;
+const RefArrangerTextInput = React.forwardRef((props, ref) => (
+  <ArrangerInput
+    ref={ref}
+    shouldautofocus={'false'}
+    theme={{ leftIcon: { Icon: FilterIcon } }}
+    {...props}
+  />
+));
 
 const TextInput = styled(RefArrangerTextInput)`
   padding-right: 25px;

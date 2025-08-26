@@ -1,14 +1,14 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import querystring from 'query-string';
-// import { useTableContext } from '@overture-stack/arranger-components';
+import { useTableContext } from '@overture-stack/arranger-components';
 
 const { stringify } = querystring;
 
 const TableMatchedModelsCell = ({ row, savedSetsContext, value, history }) => {
-  // const { sorting } = useTableContext({
-  //   callerName: 'TableMatchedModelsCell',
-  // });
+  const { sorting } = useTableContext({
+    callerName: 'TableMatchedModelsCell',
+  });
   const matches = (value && value.split(',')) || [];
   const matchCount = matches.length;
   return matchCount > 1 ? (
