@@ -1,7 +1,6 @@
 import pino from 'pino';
 
-// TODO: process.env.LOG_LEVEL ||
-const logger = pino({ level: 'info' });
+const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
 
 const getLogger = (context) => {
   const output = logger.child({ context });

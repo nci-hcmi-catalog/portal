@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 import { flatten, uniq } from 'lodash';
 import { modelStatus } from '../helpers/modelStatus';
-// TODO: import getLogger from '../logger';
+import getLogger from '../logger';
 
-// getLogger('schemas/model');
+getLogger('schemas/model');
 
 // Used to remove values that are empty strings from document
 const deleteEmptyStrings = (v) => {
@@ -234,7 +234,7 @@ export const ModelSchema = new mongoose.Schema(
       },
     },
     timestamps: true,
-    // TODO: collection: process.env.MONGO_COLLECTION,
+    collection: process.env.MONGO_COLLECTION,
   },
 );
 

@@ -1,5 +1,4 @@
-// @ts-nocheck
-
+// @ts-check
 import 'babel-polyfill';
 import express from 'express';
 import { Server } from 'http';
@@ -69,7 +68,7 @@ app.use(helmet());
 //  to prevent support work later
 app.use(bodyParser.json({ limit: '20mb' }));
 
-// app.use(methodOverride());
+app.use(methodOverride());
 app.use(cors());
 
 // HealthRouter must be added before the declaration for isUserAuthorized filter
