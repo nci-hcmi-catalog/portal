@@ -74,7 +74,7 @@ const AggregationQuery = ({ sqon, ...props }) => {
                 buckets: [],
               };
 
-          setState({ ...update, loading: false });
+          // TODO: setState({ ...update, loading: false });
         }
       }}
     />

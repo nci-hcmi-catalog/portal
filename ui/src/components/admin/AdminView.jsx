@@ -5,10 +5,10 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useGenomicVariantImportNotifications, usePublishNotifications } from './Notifications';
 
 import AdminNav from './AdminNav';
-// import DataDictionary from './DataDictionary';
-// import ModelsManager from './ModelsManager';
-// import UsersManager from './UsersManager';
-// import { ModelSingle } from './Model';
+import DataDictionary from './DataDictionary';
+import ModelsManager from './ModelsManager';
+import UsersManager from './UsersManager';
+import { ModelSingle } from './Model';
 
 import { AdminMain, AdminWrapper } from '../../theme/adminStyles';
 
@@ -65,6 +65,7 @@ const AdminView = ({ location }) => {
           <Route exact path="/admin/model/:name?" component={ModelSingle} />
           <Route exact path="/admin/manage-users" component={UsersManager} />
           <Route exact path="/admin/data-dictionary" component={DataDictionary} /> */}
+          <ModelsManager />
         </AdminMain>
       </GoogleOAuthProvider>
     </AdminWrapper>

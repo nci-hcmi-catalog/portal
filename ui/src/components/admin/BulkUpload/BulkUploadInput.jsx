@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
-// TODO: import Spinner from 'react-spinkit';
+import Spinner from 'react-spinkit';
 import Popup from 'reactjs-popup';
 
 import googleSheetsLogo from '../../../assets/logo-googlesheets.png';
@@ -70,7 +70,7 @@ const BulkUploadInput = ({
     return generating ? (
       // Spinner while generating
       <BulkUploadTemplateLink>
-        {/* TODO: <Spinner fadeIn="none" name="circle" color="#a9adc0" style={{ width: 15, height: 15 }} /> */}
+        <Spinner fadeIn="none" name="circle" color="#a9adc0" style={{ width: 15, height: 15 }} />
       </BulkUploadTemplateLink>
     ) : templateUrl ? (
       // URL to sheet once generated

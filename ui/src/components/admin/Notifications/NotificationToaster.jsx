@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import Component from 'react-component-component';
 import { scroller } from 'react-scroll';
-// TODO: import Spinner from 'react-spinkit';
+import Spinner from 'react-spinkit';
 
 import CheckmarkIcon from '../../../icons/CheckmarkIcon';
 import CrossCircleIcon from '../../../icons/CrossCircleIcon';
@@ -68,16 +68,15 @@ const renderIcon = (type) => {
       );
     case NOTIFICATION_TYPES.LOADING:
       return (
-        <>Spinner</>
-        // TODO: <Spinner
-        //   fadeIn="none"
-        //   name="circle"
-        //   css={css`
-        //     width: 30px;
-        //     height: 30px;
-        //     margin: 0px 12px 0px 0px;
-        //   `}
-        // />
+        <Spinner
+          fadeIn="none"
+          name="circle"
+          css={css`
+            width: 30px;
+            height: 30px;
+            margin: 0px 12px 0px 0px;
+          `}
+        />
       );
     case NOTIFICATION_TYPES.ERROR:
       return (

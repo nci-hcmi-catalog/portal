@@ -38,10 +38,11 @@ const AdminRoute = (
 );
 
 // TODO: Get Param From Route ({ match }) => (
+// modelName={match.params.modelName}
 const ModelRoute = (
   <>
     <Header subheading="Model Data" />
-    {/* <Model modelName={match.params.modelName} /> */}
+    <Model modelName={'HCM-BROD-0648-C71'} />
   </>
 );
 

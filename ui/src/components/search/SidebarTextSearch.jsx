@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
-// import Spinner from 'react-spinkit';
+import Spinner from 'react-spinkit';
 import { FaSearch as SearchIcon } from 'react-icons/fa';
 
 import { Col } from '../../theme/system';
@@ -10,16 +10,15 @@ import SidebarSection from './SidebarSection';
 import SearchOptionsDropdown from './SearchOptionsDropdown';
 
 const LoadingIcon = (
-  <>Loading</>
-  // TODO: <Spinner
-  //   fadeIn="none"
-  //   name="circle"
-  //   color="#a9adc0"
-  //   css={css`
-  //     width: 15px;
-  //     height: 15px;
-  //   `}
-  // />
+  <Spinner
+    fadeIn="none"
+    name="circle"
+    color="#a9adc0"
+    css={css`
+      width: 15px;
+      height: 15px;
+    `}
+  />
 );
 
 const SidebarTextSearch = ({

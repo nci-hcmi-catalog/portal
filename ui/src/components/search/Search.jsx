@@ -172,7 +172,7 @@ const Search = ({
   useEffect(() => {
     if (firstRender) {
       setSQON(urlSqon);
-      setFirstRender(false);
+      // TODO: setFirstRender(false);
     } else {
       if (!isEqual(sqon, urlSqon)) {
         setUrlSQON(sqon);
@@ -225,7 +225,7 @@ const Search = ({
         className="search-split-pane"
         split="vertical"
         minSize={50}
-        defaultSize={tableState?.panelSize}
+        defaultSize={tableState.panelSize}
         onChange={(panelSize) => {
           searchWrapperSetState({ panelSize });
         }}
@@ -238,10 +238,10 @@ const Search = ({
             <GeneSearch
               sqon={sqon}
               setSQON={setSQON}
-              tooltipWidth={tableState?.panelSize - facetTooltipPadding}
+              tooltipWidth={tableState.panelSize - facetTooltipPadding}
             />
             <VariantSearch sqon={sqon} setSQON={setSQON} />
-            <Aggregations
+            {/* <Aggregations
               {...props}
               // Bug related to Facets not reloading on navigation
               isLoading={ignored}
@@ -257,7 +257,7 @@ const Search = ({
                         Research Somatic Variant Type
                         <GenomicVariantsTooltip
                           isFacet={true}
-                          width={tableState?.panelSize - facetTooltipPadding}
+                          width={tableState.panelSize - facetTooltipPadding}
                         />
                       </Row>
                     ),
@@ -277,7 +277,7 @@ const Search = ({
                         Has Multiple Models
                         <MultipleModelsTooltip
                           isFacet={true}
-                          width={tableState?.panelSize - nonSearchableFacetTooltipPadding}
+                          width={tableState.panelSize - nonSearchableFacetTooltipPadding}
                         />
                       </Row>
                     ),
@@ -291,14 +291,14 @@ const Search = ({
                         Available Molecular Characterizations
                         <MolecularCharacterizationsTooltip
                           isFacet={true}
-                          width={tableState?.panelSize - facetTooltipPadding}
+                          width={tableState.panelSize - facetTooltipPadding}
                         />
                       </Row>
                     ),
                   },
                 },
               ]}
-            />
+            /> */}
           </Component>
         </Col>
         <MainCol
@@ -307,7 +307,7 @@ const Search = ({
           p={30}
           flex={1}
           css={css`
-            width: calc(100vw - ${tableState?.panelSize}px);
+            width: calc(100vw - ${tableState.panelSize}px);
             overflow-y: scroll !important;
           `}
         >
