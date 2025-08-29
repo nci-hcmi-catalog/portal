@@ -62,7 +62,7 @@ const AdminView = ({ location }) => {
         <AdminMain id="main">
           <Routes>
             <Route index element={<ModelsManager />} />
-            <Route path="model/:name?" element={<ModelSingle />} />
+            <Route path="model/:name" element={<ModelSingle />} />
             <Route path="manage-users" element={<UsersManager />} />
             <Route path="data-dictionary" element={<DataDictionary />} />
           </Routes>
