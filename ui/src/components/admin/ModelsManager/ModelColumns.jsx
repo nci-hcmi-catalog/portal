@@ -69,8 +69,7 @@ export const ModelStatusPillWithPublish = ({ name, data }) => {
       publishState.current = 'publishing';
     }
     if (
-      location &&
-      location.pathname === '/admin' &&
+      location?.pathname === '/admin' &&
       publishState.current === 'publishing' &&
       publishProgress.success.find((model) => model.modelName === name)
     ) {

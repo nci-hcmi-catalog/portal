@@ -1,12 +1,17 @@
+const babel = require('eslint-plugin-babel');
 const { defineConfig } = require('eslint/config');
+const jsxA11y = require('eslint-plugin-jsx-a11y');
+const prettier = require('eslint-plugin-prettier/recommended');
 const { reactHooks } = require('eslint-plugin-react-hooks');
 
-// extends 'plugin:jsx-a11y/strict'
-// plugins 'jsx-a11y',
 module.exports = defineConfig([
   {
-    extends: ['prettier', 'react-app'],
-    plugins: ['prettier', '@babel', reactHooks.configs['recommended-latest']],
+    extends: ['react-app'],
+    plugins: {
+      'jsx-a11y': jsxA11y.flatConfigs.strict,
+      '@babel': babel,
+      reactHooks: reactHooks.configs['recommended-latest'],
+    },
     parser: '@babel/eslint-parser',
     parserOptions: {
       requireConfigFile: false,
@@ -18,4 +23,5 @@ module.exports = defineConfig([
       'prettier/prettier': [1, { trailingComma: 'all', singleQuote: true }],
     },
   },
+  prettier,
 ]);

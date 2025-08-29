@@ -21,8 +21,7 @@ const [modelsNavPaths, usersNavPaths, dictionaryNavPaths] = [
 // Nav active state func
 const isNavLinkActive = (currentPath, navPaths) =>
   navPaths.filter((path) => {
-    // TODO: currentPath.match(path)
-    return currentPath === path;
+    return currentPath?.match(path);
   }).length > 0;
 
 // Exported URLs to be used as needed
@@ -31,33 +30,36 @@ export const manageUsersUrlBase = '/admin/manage-users';
 export const modelEditUrlBase = '/admin/model';
 export const dataDictionaryUrlBase = '/admin/data-dictionary';
 
-const AdminNav = ({ location: { pathname } }) => (
-  <AdminNavWrapper as="nav">
-    <div>
-      <NavLink
-        active={isNavLinkActive(pathname, modelsNavPaths) ? `true` : undefined}
-        to={manageModelsUrlBase}
-      >
-        Model Management
-      </NavLink>
-      <NavLink
-        active={isNavLinkActive(pathname, usersNavPaths) ? `true` : undefined}
-        to={manageUsersUrlBase}
-      >
-        User Management
-      </NavLink>
-      <NavLink
-        active={isNavLinkActive(pathname, dictionaryNavPaths) ? `true` : undefined}
-        to={dataDictionaryUrlBase}
-      >
-        Data Dictionary
-      </NavLink>
-    </div>
-    <Account>
-      <LoginWithGoogle />
-      <LoggedInUserPill />
-    </Account>
-  </AdminNavWrapper>
-);
+const AdminNav = ({ location }) => {
+  const pathname = location?.pathname;
+  return (
+    <AdminNavWrapper as="nav">
+      <div>
+        <NavLink
+          active={isNavLinkActive(pathname, modelsNavPaths) ? `true` : undefined}
+          to={manageModelsUrlBase}
+        >
+          Model Management
+        </NavLink>
+        <NavLink
+          active={isNavLinkActive(pathname, usersNavPaths) ? `true` : undefined}
+          to={manageUsersUrlBase}
+        >
+          User Management
+        </NavLink>
+        <NavLink
+          active={isNavLinkActive(pathname, dictionaryNavPaths) ? `true` : undefined}
+          to={dataDictionaryUrlBase}
+        >
+          Data Dictionary
+        </NavLink>
+      </div>
+      <Account>
+        <LoginWithGoogle />
+        <LoggedInUserPill />
+      </Account>
+    </AdminNavWrapper>
+  );
+};
 
 export default AdminNav;

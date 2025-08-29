@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import React from 'react';
 import Component from 'react-component-component';
-import { useParams } from 'react-router';
+import { useParams, useLocation } from 'react-router';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { injectGlobal } from '@emotion/css';
 
@@ -29,14 +29,15 @@ const SearchRoute = () => (
   </>
 );
 
-// TODO: Get Param From Route ({ location }) => (
-// location={location}
-const AdminRoute = (
-  <>
-    <Header subheading="Searchable Catalog CMS" />
-    <Admin location={'Canada'} />
-  </>
-);
+const AdminRoute = () => {
+  const { location } = useLocation();
+  return (
+    <>
+      <Header subheading="Searchable Catalog CMS" />
+      <Admin location={location} />
+    </>
+  );
+};
 
 const ModelRoute = () => {
   const { modelName } = useParams();
@@ -66,7 +67,7 @@ const ProvidedRoutes = () => (
             <SkipNav />
             <Routes>
               <Route path="/" element={<SearchRoute />} />
-              <Route path="/admin" element={AdminRoute} />
+              <Route path="/admin/*" element={<AdminRoute />} />
               <Route path="/model/:modelName" element={<ModelRoute />} />
             </Routes>
             <Footer />

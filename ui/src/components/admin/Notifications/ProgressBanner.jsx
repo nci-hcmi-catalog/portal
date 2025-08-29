@@ -44,7 +44,7 @@ const BulkImportState = {
 const ProgressBanner = ({ renderIcon }) => {
   const { importProgress, location } = useContext(NotificationsContext);
   const { refreshModelsTable } =
-    location && location.pathname === '/admin'
+    location?.pathname === '/admin'
       ? useContext(ModelManagerContext)
       : { refreshModelsTable: null };
   const {
