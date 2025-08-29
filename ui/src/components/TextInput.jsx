@@ -2,8 +2,8 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import ArrangerInput from '@overture-stack/arranger-components/dist/Input';
-import CrossCircleOutlineIcon from '../icons/CrossCircleOutlineIcon';
-import FilterIcon from '../icons/FilterIcon';
+import CrossCircleOutlineIcon from '~/icons/CrossCircleOutlineIcon';
+import FilterIcon from '~/icons/FilterIcon';
 
 const TextInputWrapper = styled('div')`
   position: relative;

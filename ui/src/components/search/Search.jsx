@@ -16,12 +16,12 @@ import CountDisplay from '@overture-stack/arranger-components/dist/Table/CountDi
 import ColumnSelectButton from '@overture-stack/arranger-components/dist/Table/ColumnsSelectButton/index';
 import DownloadButton from '@overture-stack/arranger-components/dist/Table/DownloadButton/index';
 
-import ArrowIcon from '../../icons/ArrowIcon';
-import DownloadIcon from '../../icons/DownloadIcon';
-import { SelectedModelsContext } from '../../providers/SelectedModels';
-import cartDownload from '../../utils/cartDownload';
-import searchStyles, { MainCol } from '../../theme/searchStyles';
-import { Row, Col } from '../../theme/system';
+import ArrowIcon from '~/icons/ArrowIcon';
+import DownloadIcon from '~/icons/DownloadIcon';
+import { SelectedModelsContext } from '~/providers/SelectedModels';
+import cartDownload from '~/utils/cartDownload';
+import searchStyles, { MainCol } from '~/theme/searchStyles';
+import { Row, Col } from '~/theme/system';
 
 import LastUpdatedDate from '../LastUpdatedDate';
 import PrimarySiteChart from '../charts/PrimarySiteChart.jsx';

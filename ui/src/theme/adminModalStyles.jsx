@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
-import CrossIcon from '../icons/CrossIcon';
+import CrossIcon from '~/icons/CrossIcon';
 
 import base from './index';
 import { Row } from './system';

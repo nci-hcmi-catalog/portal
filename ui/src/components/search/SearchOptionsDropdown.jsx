@@ -2,8 +2,8 @@ import React from 'react';
 import { css } from '@emotion/react';
 import { isArray } from 'lodash';
 
-import theme from '../../theme/index';
-import ModelIcon from '../../icons/ModelIcon';
+import ModelIcon from '~/icons/ModelIcon';
+import theme from '~/theme/index';
 
 const dropdownBorderRadius = '6px';
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import Popup from 'reactjs-popup';
 
-import QuestionMarkIcon from '../../icons/QuestionMarkIcon';
+import QuestionMarkIcon from '~/icons/QuestionMarkIcon';
 
 const InfoTooltip = ({
   children,
