@@ -4,25 +4,25 @@ import { get } from 'lodash';
 import { Link } from 'react-router-dom';
 import Spinner from 'react-spinkit';
 
-import AtccLogo from '../assets/atcc-logo.png';
-import CameraIcon from '../icons/CameraIcon';
-import CheckmarkIcon from '../icons/CheckmarkIcon';
-import ExternalLinkIcon from '../icons/ExternalLinkIcon';
-import ModelIcon from '../icons/ModelIcon';
-import ShoppingCartIcon from '../icons/ShoppingCartIcon';
-import CrossIcon from '../icons/CrossIcon';
+import AtccLogo from '~/assets/atcc-logo.png';
+import CameraIcon from '~/icons/CameraIcon';
+import CheckmarkIcon from '~/icons/CheckmarkIcon';
+import ExternalLinkIcon from '~/icons/ExternalLinkIcon';
+import ModelIcon from '~/icons/ModelIcon';
+import ShoppingCartIcon from '~/icons/ShoppingCartIcon';
+import CrossIcon from '~/icons/CrossIcon';
 
-import { VariantsProvider } from '../providers/Variants';
+import { VariantsProvider } from '~/providers/Variants';
 
-import { ExternalLinkPill } from '../theme/adminControlsStyles';
-import { ModelSlider, ModelSlide, LeftArrow, RightArrow } from '../theme/carouselStyles';
-import styles from '../theme/modelStyles';
-import { Row, Col } from '../theme/system.jsx';
-import base from '../theme/index';
+import { ExternalLinkPill } from '~/theme/adminControlsStyles';
+import { ModelSlider, ModelSlide, LeftArrow, RightArrow } from '~/theme/carouselStyles';
+import base from '~/theme/index';
+import styles from '~/theme/modelStyles';
+import { Row, Col } from '~/theme/system';
 
-import modelImageProcessor from '../utils/modelImageProcessor';
-import apiDataProcessor from '../utils/apiDataProcessor';
-import { distributorLink } from '../utils/externalReferences';
+import modelImageProcessor from '~/utils/modelImageProcessor';
+import apiDataProcessor from '~/utils/apiDataProcessor';
+import { distributorLink } from '~/utils/externalReferences';
 
 import ModelQuery from './queries/ModelQuery';
 import ModelBar from './ModelBar';

@@ -4,16 +4,16 @@ import Spinner from 'react-spinkit';
 import ReactTable from 'react-table';
 import moment from 'moment-timezone';
 
-import { ModalStateContext } from '../../../providers/ModalState';
-import DownloadIcon from '../../../icons/DownloadIcon';
+import { ModalStateContext } from '~/providers/ModalState';
+import DownloadIcon from '~/icons/DownloadIcon';
 import {
   BulkUploadContentBlock,
   BulkUploadTemplateLink,
   UploadContentHeading,
   UploadOverwrite,
-} from '../../../theme/adminBulkUploadStyles';
-import { RadioSelect } from '../../../theme/formComponentsStyles';
-import { ButtonPill } from '../../../theme/adminControlsStyles';
+} from '~/theme/adminBulkUploadStyles';
+import { RadioSelect } from '~/theme/formComponentsStyles';
+import { ButtonPill } from '~/theme/adminControlsStyles';
 import {
   ModalWrapper,
   Header,
@@ -22,9 +22,9 @@ import {
   Content,
   Footer,
   SpinnerBlock,
-} from '../../../theme/adminModalStyles';
-import searchStyles from '../../../theme/searchStyles';
-import tsvDownloader, { convertColumnsToTableData } from '../../../utils/tsvDownloader';
+} from '~/theme/adminModalStyles';
+import searchStyles from '~/theme/searchStyles';
+import tsvDownloader, { convertColumnsToTableData } from '~/utils/tsvDownloader';
 
 import DoubleConfirmationFooter from '../../modals/DoubleConfirmationFooter';
 

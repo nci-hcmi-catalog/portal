@@ -6,11 +6,11 @@ import {
   brandPrimary,
   activeNavItemIconColor,
   disabledNavItemIconColor,
-} from '../../../theme/adminModelStyles';
-import { Tab, TabContents, TabLabel, TabHeading } from '../../../theme/verticalTabStyles';
-import PencilIcon from '../../../icons/PencilIcon';
-import CameraIcon from '../../../icons/CameraIcon';
-import VariantsIcon from '../../../icons/VariantsIcon';
+} from '~/theme/adminModelStyles';
+import { Tab, TabContents, TabLabel, TabHeading } from '~/theme/verticalTabStyles';
+import PencilIcon from '~/icons/PencilIcon';
+import CameraIcon from '~/icons/CameraIcon';
+import VariantsIcon from '~/icons/VariantsIcon';
 
 import TabGroup from '../../layout/VerticalTabs';
 

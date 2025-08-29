@@ -2,18 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 // TODO: import { Route } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-import { useGenomicVariantImportNotifications, usePublishNotifications } from './Notifications';
+import { AdminMain, AdminWrapper } from '~/theme/adminStyles.js';
+import useInterval from '~/utils/useInterval';
 
 import AdminNav from './AdminNav';
 import DataDictionary from './DataDictionary';
-import ModelsManager from './ModelsManager';
-import UsersManager from './UsersManager';
 import { ModelSingle } from './Model';
-
-import { AdminMain, AdminWrapper } from '../../theme/adminStyles';
+import ModelsManager from './ModelsManager';
+import { useGenomicVariantImportNotifications, usePublishNotifications } from './Notifications';
+import UsersManager from './UsersManager';
 
 import config from './config';
-import useInterval from '../../utils/useInterval';
 import { isEmpty } from 'lodash';
 
 const { googleAppId } = config;

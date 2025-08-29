@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { get } from 'lodash';
 
-import globals from '../../../utils/globals';
+import globals from '~/utils/globals';
 
 export const searchGenes = async (inputValue) => {
   try {

@@ -23,9 +23,9 @@ import {
   FormFieldError,
   inputSelectErrorIcon,
   checkboxRadioErrorIcon,
-} from '../theme/formComponentsStyles';
-import ErrorCircleIcon from '../icons/ErrorCircleIcon';
-import CrossCircleIcon from '../icons/CrossCircleIcon';
+} from '~/theme/formComponentsStyles';
+import ErrorCircleIcon from '~/icons/ErrorCircleIcon';
+import CrossCircleIcon from '~/icons/CrossCircleIcon';
 
 const hasErrors = (errors, touched, fieldName) => touched[fieldName] && errors[fieldName];
 

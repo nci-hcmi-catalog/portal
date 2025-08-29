@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Tab } from '../../../theme/horizontalTabStyles';
+import { Tab } from '~/theme/horizontalTabStyles';
 
 const HorizontalTab = ({ active, disabled, onClick, children, ...props }) => {
   const clickHandler = () => {

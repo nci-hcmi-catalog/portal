@@ -3,7 +3,7 @@ import ReactTable from 'react-table';
 import CustomPagination from './CustomPagination';
 import EnhancedReactTable from './EnhancedReactTable';
 
-import searchStyles from '../../../theme/searchStyles';
+import searchStyles from '~/theme/searchStyles';
 
 const defaultFilterFunc = (cellValue, filterValue) =>
   `${cellValue}`.toLowerCase().includes(filterValue.toLowerCase());

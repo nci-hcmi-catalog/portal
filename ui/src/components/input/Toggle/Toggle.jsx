@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { ToggleButton } from '../../../theme/searchStyles';
+import { ToggleButton } from '~/theme/searchStyles';
 
 const Toggle = ({ id, initialValue, onValueChange, ...props }) => {
   const [toggleValue, setToggleValue] = useState(initialValue);

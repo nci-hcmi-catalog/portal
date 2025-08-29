@@ -2,13 +2,14 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import querystring from 'query-string';
 
-import { Row } from '../theme/system';
-import { ButtonPill } from '../theme/adminControlsStyles';
-import ArrowLeftIcon from '../icons/ArrowLeftIcon';
-import CheckmarkIcon from '../icons/CheckmarkIcon';
-import PlusIcon from '../icons/PlusIcon';
-import { SavedSetsContext } from '../providers/SavedSets';
-import { SelectedModelsContext } from '../providers/SelectedModels';
+import ArrowLeftIcon from '~/icons/ArrowLeftIcon';
+import CheckmarkIcon from '~/icons/CheckmarkIcon';
+import PlusIcon from '~/icons/PlusIcon';
+import { SavedSetsContext } from '~/providers/SavedSets';
+import { SelectedModelsContext } from '~/providers/SelectedModels';
+import { Row } from '~/theme/system';
+import { ButtonPill } from '~/theme/adminControlsStyles';
+
 import ModelList from './ModelList';
 import Url from './Url';
 

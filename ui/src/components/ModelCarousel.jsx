@@ -3,11 +3,11 @@ import { css } from '@emotion/react';
 import { Link } from 'react-router-dom';
 import querystring from 'query-string';
 
-import base from '../theme/index';
-import { Row } from '../theme/system';
-import ArrowLeftIcon from '../icons/ArrowLeftIcon';
-import ArrowRightIcon from '../icons/ArrowRightIcon';
-import { SavedSetsContext } from '../providers/SavedSets';
+import ArrowLeftIcon from '~/icons/ArrowLeftIcon';
+import ArrowRightIcon from '~/icons/ArrowRightIcon';
+import { SavedSetsContext } from '~/providers/SavedSets';
+import base from '~/theme/index';
+import { Row } from '~/theme/system';
 
 const { stringify } = querystring;
 const {

@@ -6,11 +6,11 @@ import { useParams } from 'react-router';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { injectGlobal } from '@emotion/css';
 
-import globals from '../utils/globals';
-import RootProvider from '../providers/RootProvider';
+import globals from '~/utils/globals';
+import RootProvider from '~/providers/RootProvider';
 import { ModalStateContext } from '../providers/ModalState';
 import { ExpandedUnexpandedProvider } from '../providers/ExpandedUnexpanded';
-import base from '../theme/index';
+import base from '~/theme/index';
 
 import SkipNav from './SkipNav';
 import SearchWrapper from './search/SearchWrapper';

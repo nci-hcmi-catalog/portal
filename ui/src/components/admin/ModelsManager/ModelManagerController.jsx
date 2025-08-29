@@ -2,7 +2,7 @@ import React from 'react';
 import Component from 'react-component-component';
 import { debounce } from 'lodash';
 
-import { VARIANT_OVERWRITE_OPTIONS } from '../../../utils/constants';
+import { VARIANT_OVERWRITE_OPTIONS } from '~/utils/constants';
 import {
   uploadModelsFromSheet,
   extractResultText,

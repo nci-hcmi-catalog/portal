@@ -1,7 +1,7 @@
 import React from 'react';
 import Component from 'react-component-component';
 import { debounce } from 'lodash';
-import { Col } from '../../../theme/system';
+import { Col } from '~/theme/system';
 import { Toolbar, DataTable } from '../AdminTable';
 import { generateTableActions } from '../helpers';
 import { getPageData, getCountData } from '../helpers/fetchTableData';

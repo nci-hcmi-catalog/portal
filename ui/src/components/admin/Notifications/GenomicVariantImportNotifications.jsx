@@ -5,13 +5,13 @@ import {
   GDC_MODEL_STATES,
   GENOMIC_VARIANTS_IMPORT_ERRORS,
   VARIANT_IMPORT_TYPES,
-} from '../../../utils/constants';
-import { ButtonPill } from '../../../theme/adminControlsStyles';
+} from '~/utils/constants';
+import { ButtonPill } from '~/theme/adminControlsStyles';
 import {
   NotificationTableHeaderRow,
   NotificationTableHeaderCol,
-} from '../../../theme/adminNotificationStyles';
-import { Row } from '../../../theme/system';
+} from '~/theme/adminNotificationStyles';
+import { Row } from '~/theme/system';
 
 import withConfirmMafFileModal from '../../modals/ConfirmMafFileModal';
 import {

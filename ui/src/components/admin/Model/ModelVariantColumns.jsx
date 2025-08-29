@@ -1,8 +1,8 @@
 import React from 'react';
 import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/modelVariant';
 
-import TrashIcon from '../../../icons/TrashIcon';
-import { ActionPill, Actions } from '../../../theme/adminTableStyles';
+import TrashIcon from '~/icons/TrashIcon';
+import { ActionPill, Actions } from '~/theme/adminTableStyles';
 
 import withDeleteModal from '../DeleteModal';
 

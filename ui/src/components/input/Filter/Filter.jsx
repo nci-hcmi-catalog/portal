@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 
-import FilterIcon from '../../../icons/FilterIcon';
-import CrossIcon from '../../../icons/CrossIcon';
+import FilterIcon from '~/icons/FilterIcon';
+import CrossIcon from '~/icons/CrossIcon';
 
 import {
   inputWrapperStyle,
@@ -10,7 +10,7 @@ import {
   inputStyle,
   inputButtonStyle,
   inputDropdownButtonStyle,
-} from '../../../theme/searchStyles';
+} from '~/theme/searchStyles';
 
 const Filter = ({ onFilterValueChange }) => {
   const didMountRef = useRef(false);

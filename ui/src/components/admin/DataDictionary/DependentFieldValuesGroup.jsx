@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
 
-import PlusIcon from '../../../icons/PlusIcon';
-import ArrowIcon from '../../../icons/ArrowIcon';
+import PlusIcon from '~/icons/PlusIcon';
+import ArrowIcon from '~/icons/ArrowIcon';
 import {
   AddFieldForm,
   AddFieldInput,
   FieldValueList,
   DependentFieldType,
-} from '../../../theme/adminDictionaryStyles';
-import { ButtonPill } from '../../../theme/adminControlsStyles';
-import { Row } from '../../../theme/system';
+} from '~/theme/adminDictionaryStyles';
+import { ButtonPill } from '~/theme/adminControlsStyles';
+import { Row } from '~/theme/system';
 
 import { useDictionary } from './DictionaryController';
 import EditableFieldValue from './EditableFieldValue';

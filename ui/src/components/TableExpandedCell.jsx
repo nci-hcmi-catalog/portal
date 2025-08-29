@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import theme from '../theme/index';
+import theme from '~/theme/index';
 
 const TableExpandedCell = ({ value }) => {
   return (

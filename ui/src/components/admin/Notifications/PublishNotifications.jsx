@@ -1,11 +1,6 @@
 import React, { useContext } from 'react';
-import { PUBLISH_ERRORS, PUBLISH_TYPES } from '../../../utils/constants';
-import {
-  ErrorsCol,
-  ErrorLabel,
-  ErrorsRow,
-  ErrorText,
-} from '../../../theme/adminNotificationStyles';
+import { PUBLISH_ERRORS, PUBLISH_TYPES } from '~/utils/constants';
+import { ErrorsCol, ErrorLabel, ErrorsRow, ErrorText } from '~/theme/adminNotificationStyles';
 import { acknowledgePublishStatus, checkPublishStatus } from '../Model/actions/Publish';
 import { NotificationsContext } from './NotificationsController';
 import NOTIFICATION_TYPES from './NotificationTypes';

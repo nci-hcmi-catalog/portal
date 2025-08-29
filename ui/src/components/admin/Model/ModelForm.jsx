@@ -3,7 +3,7 @@ import Component from 'react-component-component';
 import { withFormik, Field } from 'formik';
 import { schemaObj } from '@hcmi-portal/cms/src/schemas/descriptions/model';
 
-import { FormContainer, FormHeader, FormSection, FormCol } from '../../../theme/adminFormStyles';
+import { FormContainer, FormHeader, FormSection, FormCol } from '~/theme/adminFormStyles';
 import {
   FormComponent,
   FormInput,

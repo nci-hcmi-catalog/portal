@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 
+import TabGroup from '~/components/layout/VerticalTabs';
+import Tab from '~/components/layout/VerticalTabs/Tab';
+
 import { useDictionary } from './DictionaryController';
 import { EDITABLE_FIELDS } from '../helpers/dictionary';
-
-import TabGroup from '../../layout/VerticalTabs';
-import Tab from '../../layout/VerticalTabs/Tab';
 
 const DictionarySidebar = ({ width }) => {
   const label = 'Editable Fields';

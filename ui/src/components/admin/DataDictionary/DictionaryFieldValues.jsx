@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 
-import { useDictionary } from './DictionaryController';
-import EditableFieldValue from './EditableFieldValue';
-
-import { CLINICAL_TUMOR_DIAGNOSIS } from '../helpers/dictionary';
-
 import {
   AddFieldForm,
   AddFieldInput,
   FieldValues,
   FieldValueList,
   DictionaryColumnHeading,
-} from '../../../theme/adminDictionaryStyles';
-import { ButtonPill } from '../../../theme/adminControlsStyles';
-import { Row } from '../../../theme/system';
-import PlusIcon from '../../../icons/PlusIcon';
+} from '~/theme/adminDictionaryStyles';
+import { ButtonPill } from '~/theme/adminControlsStyles';
+import { Row } from '~/theme/system';
+import PlusIcon from '~/icons/PlusIcon';
+
+import { CLINICAL_TUMOR_DIAGNOSIS } from '../helpers/dictionary';
+
+import { useDictionary } from './DictionaryController';
+import EditableFieldValue from './EditableFieldValue';
 
 const DictionaryFieldValues = () => {
   const {

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { modelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
 
-import { ButtonPill } from '../../../../theme/adminControlsStyles';
-import PublishIcon from '../../../../icons/PublishIcon';
+import { ButtonPill } from '~/theme/adminControlsStyles';
+import PublishIcon from '~/icons/PublishIcon';
 
 import { usePublishNotifications } from '../../Notifications';
 import Tooltip from '../../ToolTip';

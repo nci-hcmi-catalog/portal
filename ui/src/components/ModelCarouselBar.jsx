@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row } from '../theme/system';
+import { Row } from '~/theme/system';
 
 import Url from './Url';
 import ModelCarousel from './ModelCarousel';

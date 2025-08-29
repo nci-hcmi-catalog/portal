@@ -1,17 +1,12 @@
 import React from 'react';
 import Component from 'react-component-component';
 
-import PlusIcon from '../../../icons/PlusIcon';
-import {
-  AdminContainer,
-  AdminHeader,
-  AdminHeaderH1,
-  AdminHeaderBlock,
-} from '../../../theme/adminStyles';
-import { ButtonPill } from '../../../theme/adminControlsStyles';
-import { Table } from '../../../theme/adminTableStyles';
-import { AdminModalStyle } from '../../../theme/adminModalStyles';
-import { ModalStateContext } from '../../../providers/ModalState';
+import PlusIcon from '~/icons/PlusIcon';
+import { AdminContainer, AdminHeader, AdminHeaderH1, AdminHeaderBlock } from '~/theme/adminStyles';
+import { ButtonPill } from '~/theme/adminControlsStyles';
+import { Table } from '~/theme/adminTableStyles';
+import { AdminModalStyle } from '~/theme/adminModalStyles';
+import { ModalStateContext } from '~/providers/ModalState';
 import { NotificationsContext, NotificationToaster, NOTIFICATION_TYPES } from '../Notifications';
 import config from '../config';
 import { fetchData } from '../services/Fetcher';

@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { css } from '@emotion/react';
 
-import DependentFieldValuesGroup from './DependentFieldValuesGroup';
-import { useDictionary } from './DictionaryController';
-
-import { CLINICAL_TUMOR_DIAGNOSIS, DEPENDENT_FIELD_KEYS } from '../helpers/dictionary';
-
-import { ButtonPill } from '../../../theme/adminControlsStyles';
+import { ButtonPill } from '~/theme/adminControlsStyles';
 import {
   DependentColumnHeading,
   DependentValues,
   DependentValuesHeader,
-} from '../../../theme/adminDictionaryStyles';
+} from '~/theme/adminDictionaryStyles';
+
+import { CLINICAL_TUMOR_DIAGNOSIS, DEPENDENT_FIELD_KEYS } from '../helpers/dictionary';
+import DependentFieldValuesGroup from './DependentFieldValuesGroup';
+import { useDictionary } from './DictionaryController';
 
 const DictionaryDependentFieldValues = () => {
   const { activeField, activeValue, activeValueDependents } = useDictionary();

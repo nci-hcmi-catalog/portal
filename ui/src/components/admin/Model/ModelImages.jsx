@@ -4,21 +4,20 @@ import { Field, Formik } from 'formik';
 import Dropzone from 'react-dropzone';
 import Component from 'react-component-component';
 
-import { ButtonPill } from '../../../theme/adminControlsStyles';
-import base from '../../../theme';
-import { Row, Col } from '../../../theme/system';
-import { FormContainer } from '../../../theme/adminFormStyles';
+import { FormInput } from '~/components/FormComponents';
+import DragNDropIcon from '~/icons/DragNDrop';
+import PlusIcon from '~/icons/PlusIcon';
+import TrashIcon from '~/icons/TrashIcon';
+import EditIcon from '~/icons/EditIcon';
+import SaveIcon from '~/icons/SaveIcon';
+import base from '~/theme/index';
+import { ButtonPill } from '~/theme/adminControlsStyles';
+import { Row, Col } from '~/theme/system';
+import { FormContainer } from '~/theme/adminFormStyles';
 
-import { FormInput } from '../../FormComponents';
-
-import { ModelSingleContext } from './ModelSingleController';
 import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
+import { ModelSingleContext } from './ModelSingleController';
 
-import DragNDropIcon from '../../../icons/DragNDrop';
-import PlusIcon from '../../../icons/PlusIcon';
-import TrashIcon from '../../../icons/TrashIcon';
-import EditIcon from '../../../icons/EditIcon';
-import SaveIcon from '../../../icons/SaveIcon';
 import TabHeader from './TabHeader';
 const {
   keyedPalette: { athensGray, black, crimson, elm, frenchGrey, mischka },

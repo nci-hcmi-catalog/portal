@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
-import CheckmarkIcon from '../../../icons/CheckmarkIcon';
-import CrossCircleIcon from '../../../icons/CrossCircleIcon';
-import CrossIcon from '../../../icons/CrossIcon';
+import CheckmarkIcon from '~/icons/CheckmarkIcon';
+import CrossCircleIcon from '~/icons/CrossCircleIcon';
+import CrossIcon from '~/icons/CrossIcon';
 
-import { ButtonPill } from '../../../theme/adminControlsStyles';
+import { ButtonPill } from '~/theme/adminControlsStyles';
 import {
   Notification,
   Message,
@@ -17,10 +17,10 @@ import {
   ProgressBarSectionFailed,
   ProgressBarSectionIncomplete,
   ProgressBarLabel,
-} from '../../../theme/adminNotificationStyles';
-import { Row, Col } from '../../../theme/system';
-import base from '../../../theme/index';
-import { VARIANT_IMPORT_STATUS, VARIANT_IMPORT_TYPES } from '../../../utils/constants';
+} from '~/theme/adminNotificationStyles';
+import { Row, Col } from '~/theme/system';
+import base from '~/theme/index';
+import { VARIANT_IMPORT_STATUS, VARIANT_IMPORT_TYPES } from '~/utils/constants';
 
 import { acknowledgeBulkImportStatus, stopAllImports } from '../Model/actions/GenomicVariants';
 import useGenomicVariantImportNotifications from '../Notifications/GenomicVariantImportNotifications';

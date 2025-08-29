@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ModalStateContext } from '../../../providers/ModalState';
+import { ModalStateContext } from '~/providers/ModalState';
 import {
   AdminModalStyleNarrow,
   ModalWrapper,
@@ -9,8 +9,8 @@ import {
   CloseModal,
   Content,
   Footer,
-} from '../../../theme/adminModalStyles';
-import { ButtonPill } from '../../../theme/adminControlsStyles';
+} from '~/theme/adminModalStyles';
+import { ButtonPill } from '~/theme/adminControlsStyles';
 
 const doThenClose = (next, modalState) => () => {
   next();

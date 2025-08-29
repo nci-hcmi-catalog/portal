@@ -1,6 +1,6 @@
 import React from 'react';
-import { AdminFooter, AdminFooterBlock } from '../../../theme/adminStyles';
-import { LinkPill } from '../../../theme/adminControlsStyles';
+import { AdminFooter, AdminFooterBlock } from '~/theme/adminStyles';
+import { LinkPill } from '~/theme/adminControlsStyles';
 
 import { manageModelsUrlBase } from '../AdminNav';
 

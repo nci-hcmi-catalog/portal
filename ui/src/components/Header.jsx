@@ -1,14 +1,14 @@
 import React from 'react';
 import BannerContainer from './banner/BannerContainer';
 
-import { useExpandedUnexpanded } from '../providers/ExpandedUnexpanded';
+import { useExpandedUnexpanded } from '~/providers/ExpandedUnexpanded';
 
 import {
   HeaderWrapper,
   HeaderLinkWrapper,
   HeaderLink,
   subheadingStyle,
-} from '../theme/headerStyles';
+} from '~/theme/headerStyles';
 
 const Header = ({ subheading = 'Searchable Catalog' }) => {
   const { resetShowUnexpanded } = useExpandedUnexpanded();

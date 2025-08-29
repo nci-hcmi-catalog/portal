@@ -12,9 +12,9 @@ import {
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
 
-import ShareIcon from '../icons/ShareIcon';
-import styles from '../theme/shareButtonStyles';
-import { Row, Col } from '../theme/system';
+import ShareIcon from '~/icons/ShareIcon';
+import styles from '~/theme/shareButtonStyles';
+import { Row, Col } from '~/theme/system';
 
 let Bubble = (p) => <span className="share-button__bubble" {...p} />;
 

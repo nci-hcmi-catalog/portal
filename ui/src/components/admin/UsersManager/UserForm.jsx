@@ -3,17 +3,10 @@ import { withFormik, Field } from 'formik';
 import { schemaObj } from '@hcmi-portal/cms/src/schemas/descriptions/user';
 import { userStatus } from '@hcmi-portal/cms/src/helpers/userStatus';
 import validationSchema from '@hcmi-portal/cms/src/validation/user';
-import { ModalStateContext } from '../../../providers/ModalState';
-import {
-  ModalWrapper,
-  Header,
-  Title,
-  CloseModal,
-  Content,
-  Footer,
-} from '../../../theme/adminModalStyles';
-import { FormContainer, FormCol } from '../../../theme/adminFormStyles';
-import { ButtonPill, HoverPill } from '../../../theme/adminControlsStyles';
+import { ModalStateContext } from '~/providers/ModalState';
+import { ModalWrapper, Header, Title, CloseModal, Content, Footer } from '~/theme/adminModalStyles';
+import { FormContainer, FormCol } from '~/theme/adminFormStyles';
+import { ButtonPill, HoverPill } from '~/theme/adminControlsStyles';
 import { FormComponent, FormInput, FormRadioSelect } from '../../FormComponents';
 
 // All labels/keys from model schema

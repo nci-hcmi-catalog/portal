@@ -1,9 +1,9 @@
 import React, { useEffect, useContext, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 
-import UndoIcon from '../../../icons/UndoIcon';
-import EditIcon from '../../../icons/EditIcon';
-import SaveIcon from '../../../icons/SaveIcon';
+import UndoIcon from '~/icons/UndoIcon';
+import EditIcon from '~/icons/EditIcon';
+import SaveIcon from '~/icons/SaveIcon';
 import {
   FieldValueListItemContentsWrapper,
   EditFieldForm,
@@ -13,8 +13,8 @@ import {
   FieldValueListItemLabel,
   FieldValueListItemButton,
   FieldValueListItemContents,
-} from '../../../theme/adminDictionaryStyles';
-import { StatusIndicator } from '../../../theme/verticalTabStyles';
+} from '~/theme/adminDictionaryStyles';
+import { StatusIndicator } from '~/theme/verticalTabStyles';
 
 import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
 

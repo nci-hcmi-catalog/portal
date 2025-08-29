@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
-import CheckmarkIcon from '../../../icons/CheckmarkIcon';
-import CrossCircleIcon from '../../../icons/CrossCircleIcon';
-import CrossIcon from '../../../icons/CrossIcon';
-import { ButtonPill } from '../../../theme/adminControlsStyles';
+import CheckmarkIcon from '~/icons/CheckmarkIcon';
+import CrossCircleIcon from '~/icons/CrossCircleIcon';
+import CrossIcon from '~/icons/CrossIcon';
+import { ButtonPill } from '~/theme/adminControlsStyles';
 import {
   Notification,
   Message,
@@ -16,10 +16,10 @@ import {
   ProgressBarSectionFailed,
   ProgressBarSectionIncomplete,
   ProgressBarLabel,
-} from '../../../theme/adminNotificationStyles';
-import { Row, Col } from '../../../theme/system';
-import base from '../../../theme/index';
-import { PUBLISH_STATUS, PUBLISH_TYPES } from '../../../utils/constants';
+} from '~/theme/adminNotificationStyles';
+import { Row, Col } from '~/theme/system';
+import base from '~/theme/index';
+import { PUBLISH_STATUS, PUBLISH_TYPES } from '~/utils/constants';
 
 import useConfirmationModal from '../../modals/ConfirmationModal';
 

@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 // TODO: import MomentReact from 'react-moment';
 import moment from 'moment-timezone';
 
-import { FormHeader } from '../../../theme/adminFormStyles';
+import { FormHeader } from '~/theme/adminFormStyles';
 
 const TabHeader = ({ title, updatedAt }) => (
   <FormHeader>

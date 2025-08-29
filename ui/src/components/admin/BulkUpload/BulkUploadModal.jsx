@@ -1,20 +1,12 @@
 import React, { useEffect, useContext, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 
-import { ModalStateContext } from '../../../providers/ModalState';
-import { ButtonPill } from '../../../theme/adminControlsStyles';
-import {
-  ModalWrapper,
-  Header,
-  Title,
-  CloseModal,
-  Content,
-  Footer,
-} from '../../../theme/adminModalStyles';
-import { VARIANT_OVERWRITE_OPTIONS } from '../../../utils/constants';
+import { ModalStateContext } from '~/providers/ModalState';
+import { ButtonPill } from '~/theme/adminControlsStyles';
+import { ModalWrapper, Header, Title, CloseModal, Content, Footer } from '~/theme/adminModalStyles';
+import { VARIANT_OVERWRITE_OPTIONS } from '~/utils/constants';
 
 import { isTokenExpired } from '../helpers/googleAuth';
-
 import BulkUploadInput from './BulkUploadInput';
 
 const BulkUploadModal = ({ type, displayType, onUpload, backupURL, ...props }) => {

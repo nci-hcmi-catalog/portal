@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { AdminContainer } from '../../../theme/adminStyles';
-import { AdminModelContent, Loading } from '../../../theme/adminModelStyles';
-import { Row } from '../../../theme/system';
+import { AdminContainer } from '~/theme/adminStyles';
+import { AdminModelContent, Loading } from '~/theme/adminModelStyles';
+import { Row } from '~/theme/system';
 
 import config from '../config';
 import { NotificationToaster } from '../Notifications';
