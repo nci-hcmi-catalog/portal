@@ -172,7 +172,7 @@ const Search = ({
   useEffect(() => {
     if (firstRender) {
       setSQON(urlSqon);
-      // TODO: setFirstRender(false);
+      setFirstRender(false);
     } else {
       if (!isEqual(sqon, urlSqon)) {
         setUrlSQON(sqon);

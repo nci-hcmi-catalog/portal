@@ -1,10 +1,10 @@
 {
-  "name": "ui",
+  "name": "@hcmi-portal/ui",
   "private": true,
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "build": "react-router build",
+    "build": "vite build",
     "dev": "vite",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc"
