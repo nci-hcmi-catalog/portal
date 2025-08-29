@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import ReactTable from 'react-table';
 import CustomPagination from './CustomPagination';
-// import EnhancedReactTable from './EnhancedReactTable';
+import EnhancedReactTable from './EnhancedReactTable';
 
 import searchStyles from '../../../theme/searchStyles';
 
@@ -116,15 +116,15 @@ const DataTable = ({
   storageKey,
   ...props
 }) => {
-  // TODO: const TableComponent = simpleTableWithPagination ? ReactTable : EnhancedReactTable;
+  const TableComponent = simpleTableWithPagination ? ReactTable : EnhancedReactTable;
 
   return (
     <div css={searchStyles}>
-      {/* {disablePagination ? (
+      {disablePagination ? (
         <TableWithoutPagination {...{ TableComponent }} {...props} />
       ) : (
         <TableWithPagination {...{ TableComponent, onPageSizeChange, storageKey }} {...props} />
-      )} */}
+      )}
     </div>
   );
 };
