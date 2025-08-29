@@ -51,7 +51,7 @@ export default class CustomPagination extends ReactTablePagination {
     return (
       <div
         className={classnames(className, '-pagination')}
-        css={beagleCSS}
+        // TODO: css={beagleCSS}
         style={{
           display: 'flex',
           justifyContent: 'space-between',

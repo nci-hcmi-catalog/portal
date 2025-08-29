@@ -4,17 +4,6 @@ import { get } from 'lodash';
 import { Link } from 'react-router-dom';
 import Spinner from 'react-spinkit';
 
-import ModelQuery from './queries/ModelQuery';
-import ModelBar from './ModelBar';
-import ModelCarouselBar from './ModelCarouselBar';
-import VariantTables from './VariantTables';
-import {
-  ModelDetailsTooltip,
-  MultipleModelsTooltip,
-  MolecularCharacterizationsTooltip,
-  PatientDetailsTooltip,
-} from './tooltips';
-
 import AtccLogo from '../assets/atcc-logo.png';
 import CameraIcon from '../icons/CameraIcon';
 import CheckmarkIcon from '../icons/CheckmarkIcon';
@@ -34,6 +23,17 @@ import base from '../theme/index';
 import modelImageProcessor from '../utils/modelImageProcessor';
 import apiDataProcessor from '../utils/apiDataProcessor';
 import { distributorLink } from '../utils/externalReferences';
+
+import ModelQuery from './queries/ModelQuery';
+import ModelBar from './ModelBar';
+import ModelCarouselBar from './ModelCarouselBar';
+import VariantTables from './VariantTables';
+import {
+  ModelDetailsTooltip,
+  MultipleModelsTooltip,
+  MolecularCharacterizationsTooltip,
+  PatientDetailsTooltip,
+} from './tooltips';
 
 const {
   keyedPalette: { bombay, brandPrimary, pelorousapprox },
@@ -290,12 +290,9 @@ const Model = ({ modelName }) => (
     {({
       state: queryState,
       modelImages = modelImageProcessor(
-        queryState.model && queryState.model.files && queryState.model.files.hits
-          ? queryState.model.files.hits.edges
-          : [],
+        queryState.model?.files?.hits ? queryState.model.files.hits.edges : [],
       ),
     }) => {
-      console.log('queryState', queryState);
       return (
         <main id="main" css={styles}>
           <ModelBar
@@ -304,8 +301,20 @@ const Model = ({ modelName }) => (
             isExpanded={queryState.model ? queryState.model.expanded : null}
           />
           <ModelCarouselBar name={modelName} className="model-carousel-bar--top" />
-          {/* TODO: queryState */}
-          {queryState.model?.matched_models ? (
+          {queryState.loading ? (
+            <Row justifyContent="center">
+              <Spinner
+                fadeIn="full"
+                name="circle"
+                style={{
+                  margin: 64,
+                  width: 48,
+                  height: 48,
+                  color: brandPrimary,
+                }}
+              />
+            </Row>
+          ) : (
             <>
               <section key="model-details" className="model-section">
                 <Row className="row">
@@ -517,19 +526,6 @@ const Model = ({ modelName }) => (
                 </Col>
               </section>
             </>
-          ) : (
-            <Row justifyContent="center">
-              <Spinner
-                fadeIn="full"
-                name="circle"
-                style={{
-                  margin: 64,
-                  width: 48,
-                  height: 48,
-                  color: brandPrimary,
-                }}
-              />
-            </Row>
           )}
 
           <ModelCarouselBar name={modelName} className="model-carousel-bar--bottom" />

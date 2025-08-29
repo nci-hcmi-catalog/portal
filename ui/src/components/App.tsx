@@ -2,6 +2,7 @@
 import 'babel-polyfill';
 import React from 'react';
 import Component from 'react-component-component';
+import { useParams } from 'react-router';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { injectGlobal } from '@emotion/css';
 
@@ -21,7 +22,7 @@ import Modal from './modals/Modal';
 import WarningModal from './modals/WarningModal';
 import '../index.css';
 
-const SearchRoute = (
+const SearchRoute = () => (
   <>
     <Header subheading="Search Arranger Data" />
     <SearchWrapper index="model" />
@@ -37,14 +38,15 @@ const AdminRoute = (
   </>
 );
 
-// TODO: Get Param From Route ({ match }) => (
-// modelName={match.params.modelName}
-const ModelRoute = (
-  <>
-    <Header subheading="Model Data" />
-    <Model modelName={'HCM-BROD-0648-C71'} />
-  </>
-);
+const ModelRoute = () => {
+  const { modelName } = useParams();
+  return (
+    <>
+      <Header subheading="Model Data" />
+      <Model modelName={modelName} />
+    </>
+  );
+};
 
 const ProvidedRoutes = () => (
   <ModalStateContext.Consumer>
@@ -63,9 +65,9 @@ const ProvidedRoutes = () => (
           <>
             <SkipNav />
             <Routes>
-              <Route path="/" element={SearchRoute} />
+              <Route path="/" element={<SearchRoute />} />
               <Route path="/admin" element={AdminRoute} />
-              <Route path="/model/:modelName" element={ModelRoute} />
+              <Route path="/model/:modelName" element={<ModelRoute />} />
             </Routes>
             <Footer />
           </>

@@ -1,24 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export const ModalStateContext = React.createContext();
 
-class ModalStateProvider extends React.Component {
-  state = {
+const ModalStateProvider = ({ children }) => {
+  const [state, setState] = useState({
     component: null,
-  };
+  });
 
-  render() {
-    return (
-      <ModalStateContext.Provider
-        value={{
-          state: this.state,
-          setModalState: (newState) => {
-            this.setState({ ...this.state, ...newState });
-          },
-        }}
-        {...this.props}
-      />
-    );
-  }
-}
+  return (
+    <ModalStateContext.Provider
+      value={{
+        state: state,
+        setModalState: (newState) => {
+          setState({ ...state, ...newState });
+        },
+      }}
+    >
+      {children}
+    </ModalStateContext.Provider>
+  );
+};
 export default ModalStateProvider;
