@@ -86,7 +86,7 @@ injectGlobal`
   }
 `;
 
-const App = ({ loaderData, actionData, params, matches }: Route.ComponentProps) => (
+const App = () => (
   <ExpandedUnexpandedProvider>
     <RootProvider>
       <Router>
