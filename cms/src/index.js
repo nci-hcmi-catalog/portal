@@ -1,4 +1,4 @@
-// @ts-nocheck
+// @ts-check
 
 import 'babel-polyfill';
 import express from 'express';
@@ -38,7 +38,7 @@ import MatchedModels from './schemas/matchedModels';
 import User from './schemas/user';
 import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess';
 
-import getLogger from './logger.js';
+import getLogger from './logger';
 const logger = getLogger('root');
 
 const port = process.env.PORT || 8080;
@@ -69,7 +69,7 @@ app.use(helmet());
 //  to prevent support work later
 app.use(bodyParser.json({ limit: '20mb' }));
 
-// app.use(methodOverride());
+app.use(methodOverride());
 app.use(cors());
 
 // HealthRouter must be added before the declaration for isUserAuthorized filter

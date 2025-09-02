@@ -1,8 +1,6 @@
 const { defineConfig } = require('eslint/config');
 const { reactHooks } = require('eslint-plugin-react-hooks');
 
-// extends 'plugin:jsx-a11y/strict'
-// plugins 'jsx-a11y',
 module.exports = defineConfig([
   {
     extends: ['prettier', 'react-app'],
