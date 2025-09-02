@@ -150,7 +150,7 @@
     {
       "fieldName": "gender",
       "type": "keyword",
-      "displayName": "Gender",
+      "displayName": "Sex",
       "active": false,
       "isArray": false,
       "primaryKey": false,
