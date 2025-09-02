@@ -37,7 +37,7 @@ import MatchedModels from './schemas/matchedModels';
 import User from './schemas/user';
 import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess';
 
-import getLogger from './logger.js';
+import getLogger from './logger';
 const logger = getLogger('root');
 
 const port = process.env.PORT || 8080;

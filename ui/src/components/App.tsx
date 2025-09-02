@@ -43,7 +43,7 @@ const ProvidedRoutes = () => (
                 exact
                 render={() => (
                   <>
-                    <Header subheading="Search Arranger Data" />
+                    <Header />
                     <SearchWrapper index="model" />
                   </>
                 )}
@@ -61,7 +61,7 @@ const ProvidedRoutes = () => (
                 path="/model/:modelName"
                 render={({ match }) => (
                   <>
-                    <Header subheading="Model Data" />
+                    <Header />
                     <Model modelName={match?.params?.modelName} />
                   </>
                 )}

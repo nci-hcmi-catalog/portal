@@ -61,7 +61,7 @@ const AdminView = ({ location }) => {
         <AdminNav location={location} />
         <AdminMain id="main">
           <Route exact path="/admin" component={ModelsManager} />
-          <Route exact path="/admin/model/:name" component={ModelSingle} />
+          <Route exact path="/admin/model/:name?" component={ModelSingle} />
           <Route exact path="/admin/manage-users" component={UsersManager} />
           <Route exact path="/admin/data-dictionary" component={DataDictionary} />
         </AdminMain>
