@@ -1,24 +1,23 @@
 import React from 'react';
 import Component from 'react-component-component';
-import '../admin/AdminTable/beagle.css';
+import '~/beagle.css';
 
 import { SavedSetsContext } from '../../providers/SavedSets';
-import Url from '../Url';
+import WithUrlProps from '../WithUrlProps';
 import Search from './Search';
 
 const SearchWrapper = (props) => (
   <Component initialState={{ sorted: [], panelSize: 300 }}>
     {(state) => (
-      // <Url
-      //   render={(urlProps) => (
-      <SavedSetsContext.Consumer>
-        {(savedSetsContext) => (
-          // {...urlProps}
-          <Search {...props} {...state} savedSetsContext={savedSetsContext} />
+      <WithUrlProps
+        render={(urlProps) => (
+          <SavedSetsContext.Consumer>
+            {(savedSetsContext) => (
+              <Search {...urlProps} {...state} savedSetsContext={savedSetsContext} />
+            )}
+          </SavedSetsContext.Consumer>
         )}
-      </SavedSetsContext.Consumer>
-      //   )}
-      // />
+      />
     )}
   </Component>
 );

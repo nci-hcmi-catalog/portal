@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { useParams } from 'react-router';
-
 import { AdminContainer } from '~/theme/adminStyles';
 import { AdminModelContent, Loading } from '~/theme/adminModelStyles';
 import { Row } from '~/theme/system';
@@ -42,10 +40,9 @@ const renderTab = (tab, data, otherModelOptions, dictionary, validator) => {
   }
 };
 
-const ModelSingle = () => {
-  const { name } = useParams();
+const ModelSingle = ({ match }) => {
   return (
-    <ModelSingleProvider baseUrl={config.urls.cmsBase} modelName={name}>
+    <ModelSingleProvider baseUrl={config.urls.cmsBase} modelName={match?.params.name}>
       <ModelSingleContext.Consumer>
         {({
           state: {

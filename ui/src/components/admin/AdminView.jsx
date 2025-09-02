@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import { AdminMain, AdminWrapper } from '~/theme/adminStyles.js';
@@ -60,12 +60,10 @@ const AdminView = ({ location }) => {
       <GoogleOAuthProvider clientId={googleAppId}>
         <AdminNav location={location} />
         <AdminMain id="main">
-          <Routes>
-            <Route index element={<ModelsManager />} />
-            <Route path="model/:name" element={<ModelSingle />} />
-            <Route path="manage-users" element={<UsersManager />} />
-            <Route path="data-dictionary" element={<DataDictionary />} />
-          </Routes>
+          <Route exact path="/admin" component={ModelsManager} />
+          <Route exact path="/admin/model/:name" component={ModelSingle} />
+          <Route exact path="/admin/manage-users" component={UsersManager} />
+          <Route exact path="/admin/data-dictionary" component={DataDictionary} />
         </AdminMain>
       </GoogleOAuthProvider>
     </AdminWrapper>

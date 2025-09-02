@@ -1,11 +1,11 @@
 import React from 'react';
 import { Row } from '~/theme/system';
 
-import Url from './Url';
+import WithUrlProps from './WithUrlProps';
 import ModelCarousel from './ModelCarousel';
 
 const ModelCarouselBar = ({ name, className }) => (
-  <Url
+  <WithUrlProps
     render={({ urlSqon }) => {
       return urlSqon ? (
         <Row className={`model-carousel-bar ${className}`}>

@@ -1,14 +1,13 @@
 import querystring from 'query-string';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 const { parse, stringify } = querystring;
-// TODO: Rename
-const Url = (props) => {
+
+const WithUrlProps = (props) => {
   return (
-    <Link>
-      {/* {(routingProps) => {
-        console.log('routingProps', routingProps);
+    <Route>
+      {(routingProps) => {
         const { sqon: sqonString, ...searchParams } = parse(routingProps?.location?.search);
         const currentUrlSqon = sqonString ? JSON.parse(sqonString) : null;
         const setUrlSQON = (newSqon) => {
@@ -25,9 +24,9 @@ const Url = (props) => {
           urlSqon: currentUrlSqon,
           setUrlSQON,
         });
-      }} */}
-    </Link>
+      }}
+    </Route>
   );
 };
 
-export default Url;
+export default WithUrlProps;

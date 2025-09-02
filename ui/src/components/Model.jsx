@@ -124,7 +124,7 @@ const MultipleModelContent = (match) => {
 };
 
 const MultipleModelsList = ({ matches }) => {
-  if (matches.length > 0) {
+  if (matches?.length > 0) {
     return <div className="multiple-models">{matches.map(MultipleModelContent)}</div>;
   } else {
     return (
@@ -181,7 +181,7 @@ const MolecularCharacterizationsTable = ({ characterizations }) => {
             {TYPES.map((type) => (
               <td key={`${characterization} of ${type}`}>
                 <MolecularCharacterizationsCell
-                  isAvailable={characterizations.includes(`${characterization} of ${type}`)}
+                  isAvailable={characterizations?.includes(`${characterization} of ${type}`)}
                 />
               </td>
             ))}
@@ -339,11 +339,11 @@ const Model = ({ modelName }) => (
                     <div className="model-section__card">
                       <h3 className="model-section__card-title">
                         Multiple Models From This Patient (
-                        {queryState?.model?.matched_models?.hits?.edges.length || '0'})
+                        {queryState?.model?.matched_models?.hits?.edges?.length || '0'})
                       </h3>
                       <MultipleModelsTooltip />
                       <MultipleModelsList
-                        matches={queryState?.model?.matched_models.hits.edges.map(
+                        matches={queryState?.model?.matched_models?.hits?.edges?.map(
                           (match) => match.node,
                         )}
                       />
@@ -352,11 +352,14 @@ const Model = ({ modelName }) => (
                     <div className="model-section__card">
                       <h3 className="model-section__card-title">
                         Available Molecular Characterizations (
-                        {get(queryState.model, 'molecular_characterizations').length || '0'})
+                        {get(queryState.model, 'molecular_characterizations')?.length || '0'})
                       </h3>
                       <MolecularCharacterizationsTooltip />
                       <MolecularCharacterizationsTable
-                        characterizations={get(queryState.model, 'molecular_characterizations')}
+                        characterizations={get(
+                          queryState.model || {},
+                          'molecular_characterizations',
+                        )}
                       />
                     </div>
                   </Col>

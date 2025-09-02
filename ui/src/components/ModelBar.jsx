@@ -11,7 +11,7 @@ import { Row } from '~/theme/system';
 import { ButtonPill } from '~/theme/adminControlsStyles';
 
 import ModelList from './ModelList';
-import Url from './Url';
+import WithUrlProps from './WithUrlProps';
 
 const { stringify } = querystring;
 
@@ -47,7 +47,7 @@ const ModelBar = ({ name, id, isExpanded }) => {
   };
 
   return (
-    <Url
+    <WithUrlProps
       render={({ urlSqon }) => (
         <Row className="model-bar">
           <div className="model-bar__group">
