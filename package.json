@@ -69,6 +69,7 @@
     "graphiql": "1.7.2",
     "immer": "9.0.14",
     "isomorphic-fetch": "3.0.0",
+    "jsonpath-plus": "9.0.0",
     "meros": "1.0.0",
     "mpath": "0.8.4",
     "selfsigned": "1.10.13",

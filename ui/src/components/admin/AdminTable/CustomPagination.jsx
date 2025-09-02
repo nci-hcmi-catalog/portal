@@ -51,7 +51,6 @@ export default class CustomPagination extends ReactTablePagination {
     return (
       <div
         className={classnames(className, '-pagination')}
-        // TODO: css={beagleCSS}
         style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -63,6 +62,7 @@ export default class CustomPagination extends ReactTablePagination {
           <span className="select-wrap -pageSizeOptions">
             Show{' '}
             <select
+              name={'pageSize'}
               aria-label={`Number of visible ${this.props.rowsText || 'rows'}`}
               onChange={(e) => onPageSizeChange(Number(e.target.value))}
               value={pageSize}

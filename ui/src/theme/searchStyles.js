@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import facetarrow from '../assets/icon-facetarrow.svg';
-import downloadIcon from '../assets/icon-download.svg';
-import chevron from '../assets/icon-chevron-down.svg';
-import doubleChevron from '../assets/icon-chevron-double-down.svg';
+import facetarrow from '~/assets/icon-facetarrow.svg';
+import downloadIcon from '~/assets/icon-download.svg';
+import chevron from '~/assets/icon-chevron-down.svg';
+import doubleChevron from '~/assets/icon-chevron-double-down.svg';
 
 import base from './index';
 import { HEADER_HEIGHT } from './headerStyles';
@@ -347,7 +347,6 @@ export default css`
   .ReactTable .-pagination .-pageJump .-pagination_button.-previous,
   .ReactTable .-pagination .-pageJump .-pagination_button.-next,
   .ReactTable .-pagination .-pageJump .-pagination_button.-toEnd {
-    color: transparent;
     cursor: pointer;
     position: relative;
   }

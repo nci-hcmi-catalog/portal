@@ -1,6 +1,5 @@
 import React from 'react';
 import Component from 'react-component-component';
-import '~/beagle.css';
 
 import { SavedSetsContext } from '../../providers/SavedSets';
 import WithUrlProps from '../WithUrlProps';
