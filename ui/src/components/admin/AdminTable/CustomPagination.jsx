@@ -8,8 +8,10 @@ import './beagle.css';
 export default class CustomPagination extends ReactTablePagination {
   componentDidMount = () => {
     const { page, pageSize, setPage, setPageSize } = this.props;
-    setPage(page);
-    setPageSize(pageSize);
+    if (typeof setPage === 'function') {
+      setPage(page);
+      setPageSize(pageSize);
+    }
   };
 
   onPreviousPageClick = () => {
@@ -40,8 +42,6 @@ export default class CustomPagination extends ReactTablePagination {
       page,
       pages,
       showPageSizeOptions,
-      setPage,
-      setPageSize,
       pageSizeOptions,
       pageSize,
       showPageJump,

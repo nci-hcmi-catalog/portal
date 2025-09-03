@@ -141,7 +141,10 @@ const ModelFormTemplate = ({
             }
 
             // Sync form touched/dirty/error state on changes to errors (validation)
-            if (Object.keys(props.errors).length !== Object.keys(prevProps.errors).length) {
+            if (
+              props.errors &&
+              Object.keys(props.errors).length !== Object.keys(prevProps.errors).length
+            ) {
               syncFormState({
                 values,
                 touched,

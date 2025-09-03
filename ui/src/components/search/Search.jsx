@@ -234,71 +234,73 @@ const Search = ({
       >
         <Col className="aggregations-wrapper" role="complementary">
           <Component>
-            <ModelSearch sqon={sqon} setSQON={setSQON} />
-            <GeneSearch
-              sqon={sqon}
-              setSQON={setSQON}
-              tooltipWidth={tableState.panelSize - facetTooltipPadding}
-            />
-            <VariantSearch sqon={sqon} setSQON={setSQON} />
-            {/* <Aggregations
-              {...props}
-              // Bug related to Facets not reloading on navigation
-              isLoading={ignored}
-              componentProps={{
-                getTermAggProps: () => ({ maxTerms: 4 }),
-              }}
-              customFacets={[
-                {
-                  content: {
-                    fieldName: 'genomic_variants.classification',
-                    displayName: (
-                      <Row justifyContent="space-between">
-                        Research Somatic Variant Type
-                        <GenomicVariantsTooltip
-                          isFacet={true}
-                          width={tableState.panelSize - facetTooltipPadding}
-                        />
-                      </Row>
-                    ),
+            <>
+              <ModelSearch sqon={sqon} setSQON={setSQON} />
+              <GeneSearch
+                sqon={sqon}
+                setSQON={setSQON}
+                tooltipWidth={tableState.panelSize - facetTooltipPadding}
+              />
+              <VariantSearch sqon={sqon} setSQON={setSQON} />
+              {/* <Aggregations
+                {...props}
+                // Bug related to Facets not reloading on navigation
+                isLoading={ignored}
+                componentProps={{
+                  getTermAggProps: () => ({ maxTerms: 4 }),
+                }}
+                customFacets={[
+                  {
+                    content: {
+                      fieldName: 'genomic_variants.classification',
+                      displayName: (
+                        <Row justifyContent="space-between">
+                          Research Somatic Variant Type
+                          <GenomicVariantsTooltip
+                            isFacet={true}
+                            width={tableState.panelSize - facetTooltipPadding}
+                          />
+                        </Row>
+                      ),
+                    },
                   },
-                },
-                {
-                  content: {
-                    fieldName: 'type',
-                    displayName: 'Model Type',
+                  {
+                    content: {
+                      fieldName: 'type',
+                      displayName: 'Model Type',
+                    },
                   },
-                },
-                {
-                  content: {
-                    fieldName: 'has_matched_models',
-                    displayName: (
-                      <Row justifyContent="space-between">
-                        Has Multiple Models
-                        <MultipleModelsTooltip
-                          isFacet={true}
-                          width={tableState.panelSize - nonSearchableFacetTooltipPadding}
-                        />
-                      </Row>
-                    ),
+                  {
+                    content: {
+                      fieldName: 'has_matched_models',
+                      displayName: (
+                        <Row justifyContent="space-between">
+                          Has Multiple Models
+                          <MultipleModelsTooltip
+                            isFacet={true}
+                            width={tableState.panelSize - nonSearchableFacetTooltipPadding}
+                          />
+                        </Row>
+                      ),
+                    },
                   },
-                },
-                {
-                  content: {
-                    fieldName: 'molecular_characterizations',
-                    displayName: (
-                      <Row justifyContent="space-between">
-                        Available Molecular Characterizations
-                        <MolecularCharacterizationsTooltip
-                          isFacet={true}
-                          width={tableState.panelSize - facetTooltipPadding}
-                        />
-                      </Row>
-                    ),
+                  {
+                    content: {
+                      fieldName: 'molecular_characterizations',
+                      displayName: (
+                        <Row justifyContent="space-between">
+                          Available Molecular Characterizations
+                          <MolecularCharacterizationsTooltip
+                            isFacet={true}
+                            width={tableState.panelSize - facetTooltipPadding}
+                          />
+                        </Row>
+                      ),
+                    },
                   },
-                },
-              ]}
-            /> */}
+                ]}
+              /> */}
+            </>
           </Component>
         </Col>
         <MainCol
