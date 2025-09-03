@@ -217,18 +217,16 @@ const VariantTable = React.memo(({ type, modelName, columns, storageKey }) => {
           pageSize={pageSize}
           minRows={0}
           page={page}
-          PaginationComponent={(props) => {
-            setPageSize(props.pageSize);
-            setPage(props.page);
-            return (
-              <CustomPagination
-                {...props}
-                pageSize={pageSize}
-                onPageSizeChange={pageSizeChangeHandler}
-                maxPagesOptions={10}
-              />
-            );
-          }}
+          PaginationComponent={(props) => (
+            <CustomPagination
+              {...props}
+              maxPagesOptions={10}
+              onPageSizeChange={pageSizeChangeHandler}
+              pageSize={pageSize}
+              setPageSize={setPageSize}
+              setPage={setPage}
+            />
+          )}
           onPageChange={(newPage) => setPage(newPage)}
         />
         {sortedData.length === 0 && (

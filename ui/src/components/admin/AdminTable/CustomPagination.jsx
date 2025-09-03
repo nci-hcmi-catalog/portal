@@ -6,6 +6,12 @@ import './beagle.css';
 
 // Legacy @arranger Component
 export default class CustomPagination extends ReactTablePagination {
+  componentDidMount = () => {
+    const { page, pageSize, setPage, setPageSize } = this.props;
+    setPage(page);
+    setPageSize(pageSize);
+  };
+
   onPreviousPageClick = () => {
     const { canPrevious, page } = this.props;
     if (!canPrevious) return;
@@ -34,6 +40,8 @@ export default class CustomPagination extends ReactTablePagination {
       page,
       pages,
       showPageSizeOptions,
+      setPage,
+      setPageSize,
       pageSizeOptions,
       pageSize,
       showPageJump,
@@ -48,6 +56,7 @@ export default class CustomPagination extends ReactTablePagination {
       Math.max(Math.min(page - maxPagesOptions / 2, pages - maxPagesOptions), 0),
     );
     const lastPage = Math.floor(Math.min(firstPage + maxPagesOptions, pages));
+
     return (
       <div
         className={classnames(className, '-pagination')}
