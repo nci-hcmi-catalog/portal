@@ -213,53 +213,53 @@ const ImageGallery = ({ acceptedFiles, toDeleteFiles, onDelete, onMetaDataSave }
 
 let dropzoneRef;
 const ImageDropper = ({ onDrop, display }) => (
-  // TODO: <Dropzone
-  //   inputProps={{ 'aria-label': `Drop images here` }}
-  //   ref={(node) => {
-  //     dropzoneRef = node;
-  //   }}
-  //   css={css`
-  //     display: ${display ? 'block' : 'none'};
-  //     border: 2px dashed ${frenchGrey};
-  //     border-radius: 3px;
-  //     width: 100%;
-  //     height: 250px;
-  //     padding: 5px;
-  //   `}
-  //   accept="image/jpg, image/jpeg, image/tiff, image/png, image/svg"
-  //   onDrop={onDrop}
-  // >
-  <Col
+  <Dropzone
+    inputProps={{ 'aria-label': `Drop images here` }}
+    ref={(node) => {
+      dropzoneRef = node;
+    }}
     css={css`
-      background: ${athensGray};
-      height: 100%;
-      font-family: ${openSans};
-      font-weight: bold;
-      color: ${black};
-      font-size: 14px;
-      line-height: 1.71;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
+      display: ${display ? 'block' : 'none'};
+      border: 2px dashed ${frenchGrey};
+      border-radius: 3px;
+      width: 100%;
+      height: 250px;
+      padding: 5px;
     `}
+    accept="image/jpg, image/jpeg, image/tiff, image/png, image/svg"
+    onDrop={onDrop}
   >
-    <DragNDropIcon
-      height={'36px'}
+    <Col
       css={css`
-        margin-bottom: 8px;
-      `}
-    />
-    Drag and drop your image(s) here <br /> or
-    <ButtonPill
-      secondary
-      css={css`
-        margin-top: 8px;
+        background: ${athensGray};
+        height: 100%;
+        font-family: ${openSans};
+        font-weight: bold;
+        color: ${black};
+        font-size: 14px;
+        line-height: 1.71;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
       `}
     >
-      Browse Your Files
-    </ButtonPill>
-  </Col>
-  // TODO: </Dropzone>
+      <DragNDropIcon
+        height={'36px'}
+        css={css`
+          margin-bottom: 8px;
+        `}
+      />
+      Drag and drop your image(s) here <br /> or
+      <ButtonPill
+        secondary
+        css={css`
+          margin-top: 8px;
+        `}
+      >
+        Browse Your Files
+      </ButtonPill>
+    </Col>
+  </Dropzone>
 );
 
 const ModelImages = ({ data: { updatedAt } }) => {
