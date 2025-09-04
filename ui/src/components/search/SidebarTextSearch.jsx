@@ -3,8 +3,8 @@ import { css } from '@emotion/react';
 import Spinner from 'react-spinkit';
 import { FaSearch as SearchIcon } from 'react-icons/fa';
 
-import { Col } from '../../theme/system';
-import { addInSQON, removeSQON } from '../../utils/sqonHelpers';
+import { Col } from '~/theme/system';
+import { addInSQON, removeSQON } from '~/utils/sqonHelpers';
 import TextInput from '../TextInput';
 import SidebarSection from './SidebarSection';
 import SearchOptionsDropdown from './SearchOptionsDropdown';
