@@ -39,7 +39,7 @@
     "react-split-pane": "^0.1.92",
     "react-styled-carousel": "^0.5.1",
     "react-table": "^6",
-    "reactjs-popup": "^2.0.6",
+    "reactjs-popup": "^1.1.1",
     "styled-system": "^5.1.5"
   },
   "devDependencies": {
