@@ -14,7 +14,6 @@ const BulkUploadModal = ({ type, displayType, onUpload, backupURL, ...props }) =
   let modalState = useContext(ModalStateContext);
   let [sheetsURL, setSheetsURL] = useState('');
   let [uploadingGoogleSheet, setUploadingGoogleSheet] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   let [uploadResults, setUploadResults] = useState({});
   let [overwrite, setOverwrite] = useState(false);
   let [overwriteVariants, setOverwriteVariants] = useState(VARIANT_OVERWRITE_OPTIONS.cleanOnly);

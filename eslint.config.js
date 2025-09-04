@@ -1,27 +1,32 @@
-const babel = require('eslint-plugin-babel');
-const { defineConfig } = require('eslint/config');
-const jsxA11y = require('eslint-plugin-jsx-a11y');
-const prettier = require('eslint-plugin-prettier/recommended');
-const { reactHooks } = require('eslint-plugin-react-hooks');
+import babelPlugin from '@babel/eslint-plugin';
+import babelParser from '@babel/eslint-parser';
+import { defineConfig } from 'eslint/config';
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
+import js from '@eslint/js';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
+import reactHooks from 'eslint-plugin-react-hooks';
 
-module.exports = defineConfig([
+export default defineConfig([
+  eslintConfigPrettier,
+  jsxA11y.flatConfigs.recommended,
+  reactHooks.configs['recommended-latest'],
   {
-    extends: ['react-app'],
-    plugins: {
-      'jsx-a11y': jsxA11y.flatConfigs.strict,
-      '@babel': babel,
-      reactHooks: reactHooks.configs['recommended-latest'],
-    },
-    parser: '@babel/eslint-parser',
-    parserOptions: {
-      requireConfigFile: false,
-      babelOptions: {
-        presets: ['@babel/preset-react'],
+    files: ['**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs', '**/*.tsx'],
+    languageOptions: {
+      parser: babelParser,
+      parserOptions: {
+        babelOptions: {
+          configFile: './ui/.babelRc',
+          presets: ['@babel/preset-env', '@babel/preset-react'],
+        },
+        ecmaFeatures: {
+          jsx: true,
+        },
       },
     },
-    rules: {
-      'prettier/prettier': [1, { trailingComma: 'all', singleQuote: true }],
+    plugins: {
+      babel: babelPlugin,
+      js,
     },
   },
-  prettier,
 ]);

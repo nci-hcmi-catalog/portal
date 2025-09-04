@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import { css } from '@emotion/react';
 import { ResponsivePie } from '@nivo/pie';

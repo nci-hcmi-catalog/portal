@@ -50,7 +50,9 @@ const userManagerCustomColumns = ({ deleteUser, saveUser }) => [
           arrow={true}
         >
           <ToolbarText>
-            <Moment parse="YYYY-MM-DD HH:mm">{value}</Moment>
+            {/* <Moment parse="YYYY-MM-DD HH:mm"> */}
+            {value}
+            {/* </Moment> */}
           </ToolbarText>
         </Popup>
       );
