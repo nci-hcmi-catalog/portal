@@ -1,4 +1,4 @@
-//@ts-nocheck
+// @ts-nocheck
 import 'babel-polyfill';
 import React from 'react';
 import Component from 'react-component-component';

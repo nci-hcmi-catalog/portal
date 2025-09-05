@@ -242,7 +242,7 @@ const Search = ({
                 tooltipWidth={tableState.panelSize - facetTooltipPadding}
               />
               <VariantSearch sqon={sqon} setSQON={setSQON} />
-              {/* <Aggregations
+              <Aggregations
                 {...props}
                 // Bug related to Facets not reloading on navigation
                 isLoading={ignored}
@@ -299,7 +299,7 @@ const Search = ({
                     },
                   },
                 ]}
-              /> */}
+              />
             </>
           </Component>
         </Col>
