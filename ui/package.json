@@ -5,9 +5,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "vite build",
-    "dev": "vite",
-    "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "start": "vite"
   },
   "dependencies": {
     "@emotion/css": "^11.13.5",

@@ -5,6 +5,9 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
+    build: {
+      outDir: 'build',
+    },
     define: {
       'process.env': env,
     },
