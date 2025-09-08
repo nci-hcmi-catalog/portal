@@ -1,4 +1,3 @@
-import React from 'react';
 import BannerContainer from './banner/BannerContainer';
 
 import { useExpandedUnexpanded } from '~/providers/ExpandedUnexpanded';

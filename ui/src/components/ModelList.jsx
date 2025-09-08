@@ -1,5 +1,3 @@
-import React from 'react';
-
 import ListIcon from '~/icons/ListIcon';
 import { SelectedModelsContext } from '~/providers/SelectedModels';
 import { ModalStateContext } from '~/providers/ModalState';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { css } from '@emotion/react';
 import Component from 'react-component-component';
 import Spinner from 'react-spinkit';

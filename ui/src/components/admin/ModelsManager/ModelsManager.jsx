@@ -1,5 +1,3 @@
-import React from 'react';
-
 import DNAIcon from '~/icons/DNAIcon';
 import PlusIcon from '~/icons/PlusIcon';
 import { ModalStateContext } from '~/providers/ModalState';

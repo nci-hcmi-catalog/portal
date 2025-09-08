@@ -1,5 +1,3 @@
-import React from 'react';
-
 import AdminView from './AdminView';
 
 import { VariantsProvider } from '../../providers/Variants';

@@ -1,4 +1,3 @@
-import React from 'react';
 import InfoTooltip from './InfoTooltip';
 
 import { TooltipLink } from '../../theme/modelStyles';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { withFormik, Field } from 'formik';
 import { schemaObj } from '@hcmi-portal/cms/src/schemas/descriptions/user';
 import { userStatus } from '@hcmi-portal/cms/src/helpers/userStatus';

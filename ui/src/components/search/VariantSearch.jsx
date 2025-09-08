@@ -1,5 +1,3 @@
-import React from 'react';
-
 import GeneIcon from '~/icons/DNACircleIcon';
 import SidebarTextSearch from './SidebarTextSearch';
 import { searchVariants } from './services/searchService';

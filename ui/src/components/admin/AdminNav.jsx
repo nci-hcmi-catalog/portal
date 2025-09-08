@@ -1,4 +1,3 @@
-import React from 'react';
 import { AdminNav as AdminNavWrapper, NavLink, Account } from '~/theme/adminNavStyles';
 import { LoginWithGoogle } from './services/GoogleLink';
 import { LoggedInUserPill } from './services/LoggedInUser';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { get } from 'lodash';
 
 import Component from 'react-component-component';

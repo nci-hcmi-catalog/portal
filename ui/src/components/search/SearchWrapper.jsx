@@ -1,4 +1,3 @@
-import React from 'react';
 import Component from 'react-component-component';
 
 import { SavedSetsContext } from '../../providers/SavedSets';

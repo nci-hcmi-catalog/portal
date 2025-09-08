@@ -1,4 +1,3 @@
-import React from 'react';
 import { css } from '@emotion/react';
 import { v4 as uuid } from 'uuid';
 

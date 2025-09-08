@@ -1,4 +1,3 @@
-import React from 'react';
 import { css } from '@emotion/react';
 // TODO: import MomentReact from 'react-moment';
 import moment from 'moment-timezone';

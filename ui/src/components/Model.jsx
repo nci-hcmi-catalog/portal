@@ -1,4 +1,3 @@
-import React from 'react';
 import { css } from '@emotion/react';
 import { get } from 'lodash';
 import { Link } from 'react-router-dom';

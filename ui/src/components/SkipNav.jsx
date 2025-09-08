@@ -1,4 +1,3 @@
-import React from 'react';
 import { SkipNavWrapper, SkipNavLink } from '~/theme/skipNavStyles';
 
 const SkipNav = () => {

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Divider, VerticalTabGroup } from '~/theme/verticalTabStyles';
 
 const TabGroup = ({ children, groupName, width }) => {

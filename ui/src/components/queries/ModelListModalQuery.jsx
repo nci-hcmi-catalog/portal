@@ -1,5 +1,4 @@
 import { get } from 'lodash';
-import React from 'react';
 import Component from 'react-component-component';
 import { useArrangerData } from '@overture-stack/arranger-components/';
 

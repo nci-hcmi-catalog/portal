@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import { range } from 'lodash';
-import React from 'react';
+
 import ReactTablePagination from 'react-table-old/lib/pagination.js';
 import './beagle.css';
 
@@ -77,7 +77,6 @@ export default class CustomPagination extends ReactTablePagination {
               value={pageSize}
             >
               {pageSizeOptions.map((option, i) => (
-                // eslint-disable-next-line react/no-array-index-key
                 <option key={i} value={option}>
                   {option}
                 </option>

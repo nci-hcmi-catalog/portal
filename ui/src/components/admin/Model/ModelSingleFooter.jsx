@@ -1,4 +1,3 @@
-import React from 'react';
 import { AdminFooter, AdminFooterBlock } from '~/theme/adminStyles';
 import { LinkPill } from '~/theme/adminControlsStyles';
 

@@ -1,6 +1,5 @@
 // Legacy @arranger Component
 
-import React from 'react';
 import { compose } from 'recompose';
 
 import ReactTable from 'react-table';

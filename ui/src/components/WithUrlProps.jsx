@@ -1,5 +1,5 @@
 import querystring from 'query-string';
-import React from 'react';
+
 import { Route } from 'react-router-dom';
 
 const { parse, stringify } = querystring;

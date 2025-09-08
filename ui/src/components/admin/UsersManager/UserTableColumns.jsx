@@ -1,4 +1,3 @@
-import React from 'react';
 //TODO: import Moment from 'react-moment';
 import Popup from 'reactjs-popup';
 import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/user';

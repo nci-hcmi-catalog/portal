@@ -1,4 +1,3 @@
-import React from 'react';
 import Component from 'react-component-component';
 import { List, Toggle } from '~/theme/searchStyles';
 

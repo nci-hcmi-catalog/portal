@@ -1,4 +1,3 @@
-import React from 'react';
 import { css } from '@emotion/react';
 import querystring from 'query-string';
 import { useTableContext } from '@overture-stack/arranger-components';

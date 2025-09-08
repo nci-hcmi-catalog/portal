@@ -1,5 +1,4 @@
 import axios from 'axios';
-import React from 'react';
 import urlJoin from 'url-join';
 import { ArrangerDataProvider, TableContextProvider } from '@overture-stack/arranger-components';
 

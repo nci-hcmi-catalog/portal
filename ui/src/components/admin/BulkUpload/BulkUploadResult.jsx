@@ -1,4 +1,3 @@
-import React from 'react';
 import { css } from '@emotion/react';
 import { Row, Col } from '~/theme/system';
 import { BulkUploadSubTitle } from '~/theme/adminBulkUploadStyles';

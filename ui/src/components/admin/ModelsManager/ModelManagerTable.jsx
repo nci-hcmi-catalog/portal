@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Col } from '~/theme/system';
 import { Toolbar, DataTable } from '../AdminTable';
 import { ModelManagerContext } from './ModelManagerController';

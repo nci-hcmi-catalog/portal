@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { AdminContainer } from '~/theme/adminStyles';
 import { AdminModelContent, Loading } from '~/theme/adminModelStyles';
 import { Row } from '~/theme/system';

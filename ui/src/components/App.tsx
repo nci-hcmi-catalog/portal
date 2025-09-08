@@ -1,6 +1,5 @@
 // @ts-nocheck
 import 'babel-polyfill';
-import React from 'react';
 import Component from 'react-component-component';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 

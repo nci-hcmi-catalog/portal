@@ -1,4 +1,3 @@
-import React from 'react';
 import { Row } from '~/theme/system';
 import facetarrow from '~/assets/icon-facetarrow.svg';
 
