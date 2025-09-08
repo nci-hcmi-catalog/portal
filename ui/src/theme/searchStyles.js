@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import facetarrow from '~/assets/icon-facetarrow.svg';
 import downloadIcon from '~/assets/icon-download.svg';
 import chevron from '~/assets/icon-chevron-down.svg';
 import doubleChevron from '~/assets/icon-chevron-double-down.svg';
@@ -555,14 +554,6 @@ export default css`
     height: 8px;
     margin-right: 5px;
     color: ${brandPrimary};
-  }
-
-  .aggregations-wrapper .arrow::after {
-    content: '';
-    display: block;
-    background: url(${facetarrow}) no-repeat;
-    width: 8px;
-    height: 8px;
   }
 
   .aggregations .aggregation-card .header,
