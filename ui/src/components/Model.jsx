@@ -160,7 +160,7 @@ const MolecularCharacterizationsCell = ({ isAvailable }) => {
 };
 
 const MolecularCharacterizationsTable = ({ characterizations }) => {
-  const CHARS = process.env.REACT_APP_ENABLE_PROTEOMICS
+  const CHARS = import.meta.env.REACT_APP_ENABLE_PROTEOMICS
     ? ['WGS', 'WXS', 'RNA-seq', 'DNA Methylation', 'Proteomics']
     : ['WGS', 'WXS', 'RNA-seq', 'DNA Methylation'];
   const TYPES = ['model', 'parent tumor', 'normal'];
@@ -223,7 +223,7 @@ const ExternalResourcesContent = ({
     modelSourceLink ||
     sequencingFilesLink ||
     somaticMafLink ||
-    (process.env.REACT_APP_ENABLE_PROTEOMICS && proteomicsLink);
+    (import.meta.env.REACT_APP_ENABLE_PROTEOMICS && proteomicsLink);
 
   return (
     <div className="external-resources">
@@ -263,7 +263,7 @@ const ExternalResourcesContent = ({
             <ExternalLinkIcon />
             Case Metadata
           </ExternalResourceLink>
-          {process.env.REACT_APP_ENABLE_PROTEOMICS && (
+          {import.meta.env.REACT_APP_ENABLE_PROTEOMICS && (
             <ExternalResourceLink url={proteomicsLink}>
               <ExternalLinkIcon />
               Proteomics Data
