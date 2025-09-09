@@ -20,5 +20,10 @@ export default defineConfig(() => {
       }),
       tsconfigPaths(),
     ],
+    resolve: {
+      // Default legacy value "jsnext:main" is removed to support moment.js
+      // See: https://github.com/vitejs/vite/issues/7376#issuecomment-2404599743
+      mainFields: ['browser', 'module', 'jsnext'],
+    },
   };
 });

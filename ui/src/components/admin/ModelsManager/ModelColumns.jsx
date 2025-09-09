@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import Popup from 'reactjs-popup';
-// TODO: import MomentReact from 'react-moment';
+import MomentReact from 'react-moment';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/model';
@@ -120,7 +120,11 @@ const modelManagerCustomColumns = [
       const value = row.value;
       return (
         <Popup
-          trigger={() => <div>{/* TODO: <MomentReact fromNow>{value}</MomentReact> */}</div>}
+          trigger={() => (
+            <div>
+              <MomentReact fromNow>{value}</MomentReact>
+            </div>
+          )}
           position="top center"
           offset={0}
           on="hover"
@@ -134,9 +138,9 @@ const modelManagerCustomColumns = [
           arrow={true}
         >
           <ToolbarText>
-            {/* TODO: <MomentReact parse="YYYY-MM-DD HH:mm" tz={moment.tz.guess()}> */}
-            {value}
-            {/* </MomentReact> */}
+            <MomentReact parse="YYYY-MM-DD HH:mm" tz={moment.tz.guess()}>
+              {value}
+            </MomentReact>
           </ToolbarText>
         </Popup>
       );

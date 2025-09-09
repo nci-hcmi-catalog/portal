@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-// TODO: import MomentReact from 'react-moment';
+import MomentReact from 'react-moment';
 import moment from 'moment-timezone';
 
 import { FormHeader } from '~/theme/adminFormStyles';
@@ -21,9 +21,9 @@ const TabHeader = ({ title, updatedAt }) => (
         `}
       >
         <span>{`Updated `}</span>
-        {/* TODO: <MomentReact parse="YYYY-MM-DD HH:mm" format="YYYY-MM-DD hh:mm a" tz={moment.tz.guess()}> */}
-        {updatedAt}
-        {/* </MomentReact> */}
+        <MomentReact parse="YYYY-MM-DD HH:mm" format="YYYY-MM-DD hh:mm a" tz={moment.tz.guess()}>
+          {updatedAt}
+        </MomentReact>
       </div>
     ) : (
       ''
