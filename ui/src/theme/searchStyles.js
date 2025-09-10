@@ -324,6 +324,8 @@ export default css`
 
   .ReactTable .-pagination_button {
     font-size: 11px;
+    border: none;
+    border-right: solid 1px #cacbcf;
     ${whiteButtonHover};
   }
 
