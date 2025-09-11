@@ -43,10 +43,9 @@ const BulkPublishState = {
 
 const PublishProgress = ({ renderIcon }) => {
   const { publishProgress, location } = useContext(NotificationsContext);
+  const modelsContext = useContext(ModelManagerContext);
   const { refreshModelsTable } =
-    location?.pathname === '/admin'
-      ? useContext(ModelManagerContext)
-      : { refreshModelsTable: null };
+    location?.pathname === '/admin' ? modelsContext : { refreshModelsTable: null };
   const { fetchPublishStatus, showUnexpectedPublishError, hideErrorPublishNotification } =
     usePublishNotifications();
   const [working, setWorking] = useState(false);
