@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useRef, useState } from 'react';
+import { useEffect, useContext, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import Spinner from 'react-spinkit';
 import ReactTable from 'react-table';

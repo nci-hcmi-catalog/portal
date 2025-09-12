@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import Popup from 'reactjs-popup';
 import axios from 'axios';
 import { css } from '@emotion/react';

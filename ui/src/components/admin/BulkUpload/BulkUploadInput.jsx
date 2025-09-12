@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { css } from '@emotion/react';
 import Spinner from 'react-spinkit';
 import Popup from 'reactjs-popup';

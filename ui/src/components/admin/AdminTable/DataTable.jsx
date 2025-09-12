@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import ReactTable from 'react-table';
 import CustomPagination from './CustomPagination';
 import EnhancedReactTable from './EnhancedReactTable';

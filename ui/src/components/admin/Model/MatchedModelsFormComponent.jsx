@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Field } from 'formik';
 import { css } from '@emotion/react';
 
