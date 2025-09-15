@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Route } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-import { AdminMain, AdminWrapper } from '~/theme/adminStyles.js';
+import { AdminMain, AdminWrapper } from '~/theme/adminStyles';
 import useInterval from '~/utils/useInterval';
 
 import AdminNav from './AdminNav';
