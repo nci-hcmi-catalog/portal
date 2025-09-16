@@ -1,5 +1,5 @@
 {
-  "include": ["**/*", "**/.server/**/*", "**/.client/**/*", ".react-router/types/**/*"],
+  "include": ["**/*", "**/.server/**/*", "**/.client/**/*"],
   "compilerOptions": {
     "allowJs": true,
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
