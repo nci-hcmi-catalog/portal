@@ -1,13 +1,13 @@
-import Model from '../schemas/model';
-import { modelStatus } from '../helpers/modelStatus';
-import VariantImporter from '../services/gdc-importer/VariantImporter';
+import Model from '../schemas/model.js';
+import { modelStatus } from '../helpers/modelStatus.js';
+import VariantImporter from '../services/gdc-importer/VariantImporter.js';
 import {
   GDC_MODEL_STATES,
   IMPORT_ERRORS,
   BASE_GDC_URL,
-} from '../services/gdc-importer/gdcConstants';
+} from '../services/gdc-importer/gdcConstants.js';
 
-import getLogger from '../logger';
+import getLogger from '../logger.js';
 const logger = getLogger('helpers/genomicVariants');
 
 export const clearGenomicVariants = async name => {

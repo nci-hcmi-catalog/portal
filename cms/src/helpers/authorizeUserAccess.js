@@ -1,7 +1,7 @@
-import User from '../schemas/user';
-import { userStatus } from './userStatus';
+import User from '../schemas/user.js';
+import { userStatus } from './userStatus.js';
 
-import getLogger from '../logger';
+import getLogger from '../logger.js';
 const logger = getLogger('helpers/authorizeUserAccess');
 
 export const USER_EMAIL = 'user_email';

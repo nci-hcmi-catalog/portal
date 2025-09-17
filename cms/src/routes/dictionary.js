@@ -1,10 +1,10 @@
 import express from 'express';
 
-import * as DictionaryHelper from '../helpers/dictionary';
+import * as DictionaryHelper from '../helpers/dictionary.js';
 
-import { draftStatus } from '../schemas/dictionaryDraft';
+import { draftStatus } from '../schemas/dictionaryDraft.js';
 
-import getLogger from '../logger';
+import getLogger from '../logger.js';
 const logger = getLogger('routes/dictionary');
 
 const dictionaryRouter = express.Router();

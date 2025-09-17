@@ -1,9 +1,9 @@
 import express from 'express';
 import _ from 'lodash';
 
-import client from '../services/elastic-search/common/client';
-import Model from '../schemas/model';
-import { testS3Connection } from '../services/s3';
+import client from '../services/elastic-search/common/client.js';
+import Model from '../schemas/model.js';
+import { testS3Connection } from '../services/s3/index.js';
 
 const startTime = Date.now();
 

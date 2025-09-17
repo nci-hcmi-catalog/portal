@@ -1,4 +1,4 @@
-import { PUBLISH_ERRORS } from './constants';
+import { PUBLISH_ERRORS } from './constants.js';
 
 export const getPublishErrorMessage = (publishError, modelName) => {
   switch (publishError) {

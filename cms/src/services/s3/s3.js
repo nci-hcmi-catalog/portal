@@ -1,7 +1,7 @@
 // Use of require instead of import is used here because this file is used by the migrateImages script.
 //  Scripts executed directly and not run through babel have issues with import statements.
 
-import getLogger from '../../logger';
+import getLogger from '../../logger.js';
 const logger = getLogger('services/s3');
 
 const aws = require('aws-sdk');
