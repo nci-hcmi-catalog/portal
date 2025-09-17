@@ -25,5 +25,8 @@ export default defineConfig(() => {
       // See: https://github.com/vitejs/vite/issues/7376#issuecomment-2404599743
       mainFields: ['browser', 'module', 'jsnext'],
     },
+    server: {
+      port: 3000,
+    },
   };
 });
