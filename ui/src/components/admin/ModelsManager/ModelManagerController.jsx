@@ -76,16 +76,16 @@ const bulkActionCreator =
 
           await appendNotification({
             type:
-              action === 'publish' && errors.length > 0
+              action === 'publish' && errors?.length > 0
                 ? NOTIFICATION_TYPES.WARNING
                 : NOTIFICATION_TYPES.SUCCESS,
             message: `Bulk ${action} complete.`,
             details:
               success +
-              (action === 'publish' && errors.length > 0
-                ? `. ${errors.length} error${errors.length > 1 ? 's' : ''} detected.`
+              (action === 'publish' && errors?.length > 0
+                ? `. ${errors?.length} error${errors?.length > 1 ? 's' : ''} detected.`
                 : ''),
-            bulkErrors: action === 'publish' && errors.length > 0 && errors,
+            bulkErrors: action === 'publish' && errors?.length > 0 && errors,
             timeout: action === 'publish' && errors.length > 0 ? false : 10000, // do not auto-remove this notification when bulk publishing
           });
         }),
@@ -210,7 +210,7 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                             : `Bulk Upload of models has successfully completed. New models or updated fields are saved but not yet published.`;
                           await appendNotification({
                             type:
-                              result.errors.length > 0
+                              result.errors?.length > 0
                                 ? NOTIFICATION_TYPES.WARNING
                                 : NOTIFICATION_TYPES.SUCCESS,
                             message: notificationMessage,
