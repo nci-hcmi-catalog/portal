@@ -546,12 +546,12 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
                       await appendNotification({
                         type:
-                          result.errors?.length > 0
+                          result?.errors?.length > 0
                             ? NOTIFICATION_TYPES.WARNING
                             : NOTIFICATION_TYPES.SUCCESS,
                         message: notificationMessage,
                         details: anyUpdatesDone ? '' : extractResultText(result, 'variant'),
-                        bulkErrors: result.errors,
+                        bulkErrors: result?.errors,
                         timeout: false, // do not auto-remove this notification
                       });
                     }),
