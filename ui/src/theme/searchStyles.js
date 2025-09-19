@@ -289,39 +289,13 @@ export default css`
     border-radius: 4px;
     border-color: ${bombay};
     font-family: ${openSans};
-    appearance: none;
     width: 60px;
     box-sizing: border-box;
-    background-color: ${white};
-    background-image: url(${chevronPath});
-    /* linear-gradient(
-        90deg,
-        transparent 0%,
-        transparent calc(100% - 25px),
-        ${bombay} calc(100% - 25px),
-        ${bombay} calc(100% - 24px),
-        transparent calc(100% - 24px),
-        transparent 100%
-      ); */
-    background-repeat: no-repeat;
-    background-size: 10px, contain;
-    background-position: bottom 8px right 8px, 0 0;
     cursor: pointer;
     transition: background-color 0.25s ease;
 
     &:hover {
       background-color: ${lightPorcelain};
-      background-image: url(${chevronPath});
-      /* background-image: url(${chevron}),
-        linear-gradient(
-          90deg,
-          transparent 0%,
-          transparent calc(100% - 25px),
-          ${bombay} calc(100% - 25px),
-          ${bombay} calc(100% - 24px),
-          transparent calc(100% - 24px),
-          transparent 100%
-        ); */
     }
   }
 
