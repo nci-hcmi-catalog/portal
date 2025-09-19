@@ -9,8 +9,6 @@ import { HEADER_HEIGHT } from './headerStyles';
 import { Col } from './system';
 import { brandPrimaryHighlightHover, whiteButtonHover } from './hoverStyles';
 
-const chevronPath = '~/assets/icon-chevron-down.svg';
-
 const {
   fonts: { openSans },
   keyedPalette: {
