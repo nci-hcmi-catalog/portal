@@ -290,6 +290,7 @@ export default css`
     border-color: ${bombay};
     font-family: ${openSans};
     width: 60px;
+    background-color: ${white};
     box-sizing: border-box;
     cursor: pointer;
     transition: background-color 0.25s ease;
