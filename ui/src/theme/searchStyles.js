@@ -9,6 +9,8 @@ import { HEADER_HEIGHT } from './headerStyles';
 import { Col } from './system';
 import { brandPrimaryHighlightHover, whiteButtonHover } from './hoverStyles';
 
+const chevronPath = '~/assets/icon-chevron-down.svg';
+
 const {
   fonts: { openSans },
   keyedPalette: {
@@ -291,8 +293,8 @@ export default css`
     width: 60px;
     box-sizing: border-box;
     background-color: ${white};
-    background-image: url(${chevron}),
-      linear-gradient(
+    background-image: url(${chevronPath});
+    /* linear-gradient(
         90deg,
         transparent 0%,
         transparent calc(100% - 25px),
@@ -300,7 +302,7 @@ export default css`
         ${bombay} calc(100% - 24px),
         transparent calc(100% - 24px),
         transparent 100%
-      );
+      ); */
     background-repeat: no-repeat;
     background-size: 10px, contain;
     background-position: bottom 8px right 8px, 0 0;
@@ -309,7 +311,8 @@ export default css`
 
     &:hover {
       background-color: ${lightPorcelain};
-      background-image: url(${chevron}),
+      background-image: url(${chevronPath});
+      /* background-image: url(${chevron}),
         linear-gradient(
           90deg,
           transparent 0%,
@@ -318,7 +321,7 @@ export default css`
           ${bombay} calc(100% - 24px),
           transparent calc(100% - 24px),
           transparent 100%
-        );
+        ); */
     }
   }
 
@@ -581,7 +584,7 @@ export default css`
   .aggregation-group .header .title-wrapper .action-icon svg {
     fill: ${bombay};
     width: 14px;
-    heigth: 14px;
+    height: 14px;
     transition: background 0.25s ease;
 
     &:hover {
@@ -740,6 +743,9 @@ export default css`
       .title {
         width: 100%;
       }
+    }
+    button.disabled {
+      cursor: not-allowed;
     }
   }
 
