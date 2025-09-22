@@ -943,6 +943,10 @@ export default css`
     width: 100%;
     padding: 4px 8px;
   }
+
+  .ListItemLabel button:has(.selectedModelsLabel) {
+    cursor: unset;
+  }
 `;
 
 export const List = styled('div')`
