@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import Component from 'react-component-component';
 import { scroller } from 'react-scroll';
 import Spinner from 'react-spinkit';
 
-import CheckmarkIcon from '../../../icons/CheckmarkIcon';
-import CrossCircleIcon from '../../../icons/CrossCircleIcon';
-import ErrorTriangleIcon from '../../../icons/ErrorTriangleIcon';
+import CheckmarkIcon from '~/icons/CheckmarkIcon';
+import CrossCircleIcon from '~/icons/CrossCircleIcon';
+import ErrorTriangleIcon from '~/icons/ErrorTriangleIcon';
 import {
   NotificationsToaster,
   Notification,
@@ -22,10 +22,10 @@ import {
   ShowHideButton,
   ShowHideButtonLabel,
   PlusMinusIcon,
-} from '../../../theme/adminNotificationStyles';
-import { Col } from '../../../theme/system';
-import base from '../../../theme/index';
-import { PUBLISH_TYPES, VARIANT_IMPORT_TYPES } from '../../../utils/constants';
+} from '~/theme/adminNotificationStyles';
+import { Col } from '~/theme/system';
+import base from '~/theme/index';
+import { PUBLISH_TYPES, VARIANT_IMPORT_TYPES } from '~/utils/constants';
 
 import { NotificationsContext } from './NotificationsController';
 import useGenomicVariantImportNotifications from './GenomicVariantImportNotifications';

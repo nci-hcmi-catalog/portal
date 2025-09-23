@@ -1,7 +1,7 @@
-import React from 'react';
 import { useArrangerData } from '@overture-stack/arranger-components/';
 
-import ModelIcon from '../../icons/ModelIcon';
+import ModelIcon from '~/icons/ModelIcon';
+
 import SidebarTextSearch from './SidebarTextSearch';
 import { searchModels } from './services/searchService';
 

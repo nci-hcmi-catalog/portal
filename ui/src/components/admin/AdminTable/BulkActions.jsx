@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { css } from '@emotion/react';
 import Popup from 'reactjs-popup';
-import CollapsibleArrow from '../../../icons/CollapsibleArrow';
-import withDeleteModal from '../DeleteModal';
 
+import CollapsibleArrow from '~/icons/CollapsibleArrow';
 import {
   ActionsMenu,
   ActionsMenuItem,
   ToolbarControl,
   ToolbarSection,
   ToolbarText,
-} from '../../../theme/adminTableStyles';
+} from '~/theme/adminTableStyles';
+import { ButtonPill } from '~/theme/adminControlsStyles';
 
-import { ButtonPill } from '../../../theme/adminControlsStyles';
+import withDeleteModal from '../DeleteModal';
+
 const [publishAction, unpublishAction, deleteAction] = ['Publish', 'Unpublish', 'Delete'];
 
 const onApplyClick = ({ action, onPublishClick, onUnpublishClick, reset }) => {

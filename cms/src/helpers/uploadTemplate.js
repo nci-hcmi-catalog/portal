@@ -1,11 +1,11 @@
 import { google } from 'googleapis';
 
-import { getDictionary } from '../helpers/dictionary';
+import { getDictionary } from '../helpers/dictionary.js';
 
-import { variantTypes, variantAssessmentType, variantExpressionLevel } from '../schemas/constants';
+import { variantTypes, variantAssessmentType, variantExpressionLevel } from '../schemas/constants.js';
 import Variant from '../schemas/variant';
 
-import getLogger from '../logger';
+import getLogger from '../logger.js';
 const logger = getLogger('helpers/uploadTemplate');
 
 const headerRowData = headerNames => ({

@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import Popup from 'reactjs-popup';
 import { css } from '@emotion/react';
 import { modelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
 
-import ArrowLeftIcon from '../../../icons/ArrowLeftIcon';
-import ExternalLinkIcon from '../../../icons/ExternalLinkIcon';
-import MoreOptionsIcon from '../../../icons/MoreOptionsIcon';
-import { AdminHeader, AdminHeaderBlock } from '../../../theme/adminStyles';
-import { ModelHeaderH1, ModelHeaderBackLink } from '../../../theme/adminModelStyles';
-import { ButtonPill } from '../../../theme/adminControlsStyles';
+import ArrowLeftIcon from '~/icons/ArrowLeftIcon';
+import ExternalLinkIcon from '~/icons/ExternalLinkIcon';
+import MoreOptionsIcon from '~/icons/MoreOptionsIcon';
+import { AdminHeader, AdminHeaderBlock } from '~/theme/adminStyles';
+import { ModelHeaderH1, ModelHeaderBackLink } from '~/theme/adminModelStyles';
+import { ButtonPill } from '~/theme/adminControlsStyles';
 
 import { NotificationsContext, usePublishNotifications } from '../Notifications';
 import { manageModelsUrlBase } from '../AdminNav';

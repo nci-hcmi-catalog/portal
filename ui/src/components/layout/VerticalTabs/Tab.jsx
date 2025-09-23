@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   Tab,
   TabContents,
@@ -7,7 +5,7 @@ import {
   TabHeading,
   TabSubheading,
   StatusIndicator,
-} from '../../../theme/verticalTabStyles';
+} from '~/theme/verticalTabStyles';
 
 const VerticalTab = ({ heading, subheading, dot, icon, ...props }) => {
   return (

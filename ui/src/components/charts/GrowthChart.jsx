@@ -1,11 +1,10 @@
-import React from 'react';
 import { css } from '@emotion/react';
 import { ResponsivePie } from '@nivo/pie';
 import AggregationQuery from '../queries/AggregationQuery';
-import { Col } from '../../theme/system';
-import theme from '../../theme/index';
+import { Col } from '~/theme/system';
+import theme from '~/theme/index';
 import ChartTooltip from './ChartTooltip';
-import { addInSQON } from '../../utils/sqonHelpers';
+import { addInSQON } from '~/utils/sqonHelpers';
 import { SizeMe } from 'react-sizeme';
 
 const is2d = (bucket) => bucket.key.slice(0, 3) === '2-D';

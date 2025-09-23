@@ -1,12 +1,11 @@
-import React from 'react';
 import { css } from '@emotion/react';
 
+import GeneIcon from '~/icons/DNACircleIcon';
+import { Row } from '~/theme/system';
+
+import { AlteredGenesTooltip } from '../tooltips';
 import SidebarTextSearch from './SidebarTextSearch';
 import { searchGenes } from './services/searchService';
-import { AlteredGenesTooltip } from '../tooltips';
-
-import GeneIcon from '../../icons/DNACircleIcon';
-import { Row } from '../../theme/system';
 
 const GeneSearch = ({ sqon, setSQON, tooltipWidth, ...props }) => (
   <SidebarTextSearch

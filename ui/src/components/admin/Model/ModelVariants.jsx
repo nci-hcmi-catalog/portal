@@ -1,30 +1,25 @@
-import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import moment from 'moment-timezone';
 import Popup from 'reactjs-popup';
 import { css } from '@emotion/react';
 
-import { ModalStateContext } from '../../../providers/ModalState';
-import { TabGroup, Tab } from '../../layout/HorizontalTabs';
-import CollapsibleArrow from '../../../icons/CollapsibleArrow';
-import PlusIcon from '../../../icons/PlusIcon';
-import VariantsIcon from '../../../icons/VariantsIcon';
-import { DropdownItem } from '../../../theme/adminNavStyles';
-import {
-  AdminContainer,
-  AdminHeader,
-  AdminHeaderH3,
-  AdminHeaderBlock,
-} from '../../../theme/adminStyles';
-import { ButtonPill } from '../../../theme/adminControlsStyles';
-import { Table, ToolbarHeader } from '../../../theme/adminTableStyles';
-import { AdminModalStyle } from '../../../theme/adminModalStyles';
+import { ModalStateContext } from '~/providers/ModalState';
+import CollapsibleArrow from '~/icons/CollapsibleArrow';
+import PlusIcon from '~/icons/PlusIcon';
+import VariantsIcon from '~/icons/VariantsIcon';
+import { DropdownItem } from '~/theme/adminNavStyles';
+import { AdminContainer, AdminHeader, AdminHeaderH3, AdminHeaderBlock } from '~/theme/adminStyles';
+import { ButtonPill } from '~/theme/adminControlsStyles';
+import { Table, ToolbarHeader } from '~/theme/adminTableStyles';
+import { AdminModalStyle } from '~/theme/adminModalStyles';
 import {
   BULK_UPLOAD_TYPES,
   BULK_UPLOAD_DISPLAY_TYPES,
   VARIANT_IMPORT_STATUS,
   VARIANT_TYPES,
-} from '../../../utils/constants';
+} from '~/utils/constants';
 
+import { TabGroup, Tab } from '../../layout/HorizontalTabs';
 import useConfirmationModal from '../../modals/ConfirmationModal';
 import withManualImportMafModal from '../../modals/ManualImportMafModal';
 

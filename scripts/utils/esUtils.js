@@ -1,11 +1,11 @@
-const es = require('@elastic/elasticsearch');
+import es from '@elastic/elasticsearch';
 
 const pm2Path = process.env.CMS_CONFIG || '../../cms/pm2.config.js';
 const pm2Env = process.env.ENV;
 if (!pm2Env) {
   throw new Error('No ENV value provided!');
 }
-const pm2Config = require(pm2Path);
+const pm2Config = await import(pm2Path).then(({ default: config }) => config );
 const pm2ConfigGeneric =
   (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0].env) || {};
 const pm2ConfigForEnv =
@@ -13,12 +13,10 @@ const pm2ConfigForEnv =
 
 const pm2 = { ...pm2ConfigGeneric, ...pm2ConfigForEnv };
 
-module.exports.config = pm2;
-
 /** Search index settings and mappings **/
-const modelsIndexConfig = require('../../elasticsearch/modelsIndex.json');
-const genesIndexConfig = require('../../elasticsearch/genesIndex.json');
-const variantsIndexConfig = require('../../elasticsearch/variantsIndex.json');
+import modelsIndexConfig from '../../elasticsearch/modelsIndex.json' with { type: "json" };
+import genesIndexConfig from '../../elasticsearch/genesIndex.json' with { type: "json" };
+import variantsIndexConfig from '../../elasticsearch/variantsIndex.json' with { type: "json" };
 const modelsIndexName = process.env.ES_INDEX || pm2.ES_INDEX || 'hcmi';
 const esHost = process.env.ES_HOST || `${pm2.ES_HOST}:${pm2.ES_PORT}`;
 
@@ -53,21 +51,21 @@ const deleteIndex = async index => {
 };
 
 /* ******* Models Index ******** */
-module.exports.createModelsIndex = async () =>
+const createModelsIndex = async () =>
   await createIndex(modelsIndexName, modelsIndexConfig);
 
-module.exports.deleteModelsIndex = async () => await deleteIndex(modelsIndexName);
+const deleteModelsIndex = async () => await deleteIndex(modelsIndexName);
 
 /* ******* Genes Index ******** */
-module.exports.createGenesIndex = async () => await createIndex(GENES_INDEX, genesIndexConfig);
+const createGenesIndex = async () => await createIndex(GENES_INDEX, genesIndexConfig);
 
-module.exports.deleteGenesIndex = async () => await deleteIndex(GENES_INDEX);
+const deleteGenesIndex = async () => await deleteIndex(GENES_INDEX);
 
 /* ******* Variants Index ******** */
-module.exports.createVariantsIndex = async () =>
+const createVariantsIndex = async () =>
   await createIndex(VARIANTS_INDEX, variantsIndexConfig);
 
-module.exports.deleteVariantsIndex = async () => await deleteIndex(VARIANTS_INDEX);
+const deleteVariantsIndex = async () => await deleteIndex(VARIANTS_INDEX);
 
 /* ******** Update Indicies ******** */
 const updateIndex = async ({ index, settings = {}, mappings = {} } = {}) => {
@@ -90,7 +88,7 @@ const updateIndex = async ({ index, settings = {}, mappings = {} } = {}) => {
   }
 };
 
-module.exports.updateSearchIndices = async () => {
+const updateSearchIndices = async () => {
   await updateIndex({
     index: modelsIndexName,
     settings: modelsIndexConfig.settings,
@@ -108,7 +106,7 @@ module.exports.updateSearchIndices = async () => {
   });
 };
 
-module.exports.configureArrangerSets = async () => {
+const configureArrangerSets = async () => {
   try {
     console.log(`\nDeleting existing index (if present): arranger-sets`);
     await client.indices.delete({ index: `arranger-sets` });
@@ -151,3 +149,17 @@ module.exports.configureArrangerSets = async () => {
     console.log(e);
   }
 };
+
+const esUtils = {
+  config: pm2,
+  createModelsIndex,
+  deleteModelsIndex,
+  createGenesIndex,
+  deleteGenesIndex,
+  createVariantsIndex,
+  deleteVariantsIndex,
+  updateSearchIndices,
+  configureArrangerSets,
+};
+
+export default esUtils;

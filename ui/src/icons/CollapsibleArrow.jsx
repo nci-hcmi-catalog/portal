@@ -1,5 +1,3 @@
-import React from 'react';
-
 const CollapsibleArrow = ({ isOpen, size = 10, weight = 2, colour = '#64666A', ...props }) => {
   return (
     <svg

@@ -1,4 +1,3 @@
-import React from 'react';
 import Popup from 'reactjs-popup';
 
 const ToolTip = ({ position = 'top center', disabled = false, offsetY = 2, trigger, children }) => (

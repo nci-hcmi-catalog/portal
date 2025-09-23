@@ -3,10 +3,10 @@ import { css } from '@emotion/react';
 import Popup from 'reactjs-popup';
 import Component from 'react-component-component';
 
-import base from '../../../theme/index';
-import { UserDropdown, DropdownItem } from '../../../theme/adminNavStyles';
-import UserIcon from '../../../icons/UserIcon';
-import CollapsibleArrow from '../../../icons/CollapsibleArrow';
+import base from '~/theme/index';
+import { UserDropdown, DropdownItem } from '~/theme/adminNavStyles';
+import UserIcon from '~/icons/UserIcon';
+import CollapsibleArrow from '~/icons/CollapsibleArrow';
 import config from '../config';
 import { Fetcher } from './Fetcher';
 

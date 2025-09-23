@@ -1,11 +1,9 @@
-import React from 'react';
 import { css } from '@emotion/react';
 
+import Filter from '~/components/input/Filter';
+import { ToolbarMain, ToolbarSection, ToolbarText } from '~/theme/adminTableStyles';
+
 import BulkActions from './BulkActions';
-
-import Filter from '../../input/Filter';
-
-import { ToolbarMain, ToolbarSection, ToolbarText } from '../../../theme/adminTableStyles';
 
 const Toolbar = ({
   state: { isLoading, page, pageSize, filterValue, rowCount, selection },

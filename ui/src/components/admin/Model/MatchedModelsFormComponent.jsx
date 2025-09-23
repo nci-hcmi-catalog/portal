@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Field } from 'formik';
 import { css } from '@emotion/react';
 
-import ModelIcon from '../../../icons/ModelIcon';
+import ModelIcon from '~/icons/ModelIcon';
 
 import { FormAutoComplete, FormComponent } from '../../FormComponents';
 

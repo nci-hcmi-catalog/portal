@@ -1,4 +1,3 @@
-import React from 'react';
 import { css } from '@emotion/react';
 
 // svg data uris need to be encodeURI()ed plus #'s encoded to work in non webkit

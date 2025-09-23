@@ -1,4 +1,3 @@
-import React from 'react';
 import axios from 'axios';
 import Component from 'react-component-component';
 import globals from '../../utils/globals';

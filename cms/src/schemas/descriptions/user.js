@@ -1,4 +1,4 @@
-import { filters } from '../../helpers/dataFilters';
+import { filters } from '../../helpers/dataFilters.js';
 
 export const schemaArr = [
   {

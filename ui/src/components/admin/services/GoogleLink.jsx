@@ -1,13 +1,13 @@
-import React, { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import Popup from 'reactjs-popup';
 import axios from 'axios';
 import { css } from '@emotion/react';
 import { useGoogleLogin, googleLogout } from '@react-oauth/google';
 
-import { UserDropdown, DropdownItem } from '../../../theme/adminNavStyles';
-import CollapsibleArrow from '../../../icons/CollapsibleArrow';
-import GoogleLogo from '../../../icons/GoogleLogo';
-import { visuallyHidden } from '../../../theme/index';
+import { UserDropdown, DropdownItem } from '~/theme/adminNavStyles';
+import CollapsibleArrow from '~/icons/CollapsibleArrow';
+import GoogleLogo from '~/icons/GoogleLogo';
+import { visuallyHidden } from '~/theme/index';
 
 import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
 import config from '../config';

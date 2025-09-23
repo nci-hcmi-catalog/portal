@@ -1,15 +1,15 @@
 // @ts-check
 
 import express from 'express';
-import Model from '../schemas/model';
-import getPublishValidation from '../validation/model';
-import { runYupValidatorFailFast } from '../helpers';
-import { publishModel } from '../services/elastic-search/publish';
-import { unpublishModel } from '../services/elastic-search/unpublish';
-import { backupFields } from '../schemas/descriptions/modelVariant';
-import csvStream from '../helpers/streamAsCSV';
+import Model from '../schemas/model.js';
+import getPublishValidation from '../validation/model.js';
+import { runYupValidatorFailFast } from '../helpers/index.js';
+import { publishModel } from '../services/elastic-search/publish.js';
+import { unpublishModel } from '../services/elastic-search/unpublish.js';
+import { backupFields } from '../schemas/descriptions/modelVariant.js';
+import csvStream from '../helpers/streamAsCSV.js';
 
-import getLogger from '../logger';
+import getLogger from '../logger.js';
 const logger = getLogger('routes/action');
 
 const actionRouter = express.Router();

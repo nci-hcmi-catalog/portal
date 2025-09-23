@@ -1,20 +1,12 @@
-import React, { useEffect, useContext, useRef, useState } from 'react';
+import { useEffect, useContext, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 
-import { ModalStateContext } from '../../../providers/ModalState';
-import { ButtonPill } from '../../../theme/adminControlsStyles';
-import {
-  ModalWrapper,
-  Header,
-  Title,
-  CloseModal,
-  Content,
-  Footer,
-} from '../../../theme/adminModalStyles';
-import { VARIANT_OVERWRITE_OPTIONS } from '../../../utils/constants';
+import { ModalStateContext } from '~/providers/ModalState';
+import { ButtonPill } from '~/theme/adminControlsStyles';
+import { ModalWrapper, Header, Title, CloseModal, Content, Footer } from '~/theme/adminModalStyles';
+import { VARIANT_OVERWRITE_OPTIONS } from '~/utils/constants';
 
 import { isTokenExpired } from '../helpers/googleAuth';
-
 import BulkUploadInput from './BulkUploadInput';
 
 const BulkUploadModal = ({ type, displayType, onUpload, backupURL, ...props }) => {
@@ -22,7 +14,6 @@ const BulkUploadModal = ({ type, displayType, onUpload, backupURL, ...props }) =
   let modalState = useContext(ModalStateContext);
   let [sheetsURL, setSheetsURL] = useState('');
   let [uploadingGoogleSheet, setUploadingGoogleSheet] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   let [uploadResults, setUploadResults] = useState({});
   let [overwrite, setOverwrite] = useState(false);
   let [overwriteVariants, setOverwriteVariants] = useState(VARIANT_OVERWRITE_OPTIONS.cleanOnly);

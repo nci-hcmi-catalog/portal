@@ -1,10 +1,10 @@
-import React from 'react';
-import ListIcon from '../icons/ListIcon';
-import { SelectedModelsContext } from '../providers/SelectedModels';
-import { ModalStateContext } from '../providers/ModalState';
-import styles from '../theme/modelListStyles';
-import modelListModalStyles from '../theme/modelListModalStyles';
-import { ButtonPill } from '../theme/adminControlsStyles';
+import ListIcon from '~/icons/ListIcon';
+import { SelectedModelsContext } from '~/providers/SelectedModels';
+import { ModalStateContext } from '~/providers/ModalState';
+import styles from '~/theme/modelListStyles';
+import modelListModalStyles from '~/theme/modelListModalStyles';
+import { ButtonPill } from '~/theme/adminControlsStyles';
+
 import ModelListModal from './modals/ModelListModal';
 
 const ModelList = ({ className }) => (

@@ -1,10 +1,9 @@
 import axios from 'axios';
-import React from 'react';
 import urlJoin from 'url-join';
 import { ArrangerDataProvider, TableContextProvider } from '@overture-stack/arranger-components';
 
-import globals from '../utils/globals';
-import { toggleExpanded } from '../utils/sqonHelpers';
+import globals from '~/utils/globals';
+import { toggleExpanded } from '~/utils/sqonHelpers';
 
 import SavedSetsProvider from './SavedSets';
 import SelectedModelsProvider from './SelectedModels';

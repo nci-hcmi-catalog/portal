@@ -1,20 +1,18 @@
-import React from 'react';
 import { css } from '@emotion/react';
 
-import { useDictionary } from './DictionaryController';
-import { NotificationToaster } from '../Notifications';
-import useConfirmationModal from '../../modals/ConfirmationModal';
-
-import { ButtonPill } from '../../../theme/adminControlsStyles';
-import { AdminHeaderH1, AdminHeaderBlock } from '../../../theme/adminStyles';
+import PublishIcon from '~/icons/PublishIcon';
+import { ButtonPill } from '~/theme/adminControlsStyles';
+import { AdminHeaderH1, AdminHeaderBlock } from '~/theme/adminStyles';
 import {
   DataDictionaryHeader,
   DictionaryDraftTimestamp,
   DictionaryDraftStats,
   HeaderPill,
-} from '../../../theme/adminDictionaryStyles';
+} from '~/theme/adminDictionaryStyles';
 
-import PublishIcon from '../../../icons/PublishIcon';
+import useConfirmationModal from '../../modals/ConfirmationModal';
+import { NotificationToaster } from '../Notifications';
+import { useDictionary } from './DictionaryController';
 
 const DictionaryHeader = () => {
   const { isDraft, lastPublished, lastUpdated, publish, reset, totalEdits, totalNew } =

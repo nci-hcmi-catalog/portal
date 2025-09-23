@@ -1,12 +1,12 @@
 import express from 'express';
-import Model from '../schemas/model';
+import Model from '../schemas/model.js';
 
-import { clearGenomicVariants } from '../helpers/genomicVariants';
-import VariantImporter from '../services/gdc-importer/VariantImporter';
-import { fetchModelFileData, getBulkMafStatus } from '../services/gdc-importer/mafFiles';
+import { clearGenomicVariants } from '../helpers/genomicVariants.js';
+import VariantImporter from '../services/gdc-importer/VariantImporter.js';
+import { fetchModelFileData, getBulkMafStatus } from '../services/gdc-importer/mafFiles.js';
 
-import getLogger from '../logger';
-import { IMPORT_ERRORS } from '../services/gdc-importer/gdcConstants';
+import getLogger from '../logger.js';
+import { IMPORT_ERRORS } from '../services/gdc-importer/gdcConstants.js';
 const logger = getLogger('routes/genomicVariants');
 
 const variantsRouter = express.Router();

@@ -1,8 +1,6 @@
-import React from 'react';
-
-import { AdminContainer } from '../../../theme/adminStyles';
-import { AdminModelContent, Loading } from '../../../theme/adminModelStyles';
-import { Row } from '../../../theme/system';
+import { AdminContainer } from '~/theme/adminStyles';
+import { AdminModelContent, Loading } from '~/theme/adminModelStyles';
+import { Row } from '~/theme/system';
 
 import config from '../config';
 import { NotificationToaster } from '../Notifications';
@@ -40,33 +38,35 @@ const renderTab = (tab, data, otherModelOptions, dictionary, validator) => {
   }
 };
 
-const ModelSingle = ({ match }) => (
-  <ModelSingleProvider baseUrl={config.urls.cmsBase} modelName={match.params.name}>
-    <ModelSingleContext.Consumer>
-      {({
-        state: {
-          ui: { activeTab },
-          data: { isLoading, response },
-          otherModelOptions,
-          dictionary,
-          validator,
-        },
-      }) => (
-        <AdminContainer>
-          {isLoading && <Loading />}
-          <NotificationToaster />
-          <ModelSingleHeader modelName={response.name} />
-          <Row>
-            <AdminModelNav />
-            <AdminModelContent>
-              {renderTab(activeTab, response, otherModelOptions, dictionary, validator)}
-            </AdminModelContent>
-          </Row>
-          <ModelSingleFooter />
-        </AdminContainer>
-      )}
-    </ModelSingleContext.Consumer>
-  </ModelSingleProvider>
-);
+const ModelSingle = ({ match }) => {
+  return (
+    <ModelSingleProvider baseUrl={config.urls.cmsBase} modelName={match?.params.name}>
+      <ModelSingleContext.Consumer>
+        {({
+          state: {
+            ui: { activeTab },
+            data: { isLoading, response },
+            otherModelOptions,
+            dictionary,
+            validator,
+          },
+        }) => (
+          <AdminContainer>
+            {isLoading && <Loading />}
+            <NotificationToaster />
+            <ModelSingleHeader modelName={response.name} />
+            <Row>
+              <AdminModelNav />
+              <AdminModelContent>
+                {renderTab(activeTab, response, otherModelOptions, dictionary, validator)}
+              </AdminModelContent>
+            </Row>
+            <ModelSingleFooter />
+          </AdminContainer>
+        )}
+      </ModelSingleContext.Consumer>
+    </ModelSingleProvider>
+  );
+};
 
 export default ModelSingle;

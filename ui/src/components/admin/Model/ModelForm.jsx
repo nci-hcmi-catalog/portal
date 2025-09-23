@@ -1,9 +1,8 @@
-import React from 'react';
 import Component from 'react-component-component';
 import { withFormik, Field } from 'formik';
 import { schemaObj } from '@hcmi-portal/cms/src/schemas/descriptions/model';
 
-import { FormContainer, FormHeader, FormSection, FormCol } from '../../../theme/adminFormStyles';
+import { FormContainer, FormHeader, FormSection, FormCol } from '~/theme/adminFormStyles';
 import {
   FormComponent,
   FormInput,
@@ -141,7 +140,10 @@ const ModelFormTemplate = ({
             }
 
             // Sync form touched/dirty/error state on changes to errors (validation)
-            if (Object.keys(props.errors).length !== Object.keys(prevProps.errors).length) {
+            if (
+              props.errors &&
+              Object.keys(props.errors).length !== Object.keys(prevProps.errors).length
+            ) {
               syncFormState({
                 values,
                 touched,

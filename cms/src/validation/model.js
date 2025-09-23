@@ -1,10 +1,10 @@
 import * as yup from 'yup';
 import moment from 'moment';
-import { arrItemIsOneOf } from './helpers';
+import { arrItemIsOneOf } from './helpers.js';
 
-import { modelVariantSchema } from './variant';
-import { matchedModelSchema } from './matchedModels';
-import { getDictionaryOptions } from '../helpers/dictionary';
+import { modelVariantSchema } from './variant.js';
+import { matchedModelSchema } from './matchedModels.js';
+import { getDictionaryOptions } from '../helpers/dictionary.js';
 
 // Custom date validation parser
 yup.date().transform(function(value, originalValue) {

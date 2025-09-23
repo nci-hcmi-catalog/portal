@@ -1,14 +1,12 @@
-/* eslint-disable */
-import React from 'react';
 import { css } from '@emotion/react';
 import { ResponsivePie } from '@nivo/pie';
-import { Col } from '../../theme/system';
-import theme from '../../theme/index';
-import { addInSQON } from '../../utils/sqonHelpers';
+import { Col } from '~/theme/system';
+import theme from '~/theme/index';
+import { addInSQON } from '~/utils/sqonHelpers';
 import AggregationQuery from '../queries/AggregationQuery';
 import ChartTooltip from './ChartTooltip';
 
-export default ({ sqon, setSQON, victoryRef = React.createRef(), extendedMapping }) => (
+export default ({ sqon, setSQON, extendedMapping }) => (
   <Col
     alignItems="center"
     css={css`

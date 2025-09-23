@@ -1,5 +1,3 @@
-import React from 'react';
-
 import globals from '../../utils/globals';
 import isIE from '../../utils/isIE';
 

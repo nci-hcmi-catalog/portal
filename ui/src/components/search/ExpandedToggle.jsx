@@ -1,10 +1,11 @@
 import { css } from '@emotion/react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
 
-import QuestionMarkIcon from '../../icons/QuestionMarkIcon';
-import { useExpandedUnexpanded } from '../../providers/ExpandedUnexpanded';
-import { getNumUnexpanded } from '../../utils/sqonHelpers';
+import QuestionMarkIcon from '~/icons/QuestionMarkIcon';
+import { useExpandedUnexpanded } from '~/providers/ExpandedUnexpanded';
+import { getNumUnexpanded } from '~/utils/sqonHelpers';
+
 import Toggle from '../input/Toggle';
 
 const ExpandedToggle = ({ sqon, apiFetcher }) => {

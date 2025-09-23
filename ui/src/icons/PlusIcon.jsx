@@ -1,4 +1,3 @@
-import React from 'react';
 import { InlineSvg } from './index';
 
 const PlusIcon = ({

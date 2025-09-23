@@ -1,14 +1,13 @@
-import React from 'react';
 import Moment from 'react-moment';
 import Popup from 'reactjs-popup';
 import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/user';
 import { filters } from '@hcmi-portal/cms/src/helpers/dataFilters';
 
-import { ModalStateContext } from '../../../providers/ModalState';
-import EditIcon from '../../../icons/EditIcon';
-import TrashIcon from '../../../icons/TrashIcon';
-import { ActionPill, Actions, ToolbarText } from '../../../theme/adminTableStyles';
-import { AdminModalStyle } from '../../../theme/adminModalStyles';
+import { ModalStateContext } from '~/providers/ModalState';
+import EditIcon from '~/icons/EditIcon';
+import TrashIcon from '~/icons/TrashIcon';
+import { ActionPill, Actions, ToolbarText } from '~/theme/adminTableStyles';
+import { AdminModalStyle } from '~/theme/adminModalStyles';
 import withDeleteModal from '../DeleteModal';
 import UserForm from './UserForm';
 

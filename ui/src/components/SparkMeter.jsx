@@ -1,5 +1,3 @@
-import React from 'react';
-
 const SparkMeter = ({ percentage, fill = `#900000`, width = 30, style, ...props }) => (
   <div
     style={{

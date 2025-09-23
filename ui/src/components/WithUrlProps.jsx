@@ -1,14 +1,14 @@
 import querystring from 'query-string';
-import React from 'react';
+
 import { Route } from 'react-router-dom';
 
 const { parse, stringify } = querystring;
 
-const Url = (props) => {
+const WithUrlProps = (props) => {
   return (
     <Route>
       {(routingProps) => {
-        const { sqon: sqonString, ...searchParams } = parse(routingProps.location.search);
+        const { sqon: sqonString, ...searchParams } = parse(routingProps?.location?.search);
         const currentUrlSqon = sqonString ? JSON.parse(sqonString) : null;
         const setUrlSQON = (newSqon) => {
           routingProps.history.push({
@@ -29,4 +29,4 @@ const Url = (props) => {
   );
 };
 
-export default Url;
+export default WithUrlProps;

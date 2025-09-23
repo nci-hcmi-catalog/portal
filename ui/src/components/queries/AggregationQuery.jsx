@@ -1,4 +1,3 @@
-import React from 'react';
 import { isEqual } from 'lodash';
 import { useArrangerData } from '@overture-stack/arranger-components/';
 import Component from 'react-component-component';

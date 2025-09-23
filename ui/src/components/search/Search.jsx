@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import Component from 'react-component-component';
 import SplitPane from 'react-split-pane';
 import { isEqual } from 'lodash';
@@ -16,12 +16,12 @@ import CountDisplay from '@overture-stack/arranger-components/dist/Table/CountDi
 import ColumnSelectButton from '@overture-stack/arranger-components/dist/Table/ColumnsSelectButton/index';
 import DownloadButton from '@overture-stack/arranger-components/dist/Table/DownloadButton/index';
 
-import ArrowIcon from '../../icons/ArrowIcon';
-import DownloadIcon from '../../icons/DownloadIcon';
-import { SelectedModelsContext } from '../../providers/SelectedModels';
-import cartDownload from '../../utils/cartDownload';
-import searchStyles, { MainCol } from '../../theme/searchStyles';
-import { Row, Col } from '../../theme/system';
+import ArrowIcon from '~/icons/ArrowIcon';
+import DownloadIcon from '~/icons/DownloadIcon';
+import { SelectedModelsContext } from '~/providers/SelectedModels';
+import cartDownload from '~/utils/cartDownload';
+import searchStyles, { MainCol } from '~/theme/searchStyles';
+import { Row, Col } from '~/theme/system';
 
 import LastUpdatedDate from '../LastUpdatedDate';
 import PrimarySiteChart from '../charts/PrimarySiteChart.jsx';
@@ -178,7 +178,7 @@ const Search = ({
         setUrlSQON(sqon);
       }
     }
-  }, [sqon, urlSqon, firstRender, setSQON, setUrlSQON]);
+  }, [sqon, setSQON, urlSqon, firstRender, setUrlSQON]);
 
   const columnTypes = getColumnTypes({
     savedSetsContext,
@@ -225,7 +225,7 @@ const Search = ({
         className="search-split-pane"
         split="vertical"
         minSize={50}
-        defaultSize={tableState?.panelSize}
+        defaultSize={tableState.panelSize}
         onChange={(panelSize) => {
           searchWrapperSetState({ panelSize });
         }}
@@ -239,7 +239,7 @@ const Search = ({
               <GeneSearch
                 sqon={sqon}
                 setSQON={setSQON}
-                tooltipWidth={tableState?.panelSize - facetTooltipPadding}
+                tooltipWidth={tableState.panelSize - facetTooltipPadding}
               />
               <VariantSearch sqon={sqon} setSQON={setSQON} />
               <Aggregations

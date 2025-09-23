@@ -1,12 +1,11 @@
-import React from 'react';
 import { css } from '@emotion/react';
 import { isEqual } from 'lodash';
 import { ResponsiveBar } from '@nivo/bar';
 import Component from 'react-component-component';
 
-import { Col } from '../../theme/system';
-import theme from '../../theme/index';
-import { addInSQON } from '../../utils/sqonHelpers';
+import { Col } from '~/theme/system';
+import theme from '~/theme/index';
+import { addInSQON } from '~/utils/sqonHelpers';
 import AggregationQuery from '../queries/AggregationQuery';
 
 import ChartTooltip from './ChartTooltip';

@@ -1,9 +1,9 @@
 import express from 'express';
 import multer from 'multer';
 import { Readable } from 'stream';
-import { uploadToS3, deleteFromS3 } from './../services/s3';
+import { uploadToS3, deleteFromS3 } from './../services/s3/index.js';
 
-import getLogger from '../logger';
+import getLogger from '../logger.js';
 const logger = getLogger('routes/images');
 
 const imagesRouter = express.Router();

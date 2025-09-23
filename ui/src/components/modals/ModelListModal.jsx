@@ -1,24 +1,22 @@
-import React from 'react';
 import { css } from '@emotion/react';
 import Component from 'react-component-component';
 import Spinner from 'react-spinkit';
 import moment from 'moment-timezone';
 import { useArrangerData } from '@overture-stack/arranger-components/';
 
+import modelListEmptyOrange from '~/assets/icon-modellist-empty-orange.svg';
+import DoubleArrowRightIcon from '~/icons/DoubleArrowRightIcon';
+import ModelIcon from '~/icons/ModelIcon';
+import TrashIcon from '~/icons/TrashIcon';
+import DownloadIcon from '~/icons/DownloadIcon';
+import { SelectedModelsContext } from '~/providers/SelectedModels';
+import { ModalStateContext } from '~/providers/ModalState';
+import { Row } from '~/theme/system';
+import { ButtonPill } from '~/theme/adminControlsStyles';
+import cartDownload from '~/utils/cartDownload';
+import modelImageProcessor from '~/utils/modelImageProcessor';
+
 import ModelListModalQuery from '../queries/ModelListModalQuery';
-
-import cartDownload from '../../utils/cartDownload';
-import modelImageProcessor from '../../utils/modelImageProcessor';
-import { SelectedModelsContext } from '../../providers/SelectedModels';
-import { ModalStateContext } from '../../providers/ModalState';
-import { Row } from '../../theme/system';
-import { ButtonPill } from '../../theme/adminControlsStyles';
-
-import DoubleArrowRightIcon from '../../icons/DoubleArrowRightIcon';
-import ModelIcon from '../../icons/ModelIcon';
-import TrashIcon from '../../icons/TrashIcon';
-import DownloadIcon from '../../icons/DownloadIcon';
-import modelListEmptyOrange from '../../assets/icon-modellist-empty-orange.svg';
 
 const EmptyList = () => (
   <div className="empty-list">

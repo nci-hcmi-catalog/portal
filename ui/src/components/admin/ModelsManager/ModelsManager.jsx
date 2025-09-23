@@ -1,18 +1,11 @@
-import React from 'react';
-
-import DNAIcon from '../../../icons/DNAIcon';
-import PlusIcon from '../../../icons/PlusIcon';
-import { ModalStateContext } from '../../../providers/ModalState';
-import {
-  AdminContainer,
-  AdminHeader,
-  AdminHeaderH1,
-  AdminHeaderBlock,
-} from '../../../theme/adminStyles';
-import { ButtonPill, LinkPill } from '../../../theme/adminControlsStyles';
-import { Table } from '../../../theme/adminTableStyles';
-import { AdminModalStyle } from '../../../theme/adminModalStyles';
-import { BULK_UPLOAD_TYPES } from '../../../utils/constants';
+import DNAIcon from '~/icons/DNAIcon';
+import PlusIcon from '~/icons/PlusIcon';
+import { ModalStateContext } from '~/providers/ModalState';
+import { AdminContainer, AdminHeader, AdminHeaderH1, AdminHeaderBlock } from '~/theme/adminStyles';
+import { ButtonPill, LinkPill } from '~/theme/adminControlsStyles';
+import { Table } from '~/theme/adminTableStyles';
+import { AdminModalStyle } from '~/theme/adminModalStyles';
+import { BULK_UPLOAD_TYPES } from '~/utils/constants';
 
 import { NotificationToaster, usePublishNotifications } from '../Notifications';
 import { modelEditUrlBase } from '../AdminNav';

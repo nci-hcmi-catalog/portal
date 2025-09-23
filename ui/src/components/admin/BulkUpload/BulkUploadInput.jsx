@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { css } from '@emotion/react';
 import Spinner from 'react-spinkit';
 import Popup from 'reactjs-popup';
 
-import googleSheetsLogo from '../../../assets/logo-googlesheets.png';
+import googleSheetsLogo from '~/assets/logo-googlesheets.png';
+import ErrorTriangleIcon from '~/icons/ErrorTriangleIcon';
+import ExportIcon from '~/icons/ExportIcon';
+import ExternalLinkIcon from '~/icons/ExternalLinkIcon';
 import {
   BulkUploadContent,
   BulkUploadContentBlock,
@@ -14,12 +17,9 @@ import {
   UploadContentHeading,
   UploadOverwrite,
   OverwriteWarning,
-} from '../../../theme/adminBulkUploadStyles';
-import { Input, RadioSelect } from '../../../theme/formComponentsStyles';
-import ErrorTriangleIcon from '../../../icons/ErrorTriangleIcon';
-import ExportIcon from '../../../icons/ExportIcon';
-import ExternalLinkIcon from '../../../icons/ExternalLinkIcon';
-import { BULK_UPLOAD_TYPES, VARIANT_OVERWRITE_OPTIONS } from '../../../utils/constants';
+} from '~/theme/adminBulkUploadStyles';
+import { Input, RadioSelect } from '~/theme/formComponentsStyles';
+import { BULK_UPLOAD_TYPES, VARIANT_OVERWRITE_OPTIONS } from '~/utils/constants';
 
 import { getUploadTemplate } from '../helpers/googleSheets';
 

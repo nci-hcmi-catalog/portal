@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import Popup from 'reactjs-popup';
 import MomentReact from 'react-moment';
@@ -8,10 +8,10 @@ import { schemaArr } from '@hcmi-portal/cms/src/schemas/descriptions/model';
 import { filters } from '@hcmi-portal/cms/src/helpers/dataFilters';
 import { modelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
 
-import EditIcon from '../../../icons/EditIcon';
-import MoreOptionsIcon from '../../../icons/MoreOptionsIcon';
-import { ActionPill, ActionLinkPill, Actions, ToolbarText } from '../../../theme/adminTableStyles';
-import { SmallPill, ActionsMenu, ActionsMenuItem } from '../../../theme/adminControlsStyles';
+import EditIcon from '~/icons/EditIcon';
+import MoreOptionsIcon from '~/icons/MoreOptionsIcon';
+import { ActionPill, ActionLinkPill, Actions, ToolbarText } from '~/theme/adminTableStyles';
+import { SmallPill, ActionsMenu, ActionsMenuItem } from '~/theme/adminControlsStyles';
 
 import { NotificationsContext, usePublishNotifications } from '../Notifications';
 import { modelEditUrlBase } from '../AdminNav';
@@ -69,8 +69,7 @@ export const ModelStatusPillWithPublish = ({ name, data }) => {
       publishState.current = 'publishing';
     }
     if (
-      location &&
-      location.pathname === '/admin' &&
+      location?.pathname === '/admin' &&
       publishState.current === 'publishing' &&
       publishProgress.success.find((model) => model.modelName === name)
     ) {

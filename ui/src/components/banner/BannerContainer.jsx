@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import Banner from './Banner';
 
 const BannerContainer = () => {
   const [banners, setBanners] = useState([]);
 
-  const bannerData = process.env.REACT_APP_BANNERS;
+  const bannerData = import.meta.env.REACT_APP_BANNERS;
 
   useEffect(() => {
     if (bannerData) {

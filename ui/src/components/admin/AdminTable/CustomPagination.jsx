@@ -1,11 +1,19 @@
 import classnames from 'classnames';
 import { range } from 'lodash';
-import React from 'react';
+
 import ReactTablePagination from 'react-table-old/lib/pagination.js';
 import './beagle.css';
 
 // Legacy @arranger Component
 export default class CustomPagination extends ReactTablePagination {
+  componentDidMount = () => {
+    const { page, pageSize, setPage, setPageSize } = this.props;
+    if (typeof setPage === 'function') {
+      setPage(page);
+      setPageSize(pageSize);
+    }
+  };
+
   onPreviousPageClick = () => {
     const { canPrevious, page } = this.props;
     if (!canPrevious) return;
@@ -48,10 +56,10 @@ export default class CustomPagination extends ReactTablePagination {
       Math.max(Math.min(page - maxPagesOptions / 2, pages - maxPagesOptions), 0),
     );
     const lastPage = Math.floor(Math.min(firstPage + maxPagesOptions, pages));
+
     return (
       <div
         className={classnames(className, '-pagination')}
-        css={beagleCSS}
         style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -63,12 +71,12 @@ export default class CustomPagination extends ReactTablePagination {
           <span className="select-wrap -pageSizeOptions">
             Show{' '}
             <select
+              name={'pageSize'}
               aria-label={`Number of visible ${this.props.rowsText || 'rows'}`}
               onChange={(e) => onPageSizeChange(Number(e.target.value))}
               value={pageSize}
             >
               {pageSizeOptions.map((option, i) => (
-                // eslint-disable-next-line react/no-array-index-key
                 <option key={i} value={option}>
                   {option}
                 </option>
@@ -79,20 +87,20 @@ export default class CustomPagination extends ReactTablePagination {
         )}
         {showPageJump && (
           <span className="-pageJump">
-            <span
+            <button
               className={`-toStart -pagination_button ${canPrevious ? '' : '-disabled'}`}
               onClick={this.onStartPageClick}
             >
               {'<<'}
-            </span>
-            <span
+            </button>
+            <button
               className={`-previous -pagination_button ${canPrevious ? '' : '-disabled'}`}
               onClick={this.onPreviousPageClick}
             >
               {'<'}
-            </span>
+            </button>
             {range(firstPage, lastPage).map((pageIndex) => (
-              <span
+              <button
                 key={pageIndex}
                 className={classnames(
                   '-pagination_button',
@@ -101,20 +109,20 @@ export default class CustomPagination extends ReactTablePagination {
                 onClick={() => this.changePage(pageIndex)}
               >
                 {pageIndex + 1}
-              </span>
+              </button>
             ))}
-            <span
+            <button
               className={`-next -pagination_button ${canNext ? '' : '-disabled'}`}
               onClick={this.onNextPageClick}
             >
               {'>'}
-            </span>
-            <span
+            </button>
+            <button
               className={`-toEnd -pagination_button ${canNext ? '' : '-disabled'}`}
               onClick={this.onEndPageClick}
             >
               {'>>'}
-            </span>
+            </button>
           </span>
         )}
         {!showPageJump && <span className="-currentPage">{page + 1}</span>}

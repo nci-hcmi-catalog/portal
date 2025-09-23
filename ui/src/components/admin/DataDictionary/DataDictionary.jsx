@@ -1,7 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 
-import { AdminDictionaryContent, DictionaryContainer } from '../../../theme/adminDictionaryStyles';
-import { Row } from '../../../theme/system';
+import { AdminDictionaryContent, DictionaryContainer } from '~/theme/adminDictionaryStyles';
+import { Row } from '~/theme/system';
 
 import { getDictionaryDraft } from '../helpers/dictionary';
 

@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
-import CheckmarkIcon from '../../../icons/CheckmarkIcon';
-import CrossCircleIcon from '../../../icons/CrossCircleIcon';
-import CrossIcon from '../../../icons/CrossIcon';
-import { ButtonPill } from '../../../theme/adminControlsStyles';
+import CheckmarkIcon from '~/icons/CheckmarkIcon';
+import CrossCircleIcon from '~/icons/CrossCircleIcon';
+import CrossIcon from '~/icons/CrossIcon';
+import { ButtonPill } from '~/theme/adminControlsStyles';
 import {
   Notification,
   Message,
@@ -16,10 +16,10 @@ import {
   ProgressBarSectionFailed,
   ProgressBarSectionIncomplete,
   ProgressBarLabel,
-} from '../../../theme/adminNotificationStyles';
-import { Row, Col } from '../../../theme/system';
-import base from '../../../theme/index';
-import { PUBLISH_STATUS, PUBLISH_TYPES } from '../../../utils/constants';
+} from '~/theme/adminNotificationStyles';
+import { Row, Col } from '~/theme/system';
+import base from '~/theme/index';
+import { PUBLISH_STATUS, PUBLISH_TYPES } from '~/utils/constants';
 
 import useConfirmationModal from '../../modals/ConfirmationModal';
 
@@ -43,10 +43,9 @@ const BulkPublishState = {
 
 const PublishProgress = ({ renderIcon }) => {
   const { publishProgress, location } = useContext(NotificationsContext);
+  const modelsContext = useContext(ModelManagerContext);
   const { refreshModelsTable } =
-    location && location.pathname === '/admin'
-      ? useContext(ModelManagerContext)
-      : { refreshModelsTable: null };
+    location?.pathname === '/admin' ? modelsContext : { refreshModelsTable: null };
   const { fetchPublishStatus, showUnexpectedPublishError, hideErrorPublishNotification } =
     usePublishNotifications();
   const [working, setWorking] = useState(false);

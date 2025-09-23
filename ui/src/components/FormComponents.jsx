@@ -1,4 +1,3 @@
-import React from 'react';
 import { css } from '@emotion/react';
 import { v4 as uuid } from 'uuid';
 
@@ -23,11 +22,12 @@ import {
   FormFieldError,
   inputSelectErrorIcon,
   checkboxRadioErrorIcon,
-} from '../theme/formComponentsStyles';
-import ErrorCircleIcon from '../icons/ErrorCircleIcon';
-import CrossCircleIcon from '../icons/CrossCircleIcon';
+} from '~/theme/formComponentsStyles';
+import ErrorCircleIcon from '~/icons/ErrorCircleIcon';
+import CrossCircleIcon from '~/icons/CrossCircleIcon';
 
-const hasErrors = (errors, touched, fieldName) => touched[fieldName] && errors[fieldName];
+const hasErrors = (errors, touched, fieldName) =>
+  errors && touched && fieldName && touched[fieldName] && errors[fieldName];
 
 const normalizeOption = (option) =>
   option === 'true' ? true : option === 'false' ? false : option;

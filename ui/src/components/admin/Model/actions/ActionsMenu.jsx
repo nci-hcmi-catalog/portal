@@ -1,10 +1,6 @@
-import React from 'react';
 import { Route } from 'react-router-dom';
 
-import {
-  ActionsMenu as ActionsMenuWrapper,
-  ActionsMenuItem,
-} from '../../../../theme/adminControlsStyles';
+import { ActionsMenu as ActionsMenuWrapper, ActionsMenuItem } from '~/theme/adminControlsStyles';
 import { manageModelsUrlBase } from '../../AdminNav';
 import withDeleteModal from '../../DeleteModal';
 import { ModelSingleContext } from '../ModelSingleController';

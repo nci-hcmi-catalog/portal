@@ -2,17 +2,17 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ReactTable from 'react-table';
 import { css } from '@emotion/react';
 
-import DownloadIcon from '../icons/DownloadIcon';
-import VariantsIcon from '../icons/VariantsIcon';
-import { useVariants } from '../providers/Variants';
-import { ButtonPill } from '../theme/adminControlsStyles';
-import { VariantBlurb, TooltipLink } from '../theme/modelStyles';
-import searchStyles from '../theme/searchStyles';
-import { Row, Col } from '../theme/system';
-import { Tab, TabHeading, variantTab, variantTabActive } from '../theme/verticalTabStyles';
-import { visuallyHidden } from '../theme/index';
-import { VARIANT_TYPES } from '../utils/constants';
-import tsvDownloader from '../utils/tsvDownloader';
+import DownloadIcon from '~/icons/DownloadIcon';
+import VariantsIcon from '~/icons/VariantsIcon';
+import { useVariants } from '~/providers/Variants';
+import { ButtonPill } from '~/theme/adminControlsStyles';
+import { VariantBlurb, TooltipLink } from '~/theme/modelStyles';
+import searchStyles from '~/theme/searchStyles';
+import { Row, Col } from '~/theme/system';
+import { Tab, TabHeading, variantTab, variantTabActive } from '~/theme/verticalTabStyles';
+import { visuallyHidden } from '~/theme/index';
+import { VARIANT_TYPES } from '~/utils/constants';
+import tsvDownloader from '~/utils/tsvDownloader';
 
 import CustomPagination from './admin/AdminTable/CustomPagination';
 import Filter from './input/Filter';
@@ -217,18 +217,16 @@ const VariantTable = React.memo(({ type, modelName, columns, storageKey }) => {
           pageSize={pageSize}
           minRows={0}
           page={page}
-          PaginationComponent={(props) => {
-            setPageSize(props.pageSize);
-            setPage(props.page);
-            return (
-              <CustomPagination
-                {...props}
-                pageSize={pageSize}
-                onPageSizeChange={pageSizeChangeHandler}
-                maxPagesOptions={10}
-              />
-            );
-          }}
+          PaginationComponent={(props) => (
+            <CustomPagination
+              {...props}
+              maxPagesOptions={10}
+              onPageSizeChange={pageSizeChangeHandler}
+              pageSize={pageSize}
+              setPageSize={setPageSize}
+              setPage={setPage}
+            />
+          )}
           onPageChange={(newPage) => setPage(newPage)}
         />
         {sortedData.length === 0 && (

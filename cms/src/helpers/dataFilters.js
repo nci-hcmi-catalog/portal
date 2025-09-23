@@ -1,4 +1,5 @@
-import { isNaN, toNumber } from 'lodash';
+import _ from 'lodash';
+const { isNaN, toNumber } = _;
 
 export const filters = {
   startsWith: (colAccessor, filterValue) => `{"${colAccessor}":{"$regex":"(?i)^(${filterValue})"}}`,
