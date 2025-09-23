@@ -111,6 +111,7 @@ export default css`
   .ReactTable,
   .TableWrapper {
     background: transparent;
+    border: none;
   }
 
   .ReactTable .rt-table,
