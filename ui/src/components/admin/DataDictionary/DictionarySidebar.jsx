@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import TabGroup from '~/components/layout/VerticalTabs';
 import Tab from '~/components/layout/VerticalTabs/Tab';

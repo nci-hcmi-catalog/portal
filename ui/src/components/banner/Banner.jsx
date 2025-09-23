@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import DismissIcon from '~/icons/DismissIcon';
 import CriticalHexagonIcon from '~/icons/CriticalHexagonIcon';

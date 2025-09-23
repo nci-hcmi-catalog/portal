@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Row, Col } from '../../theme/system';
 import SidebarHeader from './SidebarHeader';
 

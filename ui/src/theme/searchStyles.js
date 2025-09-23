@@ -111,6 +111,7 @@ export default css`
   .ReactTable,
   .TableWrapper {
     background: transparent;
+    border: none;
   }
 
   .ReactTable .rt-table,
@@ -287,43 +288,21 @@ export default css`
     border-radius: 4px;
     border-color: ${bombay};
     font-family: ${openSans};
-    appearance: none;
     width: 60px;
-    box-sizing: border-box;
     background-color: ${white};
-    background-image: url(${chevron}),
-      linear-gradient(
-        90deg,
-        transparent 0%,
-        transparent calc(100% - 25px),
-        ${bombay} calc(100% - 25px),
-        ${bombay} calc(100% - 24px),
-        transparent calc(100% - 24px),
-        transparent 100%
-      );
-    background-repeat: no-repeat;
-    background-size: 10px, contain;
-    background-position: bottom 8px right 8px, 0 0;
+    box-sizing: border-box;
     cursor: pointer;
     transition: background-color 0.25s ease;
 
     &:hover {
       background-color: ${lightPorcelain};
-      background-image: url(${chevron}),
-        linear-gradient(
-          90deg,
-          transparent 0%,
-          transparent calc(100% - 25px),
-          ${bombay} calc(100% - 25px),
-          ${bombay} calc(100% - 24px),
-          transparent calc(100% - 24px),
-          transparent 100%
-        );
     }
   }
 
   .ReactTable .-pagination_button {
     font-size: 11px;
+    border: none;
+    border-right: solid 1px #cacbcf;
     ${whiteButtonHover};
   }
 
@@ -579,7 +558,7 @@ export default css`
   .aggregation-group .header .title-wrapper .action-icon svg {
     fill: ${bombay};
     width: 14px;
-    heigth: 14px;
+    height: 14px;
     transition: background 0.25s ease;
 
     &:hover {
@@ -738,6 +717,9 @@ export default css`
       .title {
         width: 100%;
       }
+    }
+    button.disabled {
+      cursor: not-allowed;
     }
   }
 
@@ -961,6 +943,10 @@ export default css`
     color: #1c8292;
     width: 100%;
     padding: 4px 8px;
+  }
+
+  .ListItemLabel button:has(.selectedModelsLabel) {
+    cursor: unset;
   }
 `;
 

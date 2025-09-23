@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Route } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 

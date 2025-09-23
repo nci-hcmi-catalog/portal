@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { css } from '@emotion/react';
 
 import FilterIcon from '~/icons/FilterIcon';

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { ButtonPill } from '~/theme/adminControlsStyles';
 import SaveIcon from '~/icons/SaveIcon';
 import { usePublishNotifications } from '../../Notifications';

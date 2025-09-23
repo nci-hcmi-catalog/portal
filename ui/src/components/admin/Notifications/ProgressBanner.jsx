@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import CheckmarkIcon from '~/icons/CheckmarkIcon';
 import CrossCircleIcon from '~/icons/CrossCircleIcon';
@@ -43,10 +43,9 @@ const BulkImportState = {
 
 const ProgressBanner = ({ renderIcon }) => {
   const { importProgress, location } = useContext(NotificationsContext);
+  const modelContext = useContext(ModelManagerContext);
   const { refreshModelsTable } =
-    location?.pathname === '/admin'
-      ? useContext(ModelManagerContext)
-      : { refreshModelsTable: null };
+    location?.pathname === '/admin' ? modelContext : { refreshModelsTable: null };
   const {
     fetchImportStatus,
     showUnexpectedImportError,

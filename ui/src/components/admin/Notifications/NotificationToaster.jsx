@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import Component from 'react-component-component';
 import { scroller } from 'react-scroll';
