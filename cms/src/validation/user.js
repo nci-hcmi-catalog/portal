@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { userStatus } from '../helpers/userStatus';
+import { userStatus } from '../helpers/userStatus.js';
 
 const userValidation = yup.object().shape({
   name: yup.string().required('Name is a required field'),

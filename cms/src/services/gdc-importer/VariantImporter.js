@@ -1,16 +1,16 @@
 import tsv from 'tsv';
 
-import Model from '../../schemas/model';
-import { GDC_MODEL_STATES, IMPORT_ERRORS } from './gdcConstants';
+import Model from '../../schemas/model.js';
+import { GDC_MODEL_STATES, IMPORT_ERRORS } from './gdcConstants.js';
 import {
   downloadMaf,
   fetchModelFileData,
   getMafStatus,
   getBulkMafStatus,
   getCancerModelFilesFromMafFileData,
-} from './mafFiles';
-import { addGenomicVariantsFromMaf, getGdcImportErrorMessage } from '../../helpers/genomicVariants';
-import getLogger from '../../logger';
+} from './mafFiles.js';
+import { addGenomicVariantsFromMaf, getGdcImportErrorMessage } from '../../helpers/genomicVariants.js';
+import getLogger from '../../logger.js';
 
 const logger = getLogger('services/gdc-importer/VariantImporter');
 

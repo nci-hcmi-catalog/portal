@@ -1,4 +1,4 @@
-const esUtils = require('./utils/esUtils');
+import esUtils from './utils/esUtils.js';
 const run = async () => {
   await esUtils.updateSearchIndices();
 };

@@ -1,3 +1,4 @@
+import React from 'react';
 import { ModalStateContext } from '~/providers/ModalState';
 import {
   AdminModalStyleNarrow,

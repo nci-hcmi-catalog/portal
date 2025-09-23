@@ -1,9 +1,7 @@
-const mongoose = require('mongoose');
-
-const { republishModels } = require('./utils/republishUtils');
+import mongoose from 'mongoose';
 
 // import this and override process.env BEFORE importing s3 services
-const esUtils = require('./utils/esUtils');
+import esUtils  from './utils/esUtils.js';
 process.env = esUtils.config;
 
 const MONGO_COLLECTION = process.env.MONGO_COLLECTION;

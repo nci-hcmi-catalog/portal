@@ -10,7 +10,7 @@ import restify from 'express-restify-mongoose';
 import pino from 'pino-http';
 import helmet from 'helmet';
 
-import { data_sync_router } from './routes/sync-data';
+import { data_sync_router } from './routes/sync-data.js';
 import {
   actionRouter,
   healthRouter,
@@ -22,7 +22,7 @@ import {
   variantsRouter,
   publishRouter,
   authRouter,
-} from './routes';
+} from './routes/index.js';
 import {
   preUpdate,
   validateYup,
@@ -31,13 +31,13 @@ import {
   postCreate,
   outputFn,
   validateUserRequest,
-} from './hooks';
-import Model from './schemas/model';
-import MatchedModels from './schemas/matchedModels';
-import User from './schemas/user';
-import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess';
+} from './hooks.js';
+import Model from './schemas/model.js';
+import MatchedModels from './schemas/matchedModels.js';
+import User from './schemas/user.js';
+import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess.js';
 
-import getLogger from './logger';
+import getLogger from './logger.js';
 const logger = getLogger('root');
 
 const port = process.env.PORT || 8080;

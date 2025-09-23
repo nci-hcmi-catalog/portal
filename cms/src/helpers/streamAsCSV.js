@@ -1,6 +1,7 @@
 import map from 'map-stream';
 import json2csv from 'json2csv';
-import { trimEnd } from 'lodash';
+import _ from 'lodash';
+const { trimEnd } = _;
 const NEW_LINE = '\n';
 /** Given a mongoose schema object, produces a comma separated file. The nested objects are not exported
  * Export of nested object to is left to caller; caller can stream nested objects each as its own different file

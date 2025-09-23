@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
-import { flatten, uniq } from 'lodash';
-import { modelStatus } from '../helpers/modelStatus';
-import getLogger from '../logger';
+import _ from 'lodash';
+const { flatten, uniq } = _;
+import { modelStatus } from '../helpers/modelStatus.js';
+import getLogger from '../logger.js';
 
 getLogger('schemas/model');
 

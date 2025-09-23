@@ -1,13 +1,13 @@
 // @ts-check
 
-import elasticClient from './common/client';
-import indexEsUpdate from './update';
-import Model from '../../schemas/model';
-import { indexMatchedModelsToES } from './publish';
-import { modelStatus } from '../../helpers/modelStatus';
-import { updateGeneSearchIndicies } from './genomicVariants';
+import elasticClient from './common/client.js';
+import indexEsUpdate from './update.js';
+import Model from '../../schemas/model.js';
+import { indexMatchedModelsToES } from './publish.js';
+import { modelStatus } from '../../helpers/modelStatus.js';
+import { updateGeneSearchIndicies } from './genomicVariants.js';
 
-import getLogger from '../../logger';
+import getLogger from '../../logger.js';
 const logger = getLogger('services/elastic-search/unpublish');
 
 const index = process.env.ES_INDEX;

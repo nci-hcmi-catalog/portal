@@ -1,9 +1,9 @@
-import Dictionary from '../schemas/dictionary';
-import Draft, { draftStatus } from '../schemas/dictionaryDraft';
-import Model from '../schemas/model';
-import { modelStatus } from '../helpers/modelStatus';
+import Dictionary from '../schemas/dictionary.js';
+import Draft, { draftStatus } from '../schemas/dictionaryDraft.js';
+import Model from '../schemas/model.js';
+import { modelStatus } from '../helpers/modelStatus.js';
 
-import getLogger from '../logger';
+import getLogger from '../logger.js';
 const logger = getLogger('helpers/dictionary');
 
 const fieldNameToModelPropertyMap = {
