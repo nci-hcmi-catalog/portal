@@ -1,13 +1,14 @@
-import { publishModel } from './services/elastic-search/publish';
-import { unpublishModel } from './services/elastic-search/unpublish';
-import { modelStatus, runYupValidatorFailFast } from './helpers';
-import { deleteImage } from './routes/images';
-import { getSaveValidation } from './validation/model';
-import { getLoggedInUser } from './helpers/authorizeUserAccess';
-import userValidation from './validation/user';
-import { transform } from 'lodash';
+import { publishModel } from './services/elastic-search/publish.js';
+import { unpublishModel } from './services/elastic-search/unpublish.js';
+import { modelStatus, runYupValidatorFailFast } from './helpers/index.js';
+import { deleteImage } from './routes/images.js';
+import { getSaveValidation } from './validation/model.js';
+import { getLoggedInUser } from './helpers/authorizeUserAccess.js';
+import userValidation from './validation/user.js';
+import _ from 'lodash';
+const { transform } = _;
 
-import getLogger from './logger';
+import getLogger from './logger.js';
 const logger = getLogger('hooks');
 
 export const validateYup = (req, res, next) => {

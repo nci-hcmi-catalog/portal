@@ -5,6 +5,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "vite build",
+    "preview": "vite preview --outDir=build",
     "start": "vite"
   },
   "dependencies": {

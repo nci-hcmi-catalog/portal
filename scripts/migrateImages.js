@@ -1,14 +1,13 @@
- 
-const mongoose = require('mongoose');
-const stream = require('stream');
+import mongoose from 'mongoose';
+import stream from 'stream';
 
 // import this and override process.env BEFORE importing s3 services
-const esUitils = require('./esUtils');
-process.env = esUitils.config;
+import esUtils from './esUtils.js';
+process.env = esUtils.config;
 
 const MONGO_COLLECTION = process.env.MONGO_COLLECTION;
 
-const { uploadToS3 } = require('./../cms/src/services/s3/s3');
+import { uploadToS3 } from './../cms/src/services/s3/s3.js';
 
 const migrateImage = async ({
   bucket,

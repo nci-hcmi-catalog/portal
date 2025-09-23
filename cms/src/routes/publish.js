@@ -1,8 +1,8 @@
 import express from 'express';
-import Publisher from '../services/publish/Publisher';
-import { PUBLISH_ERRORS } from '../services/publish/constants';
+import Publisher from '../services/publish/Publisher.js';
+import { PUBLISH_ERRORS } from '../services/publish/constants.js';
 
-import getLogger from '../logger';
+import getLogger from '../logger.js';
 
 const logger = getLogger('routes/publish');
 
