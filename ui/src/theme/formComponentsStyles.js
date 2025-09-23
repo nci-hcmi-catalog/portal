@@ -147,8 +147,6 @@ export const Input = styled('input')`
 export const Select = styled('select')`
   ${inputSelectSharedStyles};
   width: ${(props) => props.width || '100%'};
-
-  appearance: none;
   box-sizing: border-box;
   background-color: ${white};
   cursor: pointer;
