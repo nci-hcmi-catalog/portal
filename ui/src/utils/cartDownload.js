@@ -1,5 +1,5 @@
 import download from '@overture-stack/arranger-components/dist/utils/download';
-import globals from 'utils/globals';
+import globals from './globals';
 
 const query = `query ModelColumns {
   model {

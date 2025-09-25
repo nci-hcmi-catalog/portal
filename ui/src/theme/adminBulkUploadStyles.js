@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import base from 'theme';
-import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
+import base from './index';
+import { brandPrimaryHighlightHover } from './hoverStyles';
 
 const {
   fonts: { libreFranklin, openSans },

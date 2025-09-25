@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { userStatus } from '../helpers/userStatus';
+import { userStatus } from '../helpers/userStatus.js';
 
 export const UserSchema = new mongoose.Schema(
   {

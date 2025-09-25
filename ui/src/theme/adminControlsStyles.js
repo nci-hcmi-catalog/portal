@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import base from 'theme';
-import { adminPillHover } from 'theme/hoverStyles';
+import base from './index';
+import { adminPillHover } from './hoverStyles';
 
 const {
   fonts: { openSans },

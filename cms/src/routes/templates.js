@@ -1,10 +1,10 @@
 // @ts-check
-import { ensureAuth } from '../helpers';
-import { createModelUploadTemplate, createVariantUploadTemplate } from '../helpers/uploadTemplate';
+import { ensureAuth } from '../helpers/index.js';
+import { createModelUploadTemplate, createVariantUploadTemplate } from '../helpers/uploadTemplate.js';
 
 import express from 'express';
 
-import getLogger from '../logger';
+import getLogger from '../logger.js';
 const logger = getLogger('routes/templates');
 
 const templatesRouter = express.Router();

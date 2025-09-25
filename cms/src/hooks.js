@@ -1,24 +1,25 @@
-import { publishModel } from './services/elastic-search/publish';
-import { unpublishModel } from './services/elastic-search/unpublish';
-import { modelStatus, runYupValidatorFailFast } from './helpers';
-import { deleteImage } from './routes/images';
-import { getSaveValidation } from './validation/model';
-import { getLoggedInUser } from './helpers/authorizeUserAccess';
-import userValidation from './validation/user';
-import { transform } from 'lodash';
+import { publishModel } from './services/elastic-search/publish.js';
+import { unpublishModel } from './services/elastic-search/unpublish.js';
+import { modelStatus, runYupValidatorFailFast } from './helpers/index.js';
+import { deleteImage } from './routes/images.js';
+import { getSaveValidation } from './validation/model.js';
+import { getLoggedInUser } from './helpers/authorizeUserAccess.js';
+import userValidation from './validation/user.js';
+import _ from 'lodash';
+const { transform } = _;
 
-import getLogger from './logger';
+import getLogger from './logger.js';
 const logger = getLogger('hooks');
 
 export const validateYup = (req, res, next) => {
   getSaveValidation()
-    .then(validation => {
+    .then((validation) => {
       runYupValidatorFailFast(validation, [req.body]).then(() => {
         addUserEmail(req);
         next();
       });
     })
-    .catch(error => {
+    .catch((error) => {
       logger.error(error);
       res.status(500).json({
         error,
@@ -29,7 +30,7 @@ export const validateYup = (req, res, next) => {
 export const preModelDelete = (req, res, next) => {
   unpublishModel(req.params.id)
     .then(() => next())
-    .catch(error => {
+    .catch((error) => {
       logger.error(error);
       res.status(500).json({
         error,
@@ -39,7 +40,7 @@ export const preModelDelete = (req, res, next) => {
 
 export const preUpdate = (req, res, next) => {
   getSaveValidation()
-    .then(validation => {
+    .then((validation) => {
       runYupValidatorFailFast(validation, [req.body])
         .then(async () => {
           const {
@@ -53,11 +54,11 @@ export const preUpdate = (req, res, next) => {
               // findOneAndUpdate is used elsewhere, so we need to manually find the doc
               const modelDoc = await model.findById(body._id);
               const toDelete = modelDoc.files
-                .filter(f => f.marked_for_deletion)
-                .map(f => f.file_id);
+                .filter((f) => f.marked_for_deletion)
+                .map((f) => f.file_id);
 
-              return Promise.all(toDelete.map(id => deleteImage(id))).then(() => {
-                const remainingFiles = modelDoc.files.filter(f => !toDelete.includes(f.file_id));
+              return Promise.all(toDelete.map((id) => deleteImage(id))).then(() => {
+                const remainingFiles = modelDoc.files.filter((f) => !toDelete.includes(f.file_id));
                 // setting and saving the mongoose doc here returns correct state but
                 // does not seem to commit it. Setting req body does.
                 req.body.files = remainingFiles;
@@ -67,7 +68,7 @@ export const preUpdate = (req, res, next) => {
         })
         .then(() => next());
     })
-    .catch(error => {
+    .catch((error) => {
       logger.error(error);
       res.status(500).json({
         error,
@@ -84,7 +85,7 @@ export const outputFn = async (req, res, next) => {
   // remove nulls from result
   const responseResult =
     result instanceof Array
-      ? result.map(item => removeNullsFromResponse(item))
+      ? result.map((item) => removeNullsFromResponse(item))
       : removeNullsFromResponse(result);
 
   res.status(statusCode).json(responseResult);
@@ -115,11 +116,11 @@ export const postUpdate = async (req, res, next) => {
       case modelStatus.published:
         return publishModel({ name: result.name })
           .then(() => next())
-          .catch(err => next(err));
+          .catch((err) => next(err));
       case modelStatus.unpublished:
         return unpublishModel(result.name)
           .then(() => next())
-          .catch(err => next(err));
+          .catch((err) => next(err));
       default:
         return next();
     }
@@ -134,18 +135,18 @@ export const validateUserRequest = (req, res, next) => {
       addUserEmail(req);
       next();
     })
-    .catch(error => {
+    .catch((error) => {
       logger.error(error);
       res.status(500).json({
         error,
       });
     });
 };
-const addUserEmail = req => {
+const addUserEmail = (req) => {
   req.body.updatedBy = getLoggedInUser(req).user_email;
 };
 
-const removeNullsFromResponse = data =>
+const removeNullsFromResponse = (data) =>
   transform(
     data,
     (result, value, key) => {

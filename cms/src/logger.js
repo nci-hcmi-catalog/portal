@@ -1,8 +1,8 @@
-const pino = require('pino');
+import pino from 'pino';
 
 const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
 
-const getLogger = context => {
+const getLogger = (context) => {
   const output = logger.child({ context });
   output.audit = (data, action, message) => {
     output.info({ audit: 'cms', action, data }, message);
@@ -10,4 +10,4 @@ const getLogger = context => {
   return output;
 };
 
-module.exports = getLogger;
+export default getLogger;

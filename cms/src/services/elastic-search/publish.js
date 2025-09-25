@@ -1,12 +1,12 @@
-import { ModelES } from './common/schemas/model';
-import Model from '../../schemas/model';
-import getPublishValidation from '../../validation/model';
-import { modelStatus } from '../../helpers/modelStatus';
-import MatchUtils from '../../helpers/matchedModels';
-import indexEsUpdate from './update';
-import { updateGeneSearchIndicies } from './genomicVariants';
+import { ModelES } from './common/schemas/model.js';
+import Model from '../../schemas/model.js';
+import getPublishValidation from '../../validation/model.js';
+import { modelStatus } from '../../helpers/modelStatus.js';
+import MatchUtils from '../../helpers/matchedModels.js';
+import indexEsUpdate from './update.js';
+import { updateGeneSearchIndicies } from './genomicVariants.js';
 
-import getLogger from '../../logger';
+import getLogger from '../../logger.js';
 const logger = getLogger('services/elastic-search/publish');
 
 export const publishModel = async (filter, individualPublish = true) => {

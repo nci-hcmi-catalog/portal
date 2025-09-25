@@ -1,7 +1,7 @@
 import express from 'express';
-import MatchUtils from '../helpers/matchedModels';
+import MatchUtils from '../helpers/matchedModels.js';
 
-import getLogger from '../logger';
+import getLogger from '../logger.js';
 const logger = getLogger('routes/matchedModels');
 
 const actionRouter = express.Router();

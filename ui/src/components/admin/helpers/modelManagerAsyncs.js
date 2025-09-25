@@ -2,7 +2,7 @@
 
 import config from '../config';
 import { get } from '../services/Fetcher';
-import { getSheetObject } from '../helpers';
+import { getSheetObject } from '.';
 import { getAuth } from './googleAuth';
 
 export const uploadModelsFromSheet = async (sheetURL, overwrite) => {

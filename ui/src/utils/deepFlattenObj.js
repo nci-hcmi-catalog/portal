@@ -1,5 +1,3 @@
-// import { camelCase } from 'lodash';
-
 /**
  * Creates a flat object from a nested object
  * Note: this implementation does not account for the possibility

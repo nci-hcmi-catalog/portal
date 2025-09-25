@@ -1,5 +1,5 @@
 import { fetchData } from '../services/Fetcher';
-import { getSheetObject } from '../helpers';
+import { getSheetObject } from '.';
 import { getAuth } from './googleAuth';
 
 // async abstractions

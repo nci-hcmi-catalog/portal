@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 import mongooseElasticsearch from 'mongoose-elasticsearch-xp';
-import elasticClient from '../services/elastic-search/common/client';
+import elasticClient from '../services/elastic-search/common/client.js';
 
 const GeneSchema = new mongoose.Schema(
   {

@@ -3,11 +3,11 @@ import { keyframes } from '@emotion/react';
 import { css } from '@emotion/react';
 import { Element } from 'react-scroll';
 
-import { NOTIFICATION_TYPES } from './../components/admin/Notifications';
+import { NOTIFICATION_TYPES } from '../components/admin/Notifications';
 
-import base from 'theme';
-import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
-import { Col, Row } from 'theme/system';
+import base from './index';
+import { brandPrimaryHighlightHover } from './hoverStyles';
+import { Col, Row } from './system';
 
 const {
   fonts: { openSans },

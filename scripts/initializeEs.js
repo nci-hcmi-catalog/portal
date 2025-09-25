@@ -1,4 +1,5 @@
-const esUtils = require('./utils/esUtils');
+import esUtils from './utils/esUtils.js';
+
 const run = async () => {
   /** initialize search index */
   await esUtils.createModelsIndex();

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import base from 'theme';
-import { Row, Col } from 'theme/system';
+import base from './index';
+import { Row, Col } from './system';
 
 const {
   fonts: { openSans },

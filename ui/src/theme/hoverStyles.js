@@ -5,7 +5,7 @@ import base, {
   bkgRollover,
   softTransitionRollover,
   softTransitionRolloverBkgHover,
-} from 'theme';
+} from './index';
 
 const {
   keyedPalette: {

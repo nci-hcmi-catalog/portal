@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Dictionary, DictionaryField, DictionaryValue, Dependent } from './dictionary';
+import { Dictionary, DictionaryField, DictionaryValue, Dependent } from './dictionary.js';
 
 export const draftStatus = { published: 'published', edited: 'edited', new: 'new' };
 

@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-import { tissueTypes } from '../schemas/constants';
+import { tissueTypes } from '../schemas/constants.js';
 
 const { string, object } = yup;
 

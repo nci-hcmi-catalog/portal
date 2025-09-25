@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import base from 'theme';
+import base from './index';
 
 const {
   keyedPalette: { crimson, white },

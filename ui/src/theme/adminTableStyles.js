@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
-import base from 'theme';
-import { Row } from 'theme/system';
-import { SmallButtonPill } from 'theme/adminControlsStyles';
+import base from './index';
+import { Row } from './system';
+import { SmallButtonPill } from './adminControlsStyles';
 
 const {
   keyedPalette: { bombay, white, black, lightBlack, trout, lightPorcelain },
