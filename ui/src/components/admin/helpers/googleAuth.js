@@ -1,4 +1,4 @@
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const GOOGLE_AUTH_KEY = 'HCMI_GOOGLE_AUTH';
 
@@ -30,7 +30,7 @@ export const decodeToken = (googleJwt) => {
   const token = googleJwt || getToken();
 
   try {
-    const decoded = jwt_decode(token);
+    const decoded = jwtDecode(token);
     return decoded;
   } catch (err) {
     console.warn('Error decoding JWT: ', err);

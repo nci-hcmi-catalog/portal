@@ -1,5 +1,5 @@
-import { get, post } from './../../services/Fetcher';
-import config from './../../config';
+import { get, post } from '../../services/Fetcher';
+import config from '../../config';
 
 const PUBLISH_URL = `${config.urls.cmsBase}/publish`;
 

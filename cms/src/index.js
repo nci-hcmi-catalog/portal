@@ -1,5 +1,4 @@
 // @ts-check
-
 import 'babel-polyfill';
 import express from 'express';
 import { Server } from 'http';
@@ -11,7 +10,7 @@ import restify from 'express-restify-mongoose';
 import pino from 'pino-http';
 import helmet from 'helmet';
 
-import { data_sync_router } from './routes/sync-data';
+import { data_sync_router } from './routes/sync-data.js';
 import {
   actionRouter,
   healthRouter,
@@ -23,7 +22,7 @@ import {
   variantsRouter,
   publishRouter,
   authRouter,
-} from './routes';
+} from './routes/index.js';
 import {
   preUpdate,
   validateYup,
@@ -32,13 +31,13 @@ import {
   postCreate,
   outputFn,
   validateUserRequest,
-} from './hooks';
-import Model from './schemas/model';
-import MatchedModels from './schemas/matchedModels';
-import User from './schemas/user';
-import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess';
+} from './hooks.js';
+import Model from './schemas/model.js';
+import MatchedModels from './schemas/matchedModels.js';
+import User from './schemas/user.js';
+import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess.js';
 
-import getLogger from './logger';
+import getLogger from './logger.js';
 const logger = getLogger('root');
 
 const port = process.env.PORT || 8080;
@@ -81,14 +80,15 @@ if (process.env.AUTH_ENABLED !== 'false') {
     if (!authorized) {
       logger.error(`Unauthorized Request: ${req.method}, ${req.url}, ${req.headers[USER_EMAIL]}`);
       return res.status(403).json({
-        error: `${req.headers[USER_EMAIL] ||
-          'Unknown user'} is not authorized to access this application.`,
+        error: `${
+          req.headers[USER_EMAIL] || 'Unknown user'
+        } is not authorized to access this application.`,
       });
     }
     next();
   });
 }
-app.use(pino({ reqCustomProps: req => ({ user: getLoggedInUser(req).user_email }) }));
+app.use(pino({ reqCustomProps: (req) => ({ user: getLoggedInUser(req).user_email }) }));
 
 // configure endpoints
 restify.serve(modelRouter, Model, {

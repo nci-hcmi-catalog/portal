@@ -1,11 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import base from 'theme';
+import base from './index';
 
-import { SmallPill } from 'theme/adminControlsStyles';
-import { AdminContainer, AdminContent, AdminHeader } from 'theme/adminStyles';
-import { Col } from 'theme/system';
-import { Row } from 'theme/system';
+import { SmallPill } from './adminControlsStyles';
+import { AdminContainer, AdminContent, AdminHeader } from './adminStyles';
+import { Col } from './system';
+import { Row } from './system';
 
 const {
   fonts: { openSans },

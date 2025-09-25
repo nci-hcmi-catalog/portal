@@ -3,8 +3,8 @@ import ReactMarkdown from 'react-markdown';
 
 import { BANNER_TYPES } from '../utils/constants';
 
-import base from 'theme';
-import { Row } from 'theme/system';
+import base from './index';
+import { Row } from './system';
 
 const {
   keyedPalette: { brandPrimary, valencia },

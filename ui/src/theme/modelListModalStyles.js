@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
-import base from 'theme';
-import { brandPrimaryHighlightHover } from 'theme/hoverStyles';
+import base from './index';
+import { brandPrimaryHighlightHover } from './hoverStyles';
 
 const {
   keyedPalette: { alto, athensGray, athensLightGray, black, crimson, mischka, white },

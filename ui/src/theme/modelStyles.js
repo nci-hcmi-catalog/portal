@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { Row } from 'theme/system';
-import base from 'theme';
+import { Row } from './system';
+import base from './index';
 
 const {
   fonts: { openSans },

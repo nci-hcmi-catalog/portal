@@ -1,10 +1,10 @@
-import Model from '../../schemas/model';
-import getPublishValidation from '../../validation/model';
-import { runYupValidatorFailSlow } from '../../helpers';
-import { PUBLISH_ERRORS } from './constants';
-import { getPublishErrorMessage } from './helpers';
-import { publishModel, bulkUpdateGeneSearchIndices } from '../elastic-search/publish';
-import getLogger from '../../logger';
+import Model from '../../schemas/model.js';
+import getPublishValidation from '../../validation/model.js';
+import { runYupValidatorFailSlow } from '../../helpers/index.js';
+import { PUBLISH_ERRORS } from './constants.js';
+import { getPublishErrorMessage } from './helpers.js';
+import { publishModel, bulkUpdateGeneSearchIndices } from '../elastic-search/publish.js';
+import getLogger from '../../logger.js';
 
 const logger = getLogger('services/publish/Publisher');
 

@@ -1,4 +1,5 @@
-import { trimEnd } from 'lodash';
+import _ from 'lodash';
+const { trimEnd } = _;
 
 export const schemaArr = [
   {

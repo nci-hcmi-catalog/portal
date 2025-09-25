@@ -4,16 +4,17 @@ import { PassThrough } from 'stream';
 
 import decompress from 'decompress';
 import zlib from 'zlib';
-import { get, flattenDeep, intersection, isEmpty } from 'lodash';
+import _ from 'lodash';
+const { get, flattenDeep, intersection, isEmpty } = _;
 
 import {
   GDC_MODEL_STATES,
   GDC_CANCER_MODEL_SAMPLE_TYPES,
   GDC_GRAPHQL_BASE_URL,
   FETCH_MODEL_FILE_DATA_QUERY,
-} from './gdcConstants';
+} from './gdcConstants.js';
 
-import getLogger from '../../logger';
+import getLogger from '../../logger.js';
 const logger = getLogger('services/gdc-importer/mafFiles');
 
 export const fetchModelFileData = async modelNames => {

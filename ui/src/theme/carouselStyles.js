@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import StyledSlider from 'react-styled-carousel';
-import base from 'theme';
+import base from './index';
 
 const {
   keyedPalette: { brandPrimary, deepIron },

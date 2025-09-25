@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import base from 'theme';
-import { Row } from 'theme/system';
-import { HoverPill } from 'theme/adminControlsStyles';
+import base from './index';
+import { Row } from './system';
+import { HoverPill } from './adminControlsStyles';
 
 const {
   fonts: { openSans },

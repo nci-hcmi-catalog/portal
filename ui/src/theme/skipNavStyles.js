@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import base from 'theme';
+import base from './index';
 
 const {
   keyedPalette: { black, linen, redDamask },

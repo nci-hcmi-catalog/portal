@@ -1,7 +1,7 @@
 // @ts-check
 
-import elasticClient from './common/client';
-import getLogger from '../../logger';
+import elasticClient from './common/client.js';
+import getLogger from '../../logger.js';
 const logger = getLogger('services/elastic-search/update');
 
 const index = process.env.ES_UPDATE_INDEX;

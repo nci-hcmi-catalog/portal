@@ -1,5 +1,5 @@
-const esUtils = require('./utils/esUtils');
-const { republishModels } = require('./utils/republishUtils');
+import esUtils from './utils/esUtils.js';
+import { republishModels } from './utils/republishUtils.js';
 const run = async () => {
   await esUtils.deleteModelsIndex();
   await esUtils.createModelsIndex();

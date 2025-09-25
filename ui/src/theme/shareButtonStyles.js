@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
-import base from 'theme';
-import { whiteButtonHover } from 'theme/hoverStyles';
+import base from './index';
+import { whiteButtonHover } from './hoverStyles';
 const {
   fonts: { openSans },
   keyedPalette: { black, bombay, elm, lightBlack, lightPorcelain, white },

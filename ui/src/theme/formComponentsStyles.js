@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import base from 'theme';
-import CalendarIcon from 'assets/icon-calendar.svg';
-import chevron from 'assets/icon-chevron-down.svg';
+import base from './index';
+import CalendarIcon from '../assets/icon-calendar.svg';
+import chevron from '../assets/icon-chevron-down.svg';
 
 const {
   fonts: { openSans },
@@ -147,39 +147,14 @@ export const Input = styled('input')`
 export const Select = styled('select')`
   ${inputSelectSharedStyles};
   width: ${(props) => props.width || '100%'};
-
-  appearance: none;
   box-sizing: border-box;
   background-color: ${white};
-  background-image: url(${chevron}),
-    linear-gradient(
-      90deg,
-      transparent 0%,
-      transparent calc(100% - 37px),
-      ${bombay} calc(100% - 37px),
-      ${bombay} calc(100% - 36px),
-      transparent calc(100% - 36px),
-      transparent 100%
-    );
-  background-repeat: no-repeat;
-  background-size: 10px, contain;
-  background-position: bottom 12px right 12px, 0 0;
   cursor: pointer;
   transition: background-color 0.25s ease;
 
   &:not(:disabled) {
     &:hover {
       background-color: ${lightPorcelain};
-      background-image: url(${chevron}),
-        linear-gradient(
-          90deg,
-          transparent 0%,
-          transparent calc(100% - 37px),
-          ${bombay} calc(100% - 37px),
-          ${bombay} calc(100% - 36px),
-          transparent calc(100% - 36px),
-          transparent 100%
-        );
     }
   }
 

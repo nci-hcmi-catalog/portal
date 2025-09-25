@@ -1,27 +1,20 @@
-const esUtils = require('./esUtils');
+import esUtils from './esUtils.js';
 
 // Do some env setup to simulate using pm2 as an env import (amazing hack!)
 process.env = esUtils.config;
 
-require('babel-polyfill');
-require('@babel/register')({
-  presets: ['@babel/env'],
-  plugins: [
-    '@babel/plugin-proposal-optional-chaining',
-    '@babel/plugin-proposal-object-rest-spread',
-  ],
-});
-const mongoose = require('mongoose');
-const { publishModel } = require('../../cms/src/services/elastic-search/publish');
-const { ModelES } = require('../../cms/src/services/elastic-search/common/schemas/model');
-require('../../cms/src/schemas/variant');
-require('../../cms/src/schemas/matchedModels');
+import 'babel-polyfill';
+import mongoose from 'mongoose';
+import { publishModel } from '../../cms/src/services/elastic-search/publish.js';
+import { ModelES } from '../../cms/src/services/elastic-search/common/schemas/model.js';
+import '../../cms/src/schemas/variant.js';
+import '../../cms/src/schemas/matchedModels.js';
 
-const { modelStatus } = require('../../cms/src/helpers/modelStatus');
+import { modelStatus } from '../../cms/src/helpers/modelStatus.js';
 
-const indexEsUpdate = require('../../cms/src/services/elastic-search/update.js');
+import indexEsUpdate from '../../cms/src/services/elastic-search/update.js';
 
-module.exports.republishModels = async () => {
+export const republishModels = async () => {
   console.log('Connecting to MongoDB...');
   // Connect to database
 
@@ -42,7 +35,7 @@ module.exports.republishModels = async () => {
     await publishModel({ name: model.name });
   }
 
-  indexEsUpdate.default();
+  indexEsUpdate();
 
   mongoose.disconnect();
 };

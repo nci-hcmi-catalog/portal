@@ -1,14 +1,14 @@
 // @ts-check
 
 import express from 'express';
-import Model from '../schemas/model';
-import getPublishValidation from '../validation/model';
-import { runYupValidatorFailSlow, modelStatus } from '../helpers';
-import { indexOneToES, indexMatchedModelsToES } from '../services/elastic-search/publish';
-import { unpublishManyFromES } from '../services/elastic-search/unpublish';
-import csvStream from '../helpers/streamAsCSV';
-import { backupFields } from '../schemas/descriptions/model';
-import { updateGeneSearchIndicies } from '../services/elastic-search/genomicVariants';
+import Model from '../schemas/model.js';
+import getPublishValidation from '../validation/model.js';
+import { runYupValidatorFailSlow, modelStatus } from '../helpers/index.js';
+import { indexOneToES, indexMatchedModelsToES } from '../services/elastic-search/publish.js';
+import { unpublishManyFromES } from '../services/elastic-search/unpublish.js';
+import csvStream from '../helpers/streamAsCSV.js';
+import { backupFields } from '../schemas/descriptions/model.js';
+import { updateGeneSearchIndicies } from '../services/elastic-search/genomicVariants.js';
 
 import getLogger from '../logger';
 const logger = getLogger('routes/bulk');

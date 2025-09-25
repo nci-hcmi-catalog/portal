@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 
 import { Link } from 'react-router-dom';
 
-import bannerPath from 'assets/hcmi-catalog-banner.jpg';
-import base from 'theme';
+import bannerPath from '../assets/hcmi-catalog-banner.jpg';
+import base from './index';
 
 const {
   fonts: { openSans },

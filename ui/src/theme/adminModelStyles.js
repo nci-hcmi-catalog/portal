@@ -2,9 +2,9 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
-import base from 'theme';
-import { Col } from 'theme/system';
-import { AdminContent, AdminHeaderH1 } from 'theme/adminStyles';
+import base from './index';
+import { Col } from './system';
+import { AdminContent, AdminHeaderH1 } from './adminStyles';
 
 const {
   fonts: { openSans },

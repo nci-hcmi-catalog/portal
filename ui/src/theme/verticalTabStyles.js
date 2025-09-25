@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import base from 'theme';
-import { Col } from 'theme/system';
-import { verticalTabHover } from 'theme/hoverStyles';
+import base from './index';
+import { Col } from './system';
+import { verticalTabHover } from './hoverStyles';
 
 const {
   fonts: { openSans },

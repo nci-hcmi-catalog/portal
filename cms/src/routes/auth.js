@@ -1,7 +1,7 @@
 import express from 'express';
 import { OAuth2Client } from 'google-auth-library';
 
-import getLogger from '../logger';
+import getLogger from '../logger.js';
 
 const logger = getLogger('routes/auth');
 

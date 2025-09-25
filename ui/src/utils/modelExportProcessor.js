@@ -1,5 +1,5 @@
 import { omit } from 'lodash';
-import deepFlattenObj from 'utils/deepFlattenObj';
+import deepFlattenObj from './deepFlattenObj';
 
 export default function modelExportProcessor(model) {
   // remove unneeded fields

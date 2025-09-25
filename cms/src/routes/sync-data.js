@@ -1,18 +1,19 @@
 // @ts-check
 
 import express from 'express';
-import { unionWith, uniqWith, isEqual } from 'lodash';
+import _ from 'lodash';
+const { unionWith, uniqWith, isEqual } = _;
 
-import { toExcelHeaders, toExcelRowNumber } from '../schemas/constants';
-import Model, { ModelSchema } from '../schemas/model';
-import Variant from '../schemas/variant';
-import { getSaveValidation } from '../validation/model';
-import { modelVariantUploadSchema } from '../validation/variant';
-import { modelStatus, ensureAuth, computeModelStatus, runYupValidatorFailSlow } from '../helpers';
-import { getSheetData, typeToParser, NAtoNull } from '../services/import/SheetsToMongo';
-import { getLoggedInUser } from '../helpers/authorizeUserAccess';
+import { toExcelHeaders, toExcelRowNumber } from '../schemas/constants.js';
+import Model, { ModelSchema } from '../schemas/model.js';
+import Variant from '../schemas/variant.js';
+import { getSaveValidation } from '../validation/model.js';
+import { modelVariantUploadSchema } from '../validation/variant.js';
+import { modelStatus, ensureAuth, computeModelStatus, runYupValidatorFailSlow } from '../helpers/index.js';
+import { getSheetData, typeToParser, NAtoNull } from '../services/import/SheetsToMongo.js';
+import { getLoggedInUser } from '../helpers/authorizeUserAccess.js';
 
-import getLogger from '../logger';
+import getLogger from '../logger.js';
 const logger = getLogger('routes/sync-data');
 
 export const data_sync_router = express.Router();
