@@ -10,10 +10,13 @@ const imagesRouter = express.Router();
 
 imagesRouter.post('/', async (req, res) => {
   const storage = multer.memoryStorage();
-  const upload = multer({ storage, limits: { fields: 1, files: 1, parts: 2 } });
-  upload.single('image')(req, res, error => {
+  console.log('storage', storage);
+  // parts: 2
+  const upload = multer({ storage, limits: { fields: 1, files: 1 } });
+  console.log('upload', upload);
+  upload.single('image')(req, res, (error) => {
     if (error) {
-      return res.status(500).json({ error: 'upload request failed' });
+      return res.status(500).json({ error: `Upload request failed: ${error}` });
     }
     const fileName = req.body.filename;
     const fileStream = new Readable();
@@ -31,7 +34,7 @@ imagesRouter.post('/', async (req, res) => {
   });
 });
 
-export const deleteImage = async id => {
+export const deleteImage = async (id) => {
   try {
     deleteFromS3(id);
   } catch (error) {
