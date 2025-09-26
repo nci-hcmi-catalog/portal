@@ -41,7 +41,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
     "@babel/preset-react": "^7.27.1",
     "@elastic/elasticsearch": "~7.17.0",
-    "axios": "^0.21.2",
+    "axios": "^1.7.9",
     "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-config-react-app": "7.0.1",
