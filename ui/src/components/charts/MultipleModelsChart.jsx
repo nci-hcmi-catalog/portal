@@ -44,7 +44,7 @@ export default ({ sqon, setSQON, extendedMapping }) => (
                     theme.multipleModelsChartPalette[i % theme.multipleModelsChartPalette.length],
                 };
               })}
-              tooltip={({ value, label }) => ChartTooltip({ value, label })}
+              tooltip={({ datum: { value, label } }) => ChartTooltip({ value, label })}
               colors={theme.multipleModelsChartPalette}
               colorBy={({ color }) => color}
               theme={theme.chart}

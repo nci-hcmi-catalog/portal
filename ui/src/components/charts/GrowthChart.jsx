@@ -74,7 +74,7 @@ const GrowthChart = ({ sqon, setSQON }) => (
                   enableArcLinkLabels={false}
                   slicesLabelsSkipAngle={10}
                   animate={false}
-                  tooltip={({ id, value, label }) => ChartTooltip({ value, label })}
+                  tooltip={({ datum: { value, label } }) => ChartTooltip({ value, label })}
                   theme={theme.chart}
                   onClick={(data) => {
                     setSQON(

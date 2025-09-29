@@ -41,7 +41,7 @@ export default ({ sqon, setSQON }) => (
                 value: x.doc_count,
                 color: theme.chartsPalette[i % theme.chartsPalette.length],
               }))}
-              tooltip={({ value, label }) => ChartTooltip({ value, label })}
+              tooltip={({ datum: { value, label } }) => ChartTooltip({ value, label })}
               colors={theme.chartsPalette}
               colorBy={({ color }) => color}
               theme={theme.chart}
