@@ -49,8 +49,8 @@ export default ({ sqon, setSQON, extendedMapping }) => (
               colorBy={({ color }) => color}
               theme={theme.chart}
               innerRadius={0.7}
-              enableRadialLabels={false}
-              enableSlicesLabels={false}
+              enableArcLabels={false}
+              enableArcLinkLabels={false}
               slicesLabelsSkipAngle={10}
               animate={false}
               onClick={(data) => {

@@ -70,8 +70,8 @@ const GrowthChart = ({ sqon, setSQON }) => (
                   ]}
                   colors={theme.growthChartPalette}
                   innerRadius={0.7}
-                  enableRadialLabels={false}
-                  enableSlicesLabels={false}
+                  enableArcLabels={false}
+                  enableArcLinkLabels={false}
                   slicesLabelsSkipAngle={10}
                   animate={false}
                   tooltip={({ id, value, label }) => ChartTooltip({ value, label })}
