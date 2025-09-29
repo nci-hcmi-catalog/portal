@@ -178,7 +178,7 @@ const base = {
         background: '#f0f0f0ff',
         border: '1px #64666a solid',
         borderRadius: 2,
-        boxShadow: '0px 1px 2px #aaaaaa',
+        boxShadow: '0px 1px 3px #aaaaaa',
         fontSize: 12,
         fontWeight: 'bold',
         lineHeight: 1.5,
