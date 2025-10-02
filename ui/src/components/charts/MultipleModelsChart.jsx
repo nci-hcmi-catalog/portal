@@ -63,7 +63,7 @@ export default ({ sqon, setSQON, extendedMapping }) => (
                           op: 'in',
                           content: {
                             fieldName: 'has_matched_models',
-                            value: [data.key],
+                            value: [data.data.key],
                           },
                         },
                       ],
