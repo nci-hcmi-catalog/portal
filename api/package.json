@@ -22,8 +22,8 @@
     "jszip": "^3.7.0",
     "map-stream": "^0.0.7",
     "mongoose": "^5.7.5",
-    "pino": "^6.5.1",
-    "pino-http": "^5.2.0",
+    "pino": "^9.13.1",
+    "pino-http": "^10.5.0",
     "sharp": "0.34.4"
   },
   "devDependencies": {
