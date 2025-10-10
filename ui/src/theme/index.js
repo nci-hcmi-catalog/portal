@@ -174,12 +174,16 @@ const base = {
   },
   chart: {
     tooltip: {
-      container: {
-        border: '1px #aaaaaa solid',
-        background: 'rgb(240, 240, 240)',
-        fontSize: '11px',
-        textAlign: 'center',
+      wrapper: {
+        background: '#f0f0f0ff',
+        border: '1px #64666a solid',
+        borderRadius: 2,
+        boxShadow: '0px 1px 3px #aaaaaa',
+        fontSize: 12,
         fontWeight: 'bold',
+        lineHeight: 1.5,
+        padding: 8,
+        textAlign: 'center',
       },
     },
   },

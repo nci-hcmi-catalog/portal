@@ -44,13 +44,13 @@ export default ({ sqon, setSQON, extendedMapping }) => (
                     theme.multipleModelsChartPalette[i % theme.multipleModelsChartPalette.length],
                 };
               })}
-              tooltip={({ value, label }) => ChartTooltip({ value, label })}
+              tooltip={({ datum: { value, label } }) => ChartTooltip({ value, label })}
               colors={theme.multipleModelsChartPalette}
               colorBy={({ color }) => color}
               theme={theme.chart}
               innerRadius={0.7}
-              enableRadialLabels={false}
-              enableSlicesLabels={false}
+              enableArcLabels={false}
+              enableArcLinkLabels={false}
               slicesLabelsSkipAngle={10}
               animate={false}
               onClick={(data) => {
@@ -63,7 +63,7 @@ export default ({ sqon, setSQON, extendedMapping }) => (
                           op: 'in',
                           content: {
                             fieldName: 'has_matched_models',
-                            value: [data.key],
+                            value: [data.data.key],
                           },
                         },
                       ],
