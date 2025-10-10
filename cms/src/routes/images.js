@@ -10,10 +10,7 @@ const imagesRouter = express.Router();
 
 imagesRouter.post('/', async (req, res) => {
   const storage = multer.memoryStorage();
-  console.log('storage', storage);
-  // parts: 2
   const upload = multer({ storage, limits: { fields: 1, files: 1 } });
-  console.log('upload', upload);
   upload.single('image')(req, res, (error) => {
     if (error) {
       return res.status(500).json({ error: `Upload request failed: ${error}` });
