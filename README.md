@@ -10,7 +10,7 @@ To work on this project, running the UI, CMS, and API on a local device, make su
 
 ### Dependencies
 
-This project runs on **NodeJS v16**.
+This project runs on **NodeJS v24**.
 
 - MongoDB v4.4.16 - All model and variant data configured in the CMS is stored in MongoDB
 - Elasticsearch v7.7.6 - The CMS publishes data into ElasticSearch and the API serves the ES data to the UI
