@@ -21,14 +21,14 @@ const migrateImage = async ({
 }) => {
   bucket
     .openDownloadStream(imageId)
-    .on('error', err => {
+    .on('error', (err) => {
       console.error(
         `An error occured trying to download image ${fileName} from mongo model ${modelName} for upload to S3: `,
         err.toString(),
       );
       reject(err);
     })
-    .on('data', async chunk => await fileStream.push(chunk))
+    .on('data', async (chunk) => await fileStream.push(chunk))
     .on('end', async () => {
       await fileStream.push(null);
       await uploadToS3(fileName, fileStream, modelName)
@@ -48,7 +48,7 @@ const migrateImage = async ({
                 },
               },
             )
-            .then(model => {
+            .then((model) => {
               console.log(
                 `Successfully updated model${
                   model && model.name ? ` ${model.name} ` : ' '
@@ -74,12 +74,7 @@ const migrateImage = async ({
     });
 };
 
-const conn = mongoose.createConnection(
-  process.env.MONGODB_URI || 'mongodb://localhost:27017/test',
-  {
-    useNewUrlParser: true,
-  },
-);
+const conn = mongoose.createConnection(process.env.MONGODB_URI || 'mongodb://localhost:27017/test');
 
 conn.once('open', async () => {
   try {
@@ -108,7 +103,7 @@ conn.once('open', async () => {
                 res(model);
               });
           })
-            .then(async model => {
+            .then(async (model) => {
               if (!model || !model.name) {
                 console.log(
                   `No model found with image of id ${imageIdStr}, likely already migrated. Skipping...`,
@@ -129,7 +124,7 @@ conn.once('open', async () => {
                 reject,
               });
             })
-            .catch(err => reject(err));
+            .catch((err) => reject(err));
         }),
       );
     }
@@ -139,7 +134,7 @@ conn.once('open', async () => {
         console.log('Image migration completed successfully, closing connection to db.');
         conn.close();
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('An error occurred during image migration: ', err.toString());
         conn.close();
       });
