@@ -61,5 +61,8 @@
   "dependencies": {
     "@babel/core": "^7.28.3",
     "filesaver.js": "^1.3.4"
+  },
+  "resolutions": {
+    "mongoose": "^6.13.8"
   }
 }
