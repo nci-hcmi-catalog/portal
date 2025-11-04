@@ -489,7 +489,9 @@ export default withFormik({
     try {
       validator.validateSync(values, { abortEarly: false });
     } catch (error) {
-      return error.inner.reduce((acc, inner) => ({ ...acc, [inner.path]: inner.message }), {});
+      return (
+        error.inner?.reduce((acc, inner) => ({ ...acc, [inner.path]: inner.message }), {}) || error
+      );
     }
   },
   displayName: 'ModelForm',
