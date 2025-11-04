@@ -83,7 +83,7 @@ if (process.env.AUTH_ENABLED !== 'false') {
     next();
   });
 }
-app.use(pino({ reqCustomProps: (req) => ({ user: getLoggedInUser(req).user_email }) }));
+app.use(pino({ customProps: (req) => ({ user: getLoggedInUser(req).user_email }) }));
 
 // configure endpoints
 restify.serve(modelRouter, Model, {
