@@ -1,24 +1,18 @@
 import * as yup from 'yup';
-import moment from 'moment';
 import {
   arrItemIsOneOf,
   nameRegex,
   nameRegexError,
   numberEmptyValueTransform,
   makeClinicalTumorDiagnosisDependentSchema,
+  momentDateParser,
 } from './helpers.js';
 
 import { modelVariantSchema } from './variant.js';
 import getPublishSchema from './getPublishSchema.js';
 import { getDictionaryOptions } from '../helpers/dictionary.js';
 
-// Custom date validation parser
-yup.date().transform(function (value, originalValue) {
-  if (this.isType(value)) return value;
-  //the default coercion transform failed so lets try it with Moment instead
-  value = moment(originalValue);
-  return value.isValid() ? value.toDate() : new Date('');
-});
+yup.date().transform(momentDateParser);
 
 const { string, number, array, object, date, boolean } = yup;
 

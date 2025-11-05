@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { string } from 'yup';
 
 export const arrItemIsOneOf = (options) => (values) => {
@@ -37,3 +38,11 @@ export const makeClinicalTumorDiagnosisDependentSchema = (
         ] || []
       ).concat([null, '']), // allow null values (to be removed by Mongoose schema set)
     );
+
+// Custom date validation parser
+export const momentDateParser = function (value, originalValue) {
+  if (this.isType(value)) return value;
+  //the default coercion transform failed so lets try it with Moment instead
+  value = moment(originalValue);
+  return value.isValid() ? value.toDate() : new Date('');
+};
