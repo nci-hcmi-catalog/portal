@@ -18,9 +18,7 @@ export const republishModels = async () => {
   console.log('Connecting to MongoDB...');
   // Connect to database
 
-  await mongoose.connect(esUtils.config.MONGODB_URI, {
-    useNewUrlParser: true,
-  });
+  await mongoose.connect(esUtils.config.MONGODB_URI);
   console.log('\nConnected!');
 
   const models = await ModelES.find({
@@ -28,7 +26,7 @@ export const republishModels = async () => {
   });
 
   console.log('\nSearching for models to publish...');
-  const names = models.map(i => i.name);
+  const names = models.map((i) => i.name);
   console.log('Found the following published models:\n', names);
   for (const model of models) {
     console.log('Publishing:', model.name);

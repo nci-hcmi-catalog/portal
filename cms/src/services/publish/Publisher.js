@@ -51,7 +51,7 @@ const PublishTask = ({
     logger.info({ startTime, stopTime, modelName }, 'Publish complete.');
   };
 
-  const errorStop = errorData => {
+  const errorStop = (errorData) => {
     status = PublishStatus.error;
     error = errorData;
     stopTime = Date.now();
@@ -111,7 +111,7 @@ const PublishTask = ({
   };
 };
 
-const Publisher = (function() {
+const Publisher = (function () {
   let queue = [];
   let failed = [];
   let stopped = [];
@@ -119,20 +119,20 @@ const Publisher = (function() {
   let running = false;
 
   const cleanLists = () => {
-    failed = failed.filter(i => i && i.getData && !i.getData().acknowledged);
-    stopped = stopped.filter(i => i && i.getData && !i.getData().acknowledged);
-    success = success.filter(i => i && i.getData && !i.getData().acknowledged);
+    failed = failed.filter((i) => i && i.getData && !i.getData().acknowledged);
+    stopped = stopped.filter((i) => i && i.getData && !i.getData().acknowledged);
+    success = success.filter((i) => i && i.getData && !i.getData().acknowledged);
 
     // queue should never have anything acknowledged (should move to failed/stopped/success)
     // clearing just in case
-    queue = queue.filter(i => i && i.getData && !i.getData().acknowledged);
+    queue = queue.filter((i) => i && i.getData && !i.getData().acknowledged);
   };
 
   const emptyQueue = () => {
     queue = [];
   };
 
-  const queueIndividualPublish = async modelName => {
+  const queueIndividualPublish = async (modelName) => {
     // Check for Model existence:
     const model = await Model.findOne({ name: modelName });
     if (!model) {
@@ -157,8 +157,8 @@ const Publisher = (function() {
         name: modelName,
       })
         .populate('variants.variant')
-        .then(model => runYupValidatorFailSlow(validation, model))
-        .then(results => {
+        .then((model) => runYupValidatorFailSlow(validation, model))
+        .then((results) => {
           if (results[0].success) {
             // Create new publish task
             newPublishTask = PublishTask({
@@ -201,9 +201,9 @@ const Publisher = (function() {
     }
   };
 
-  const convertModelIdsToModelNames = async modelIds => {
-    const modelNames = await Model.find({ _id: { $in: modelIds } }).then(models =>
-      models.map(model => model.name),
+  const convertModelIdsToModelNames = async (modelIds) => {
+    const modelNames = await Model.find({ _id: { $in: modelIds } }).then((models) =>
+      models.map((model) => model.name),
     );
     return modelNames;
   };
@@ -233,7 +233,7 @@ const Publisher = (function() {
 
     // Filter out models that don't exist within HCMI db
     let noMatchingModel = [];
-    models = models.filter(async modelName => {
+    models = models.filter(async (modelName) => {
       let match = await Model.findOne({ name: modelName });
 
       if (!match) {
@@ -251,8 +251,8 @@ const Publisher = (function() {
       name: { $in: models },
     })
       .populate('variants.variant')
-      .then(models => runYupValidatorFailSlow(validation, models))
-      .then(validated => {
+      .then((models) => runYupValidatorFailSlow(validation, models))
+      .then((validated) => {
         const validModelNames = validated
           .filter(({ success }) => success)
           .map(({ result: { name } }) => name);
@@ -266,7 +266,7 @@ const Publisher = (function() {
     // Add models which weren't found in HCMI db or failed validation
     failed = [
       ...failed,
-      ...noMatchingModel.map(modelName =>
+      ...noMatchingModel.map((modelName) =>
         PublishTask({
           modelName,
           status: PublishStatus.error,
@@ -277,7 +277,7 @@ const Publisher = (function() {
           publishType: PublishTypes.bulk,
         }),
       ),
-      ...validationErrors.map(validationError =>
+      ...validationErrors.map((validationError) =>
         PublishTask({
           modelName: validationError.name,
           status: PublishStatus.error,
@@ -293,7 +293,7 @@ const Publisher = (function() {
     // Queue publish tasks for remaining models which were found
     queue = [
       ...queue,
-      ...validModels.map(modelName => {
+      ...validModels.map((modelName) => {
         return PublishTask({
           modelName,
           publishType: PublishTypes.bulk,
@@ -311,19 +311,19 @@ const Publisher = (function() {
     return { success: true, startTime: Date.now() };
   };
 
-  const stopPublish = async modelName => {
+  const stopPublish = async (modelName) => {
     // In case we get into an invalid state with multiple publish tasks for a given model,
     //   we'll use filter to get the whole list of them.
-    const targets = queue.filter(i => i && i.modelName === modelName);
+    const targets = queue.filter((i) => i && i.modelName === modelName);
     if (targets.length) {
-      targets.forEach(target => target.stop());
+      targets.forEach((target) => target.stop());
       stopped = [...stopped, ...targets];
-      queue = queue.filter(i => i && i.modelName !== modelName);
+      queue = queue.filter((i) => i && i.modelName !== modelName);
     }
 
     cleanLists();
 
-    return targets.map(target => target.getData());
+    return targets.map((target) => target.getData());
   };
 
   const stopBulkPublish = async (modelNames = []) => {
@@ -333,76 +333,76 @@ const Publisher = (function() {
     // if modelNames are provided, only stop those publish tasks
     // otherwise, stop all queued publish tasks
     if (modelNames.length) {
-      modelNames.forEach(modelName => {
-        targets = [...targets, ...queue.filter(i => i && i.modelName === modelName)];
+      modelNames.forEach((modelName) => {
+        targets = [...targets, ...queue.filter((i) => i && i.modelName === modelName)];
       });
     } else {
       targets = queue;
     }
 
     if (targets.length) {
-      targets.forEach(target => target.stop());
+      targets.forEach((target) => target.stop());
       stopped = [...stopped, ...targets];
       emptyQueue();
     }
 
     cleanLists();
 
-    return targets.map(target => target.getData());
+    return targets.map((target) => target.getData());
   };
 
   const getStatus = () => {
     cleanLists();
     return {
-      queue: queue.map(i => i.getData()),
-      failed: failed.map(i => i.getData()),
-      stopped: stopped.map(i => i.getData()),
-      success: success.map(i => i.getData()),
+      queue: queue.map((i) => i.getData()),
+      failed: failed.map((i) => i.getData()),
+      stopped: stopped.map((i) => i.getData()),
+      success: success.map((i) => i.getData()),
       running,
     };
   };
 
-  const acknowledge = modelName => {
+  const acknowledge = (modelName) => {
     const targets = [
-      ...failed.filter(i => i && i.modelName === modelName),
-      ...stopped.filter(i => i && i.modelName === modelName),
-      ...success.filter(i => i && i.modelName === modelName),
+      ...failed.filter((i) => i && i.modelName === modelName),
+      ...stopped.filter((i) => i && i.modelName === modelName),
+      ...success.filter((i) => i && i.modelName === modelName),
     ];
     if (targets.length) {
-      targets.forEach(target => target.acknowledge());
+      targets.forEach((target) => target.acknowledge());
     }
 
     cleanLists();
 
-    return targets.map(target => target.getData());
+    return targets.map((target) => target.getData());
   };
 
-  const acknowledgeBulk = modelNames => {
+  const acknowledgeBulk = (modelNames) => {
     let targets = [];
 
-    modelNames.forEach(modelName => {
+    modelNames.forEach((modelName) => {
       targets = [
         ...targets,
-        ...failed.filter(i => i && i.modelName === modelName),
-        ...stopped.filter(i => i && i.modelName === modelName),
-        ...success.filter(i => i && i.modelName === modelName),
+        ...failed.filter((i) => i && i.modelName === modelName),
+        ...stopped.filter((i) => i && i.modelName === modelName),
+        ...success.filter((i) => i && i.modelName === modelName),
       ];
     });
 
     if (targets.length) {
-      targets.forEach(target => target.acknowledge());
+      targets.forEach((target) => target.acknowledge());
     }
 
     cleanLists();
 
-    return targets.map(target => target.getData());
+    return targets.map((target) => target.getData());
   };
 
   const updateBulkGeneSearchIndicies = async () => {
-    const targets = [...success.filter(i => i.publishType === PublishTypes.bulk)];
+    const targets = [...success.filter((i) => i.publishType === PublishTypes.bulk)];
 
     if (targets.length) {
-      await bulkUpdateGeneSearchIndices(targets.map(model => model.modelName));
+      await bulkUpdateGeneSearchIndices(targets.map((model) => model.modelName));
     }
   };
 
