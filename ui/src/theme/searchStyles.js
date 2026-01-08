@@ -402,6 +402,7 @@ export default css`
     padding: 2px 10px 6px;
     margin: 0;
     font-size: 11px;
+    text-decoration: none;
   }
 
   .showMore-wrapper.more::before {
