@@ -192,6 +192,11 @@ const Search = ({
         TreeJointIcon: { Icon: () => <ArrowIcon fill={'#900000'} width={'9px'} height={'9px'} /> },
       },
       SQONViewer: {
+        SQONWrapper: {
+          css: css`
+            align-items: baseline;
+          `,
+        },
         EmptyMessage: {
           arrowColor: '#CD0D32',
         },
