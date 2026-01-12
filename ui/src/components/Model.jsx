@@ -325,11 +325,11 @@ const Model = ({ modelName }) => (
                         rawData={queryState.model}
                         extended={queryState.extended}
                         fieldNames={[
+                          'tissue_type',
                           'type',
                           'split_ratio',
                           'time_to_split',
                           'growth_rate',
-                          'tissue_type',
                         ]}
                         customUnits={{ growth_rate: ' days' }}
                       />
