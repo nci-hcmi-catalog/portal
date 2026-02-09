@@ -12,13 +12,13 @@ const logger = getLogger('services/elastic-search/unpublish');
 
 const index = process.env.ES_INDEX;
 
-export const unpublishModel = async name => {
+export const unpublishModel = async (name) => {
   await unpublishOneFromES(name);
   await indexMatchedModelsToES({ name });
   updateGeneSearchIndicies();
 };
 
-export const unpublishOneFromES = async name => {
+export const unpublishOneFromES = async (name) => {
   // Not waiting for update promise to
   // resolve as this is just bookkeeping
   indexEsUpdate();
@@ -39,7 +39,7 @@ export const unpublishOneFromES = async name => {
   logger.audit({ model: name }, 'unpublish model', 'Model Unpublished from ES');
 };
 
-export const unpublishManyFromES = nameArr => {
+export const unpublishManyFromES = (nameArr) => {
   // Not waiting for update promise to
   // resolve as this is just bookkeeping
   indexEsUpdate();

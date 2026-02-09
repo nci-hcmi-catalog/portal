@@ -1,5 +1,5 @@
 import express from 'express';
-import elasticsearch from '@elastic/elasticsearch';
+import elasticsearch from '@opensearch-project/opensearch';
 
 import _ from 'lodash';
 

@@ -1,4 +1,4 @@
-import es from '@elastic/elasticsearch';
+import es from '@opensearch-project/opensearch';
 
 const pm2Path = process.env.CMS_CONFIG || '../../cms/pm2.config.js';
 const pm2Env = process.env.ENV;

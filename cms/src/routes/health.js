@@ -42,12 +42,12 @@ healthRouter.get('/db', async (req, res) => {
 healthRouter.get('/s3', async (req, res) => {
   try {
     await testS3Connection()
-      .then(data =>
+      .then((data) =>
         res
           .status(200)
           .json({ status: 200, response: `Connected to S3 successfully: ${JSON.stringify(data)}` }),
       )
-      .catch(err =>
+      .catch((err) =>
         res.status(err.statusCode).json({ error: 'Error connecting to S3', response: err.code }),
       );
   } catch (e) {

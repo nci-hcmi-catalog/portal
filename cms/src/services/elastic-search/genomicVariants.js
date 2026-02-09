@@ -10,7 +10,7 @@ const MODEL_INDEX = process.env.ES_INDEX;
 const GENES_INDEX = 'genes';
 const VARIANTS_INDEX = 'genomic_variants';
 
-const getAllIndexedDocs = async index => {
+const getAllIndexedDocs = async (index) => {
   let output = [];
   let startFrom = 0;
   let totalHits = 1;
@@ -35,38 +35,40 @@ const getAllIndexedDocs = async index => {
 //   can't be sure what is published for a model in draft form (changes not yet published)
 //   Additionally, to know which genes to remove we have to compare this list to the currently published list in the genes index on ES
 
-const updateVariantIndex = async desiredVariants => {
+const updateVariantIndex = async (desiredVariants) => {
   // TEMP: Remove all usage of variantIdMafOnly and just use variant_id once the gene reference is reimplemented - Jon Eubank 2020-09
-  const variantIdMafOnly = originalID => `${originalID}_MAF`;
+  const variantIdMafOnly = (originalID) => `${originalID}_MAF`;
   logger.debug({ desiredVariants }, 'List of Variants that should be published');
 
-  const variantIds = desiredVariants.map(v => variantIdMafOnly(v.variant.variant_id));
+  const variantIds = desiredVariants.map((v) => variantIdMafOnly(v.variant.variant_id));
 
   // 1. get list of variants published in ES
   const variantsResponse = await getAllIndexedDocs(VARIANTS_INDEX);
 
-  const publishedVariants = variantsResponse.map(variant => variant._id);
+  const publishedVariants = variantsResponse.map((variant) => variant._id);
   logger.debug({ publishedVariants }, 'List of Variants currently published');
 
   // 2. find list of variants to unpublish and genes to publish
-  const removeVariants = publishedVariants.filter(publishedID => !variantIds.includes(publishedID));
+  const removeVariants = publishedVariants.filter(
+    (publishedID) => !variantIds.includes(publishedID),
+  );
   logger.debug({ removeVariants }, 'Variants to unpublish');
 
   // TEMP: Remove the second clause, where we filter out Unknown named variants, when we re-implement the gene reference - Jon Eubank 2020-09
   const addVariants = desiredVariants.filter(
-    v =>
+    (v) =>
       !publishedVariants.includes(variantIdMafOnly(v.variant.variant_id)) &&
       !v.variant.name.includes('Unknown'),
   );
   logger.debug({ addVariants }, 'Variants to publish');
 
   // 3. do the publish/unpublish operations
-  const deleteRequests = removeVariants.map(variant => ({
+  const deleteRequests = removeVariants.map((variant) => ({
     delete: { _index: VARIANTS_INDEX, _id: variant },
   }));
 
   const addRequests = flatten(
-    addVariants.map(v => {
+    addVariants.map((v) => {
       const doc = {
         name: v.variant.name,
         transcript_id: v.variant.transcript_id,
@@ -94,32 +96,34 @@ const updateVariantIndex = async desiredVariants => {
   }
 };
 
-const updateGeneIndex = async desiredGenes => {
-  const desiredGeneIds = desiredGenes.map(gene => gene.symbol);
+const updateGeneIndex = async (desiredGenes) => {
+  const desiredGeneIds = desiredGenes.map((gene) => gene.symbol);
   logger.debug({ desiredGenes: desiredGeneIds }, 'List of Genes that should be published');
 
   // 1. get list of genes published in ES
   const genesResponse = await getAllIndexedDocs(GENES_INDEX);
 
-  const publishedGenes = genesResponse.map(i => i._id);
+  const publishedGenes = genesResponse.map((i) => i._id);
   logger.debug({ publishedGenes }, 'List of Genes currently published');
 
   // 2. find list of genes to unpublish and genes to publish
-  const removeGenes = uniq(publishedGenes.filter(gene => !desiredGeneIds.includes(gene)));
+  const removeGenes = uniq(publishedGenes.filter((gene) => !desiredGeneIds.includes(gene)));
   logger.debug({ removeGenes }, 'Genes to unpublish');
 
   const addGenes = uniq(
-    desiredGenes.filter(gene => !publishedGenes.includes(gene.symbol)),
+    desiredGenes.filter((gene) => !publishedGenes.includes(gene.symbol)),
     'symbol',
   );
   logger.debug({ addGenes }, 'Genes to publish');
 
   // 3. do the publish/unpublish operations
 
-  const deleteRequests = removeGenes.map(gene => ({ delete: { _index: GENES_INDEX, _id: gene } }));
+  const deleteRequests = removeGenes.map((gene) => ({
+    delete: { _index: GENES_INDEX, _id: gene },
+  }));
 
   const addRequests = flatten(
-    desiredGenes.map(gene => {
+    desiredGenes.map((gene) => {
       return [
         {
           index: {
@@ -151,8 +155,8 @@ export const updateGeneSearchIndicies = async () => {
 
   // 1a. collect set of genes and variants from those model variants
   const desiredGenomicVariants = flatten(
-    publishedModels.map(model => {
-      return (model._source.genomic_variants || []).map(variant => ({
+    publishedModels.map((model) => {
+      return (model._source.genomic_variants || []).map((variant) => ({
         variant: {
           transcript_id: variant.transcript_id,
           variant_id: variant.variant_id,
@@ -167,17 +171,19 @@ export const updateGeneSearchIndicies = async () => {
   );
 
   const clinicalVariantGenes = flatten(
-    publishedModels.map(model => flatten(model._source.variants.map(variant => variant.genes))),
+    publishedModels.map((model) => flatten(model._source.variants.map((variant) => variant.genes))),
   );
   logger.debug({ clinicalVariantGenes }, 'Genes found in published model variants');
 
   // Filter the list of clinical variants to only have the names missing from the genomic variants list
-  const desiredGeneSymbols = desiredGenomicVariants.map(i => i.gene.symbol);
+  const desiredGeneSymbols = desiredGenomicVariants.map((i) => i.gene.symbol);
   const additionalGenesFromClinical = clinicalVariantGenes
-    .filter(clinicalGene => !desiredGeneSymbols.includes(clinicalGene))
-    .map(gene => ({ symbol: gene }));
+    .filter((clinicalGene) => !desiredGeneSymbols.includes(clinicalGene))
+    .map((gene) => ({ symbol: gene }));
 
-  const desiredGenes = desiredGenomicVariants.map(i => i.gene).concat(additionalGenesFromClinical);
+  const desiredGenes = desiredGenomicVariants
+    .map((i) => i.gene)
+    .concat(additionalGenesFromClinical);
 
   await updateGeneIndex(desiredGenes);
   await updateVariantIndex(desiredGenomicVariants);
