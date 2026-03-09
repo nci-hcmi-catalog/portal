@@ -1,5 +1,10 @@
 import es from '@opensearch-project/opensearch';
 
+/** Search index settings and mappings **/
+import modelsIndexConfig from '../../elasticsearch/modelsIndex.json' with { type: "json" };
+import genesIndexConfig from '../../elasticsearch/genesIndex.json' with { type: "json" };
+import variantsIndexConfig from '../../elasticsearch/variantsIndex.json' with { type: "json" };
+
 const pm2Path = process.env.CMS_CONFIG || '../../cms/pm2.config.js';
 const pm2Env = process.env.ENV;
 if (!pm2Env) {
@@ -10,15 +15,10 @@ const pm2ConfigGeneric =
   (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0].env) || {};
 const pm2ConfigForEnv =
   (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0][`env_${pm2Env}`]) || {};
-
 const pm2 = { ...pm2ConfigGeneric, ...pm2ConfigForEnv };
 
-/** Search index settings and mappings **/
-import modelsIndexConfig from '../../elasticsearch/modelsIndex.json' with { type: "json" };
-import genesIndexConfig from '../../elasticsearch/genesIndex.json' with { type: "json" };
-import variantsIndexConfig from '../../elasticsearch/variantsIndex.json' with { type: "json" };
-const modelsIndexName = process.env.ES_INDEX || pm2.ES_INDEX || 'hcmi';
 const esHost = process.env.ES_HOST || `${pm2.ES_HOST}:${pm2.ES_PORT}`;
+const modelsIndexName = process.env.ES_INDEX || pm2.ES_INDEX || 'hcmi';
 
 const GENES_INDEX = 'genes';
 const VARIANTS_INDEX = 'genomic_variants';
