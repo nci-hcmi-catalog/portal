@@ -1,13 +1,14 @@
-import { ModelES } from './common/schemas/model.js';
 import Model from '../../schemas/model.js';
 import getPublishValidation from '../../validation/model.js';
 import { modelStatus } from '../../helpers/modelStatus.js';
 import MatchUtils from '../../helpers/matchedModels.js';
+import getLogger from '../../logger.js';
+
+import { ModelES } from './common/schemas/model.js';
 import indexEsUpdate from './update.js';
 import { updateGeneSearchIndicies } from './genomicVariants.js';
 
-import getLogger from '../../logger.js';
-const logger = getLogger('services/elastic-search/publish');
+const logger = getLogger('services/searchClient/publish');
 
 export const publishModel = async (filter, individualPublish = true) => {
   await indexOneToES(filter);
@@ -25,7 +26,7 @@ export const publishModel = async (filter, individualPublish = true) => {
 };
 
 // For bulk publishes, update gene search indices after all models are published
-export const bulkUpdateGeneSearchIndices = async modelNames => {
+export const bulkUpdateGeneSearchIndices = async (modelNames) => {
   const modelsWithVariantChanges = await Model.find({
     name: { $in: modelNames },
     variants_modified: true,
@@ -41,7 +42,7 @@ export const bulkUpdateGeneSearchIndices = async modelNames => {
   }
 };
 
-export const indexOneToES = filter => {
+export const indexOneToES = (filter) => {
   return new Promise((resolve, reject) => {
     ModelES.findOne(filter)
       .populate('variants.variant')
@@ -62,7 +63,7 @@ export const indexOneToES = filter => {
                 _id: { $in: doc.matchedModels.models || [] },
               });
               const matches = matchedModels.filter(
-                model => model.status !== modelStatus.unpublished && model.name !== doc.name,
+                (model) => model.status !== modelStatus.unpublished && model.name !== doc.name,
               );
               doc.populatedMatches = matches;
             }
@@ -82,7 +83,7 @@ export const indexOneToES = filter => {
             async () =>
               await Model.updateOne({ name: doc.name }, { status: modelStatus.published }),
           )
-          .catch(err => reject(err));
+          .catch((err) => reject(err));
       });
   });
 };
@@ -103,9 +104,7 @@ export const indexMatchedModelsToES = async (filter, skipSelf = true) => {
   if (model.matchedModels && matchedModelIds.length <= 1) {
     // if list of matched models exists but only includes itself, we can remove the whole matched model set.
     logger.warn(
-      `Model ${model.name} is part of a small or empty matchedModel set of length ${
-        matchedModelIds.length
-      }, deleting the set and the reference in the model.`,
+      `Model ${model.name} is part of a small or empty matchedModel set of length ${matchedModelIds.length}, deleting the set and the reference in the model.`,
     );
     await MatchUtils.removeFromSet(model.name);
   }
@@ -116,7 +115,9 @@ export const indexMatchedModelsToES = async (filter, skipSelf = true) => {
   }
 
   await updateMatchedModelsToES({
-    _id: { $in: matchedModelIds.filter(id => id.toString() !== model._id.toString() || !skipSelf) },
+    _id: {
+      $in: matchedModelIds.filter((id) => id.toString() !== model._id.toString() || !skipSelf),
+    },
   });
 
   if (model.updateOldMatchesOnPublish) {
@@ -125,14 +126,14 @@ export const indexMatchedModelsToES = async (filter, skipSelf = true) => {
   }
 };
 
-export const updateMatchedModelsToES = async filter => {
+export const updateMatchedModelsToES = async (filter) => {
   const models = await ModelES.find(filter);
 
   // filter this list only to models that are published or published with changes
-  const modelsToPublish = models.filter(model => model.status !== modelStatus.unpublished);
+  const modelsToPublish = models.filter((model) => model.status !== modelStatus.unpublished);
 
   logger.debug(
-    { matchedModels: modelsToPublish.map(model => model.name) },
+    { matchedModels: modelsToPublish.map((model) => model.name) },
     'Updating matched models',
   );
   for (let model of modelsToPublish) {

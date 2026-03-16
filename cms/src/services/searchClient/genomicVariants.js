@@ -1,10 +1,12 @@
-import esClient from './common/client.js';
-
 import _ from 'lodash';
-const { get, flatten, uniq } = _;
 
 import getLogger from '../../logger.js';
-const logger = getLogger('services/elastic-search/genomicVariants');
+
+import esClient from './common/client.js';
+
+const { get, flatten, uniq } = _;
+
+const logger = getLogger('services/searchClient/genomicVariants');
 
 const MODEL_INDEX = process.env.ES_INDEX;
 const GENES_INDEX = 'genes';

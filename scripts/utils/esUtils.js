@@ -1,4 +1,4 @@
-import es from '@opensearch-project/opensearch';
+import { getSearchClient } from '@overture-stack/arranger-server';
 
 /** Search index settings and mappings **/
 import modelsIndexConfig from '../../elasticsearch/modelsIndex.json' with { type: "json" };
@@ -23,14 +23,13 @@ const modelsIndexName = process.env.ES_INDEX || pm2.ES_INDEX || 'hcmi';
 const GENES_INDEX = 'genes';
 const VARIANTS_INDEX = 'genomic_variants';
 
-const client = new es.Client({
-  node: esHost,
-});
-
 /* ******** Index creation and deletion ******** */
 const createIndex = async (index, config) => {
   try {
     console.log(`\nCreating index: ${index}`);
+    const client = await getSearchClient({
+      node: esHost,
+    });
     await client.indices.create({
       index,
       body: config,
@@ -46,6 +45,9 @@ const createIndex = async (index, config) => {
 const deleteIndex = async index => {
   try {
     console.log(`\nDeleting existing index (if present): ${index}`);
+    const client = await getSearchClient({
+      node: esHost,
+    });
     await client.indices.delete({ index });
   } catch (e) {}
 };
@@ -71,6 +73,9 @@ const deleteVariantsIndex = async () => await deleteIndex(VARIANTS_INDEX);
 const updateIndex = async ({ index, settings = {}, mappings = {} } = {}) => {
   try {
     console.log('Updating mapping for:', index);
+    const client = await getSearchClient({
+      node: esHost,
+    });
     await client.indices.close({
       index,
     });
@@ -109,6 +114,9 @@ const updateSearchIndices = async () => {
 const configureArrangerSets = async () => {
   try {
     console.log(`\nDeleting existing index (if present): arranger-sets`);
+    const client = await getSearchClient({
+      node: esHost,
+    });
     await client.indices.delete({ index: `arranger-sets` });
   } catch (e) {}
   try {

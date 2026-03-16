@@ -1,13 +1,14 @@
 // @ts-check
 
 import express from 'express';
-import esClient from './services/elasticsearch';
+import getClient from './services/searchClient.ts';
 
 const lastUpdatedRouter = express.Router();
 
 lastUpdatedRouter.get('/', async (req, res) => {
+  const searchClient = await getClient();
   try {
-    const response = await esClient.search({
+    const response = await searchClient.search({
       index: process.env.ES_UPDATE_INDEX,
       body: {
         query: {

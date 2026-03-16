@@ -1,7 +1,7 @@
 import express from 'express';
 import _ from 'lodash';
 
-import client from '../services/elastic-search/common/client.js';
+import client from '../services/searchClient/common/client.js';
 import Model from '../schemas/model.js';
 import { testS3Connection } from '../services/s3/index.js';
 

@@ -4,11 +4,11 @@ import express from 'express';
 import Model from '../schemas/model.js';
 import getPublishValidation from '../validation/model.js';
 import { runYupValidatorFailSlow, modelStatus } from '../helpers/index.js';
-import { indexOneToES, indexMatchedModelsToES } from '../services/elastic-search/publish.js';
-import { unpublishManyFromES } from '../services/elastic-search/unpublish.js';
+import { indexOneToES, indexMatchedModelsToES } from '../services/searchClient/publish.js';
+import { unpublishManyFromES } from '../services/searchClient/unpublish.js';
 import csvStream from '../helpers/streamAsCSV.js';
 import { backupFields } from '../schemas/descriptions/model.js';
-import { updateGeneSearchIndicies } from '../services/elastic-search/genomicVariants.js';
+import { updateGeneSearchIndicies } from '../services/searchClient/genomicVariants.js';
 
 import getLogger from '../logger';
 const logger = getLogger('routes/bulk');
@@ -23,8 +23,8 @@ bulkRouter.post('/publish', async (req, res) => {
     _id: { $in: req.body },
   })
     .populate('variants.variant')
-    .then(models => runYupValidatorFailSlow(validation, models))
-    .then(validated => {
+    .then((models) => runYupValidatorFailSlow(validation, models))
+    .then((validated) => {
       const validModelNames = validated
         .filter(({ success }) => success)
         .map(({ result: { name } }) => name);
@@ -34,7 +34,7 @@ bulkRouter.post('/publish', async (req, res) => {
 
       return validModelNames;
     })
-    .then(async validModelNames => {
+    .then(async (validModelNames) => {
       for (const name of validModelNames) {
         try {
           await indexOneToES({ name });
@@ -65,7 +65,7 @@ bulkRouter.post('/publish', async (req, res) => {
         errors: validationErrors,
       });
     })
-    .catch(error => {
+    .catch((error) => {
       logger.error(error);
       res.status(500).json({
         error: error,
@@ -77,8 +77,8 @@ bulkRouter.post('/unpublish', async (req, res) => {
   let deleteCount = 0;
 
   Model.find({ _id: { $in: req.body } })
-    .then(models => unpublishManyFromES(models.map(({ name }) => name)))
-    .then(result => {
+    .then(async (models) => await unpublishManyFromES(models.map(({ name }) => name)))
+    .then((result) => {
       deleteCount = result.deleted;
       return Model.updateMany(
         {
@@ -95,7 +95,7 @@ bulkRouter.post('/unpublish', async (req, res) => {
       await updateGeneSearchIndicies();
     })
     .then(() => res.json({ success: `${deleteCount} models unpublished` }))
-    .catch(error => {
+    .catch((error) => {
       logger.error(error);
       res.status(500).json({
         error: error,
@@ -105,7 +105,7 @@ bulkRouter.post('/unpublish', async (req, res) => {
 
 bulkRouter.post('/delete', async (req, res) => {
   Model.find({ _id: { $in: req.body } })
-    .then(models => {
+    .then((models) => {
       const modelsToUnpublish = models
         .filter(({ status }) => status !== modelStatus.unpublished)
         .map(({ name }) => name);
@@ -124,7 +124,7 @@ bulkRouter.post('/delete', async (req, res) => {
       }),
     )
     .then(() => res.json({ success: `${req.body.length} models deleted` }))
-    .catch(error => {
+    .catch((error) => {
       logger.error(error);
       res.status(500).json({
         error: error,

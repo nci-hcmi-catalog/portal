@@ -1,6 +1,6 @@
 // @ts-check
 
-import elasticClient from './common/client.js';
+import getClient from './common/client.js';
 import indexEsUpdate from './update.js';
 import Model from '../../schemas/model.js';
 import { indexMatchedModelsToES } from './publish.js';
@@ -8,7 +8,7 @@ import { modelStatus } from '../../helpers/modelStatus.js';
 import { updateGeneSearchIndicies } from './genomicVariants.js';
 
 import getLogger from '../../logger.js';
-const logger = getLogger('services/elastic-search/unpublish');
+const logger = getLogger('services/searchClient/unpublish');
 
 const index = process.env.ES_INDEX;
 
@@ -22,7 +22,8 @@ export const unpublishOneFromES = async (name) => {
   // Not waiting for update promise to
   // resolve as this is just bookkeeping
   indexEsUpdate();
-  await elasticClient.deleteByQuery({
+  const searchClient = await getClient();
+  await searchClient.deleteByQuery({
     index,
     body: {
       query: {
@@ -39,11 +40,12 @@ export const unpublishOneFromES = async (name) => {
   logger.audit({ model: name }, 'unpublish model', 'Model Unpublished from ES');
 };
 
-export const unpublishManyFromES = (nameArr) => {
+export const unpublishManyFromES = async (nameArr) => {
   // Not waiting for update promise to
   // resolve as this is just bookkeeping
   indexEsUpdate();
-  return elasticClient.deleteByQuery({
+  const searchClient = await getClient();
+  return searchClient.deleteByQuery({
     index,
     body: {
       query: {
