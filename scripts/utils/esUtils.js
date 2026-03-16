@@ -121,6 +121,9 @@ const configureArrangerSets = async () => {
   } catch (e) {}
   try {
     console.log(`Creating index: arranger-sets`);
+    const client = await getSearchClient({
+      node: esHost,
+    });
     await client.indices.create({
       index: 'arranger-sets',
       body: {
