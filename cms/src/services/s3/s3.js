@@ -1,12 +1,12 @@
 // Use of require instead of import is used here because this file is used by the migrateImages script.
 //  Scripts executed directly and not run through babel have issues with import statements.
 
+import aws from 'aws-sdk';
+import { v4 as uuidv4 } from 'uuid';
+
 import getLogger from '../../logger.js';
+
 const logger = getLogger('services/s3');
-
-const aws = require('aws-sdk');
-const uuid = require('uuid');
-
 const S3_BUCKET = process.env.S3_BUCKET;
 const IAM_USER_KEY = process.env.IAM_USER_KEY;
 const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
@@ -16,8 +16,8 @@ const s3 = new aws.S3({
   secretAccessKey: IAM_USER_SECRET,
 });
 
-const uploadToS3 = async (fileName, fileStream, modelName) => {
-  const Key = `${uuid.v4()}-${fileName}`;
+export const uploadToS3 = async (fileName, fileStream, modelName) => {
+  const Key = `${uuidv4()}-${fileName}`;
   const params = {
     Bucket: S3_BUCKET,
     Key,
@@ -31,7 +31,7 @@ const uploadToS3 = async (fileName, fileStream, modelName) => {
       if (error) {
         reject({ error, fileName, modelName });
       } else {
-        logger.audit(
+        logger.info(
           { Key, Bucket: S3_BUCKET, response: data },
           's3 upload',
           `Successfully uploaded object to S3`,
@@ -42,7 +42,7 @@ const uploadToS3 = async (fileName, fileStream, modelName) => {
   });
 };
 
-const deleteFromS3 = async (id) => {
+export const deleteFromS3 = async (id) => {
   const params = {
     Bucket: S3_BUCKET,
     Key: id,
@@ -56,7 +56,7 @@ const deleteFromS3 = async (id) => {
         msg: `image with id ${id} not found`,
       };
     } else {
-      logger.audit(params, 's3 delete', 'Successfully deleted image from S3');
+      logger.info(params, 's3 delete', 'Successfully deleted image from S3');
       return {
         code: 200,
         msg: `image with id ${id} deleted`,
@@ -65,7 +65,7 @@ const deleteFromS3 = async (id) => {
   });
 };
 
-const testS3Connection = () => {
+export const testS3Connection = () => {
   const params = {
     Bucket: S3_BUCKET,
   };
@@ -79,10 +79,4 @@ const testS3Connection = () => {
       }
     });
   });
-};
-
-module.exports = {
-  uploadToS3,
-  deleteFromS3,
-  testS3Connection,
 };

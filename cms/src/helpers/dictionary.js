@@ -31,25 +31,26 @@ export const getDictionaryDraft = async () =>
 
 export const getDictionaryOptions = async () => {
   const result = await getDictionary();
-  const dictionary = result.fields;
+  console.log('dictionary result', result);
+  const dictionary = result?.fields;
 
   const output = dictionary.reduce((acc, field) => {
     let { name, values } = field;
-    acc[`${name}Options`] = values.map(i => i.value);
+    acc[`${name}Options`] = values.map((i) => i.value);
     return acc;
   }, {});
-  const ctd = dictionary.find(i => i.name === 'clinicalTumorDiagnosis');
+  const ctd = dictionary.find((i) => i.name === 'clinicalTumorDiagnosis');
 
   const ctdDependentOptions = {};
 
-  ctd.dependentValues.forEach(val => (ctdDependentOptions[val] = {}));
+  ctd.dependentValues.forEach((val) => (ctdDependentOptions[val] = {}));
 
-  ctd.values.forEach(val => {
+  ctd.values.forEach((val) => {
     const valueName = val.value;
 
-    val.dependents.forEach(dependent => {
+    val.dependents.forEach((dependent) => {
       const dependentName = dependent.name;
-      const dependentValues = dependent.values.map(val => val.value);
+      const dependentValues = dependent.values.map((val) => val.value);
 
       ctdDependentOptions[dependentName][valueName.toLowerCase()] = dependentValues;
     });
@@ -61,9 +62,10 @@ export const getDictionaryOptions = async () => {
 
 export const resetDraft = async () => {
   const dictionary = await Dictionary.findOne({}, {}, { sort: { created_at: -1 } });
-  const draft = new Draft({ fields: dictionary.fields });
+  console.log('dictionary draft', dictionary);
+  const draft = new Draft({ fields: dictionary?.fields });
   await draft.save();
-  logger.audit({}, 'reset draft', 'Dictionary draft reset');
+  logger.info({}, 'reset draft', 'Dictionary draft reset');
   return await Draft.findOne({}, {}, { sort: { created_at: -1 } });
 };
 
@@ -74,15 +76,15 @@ export const resetDraft = async () => {
 export const publishDraft = async () => {
   logger.debug('Publishing data dictionary...');
   const draft = await getDictionaryDraft();
-
+  console.log('draft', draft);
   // find edited values
   const edits = [];
-  draft.fields.forEach(field => {
-    if (field.dependentValues.length > 0) {
+  draft?.fields?.forEach((field) => {
+    if (field?.dependentValues.length > 0) {
       // dependent field case
-      field.values.forEach(value => {
-        value.dependents.forEach(dependent => {
-          dependent.values.forEach(dependentValue => {
+      field.values.forEach((value) => {
+        value.dependents.forEach((dependent) => {
+          dependent.values.forEach((dependentValue) => {
             if (dependentValue.status === draftStatus.edited) {
               edits.push({
                 field: field.name,
@@ -97,7 +99,7 @@ export const publishDraft = async () => {
       });
     }
     // basic field case
-    field.values.forEach(value => {
+    field?.values.forEach((value) => {
       if (value.status === draftStatus.edited) {
         edits.push({
           field: field.name,
@@ -119,19 +121,22 @@ export const publishDraft = async () => {
 
   const dictionary = new Dictionary({ fields: draft.fields });
   await dictionary.save();
-  logger.audit({ edits }, 'dictionary created', 'Created new dictionary from draft values');
+  logger.info({ edits }, 'dictionary created', 'Created new dictionary from draft values');
 
-  models.forEach(model => {
+  models.forEach((model) => {
     // Find these values in the models.
     let edited = false;
-    edits.forEach(edit => {
+    edits.forEach((edit) => {
       const editField = edit.dependentName ? edit.dependentName : edit.field;
 
       // - update those models and change their status
       if (editField === 'therapy' && model.therapy.includes(edit.original)) {
         // special case, therapy is an array
 
-        model.therapy.splice(model.therapy.indexOf(val => val === edit.original), 1);
+        model.therapy.splice(
+          model.therapy.indexOf((val) => val === edit.original),
+          1,
+        );
         model.therapy.push(edit.value);
         model.status =
           model.status === modelStatus.published ? modelStatus.unpublishedChanges : model.status;
@@ -148,7 +153,7 @@ export const publishDraft = async () => {
     });
     if (edited) {
       model.save();
-      logger.audit(
+      logger.info(
         { model: model.name },
         'model saved',
         'Model values updated due to dictionary publish',
@@ -160,7 +165,7 @@ export const publishDraft = async () => {
   return { dictionary, updatedModels };
 };
 
-export const countDraftStats = draft => {
+export const countDraftStats = (draft) => {
   const output = { edited: 0, new: 0 };
 
   const hasDependencies = draft.dependentValues && draft.dependentValues.length > 0;
@@ -202,12 +207,12 @@ export const editValue = (target, original, updated) => {
 };
 
 export const valueExists = (valuesList, value) => {
-  return !!valuesList.find(val => val.value === value);
+  return !!valuesList.find((val) => val.value === value);
 };
 
 export const removeValueIfNew = (valueList, value) => {
   const index = valueList.indexOf(
-    valueList.find(i => i.status === draftStatus.new && i.value === value),
+    valueList.find((i) => i.status === draftStatus.new && i.value === value),
   );
   if (index >= 0) {
     valueList.splice(index, 1);

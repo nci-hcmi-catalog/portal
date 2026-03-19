@@ -17,10 +17,11 @@ dictionaryRouter.use('/draft', draftRouter);
 dictionaryRouter.get('/', async (req, res) => {
   try {
     const dictionary = await DictionaryHelper.getDictionaryOptions();
-    res.json(dictionary);
+    console.log('dictionary', dictionary);
+    return res.json(dictionary);
   } catch (error) {
     logger.error(error, 'Error fetching dictionary');
-    res.status(500).json({ err: error });
+    return res.status(500).json({ err: error });
   }
 });
 
@@ -33,10 +34,10 @@ draftRouter.get('/', async (req, res) => {
       draft = await DictionaryHelper.resetDraft();
     }
 
-    res.json(draft);
+    return res.json(draft);
   } catch (error) {
     logger.error(error, 'Error fetching dictionary draft');
-    res.status(500).json({ err: error });
+    return res.status(500).json({ err: error });
   }
 });
 
@@ -44,10 +45,10 @@ draftRouter.get('/', async (req, res) => {
 draftRouter.delete('/', async (req, res) => {
   try {
     const output = await DictionaryHelper.resetDraft();
-    res.json(output);
+    return res.json(output);
   } catch (error) {
     logger.error(error, 'Error deleting dictionary draft');
-    res.status(500).json({ err: error });
+    return res.status(500).json({ err: error });
   }
 });
 
@@ -70,7 +71,7 @@ draftRouter.patch('/', async (req, res) => {
     }
 
     const draftDoc = await DictionaryHelper.getDictionaryDraft();
-    const draft = draftDoc.fields.find(i => i.name === field);
+    const draft = draftDoc.fields.find((i) => i.name === field);
 
     if (!draft) {
       res.status(400).json({ err: `No dictionary field found named: ${field}` });
@@ -95,7 +96,7 @@ draftRouter.patch('/', async (req, res) => {
         return;
       }
 
-      const parentValue = draft.values.find(val =>
+      const parentValue = draft.values.find((val) =>
         val.original ? val.original === parent : val.value === parent,
       );
 
@@ -104,14 +105,14 @@ draftRouter.patch('/', async (req, res) => {
         return;
       }
 
-      const dependent = parentValue.dependents.find(dep => dep.name === dependentName);
+      const dependent = parentValue.dependents.find((dep) => dep.name === dependentName);
 
       if (!dependent) {
         res.status(400).json({ err: `Parent value has no values for this dependent name` });
         return;
       }
 
-      const editValue = dependent.values.find(val =>
+      const editValue = dependent.values.find((val) =>
         val.original ? val.original === original : val.value === original,
       );
 
@@ -126,7 +127,7 @@ draftRouter.patch('/', async (req, res) => {
       DictionaryHelper.editValue(editValue, original, updated);
     } else {
       // handle basic case
-      const editValue = draft.values.find(val =>
+      const editValue = draft.values.find((val) =>
         val.original ? val.original === original : val.value === original,
       );
       if (!editValue) {
@@ -142,7 +143,7 @@ draftRouter.patch('/', async (req, res) => {
 
     draft.stats = DictionaryHelper.countDraftStats(draft);
     await draftDoc.save();
-    logger.audit(
+    logger.info(
       { field, parent, dependentName, original, updated },
       'draft updated',
       'Dictionary draft value edited',
@@ -177,7 +178,7 @@ draftRouter.post('/', async (req, res) => {
     }
 
     const draftDoc = await DictionaryHelper.getDictionaryDraft();
-    const draft = draftDoc.fields.find(i => i.name === field);
+    const draft = draftDoc.fields.find((i) => i.name === field);
 
     if (!draft) {
       res.status(400).json({ err: `No dictionary field found named: ${field}` });
@@ -202,7 +203,7 @@ draftRouter.post('/', async (req, res) => {
         return;
       }
 
-      const parentValue = draft.values.find(val =>
+      const parentValue = draft.values.find((val) =>
         val.original ? val.original === parent : val.value === parent,
       );
 
@@ -211,13 +212,13 @@ draftRouter.post('/', async (req, res) => {
         return;
       }
 
-      let dependent = parentValue.dependents.find(dep => dep.name === dependentName);
+      let dependent = parentValue.dependents.find((dep) => dep.name === dependentName);
 
       if (!dependent) {
         dependent = {
           name: dependentName,
           // displayName has a replace that does: To Title Case
-          displayName: dependentName.replace(/\w\S*/g, function(txt) {
+          displayName: dependentName.replace(/\w\S*/g, function (txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
           }),
           values: [],
@@ -244,7 +245,7 @@ draftRouter.post('/', async (req, res) => {
     }
     draft.stats = DictionaryHelper.countDraftStats(draft);
     await draftDoc.save();
-    logger.audit(
+    logger.info(
       { field, parent, dependentName, value },
       'draft updated',
       'Dictionary draft value added',
@@ -277,7 +278,7 @@ draftRouter.post('/remove', async (req, res) => {
     }
 
     const draftDoc = await DictionaryHelper.getDictionaryDraft();
-    const draft = draftDoc.fields.find(i => i.name === field);
+    const draft = draftDoc.fields.find((i) => i.name === field);
 
     if (!draft) {
       res.status(400).json({ err: `No dictionary field found named: ${field}` });
@@ -302,7 +303,7 @@ draftRouter.post('/remove', async (req, res) => {
         return;
       }
 
-      const parentValue = draft.values.find(val =>
+      const parentValue = draft.values.find((val) =>
         val.original ? val.original === parent : val.value === parent,
       );
 
@@ -311,13 +312,13 @@ draftRouter.post('/remove', async (req, res) => {
         return;
       }
 
-      let dependent = parentValue.dependents.find(dep => dep.name === dependentName);
+      let dependent = parentValue.dependents.find((dep) => dep.name === dependentName);
 
       if (!dependent) {
         dependent = {
           name: dependentName,
           // displayName has a replace that does: To Title Case
-          displayName: dependentName.replace(/\w\S*/g, function(txt) {
+          displayName: dependentName.replace(/\w\S*/g, function (txt) {
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
           }),
           values: [],
@@ -345,7 +346,7 @@ draftRouter.post('/remove', async (req, res) => {
     }
     draft.stats = DictionaryHelper.countDraftStats(draft);
     await draftDoc.save();
-    logger.audit(
+    logger.info(
       { field, parent, dependentName, value },
       'draft updated',
       'Dictionary draft new value removed',

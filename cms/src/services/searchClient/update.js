@@ -8,10 +8,9 @@ const index = process.env.ES_UPDATE_INDEX;
 
 const update = async () => {
   const searchClient = await getClient();
-  return searchClient
+  return await searchClient
     .index({
       index,
-      type: index,
       body: {
         date: Date.now(),
       },

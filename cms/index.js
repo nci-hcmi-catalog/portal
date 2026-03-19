@@ -1,6 +1,8 @@
-require('babel-polyfill');
-require('dotenv').config();
-require('@babel/register')({
+import 'babel-polyfill';
+import { config } from 'dotenv';
+config();
+import register from '@babel/register';
+register({
   presets: ['@babel/env'],
   plugins: [
     '@babel/plugin-proposal-optional-chaining',
@@ -8,4 +10,4 @@ require('@babel/register')({
   ],
 });
 
-require('./src/index');
+import './src/index.js';

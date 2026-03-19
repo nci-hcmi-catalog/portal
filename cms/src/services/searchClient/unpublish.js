@@ -1,18 +1,19 @@
 // @ts-check
 
-import getClient from './common/client.js';
-import indexEsUpdate from './update.js';
 import Model from '../../schemas/model.js';
-import { indexMatchedModelsToES } from './publish.js';
 import { modelStatus } from '../../helpers/modelStatus.js';
+import getLogger from '../../logger.js';
+
+import getClient from './common/client.js';
+import { indexMatchedModelsToES } from './publish.js';
+import indexEsUpdate from './update.js';
 import { updateGeneSearchIndicies } from './genomicVariants.js';
 
-import getLogger from '../../logger.js';
 const logger = getLogger('services/searchClient/unpublish');
-
 const index = process.env.ES_INDEX;
 
 export const unpublishModel = async (name) => {
+  console.log('unpublishModel', name);
   await unpublishOneFromES(name);
   await indexMatchedModelsToES({ name });
   await updateGeneSearchIndicies();
@@ -37,7 +38,7 @@ export const unpublishOneFromES = async (name) => {
     },
     { status: modelStatus.unpublished },
   );
-  logger.audit({ model: name }, 'unpublish model', 'Model Unpublished from ES');
+  logger.info({ model: name }, 'unpublish model', 'Model Unpublished from ES');
 };
 
 export const unpublishManyFromES = async (nameArr) => {
@@ -45,7 +46,7 @@ export const unpublishManyFromES = async (nameArr) => {
   // resolve as this is just bookkeeping
   await indexEsUpdate();
   const searchClient = await getClient();
-  return searchClient.deleteByQuery({
+  return await searchClient.deleteByQuery({
     index,
     body: {
       query: {

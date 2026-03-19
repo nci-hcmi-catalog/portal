@@ -8,11 +8,11 @@ import getLogger from '../logger.js';
 const logger = getLogger('helpers/matchedModels');
 
 /* Worker methods, take models as inputs */
-const createMatchedModels = async models => {
-  const modelIds = models.map(model => model._id);
+const createMatchedModels = async (models) => {
+  const modelIds = models.map((model) => model._id);
   const matchedModels = await MatchedModels.create({ models: modelIds });
-  logger.audit(
-    { matchedModels, models: models.map(model => model.name) },
+  logger.info(
+    { matchedModels, models: models.map((model) => model.name) },
     'matched model set created',
     'Created matched models set',
   );
@@ -24,12 +24,12 @@ const createMatchedModels = async models => {
         ? modelStatus.unpublished
         : modelStatus.unpublishedChanges;
     model.save();
-    logger.audit({ model: model.name }, 'model saved', 'Model updated to add matched model set');
+    logger.info({ model: model.name }, 'model saved', 'Model updated to add matched model set');
   }
   return matchedModels;
 };
 
-const clearModelFromSets = async model => {
+const clearModelFromSets = async (model) => {
   // Get MatchedModels for this model
 
   if (!model.matchedModels) {
@@ -42,7 +42,7 @@ const clearModelFromSets = async model => {
   if (matchedModels) {
     // only do operations on the matched set if we find it. if we didnt, no issue, we are removing this reference anyways
     matchedModels.models = matchedModels.models.filter(
-      modelId => modelId.toString() !== model._id.toString(),
+      (modelId) => modelId.toString() !== model._id.toString(),
     );
 
     // We need to make sure that when these changes to our model are published,
@@ -64,21 +64,21 @@ const clearModelFromSets = async model => {
             ? modelStatus.unpublished
             : modelStatus.unpublishedChanges;
         await otherModel.save();
-        logger.audit(
+        logger.info(
           { model: otherModel.name },
           'model saved',
           'Model updated to remove matched model set',
         );
       }
       await MatchedModels.deleteOne({ _id: matchedModels._id });
-      logger.audit(
+      logger.info(
         { matchedModels },
         'matched model set removed',
         'Matched models set removed due to having 1 or fewer members after update',
       );
     } else {
       await matchedModels.save();
-      logger.audit({ matchedModels }, 'matched model set saved', 'Matched models set updated');
+      logger.info({ matchedModels }, 'matched model set saved', 'Matched models set updated');
     }
   } else {
     logger.warn(
@@ -93,7 +93,7 @@ const clearModelFromSets = async model => {
       ? modelStatus.unpublished
       : modelStatus.unpublishedChanges;
   await model.save();
-  logger.audit({ model: model.name }, 'model saved', 'Model updated to remove matched model set');
+  logger.info({ model: model.name }, 'model saved', 'Model updated to remove matched model set');
 
   return;
 };
@@ -103,7 +103,7 @@ const clearModelFromSets = async model => {
  * Clears the matchedModels for the given model and updates models in the old set to no longer include this model
  * @param {*} nameToAdd
  */
-const removeFromSet = async nameToRemove => {
+const removeFromSet = async (nameToRemove) => {
   const model = await Model.findOne({ name: nameToRemove });
   if (!model) {
     throw new Error(`Could not find model with the name: ${nameToRemove}.`);
@@ -131,7 +131,8 @@ const connectWithMatchedModels = async (nameToAdd, setMemberName) => {
     ? await MatchedModels.findOne({ _id: modelToAdd.matchedModels }).populate('models')
     : null;
   const inCurrentSet =
-    currentMatchedModels && currentMatchedModels.models.find(model => model.name === setMemberName);
+    currentMatchedModels &&
+    currentMatchedModels.models.find((model) => model.name === setMemberName);
 
   // Only continue if we have to, if:
   // a - the target model name (setMemberName) is not in the current matchedModels set
@@ -152,7 +153,7 @@ const connectWithMatchedModels = async (nameToAdd, setMemberName) => {
       // Add model to the set
       matchedModels.models.push(modelToAdd._id);
       await matchedModels.save();
-      logger.audit(
+      logger.info(
         { matchedModels, model: nameToAdd },
         'matched model set updated',
         'Matched models set updated to add new model',
@@ -165,7 +166,7 @@ const connectWithMatchedModels = async (nameToAdd, setMemberName) => {
           ? modelStatus.unpublished
           : modelStatus.unpublishedChanges;
       await modelToAdd.save();
-      logger.audit(
+      logger.info(
         { model: modelToAdd.name },
         'model saved',
         'Model updated to add to matched model set',
@@ -181,7 +182,7 @@ const connectWithMatchedModels = async (nameToAdd, setMemberName) => {
     }
   } else {
     return {
-      models: currentMatchedModels.models.map(model => model._id),
+      models: currentMatchedModels.models.map((model) => model._id),
       _id: currentMatchedModels._id,
       __v: currentMatchedModels.__v,
     };

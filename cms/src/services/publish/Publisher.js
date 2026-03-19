@@ -185,7 +185,7 @@ const Publisher = (function () {
 
       // Start queue
       if (!running) {
-        start();
+        await start();
       }
 
       return { success: true, startTime: Date.now() };
@@ -305,7 +305,7 @@ const Publisher = (function () {
 
     // Start queue
     if (!running) {
-      start();
+      await start();
     }
 
     return { success: true, startTime: Date.now() };
