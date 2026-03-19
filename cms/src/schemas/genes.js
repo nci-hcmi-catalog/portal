@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import mongoosastic from 'mongoosastic';
 
-import elasticClient from '../services/searchClient/common/client.js';
+import getSearchClient from '../services/searchClient/common/client.js';
 
 const GeneSchema = new mongoose.Schema(
   {
@@ -18,7 +18,7 @@ const GeneSchema = new mongoose.Schema(
 );
 
 GeneSchema.plugin(mongoosastic, {
-  client: elasticClient(),
+  esClient: getSearchClient(),
   index: 'genes',
   type: '_doc',
 });

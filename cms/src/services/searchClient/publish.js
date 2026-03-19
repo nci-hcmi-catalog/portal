@@ -5,7 +5,8 @@ import MatchUtils from '../../helpers/matchedModels.js';
 import getLogger from '../../logger.js';
 
 import { ModelES } from './common/schemas/model.js';
-import indexEsUpdate from './update.js';
+import indexLastUpdated from './indexLastUpdated.js';
+import indexModel from './indexModel.js';
 import { updateGeneSearchIndicies } from './genomicVariants.js';
 
 const logger = getLogger('services/searchClient/publish');
@@ -43,38 +44,43 @@ export const bulkUpdateGeneSearchIndices = async (modelNames) => {
 };
 
 export const indexOneToES = async (filter) => {
-  const validation = await getPublishValidation();
-  const doc = await ModelES.findOne(filter)
-    .populate('variants.variant')
-    .populate('matchedModels')
-    .exec();
+  try {
+    const validation = await getPublishValidation();
+    const doc = await ModelES.findOne(filter)
+      .populate('variants.variant')
+      .populate('matchedModels')
+      .exec();
 
-  // Validate doc against publish schema
-  // for "on-demand" publishing
-  return await validation
-    .validate(doc)
-    .then(async () => {
-      // Need to populate and filter the matched models
-      if (doc.matchedModels) {
-        const matchedModels = await ModelES.find({
-          _id: { $in: doc.matchedModels.models || [] },
-        });
-        const matches = matchedModels.filter(
-          (model) => model.status !== modelStatus.unpublished && model.name !== doc.name,
-        );
-        doc.populatedMatches = matches;
-      }
-      await indexEsUpdate();
-      const res = await Model.updateOne({ name: doc.name }, { status: modelStatus.published });
-      logger.info({ model: doc.name }, 'publish model', 'Model Published to ES');
-      return {
-        status: `Indexing successful with status: ${res.result}`,
-      };
-    })
-    .catch((err) => {
-      logger.error('Error at indexOneToES', err);
-      throw err;
-    });
+    // Validate doc against publish schema for "on-demand" publishing
+    await validation.validate(doc);
+
+    // Index model into ElasticSearch
+    const { _doc } = doc;
+    delete _doc._id;
+
+    await indexModel(_doc);
+
+    // Need to populate and filter the matched models
+    if (doc.matchedModels) {
+      const matchedModels = await ModelES.find({
+        _id: { $in: doc.matchedModels.models || [] },
+      });
+      const matches = matchedModels.filter(
+        (model) => model.status !== modelStatus.unpublished && model.name !== doc.name,
+      );
+      doc.populatedMatches = matches;
+    }
+    await indexLastUpdated();
+    const res = await Model.updateOne({ name: doc.name }, { status: modelStatus.published });
+
+    logger.info({ model: doc.name }, 'publish model', 'Model Published to ES');
+    return {
+      status: `Indexing successful with status: ${res.result}`,
+    };
+  } catch (err) {
+    logger.error('Error at indexOneToES', err);
+    throw err;
+  }
 };
 
 /**

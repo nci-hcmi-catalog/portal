@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
 import mongoosastic from 'mongoosastic';
 
 import { ModelSchema } from '../../../../schemas/model.js';
-import elasticClient from '../client.js';
+import getSearchClient from '../client.js';
 
 const index = process.env.ES_INDEX;
 
 ModelSchema.plugin(mongoosastic, {
-  client: elasticClient,
+  esClient: getSearchClient(),
   index,
   type: '_doc',
 });

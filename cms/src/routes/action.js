@@ -23,7 +23,7 @@ actionRouter.post('/publish/:name', async (req, res) => {
   })
     .populate('variants.variant')
     .then((models) => runYupValidatorFailFast(validation, models))
-    .then(() => publishModel({ name }))
+    .then(async () => await publishModel({ name }))
     .then(() => res.json({ success: `${name} has been successfully published` }))
     .catch((error) => {
       logger.error(error);
