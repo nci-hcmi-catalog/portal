@@ -169,7 +169,7 @@ publishRouter.post('/acknowledge/:name', async (req, res) => {
     logger.debug(`Acknowledging publish status for model ${name}`);
 
     const acknowledged = Publisher.acknowledge(name);
-    console.log('acknowledge/:name', acknowledged);
+
     return res.status(200).json({ acknowledged, success: true });
   } catch (error) {
     logger.error(error, `Error occurred during publish status acknowledgement for model ${name}`);

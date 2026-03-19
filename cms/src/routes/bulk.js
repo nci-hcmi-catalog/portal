@@ -10,7 +10,7 @@ import { unpublishManyFromES } from '../services/searchClient/unpublish.js';
 import csvStream from '../helpers/streamAsCSV.js';
 import { backupFields } from '../schemas/descriptions/model.js';
 import { updateGeneSearchIndicies } from '../services/searchClient/genomicVariants.js';
-import getLogger from '../logger';
+import getLogger from '../logger.js';
 
 const logger = getLogger('routes/bulk');
 const bulkRouter = express.Router();
