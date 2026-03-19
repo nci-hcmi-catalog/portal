@@ -37,7 +37,7 @@ export const unpublishOneFromES = async (name) => {
     },
     { status: modelStatus.unpublished },
   );
-  logger.audit({ model: name }, 'unpublish model', 'Model Unpublished from ES');
+  logger.info({ model: name }, 'unpublish model', 'Model Unpublished from ES');
 };
 
 export const unpublishManyFromES = async (nameArr) => {
