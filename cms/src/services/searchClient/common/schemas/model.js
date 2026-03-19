@@ -2,13 +2,14 @@ import mongoose from 'mongoose';
 import mongoosastic from 'mongoosastic';
 
 import { ModelSchema } from '../../../../schemas/model.js';
-import getClient from '../client.js';
+import elasticClient from '../client.js';
 
 const index = process.env.ES_INDEX;
 
 ModelSchema.plugin(mongoosastic, {
-  esClient: await getClient(),
+  client: elasticClient,
   index,
+  type: '_doc',
 });
 
 export const ModelES = mongoose.model('ModelES', ModelSchema);

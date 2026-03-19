@@ -92,7 +92,7 @@ export const outputFn = async (req, res, next) => {
 };
 
 export const postCreate = async (req, res, next) => {
-  logger.info({ model: req.erm.result }, 'model created', 'Model created in mongo');
+  logger.audit({ model: req.erm.result }, 'model created', 'Model created in mongo');
 
   return next();
 };
@@ -106,7 +106,7 @@ export const postUpdate = async (req, res, next) => {
     },
   } = req;
 
-  logger.info({ model: modelName }, 'model saved', 'Model saved in mongo');
+  logger.audit({ model: modelName }, 'model saved', 'Model saved in mongo');
 
   // Model updates that contain the status key we
   // treat as being a change in status and trigger

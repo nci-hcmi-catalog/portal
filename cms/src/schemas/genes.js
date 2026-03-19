@@ -18,8 +18,9 @@ const GeneSchema = new mongoose.Schema(
 );
 
 GeneSchema.plugin(mongoosastic, {
-  esClient: await elasticClient(),
+  client: elasticClient(),
   index: 'genes',
+  type: '_doc',
 });
 
 export default mongoose.model('Gene', GeneSchema);

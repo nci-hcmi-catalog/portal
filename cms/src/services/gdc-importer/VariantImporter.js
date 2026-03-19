@@ -9,10 +9,7 @@ import {
   getBulkMafStatus,
   getCancerModelFilesFromMafFileData,
 } from './mafFiles.js';
-import {
-  addGenomicVariantsFromMaf,
-  getGdcImportErrorMessage,
-} from '../../helpers/genomicVariants.js';
+import { addGenomicVariantsFromMaf, getGdcImportErrorMessage } from '../../helpers/genomicVariants.js';
 import getLogger from '../../logger.js';
 
 const logger = getLogger('services/gdc-importer/VariantImporter');
@@ -30,7 +27,7 @@ const ImportTypes = {
   individual: 'INDIVIDUAL',
 };
 
-const getTissueStatus = async (modelName) => {
+const getTissueStatus = async modelName => {
   const model = await Model.findOne({ name: modelName });
 
   if (!model) {
@@ -76,7 +73,7 @@ const Import = ({
     logger.info({ startTime, stopTime, modelName }, 'Genomic Variant Import complete.');
   };
 
-  const errorStop = (errorData) => {
+  const errorStop = errorData => {
     status = ImportStatus.error;
     error = errorData;
     stopTime = Date.now();
@@ -118,7 +115,7 @@ const Import = ({
     tissueStatus,
   });
 
-  const parseMaf = (maf) => {
+  const parseMaf = maf => {
     // clear all the weird comments
     const withoutComments = maf.replace(/#.+\n/g, '');
     return tsv.parse(withoutComments);
@@ -141,7 +138,7 @@ const Import = ({
         { time: Date.now(), startTime, fileId, filename, modelName },
         'Beginning MAF file download...',
       );
-      const mafFile = await downloadMaf({ filename, fileId, modelName }).catch((error) => {
+      const mafFile = await downloadMaf({ filename, fileId, modelName }).catch(error => {
         errorStop({
           code: IMPORT_ERRORS.manualImportError,
           message: error.message,
@@ -189,7 +186,7 @@ const Import = ({
   };
 };
 
-const VariantImporter = (function () {
+const VariantImporter = (function() {
   let queue = [];
   let failed = [];
   let stopped = [];
@@ -197,13 +194,13 @@ const VariantImporter = (function () {
   let running = false;
 
   const cleanLists = () => {
-    failed = failed.filter((i) => i && i.getData && !i.getData().acknowledged);
-    stopped = stopped.filter((i) => i && i.getData && !i.getData().acknowledged);
-    success = success.filter((i) => i && i.getData && !i.getData().acknowledged);
+    failed = failed.filter(i => i && i.getData && !i.getData().acknowledged);
+    stopped = stopped.filter(i => i && i.getData && !i.getData().acknowledged);
+    success = success.filter(i => i && i.getData && !i.getData().acknowledged);
 
     // queue should never have anything acknowledged (should move to failed/stopped/success)
     // clearing just in case
-    queue = queue.filter((i) => i && i.getData && !i.getData().acknowledged);
+    queue = queue.filter(i => i && i.getData && !i.getData().acknowledged);
   };
 
   const emptyQueue = () => {
@@ -237,7 +234,7 @@ const VariantImporter = (function () {
 
         // Start queue
         if (!running) {
-          await start();
+          start();
         }
 
         return { success: true, startTime: Date.now() };
@@ -298,7 +295,7 @@ const VariantImporter = (function () {
 
       // Start queue
       if (!running) {
-        await start();
+        start();
       }
 
       return { success: true, startTime: Date.now() };
@@ -314,7 +311,7 @@ const VariantImporter = (function () {
     }
   };
 
-  const queueBulkImport = async (models) => {
+  const queueBulkImport = async models => {
     if (!Array.isArray(models) || models.length < 1) {
       logger.error(
         'queueBulkImport failed due to bad input. `models` must be an array of model names.',
@@ -334,7 +331,7 @@ const VariantImporter = (function () {
 
     // Filter out models that don't exist within HCMI db
     let noMatchingModel = [];
-    models = models.filter(async (modelName) => {
+    models = models.filter(async modelName => {
       let match = await Model.findOne({ name: modelName });
 
       if (!match) {
@@ -355,7 +352,7 @@ const VariantImporter = (function () {
     failed = [
       ...failed,
       // Non-actionable errors (no match, not found in GDC, no MAFs)
-      ...noMatchingModel.map((modelName) =>
+      ...noMatchingModel.map(modelName =>
         Import({
           modelName,
           status: ImportStatus.error,
@@ -366,7 +363,7 @@ const VariantImporter = (function () {
           importType: ImportTypes.bulk,
         }),
       ),
-      ...modelsStatus[GDC_MODEL_STATES.modelNotFound].map((modelName) =>
+      ...modelsStatus[GDC_MODEL_STATES.modelNotFound].map(modelName =>
         Import({
           modelName,
           status: ImportStatus.error,
@@ -377,7 +374,7 @@ const VariantImporter = (function () {
           importType: ImportTypes.bulk,
         }),
       ),
-      ...modelsStatus[GDC_MODEL_STATES.noMafs].map((modelName) =>
+      ...modelsStatus[GDC_MODEL_STATES.noMafs].map(modelName =>
         Import({
           modelName,
           status: ImportStatus.error,
@@ -390,7 +387,7 @@ const VariantImporter = (function () {
       ),
       // Actionable errors (multiple ngcm, no ngcm)
       ...(await Promise.all(
-        modelsStatus[GDC_MODEL_STATES.multipleNgcm].map(async (modelName) =>
+        modelsStatus[GDC_MODEL_STATES.multipleNgcm].map(async modelName =>
           Import({
             modelName,
             caseId: modelsFileData[modelName].caseId,
@@ -407,7 +404,7 @@ const VariantImporter = (function () {
         ),
       )),
       ...(await Promise.all(
-        modelsStatus[GDC_MODEL_STATES.noNgcm].map(async (modelName) =>
+        modelsStatus[GDC_MODEL_STATES.noNgcm].map(async modelName =>
           Import({
             modelName,
             caseId: modelsFileData[modelName].caseId,
@@ -428,7 +425,7 @@ const VariantImporter = (function () {
     // Queue imports for conflict-free models (single NGCM, single NGCM+)
     queue = [
       ...queue,
-      ...modelsStatus[GDC_MODEL_STATES.singleNgcm].map((modelName) => {
+      ...modelsStatus[GDC_MODEL_STATES.singleNgcm].map(modelName => {
         const fileData = getCancerModelFilesFromMafFileData(modelsFileData[modelName], true)[0];
         return Import({
           modelName,
@@ -438,7 +435,7 @@ const VariantImporter = (function () {
           importType: ImportTypes.bulk,
         });
       }),
-      ...modelsStatus[GDC_MODEL_STATES.singleNgcmPlusEngcm].map((modelName) => {
+      ...modelsStatus[GDC_MODEL_STATES.singleNgcmPlusEngcm].map(modelName => {
         const fileData = getCancerModelFilesFromMafFileData(modelsFileData[modelName], true)[0];
         return Import({
           modelName,
@@ -452,25 +449,25 @@ const VariantImporter = (function () {
 
     // Start queue
     if (!running) {
-      await start();
+      start();
     }
 
     return { success: true, startTime: Date.now() };
   };
 
-  const stopImport = async (modelName) => {
+  const stopImport = async modelName => {
     // In case we get into an invalid state with multiple imports for a given model name,
     //   we'll use filter to get the whole list of them.
-    const targets = queue.filter((i) => i && i.modelName === modelName);
+    const targets = queue.filter(i => i && i.modelName === modelName);
     if (targets.length) {
-      targets.forEach((target) => target.stop());
+      targets.forEach(target => target.stop());
       stopped = [...stopped, ...targets];
-      queue = queue.filter((i) => i && i.modelName !== modelName);
+      queue = queue.filter(i => i && i.modelName !== modelName);
     }
 
     cleanLists();
 
-    return targets.map((target) => target.getData());
+    return targets.map(target => target.getData());
   };
 
   const stopBulkImport = async (modelNames = []) => {
@@ -478,73 +475,73 @@ const VariantImporter = (function () {
 
     let targets = [];
     if (modelNames.length) {
-      modelNames.forEach((modelName) => {
-        targets = [...targets, ...queue.filter((i) => i && i.modelName === modelName)];
+      modelNames.forEach(modelName => {
+        targets = [...targets, ...queue.filter(i => i && i.modelName === modelName)];
       });
     } else {
       targets = queue;
     }
 
     if (targets.length) {
-      targets.forEach((target) => target.stop());
+      targets.forEach(target => target.stop());
       stopped = [...stopped, ...targets];
       emptyQueue();
     }
 
     cleanLists();
 
-    return targets.map((target) => target.getData());
+    return targets.map(target => target.getData());
   };
 
   const getStatus = () => {
     cleanLists();
     return {
-      queue: queue.map((i) => i.getData()),
-      failed: failed.map((i) => i.getData()),
-      stopped: stopped.map((i) => i.getData()),
-      success: success.map((i) => i.getData()),
+      queue: queue.map(i => i.getData()),
+      failed: failed.map(i => i.getData()),
+      stopped: stopped.map(i => i.getData()),
+      success: success.map(i => i.getData()),
       running,
     };
   };
 
-  const acknowledge = (modelName) => {
+  const acknowledge = modelName => {
     const targets = [
-      ...failed.filter((i) => i && i.modelName === modelName),
-      ...stopped.filter((i) => i && i.modelName === modelName),
-      ...success.filter((i) => i && i.modelName === modelName),
+      ...failed.filter(i => i && i.modelName === modelName),
+      ...stopped.filter(i => i && i.modelName === modelName),
+      ...success.filter(i => i && i.modelName === modelName),
     ];
     if (targets.length) {
-      targets.forEach((target) => target.acknowledge());
+      targets.forEach(target => target.acknowledge());
     }
 
     cleanLists();
 
-    return targets.map((target) => target.getData());
+    return targets.map(target => target.getData());
   };
 
-  const acknowledgeBulk = (modelNames) => {
+  const acknowledgeBulk = modelNames => {
     let targets = [];
 
-    modelNames.forEach((modelName) => {
+    modelNames.forEach(modelName => {
       targets = [
         ...targets,
-        ...failed.filter((i) => i && i.modelName === modelName),
-        ...stopped.filter((i) => i && i.modelName === modelName),
-        ...success.filter((i) => i && i.modelName === modelName),
+        ...failed.filter(i => i && i.modelName === modelName),
+        ...stopped.filter(i => i && i.modelName === modelName),
+        ...success.filter(i => i && i.modelName === modelName),
       ];
     });
 
     if (targets.length) {
-      targets.forEach((target) => target.acknowledge());
+      targets.forEach(target => target.acknowledge());
     }
 
     cleanLists();
 
-    return targets.map((target) => target.getData());
+    return targets.map(target => target.getData());
   };
 
-  const resolveConflict = async (modelName, fileId, filename) => {
-    const targetIndex = failed.findIndex((i) => i.modelName === modelName);
+  const resolveConflict = (modelName, fileId, filename) => {
+    const targetIndex = failed.findIndex(i => i.modelName === modelName);
 
     if (targetIndex < 0) {
       return {
@@ -558,12 +555,12 @@ const VariantImporter = (function () {
 
     // Move resolved conflict from failed to queue
     const target = failed.splice(targetIndex, 1)[0];
-    await target.resolveConflict(fileId, filename);
+    target.resolveConflict(fileId, filename);
     queue.push(target);
 
     // Start queue
     if (!running) {
-      await start();
+      start();
     }
 
     return target.getData();
@@ -573,9 +570,9 @@ const VariantImporter = (function () {
     running = false;
   };
 
-  const start = async () => {
+  const start = () => {
     running = true;
-    await run();
+    run();
   };
 
   const run = async () => {
@@ -609,7 +606,7 @@ const VariantImporter = (function () {
     }
 
     if (running && queue.length > 0) {
-      await run();
+      run();
     } else {
       pause();
     }

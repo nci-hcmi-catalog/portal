@@ -26,32 +26,27 @@ const ModelsManager = () => {
           <AdminHeaderH1>Model Management</AdminHeaderH1>
           <AdminHeaderBlock>
             <ModelManagerContext.Consumer>
-              {(context) => {
-                const { bulkImportVariants, state } = context ?? {};
-                return (
-                  <ModalStateContext.Consumer>
-                    {(modalState) => (
-                      <ButtonPill
-                        primary
-                        marginRight="8px"
-                        onClick={() =>
-                          modalState.setModalState({
-                            component: (
-                              <VariantAuditModal bulkImportVariants={bulkImportVariants} />
-                            ),
-                            shouldCloseOnOverlayClick: true,
-                            styles: AdminModalStyle,
-                          })
-                        }
-                        disabled={(state && state.isLoading) || publishRunning}
-                      >
-                        <DNAIcon />
-                        Check for GDC Variants
-                      </ButtonPill>
-                    )}
-                  </ModalStateContext.Consumer>
-                );
-              }}
+              {({ bulkImportVariants, state }) => (
+                <ModalStateContext.Consumer>
+                  {(modalState) => (
+                    <ButtonPill
+                      primary
+                      marginRight="8px"
+                      onClick={() =>
+                        modalState.setModalState({
+                          component: <VariantAuditModal bulkImportVariants={bulkImportVariants} />,
+                          shouldCloseOnOverlayClick: true,
+                          styles: AdminModalStyle,
+                        })
+                      }
+                      disabled={(state && state.isLoading) || publishRunning}
+                    >
+                      <DNAIcon />
+                      Check for GDC Variants
+                    </ButtonPill>
+                  )}
+                </ModalStateContext.Consumer>
+              )}
             </ModelManagerContext.Consumer>
             <ModelManagerContext.Consumer>
               {({ uploadModelsFromSheet, state }) => (

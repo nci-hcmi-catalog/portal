@@ -4,7 +4,6 @@
   "description": "Content Management services for HCMI Portal`",
   "private": true,
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "nodemon index.js | pino-pretty",
     "test": "echo \"Error: no test specified\" && exit 1",

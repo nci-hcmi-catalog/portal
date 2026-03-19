@@ -66,7 +66,7 @@ export const indexOneToES = async (filter) => {
       }
       await indexEsUpdate();
       const res = await Model.updateOne({ name: doc.name }, { status: modelStatus.published });
-      logger.info({ model: doc.name }, 'publish model', 'Model Published to ES');
+      logger.audit({ model: doc.name }, 'publish model', 'Model Published to ES');
       return {
         status: `Indexing successful with status: ${res.result}`,
       };

@@ -10,7 +10,7 @@ import {
 import getLogger from '../logger.js';
 const logger = getLogger('helpers/genomicVariants');
 
-export const clearGenomicVariants = async (name) => {
+export const clearGenomicVariants = async name => {
   // Stop any active imports, if any:
   try {
     await VariantImporter.stopImport(name);
@@ -37,8 +37,8 @@ export const clearGenomicVariants = async (name) => {
   }
 };
 
-const titleCase = (text, filter = (i) => true) => {
-  return text.replace(/\w\S*/g, (i) => {
+const titleCase = (text, filter = i => true) => {
+  return text.replace(/\w\S*/g, i => {
     if (filter(i)) {
       return i.charAt(0).toUpperCase() + i.substr(1);
     }
@@ -68,9 +68,9 @@ const buildVariantId = ({
   }
 };
 
-const buildModelUrl = (caseId) => `${BASE_GDC_URL}/cases/${caseId}`;
-const buildMafUrl = (fileId) => `${BASE_GDC_URL}/files/${fileId}`;
-const buildSequenceUrl = (caseId) => `${BASE_GDC_URL}/cases/${caseId}#files`;
+const buildModelUrl = caseId => `${BASE_GDC_URL}/cases/${caseId}`;
+const buildMafUrl = fileId => `${BASE_GDC_URL}/files/${fileId}`;
+const buildSequenceUrl = caseId => `${BASE_GDC_URL}/cases/${caseId}#files`;
 
 export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileId }, caseId) => {
   const model = await Model.findOne({ name });
@@ -103,7 +103,7 @@ export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileI
 
       // Properties originally from Reference that are temporarily taken from MAF - Jon Eubank 2020-09-29
       const gene = row.Hugo_Symbol;
-      const gene_biotype = titleCase(row.BIOTYPE.replace(/_/g, ' '), (i) => !i.includes('RNA'));
+      const gene_biotype = titleCase(row.BIOTYPE.replace(/_/g, ' '), i => !i.includes('RNA'));
       const name = `${row.Hugo_Symbol} ${aa_change}`;
       const synonyms = [];
 
@@ -181,7 +181,7 @@ export const addGenomicVariantsFromMaf = async (name, mafData, { filename, fileI
     }
 
     await model.save();
-    logger.info(
+    logger.audit(
       {
         model: model.name,
         genomic_variants: model.genomic_variants ? model.genomic_variants.length : 0,
