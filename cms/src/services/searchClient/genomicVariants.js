@@ -1,8 +1,10 @@
+// @ts-check
+
 import _ from 'lodash';
 
 import getLogger from '../../logger.js';
 
-import esClient from './common/client.js';
+import getClient from './common/client.js';
 
 const { get, flatten, uniq } = _;
 
@@ -17,8 +19,9 @@ const getAllIndexedDocs = async (index) => {
   let startFrom = 0;
   let totalHits = 1;
   const requestSize = 100;
+  const searchClient = await getClient();
   while (totalHits > startFrom) {
-    const esResponse = await esClient.search({
+    const esResponse = await searchClient.search({
       index: index,
       size: requestSize,
       from: startFrom,
@@ -38,6 +41,7 @@ const getAllIndexedDocs = async (index) => {
 //   Additionally, to know which genes to remove we have to compare this list to the currently published list in the genes index on ES
 
 const updateVariantIndex = async (desiredVariants) => {
+  const searchClient = await getClient();
   // TEMP: Remove all usage of variantIdMafOnly and just use variant_id once the gene reference is reimplemented - Jon Eubank 2020-09
   const variantIdMafOnly = (originalID) => `${originalID}_MAF`;
   logger.debug({ desiredVariants }, 'List of Variants that should be published');
@@ -90,7 +94,7 @@ const updateVariantIndex = async (desiredVariants) => {
   );
 
   if (deleteRequests.length || addRequests.length) {
-    await esClient.bulk({
+    await searchClient.bulk({
       body: [...deleteRequests, ...addRequests],
     });
   } else {
@@ -99,6 +103,7 @@ const updateVariantIndex = async (desiredVariants) => {
 };
 
 const updateGeneIndex = async (desiredGenes) => {
+  const searchClient = await getClient();
   const desiredGeneIds = desiredGenes.map((gene) => gene.symbol);
   logger.debug({ desiredGenes: desiredGeneIds }, 'List of Genes that should be published');
 
@@ -139,7 +144,7 @@ const updateGeneIndex = async (desiredGenes) => {
   );
 
   if (deleteRequests.length || addRequests.length) {
-    await esClient.bulk({
+    await searchClient.bulk({
       body: [...deleteRequests, ...addRequests],
     });
   } else {
@@ -148,9 +153,10 @@ const updateGeneIndex = async (desiredGenes) => {
 };
 
 export const updateGeneSearchIndicies = async () => {
+  const searchClient = await getClient();
   // This method reads from the es indices, and is prone to errors if we read it before updates have been indexed
   //   so first, we refresh the model index :)
-  await esClient.indices.refresh({ index: MODEL_INDEX });
+  await searchClient.indices.refresh({ index: MODEL_INDEX });
 
   // 1. get models from ES
   const publishedModels = await getAllIndexedDocs(MODEL_INDEX);

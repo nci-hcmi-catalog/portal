@@ -1,6 +1,7 @@
 // @ts-check
 
 import express from 'express';
+
 import Model from '../schemas/model.js';
 import getPublishValidation from '../validation/model.js';
 import { runYupValidatorFailSlow, modelStatus } from '../helpers/index.js';
@@ -9,10 +10,9 @@ import { unpublishManyFromES } from '../services/searchClient/unpublish.js';
 import csvStream from '../helpers/streamAsCSV.js';
 import { backupFields } from '../schemas/descriptions/model.js';
 import { updateGeneSearchIndicies } from '../services/searchClient/genomicVariants.js';
-
 import getLogger from '../logger';
-const logger = getLogger('routes/bulk');
 
+const logger = getLogger('routes/bulk');
 const bulkRouter = express.Router();
 
 bulkRouter.post('/publish', async (req, res) => {
