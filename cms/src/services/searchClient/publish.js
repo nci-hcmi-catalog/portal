@@ -42,50 +42,39 @@ export const bulkUpdateGeneSearchIndices = async (modelNames) => {
   }
 };
 
-export const indexOneToES = (filter) => {
-  return new Promise((resolve, reject) => {
-    ModelES.findOne(filter)
-      .populate('variants.variant')
-      .populate('matchedModels')
-      .exec(async (err, doc) => {
-        if (err) {
-          reject(err);
-        }
-        const validation = await getPublishValidation();
-        // Validate doc against publish schema
-        // for "on-demand" publishing
-        validation
-          .validate(doc)
-          .then(async () => {
-            // Need to populate and filter the matched models
-            if (doc.matchedModels) {
-              const matchedModels = await ModelES.find({
-                _id: { $in: doc.matchedModels.models || [] },
-              });
-              const matches = matchedModels.filter(
-                (model) => model.status !== modelStatus.unpublished && model.name !== doc.name,
-              );
-              doc.populatedMatches = matches;
-            }
-            doc.esIndex((err, res) => {
-              if (err) {
-                reject(err);
-              } else {
-                indexEsUpdate() &&
-                  resolve({
-                    status: `Indexing successful with status: ${res.result}`,
-                  });
-                logger.audit({ model: doc.name }, 'publish model', 'Model Published to ES');
-              }
-            });
-          })
-          .then(
-            async () =>
-              await Model.updateOne({ name: doc.name }, { status: modelStatus.published }),
-          )
-          .catch((err) => reject(err));
-      });
-  });
+export const indexOneToES = async (filter) => {
+  const validation = await getPublishValidation();
+  const doc = await ModelES.findOne(filter)
+    .populate('variants.variant')
+    .populate('matchedModels')
+    .exec();
+
+  // Validate doc against publish schema
+  // for "on-demand" publishing
+  return await validation
+    .validate(doc)
+    .then(async () => {
+      // Need to populate and filter the matched models
+      if (doc.matchedModels) {
+        const matchedModels = await ModelES.find({
+          _id: { $in: doc.matchedModels.models || [] },
+        });
+        const matches = matchedModels.filter(
+          (model) => model.status !== modelStatus.unpublished && model.name !== doc.name,
+        );
+        doc.populatedMatches = matches;
+      }
+      await indexEsUpdate();
+      const res = await Model.updateOne({ name: doc.name }, { status: modelStatus.published });
+      logger.audit({ model: doc.name }, 'publish model', 'Model Published to ES');
+      return {
+        status: `Indexing successful with status: ${res.result}`,
+      };
+    })
+    .catch((err) => {
+      logger.error('Error at indexOneToES', err);
+      throw err;
+    });
 };
 
 /**

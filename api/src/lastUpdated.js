@@ -1,9 +1,12 @@
 // @ts-check
 
 import express from 'express';
+
 import getClient from './services/searchClient.ts';
+import getLogger from './logger';
 
 const lastUpdatedRouter = express.Router();
+const logger = getLogger('lastUpdated Router');
 
 lastUpdatedRouter.get('/', async (req, res) => {
   const searchClient = await getClient();
@@ -24,8 +27,9 @@ lastUpdatedRouter.get('/', async (req, res) => {
         ],
       },
     });
-    return res.json(response.body.hits.hits[0]._source);
+    return res.json(response.body?.hits?.hits[0]?._source);
   } catch (error) {
+    logger.error(`Error retrieving last updated date from Arranger: ${error}`);
     return res.status(500).json({
       error: error,
     });

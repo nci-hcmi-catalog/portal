@@ -15,13 +15,13 @@ const index = process.env.ES_INDEX;
 export const unpublishModel = async (name) => {
   await unpublishOneFromES(name);
   await indexMatchedModelsToES({ name });
-  updateGeneSearchIndicies();
+  await updateGeneSearchIndicies();
 };
 
 export const unpublishOneFromES = async (name) => {
   // Not waiting for update promise to
   // resolve as this is just bookkeeping
-  indexEsUpdate();
+  await indexEsUpdate();
   const searchClient = await getClient();
   await searchClient.deleteByQuery({
     index,
@@ -43,7 +43,7 @@ export const unpublishOneFromES = async (name) => {
 export const unpublishManyFromES = async (nameArr) => {
   // Not waiting for update promise to
   // resolve as this is just bookkeeping
-  indexEsUpdate();
+  await indexEsUpdate();
   const searchClient = await getClient();
   return searchClient.deleteByQuery({
     index,

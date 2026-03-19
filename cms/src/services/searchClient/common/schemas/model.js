@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
-import mongooseElasticsearch from 'mongoose-elasticsearch-xp';
+import mongoosastic from 'mongoosastic';
+
 import { ModelSchema } from '../../../../schemas/model.js';
 import elasticClient from '../client.js';
 
 const index = process.env.ES_INDEX;
 
-ModelSchema.plugin(mongooseElasticsearch.v7, {
+ModelSchema.plugin(mongoosastic, {
   client: elasticClient,
   index,
   type: '_doc',

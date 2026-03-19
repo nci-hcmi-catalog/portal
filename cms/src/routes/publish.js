@@ -64,11 +64,10 @@ publishRouter.get('/status', async (req, res) => {
     logger.debug(`Fetching Publisher status...`);
 
     const status = Publisher.getStatus();
-
-    res.status(200).json({ ...status });
+    return res.status(200).json({ ...status });
   } catch (error) {
     logger.error(error, `Error occurred during Publisher status fetch`);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: error,
     });
@@ -154,11 +153,10 @@ publishRouter.post('/acknowledge/bulk', async (req, res) => {
     logger.debug(`Starting bulk acknowledge for models: ${models}`);
 
     const acknowledged = Publisher.acknowledgeBulk(models);
-
-    res.status(200).json({ acknowledged, success: true });
+    return res.status(200).json({ acknowledged, success: true });
   } catch (error) {
     logger.error(error, `Error occurred during bulk model acknowledge`);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: error,
     });
@@ -171,11 +169,11 @@ publishRouter.post('/acknowledge/:name', async (req, res) => {
     logger.debug(`Acknowledging publish status for model ${name}`);
 
     const acknowledged = Publisher.acknowledge(name);
-
-    res.status(200).json({ acknowledged, success: true });
+    console.log('acknowledge/:name', acknowledged);
+    return res.status(200).json({ acknowledged, success: true });
   } catch (error) {
     logger.error(error, `Error occurred during publish status acknowledgement for model ${name}`);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: error,
     });
@@ -188,10 +186,10 @@ publishRouter.post('/stop/all', async (req, res) => {
 
     const stopped = await Publisher.stopBulkPublish();
 
-    res.status(200).json({ stopped, success: true });
+    return res.status(200).json({ stopped, success: true });
   } catch (error) {
     logger.error(error, `Error occurred during bulk publish stop`);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: error,
     });
@@ -205,10 +203,10 @@ publishRouter.post('/stop/:name', async (req, res) => {
 
     const stopped = await Publisher.stopPublish(name);
 
-    res.status(200).json({ stopped, success: true });
+    return res.status(200).json({ stopped, success: true });
   } catch (error) {
     logger.error(error, `Error occurred during publish stop for model ${name}`);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       error: error,
     });
