@@ -26,7 +26,7 @@ const ModelsManager = () => {
           <AdminHeaderH1>Model Management</AdminHeaderH1>
           <AdminHeaderBlock>
             <ModelManagerContext.Consumer>
-              {({ bulkImportVariants, state }) => (
+              {({ bulkImportVariants, state } = {}) => (
                 <ModalStateContext.Consumer>
                   {(modalState) => (
                     <ButtonPill

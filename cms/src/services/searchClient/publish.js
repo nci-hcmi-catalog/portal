@@ -56,6 +56,7 @@ export const indexOneToES = async (filter) => {
 
     // Index model into ElasticSearch
     const { _doc } = doc;
+    delete _doc.__v;
     delete _doc._id;
 
     await indexModel(_doc);

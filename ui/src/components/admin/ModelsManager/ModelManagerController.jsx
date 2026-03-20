@@ -66,13 +66,13 @@ const bulkActionCreator =
     bulkAction(action, state.selection)
       .then(({ data: { success, errors } }) =>
         loadData(baseUrl, state).then(async ([dataResponse, countResponse]) => {
-          await setState(() => ({
+          setState({
             isLoading: false,
-            data: dataResponse.data,
+            data: dataResponse?.data,
             error: null,
-            rowCount: countResponse.data.count,
+            rowCount: countResponse?.data?.count,
             ...initPagingState,
-          }));
+          });
 
           await appendNotification({
             type:
@@ -91,6 +91,7 @@ const bulkActionCreator =
         }),
       )
       .catch(async (err) => {
+        console.error(err);
         const errorText = extractErrorText(err);
 
         await setState({
@@ -221,7 +222,11 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                           let modelNames;
                           switch (overwriteVariants) {
                             case VARIANT_OVERWRITE_OPTIONS.allModels:
-                              modelNames = [...result?.new, ...result?.updated, ...result?.unchanged];
+                              modelNames = [
+                                ...result?.new,
+                                ...result?.updated,
+                                ...result?.unchanged,
+                              ];
                               if (!modelNames.length) {
                                 return;
                               }
@@ -247,7 +252,11 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                                 });
                               break;
                             case VARIANT_OVERWRITE_OPTIONS.cleanOnly:
-                              modelNames = [...result?.new, ...result?.updated, ...result?.unchanged];
+                              modelNames = [
+                                ...result?.new,
+                                ...result?.updated,
+                                ...result?.unchanged,
+                              ];
                               if (!modelNames.length) {
                                 return;
                               }

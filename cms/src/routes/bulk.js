@@ -79,7 +79,7 @@ bulkRouter.post('/unpublish', async (req, res) => {
   try {
     const models = await Model.find({ _id: { $in: req.body } });
     const result = await unpublishManyFromES(models.map(({ name }) => name));
-    deleteCount = result.deleted;
+    deleteCount = result.body.deleted;
     await Model.updateMany(
       {
         _id: { $in: req.body },
