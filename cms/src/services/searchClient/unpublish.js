@@ -4,7 +4,7 @@ import Model from '../../schemas/model.js';
 import { modelStatus } from '../../helpers/modelStatus.js';
 import getLogger from '../../logger.js';
 
-import getClient from './common/client.js';
+import getClient from './client.js';
 import indexLastUpdated from './indexLastUpdated.js';
 import { indexMatchedModelsToES } from './publish.js';
 import { updateGeneSearchIndicies } from './genomicVariants.js';

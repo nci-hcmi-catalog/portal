@@ -1,7 +1,7 @@
 import { buildSearchClient } from '@overture-stack/arranger-server';
 
 const getClient = async () => {
-  const host = process.env.ES_URL || 'http://localhost:9200';
+  const host = process.env.ES_HOST || 'http://localhost:9200';
   const user = process.env.ES_USER || '';
   const password = process.env.ES_PASS || '';
   return await buildSearchClient(host, user, password);

@@ -4,7 +4,6 @@ import { modelStatus } from '../../helpers/modelStatus.js';
 import MatchUtils from '../../helpers/matchedModels.js';
 import getLogger from '../../logger.js';
 
-import { ModelES } from './common/schemas/model.js';
 import indexLastUpdated from './indexLastUpdated.js';
 import indexModel from './indexModel.js';
 import { updateGeneSearchIndicies } from './genomicVariants.js';
@@ -46,7 +45,7 @@ export const bulkUpdateGeneSearchIndices = async (modelNames) => {
 export const indexOneToES = async (filter) => {
   try {
     const validation = await getPublishValidation();
-    const doc = await ModelES.findOne(filter)
+    const doc = await Model.findOne(filter)
       .populate('variants.variant')
       .populate('matchedModels')
       .exec();
@@ -54,16 +53,9 @@ export const indexOneToES = async (filter) => {
     // Validate doc against publish schema for "on-demand" publishing
     await validation.validate(doc);
 
-    // Index model into ElasticSearch
-    const { _doc } = doc;
-    delete _doc.__v;
-    delete _doc._id;
-
-    await indexModel(_doc);
-
     // Need to populate and filter the matched models
     if (doc.matchedModels) {
-      const matchedModels = await ModelES.find({
+      const matchedModels = await Model.find({
         _id: { $in: doc.matchedModels.models || [] },
       });
       const matches = matchedModels.filter(
@@ -71,6 +63,12 @@ export const indexOneToES = async (filter) => {
       );
       doc.populatedMatches = matches;
     }
+    // Index model into ElasticSearch
+    const { _doc } = doc;
+    delete _doc.__v;
+    delete _doc._id;
+
+    await indexModel(_doc);
     await indexLastUpdated();
     const res = await Model.updateOne({ name: doc.name }, { status: modelStatus.published });
 
@@ -93,7 +91,7 @@ export const indexOneToES = async (filter) => {
  *  matchedModel set will be republished.
  */
 export const indexMatchedModelsToES = async (filter, skipSelf = true) => {
-  const model = await ModelES.findOne(filter).populate('matchedModels');
+  const model = await Model.findOne(filter).populate('matchedModels');
 
   // Get list of matched models if exists
   const matchedModelIds = model.matchedModels ? model.matchedModels.models : [];
@@ -123,7 +121,7 @@ export const indexMatchedModelsToES = async (filter, skipSelf = true) => {
 };
 
 export const updateMatchedModelsToES = async (filter) => {
-  const models = await ModelES.find(filter);
+  const models = await Model.find(filter);
 
   // filter this list only to models that are published or published with changes
   const modelsToPublish = models.filter((model) => model.status !== modelStatus.unpublished);

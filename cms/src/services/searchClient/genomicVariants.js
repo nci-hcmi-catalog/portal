@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import getLogger from '../../logger.js';
 
-import getClient from './common/client.js';
+import getClient from './client.js';
 
 const { get, flatten, uniq } = _;
 

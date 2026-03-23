@@ -1,6 +1,6 @@
 // @ts-check
 
-import getClient from './common/client.js';
+import getClient from './client.js';
 import getLogger from '../../logger.js';
 const logger = getLogger('services/searchClient/update');
 

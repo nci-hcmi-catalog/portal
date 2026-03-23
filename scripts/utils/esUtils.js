@@ -1,4 +1,4 @@
-import { getSearchClient } from '@overture-stack/arranger-server';
+import getSearchClient from '../../cms/src/services/searchClient/client.js';
 
 /** Search index settings and mappings **/
 import modelsIndexConfig from '../../elasticsearch/modelsIndex.json' with { type: "json" };
@@ -27,9 +27,7 @@ const VARIANTS_INDEX = 'genomic_variants';
 const createIndex = async (index, config) => {
   try {
     console.log(`\nCreating index: ${index}`);
-    const client = await getSearchClient({
-      node: esHost,
-    });
+    const client = await getSearchClient();
     await client.indices.create({
       index,
       body: config,
@@ -45,9 +43,7 @@ const createIndex = async (index, config) => {
 const deleteIndex = async index => {
   try {
     console.log(`\nDeleting existing index (if present): ${index}`);
-    const client = await getSearchClient({
-      node: esHost,
-    });
+    const client = await getSearchClient();
     await client.indices.delete({ index });
   } catch (e) {}
 };
@@ -114,16 +110,12 @@ const updateSearchIndices = async () => {
 const configureArrangerSets = async () => {
   try {
     console.log(`\nDeleting existing index (if present): arranger-sets`);
-    const client = await getSearchClient({
-      node: esHost,
-    });
+    const client = await getSearchClient();
     await client.indices.delete({ index: `arranger-sets` });
   } catch (e) {}
   try {
     console.log(`Creating index: arranger-sets`);
-    const client = await getSearchClient({
-      node: esHost,
-    });
+    const client = await getSearchClient();
     await client.indices.create({
       index: 'arranger-sets',
       body: {

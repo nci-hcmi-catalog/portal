@@ -1695,16 +1695,6 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@elastic/elasticsearch@7.15.0":
-  version "7.15.0"
-  resolved "https://registry.yarnpkg.com/@elastic/elasticsearch/-/elasticsearch-7.15.0.tgz#4b009a87e0b11b8cfd2e4f378f0292574bc17300"
-  integrity sha512-FUKvjV2IKtIiWsvBy7D+wLbSEONsmNR15RRN7P/Sb30g4ObZRHH2qGOP5PPnzxdntEkzZ8HzY7nKKXFS+3Du1g==
-  dependencies:
-    debug "^4.3.1"
-    hpagent "^0.1.1"
-    ms "^2.1.3"
-    secure-json-parse "^2.4.0"
-
 "@elastic/elasticsearch@^7.17.14", "@elastic/elasticsearch@~7.17.0":
   version "7.17.14"
   resolved "https://registry.yarnpkg.com/@elastic/elasticsearch/-/elasticsearch-7.17.14.tgz#5ffd6d04e2be38b3dba56cf80af4359fc43b7f1f"
@@ -9492,7 +9482,7 @@ lodash.topath@4.5.2:
   resolved "https://registry.yarnpkg.com/lodash.topath/-/lodash.topath-4.5.2.tgz#3616351f3bba61994a0931989660bd03254fd009"
   integrity sha512-1/W4dM+35DwvE/iEd1M9ekewOSTlpFekhw9mhAtrwjVqUr83/ilQiyAvmg4tVX7Unkcfl1KC+i9WdaT4B6aQcg==
 
-lodash@4.17.21, lodash@^4.17.10, lodash@^4.17.21, lodash@^4.17.4, lodash@^4.7.0:
+lodash@^4.17.10, lodash@^4.17.21, lodash@^4.17.4, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -10032,15 +10022,6 @@ mongodb@^3.6.4:
   optionalDependencies:
     saslprep "^1.0.0"
 
-mongoosastic@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/mongoosastic/-/mongoosastic-5.0.0.tgz#9b41268c52f3a91512e246620260f6c92e7a3691"
-  integrity sha512-Lj7bl6Rbc0+y44ZhBa1oMgaHPFAF5sOVg5ukvh3Gtd7iyDSM8Hy6hjGoYJBGVd14UCuDwLELt3oLfZEZ4mO+8Q==
-  dependencies:
-    "@elastic/elasticsearch" "7.15.0"
-    lodash "4.17.21"
-    mongoose "6.0.13"
-
 mongoose-detective@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/mongoose-detective/-/mongoose-detective-2.0.0.tgz#2c94c7a8ed7204e0468ed2e68e3ba1bf33381083"
@@ -10053,7 +10034,7 @@ mongoose-elasticsearch-xp@^5.8.0:
   dependencies:
     mongoose "^5.5.6"
 
-mongoose@6.0.13, mongoose@7.8.7, mongoose@^5.5.6, mongoose@^6.13.8, mongoose@^8.23.0:
+mongoose@7.8.7, mongoose@^5.5.6, mongoose@^6.13.8, mongoose@^8.23.0:
   version "6.13.9"
   resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-6.13.9.tgz#880294370404dda9c51eeaac00352f83e6a4a5b7"
   integrity sha512-x8XpK0SEDJtAtMoOF2U9aGrGXN6kbu01TqhznGLnA4B1oPXNb4Lye0MgmfxF9J2Dva7wf49VOgClk2fuKQYGHw==
