@@ -2,6 +2,7 @@ import getSearchClient from '../../cms/src/services/searchClient/client.js';
 
 /** Search index settings and mappings **/
 import modelsIndexConfig from '../../elasticsearch/modelsIndex.json' with { type: "json" };
+import updateIndexConfig from '../../elasticsearch/lastUpdated.json' with { type: "json" };
 import genesIndexConfig from '../../elasticsearch/genesIndex.json' with { type: "json" };
 import variantsIndexConfig from '../../elasticsearch/variantsIndex.json' with { type: "json" };
 
@@ -18,6 +19,7 @@ const pm2ConfigForEnv =
 const pm2 = { ...pm2ConfigGeneric, ...pm2ConfigForEnv };
 
 const esHost = process.env.ES_HOST || `${pm2.ES_HOST}:${pm2.ES_PORT}`;
+const updateIndexName = process.env.ES_UPDATE_INDEX || pm2.ES_UPDATE_INDEX || 'hcmi-update';
 const modelsIndexName = process.env.ES_INDEX || pm2.ES_INDEX || 'hcmi';
 
 const GENES_INDEX = 'genes';
@@ -49,6 +51,9 @@ const deleteIndex = async index => {
 };
 
 /* ******* Models Index ******** */
+const createLastUpdatedIndex = async () =>
+  await createIndex(updateIndexName, updateIndexConfig);
+
 const createModelsIndex = async () =>
   await createIndex(modelsIndexName, modelsIndexConfig);
 
@@ -155,6 +160,7 @@ const configureArrangerSets = async () => {
 
 const esUtils = {
   config: pm2,
+  createLastUpdatedIndex,
   createModelsIndex,
   deleteModelsIndex,
   createGenesIndex,
