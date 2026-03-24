@@ -17,7 +17,11 @@ const nestedStateResolver = (state, update, key) =>
 export const generateTableActions = (setState, data, nestedStateKey = false) => ({
   onPageChange: (newPage) =>
     setState((state) =>
-      nestedStateResolver(state, { page: newPage, isLoading: true }, nestedStateKey),
+      nestedStateResolver(
+        state,
+        { page: newPage, isLoading: true, selection: [], selectAll: false },
+        nestedStateKey,
+      ),
     ),
   onFilterValueChange: (newValue) =>
     setState((state) =>
@@ -56,22 +60,21 @@ export const generateTableActions = (setState, data, nestedStateKey = false) => 
   },
   toggleAll: () => {
     const ids = data.map(({ _id }) => _id);
-
-    return setState((state) =>
-      nestedStateResolver(
+    return setState((state) => {
+      const selectAllState = get(
+        state,
+        // Because we can have a nested key we use the lodash get function to extract the correct value
+        nestedStateKey ? `${nestedStateKey}.selectAll` : 'selectAll',
+      );
+      const selection = !selectAllState ? ids : [];
+      return nestedStateResolver(
         state,
         {
-          selection:
-            // Becasue we can have a nested key we use the lodash get function to extract the correct value
-            get(state, nestedStateKey ? `${nestedStateKey}.selection` : 'selection').length ===
-            ids.length
-              ? []
-              : ids,
-          // Becasue we can have a nested key we use the lodash get function to extract the correct value
-          selectAll: !get(state, nestedStateKey ? `${nestedStateKey}.selectAll` : 'selectAll'),
+          selection,
+          selectAll: !selectAllState,
         },
         nestedStateKey,
-      ),
-    );
+      );
+    });
   },
 });

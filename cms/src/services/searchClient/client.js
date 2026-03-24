@@ -4,7 +4,7 @@ const getClient = async () => {
   const host =
     process.env.ES_HOST && process.env.ES_PORT
       ? `${process.env.ES_HOST}:${process.env.ES_PORT}`
-      : 'https://localhost:9200';
+      : 'http://localhost:9200';
   const user = process.env.ES_USER || '';
   const password = process.env.ES_PASS || '';
 

@@ -28,18 +28,18 @@ import { ModelTableColumns } from './ModelColumns';
 export const ModelManagerContext = React.createContext();
 
 const loadData = async (baseUrl, state) => {
-  const getData = getPageData({
+  const getData = await getPageData({
     baseUrl,
     ...state,
     tableColumns: ModelTableColumns,
   });
-  const getCount = getCountData({
+  const getCount = await getCountData({
     baseUrl: `${baseUrl}/count`,
     ...state,
     tableColumns: ModelTableColumns,
   });
 
-  return [await getData, await getCount];
+  return [getData, getCount];
 };
 
 const initPagingState = {
