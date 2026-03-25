@@ -27,10 +27,14 @@ const AdminView = ({ location }) => {
 
   // Check for active genomic variant imports or publishes on page load
   useEffect(() => {
-    if (!didMountRef || !didMountRef.current) {
+    const fetchStatus = async () => {
       fetchImportStatus();
-      fetchPublishStatus();
+      await fetchPublishStatus();
       didMountRef.current = true;
+    };
+
+    if (!didMountRef || !didMountRef.current) {
+      fetchStatus();
     }
   }, []);
 
