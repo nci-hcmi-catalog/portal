@@ -29,14 +29,14 @@ const AdminView = ({ location }) => {
   useEffect(() => {
     const fetchStatus = async () => {
       fetchImportStatus();
-      await fetchPublishStatus();
+      fetchPublishStatus && (await fetchPublishStatus());
       didMountRef.current = true;
     };
 
     if (!didMountRef || !didMountRef.current) {
       fetchStatus();
     }
-  }, []);
+  }, [didMountRef, fetchImportStatus, fetchPublishStatus]);
 
   // Poll for status changes on any active imports
   useInterval(

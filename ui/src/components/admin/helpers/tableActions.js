@@ -61,12 +61,14 @@ export const generateTableActions = (setState, data, nestedStateKey = false) => 
   toggleAll: () => {
     const ids = data.map(({ _id }) => _id);
     return setState((state) => {
+      const { pageSize } = state;
       const selectAllState = get(
         state,
         // Because we can have a nested key we use the lodash get function to extract the correct value
         nestedStateKey ? `${nestedStateKey}.selectAll` : 'selectAll',
       );
-      const selection = !selectAllState ? ids : [];
+      const paginatedIds = ids.slice(0, pageSize);
+      const selection = !selectAllState ? paginatedIds : [];
       return nestedStateResolver(
         state,
         {

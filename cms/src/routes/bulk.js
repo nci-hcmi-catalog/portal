@@ -102,34 +102,31 @@ bulkRouter.post('/unpublish', async (req, res) => {
 });
 
 bulkRouter.post('/delete', async (req, res) => {
-  Model.find({ _id: { $in: req.body } })
-    .then((models) => {
-      const modelsToUnpublish = models
-        .filter(({ status }) => status !== modelStatus.unpublished)
-        .map(({ name }) => name);
-      return unpublishManyFromES(modelsToUnpublish);
-    })
-    .then(async () => {
-      for (const _id of req.body) {
-        // Now that everything has been published, lets make sure all the matched models for these are also updated in ES
-        await indexMatchedModelsToES({ _id });
-      }
-      await updateGeneSearchIndicies();
-    })
-    .then(() =>
-      Model.deleteMany({
-        _id: { $in: req.body },
-      }),
-    )
-    .then(() => {
-      return res.json({ success: `${req.body.length} models deleted` });
-    })
-    .catch((error) => {
-      logger.error(error);
-      res.status(500).json({
-        error: error,
-      });
+  try {
+    const models = await Model.find({ _id: { $in: req.body } });
+    const modelsToUnpublish = models
+      .filter(({ status }) => status !== modelStatus.unpublished)
+      .map(({ name }) => name);
+    await unpublishManyFromES(modelsToUnpublish);
+
+    for (const _id of req.body) {
+      // Now that everything has been published, lets make sure all the matched models for these are also updated in ES
+      await indexMatchedModelsToES({ _id });
+    }
+
+    await updateGeneSearchIndicies();
+
+    await Model.deleteMany({
+      _id: { $in: req.body },
     });
+
+    return res.json({ success: `${req.body.length} models deleted` });
+  } catch (error) {
+    logger.error(error);
+    return res.status(500).json({
+      error: error,
+    });
+  }
 });
 
 bulkRouter.get('/backup', async (req, res) => {

@@ -157,6 +157,7 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
                 if (
                   state.pageSize !== prevState.pageSize ||
                   state.page !== prevState.page ||
+                  state.toggleAll !== prevState.toggleAll ||
                   state.filterValue !== prevState.filterValue ||
                   state.sorted !== prevState.sorted
                 ) {
@@ -185,291 +186,296 @@ const ModelManagerController = ({ baseUrl, cmsBase, children, ...props }) => (
               { maxWait: 1000, trailing: true },
             )}
           >
-            {({ state, setState }) => (
-              <ModelManagerContext.Provider
-                value={{
-                  state,
-                  uploadModelsFromSheet: async (sheetURL, overwrite, overwriteVariants) => {
-                    // Set loading true (lock UI)
-                    await setState({
-                      isLoading: true,
-                    });
+            {({ state, setState }) =>
+              state ? (
+                <ModelManagerContext.Provider
+                  value={{
+                    state,
+                    uploadModelsFromSheet: async (sheetURL, overwrite, overwriteVariants) => {
+                      // Set loading true (lock UI)
+                      await setState({
+                        isLoading: true,
+                      });
 
-                    uploadModelsFromSheet(sheetURL, overwrite)
-                      .then(({ data: { result } }) =>
-                        loadData(baseUrl, state).then(async ([dataResponse, countResponse]) => {
+                      uploadModelsFromSheet(sheetURL, overwrite)
+                        .then(({ data: { result } }) =>
+                          loadData(baseUrl, state).then(async ([dataResponse, countResponse]) => {
+                            await setState({
+                              isLoading: false,
+                              data: dataResponse.data,
+                              error: null,
+                              rowCount: countResponse.data.count,
+                              ...initPagingState,
+                            });
+                            const anyUpdatesDone = isEmptyResult(result);
+                            const notificationMessage = anyUpdatesDone
+                              ? `No suitable data is available to upload. No changes were made.`
+                              : `Bulk Upload of models has successfully completed. New models or updated fields are saved but not yet published.`;
+                            await appendNotification({
+                              type:
+                                result?.errors?.length > 0
+                                  ? NOTIFICATION_TYPES.WARNING
+                                  : NOTIFICATION_TYPES.SUCCESS,
+                              message: notificationMessage,
+                              details: anyUpdatesDone ? '' : extractResultText(result),
+                              bulkErrors: result?.errors,
+                              timeout: false, // do not auto-remove this notification
+                            });
+                            let modelNames;
+                            switch (overwriteVariants) {
+                              case VARIANT_OVERWRITE_OPTIONS.allModels:
+                                modelNames = [
+                                  ...result?.new,
+                                  ...result?.updated,
+                                  ...result?.unchanged,
+                                ];
+                                if (!modelNames.length) {
+                                  return;
+                                }
+
+                                await importBulkGenomicVariants(modelNames)
+                                  .then((response) => {
+                                    if (response.data.success) {
+                                      setImportProgress({
+                                        ...importProgress,
+                                        running: true,
+                                      });
+                                    }
+                                  })
+                                  .catch(async (error) => {
+                                    await appendNotification({
+                                      type: NOTIFICATION_TYPES.ERROR,
+                                      message: 'Bulk Import of Research Somatic Variants Failed.',
+                                      details: error.response
+                                        ? error.response.data.error.message
+                                        : error.message,
+                                      timeout: false,
+                                    });
+                                  });
+                                break;
+                              case VARIANT_OVERWRITE_OPTIONS.cleanOnly:
+                                modelNames = [
+                                  ...result?.new,
+                                  ...result?.updated,
+                                  ...result?.unchanged,
+                                ];
+                                if (!modelNames.length) {
+                                  return;
+                                }
+
+                                const checkVariantsResponse =
+                                  await auditGenomicVariantsSpecificModels(modelNames);
+                                await importBulkGenomicVariants(checkVariantsResponse.data.clean)
+                                  .then((response) => {
+                                    if (response.data.success) {
+                                      setImportProgress({
+                                        ...importProgress,
+                                        running: true,
+                                      });
+                                    }
+                                  })
+                                  .catch(async (error) => {
+                                    await appendNotification({
+                                      type: NOTIFICATION_TYPES.ERROR,
+                                      message: 'Bulk Import of Research Somatic Variants Failed.',
+                                      details: error.response
+                                        ? error.response.data.error.message
+                                        : error.message,
+                                      timeout: false,
+                                    });
+                                  });
+                                break;
+                              case VARIANT_OVERWRITE_OPTIONS.none:
+                              default:
+                                break;
+                            }
+                          }),
+                        )
+                        .catch(async (err) => {
+                          const errorText = extractErrorText(err);
+
                           await setState({
+                            isLoading: false,
+                          });
+
+                          await appendNotification({
+                            type: NOTIFICATION_TYPES.ERROR,
+                            message: 'Model Upload Error.',
+                            details:
+                              errorText.length > 0 ? errorText : 'Unknown error has occurred.',
+                          });
+                        });
+                    },
+                    bulkImportVariants: async (modelNames) => {
+                      return importBulkGenomicVariants(modelNames)
+                        .then((response) => {
+                          if (response.data.success) {
+                            setImportProgress({
+                              ...importProgress,
+                              running: true,
+                            });
+                          }
+                        })
+                        .catch(async (error) => {
+                          await appendNotification({
+                            type: NOTIFICATION_TYPES.ERROR,
+                            message: 'Bulk Import of Research Somatic Variants Failed.',
+                            details: error.response
+                              ? error.response.data.error.message
+                              : error.message,
+                            timeout: false,
+                          });
+                        });
+                    },
+                    bulkPublish: async () => {
+                      // display a temporary notification immediately while waiting for the server response
+                      const tempNotification = await appendNotification({
+                        type: NOTIFICATION_TYPES.LOADING,
+                        message: 'Initiating Bulk Publish...',
+                        details:
+                          'You can continue to use the CMS and will be notified when the publish is complete. Please note that some functions are unavailable during the publish process.',
+                        timeout: false,
+                      });
+                      await publishBulk(state.selection)
+                        .then(async (response) => {
+                          if (response.data.success) {
+                            await setPublishProgress({
+                              ...publishProgress,
+                              running: true,
+                            });
+                            await tempNotification.clear();
+                          }
+                        })
+                        .catch(async (error) => {
+                          await appendNotification({
+                            type: NOTIFICATION_TYPES.ERROR,
+                            message: 'Bulk Publish Failed.',
+                            details: error.response
+                              ? error.response.data.error.message
+                              : error?.error?.message || error?.message || error,
+                            timeout: false,
+                          });
+                          await tempNotification.clear();
+                        });
+                    },
+                    bulkUnpublish: bulkActionCreator({
+                      action: 'unpublish',
+                      baseUrl,
+                      state,
+                      setState,
+                      appendNotification,
+                    }),
+                    bulkDelete: bulkActionCreator({
+                      action: 'delete',
+                      baseUrl,
+                      state,
+                      setState,
+                      appendNotification,
+                    }),
+                    publishOne: async (name) => {
+                      await publish(name)
+                        .then(async () => {
+                          await addPublishNotification(name);
+                        })
+                        .catch(async (error) => {
+                          const data = error.response ? error.response.data : error;
+                          showErrorPublishNotification(name, data);
+                        });
+                    },
+                    unpublishOne: async (name) => {
+                      // Set loading true (lock UI)
+                      await setState({
+                        isLoading: true,
+                      });
+
+                      singleAction('unpublish', name)
+                        .then(() => loadData(baseUrl, state))
+                        .then(async ([dataResponse, countResponse]) => {
+                          await setState(() => ({
                             isLoading: false,
                             data: dataResponse.data,
                             error: null,
                             rowCount: countResponse.data.count,
-                            ...initPagingState,
-                          });
-                          const anyUpdatesDone = isEmptyResult(result);
-                          const notificationMessage = anyUpdatesDone
-                            ? `No suitable data is available to upload. No changes were made.`
-                            : `Bulk Upload of models has successfully completed. New models or updated fields are saved but not yet published.`;
+                          }));
+
                           await appendNotification({
-                            type:
-                              result?.errors?.length > 0
-                                ? NOTIFICATION_TYPES.WARNING
-                                : NOTIFICATION_TYPES.SUCCESS,
-                            message: notificationMessage,
-                            details: anyUpdatesDone ? '' : extractResultText(result),
-                            bulkErrors: result?.errors,
-                            timeout: false, // do not auto-remove this notification
+                            type: NOTIFICATION_TYPES.SUCCESS,
+                            message: `Unpublish Successful!`,
+                            details: `${name} has been successfully unpublished`,
                           });
-                          let modelNames;
-                          switch (overwriteVariants) {
-                            case VARIANT_OVERWRITE_OPTIONS.allModels:
-                              modelNames = [
-                                ...result?.new,
-                                ...result?.updated,
-                                ...result?.unchanged,
-                              ];
-                              if (!modelNames.length) {
-                                return;
-                              }
+                        })
+                        .catch(async (err) => {
+                          const errorText = extractErrorText(err);
 
-                              await importBulkGenomicVariants(modelNames)
-                                .then((response) => {
-                                  if (response.data.success) {
-                                    setImportProgress({
-                                      ...importProgress,
-                                      running: true,
-                                    });
-                                  }
-                                })
-                                .catch(async (error) => {
-                                  await appendNotification({
-                                    type: NOTIFICATION_TYPES.ERROR,
-                                    message: 'Bulk Import of Research Somatic Variants Failed.',
-                                    details: error.response
-                                      ? error.response.data.error.message
-                                      : error.message,
-                                    timeout: false,
-                                  });
-                                });
-                              break;
-                            case VARIANT_OVERWRITE_OPTIONS.cleanOnly:
-                              modelNames = [
-                                ...result?.new,
-                                ...result?.updated,
-                                ...result?.unchanged,
-                              ];
-                              if (!modelNames.length) {
-                                return;
-                              }
-
-                              const checkVariantsResponse =
-                                await auditGenomicVariantsSpecificModels(modelNames);
-                              await importBulkGenomicVariants(checkVariantsResponse.data.clean)
-                                .then((response) => {
-                                  if (response.data.success) {
-                                    setImportProgress({
-                                      ...importProgress,
-                                      running: true,
-                                    });
-                                  }
-                                })
-                                .catch(async (error) => {
-                                  await appendNotification({
-                                    type: NOTIFICATION_TYPES.ERROR,
-                                    message: 'Bulk Import of Research Somatic Variants Failed.',
-                                    details: error.response
-                                      ? error.response.data.error.message
-                                      : error.message,
-                                    timeout: false,
-                                  });
-                                });
-                              break;
-                            case VARIANT_OVERWRITE_OPTIONS.none:
-                            default:
-                              break;
-                          }
-                        }),
-                      )
-                      .catch(async (err) => {
-                        const errorText = extractErrorText(err);
-
-                        await setState({
-                          isLoading: false,
-                        });
-
-                        await appendNotification({
-                          type: NOTIFICATION_TYPES.ERROR,
-                          message: 'Model Upload Error.',
-                          details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
-                        });
-                      });
-                  },
-                  bulkImportVariants: async (modelNames) => {
-                    return importBulkGenomicVariants(modelNames)
-                      .then((response) => {
-                        if (response.data.success) {
-                          setImportProgress({
-                            ...importProgress,
-                            running: true,
+                          await setState({
+                            isLoading: false,
+                            error: err,
                           });
-                        }
-                      })
-                      .catch(async (error) => {
-                        await appendNotification({
-                          type: NOTIFICATION_TYPES.ERROR,
-                          message: 'Bulk Import of Research Somatic Variants Failed.',
-                          details: error.response
-                            ? error.response.data.error.message
-                            : error.message,
-                          timeout: false,
-                        });
-                      });
-                  },
-                  bulkPublish: async () => {
-                    // display a temporary notification immediately while waiting for the server response
-                    const tempNotification = await appendNotification({
-                      type: NOTIFICATION_TYPES.LOADING,
-                      message: 'Initiating Bulk Publish...',
-                      details:
-                        'You can continue to use the CMS and will be notified when the publish is complete. Please note that some functions are unavailable during the publish process.',
-                      timeout: false,
-                    });
-                    await publishBulk(state.selection)
-                      .then(async (response) => {
-                        if (response.data.success) {
-                          await setPublishProgress({
-                            ...publishProgress,
-                            running: true,
+
+                          await appendNotification({
+                            type: NOTIFICATION_TYPES.ERROR,
+                            message: `Unpublish Error.`,
+                            details:
+                              errorText.length > 0 ? errorText : 'Unknown error has occurred.',
+                            timeout: false, // do not auto-remove this notification when unpublishing
                           });
-                          await tempNotification.clear();
-                        }
-                      })
-                      .catch(async (error) => {
-                        await appendNotification({
-                          type: NOTIFICATION_TYPES.ERROR,
-                          message: 'Bulk Publish Failed.',
-                          details: error.response
-                            ? error.response.data.error.message
-                            : error?.error?.message || error?.message || error,
-                          timeout: false,
                         });
-                        await tempNotification.clear();
-                      });
-                  },
-                  bulkUnpublish: bulkActionCreator({
-                    action: 'unpublish',
-                    baseUrl,
-                    state,
-                    setState,
-                    appendNotification,
-                  }),
-                  bulkDelete: bulkActionCreator({
-                    action: 'delete',
-                    baseUrl,
-                    state,
-                    setState,
-                    appendNotification,
-                  }),
-                  publishOne: async (name) => {
-                    await publish(name)
-                      .then(async () => {
-                        await addPublishNotification(name);
-                      })
-                      .catch(async (error) => {
-                        const data = error.response ? error.response.data : error;
-                        showErrorPublishNotification(name, data);
-                      });
-                  },
-                  unpublishOne: async (name) => {
-                    // Set loading true (lock UI)
-                    await setState({
-                      isLoading: true,
-                    });
+                    },
+                    deleteOne: async (name) => {
+                      // Set loading true (lock UI)
+                      await setState({ isLoading: true });
 
-                    singleAction('unpublish', name)
-                      .then(() => loadData(baseUrl, state))
-                      .then(async ([dataResponse, countResponse]) => {
-                        await setState(() => ({
-                          isLoading: false,
-                          data: dataResponse.data,
-                          error: null,
-                          rowCount: countResponse.data.count,
-                        }));
+                      singleAction('delete', name)
+                        .then(() => loadData(baseUrl, state))
+                        .then(async ([dataResponse, countResponse]) => {
+                          await setState(() => ({
+                            isLoading: false,
+                            data: dataResponse.data,
+                            error: null,
+                            rowCount: countResponse.data.count,
+                          }));
 
-                        await appendNotification({
-                          type: NOTIFICATION_TYPES.SUCCESS,
-                          message: `Unpublish Successful!`,
-                          details: `${name} has been successfully unpublished`,
+                          await appendNotification({
+                            type: NOTIFICATION_TYPES.SUCCESS,
+                            message: `Delete Successful!`,
+                            details: `${name} has been successfully deleted`,
+                          });
+                        })
+                        .catch(async (err) => {
+                          const errorText = extractErrorText(err);
+
+                          await setState({
+                            isLoading: false,
+                            error: err,
+                          });
+
+                          await appendNotification({
+                            type: NOTIFICATION_TYPES.ERROR,
+                            message: `Delete Error.`,
+                            details:
+                              errorText.length > 0 ? errorText : 'Unknown error has occurred.',
+                            timeout: false, // do not auto-remove this notification when deleting
+                          });
                         });
-                      })
-                      .catch(async (err) => {
-                        const errorText = extractErrorText(err);
-
-                        await setState({
-                          isLoading: false,
-                          error: err,
-                        });
-
-                        await appendNotification({
-                          type: NOTIFICATION_TYPES.ERROR,
-                          message: `Unpublish Error.`,
-                          details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
-                          timeout: false, // do not auto-remove this notification when unpublishing
-                        });
-                      });
-                  },
-                  deleteOne: async (name) => {
-                    // Set loading true (lock UI)
-                    await setState({ isLoading: true });
-
-                    singleAction('delete', name)
-                      .then(() => loadData(baseUrl, state))
-                      .then(async ([dataResponse, countResponse]) => {
-                        await setState(() => ({
-                          isLoading: false,
-                          data: dataResponse.data,
-                          error: null,
-                          rowCount: countResponse.data.count,
-                        }));
-
-                        await appendNotification({
-                          type: NOTIFICATION_TYPES.SUCCESS,
-                          message: `Delete Successful!`,
-                          details: `${name} has been successfully deleted`,
-                        });
-                      })
-                      .catch(async (err) => {
-                        const errorText = extractErrorText(err);
-
-                        await setState({
-                          isLoading: false,
-                          error: err,
-                        });
-
-                        await appendNotification({
-                          type: NOTIFICATION_TYPES.ERROR,
-                          message: `Delete Error.`,
-                          details: errorText.length > 0 ? errorText : 'Unknown error has occurred.',
-                          timeout: false, // do not auto-remove this notification when deleting
-                        });
-                      });
-                  },
-                  refreshModelsTable: async () => {
-                    const [dataResponse, countResponse] = await loadData(baseUrl, state);
-                    setState(() => ({
-                      isLoading: false,
-                      data: dataResponse.data,
-                      error: null,
-                      rowCount: countResponse.data.count,
-                      ...initPagingState,
-                    }));
-                  },
-                  ...generateTableActions(setState, state.data),
-                }}
-                {...props}
-              >
-                {children}
-              </ModelManagerContext.Provider>
-            )}
+                    },
+                    refreshModelsTable: async () => {
+                      const [dataResponse, countResponse] = await loadData(baseUrl, state);
+                      setState(() => ({
+                        isLoading: false,
+                        data: dataResponse.data,
+                        error: null,
+                        rowCount: countResponse.data.count,
+                        ...initPagingState,
+                      }));
+                    },
+                    ...generateTableActions(setState, state.data),
+                  }}
+                  {...props}
+                >
+                  {children}
+                </ModelManagerContext.Provider>
+              ) : null
+            }
           </Component>
         )}
       </PublishNotificationsContext.Consumer>

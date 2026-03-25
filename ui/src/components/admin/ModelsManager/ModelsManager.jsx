@@ -49,33 +49,35 @@ const ModelsManager = () => {
               )}
             </ModelManagerContext.Consumer>
             <ModelManagerContext.Consumer>
-              {({ uploadModelsFromSheet, state }) => (
-                <ModalStateContext.Consumer>
-                  {(modalState) => (
-                    <ButtonPill
-                      primary
-                      marginRight="8px"
-                      onClick={() =>
-                        modalState.setModalState({
-                          component: (
-                            <BulkUploader
-                              type={BULK_UPLOAD_TYPES.MODEL}
-                              onUpload={uploadModelsFromSheet}
-                              backupURL={`${config.urls.cmsBase}/bulk/backup`}
-                            />
-                          ),
-                          shouldCloseOnOverlayClick: true,
-                          styles: AdminModalStyle,
-                        })
-                      }
-                      disabled={(state && state.isLoading) || publishRunning}
-                    >
-                      <PlusIcon />
-                      Add Bulk
-                    </ButtonPill>
-                  )}
-                </ModalStateContext.Consumer>
-              )}
+              {({ uploadModelsFromSheet, state }) =>
+                state ? (
+                  <ModalStateContext.Consumer>
+                    {(modalState) => (
+                      <ButtonPill
+                        primary
+                        marginRight="8px"
+                        onClick={() =>
+                          modalState.setModalState({
+                            component: (
+                              <BulkUploader
+                                type={BULK_UPLOAD_TYPES.MODEL}
+                                onUpload={uploadModelsFromSheet}
+                                backupURL={`${config.urls.cmsBase}/bulk/backup`}
+                              />
+                            ),
+                            shouldCloseOnOverlayClick: true,
+                            styles: AdminModalStyle,
+                          })
+                        }
+                        disabled={(state && state.isLoading) || publishRunning}
+                      >
+                        <PlusIcon />
+                        Add Bulk
+                      </ButtonPill>
+                    )}
+                  </ModalStateContext.Consumer>
+                ) : null
+              }
             </ModelManagerContext.Consumer>
             <LinkPill primary={`true`} to={modelEditUrlBase}>
               <PlusIcon />

@@ -46,7 +46,7 @@ export const unpublishManyFromES = async (nameArr) => {
   // resolve as this is just bookkeeping
   await indexLastUpdated();
   const searchClient = await getClient();
-  return searchClient.deleteByQuery({
+  return await searchClient.deleteByQuery({
     index,
     body: {
       query: {
