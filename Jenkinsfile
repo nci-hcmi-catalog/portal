@@ -65,7 +65,7 @@ node ('default-lower|| default-upper ||default-builder || ecs-agent') {
     }
 }
 pipeline {
-  agent { label 'default-lower|| default-upper||default-builder' }
+  agent { label 'default-lower|| default-upper||default-builder || ecs-agent' }
   stages{
     stage('Get Code') {
       steps {
