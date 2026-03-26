@@ -6,11 +6,12 @@ const logger = getLogger('services/searchClient/update');
 
 const index = process.env.ES_INDEX;
 
-const indexModel = async (model) => {
+const indexModel = async (id, model) => {
   const searchClient = await getClient();
   return searchClient
     .index({
       index,
+      id,
       body: {
         ...model,
       },
