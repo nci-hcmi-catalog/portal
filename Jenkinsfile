@@ -58,14 +58,14 @@ void getPipelineResult (){
     }
 }
 
-node ('default-lower|| default-upper ||default-builder') {
+node ('default-lower|| default-upper ||default-builder || ecs-agent') {
     configFileProvider([configFile(fileId: 'hcmi-env-config', variable: 'FILE')]) {
         echo "FILE=$FILE"
         load "$FILE"
     }
 }
 pipeline {
-  agent { label 'default-lower|| default-upper||default-builder' }
+  agent { label 'default-lower|| default-upper||default-builder || ecs-agent' }
   stages{
     stage('Get Code') {
       steps {
