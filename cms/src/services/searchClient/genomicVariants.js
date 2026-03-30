@@ -164,7 +164,7 @@ export const updateGeneSearchIndicies = async () => {
   // 1a. collect set of genes and variants from those model variants
   const desiredGenomicVariants = flatten(
     publishedModels.map((model) => {
-      return (model._source.genomic_variants || []).map((variant) => ({
+      return (model?._source?.genomic_variants || []).map((variant) => ({
         variant: {
           transcript_id: variant.transcript_id,
           variant_id: variant.variant_id,
@@ -179,7 +179,9 @@ export const updateGeneSearchIndicies = async () => {
   );
 
   const clinicalVariantGenes = flatten(
-    publishedModels.map((model) => flatten(model._source.variants.map((variant) => variant.genes))),
+    publishedModels?.map((model) =>
+      flatten(model?._source?.variants?.map((variant) => variant.genes) || []),
+    ),
   );
   logger.debug({ clinicalVariantGenes }, 'Genes found in published model variants');
 
