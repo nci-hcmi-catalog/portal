@@ -1,8 +1,9 @@
 import React from 'react';
 import Component from 'react-component-component';
 import { uniqBy, isEqual, get, debounce } from 'lodash';
+
 import { modelStatus, computeModelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
-import { getPublishSchema } from '@hcmi-portal/cms/src/validation/model';
+import getPublishSchema from '@hcmi-portal/cms/src/validation/getPublishSchema';
 
 import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
 import { fetchData } from '../services/Fetcher';

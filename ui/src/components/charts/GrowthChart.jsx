@@ -70,11 +70,11 @@ const GrowthChart = ({ sqon, setSQON }) => (
                   ]}
                   colors={theme.growthChartPalette}
                   innerRadius={0.7}
-                  enableRadialLabels={false}
-                  enableSlicesLabels={false}
+                  enableArcLabels={false}
+                  enableArcLinkLabels={false}
                   slicesLabelsSkipAngle={10}
                   animate={false}
-                  tooltip={({ id, value, label }) => ChartTooltip({ value, label })}
+                  tooltip={({ datum: { value, label } }) => ChartTooltip({ value, label })}
                   theme={theme.chart}
                   onClick={(data) => {
                     setSQON(
@@ -86,7 +86,7 @@ const GrowthChart = ({ sqon, setSQON }) => (
                               op: 'in',
                               content: {
                                 fieldName: 'type',
-                                value: (data.keys || []).sort(),
+                                value: (data.data.keys || []).sort(),
                               },
                             },
                           ],

@@ -39,6 +39,7 @@ const activeTab = css`
   background-color: ${backgroundColour};
   border: solid 1px ${borderColour};
   border-left-width: 3px;
+  border-right: none;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.08);
   padding-left: 8px;
   /* Extending it over 1 pixel to match design (cover other border) */
@@ -55,6 +56,7 @@ const activeTab = css`
   &:after {
     content: '';
     position: absolute;
+    left: 100%;
   }
 
   &:before {
