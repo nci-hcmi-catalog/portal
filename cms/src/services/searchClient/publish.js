@@ -1,3 +1,6 @@
+import _ from 'lodash';
+import mongoose from 'mongoose';
+
 import Model from '../../schemas/model.js';
 import getPublishValidation from '../../validation/model.js';
 import { modelStatus } from '../../helpers/modelStatus.js';
@@ -42,6 +45,36 @@ export const bulkUpdateGeneSearchIndices = async (modelNames) => {
   }
 };
 
+/****
+ * Removes Mongoose specific keys & values to prepare data for Search indexing
+ */
+const cleanMongoDoc = (doc) => {
+  const mongoKeys = ['_id', '__v'];
+  let cleanedDoc = _.omit(doc, mongoKeys);
+  for (const key in cleanedDoc) {
+    const value = cleanedDoc[key];
+    if (value && typeof value === 'object') {
+      if (Array.isArray(value)) {
+        const firstEntry = value[0];
+        const cleanedVals =
+          firstEntry && typeof firstEntry === 'object'
+            ? value.map((val) => {
+                const cleanedValue = _.omit(val, mongoKeys);
+                return cleanedValue;
+              })
+            : value;
+        cleanedDoc[key] = cleanedVals;
+      } else if (value instanceof mongoose.Types.ObjectId) {
+        cleanedDoc[key] = value.toString();
+      } else if (!(value instanceof Date)) {
+        const cleanedValue = _.omit(value, mongoKeys);
+        cleanedDoc[key] = cleanedValue;
+      }
+    }
+  }
+  return cleanedDoc;
+};
+
 export const indexOneToES = async (filter) => {
   try {
     const validation = await getPublishValidation();
@@ -53,23 +86,26 @@ export const indexOneToES = async (filter) => {
     // Validate doc against publish schema for "on-demand" publishing
     await validation.validate(doc);
 
-    // Need to populate and filter the matched models
-    if (doc.matchedModels) {
+    // Need to populate and filter the matched models, and format data for indexing
+    const modelRecord = doc.toObject();
+    if (modelRecord.matchedModels) {
       const matchedModels = await Model.find({
-        _id: { $in: doc.matchedModels.models || [] },
+        _id: { $in: modelRecord.matchedModels.models || [] },
       });
-      const matches = matchedModels.filter(
-        (model) => model.status !== modelStatus.unpublished && model.name !== doc.name,
-      );
-      doc.populatedMatches = matches;
-    }
-    // Index model into ElasticSearch
-    const { _doc } = doc;
-    delete _doc.__v;
-    delete _doc._id;
+      const matches = matchedModels
+        .filter((model) => model.status !== modelStatus.unpublished && model.name !== doc.name)
+        .map((record) => cleanMongoDoc(record.toObject()));
 
-    await indexModel(_doc);
+      modelRecord.populatedMatches = matches;
+      modelRecord.has_matched_models = true;
+    }
+
+    const cleanedDoc = cleanMongoDoc(modelRecord);
+
+    // Index model into ElasticSearch
+    await indexModel(doc._id, cleanedDoc);
     await indexLastUpdated();
+
     const res = await Model.updateOne({ name: doc.name }, { status: modelStatus.published });
 
     logger.info({ model: doc.name }, 'publish model', 'Model Published to ES');

@@ -16,10 +16,10 @@ const indexModel = async (id, model) => {
         ...model,
       },
     })
-    .catch((error) =>
-      // Catch here as we do not want an error here to block execution of the app
-      logger.error(error, index, `Error indexing Model data`),
-    );
+    .catch((error) => {
+      logger.error(error, index, `Error indexing Model data`);
+      throw error;
+    });
 };
 
 export default indexModel;
