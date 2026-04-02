@@ -161,11 +161,11 @@
         "jsonPath": null
       },
       {
-        "fieldName": "matched_models_list",
-        "accessor": "matched_models_list",
+        "fieldName": "has_matched_models",
+        "accessor": "has_matched_models",
         "show": true,
-        "type": "matched_models",
-        "sortable": false,
+        "type": "boolean",
+        "sortable": true,
         "canChangeShow": true,
         "query": null,
         "jsonPath": null

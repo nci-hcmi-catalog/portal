@@ -121,15 +121,10 @@ const getColumnTypes = ({ savedSetsContext, sqon, history }) => ({
     },
   },
   list: { size: 160, cellValue: (props) => <TableList {...props} /> },
-  matched_models_list: {
+  has_matched_models: {
     size: 84,
     cellValue: (props) => (
-      <TableMatchedModelsCell
-        {...props}
-        value={props.value}
-        savedSetsContext={savedSetsContext}
-        history={history}
-      />
+      <TableMatchedModelsCell {...props} savedSetsContext={savedSetsContext} history={history} />
     ),
     headerValue: () => (
       <Row justifyContent="space-between">
