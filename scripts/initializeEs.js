@@ -1,12 +1,20 @@
 import esUtils from './utils/esUtils.js';
 
 const run = async () => {
-  /** initialize search index */
-  await esUtils.createModelsIndex();
-  await esUtils.configureArrangerSets();
+  const {
+    createLastUpdatedIndex,
+    createModelsIndex,
+    configureArrangerSets,
+    createGenesIndex,
+    createVariantsIndex,
+  } = esUtils;
 
-  await esUtils.createGenesIndex();
-  await esUtils.createVariantsIndex();
+  /** initialize search index */
+  await createLastUpdatedIndex();
+  await createModelsIndex();
+  await configureArrangerSets();
+  await createGenesIndex();
+  await createVariantsIndex();
 };
 
 run();

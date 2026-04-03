@@ -10,6 +10,5 @@ export const bulkAction = async (action, data = []) => {
     url: `${config.urls.cmsBase}/bulk/${action}`,
     data,
     method: 'post',
-    headers: '',
   });
 };

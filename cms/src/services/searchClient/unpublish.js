@@ -1,28 +1,30 @@
 // @ts-check
 
-import elasticClient from './common/client.js';
-import indexEsUpdate from './update.js';
 import Model from '../../schemas/model.js';
-import { indexMatchedModelsToES } from './publish.js';
 import { modelStatus } from '../../helpers/modelStatus.js';
+import getLogger from '../../logger.js';
+
+import getClient from './client.js';
+import indexLastUpdated from './indexLastUpdated.js';
+import { indexMatchedModelsToES } from './publish.js';
 import { updateGeneSearchIndicies } from './genomicVariants.js';
 
-import getLogger from '../../logger.js';
-const logger = getLogger('services/elastic-search/unpublish');
+const logger = getLogger('services/searchClient/unpublish');
 
 const index = process.env.ES_INDEX;
 
-export const unpublishModel = async name => {
+export const unpublishModel = async (name) => {
   await unpublishOneFromES(name);
   await indexMatchedModelsToES({ name });
-  updateGeneSearchIndicies();
+  await updateGeneSearchIndicies();
 };
 
-export const unpublishOneFromES = async name => {
+export const unpublishOneFromES = async (name) => {
   // Not waiting for update promise to
   // resolve as this is just bookkeeping
-  indexEsUpdate();
-  await elasticClient.deleteByQuery({
+  await indexLastUpdated();
+  const searchClient = await getClient();
+  await searchClient.deleteByQuery({
     index,
     body: {
       query: {
@@ -36,14 +38,15 @@ export const unpublishOneFromES = async name => {
     },
     { status: modelStatus.unpublished },
   );
-  logger.audit({ model: name }, 'unpublish model', 'Model Unpublished from ES');
+  logger.info({ model: name }, 'unpublish model', 'Model Unpublished from ES');
 };
 
-export const unpublishManyFromES = nameArr => {
+export const unpublishManyFromES = async (nameArr) => {
   // Not waiting for update promise to
   // resolve as this is just bookkeeping
-  indexEsUpdate();
-  return elasticClient.deleteByQuery({
+  await indexLastUpdated();
+  const searchClient = await getClient();
+  return await searchClient.deleteByQuery({
     index,
     body: {
       query: {

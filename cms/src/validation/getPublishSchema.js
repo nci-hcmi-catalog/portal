@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import moment from 'moment';
 import {
   arrItemIsOneOf,
   nameRegex,

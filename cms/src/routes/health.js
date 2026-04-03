@@ -1,7 +1,7 @@
 import express from 'express';
 import _ from 'lodash';
 
-import client from '../services/elastic-search/common/client.js';
+import client from '../services/searchClient/client.js';
 import Model from '../schemas/model.js';
 import { testS3Connection } from '../services/s3/index.js';
 
@@ -42,12 +42,12 @@ healthRouter.get('/db', async (req, res) => {
 healthRouter.get('/s3', async (req, res) => {
   try {
     await testS3Connection()
-      .then(data =>
+      .then((data) =>
         res
           .status(200)
           .json({ status: 200, response: `Connected to S3 successfully: ${JSON.stringify(data)}` }),
       )
-      .catch(err =>
+      .catch((err) =>
         res.status(err.statusCode).json({ error: 'Error connecting to S3', response: err.code }),
       );
   } catch (e) {

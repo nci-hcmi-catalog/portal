@@ -289,7 +289,7 @@ const Model = ({ modelName }) => (
     {({
       state: queryState,
       modelImages = modelImageProcessor(
-        queryState.model?.files?.hits ? queryState.model.files.hits.edges : [],
+        queryState.model?.files?.hits ? queryState.model?.files?.hits?.edges : [],
       ),
     }) => {
       return (

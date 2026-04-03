@@ -56,7 +56,7 @@ let main = async () => {
     let variants = createVariants(models);
 
     let prepBulk = (docs, _index, _type) =>
-      docs.map(doc => [
+      docs.map((doc) => [
         {
           index: {
             _index,

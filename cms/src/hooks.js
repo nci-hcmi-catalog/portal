@@ -1,5 +1,5 @@
-import { publishModel } from './services/elastic-search/publish.js';
-import { unpublishModel } from './services/elastic-search/unpublish.js';
+import { publishModel } from './services/searchClient/publish.js';
+import { unpublishModel } from './services/searchClient/unpublish.js';
 import { modelStatus, runYupValidatorFailFast } from './helpers/index.js';
 import { deleteImage } from './routes/images.js';
 import { getSaveValidation } from './validation/model.js';
@@ -92,7 +92,7 @@ export const outputFn = async (req, res, next) => {
 };
 
 export const postCreate = async (req, res, next) => {
-  logger.audit({ model: req.erm.result }, 'model created', 'Model created in mongo');
+  logger.info({ model: req.erm.result }, 'model created', 'Model created in mongo');
 
   return next();
 };
@@ -106,7 +106,7 @@ export const postUpdate = async (req, res, next) => {
     },
   } = req;
 
-  logger.audit({ model: modelName }, 'model saved', 'Model saved in mongo');
+  logger.info({ model: modelName }, 'model saved', 'Model saved in mongo');
 
   // Model updates that contain the status key we
   // treat as being a change in status and trigger
