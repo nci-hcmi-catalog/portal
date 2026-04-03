@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { flatten, uniq } from 'lodash';
 import mongoose from 'mongoose';
 
 import Model from '../../schemas/model.js';
@@ -12,6 +12,172 @@ import indexModel from './indexModel.js';
 import { updateGeneSearchIndicies } from './genomicVariants.js';
 
 const logger = getLogger('services/searchClient/publish');
+
+/****
+ * Removes Mongoose specific keys & values to prepare data for Search indexing
+ */
+const cleanMongoDoc = (doc) => {
+  const mongoKeys = ['_id', '__v'];
+  let cleanedDoc = _.omit(doc, mongoKeys);
+  for (const key in cleanedDoc) {
+    const value = cleanedDoc[key];
+    if (value && typeof value === 'object') {
+      if (Array.isArray(value)) {
+        const firstEntry = value[0];
+        const cleanedVals =
+          firstEntry && typeof firstEntry === 'object'
+            ? value.map((val) => {
+                const cleanedValue = _.omit(val, mongoKeys);
+                return cleanedValue;
+              })
+            : value;
+        cleanedDoc[key] = cleanedVals;
+      } else if (value instanceof mongoose.Types.ObjectId) {
+        cleanedDoc[key] = value.toString();
+      } else if (!(value instanceof Date)) {
+        const cleanedValue = _.omit(value, mongoKeys);
+        cleanedDoc[key] = cleanedValue;
+      }
+    }
+  }
+  return cleanedDoc;
+};
+
+/**
+ *
+ */
+const getGeneMetadata = async (doc) => {
+  // Assemble list of genes from genomic_variants.gene and variants.variant.genes
+  const genomic_variant_genes = doc.genomic_variants.map((gv) => gv.gene);
+  const variant_genes = flatten(doc.variants.map((wrapper) => wrapper.variant.genes));
+  const genes = uniq([...genomic_variant_genes, ...variant_genes]);
+  // "Mutated Genes" are Research Somatic Variants (`genomic_variants` in the codebase) and Clinical Variants only
+  const clinical_variant_genes = flatten(
+    doc.variants
+      .filter((variant) => variant.variant && variant.variant.type === 'Clinical')
+      .map((wrapper) => wrapper.variant.genes),
+  );
+  const mutated_genes = uniq([...genomic_variant_genes, ...clinical_variant_genes]);
+
+  // Get counts of the 4 categories shown on search table
+  const genes_count = genes.length;
+  const mutated_genes_count = mutated_genes.length;
+  const genomic_variant_count = doc.genomic_variants.length;
+  const clinical_variant_count = doc.variants.filter(
+    (variant) => variant.variant && variant.variant.type === 'Clinical',
+  ).length;
+  const histopathological_variant_count = doc.variants.filter(
+    (variant) => variant.variant && variant.variant.type === 'Histopathological Biomarker',
+  ).length;
+
+  const output = {
+    genes,
+    genes_count,
+    genomic_variant_count,
+    clinical_variant_count,
+    histopathological_variant_count,
+    mutated_genes,
+    mutated_genes_count,
+  };
+  if (doc.gene_metadata) {
+    output.filename = doc.gene_metadata.filename;
+    output.import_data = doc.gene_metadata.import_date;
+    output.file_id = doc.gene_metadata.file_id;
+  }
+  console.log('gene metadata output', output);
+  return output;
+};
+
+/**
+ *
+ */
+const getMatchedModels = async (modelRecord) => {
+  if (modelRecord.matchedModels) {
+    const matchedModels = await Model.find({
+      _id: { $in: modelRecord.matchedModels.models || [] },
+    });
+    const matches = matchedModels
+      .filter(
+        (model) => model.status !== modelStatus.unpublished && model.name !== modelRecord.name,
+      )
+      .map((record) => {
+        const { name, tissue_type } = record;
+        return { name, tissue_type };
+      });
+
+    return matches;
+  }
+  return undefined;
+};
+
+/**
+ *
+ */
+const formatModeltoDocument = async (doc) => {
+  const modelRecord = doc.toObject();
+
+  const clinical_diagnosis = {
+    clinical_tumor_diagnosis: modelRecord.clinical_tumor_diagnosis,
+    histological_type: modelRecord.histological_type,
+    clinical_stage_grouping: modelRecord.clinical_stage_grouping,
+    site_of_sample_acquisition: modelRecord.site_of_sample_acquisition,
+    tumor_histological_grade: modelRecord.tumor_histological_grade,
+  };
+
+  const variants = modelRecord.variants.map((variant) => ({
+    assessment_type: variant.assessment_type,
+    expression_level: variant.expression_level,
+    category: variant.variant.category,
+    genes: variant.variant.genes,
+    name: variant.variant.name,
+    type: variant.variant.type,
+  }));
+
+  const genomic_variants = modelRecord.genomic_variants.map((variant) => ({
+    gene: variant.gene,
+    aa_change: variant.aa_change,
+    type: variant.type,
+    transcript_id: variant.transcript_id,
+    consequence_type: variant.consequence_type,
+    class: variant.class,
+    gene_biotype: variant.gene_biotype,
+    chromosome: variant.chromosome,
+    start_position: variant.start_position,
+    end_position: variant.end_position,
+    specific_change: variant.specific_change,
+    classification: variant.classification,
+    ensemble_id: variant.ensemble_id,
+    synonyms: variant.synonyms,
+    entrez_id: variant.entrez_id,
+    variant_id: variant.variant_id,
+    name: `${variant.gene} ${variant.aa_change}`,
+  }));
+
+  const gene_metadata = await getGeneMetadata(modelRecord);
+
+  const matched_models = await getMatchedModels(modelRecord);
+
+  const has_matched_models = !!matched_models;
+  const matched_models_list =
+    matched_models
+      ?.concat([modelRecord])
+      .map((i) => i.name)
+      .join(',') || [];
+
+  const mappedRecord = {
+    ...modelRecord,
+    clinical_diagnosis,
+    variants,
+    genomic_variants,
+    gene_metadata,
+    matched_models,
+    has_matched_models,
+    matched_models_list,
+  };
+
+  const cleanedDoc = cleanMongoDoc(mappedRecord);
+  return cleanedDoc;
+};
 
 export const publishModel = async (filter, individualPublish = true) => {
   await indexOneToES(filter);
@@ -45,36 +211,6 @@ export const bulkUpdateGeneSearchIndices = async (modelNames) => {
   }
 };
 
-/****
- * Removes Mongoose specific keys & values to prepare data for Search indexing
- */
-const cleanMongoDoc = (doc) => {
-  const mongoKeys = ['_id', '__v'];
-  let cleanedDoc = _.omit(doc, mongoKeys);
-  for (const key in cleanedDoc) {
-    const value = cleanedDoc[key];
-    if (value && typeof value === 'object') {
-      if (Array.isArray(value)) {
-        const firstEntry = value[0];
-        const cleanedVals =
-          firstEntry && typeof firstEntry === 'object'
-            ? value.map((val) => {
-                const cleanedValue = _.omit(val, mongoKeys);
-                return cleanedValue;
-              })
-            : value;
-        cleanedDoc[key] = cleanedVals;
-      } else if (value instanceof mongoose.Types.ObjectId) {
-        cleanedDoc[key] = value.toString();
-      } else if (!(value instanceof Date)) {
-        const cleanedValue = _.omit(value, mongoKeys);
-        cleanedDoc[key] = cleanedValue;
-      }
-    }
-  }
-  return cleanedDoc;
-};
-
 export const indexOneToES = async (filter) => {
   try {
     const validation = await getPublishValidation();
@@ -85,25 +221,11 @@ export const indexOneToES = async (filter) => {
 
     // Validate doc against publish schema for "on-demand" publishing
     await validation.validate(doc);
-
     // Need to populate and filter the matched models, and format data for indexing
-    const modelRecord = doc.toObject();
-    if (modelRecord.matchedModels) {
-      const matchedModels = await Model.find({
-        _id: { $in: modelRecord.matchedModels.models || [] },
-      });
-      const matches = matchedModels
-        .filter((model) => model.status !== modelStatus.unpublished && model.name !== doc.name)
-        .map((record) => cleanMongoDoc(record.toObject()));
-
-      modelRecord.populatedMatches = matches;
-      modelRecord.has_matched_models = true;
-    }
-
-    const cleanedDoc = cleanMongoDoc(modelRecord);
+    const data = await formatModeltoDocument(doc);
 
     // Index model into ElasticSearch
-    await indexModel(doc._id, cleanedDoc);
+    await indexModel(doc._id, data);
     await indexLastUpdated();
 
     const res = await Model.updateOne({ name: doc.name }, { status: modelStatus.published });

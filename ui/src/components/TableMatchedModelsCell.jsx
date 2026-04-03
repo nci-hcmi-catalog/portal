@@ -4,13 +4,13 @@ import { useTableContext } from '@overture-stack/arranger-components';
 
 const { stringify } = querystring;
 
-const TableMatchedModelsCell = ({ row, savedSetsContext, value, history }) => {
+const TableMatchedModelsCell = ({ row, savedSetsContext, history }) => {
   const { sorting } = useTableContext({
     callerName: 'TableMatchedModelsCell',
   });
   const matches = row.original.matched_models?.models || [];
   const matchCount = matches.length;
-  return matchCount > 1 ? (
+  return row.original.has_matched_models ? (
     <button
       className="clickable"
       css={css`
