@@ -84,7 +84,7 @@ const getGeneMetadata = async (doc) => {
     output.import_data = doc.gene_metadata.import_date;
     output.file_id = doc.gene_metadata.file_id;
   }
-  console.log('gene metadata output', output);
+
   return output;
 };
 
