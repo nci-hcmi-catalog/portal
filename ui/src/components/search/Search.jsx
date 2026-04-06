@@ -121,7 +121,7 @@ const getColumnTypes = ({ savedSetsContext, sqon, history }) => ({
     },
   },
   list: { size: 160, cellValue: (props) => <TableList {...props} /> },
-  has_matched_models: {
+  matched_models_list: {
     size: 84,
     cellValue: (props) => (
       <TableMatchedModelsCell {...props} savedSetsContext={savedSetsContext} history={history} />

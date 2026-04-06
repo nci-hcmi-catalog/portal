@@ -8,9 +8,10 @@ const TableMatchedModelsCell = ({ row, savedSetsContext, history }) => {
   const { sorting } = useTableContext({
     callerName: 'TableMatchedModelsCell',
   });
-  const matches = row.original.matched_models?.models || [];
+  const matches = row.original.matched_models_list?.split(',') || [];
   const matchCount = matches.length;
-  return row.original.has_matched_models ? (
+
+  return !!matchCount ? (
     <button
       className="clickable"
       css={css`
