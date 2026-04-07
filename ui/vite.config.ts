@@ -26,7 +26,7 @@ export default defineConfig(() => {
       mainFields: ['browser', 'module', 'jsnext'],
     },
     server: {
-      port: 3001,
+      port: 3000,
     },
   };
 });
