@@ -13,7 +13,7 @@ import { updateGeneSearchIndicies } from './genomicVariants.js';
 
 const logger = getLogger('services/searchClient/publish');
 
-/****
+/**
  * Removes Mongoose specific keys & values to prepare data for Search indexing
  */
 const cleanMongoDoc = (doc) => {
@@ -44,7 +44,7 @@ const cleanMongoDoc = (doc) => {
 };
 
 /**
- *
+ * Collects gene names and counts
  */
 const getGeneMetadata = async (doc) => {
   // Assemble list of genes from genomic_variants.gene and variants.variant.genes
@@ -70,26 +70,28 @@ const getGeneMetadata = async (doc) => {
     (variant) => variant.variant && variant.variant.type === 'Histopathological Biomarker',
   ).length;
 
+  const filename = doc.gene_metadata?.filename;
+  const import_data = doc.gene_metadata?.import_date;
+  const file_id = doc.gene_metadata?.file_id;
+
   const output = {
+    clinical_variant_count,
+    file_id,
+    filename,
     genes,
     genes_count,
     genomic_variant_count,
-    clinical_variant_count,
     histopathological_variant_count,
+    import_data,
     mutated_genes,
     mutated_genes_count,
   };
-  if (doc.gene_metadata) {
-    output.filename = doc.gene_metadata.filename;
-    output.import_data = doc.gene_metadata.import_date;
-    output.file_id = doc.gene_metadata.file_id;
-  }
 
   return output;
 };
 
 /**
- *
+ * Returns an array containing names and tissue types of related Matched Models
  */
 const getMatchedModels = async (modelRecord) => {
   if (modelRecord.matchedModels) {
@@ -111,7 +113,8 @@ const getMatchedModels = async (modelRecord) => {
 };
 
 /**
- *
+ * Aggregates Model metadata and formats Model document for Search client indexing
+ * Ports logic previously found in schemas/model es_extends
  */
 const formatModeltoDocument = async (doc) => {
   const modelRecord = doc.toObject();
