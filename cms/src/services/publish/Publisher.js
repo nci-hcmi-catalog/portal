@@ -3,7 +3,7 @@ import getPublishValidation from '../../validation/model.js';
 import { runYupValidatorFailSlow } from '../../helpers/index.js';
 import { PUBLISH_ERRORS } from './constants.js';
 import { getPublishErrorMessage } from './helpers.js';
-import { publishModel, bulkUpdateGeneSearchIndices } from '../searchClient/publish.js';
+import { publishModel, bulkUpdateGeneSearchIndices } from '../search-client/publish.js';
 import getLogger from '../../logger.js';
 
 const logger = getLogger('services/publish/Publisher');

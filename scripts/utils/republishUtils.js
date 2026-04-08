@@ -5,14 +5,14 @@ process.env = esUtils.config;
 
 import 'babel-polyfill';
 import mongoose from 'mongoose';
-import { publishModel } from '../../cms/src/services/searchClient/publish.js';
-import { ModelES } from '../../cms/src/services/searchClient/common/schemas/model.js';
+import { publishModel } from '../../cms/src/services/search-client/publish.js';
+import { ModelES } from '../../cms/src/services/search-client/common/schemas/model.js';
 import '../../cms/src/schemas/variant.js';
 import '../../cms/src/schemas/matchedModels.js';
 
 import { modelStatus } from '../../cms/src/helpers/modelStatus.js';
 
-import indexLastUpdated from '../../cms/src/services/searchClient/indexLastUpdate.js';
+import indexLastUpdated from '../../cms/src/services/search-client/indexLastUpdate.js';
 
 export const republishModels = async () => {
   console.log('Connecting to MongoDB...');

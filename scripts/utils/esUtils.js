@@ -1,4 +1,4 @@
-import getSearchClient from '../../cms/src/services/searchClient/client.js';
+import getSearchClient from '../../cms/src/services/search-client/client.js';
 
 /** Search index settings and mappings **/
 import modelsIndexConfig from '../../elasticsearch/modelsIndex.json' with { type: "json" };

@@ -1,5 +1,5 @@
-import { publishModel } from './services/searchClient/publish.js';
-import { unpublishModel } from './services/searchClient/unpublish.js';
+import { publishModel } from './services/search-client/publish.js';
+import { unpublishModel } from './services/search-client/unpublish.js';
 import { modelStatus, runYupValidatorFailFast } from './helpers/index.js';
 import { deleteImage } from './routes/images.js';
 import { getSaveValidation } from './validation/model.js';

@@ -11,7 +11,7 @@ import indexLastUpdated from './indexLastUpdated.js';
 import indexModel from './indexModel.js';
 import { updateGeneSearchIndicies } from './genomicVariants.js';
 
-const logger = getLogger('services/searchClient/publish');
+const logger = getLogger('services/search-client/publish');
 
 /**
  * Removes Mongoose specific keys & values to prepare data for Search indexing

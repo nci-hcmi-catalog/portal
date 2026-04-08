@@ -4,8 +4,8 @@ import express from 'express';
 import Model from '../schemas/model.js';
 import getPublishValidation from '../validation/model.js';
 import { runYupValidatorFailFast } from '../helpers/index.js';
-import { publishModel } from '../services/searchClient/publish.js';
-import { unpublishModel } from '../services/searchClient/unpublish.js';
+import { publishModel } from '../services/search-client/publish.js';
+import { unpublishModel } from '../services/search-client/unpublish.js';
 import { backupFields } from '../schemas/descriptions/modelVariant.js';
 import csvStream from '../helpers/streamAsCSV.js';
 

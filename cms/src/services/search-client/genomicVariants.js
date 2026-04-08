@@ -8,7 +8,7 @@ import getClient from './client.js';
 
 const { get, flatten, uniq } = _;
 
-const logger = getLogger('services/searchClient/genomicVariants');
+const logger = getLogger('services/search-client/genomicVariants');
 
 const MODEL_INDEX = process.env.ES_INDEX;
 const GENES_INDEX = 'genes';

@@ -5,11 +5,11 @@ import express from 'express';
 import Model from '../schemas/model.js';
 import getPublishValidation from '../validation/model.js';
 import { runYupValidatorFailSlow, modelStatus } from '../helpers/index.js';
-import { indexOneToES, indexMatchedModelsToES } from '../services/searchClient/publish.js';
-import { unpublishManyFromES } from '../services/searchClient/unpublish.js';
+import { indexOneToES, indexMatchedModelsToES } from '../services/search-client/publish.js';
+import { unpublishManyFromES } from '../services/search-client/unpublish.js';
 import csvStream from '../helpers/streamAsCSV.js';
 import { backupFields } from '../schemas/descriptions/model.js';
-import { updateGeneSearchIndicies } from '../services/searchClient/genomicVariants.js';
+import { updateGeneSearchIndicies } from '../services/search-client/genomicVariants.js';
 import getLogger from '../logger.js';
 
 const logger = getLogger('routes/bulk');

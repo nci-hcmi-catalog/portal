@@ -9,7 +9,7 @@ import indexLastUpdated from './indexLastUpdated.js';
 import { indexMatchedModelsToES } from './publish.js';
 import { updateGeneSearchIndicies } from './genomicVariants.js';
 
-const logger = getLogger('services/searchClient/unpublish');
+const logger = getLogger('services/search-client/unpublish');
 
 const index = process.env.ES_INDEX;
 
