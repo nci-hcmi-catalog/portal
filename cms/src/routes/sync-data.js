@@ -2,18 +2,23 @@
 
 import express from 'express';
 import _ from 'lodash';
-const { unionWith, uniqWith, isEqual } = _;
 
+import { getLoggedInUser } from '../helpers/authorizeUserAccess.js';
+import {
+  modelStatus,
+  ensureAuth,
+  computeModelStatus,
+  runYupValidatorFailSlow,
+} from '../helpers/index.js';
+import getLogger from '../logger.js';
 import { toExcelHeaders, toExcelRowNumber } from '../schemas/constants.js';
 import Model, { ModelSchema } from '../schemas/model.js';
 import Variant from '../schemas/variant.js';
+import { getSheetData, typeToParser, NAtoNull } from '../services/import/SheetsToMongo.js';
 import { getSaveValidation } from '../validation/model.js';
 import { modelVariantUploadSchema } from '../validation/variant.js';
-import { modelStatus, ensureAuth, computeModelStatus, runYupValidatorFailSlow } from '../helpers/index.js';
-import { getSheetData, typeToParser, NAtoNull } from '../services/import/SheetsToMongo.js';
-import { getLoggedInUser } from '../helpers/authorizeUserAccess.js';
 
-import getLogger from '../logger.js';
+const { unionWith, uniqWith, isEqual } = _;
 const logger = getLogger('routes/sync-data');
 
 export const data_sync_router = express.Router();
@@ -23,9 +28,9 @@ data_sync_router.get('/sheets-data/:spreadsheetId/:sheetId', async (req, res) =>
   const { spreadsheetId, sheetId } = req.params;
 
   ensureAuth(req)
-    .then(authClient => getSheetData({ authClient, spreadsheetId, sheetId }))
-    .then(data => res.json(data))
-    .catch(error => {
+    .then((authClient) => getSheetData({ authClient, spreadsheetId, sheetId }))
+    .then((data) => res.json(data))
+    .catch((error) => {
       logger.error(error, 'Unexpected error occurred while reading Google Sheets');
       res.status(500).json({
         message: `An unexpected error occurred while trying to read Google Sheet ID: ${sheetId}, ${error}`,
@@ -37,8 +42,8 @@ data_sync_router.get('/wrangle-cde/:spreadsheetId/:sheetId', async (req, res) =>
   const { spreadsheetId, sheetId } = req.params;
 
   ensureAuth(req)
-    .then(authClient => getSheetData({ authClient, spreadsheetId, sheetId }))
-    .then(data => {
+    .then((authClient) => getSheetData({ authClient, spreadsheetId, sheetId }))
+    .then((data) => {
       const transformed = Object.entries(toExcelRowNumber).reduce((acc, [type, rowNumber]) => {
         return {
           ...acc,
@@ -54,7 +59,7 @@ data_sync_router.get('/wrangle-cde/:spreadsheetId/:sheetId', async (req, res) =>
       }, {});
       return res.json(transformed);
     })
-    .catch(error => {
+    .catch((error) => {
       logger.error(
         { error, sheetId, spreadsheetId },
         'Unexpected error while reading Google Sheet',
@@ -65,7 +70,8 @@ data_sync_router.get('/wrangle-cde/:spreadsheetId/:sheetId', async (req, res) =>
     });
 });
 
-const normalizeOption = option => (option === 'true' ? true : option === 'false' ? false : option);
+const normalizeOption = (option) =>
+  option === 'true' ? true : option === 'false' ? false : option;
 
 data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) => {
   const { spreadsheetId, sheetId } = req.params;
@@ -75,13 +81,13 @@ data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) =>
   overwrite = normalizeOption(overwrite);
 
   ensureAuth(req)
-    .then(authClient => getSheetData({ authClient, spreadsheetId, sheetId }))
-    .then(async data => {
+    .then((authClient) => getSheetData({ authClient, spreadsheetId, sheetId }))
+    .then(async (data) => {
       const parsed = data
         .filter(({ name }) => name)
-        .map(d =>
+        .map((d) =>
           Object.keys(d)
-            .filter(key => ModelSchema.paths[key])
+            .filter((key) => ModelSchema.paths[key])
             .reduce(
               (acc, key) => ({
                 ...acc,
@@ -94,7 +100,7 @@ data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) =>
       const validation = await getSaveValidation();
       return runYupValidatorFailSlow(validation, parsed);
     })
-    .then(validated => {
+    .then((validated) => {
       const savePromises = validated
         .filter(({ success }) => success)
         .map(async ({ result }) => {
@@ -134,35 +140,31 @@ data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) =>
                   },
                 )
                   .then(() => resolve({ status: 'updated', doc: result.name }))
-                  .catch(error => {
+                  .catch((error) => {
                     logger.error(
                       { error, model: result.name },
                       'Unexpected error occurred while updating one model in bulk update',
                     );
                     reject({
-                      message: `An unexpected error occurred while updating model: ${
-                        result.name
-                      }, Error:  ${error}`,
+                      message: `An unexpected error occurred while updating model: ${result.name}, Error:  ${error}`,
                     });
                   });
               });
             }
-            return new Promise(resolve => resolve({ status: 'unchanged', doc: result.name })); //no fields modified, do nothing
+            return new Promise((resolve) => resolve({ status: 'unchanged', doc: result.name })); //no fields modified, do nothing
           } else {
             return new Promise((resolve, reject) => {
               const newModel = new Model(addUserEmail(req, result));
               newModel
                 .save()
                 .then(() => resolve({ status: 'new', doc: result.name }))
-                .catch(error => {
+                .catch((error) => {
                   logger.error(
                     { error, model: result.name },
                     'Unexpected error occurred while creating model during bulk data sync',
                   );
                   reject({
-                    message: `An unexpected error occurred while creating model: ${
-                      result.name
-                    }, Error:  ${error}`,
+                    message: `An unexpected error occurred while creating model: ${result.name}, Error:  ${error}`,
                   });
                 });
             });
@@ -174,7 +176,7 @@ data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) =>
         .map(({ errors }) => errors);
 
       return Promise.all(savePromises)
-        .then(saveResults =>
+        .then((saveResults) =>
           res.json({
             result: saveResults.reduce(
               (finalResponse, saveResult) => {
@@ -186,11 +188,11 @@ data_sync_router.get('/bulk-models/:spreadsheetId/:sheetId', async (req, res) =>
             ),
           }),
         )
-        .catch(error => {
+        .catch((error) => {
           throw error;
         });
     })
-    .catch(error => {
+    .catch((error) => {
       logger.error(error, 'Unexpected error occured in bulk upload');
       res.status(500).json({ error: error.details || 'Unknown error occurred.' });
     });
@@ -204,26 +206,26 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId/:modelName', asyn
   overwrite = normalizeOption(overwrite);
 
   ensureAuth(req)
-    .then(authClient => getSheetData({ authClient, spreadsheetId, sheetId }))
-    .then(data =>
-      data.map(modelVariantUpload => {
+    .then((authClient) => getSheetData({ authClient, spreadsheetId, sheetId }))
+    .then((data) =>
+      data.map((modelVariantUpload) => {
         // Remove all null / undefined / empty
         Object.keys(modelVariantUpload).forEach(
-          key => !modelVariantUpload[key] && delete modelVariantUpload[key],
+          (key) => !modelVariantUpload[key] && delete modelVariantUpload[key],
         );
         return modelVariantUpload;
       }),
     )
-    .then(data => runYupValidatorFailSlow(modelVariantUploadSchema, data))
-    .then(validated =>
+    .then((data) => runYupValidatorFailSlow(modelVariantUploadSchema, data))
+    .then((validated) =>
       Promise.all(
-        validated.map(validatedVariant => {
+        validated.map((validatedVariant) => {
           if (validatedVariant.success) {
             const variantData = validatedVariant.result;
             return Variant.findOne({
               name: variantData.variant_name,
               type: variantData.variant_type,
-            }).then(variantResult => {
+            }).then((variantResult) => {
               // If no variant found return an error in
               // the same format as validation errors
               if (!variantResult) {
@@ -232,9 +234,7 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId/:modelName', asyn
                   errors: {
                     name: variantData.variant_name || 'Unknown',
                     details: [
-                      `No variant found matching "${variantData.variant_name}" and "${
-                        variantData.variant_type
-                      }" in database.`,
+                      `No variant found matching "${variantData.variant_name}" and "${variantData.variant_type}" in database.`,
                     ],
                   },
                 };
@@ -254,12 +254,13 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId/:modelName', asyn
             });
           } else {
             // Return the unsuccessfull validation error like normal
-            return new Promise(resolve => resolve(validatedVariant));
+            return new Promise((resolve) => resolve(validatedVariant));
           }
         }),
       ),
     )
-    .then(populatedVariants => {
+    .then((populatedVariants) => {
+      console.log('populatedVariants', populatedVariants);
       // Sort the modelVariant relations by model_name
       const mappedModelVariants = populatedVariants
         .filter(({ success }) => success)
@@ -284,7 +285,7 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId/:modelName', asyn
         }, {});
 
       // Process all successfully populated variants as normal
-      const savePromises = Object.keys(mappedModelVariants).map(async model_name => {
+      const savePromises = Object.keys(mappedModelVariants).map(async (model_name) => {
         // Upload set for the model we are operating on
         const uploadedModelVariants = uniqWith(mappedModelVariants[model_name], isEqual);
 
@@ -341,21 +342,19 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId/:modelName', asyn
                   variants: allowedUpdates,
                 }),
               )
-              .catch(error => {
+              .catch((error) => {
                 logger.error(
                   { error, model: model.name },
                   'Unexpected error occured while updating model in bulk data sync',
                 );
                 reject({
-                  message: `An unexpected error occurred while updating model: ${
-                    model.name
-                  }, Error:  ${error}`,
+                  message: `An unexpected error occurred while updating model: ${model.name}, Error:  ${error}`,
                   variants: allowedUpdates,
                 });
               });
           });
         } else {
-          return new Promise(resolve =>
+          return new Promise((resolve) =>
             resolve({ status: 'unchanged', doc: model.name, variants: uploadedModelVariants }),
           );
         }
@@ -367,8 +366,8 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId/:modelName', asyn
         .map(({ errors }) => errors);
 
       return Promise.all(savePromises)
-        .then(saveResults =>
-          res.json({
+        .then((saveResults) => {
+          return res.json({
             result: saveResults.reduce(
               (finalResponse, saveResult) => {
                 const { status, doc, variants } = saveResult;
@@ -377,13 +376,13 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId/:modelName', asyn
               },
               { unchanged: [], updated: [], new: [], errors },
             ),
-          }),
-        )
-        .catch(error => {
+          });
+        })
+        .catch((error) => {
           throw error;
         });
     })
-    .catch(error => {
+    .catch((error) => {
       logger.error(error, 'Unexpected error occurred during Sync Data');
       return res.status(500).json({ error: error instanceof Error ? error.message : error });
     });
