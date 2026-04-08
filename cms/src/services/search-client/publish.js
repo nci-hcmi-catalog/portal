@@ -116,7 +116,7 @@ const getMatchedModels = async (modelRecord) => {
  * Aggregates Model metadata and formats Model document for Search client indexing
  * Ports logic previously found in schemas/model es_extends
  */
-const formatModeltoDocument = async (doc) => {
+const formatModelToDocument = async (doc) => {
   const modelRecord = doc.toObject();
 
   const clinical_diagnosis = {
@@ -225,7 +225,7 @@ export const indexOneToES = async (filter) => {
     // Validate doc against publish schema for "on-demand" publishing
     await validation.validate(doc);
     // Need to populate and filter the matched models, and format data for indexing
-    const data = await formatModeltoDocument(doc);
+    const data = await formatModelToDocument(doc);
 
     // Index model into ElasticSearch
     await indexModel(doc._id, data);
