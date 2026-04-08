@@ -21,6 +21,5 @@ services:
       - discovery.type=single-node
       - cluster.name=workflow.opensearch
       - cluster.routing.allocation.disk.threshold_enabled=false
-      - search.max_buckets=65535
-      - ES_JAVA_OPTS=-Xms512m -Xmx2048m
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2048m
       - DISABLE_SECURITY_PLUGIN=true
