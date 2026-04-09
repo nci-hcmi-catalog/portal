@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import _ from 'lodash';
-const { flatten, uniq } = _;
+
 import { modelStatus } from '../helpers/modelStatus.js';
 import getLogger from '../logger.js';
 

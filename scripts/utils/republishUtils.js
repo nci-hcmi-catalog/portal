@@ -5,14 +5,14 @@ process.env = esUtils.config;
 
 import 'babel-polyfill';
 import mongoose from 'mongoose';
-import { publishModel } from '../../cms/src/services/search-client/publish.js';
-import { ModelES } from '../../cms/src/services/search-client/common/schemas/model.js';
-import '../../cms/src/schemas/variant.js';
-import '../../cms/src/schemas/matchedModels.js';
 
 import { modelStatus } from '../../cms/src/helpers/modelStatus.js';
+import { publishModel } from '../../cms/src/services/search-client/publish.js';
+import Model from '../../cms/src/schemas/model.js';
+import indexLastUpdated from '../../cms/src/services/search-client/indexLastUpdated.js';
 
-import indexLastUpdated from '../../cms/src/services/search-client/indexLastUpdate.js';
+import '../../cms/src/schemas/variant.js';
+import '../../cms/src/schemas/matchedModels.js';
 
 export const republishModels = async () => {
   console.log('Connecting to MongoDB...');
@@ -21,7 +21,7 @@ export const republishModels = async () => {
   await mongoose.connect(esUtils.config.MONGODB_URI);
   console.log('\nConnected!');
 
-  const models = await ModelES.find({
+  const models = await Model.find({
     status: { $in: [modelStatus.published, modelStatus.unpublishedChanges] },
   });
 

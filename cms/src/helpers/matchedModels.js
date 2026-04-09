@@ -1,10 +1,12 @@
-import MatchedModels from '../schemas/matchedModels.js';
-import Model from '../schemas/model.js';
-import { modelStatus } from './modelStatus.js';
 import _ from 'lodash';
-const { uniq } = _;
 
 import getLogger from '../logger.js';
+import MatchedModels from '../schemas/matchedModels.js';
+import Model from '../schemas/model.js';
+
+import { modelStatus } from './modelStatus.js';
+
+const { uniq } = _;
 const logger = getLogger('helpers/matchedModels');
 
 /* Worker methods, take models as inputs */

@@ -1,4 +1,4 @@
-import _, { flatten, uniq } from 'lodash';
+import _ from 'lodash';
 import mongoose from 'mongoose';
 
 import Model from '../../schemas/model.js';
@@ -49,15 +49,15 @@ const cleanMongoDoc = (doc) => {
 const getGeneMetadata = async (doc) => {
   // Assemble list of genes from genomic_variants.gene and variants.variant.genes
   const genomic_variant_genes = doc.genomic_variants.map((gv) => gv.gene);
-  const variant_genes = flatten(doc.variants.map((wrapper) => wrapper.variant.genes));
-  const genes = uniq([...genomic_variant_genes, ...variant_genes]);
+  const variant_genes = _.flatten(doc.variants.map((wrapper) => wrapper.variant.genes));
+  const genes = _.uniq([...genomic_variant_genes, ...variant_genes]);
   // "Mutated Genes" are Research Somatic Variants (`genomic_variants` in the codebase) and Clinical Variants only
-  const clinical_variant_genes = flatten(
+  const clinical_variant_genes = _.flatten(
     doc.variants
       .filter((variant) => variant.variant && variant.variant.type === 'Clinical')
       .map((wrapper) => wrapper.variant.genes),
   );
-  const mutated_genes = uniq([...genomic_variant_genes, ...clinical_variant_genes]);
+  const mutated_genes = _.uniq([...genomic_variant_genes, ...clinical_variant_genes]);
 
   // Get counts of the 4 categories shown on search table
   const genes_count = genes.length;
