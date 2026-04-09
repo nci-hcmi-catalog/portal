@@ -260,7 +260,6 @@ data_sync_router.get('/attach-variants/:spreadsheetId/:sheetId/:modelName', asyn
       ),
     )
     .then((populatedVariants) => {
-      console.log('populatedVariants', populatedVariants);
       // Sort the modelVariant relations by model_name
       const mappedModelVariants = populatedVariants
         .filter(({ success }) => success)
