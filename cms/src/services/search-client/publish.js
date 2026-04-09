@@ -18,12 +18,15 @@ const logger = getLogger('services/search-client/publish');
  */
 const cleanMongoDoc = (doc) => {
   const mongoKeys = ['_id', '__v'];
+  // Remove keys from base Document object
   let cleanedDoc = _.omit(doc, mongoKeys);
   for (const key in cleanedDoc) {
+    // Review is nested values also need Mongoose keys removed
     const value = cleanedDoc[key];
     if (value && typeof value === 'object') {
       if (Array.isArray(value)) {
         const firstEntry = value[0];
+        // Remove nested keys when property is an array of objects
         const cleanedVals =
           firstEntry && typeof firstEntry === 'object'
             ? value.map((val) => {
@@ -33,8 +36,10 @@ const cleanMongoDoc = (doc) => {
             : value;
         cleanedDoc[key] = cleanedVals;
       } else if (value instanceof mongoose.Types.ObjectId) {
+        // Parse Mongoose ObjectId Objects to a plain string
         cleanedDoc[key] = value.toString();
       } else if (!(value instanceof Date)) {
+        // Remove keys when value is an object, ignoring Dates
         const cleanedValue = _.omit(value, mongoKeys);
         cleanedDoc[key] = cleanedValue;
       }
