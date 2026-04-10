@@ -117,7 +117,7 @@ const modelManagerCustomColumns = [
     accessor: 'updatedAt',
     queryFilter: filters.date,
     Cell: (row) => {
-      const value = row.value;
+      const value = row.value || row.original.createdAt;
       return (
         <Popup
           trigger={() => (

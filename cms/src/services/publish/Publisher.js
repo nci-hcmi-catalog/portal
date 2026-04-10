@@ -3,7 +3,7 @@ import getPublishValidation from '../../validation/model.js';
 import { runYupValidatorFailSlow } from '../../helpers/index.js';
 import { PUBLISH_ERRORS } from './constants.js';
 import { getPublishErrorMessage } from './helpers.js';
-import { publishModel, bulkUpdateGeneSearchIndices } from '../elastic-search/publish.js';
+import { publishModel, bulkUpdateGeneSearchIndices } from '../search-client/publish.js';
 import getLogger from '../../logger.js';
 
 const logger = getLogger('services/publish/Publisher');
@@ -145,7 +145,7 @@ const Publisher = (function () {
     }
 
     // Remove duplicate publish tasks
-    stopPublish(modelName);
+    await stopPublish(modelName);
     acknowledge(modelName);
 
     try {
@@ -157,7 +157,7 @@ const Publisher = (function () {
         name: modelName,
       })
         .populate('variants.variant')
-        .then((model) => runYupValidatorFailSlow(validation, model))
+        .then(async (model) => await runYupValidatorFailSlow(validation, model))
         .then((results) => {
           if (results[0].success) {
             // Create new publish task
@@ -228,7 +228,7 @@ const Publisher = (function () {
     }
 
     // Remove duplicate imports
-    stopBulkPublish(models);
+    await stopBulkPublish(models);
     acknowledgeBulk(models);
 
     // Filter out models that don't exist within HCMI db
@@ -410,9 +410,9 @@ const Publisher = (function () {
     running = false;
   };
 
-  const start = () => {
+  const start = async () => {
     running = true;
-    run();
+    await run();
   };
 
   const run = async () => {
@@ -446,7 +446,7 @@ const Publisher = (function () {
     }
 
     if (running && queue.length > 0) {
-      run();
+      await run();
     } else {
       // Update gene search indices after bulk publish completes
       await updateBulkGeneSearchIndicies();

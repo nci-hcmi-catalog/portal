@@ -1,5 +1,5 @@
 import express from 'express';
-import esClient from './services/elasticsearch';
+import getClient from './services/searchClient.ts';
 import { get } from 'lodash';
 
 const GENES_INDEX = 'genes';
@@ -28,7 +28,8 @@ geneSearchRouter.get('/gene', async (req, res) => {
       },
     };
 
-    const response = await esClient.search({
+    const searchClient = await getClient();
+    const response = await searchClient.search({
       index: GENES_INDEX,
       body: { query },
     });
@@ -57,7 +58,8 @@ geneSearchRouter.get('/variant', async (req, res) => {
       },
     };
 
-    const response = await esClient.search({
+    const searchClient = await getClient();
+    const response = await searchClient.search({
       index: VARIANTS_INDEX,
       body: { query },
     });
