@@ -21,7 +21,7 @@ const cleanMongoDoc = (doc) => {
   // Remove keys from base Document object
   let cleanedDoc = _.omit(doc, mongoKeys);
   for (const key in cleanedDoc) {
-    // Review is nested values also need Mongoose keys removed
+    // Review if nested values also need Mongoose keys removed
     const value = cleanedDoc[key];
     if (value && typeof value === 'object') {
       if (Array.isArray(value)) {
