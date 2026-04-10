@@ -122,7 +122,7 @@ const getMatchedModels = async (modelRecord) => {
  * Ports logic previously found in schemas/model es_extends
  */
 const formatModelToDocument = async (doc) => {
-  const modelRecord = doc.toObject();
+  const modelRecord = { ...doc.toObject(), updatedAt: new Date() };
 
   const clinical_diagnosis = {
     clinical_tumor_diagnosis: modelRecord.clinical_tumor_diagnosis,
@@ -236,7 +236,10 @@ export const indexOneToES = async (filter) => {
     await indexModel(doc._id, data);
     await indexLastUpdated();
 
-    const res = await Model.updateOne({ name: doc.name }, { status: modelStatus.published });
+    const res = await Model.updateOne(
+      { name: doc.name },
+      { status: modelStatus.published, updatedAt: data.updatedAt },
+    );
 
     logger.info({ model: doc.name }, 'publish model', 'Model Published to ES');
     return {

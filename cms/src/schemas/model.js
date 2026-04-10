@@ -110,6 +110,8 @@ export const ModelSchema = new mongoose.Schema({
     default: modelStatus.unpublished,
     es_indexed: false,
   },
+  createdAt: { type: Date, default: Date.now, es_indexed: true },
+  updatedAt: { type: Date, es_indexed: true },
   updatedBy: { type: String, es_indexed: false },
 });
 
