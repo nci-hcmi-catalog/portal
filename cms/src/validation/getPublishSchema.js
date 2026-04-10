@@ -39,12 +39,22 @@ const getPublishSchema = async (excludedNames, dictionary) => {
       .notOneOf(excludedNames, 'This model already exists'),
     expanded: boolean().required('This is a required field'),
     type: string().oneOf(modelTypeOptions),
-    growth_rate: number().integer().transform(numberEmptyValueTransform).min(1).max(99),
+    growth_rate: number()
+      .integer()
+      .transform(numberEmptyValueTransform)
+      .min(1)
+      .max(99)
+      .nullable(true),
     split_ratio: string().oneOf(splitRatioOptions).nullable(true),
     time_to_split: string().nullable(true),
     gender: string().required('This is a required field').oneOf(genderOptions),
     race: string().required('This is a required field').nullable(true).oneOf(raceOptions),
-    age_at_diagnosis: number().integer().transform(numberEmptyValueTransform).min(0).max(99),
+    age_at_diagnosis: number()
+      .integer()
+      .transform(numberEmptyValueTransform)
+      .min(0)
+      .max(99)
+      .nullable(true),
     age_at_sample_acquisition: number()
       .integer()
       .transform(numberEmptyValueTransform)
