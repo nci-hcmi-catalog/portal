@@ -277,6 +277,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
                   let data = {
                     ...values,
+                    updatedAt: new Date(),
                     status: computeModelStatus(values.status, 'save'),
                   };
 
