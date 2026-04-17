@@ -18,7 +18,6 @@ node_modules
 .env.production.local
 .vscode/
 cms/env
-cms/variant-migrations/config.js
 
 npm-debug.log*
 yarn-debug.log*
