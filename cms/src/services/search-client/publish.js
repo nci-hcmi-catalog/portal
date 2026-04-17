@@ -170,7 +170,7 @@ const formatModelToDocument = async (doc) => {
     matched_models
       ?.concat([modelRecord])
       .map((i) => i.name)
-      .join(',') || '';
+      .join(',') || [];
 
   const mappedRecord = {
     ...modelRecord,
