@@ -1,18 +1,21 @@
 import { google } from 'googleapis';
 
 import { getDictionary } from '../helpers/dictionary.js';
-
-import { variantTypes, variantAssessmentType, variantExpressionLevel } from '../schemas/constants.js';
-import Variant from '../schemas/variant';
-
+import {
+  variantTypes,
+  variantAssessmentType,
+  variantExpressionLevel,
+} from '../schemas/constants.js';
+import Variant from '../schemas/variant.js';
 import getLogger from '../logger.js';
+
 const logger = getLogger('helpers/uploadTemplate');
 
-const headerRowData = headerNames => ({
-  values: headerNames.map(header => ({ userEnteredValue: { stringValue: header } })),
+const headerRowData = (headerNames) => ({
+  values: headerNames.map((header) => ({ userEnteredValue: { stringValue: header } })),
 });
 
-export const createModelUploadTemplate = async authClient => {
+export const createModelUploadTemplate = async (authClient) => {
   const modelColumnHeaders = [
     'Name',
     'Type',
@@ -96,10 +99,7 @@ export const createModelUploadTemplate = async authClient => {
   const sheets = google.sheets({ version: 'v4', auth: authClient });
 
   // Date formatted like: May-29-2020-13:51:42
-  const dateStamp = Date()
-    .split(' ')
-    .splice(1, 4)
-    .join('-');
+  const dateStamp = Date().split(' ').splice(1, 4).join('-');
 
   const spreadsheet = {
     resource: {
@@ -127,7 +127,7 @@ export const createModelUploadTemplate = async authClient => {
   });
 
   const { spreadsheetId, spreadsheetUrl } = response.data;
-  const modelSheet = response.data.sheets.find(sheet => sheet.properties.title === 'Models');
+  const modelSheet = response.data.sheets.find((sheet) => sheet.properties.title === 'Models');
 
   // Add request for list validation for fields that have enum from data dictionary:
   const buildValidationRequest = (name, columnIndex) => ({
@@ -142,8 +142,8 @@ export const createModelUploadTemplate = async authClient => {
         condition: {
           type: 'ONE_OF_LIST',
           values: allDictionaryFields
-            .find(field => field.name === name)
-            .values.map(value => ({ userEnteredValue: value.value })),
+            .find((field) => field.name === name)
+            .values.map((value) => ({ userEnteredValue: value.value })),
         },
         strict: 'true',
         showCustomUi: 'true',
@@ -155,7 +155,7 @@ export const createModelUploadTemplate = async authClient => {
   for (const i in modelEnumNames) {
     const name = modelEnumNames[i];
 
-    if (allDictionaryFields.find(field => field.name === name)) {
+    if (allDictionaryFields.find((field) => field.name === name)) {
       const request = buildValidationRequest(name, i);
       requests.push(request);
     }
@@ -181,7 +181,7 @@ export const createModelUploadTemplate = async authClient => {
   });
 };
 
-export const createVariantUploadTemplate = async authClient => {
+export const createVariantUploadTemplate = async (authClient) => {
   const variantColumnHeaders = [
     'Model Name',
     'Variant Name',
@@ -191,15 +191,12 @@ export const createVariantUploadTemplate = async authClient => {
   ];
 
   const variantData = await Variant.find({});
-  const variantNames = variantData.map(variant => variant.name);
+  const variantNames = variantData.map((variant) => variant.name);
 
   const sheets = google.sheets({ version: 'v4', auth: authClient });
 
   // Date formatted like: May-29-2020-13:51:42
-  const dateStamp = Date()
-    .split(' ')
-    .splice(1, 4)
-    .join('-');
+  const dateStamp = Date().split(' ').splice(1, 4).join('-');
 
   const spreadsheet = {
     resource: {
@@ -227,7 +224,7 @@ export const createVariantUploadTemplate = async authClient => {
   });
 
   const { spreadsheetId, spreadsheetUrl } = response.data;
-  const variantSheet = response.data.sheets.find(sheet => sheet.properties.title === 'Variants');
+  const variantSheet = response.data.sheets.find((sheet) => sheet.properties.title === 'Variants');
 
   const buildValidationRequest = (columnIndex, values) => ({
     setDataValidation: {
@@ -240,7 +237,7 @@ export const createVariantUploadTemplate = async authClient => {
       rule: {
         condition: {
           type: 'ONE_OF_LIST',
-          values: values.map(value => ({ userEnteredValue: value })),
+          values: values.map((value) => ({ userEnteredValue: value })),
         },
         strict: 'true',
         showCustomUi: 'true',

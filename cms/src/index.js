@@ -1,15 +1,25 @@
-// @ts-nocheck
 import 'babel-polyfill';
-import express from 'express';
-import { Server } from 'http';
-import cors from 'cors';
-import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
-import methodOverride from 'method-override';
+import cors from 'cors';
+import express from 'express';
 import restify from 'express-restify-mongoose';
-import pino from 'pino-http';
 import helmet from 'helmet';
+import { Server } from 'http';
+import methodOverride from 'method-override';
+import mongoose from 'mongoose';
+import pino from 'pino-http';
 
+import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess.js';
+import {
+  preUpdate,
+  validateYup,
+  preModelDelete,
+  postUpdate,
+  postCreate,
+  outputFn,
+  validateUserRequest,
+} from './hooks.js';
+import getLogger from './logger.js';
 import { data_sync_router } from './routes/sync-data.js';
 import {
   actionRouter,
@@ -23,23 +33,11 @@ import {
   publishRouter,
   authRouter,
 } from './routes/index.js';
-import {
-  preUpdate,
-  validateYup,
-  preModelDelete,
-  postUpdate,
-  postCreate,
-  outputFn,
-  validateUserRequest,
-} from './hooks.js';
 import Model from './schemas/model.js';
 import MatchedModels from './schemas/matchedModels.js';
 import User from './schemas/user.js';
-import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess.js';
 
-import getLogger from './logger.js';
 const logger = getLogger('root');
-
 const port = process.env.PORT || 8080;
 const app = express();
 const modelRouter = express.Router();

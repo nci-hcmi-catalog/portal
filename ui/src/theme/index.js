@@ -21,7 +21,7 @@ const palette = [
 
 const growthChartPalette = ['#ef5350', '#80deea', '#3949ab'];
 
-const multipleModelsChartPalette = ['#d4e157', '#0277bd'];
+const multipleModelsChartPalette = ['#d4e157', '#0277bd', '#f06292'];
 
 const mutatedGenesChartPalette = [
   '#ff6f00',

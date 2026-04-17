@@ -10,7 +10,7 @@ const conn = mongoose.createConnection(process.env.MONGODB_URI || 'mongodb://loc
 conn.once('open', async () => {
   try {
     const models = await conn.db
-      .collection(process.env.MONGO_COLLECTION)
+      .collection(MONGO_COLLECTION)
       .find({ expanded: { $exists: false } });
     console.log('Models to update:');
     let model;
@@ -19,7 +19,7 @@ conn.once('open', async () => {
     }
     console.log('\nUpdating now...');
     const updateResult = await conn.db
-      .collection(process.env.MONGO_COLLECTION)
+      .collection(MONGO_COLLECTION)
       .updateMany({ expanded: { $exists: false } }, { $set: { expanded: true } });
 
     console.log('Models updated:', updateResult.modifiedCount);

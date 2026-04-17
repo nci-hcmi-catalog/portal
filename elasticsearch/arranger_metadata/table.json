@@ -164,8 +164,8 @@
         "fieldName": "matched_models_list",
         "accessor": "matched_models_list",
         "show": true,
-        "type": "matched_models",
-        "sortable": false,
+        "type": "string",
+        "sortable": true,
         "canChangeShow": true,
         "query": null,
         "jsonPath": null
