@@ -59,7 +59,7 @@ yarn
 
 ```
 cd cms/variant-migrations
-../../node_modules/.bin/migrate-mongo up -f migrate-mongo-config.js
+../../node_modules/.bin/migrate-mongo up -f config.js
 ```
 
 4. Initialize ElasticSearch:
