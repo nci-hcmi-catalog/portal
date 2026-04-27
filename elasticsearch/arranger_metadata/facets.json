@@ -52,11 +52,6 @@
         "active": true
       },
       {
-        "fieldName": "clinical_diagnosis__histological_type",
-        "show": true,
-        "active": true
-      },
-      {
         "fieldName": "clinical_diagnosis__tumor_histological_grade",
         "show": true,
         "active": true

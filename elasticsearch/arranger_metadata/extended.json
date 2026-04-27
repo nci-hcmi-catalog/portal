@@ -567,7 +567,7 @@
     },
     {
       "fieldName": "status",
-      "type": "text",
+      "type": "keyword",
       "displayName": "Status",
       "active": false,
       "isArray": false,
@@ -690,7 +690,7 @@
 
     {
       "fieldName": "autocomplete",
-      "type": "text",
+      "type": "keyword",
       "displayName": "Autocomplete",
       "active": false,
       "isArray": true,
