@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { publishModel } from './services/search-client/publish.js';
 import { unpublishModel } from './services/search-client/unpublish.js';
 import { modelStatus, runYupValidatorFailFast } from './helpers/index.js';
@@ -5,10 +7,9 @@ import { deleteImage } from './routes/images.js';
 import { getSaveValidation } from './validation/model.js';
 import { getLoggedInUser } from './helpers/authorizeUserAccess.js';
 import userValidation from './validation/user.js';
-import _ from 'lodash';
-const { transform } = _;
-
 import getLogger from './logger.js';
+
+const { transform } = _;
 const logger = getLogger('hooks');
 
 export const validateYup = (req, res, next) => {

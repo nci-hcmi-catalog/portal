@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
-import restify from 'express-restify-mongoose';
+import { serve as restify } from 'express-restify-mongoose';
 import helmet from 'helmet';
 import { Server } from 'http';
 import methodOverride from 'method-override';
@@ -84,7 +84,7 @@ if (process.env.AUTH_ENABLED !== 'false') {
 app.use(pino({ customProps: (req) => ({ user: getLoggedInUser(req).user_email }) }));
 
 // configure endpoints
-restify.serve(modelRouter, Model, {
+restify(modelRouter, Model, {
   preCreate: validateYup,
   postCreate,
   preUpdate,
@@ -94,10 +94,10 @@ restify.serve(modelRouter, Model, {
   idProperty: 'name',
 });
 
-restify.serve(matchedModelsRestifyRouter, MatchedModels);
+restify(matchedModelsRestifyRouter, MatchedModels);
 
 // configure endpoints
-restify.serve(userRouter, User, {
+restify(userRouter, User, {
   preCreate: validateUserRequest,
   preUpdate: validateUserRequest,
 });
