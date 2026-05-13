@@ -2384,10 +2384,10 @@
     url-join "^4.0.1"
     uuid "^9.0.0"
 
-"@overture-stack/arranger-server@^3.0.3-beta.1":
-  version "3.0.3-beta.1"
-  resolved "https://registry.yarnpkg.com/@overture-stack/arranger-server/-/arranger-server-3.0.3-beta.1.tgz#8388658891c7df66da57c28d19ae1c210db61317"
-  integrity sha512-s6biQot2F1v3b1RkZHbPZ8IJMqeURB7B/LunnCquzqJPJkfgQCrJEIHJpMhSNHC2dL4hoikM1OwbpBcMWXTlgg==
+"@overture-stack/arranger-server@^3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@overture-stack/arranger-server/-/arranger-server-3.0.4.tgz#4d5c9b71b340134dc4712ff13b012fe08e9a6b1b"
+  integrity sha512-FtSmRtehtpH51gZWHoBdQqToyvr4R56W/VjYv0LuHIaZ0o8ET0Kv6Vbi7HNynnAbx5EKooKvSOwu2YQoWhB+LA==
   dependencies:
     "@elastic/elasticsearch" "^7.17.14"
     "@graphql-tools/merge" "^9.0.4"
@@ -2398,7 +2398,7 @@
     apollo-server "^3.10.3"
     apollo-server-core "^3.10.3"
     apollo-server-express "^3.10.3"
-    axios "^1.7.9"
+    axios "^1.16.0"
     chalk "^2.3.1"
     convert-units "^2.3.4"
     cors "^2.8.5"
