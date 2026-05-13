@@ -2341,17 +2341,17 @@
     ms "^2.1.3"
     secure-json-parse "^2.4.0"
 
-"@overture-stack/arranger-components@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@overture-stack/arranger-components/-/arranger-components-3.0.2.tgz#87d8158da19313f4beb213ab2964a78a127a0407"
-  integrity sha512-ISrX6NEpAdhR0LXu1baNy8rJTeLGkN3jlwAxa4Q9DxxCN+H+yCYnvIQ6PTGLNz1T9YzT4Lm0SKBl+ScvlKqy/Q==
+"@overture-stack/arranger-components@^3.0.7":
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@overture-stack/arranger-components/-/arranger-components-3.0.7.tgz#4e14908aa921fadb6c19f635a6e6f8f8ac2732de"
+  integrity sha512-FxbSTSun1tFywuLrcUhKmyfnLBS7DducUMFRloKbTVReMwR3hGPs7kTYpG9cS+LISWW34q26yymX5RppG+0abw==
   dependencies:
     "@emotion/react" "^11.0.0"
     "@emotion/styled" "^11.0.0"
     "@overture-stack/sqon-builder" "^1.1.0"
     "@reach/component-component" "^0.17.0"
     "@tanstack/react-table" "^8.7.9"
-    axios "^1.7.9"
+    axios "^1.16.0"
     classnames "^2.3.2"
     color "^4.2.3"
     convert-units "^2.3.4"
@@ -3930,15 +3930,6 @@ axios@^1.16.0:
     follow-redirects "^1.16.0"
     form-data "^4.0.5"
     proxy-from-env "^2.1.0"
-
-axios@^1.7.9:
-  version "1.13.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.13.2.tgz#9ada120b7b5ab24509553ec3e40123521117f687"
-  integrity sha512-VPk9ebNqPcy5lRGuSlKx752IlDatOjT9paPlm8A7yOuW2Fbvp4X3JznJtT4f0GzGLLiWE9W8onz51SqLYwzGaA==
-  dependencies:
-    follow-redirects "^1.15.6"
-    form-data "^4.0.4"
-    proxy-from-env "^1.1.0"
 
 axobject-query@^4.1.0:
   version "4.1.0"
@@ -6272,11 +6263,6 @@ fn-args@^5.0.0:
   resolved "https://registry.yarnpkg.com/fn-args/-/fn-args-5.0.0.tgz#7a18e105c8fb3bf0a51c30389bf16c9ebe740bb3"
   integrity sha512-CtbfI3oFFc3nbdIoHycrfbrxiGgxXBXXuyOl49h47JawM1mYrqpiRqnH5CB2mBatdXvHHOUO6a+RiAuuvKt0lw==
 
-follow-redirects@^1.15.6:
-  version "1.15.11"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.11.tgz#777d73d72a92f8ec4d2e410eb47352a56b8e8340"
-  integrity sha512-deG2P0JfjrTxl50XGCDyfI97ZGVCxIpfKYmfyrQ54n5FO/0gfIES8C/Psl6kWVDolizcaaxZJnTS0QSMxvnsBQ==
-
 follow-redirects@^1.16.0:
   version "1.16.0"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.16.0.tgz#28474a159d3b9d11ef62050a14ed60e4df6d61bc"
@@ -6305,7 +6291,7 @@ form-data@^3.0.0:
     hasown "^2.0.2"
     mime-types "^2.1.35"
 
-form-data@^4.0.4, form-data@^4.0.5:
+form-data@^4.0.5:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-4.0.5.tgz#b49e48858045ff4cbf6b03e1805cebcad3679053"
   integrity sha512-8RipRLol37bNs2bhoV67fiTEvdTrbMUYcFTiy3+wuuOnUog2QBHCZWXDRijWQfAkhBj2Uf5UnVaiWwA5vdd82w==
@@ -9847,11 +9833,6 @@ proxy-addr@~2.0.7:
   dependencies:
     forwarded "0.2.0"
     ipaddr.js "1.9.1"
-
-proxy-from-env@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
-  integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
 
 proxy-from-env@^2.1.0:
   version "2.1.0"
