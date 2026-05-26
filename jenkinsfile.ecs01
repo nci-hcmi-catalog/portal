@@ -1,4 +1,4 @@
-##!groovy
+#!groovy
 def CMS_PACKAGE_TYPE='cms'
 def API_PACKAGE_TYPE='api'
 def UI_PACKAGE_TYPE='ui'
