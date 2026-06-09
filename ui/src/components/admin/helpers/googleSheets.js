@@ -3,17 +3,18 @@ import config from '../config';
 import { getAuth } from './googleAuth';
 
 export const getSheetObject = (sheetURL) => {
-  // example sheeturl:
-  // https://docs.google.com/spreadsheets/d/18ZWXfsadfasdfP8NV5g_flmEhBkXgsKEJT6y9
-  // i Ht0X/edit#gid=0
-  // ... regex: \/d\/(.*?)\/.*gid=([0-9]*)
-  // ... two groups match (1st is the sheetId, second the tabId)
-  const regExp = /\/d\/(.*?)\/.*gid=([0-9]*)/g;
-  const sheetUrlParts = regExp.exec(sheetURL);
+  // Example sheeturl:
+  // https://docs.google.com/spreadsheets/d/1GV4Lwz2qa12M4SwGBb6XulyC0XnEFxqsGfmAG_dxlTA/edit?gid=1279187183
+  // spreadsheetId: 1GV4Lwz2qa12M4SwGBb6XulyC0XnEFxqsGfmAG_dxlTA
+  // googleId: 1279187183
+
+  const spreadsheetId = sheetURL.match(/\/d\/(.*?)\//)[1];
+  const googleId = sheetURL.match(/gid=(\d*)/)[1];
+
   return {
-    fullUrl: sheetUrlParts[0] || '',
-    spreadsheetId: sheetUrlParts[1] || '',
-    sheetId: sheetUrlParts[2] || '',
+    fullUrl: sheetURL,
+    spreadsheetId,
+    googleId,
   };
 };
 export const getUploadTemplate = async (type) => {
