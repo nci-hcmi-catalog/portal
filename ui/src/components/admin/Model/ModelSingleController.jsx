@@ -559,8 +559,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     }),
                   )
                   .catch(async (err) => {
-                    const errorText = extractErrorText(err);
-
+                    const errorText = extractErrorText(err) || err.message;
                     await setState((state) => ({
                       data: {
                         ...state.data,

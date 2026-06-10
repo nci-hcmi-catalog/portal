@@ -8,13 +8,18 @@ export const getSheetObject = (sheetURL) => {
   // spreadsheetId: 1GV4Lwz2qa12M4SwGBb6XulyC0XnEFxqsGfmAG_dxlTA
   // googleId: 1279187183
 
-  const spreadsheetId = sheetURL.match(/\/d\/(.*?)\//)[1];
-  const googleId = sheetURL.match(/gid=(\d*)/)[1];
+  const spreadsheetId = sheetURL.match(/\/d\/(.*?)\//);
+  const sheetId = sheetURL.match(/gid=(\d*)/);
+
+  if (!spreadsheetId || !sheetId)
+    throw new Error(
+      'Google Sheets URL must include both a spreadsheetId and sheetId. See https://developers.google.com/workspace/sheets/api/guides/concepts for more information.',
+    );
 
   return {
     fullUrl: sheetURL,
     spreadsheetId,
-    googleId,
+    sheetId,
   };
 };
 export const getUploadTemplate = async (type) => {
