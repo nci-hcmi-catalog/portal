@@ -191,7 +191,7 @@ export const createVariantUploadTemplate = async (authClient) => {
   ];
 
   const variantData = await Variant.find({});
-  const variantNames = variantData.map((variant) => variant.name);
+  const variantNames = variantData?.map((variant) => variant.name) || [];
 
   const sheets = google.sheets({ version: 'v4', auth: authClient });
 
