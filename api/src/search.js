@@ -1,6 +1,7 @@
 import express from 'express';
+import _ from 'lodash';
+
 import getClient from './services/searchClient.ts';
-import { get } from 'lodash';
 
 const GENES_INDEX = 'genes';
 const VARIANTS_INDEX = 'genomic_variants';
@@ -33,7 +34,7 @@ geneSearchRouter.get('/gene', async (req, res) => {
       index: GENES_INDEX,
       body: { query },
     });
-    const genes = get(response, 'body.hits.hits', []).map((i) => i._source);
+    const genes = _.get(response, 'body.hits.hits', []).map((i) => i._source);
     res.status(200).json({ genes });
   } catch (err) {
     console.log('Failure performing gene search:', err);
@@ -63,7 +64,7 @@ geneSearchRouter.get('/variant', async (req, res) => {
       index: VARIANTS_INDEX,
       body: { query },
     });
-    const genes = get(response, 'body.hits.hits', []).map((i) => i._source);
+    const genes = _.get(response, 'body.hits.hits', []).map((i) => i._source);
     res.status(200).json({ genes });
   } catch (err) {
     console.log('Failure performing genomic variants search:', err);

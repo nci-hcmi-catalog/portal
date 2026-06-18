@@ -3,7 +3,7 @@
 import express from 'express';
 
 import getClient from './services/searchClient.ts';
-import getLogger from './logger';
+import getLogger from './logger.js';
 
 const lastUpdatedRouter = express.Router();
 const logger = getLogger('lastUpdated Router');
@@ -12,7 +12,7 @@ lastUpdatedRouter.get('/', async (req, res) => {
   const searchClient = await getClient();
   try {
     const response = await searchClient.search({
-      index: process.env.ES_UPDATE_INDEX,
+      index: process.env.ES_UPDATE_INDEX || 'hcmi-update',
       body: {
         query: {
           match_all: {},

@@ -3,273 +3,381 @@
     "aggregations": [
       {
         "fieldName": "primary_site",
+        "displayName": "Primary Site",
+        "displayType": "keyword",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "genomic_variants__classification",
+        "displayName": "Genomic Variants Classification",
+        "displayType": "keyword",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "genomic_variants__consequence_type",
+        "displayName": "Genomic Variants Consequence Type",
+        "displayType": "keyword",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "type",
+        "displayName": "Type",
+        "displayType": "keyword",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "has_matched_models",
+        "displayName": "Has Matched Models",
+        "displayType": "boolean",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "expanded",
+        "displayName": "Expanded",
+        "displayType": "boolean",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "clinical_diagnosis__site_of_sample_acquisition",
+        "displayName": "Site of Sample Acquisition",
+        "displayType": "keyword",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "clinical_diagnosis__clinical_tumor_diagnosis",
+        "displayName": "Clinical Tumor Diagnosis",
+        "displayType": "keyword",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "clinical_diagnosis__clinical_stage_grouping",
+        "displayName": "Clinical Stage Grouping",
+        "displayType": "keyword",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "tissue_type",
+        "displayName": "Tissue Type",
+        "displayType": "keyword",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "clinical_diagnosis__tumor_histological_grade",
+        "displayName": "Tumor Histological Grade",
+        "displayType": "keyword",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "age_at_sample_acquisition",
+        "displayName": "Age at Sample Acquisition",
+        "displayType": "long",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "age_at_diagnosis",
+        "displayName": "Age at Diagnosis",
+        "displayType": "long",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "disease_status",
+        "displayName": "Disease Status",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "gender",
+        "displayName": "Gender",
+        "displayType": "keyword",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "molecular_characterizations",
+        "displayName": "Molecular Characterizations",
+        "displayType": "keyword",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "neoadjuvant_therapy",
+        "displayName": "Neoadjuvant Therapy",
+        "displayType": "keyword",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "chemotherapeutic_drugs",
+        "displayName": "Chemotherapeutic Drugs",
+        "displayType": "boolean",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "createdAt",
+        "displayName": "Created At",
+        "displayType": "date",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "date_of_availability",
+        "displayName": "Date of Availability",
+        "displayType": "date",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "updatedAt",
+        "displayName": "Updated At",
+        "displayType": "date",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "growth_rate",
+        "displayName": "Growth Rate",
+        "displayType": "long",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "licensing_required",
+        "displayName": "Licensing Required",
+        "displayType": "boolean",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "name",
+        "displayName": "Name",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "race",
+        "displayName": "Race",
+        "displayType": "keyword",
         "show": true,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "variants__genes",
+        "displayName": "Variants Genes",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "source_model_url",
+        "displayName": "Source Model URL",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "files__file_id",
+        "displayName": "File ID",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "files__file_name",
+        "displayName": "File Name",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "files__file_type",
+        "displayName": "File Type",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "matched_models__name",
+        "displayName": "Matched Models Name",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "matched_models__tissue_type",
+        "displayName": "Matched Models Tissue Type",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "proteomics_url",
+        "displayName": "Proteomics URL",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "source_sequence_url",
+        "displayName": "Source Sequence URL",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "somatic_maf_url",
+        "displayName": "Somatic MAF URL",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "split_ratio",
+        "displayName": "Split Ratio",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "therapy",
+        "displayName": "Therapy",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "tnm_stage",
+        "displayName": "TNM Stage",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "variants__assessment_type",
+        "displayName": "Variant Assessment Type",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "variants__category",
+        "displayName": "Variant Category",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "variants__expression_level",
+        "displayName": "Variant Expression Level",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "variants__name",
+        "displayName": "Variant Name",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "variants__type",
+        "displayName": "Variant Type",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "vital_status",
+        "displayName": "Vital Status",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "autocomplete",
+        "displayName": "Autocomplete",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "files__magnification",
+        "displayName": "File Magnification",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "files__passage_number",
+        "displayName": "File Passage Number",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "files__scale_bar_length",
+        "displayName": "File Scale Bar Length",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "status",
+        "displayName": "Status",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "distributor_part_number",
+        "displayName": "Distributor Part Number",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "time_to_split",
+        "displayName": "Time to Split",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "matched_models_list",
+        "displayName": "Matched Models List",
+        "displayType": "string",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "gene_metadata__genes",
+        "displayName": "Gene Metadata",
+        "displayType": "object",
         "show": false,
-        "active": true
+        "isActive": true
       },
       {
         "fieldName": "gene_metadata__mutated_genes",
+        "displayName": "Mutated Genes",
+        "displayType": "keyword",
         "show": false,
-        "active": true
+        "isActive": true
       }
     ]
   }
