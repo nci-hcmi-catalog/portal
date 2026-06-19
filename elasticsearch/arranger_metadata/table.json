@@ -5,7 +5,8 @@
     "defaultSorting": [
       {
         "fieldName": "gene_metadata.genomic_variant_count",
-        "desc": true
+        "desc": true,
+        "isActive": false
       }
     ],
     "columns": [
@@ -17,11 +18,12 @@
         "displayType": "entity",
         "sortable": true,
         "canChangeShow": false,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "primary_site",
@@ -31,11 +33,12 @@
         "displayType": "string",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "clinical_diagnosis.clinical_tumor_diagnosis",
@@ -44,12 +47,13 @@
         "displayType": "string",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Clinical Tumor Diagnosis",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "clinical_diagnosis.histological_type",
@@ -58,12 +62,13 @@
         "displayType": "string",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Histological Type",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "tissue_type",
@@ -72,12 +77,13 @@
         "displayType": "string",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Tissue Type",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "clinical_diagnosis.site_of_sample_acquisition",
@@ -86,12 +92,13 @@
         "displayType": "string",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Site of Sample Acquisition",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
 
       {
@@ -101,12 +108,13 @@
         "displayType": "string",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Gender",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "race",
@@ -115,12 +123,13 @@
         "displayType": "string",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Race",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "age_at_sample_acquisition",
@@ -129,12 +138,13 @@
         "displayType": "age_at_sample_acquisition",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Age at Sample Acquisition",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "age_at_diagnosis",
@@ -143,12 +153,13 @@
         "displayType": "number",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Age at Diagnosis",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "disease_status",
@@ -157,12 +168,13 @@
         "displayType": "string",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Disease Status",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "vital_status",
@@ -171,12 +183,13 @@
         "displayType": "string",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Vital Status",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "tnm_stage",
@@ -185,12 +198,13 @@
         "displayType": "string",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "TNM Stage",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "clinical_diagnosis.clinical_stage_grouping",
@@ -199,12 +213,13 @@
         "displayType": "string",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Clinical Stage Grouping",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "clinical_diagnosis.tumor_histological_grade",
@@ -213,12 +228,13 @@
         "displayType": "string",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Tumor Histological Grade",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "matched_models_list",
@@ -227,12 +243,13 @@
         "displayType": "matched_models",
         "sortable": false,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Matched Models List",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": true,
+        "isActive": false
       },
       {
         "fieldName": "neoadjuvant_therapy",
@@ -241,12 +258,13 @@
         "displayType": "keyword",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Neoadjuvant Therapy",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "chemotherapeutic_drugs",
@@ -255,12 +273,13 @@
         "displayType": "boolean",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Chemotherapeutic Drugs",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "therapy",
@@ -269,12 +288,13 @@
         "displayType": "list",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Therapy",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": true,
+        "isActive": false
       },
       {
         "fieldName": "molecular_characterizations",
@@ -283,12 +303,13 @@
         "displayType": "list",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Molecular Characterizations",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "distributor_part_number",
@@ -297,12 +318,13 @@
         "displayType": "distributor_link",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Distributor Part Number",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "type",
@@ -311,12 +333,13 @@
         "displayType": "string",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Type",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "licensing_required",
@@ -325,12 +348,13 @@
         "displayType": "boolean",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Licensing Required",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "expanded",
@@ -339,12 +363,13 @@
         "displayType": "expanded",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Expanded",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "gene_metadata.genes_count",
@@ -353,12 +378,13 @@
         "displayType": "genes_count",
         "sortable": true,
         "canChangeShow": false,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Gene Count",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "gene_metadata.mutated_genes_count",
@@ -367,12 +393,13 @@
         "displayType": "genes_count",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Mutated Genes Count",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "gene_metadata.genomic_variant_count",
@@ -381,12 +408,13 @@
         "displayType": "number",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Genomic Variant Count",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "gene_metadata.clinical_variant_count",
@@ -395,12 +423,13 @@
         "displayType": "number",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Clinical Variant Count",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "gene_metadata.histopathological_variant_count",
@@ -409,12 +438,13 @@
         "displayType": "histo_variant_count",
         "sortable": true,
         "canChangeShow": true,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Histopathological Variant Count",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "split_ratio",
@@ -423,12 +453,13 @@
         "displayType": "string",
         "sortable": true,
         "canChangeShow": false,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Split Ratio",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "growth_rate",
@@ -437,12 +468,13 @@
         "displayType": "number",
         "sortable": true,
         "canChangeShow": false,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Growth Rate",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "time_to_split",
@@ -451,12 +483,13 @@
         "displayType": "string",
         "sortable": true,
         "canChangeShow": false,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Time to Split",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "createdAt",
@@ -465,12 +498,13 @@
         "displayType": "date",
         "sortable": false,
         "canChangeShow": false,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Created At",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "date_of_availability",
@@ -479,12 +513,13 @@
         "displayType": "date",
         "sortable": false,
         "canChangeShow": false,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Date of Availability",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "source_model_url",
@@ -493,12 +528,13 @@
         "displayType": "string",
         "sortable": false,
         "canChangeShow": false,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Source Model URL",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "source_sequence_url",
@@ -507,12 +543,13 @@
         "displayType": "string",
         "sortable": false,
         "canChangeShow": false,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Source Sequence URL",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "somatic_maf_url",
@@ -521,12 +558,13 @@
         "displayType": "string",
         "sortable": false,
         "canChangeShow": false,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Somatic MAF URL",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       },
       {
         "fieldName": "proteomics_url",
@@ -535,12 +573,13 @@
         "displayType": "string",
         "sortable": false,
         "canChangeShow": false,
-        "query": null,
-        "jsonPath": null,
+        "query": "",
+        "jsonPath": "",
         "displayName": "Proteomics URL",
         "displayFormat": "",
         "displayValues": {},
-        "isArray": false
+        "isArray": false,
+        "isActive": false
       }
     ],
     "timestamp": "2019-10-11T20:36:07.801Z"

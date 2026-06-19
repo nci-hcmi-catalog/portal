@@ -33,7 +33,7 @@ export const deleteModel = async (baseUrl, modelName) =>
 
 export const attachVariants = async (baseUrl, sheetURL, overwrite, modelName) => {
   const { spreadsheetId, sheetId } = getSheetObject(sheetURL);
-  const uploadURL = `${baseUrl}/attach-variants/${spreadsheetId}/${sheetId}/${modelName}?overwrite=${overwrite}`;
+  const uploadURL = `${baseUrl}/attach-variants/${spreadsheetId[1]}/${sheetId[1]}/${modelName}?overwrite=${overwrite}`;
 
   // TODO: this assumes user is already logged in - create a prompt to let user
   // know to login if not already logged in
