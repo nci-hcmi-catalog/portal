@@ -9,7 +9,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -22,12 +22,12 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
     {
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "quickSearchEnabled": false,
       "fieldName": "time_to_split",
@@ -48,7 +48,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -61,12 +61,12 @@
       "isArray": true,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
     {
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "quickSearchEnabled": false,
       "fieldName": "tissue_type",
@@ -78,7 +78,6 @@
       "primaryKey": false,
       "rangeStep": 1
     },
-
     {
       "fieldName": "matched_models",
       "displayType": "nested",
@@ -88,7 +87,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -101,7 +100,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -114,7 +113,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -127,7 +126,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -140,11 +139,12 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {
         "true": "Yes",
         "false": "No"
-      }
+      },
+      "rangeStep": 0
     },
     {
       "fieldName": "matched_models_list",
@@ -155,10 +155,10 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
+      "displayValues": {},
       "rangeStep": 1
     },
-
     {
       "fieldName": "gender",
       "displayType": "keyword",
@@ -168,11 +168,10 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
-
     {
       "fieldName": "race",
       "displayType": "keyword",
@@ -182,7 +181,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -195,7 +194,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -208,11 +207,10 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
-
     {
       "fieldName": "disease_status",
       "displayType": "keyword",
@@ -222,7 +220,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -235,7 +233,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -248,7 +246,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -261,7 +259,7 @@
       "isArray": true,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -274,7 +272,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {
         "true": "Yes",
         "false": "No"
@@ -290,7 +288,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -303,7 +301,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -316,7 +314,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -329,7 +327,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -342,7 +340,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -355,7 +353,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -368,7 +366,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -381,7 +379,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -394,7 +392,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -407,7 +405,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -420,11 +418,12 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {
         "true": "Yes",
         "false": "No"
-      }
+      },
+      "rangeStep": 0
     },
     {
       "fieldName": "createdAt",
@@ -435,7 +434,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -449,7 +448,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -462,7 +461,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -475,7 +474,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -488,7 +487,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -501,7 +500,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -514,7 +513,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -527,7 +526,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -541,13 +540,13 @@
       "isArray": false,
       "primaryKey": true,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
 
     {
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "quickSearchEnabled": false,
       "fieldName": "distributor_part_number",
@@ -568,7 +567,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -581,7 +580,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -594,7 +593,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -607,7 +606,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -620,11 +619,10 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
-
     {
       "fieldName": "variants",
       "displayType": "nested",
@@ -634,7 +632,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -647,7 +645,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -660,7 +658,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -673,7 +671,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -686,7 +684,7 @@
       "isArray": true,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -699,7 +697,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -712,11 +710,10 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
-
     {
       "fieldName": "genomic_variants",
       "displayType": "nested",
@@ -726,7 +723,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -739,11 +736,10 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
-
     {
       "fieldName": "autocomplete",
       "displayType": "keyword",
@@ -753,7 +749,7 @@
       "isArray": true,
       "primaryKey": false,
       "quickSearchEnabled": true,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -766,11 +762,12 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {
         "true": "Expanded",
         "false": "Unexpanded"
-      }
+      },
+      "rangeStep": 0
     },
     {
       "fieldName": "genomic_variants",
@@ -781,7 +778,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -794,7 +791,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -807,7 +804,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -820,7 +817,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -833,7 +830,7 @@
       "isArray": true,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -846,7 +843,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -859,7 +856,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -872,7 +869,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -885,7 +882,7 @@
       "isArray": true,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -898,7 +895,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -911,7 +908,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -924,7 +921,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -937,7 +934,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     },
@@ -950,7 +947,7 @@
       "isArray": false,
       "primaryKey": false,
       "quickSearchEnabled": false,
-      "unit": null,
+      "unit": "",
       "displayValues": {},
       "rangeStep": 1
     }

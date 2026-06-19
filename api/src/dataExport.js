@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import expressSanitizer from 'express-sanitizer';
 import { dataStream } from '@overture-stack/arranger-graphql-router/download';
-import { utils } from '@overture-stack/arranger-graphql-router';
+import { getAllData } from '@overture-stack/arranger-graphql-router/utils';
 import JSZip from 'jszip';
 import map from 'map-stream';
 import through2 from 'through2';
@@ -49,10 +49,9 @@ dataExportRouter.post('/models', async (req, res) => {
      * We can get a stream from arranger using the getAllData method and then can store the variant data for each model
      * for future processing.
      */
-    const allDataStream = await utils.getAllData({
+    const allDataStream = await getAllData({
       sqon,
       maxRows: 100,
-      mock: {},
       ctx: req.context,
     });
     const collectVariantData = through2.obj(function ({ hits }, enc, callback) {

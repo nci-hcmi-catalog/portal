@@ -8,8 +8,8 @@ export const getSheetObject = (sheetURL) => {
   // spreadsheetId: 1GV4Lwz2qa12M4SwGBb6XulyC0XnEFxqsGfmAG_dxlTA
   // googleId: 1279187183
 
-  const spreadsheetId = sheetURL.match(/\/d\/(.*?)\//);
-  const sheetId = sheetURL.match(/gid=(\d*)/);
+  const spreadsheetId = sheetURL.match(/\/d\/(.*?)\//)[1];
+  const sheetId = sheetURL.match(/gid=(\d*)/)[1];
 
   if (!spreadsheetId || !sheetId)
     throw new Error(

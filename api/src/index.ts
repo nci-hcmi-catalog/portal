@@ -42,7 +42,11 @@ app.use('/swagger', (req, res) => {
 
 const displayTypeValues: DisplayType[] = ['all' , 'bits' , 'boolean' , 'bytes' , 'date' , 'list' , 'nested' , 'number'];
 
-const extendedConfigs: ExtendedConfigs[] = extendedConfigFile['extended'].filter(configRecord => displayTypeValues.find(type => type === configRecord.type));
+const extendedConfigs: ExtendedConfigs[] = extendedConfigFile['extended'].map(configRecord => {
+  const {type: stringType} = configRecord;
+  const displayType = displayTypeValues.find(type => stringType === type) || 'all';
+  return {...configRecord, type: displayType};
+});
 const facetConfigs: FacetsConfigs = facetsConfigFile['facets'];
 const matchboxConfigs: MatchBoxConfigs[] = matchboxConfigFile['matchbox'];
 const tableConfigs: TableConfigs = tableConfigFile['table'];
