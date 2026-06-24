@@ -6,7 +6,7 @@ import expressSanitizer from 'express-sanitizer';
 import helmet from 'helmet';
 import { Server } from 'http';
 import ArrangerRouter, { type ArrangerBaseContext } from '@overture-stack/arranger-graphql-router';
-import type { ConfigsObject, DisplayType,  ExtendedConfigs, FacetsConfigs, MatchBoxConfigs, TableConfigs } from '@overture-stack/arranger-types/configs';
+import type { ConfigsObject, DisplayType,  ExtendedConfigs, FacetsConfigs, MatchBoxConfigs, SearchEngineType, TableConfigs } from '@overture-stack/arranger-types/configs';
 import * as path from 'path';
 
 import baseConfig from '../../elasticsearch/arranger_metadata/base.json' with { type: 'json' };
@@ -14,6 +14,8 @@ import extendedConfigFile from '../../elasticsearch/arranger_metadata/extended.j
 import facetsConfigFile from '../../elasticsearch/arranger_metadata/facets.json' with { type: 'json' };
 import matchboxConfigFile from '../../elasticsearch/arranger_metadata/matchbox.json' with { type: 'json' };
 import tableConfigFile from '../../elasticsearch/arranger_metadata/table.json' with { type: 'json' };
+
+import pm2Config from './../pm2.config.js';
 
 import lastUpdatedRouter from './lastUpdated.js';
 import healthRouter from './health.js';
@@ -51,16 +53,31 @@ const facetConfigs: FacetsConfigs = facetsConfigFile['facets'];
 const matchboxConfigs: MatchBoxConfigs[] = matchboxConfigFile['matchbox'];
 const tableConfigs: TableConfigs = tableConfigFile['table'];
 
+type pm2EnvValues = 'dev' | 'prd' | 'staging';
+const pm2EnvValues = ['dev' , 'prd' , 'staging'];
+const pm2Env: pm2EnvValues = process.env.ENV && pm2EnvValues.includes(process.env.ENV) ? process.env.ENV as pm2EnvValues : 'dev';
+const pm2ConfigGeneric =
+  (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0].env) || {};
+const pm2ConfigForEnv =
+  (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0][`env_${pm2Env}`]) || {};
+const pm2 = { ...pm2ConfigGeneric, ...pm2ConfigForEnv };
+
+const clientType = (process.env.SEARCH_CLIENT_TYPE || pm2.SEARCH_CLIENT_TYPE) as SearchEngineType || 'opensearch';
+const esHost = process.env.ES_HOST || pm2.ES_URL || 'http://localhost:9200';
+const esUser = process.env.ES_USER || pm2.ES_USER || '';
+const esPass = process.env.ES_PASS || pm2.ES_PASS || '';
+
 const configs: Partial<ConfigsObject<ArrangerBaseContext>> = {
   ...baseConfig,
-  esHost: process.env.ES_HOST || 'http://localhost:9200',
-  esUser: process.env.ES_USER || '',
-  esPass: process.env.ES_PASS || '',
+  esHost,
+  esUser,
+  esPass,
   esIndex: 'hcmi',
   extended: extendedConfigs,
   facets: facetConfigs,
   matchbox: matchboxConfigs,
   maxDepth: 10,
+  searchEngine: clientType,
   table: tableConfigs
 };
 
