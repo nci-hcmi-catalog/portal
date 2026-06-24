@@ -2529,10 +2529,10 @@
     url-join "^4.0.1"
     uuid "^9.0.0"
 
-"@overture-stack/arranger-graphql-router@1.0.0-rc.2":
-  version "1.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@overture-stack/arranger-graphql-router/-/arranger-graphql-router-1.0.0-rc.2.tgz#6ca06b4a4c51011c4bee0375e3906008877c2dcc"
-  integrity sha512-qzmU+/nTskZLb3Zmkvcv/+FL68ErngDl82Kl0qbiP3QC8E93swKvwL9JjB6iyiNIH8rHBcA/DYX3ayOsnUzOtw==
+"@overture-stack/arranger-graphql-router@1.0.0-rc.3":
+  version "1.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@overture-stack/arranger-graphql-router/-/arranger-graphql-router-1.0.0-rc.3.tgz#f0d55068c974ac3352ab3839dff3737eb829aafa"
+  integrity sha512-9NfTU0xQpyLWYUrUgEqQlVTjz2vhGw4pK/VBI4e6B2IbiZ6SzHHnPGNPokXiaJVLIP2VtsZZI3UlD1de1Xw+ag==
   dependencies:
     "@elastic/elasticsearch" "^7.17.14"
     "@graphql-tools/merge" "^9.0.4"
