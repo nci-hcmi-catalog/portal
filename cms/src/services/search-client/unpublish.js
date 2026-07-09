@@ -23,7 +23,7 @@ export const unpublishOneFromES = async (name) => {
   // Not waiting for update promise to
   // resolve as this is just bookkeeping
   await indexLastUpdated();
-  const searchClient = await getClient();
+  const searchClient = getClient();
   await searchClient.deleteByQuery({
     index,
     body: {
@@ -45,7 +45,7 @@ export const unpublishManyFromES = async (nameArr) => {
   // Not waiting for update promise to
   // resolve as this is just bookkeeping
   await indexLastUpdated();
-  const searchClient = await getClient();
+  const searchClient = getClient();
   return await searchClient.deleteByQuery({
     index,
     body: {

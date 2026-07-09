@@ -13,7 +13,7 @@ healthRouter.get('/', async (req, res) => {
 
 healthRouter.get('/es', async (req, res) => {
   try {
-    const client = await getClient();
+    const client = getClient();
     const status = await client.ping();
     if (_.get(status, 'statusCode') === 200) {
       const response = _.omit(status, 'meta');

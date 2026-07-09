@@ -7,7 +7,7 @@ const logger = getLogger('services/search-client/update');
 const index = process.env.ES_INDEX || 'hcmi';
 
 const indexModel = async (id, model) => {
-  const searchClient = await getClient();
+  const searchClient = getClient();
   return searchClient
     .index({
       index,

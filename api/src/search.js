@@ -29,7 +29,7 @@ geneSearchRouter.get('/gene', async (req, res) => {
       },
     };
 
-    const searchClient = await getClient();
+    const searchClient = getClient();
     const response = await searchClient.search({
       index: GENES_INDEX,
       body: { query },
@@ -59,7 +59,7 @@ geneSearchRouter.get('/variant', async (req, res) => {
       },
     };
 
-    const searchClient = await getClient();
+    const searchClient = getClient();
     const response = await searchClient.search({
       index: VARIANTS_INDEX,
       body: { query },

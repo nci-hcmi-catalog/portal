@@ -10,7 +10,7 @@ const lastUpdatedRouter = express.Router();
 const logger = getLogger('lastUpdated Router');
 
 lastUpdatedRouter.get('/', async (req, res) => {
-  const searchClient = await getClient();
+  const searchClient = getClient(pm2);
   try {
     const response = await searchClient?.search({
       index: process.env.ES_UPDATE_INDEX || pm2.ES_UPDATE_INDEX || 'hcmi-update',
