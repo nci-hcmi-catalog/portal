@@ -1,6 +1,7 @@
 import express from 'express';
 import _ from 'lodash';
 
+import { pm2 } from './index.ts';
 import getClient from './services/searchClient.ts';
 
 const startTime = Date.now();
@@ -13,7 +14,7 @@ healthRouter.get('/', async (req, res) => {
 
 healthRouter.get('/es', async (req, res) => {
   try {
-    const client = getClient();
+    const client = getClient(pm2);
     const status = await client.ping();
     if (_.get(status, 'statusCode') === 200) {
       const response = _.omit(status, 'meta');

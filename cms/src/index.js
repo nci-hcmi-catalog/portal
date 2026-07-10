@@ -9,6 +9,8 @@ import methodOverride from 'method-override';
 import mongoose from 'mongoose';
 import pino from 'pino-http';
 
+import pm2Config from './../pm2.config.js';
+
 import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess.js';
 import {
   preUpdate,
@@ -36,6 +38,16 @@ import {
 import Model from './schemas/model.js';
 import MatchedModels from './schemas/matchedModels.js';
 import User from './schemas/user.js';
+
+const pm2Env = process.env.ENV;
+if (!pm2Env) {
+  throw new Error('No ENV value provided!');
+}
+const pm2ConfigGeneric =
+  (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0].env) || {};
+const pm2ConfigForEnv =
+  (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0][`env_${pm2Env}`]) || {};
+export const pm2 = { ...pm2ConfigGeneric, ...pm2ConfigForEnv };
 
 const logger = getLogger('root');
 const port = process.env.PORT || 8080;

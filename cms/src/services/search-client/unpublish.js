@@ -3,6 +3,7 @@
 import Model from '../../schemas/model.js';
 import { modelStatus } from '../../helpers/modelStatus.js';
 import getLogger from '../../logger.js';
+import { pm2 } from '../../index.js';
 
 import getClient from './client.js';
 import indexLastUpdated from './indexLastUpdated.js';
@@ -23,7 +24,7 @@ export const unpublishOneFromES = async (name) => {
   // Not waiting for update promise to
   // resolve as this is just bookkeeping
   await indexLastUpdated();
-  const searchClient = getClient();
+  const searchClient = getClient(pm2);
   await searchClient.deleteByQuery({
     index,
     body: {
@@ -45,7 +46,7 @@ export const unpublishManyFromES = async (nameArr) => {
   // Not waiting for update promise to
   // resolve as this is just bookkeeping
   await indexLastUpdated();
-  const searchClient = getClient();
+  const searchClient = getClient(pm2);
   return await searchClient.deleteByQuery({
     index,
     body: {

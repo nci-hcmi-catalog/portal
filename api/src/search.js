@@ -1,6 +1,7 @@
 import express from 'express';
 import _ from 'lodash';
 
+import { pm2 } from './index.ts';
 import getClient from './services/searchClient.ts';
 
 const GENES_INDEX = 'genes';
@@ -29,7 +30,7 @@ geneSearchRouter.get('/gene', async (req, res) => {
       },
     };
 
-    const searchClient = getClient();
+    const searchClient = getClient(pm2);
     const response = await searchClient.search({
       index: GENES_INDEX,
       body: { query },
@@ -59,7 +60,7 @@ geneSearchRouter.get('/variant', async (req, res) => {
       },
     };
 
-    const searchClient = getClient();
+    const searchClient = getClient(pm2);
     const response = await searchClient.search({
       index: VARIANTS_INDEX,
       body: { query },

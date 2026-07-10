@@ -1,13 +1,15 @@
 // @ts-check
+import getLogger from '../../logger.js';
+import { pm2 } from '../../index.js';
 
 import getClient from './client.js';
-import getLogger from '../../logger.js';
+
 const logger = getLogger('services/search-client/update');
 
 const index = process.env.ES_INDEX || 'hcmi';
 
 const indexModel = async (id, model) => {
-  const searchClient = getClient();
+  const searchClient = getClient(pm2);
   return searchClient
     .index({
       index,
