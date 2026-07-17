@@ -191,7 +191,9 @@ export const createVariantUploadTemplate = async (authClient) => {
   ];
 
   const variantData = await Variant.find({});
-  const variantNames = variantData?.map((variant) => variant.name) || [];
+  const variantNames = (variantData ?? [])
+    .map((variant) => variant.name)
+    .filter((name) => typeof name === 'string' && name.trim() !== '');
 
   const sheets = google.sheets({ version: 'v4', auth: authClient });
 
@@ -237,7 +239,9 @@ export const createVariantUploadTemplate = async (authClient) => {
       rule: {
         condition: {
           type: 'ONE_OF_LIST',
-          values: values.map((value) => ({ userEnteredValue: value })),
+          values: values
+            .filter((value) => value != null && String(value).trim() !== '')
+            .map((value) => ({ userEnteredValue: value })),
         },
         strict: 'true',
         showCustomUi: 'true',
