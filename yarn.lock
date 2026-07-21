@@ -2708,18 +2708,18 @@
     url-join "^4.0.1"
     uuid "^9.0.0"
 
-"@overture-stack/arranger-graphql-router@1.0.0-rc.3":
-  version "1.0.0-rc.3"
-  resolved "https://registry.yarnpkg.com/@overture-stack/arranger-graphql-router/-/arranger-graphql-router-1.0.0-rc.3.tgz#f0d55068c974ac3352ab3839dff3737eb829aafa"
-  integrity sha512-9NfTU0xQpyLWYUrUgEqQlVTjz2vhGw4pK/VBI4e6B2IbiZ6SzHHnPGNPokXiaJVLIP2VtsZZI3UlD1de1Xw+ag==
+"@overture-stack/arranger-graphql-router@1.0.0-rc.4":
+  version "1.0.0-rc.4"
+  resolved "https://registry.yarnpkg.com/@overture-stack/arranger-graphql-router/-/arranger-graphql-router-1.0.0-rc.4.tgz#4f3fd3dae559f2d350085429229bbff765bb1523"
+  integrity sha512-ElcdeLVwJ9Iit/LGl3DbPXBts5VjyjC2WruTjXQZNIHrDQAKRkOxkZz/BEvsfC/JdKoIkIZv4Wh8fhKu3jDT9A==
   dependencies:
     "@elastic/elasticsearch" "^7.17.14"
     "@graphql-tools/merge" "^9.0.4"
     "@graphql-tools/schema" "^9.0.17"
     "@graphql-tools/utils" "^10.2.2"
     "@opensearch-project/opensearch" "^3.6.0"
-    "@overture-stack/arranger-types" "^1.0.0-rc.2"
-    "@overture-stack/sqon-builder" "^1.1.0"
+    "@overture-stack/arranger-types" "^1.0.0-rc.3"
+    "@overture-stack/sqon" "^1.0.0-rc.2"
     apollo-server "^3.10.3"
     apollo-server-core "^3.10.3"
     apollo-server-express "^3.10.3"
@@ -2749,12 +2749,19 @@
     url-join "^4.0.1"
     uuid "^9.0.0"
 
-"@overture-stack/arranger-types@1.0.0-rc.2", "@overture-stack/arranger-types@^1.0.0-rc.2":
+"@overture-stack/arranger-types@1.0.0-rc.2":
   version "1.0.0-rc.2"
   resolved "https://registry.yarnpkg.com/@overture-stack/arranger-types/-/arranger-types-1.0.0-rc.2.tgz#9a455b4f7b2d8dd2b6f67e388115d2d0497cf9a5"
   integrity sha512-4yMwZIi74PIH52LPLkzWaMkPMPNvwvJtOk7l9EMq1VCnKpgnFBHymPCoyuHczyG0URdg4bBdPjalo3xBt87z+g==
   dependencies:
     "@overture-stack/sqon" "^1.0.0-rc.1"
+
+"@overture-stack/arranger-types@^1.0.0-rc.3":
+  version "1.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@overture-stack/arranger-types/-/arranger-types-1.0.0-rc.3.tgz#636883f031b366a70dd4d1fb66e1e63fdbfb66d9"
+  integrity sha512-FhTSsBZrOERl8nHR214iM/4fgzFqIhIGBhkpQ+hNAKRCEK+bgm2uYRGtconCPZbjuBJH1QpNrrTuWgqIe71DlA==
+  dependencies:
+    "@overture-stack/sqon" "^1.0.0-rc.2"
 
 "@overture-stack/sqon-builder@^1.1.0":
   version "1.1.0"
@@ -2768,6 +2775,14 @@
   version "1.0.0-rc.1"
   resolved "https://registry.yarnpkg.com/@overture-stack/sqon/-/sqon-1.0.0-rc.1.tgz#b1ff58bc897b31c9b9c714f688884b5562d7a25f"
   integrity sha512-RWicY7eBbPyTcTOcBXwZ+Mwoy9JxI7dZHG/lIFjyED36w7oyxT2Jl6mECy9dk89PYTIOhWCQKLLmQ/CbNYFkQg==
+  dependencies:
+    zod "^3.24.2"
+    zod-to-json-schema "^3.24.1"
+
+"@overture-stack/sqon@^1.0.0-rc.2":
+  version "1.0.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@overture-stack/sqon/-/sqon-1.0.0-rc.2.tgz#96a7f78b9d4bb5b704cd392fcd1b58fcf1705b49"
+  integrity sha512-MhODV6uEDa7pCBX1HFodEYfybHXFkK3oSXun6khCsMZZq7qNqjk2DU1EIGICf1zzd+qnBj1jsklkyay9fdm2dA==
   dependencies:
     zod "^3.24.2"
     zod-to-json-schema "^3.24.1"

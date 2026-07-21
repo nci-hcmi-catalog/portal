@@ -2,7 +2,9 @@ import { Client } from '@opensearch-project/opensearch';
 import { AwsSigv4Signer } from '@opensearch-project/opensearch/aws';
 import { defaultProvider } from '@aws-sdk/credential-provider-node';
 
-const getClient = (pm2Configs) => {
+import type { PM2Config } from './../pm2.ts';
+
+const getClient = (pm2Configs: PM2Config | undefined) => {
   const node = process.env.ES_URL || pm2Configs?.ES_URL || 'http://localhost:9200';
   const authType = process.env.SEARCH_ENGINE_AUTH_TYPE || pm2Configs?.SEARCH_ENGINE_AUTH_TYPE || '';
   const region =

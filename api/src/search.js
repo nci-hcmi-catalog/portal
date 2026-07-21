@@ -1,7 +1,7 @@
 import express from 'express';
 import _ from 'lodash';
 
-import { pm2 } from './index.ts';
+import pm2 from './pm2.ts';
 import getClient from './services/searchClient.ts';
 
 const GENES_INDEX = 'genes';

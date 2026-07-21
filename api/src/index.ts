@@ -15,13 +15,12 @@ import facetsConfigFile from '../../elasticsearch/arranger_metadata/facets.json'
 import matchboxConfigFile from '../../elasticsearch/arranger_metadata/matchbox.json' with { type: 'json' };
 import tableConfigFile from '../../elasticsearch/arranger_metadata/table.json' with { type: 'json' };
 
-import pm2Config from './../pm2.config.js';
-
 import dataExportRouter from './dataExport.js';
 import getClient from './services/searchClient.ts';
 import getLogger from './logger.js';
 import healthRouter from './health.js';
 import lastUpdatedRouter from './lastUpdated.js';
+import pm2 from './pm2.ts';
 import searchRouter from './search.js';
 
 const logger = getLogger('root');
@@ -35,7 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressSanitizer()); // each route is responsible for sanitization
 app.use(cors());
 
-//swagger
+// Swagger
 app.use('/docs', (req, res) => {
   res.sendFile(path.join(__dirname, '../redoc.html'));
 });
@@ -43,6 +42,7 @@ app.use('/swagger', (req, res) => {
   res.sendFile(path.join(__dirname, '../swagger.json'));
 });
 
+// Arranger Configs
 const displayTypeValues: DisplayType[] = ['all' , 'bits' , 'boolean' , 'bytes' , 'date' , 'list' , 'nested' , 'number'];
 
 const extendedConfigs: ExtendedConfigs[] = extendedConfigFile['extended'].map(configRecord => {
@@ -53,17 +53,6 @@ const extendedConfigs: ExtendedConfigs[] = extendedConfigFile['extended'].map(co
 const facetConfigs: FacetsConfigs = facetsConfigFile['facets'];
 const matchboxConfigs: MatchBoxConfigs[] = matchboxConfigFile['matchbox'];
 const tableConfigs: TableConfigs = tableConfigFile['table'];
-
-type pm2EnvValues = 'dev' | 'prd' | 'staging';
-const pm2EnvValues = ['dev' , 'prd' , 'staging'];
-const pm2Env: pm2EnvValues = process.env.ENV && pm2EnvValues.includes(process.env.ENV) ? process.env.ENV as pm2EnvValues : 'dev';
-const pm2ConfigGeneric =
-  (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0].env) || {};
-const pm2ConfigForEnv =
-  (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0][`env_${pm2Env}`]) || {};
-
-export const pm2 = { ...pm2ConfigGeneric, ...pm2ConfigForEnv };
-
 const esHost = process.env.ES_HOST || pm2.ES_URL || 'http://localhost:9200';
 
 const configs: Partial<ConfigsObject<ArrangerBaseContext>> = {

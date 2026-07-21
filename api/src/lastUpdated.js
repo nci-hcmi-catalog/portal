@@ -2,7 +2,7 @@
 
 import express from 'express';
 
-import { pm2 } from './index.ts';
+import pm2 from './pm2.ts';
 import getClient from './services/searchClient.ts';
 import getLogger from './logger.js';
 
