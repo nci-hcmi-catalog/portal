@@ -1,5 +1,5 @@
 // @ts-check
-import { pm2 } from '../../index.js';
+import pm2 from '../../pm2.js';
 import getLogger from '../../logger.js';
 
 import getClient from './client.js';

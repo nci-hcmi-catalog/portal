@@ -2,7 +2,7 @@
 import _ from 'lodash';
 
 import getLogger from '../../logger.js';
-import { pm2 } from '../../index.js';
+import pm2 from '../../pm2.js';
 
 import getClient from './client.js';
 

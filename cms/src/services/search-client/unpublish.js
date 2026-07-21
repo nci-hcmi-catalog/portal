@@ -3,7 +3,7 @@
 import Model from '../../schemas/model.js';
 import { modelStatus } from '../../helpers/modelStatus.js';
 import getLogger from '../../logger.js';
-import { pm2 } from '../../index.js';
+import pm2 from '../../pm2.js';
 
 import getClient from './client.js';
 import indexLastUpdated from './indexLastUpdated.js';
