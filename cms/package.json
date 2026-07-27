@@ -15,7 +15,7 @@
     "@aws-sdk/credential-provider-node": "^3.972.66",
     "@opensearch-project/opensearch": "^3.6.0",
     "@overture-stack/arranger-graphql-router": "1.0.0-rc.4",
-    "@overture-stack/arranger-types": "1.0.0-rc.2",
+    "@overture-stack/arranger-types": "1.0.0-rc.3",
     "aws-sdk": "^2.723.0",
     "axios": "^1.16.0",
     "babel-polyfill": "^6.26.0",

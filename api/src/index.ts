@@ -53,10 +53,13 @@ const extendedConfigs: ExtendedConfigs[] = extendedConfigFile['extended'].map(co
 const facetConfigs: FacetsConfigs = facetsConfigFile['facets'];
 const matchboxConfigs: MatchBoxConfigs[] = matchboxConfigFile['matchbox'];
 const tableConfigs: TableConfigs = tableConfigFile['table'];
+
+const disableGraphQLIntrospection = process.env.DISABLE_GRAPHQL_INTROSPECTION === 'true' || pm2.DISABLE_GRAPHQL_INTROSPECTION || false;
 const esHost = process.env.ES_HOST || pm2.ES_URL || 'http://localhost:9200';
 
 const configs: Partial<ConfigsObject<ArrangerBaseContext>> = {
   ...baseConfig,
+  disableGraphQLIntrospection,
   esHost,
   esIndex: 'hcmi',
   extended: extendedConfigs,
