@@ -2749,14 +2749,7 @@
     url-join "^4.0.1"
     uuid "^9.0.0"
 
-"@overture-stack/arranger-types@1.0.0-rc.2":
-  version "1.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@overture-stack/arranger-types/-/arranger-types-1.0.0-rc.2.tgz#9a455b4f7b2d8dd2b6f67e388115d2d0497cf9a5"
-  integrity sha512-4yMwZIi74PIH52LPLkzWaMkPMPNvwvJtOk7l9EMq1VCnKpgnFBHymPCoyuHczyG0URdg4bBdPjalo3xBt87z+g==
-  dependencies:
-    "@overture-stack/sqon" "^1.0.0-rc.1"
-
-"@overture-stack/arranger-types@^1.0.0-rc.3":
+"@overture-stack/arranger-types@1.0.0-rc.3", "@overture-stack/arranger-types@^1.0.0-rc.3":
   version "1.0.0-rc.3"
   resolved "https://registry.yarnpkg.com/@overture-stack/arranger-types/-/arranger-types-1.0.0-rc.3.tgz#636883f031b366a70dd4d1fb66e1e63fdbfb66d9"
   integrity sha512-FhTSsBZrOERl8nHR214iM/4fgzFqIhIGBhkpQ+hNAKRCEK+bgm2uYRGtconCPZbjuBJH1QpNrrTuWgqIe71DlA==
@@ -2770,14 +2763,6 @@
   dependencies:
     lodash.clonedeep "^4.5.0"
     zod "^3.21.4"
-
-"@overture-stack/sqon@^1.0.0-rc.1":
-  version "1.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@overture-stack/sqon/-/sqon-1.0.0-rc.1.tgz#b1ff58bc897b31c9b9c714f688884b5562d7a25f"
-  integrity sha512-RWicY7eBbPyTcTOcBXwZ+Mwoy9JxI7dZHG/lIFjyED36w7oyxT2Jl6mECy9dk89PYTIOhWCQKLLmQ/CbNYFkQg==
-  dependencies:
-    zod "^3.24.2"
-    zod-to-json-schema "^3.24.1"
 
 "@overture-stack/sqon@^1.0.0-rc.2":
   version "1.0.0-rc.2"
