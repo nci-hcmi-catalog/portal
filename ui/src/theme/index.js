@@ -109,7 +109,7 @@ const base = {
     aquaSpring: '#ecf7f9',
     alto: '#d8d8d8',
     elm: '#1c8292',
-    elmDark: '#1A7A89',
+    elmDark: '#166C79',
     whisper: '#f2f2f8',
     seaBuckthorn: '#f5a528',
     athensGray: '#f6f6f8',
