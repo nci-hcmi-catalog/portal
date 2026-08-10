@@ -1,19 +1,38 @@
 name: hcmi
 services:
-  hcmi-base:
-    container_name: hcmi-webapp
+  hcmi-ui:
     build:
       context: .
-      dockerfile: Dockerfile
+      target: hcmi-ui
+    container_name: hcmi-ui
+    depends_on:
+      - hcmi-cms
+      - hcmi-api
+    image: hcmi-ui
     ports:
       - 3000:3000
-      - 8080:8080
-      - 5050:5050
+  hcmi-api:
+    build:
+      context: .
+      target: hcmi-api
+    container_name: hcmi-api
     depends_on:
       - mongo
       - opensearch
-    image: hcmi-base:latest
-
+    image: hcmi-api
+    ports:
+      - 5050:5050
+  hcmi-cms:
+    build:
+      context: .
+      target: hcmi-cms
+    container_name: hcmi-cms
+    depends_on:
+      - mongo
+      - opensearch
+    image: hcmi-cms
+    ports:
+      - 8080:8080
   mongo:
     container_name: hcmi-mongodb
     image: mongo

@@ -34,7 +34,9 @@ EXPOSE 5050
 # Initialize OpenSearch
 RUN ENV=$ENV npm run initializeEs
 
-RUN cd ./api && pm2 startOrRestart pm2.config.js --env $ENV
+RUN cd $API_DIR && pm2 startOrRestart pm2.config.js --env $ENV
+
+CMD ["yarn", "api"]
 
 ############
 # HCMI CMS #
@@ -46,7 +48,9 @@ EXPOSE 8080
 # Run Mongo Variant table migrations
 RUN npm run initializeMigrations
 
-RUN cd ./cms && pm2 startOrRestart pm2.config.js --env $ENV
+RUN cd $CMS_DIR && pm2 startOrRestart pm2.config.js --env $ENV
+
+CMD ["yarn", "cms"]
 
 ############
 # HCMI  UI #
@@ -55,4 +59,4 @@ FROM hcmi-base AS hcmi-ui
 
 EXPOSE 3000
 
-CMD ["yarn", "launch"]
+CMD ["yarn", "ui"]
