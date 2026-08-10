@@ -1,8 +1,21 @@
-# For a quick mongo/elasticSearch local environment
-
-version: '3'
+name: hcmi
 services:
+  hcmi-base:
+    container_name: hcmi-webapp
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+      - 8080:8080
+      - 5050:5050
+    depends_on:
+      - mongo
+      - opensearch
+    image: hcmi-base:latest
+
   mongo:
+    container_name: hcmi-mongodb
     image: mongo
     restart: always
     ports:
