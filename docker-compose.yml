@@ -1,16 +1,5 @@
 name: hcmi
 services:
-  hcmi-ui:
-    build:
-      context: .
-      target: hcmi-ui
-    container_name: hcmi-ui
-    depends_on:
-      - hcmi-cms
-      - hcmi-api
-    image: hcmi-ui
-    ports:
-      - 3000:3000
   hcmi-api:
     build:
       context: .
@@ -33,6 +22,17 @@ services:
     image: hcmi-cms
     ports:
       - 8080:8080
+  hcmi-ui:
+    build:
+      context: .
+      target: hcmi-ui
+    container_name: hcmi-ui
+    depends_on:
+      - hcmi-cms
+      - hcmi-api
+    image: hcmi-ui
+    ports:
+      - 3000:3000
   mongo:
     container_name: hcmi-mongodb
     image: mongo
