@@ -1,3 +1,5 @@
+import ArrangerRouter, { type ArrangerBaseContext } from '@overture-stack/arranger-graphql-router';
+import type { ConfigsObject, DisplayType, ExtendedConfigs, FacetsConfigs, MatchBoxConfigs, TableConfigs } from '@overture-stack/arranger-types/configs';
 import 'babel-polyfill';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -5,8 +7,6 @@ import express from 'express';
 import expressSanitizer from 'express-sanitizer';
 import helmet from 'helmet';
 import { Server } from 'http';
-import ArrangerRouter, { type ArrangerBaseContext } from '@overture-stack/arranger-graphql-router';
-import type { ConfigsObject, DisplayType, ExtendedConfigs, FacetsConfigs, MatchBoxConfigs, TableConfigs } from '@overture-stack/arranger-types/configs';
 import * as path from 'path';
 
 import baseConfig from '../../elasticsearch/arranger_metadata/base.json' with { type: 'json' };
@@ -16,12 +16,12 @@ import matchboxConfigFile from '../../elasticsearch/arranger_metadata/matchbox.j
 import tableConfigFile from '../../elasticsearch/arranger_metadata/table.json' with { type: 'json' };
 
 import dataExportRouter from './dataExport.js';
-import getClient from './services/searchClient.ts';
-import getLogger from './logger.js';
 import healthRouter from './health.js';
 import lastUpdatedRouter from './lastUpdated.js';
+import getLogger from './logger.js';
 import pm2 from './pm2.ts';
 import searchRouter from './search.js';
+import getClient from './services/searchClient.ts';
 
 const logger = getLogger('root');
 const port = process.env.PORT || 5050;
