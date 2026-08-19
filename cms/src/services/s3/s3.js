@@ -31,7 +31,7 @@ const uploadToS3 = async (fileName, fileStream, modelName) => {
       if (error) {
         reject({ error, fileName, modelName });
       } else {
-        logger.audit(
+        logger.info(
           { Key, Bucket: S3_BUCKET, response: data },
           's3 upload',
           `Successfully uploaded object to S3`,
@@ -56,7 +56,7 @@ const deleteFromS3 = async (id) => {
         msg: `image with id ${id} not found`,
       };
     } else {
-      logger.audit(params, 's3 delete', 'Successfully deleted image from S3');
+      logger.info(params, 's3 delete', 'Successfully deleted image from S3');
       return {
         code: 200,
         msg: `image with id ${id} deleted`,

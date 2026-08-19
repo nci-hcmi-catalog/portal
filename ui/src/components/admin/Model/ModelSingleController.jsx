@@ -277,6 +277,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
 
                   let data = {
                     ...values,
+                    updatedAt: new Date(),
                     status: computeModelStatus(values.status, 'save'),
                   };
 
@@ -558,8 +559,7 @@ export const ModelSingleProvider = ({ baseUrl, modelName, children, ...props }) 
                     }),
                   )
                   .catch(async (err) => {
-                    const errorText = extractErrorText(err);
-
+                    const errorText = extractErrorText(err) || err.message;
                     await setState((state) => ({
                       data: {
                         ...state.data,

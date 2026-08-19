@@ -21,7 +21,7 @@ const palette = [
 
 const growthChartPalette = ['#ef5350', '#80deea', '#3949ab'];
 
-const multipleModelsChartPalette = ['#d4e157', '#0277bd'];
+const multipleModelsChartPalette = ['#d4e157', '#0277bd', '#f06292'];
 
 const mutatedGenesChartPalette = [
   '#ff6f00',
@@ -109,7 +109,7 @@ const base = {
     aquaSpring: '#ecf7f9',
     alto: '#d8d8d8',
     elm: '#1c8292',
-    elmDark: '#1A7A89',
+    elmDark: '#166C79',
     whisper: '#f2f2f8',
     seaBuckthorn: '#f5a528',
     athensGray: '#f6f6f8',

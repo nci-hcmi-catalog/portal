@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import Component from 'react-component-component';
 import axios from 'axios';
 
-export const fetchData = async ({ url, data, method, headers }) => {
+export const fetchData = async ({ url, data, method, headers = {} }) => {
   return await axios({ url, data, method, headers });
 };
 

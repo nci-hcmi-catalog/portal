@@ -1,19 +1,21 @@
 import { useContext, useEffect, useState } from 'react';
 
+import { ButtonPill } from '~/theme/adminControlsStyles.js';
+import {
+  NotificationTableHeaderRow,
+  NotificationTableHeaderCol,
+} from '~/theme/adminNotificationStyles.js';
+import { Row } from '~/theme/system.jsx';
+
 import {
   BULK_NONACTIONABLE_ERROR_ID,
   GDC_MODEL_STATES,
   GENOMIC_VARIANTS_IMPORT_ERRORS,
   VARIANT_IMPORT_TYPES,
-} from '~/utils/constants';
-import { ButtonPill } from '~/theme/adminControlsStyles';
-import {
-  NotificationTableHeaderRow,
-  NotificationTableHeaderCol,
-} from '~/theme/adminNotificationStyles';
-import { Row } from '~/theme/system';
+} from '~/utils/constants.js';
 
-import withConfirmMafFileModal from '../../modals/ConfirmMafFileModal';
+import withConfirmMafFileModal from '../../modals/ConfirmMafFileModal.jsx';
+
 import {
   acknowledgeImportStatus,
   acknowledgeBulkImportStatus,
@@ -537,6 +539,7 @@ const useGenomicVariantImportNotifications = () => {
         setImportProgress(importStatus);
       })
       .catch((error) => {
+        console.error('fetchImportStatus error', error);
         showUnexpectedImportError(error);
       });
   };

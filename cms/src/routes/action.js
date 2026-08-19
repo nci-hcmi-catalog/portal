@@ -4,8 +4,8 @@ import express from 'express';
 import Model from '../schemas/model.js';
 import getPublishValidation from '../validation/model.js';
 import { runYupValidatorFailFast } from '../helpers/index.js';
-import { publishModel } from '../services/elastic-search/publish.js';
-import { unpublishModel } from '../services/elastic-search/unpublish.js';
+import { publishModel } from '../services/search-client/publish.js';
+import { unpublishModel } from '../services/search-client/unpublish.js';
 import { backupFields } from '../schemas/descriptions/modelVariant.js';
 import csvStream from '../helpers/streamAsCSV.js';
 
@@ -22,10 +22,10 @@ actionRouter.post('/publish/:name', async (req, res) => {
     name,
   })
     .populate('variants.variant')
-    .then(models => runYupValidatorFailFast(validation, models))
-    .then(() => publishModel({ name }))
+    .then((models) => runYupValidatorFailFast(validation, models))
+    .then(async () => await publishModel({ name }))
     .then(() => res.json({ success: `${name} has been successfully published` }))
-    .catch(error => {
+    .catch((error) => {
       logger.error(error);
       res.status(500).json({
         error: error,

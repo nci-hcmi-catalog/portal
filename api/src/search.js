@@ -1,6 +1,8 @@
 import express from 'express';
-import esClient from './services/elasticsearch';
-import { get } from 'lodash';
+import _ from 'lodash';
+
+import pm2 from './pm2.ts';
+import getClient from './services/searchClient.ts';
 
 const GENES_INDEX = 'genes';
 const VARIANTS_INDEX = 'genomic_variants';
@@ -28,11 +30,12 @@ geneSearchRouter.get('/gene', async (req, res) => {
       },
     };
 
-    const response = await esClient.search({
+    const searchClient = getClient(pm2);
+    const response = await searchClient.search({
       index: GENES_INDEX,
       body: { query },
     });
-    const genes = get(response, 'body.hits.hits', []).map((i) => i._source);
+    const genes = _.get(response, 'body.hits.hits', []).map((i) => i._source);
     res.status(200).json({ genes });
   } catch (err) {
     console.log('Failure performing gene search:', err);
@@ -57,11 +60,12 @@ geneSearchRouter.get('/variant', async (req, res) => {
       },
     };
 
-    const response = await esClient.search({
+    const searchClient = getClient(pm2);
+    const response = await searchClient.search({
       index: VARIANTS_INDEX,
       body: { query },
     });
-    const genes = get(response, 'body.hits.hits', []).map((i) => i._source);
+    const genes = _.get(response, 'body.hits.hits', []).map((i) => i._source);
     res.status(200).json({ genes });
   } catch (err) {
     console.log('Failure performing genomic variants search:', err);

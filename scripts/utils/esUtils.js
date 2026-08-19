@@ -1,4 +1,10 @@
-import es from '@elastic/elasticsearch';
+import getSearchClient from '../../cms/src/services/search-client/client.js';
+
+/** Search index settings and mappings **/
+import modelsIndexConfig from '../../elasticsearch/modelsIndex.json' with { type: "json" };
+import updateIndexConfig from '../../elasticsearch/lastUpdated.json' with { type: "json" };
+import genesIndexConfig from '../../elasticsearch/genesIndex.json' with { type: "json" };
+import variantsIndexConfig from '../../elasticsearch/variantsIndex.json' with { type: "json" };
 
 const pm2Path = process.env.CMS_CONFIG || '../../cms/pm2.config.js';
 const pm2Env = process.env.ENV;
@@ -10,27 +16,28 @@ const pm2ConfigGeneric =
   (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0].env) || {};
 const pm2ConfigForEnv =
   (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0][`env_${pm2Env}`]) || {};
-
 const pm2 = { ...pm2ConfigGeneric, ...pm2ConfigForEnv };
 
-/** Search index settings and mappings **/
-import modelsIndexConfig from '../../elasticsearch/modelsIndex.json' with { type: "json" };
-import genesIndexConfig from '../../elasticsearch/genesIndex.json' with { type: "json" };
-import variantsIndexConfig from '../../elasticsearch/variantsIndex.json' with { type: "json" };
-const modelsIndexName = process.env.ES_INDEX || pm2.ES_INDEX || 'hcmi';
 const esHost = process.env.ES_HOST || `${pm2.ES_HOST}:${pm2.ES_PORT}`;
+const updateIndexName = process.env.ES_UPDATE_INDEX || pm2.ES_UPDATE_INDEX || 'hcmi-update';
+const modelsIndexName = process.env.ES_INDEX || pm2.ES_INDEX || 'hcmi';
+const user = pm2?.ES_USER || process.env.ES_USER || '';
+const password = pm2?.ES_PASS || process.env.ES_PASS || '';
+const clientType = pm2?.SEARCH_CLIENT_TYPE || process.env.SEARCH_CLIENT_TYPE || 'opensearch';
 
 const GENES_INDEX = 'genes';
 const VARIANTS_INDEX = 'genomic_variants';
-
-const client = new es.Client({
-  node: esHost,
-});
 
 /* ******** Index creation and deletion ******** */
 const createIndex = async (index, config) => {
   try {
     console.log(`\nCreating index: ${index}`);
+    const client = await getSearchClient({
+      node: esHost,
+      user,
+      password,
+      clientType
+    });
     await client.indices.create({
       index,
       body: config,
@@ -46,11 +53,20 @@ const createIndex = async (index, config) => {
 const deleteIndex = async index => {
   try {
     console.log(`\nDeleting existing index (if present): ${index}`);
+    const client = await getSearchClient({
+      node: esHost,
+      user,
+      password,
+      clientType
+    });
     await client.indices.delete({ index });
   } catch (e) {}
 };
 
 /* ******* Models Index ******** */
+const createLastUpdatedIndex = async () =>
+  await createIndex(updateIndexName, updateIndexConfig);
+
 const createModelsIndex = async () =>
   await createIndex(modelsIndexName, modelsIndexConfig);
 
@@ -71,6 +87,12 @@ const deleteVariantsIndex = async () => await deleteIndex(VARIANTS_INDEX);
 const updateIndex = async ({ index, settings = {}, mappings = {} } = {}) => {
   try {
     console.log('Updating mapping for:', index);
+    const client = await getSearchClient({
+      node: esHost,
+      user,
+      password,
+      clientType
+    });
     await client.indices.close({
       index,
     });
@@ -109,10 +131,22 @@ const updateSearchIndices = async () => {
 const configureArrangerSets = async () => {
   try {
     console.log(`\nDeleting existing index (if present): arranger-sets`);
+    const client = await getSearchClient({
+      node: esHost,
+      user,
+      password,
+      clientType
+    });
     await client.indices.delete({ index: `arranger-sets` });
   } catch (e) {}
   try {
     console.log(`Creating index: arranger-sets`);
+    const client = await getSearchClient({
+      node: esHost,
+      user,
+      password,
+      clientType
+    });
     await client.indices.create({
       index: 'arranger-sets',
       body: {
@@ -152,6 +186,7 @@ const configureArrangerSets = async () => {
 
 const esUtils = {
   config: pm2,
+  createLastUpdatedIndex,
   createModelsIndex,
   deleteModelsIndex,
   createGenesIndex,

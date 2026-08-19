@@ -1,12 +1,13 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import expressSanitizer from 'express-sanitizer';
-import { dataStream } from '@overture-stack/arranger-server/dist/download';
-import getAllData from '@overture-stack/arranger-server/dist/utils/getAllData';
+import { dataStream } from '@overture-stack/arranger-graphql-router/download';
+import { getAllData } from '@overture-stack/arranger-graphql-router/utils';
 import JSZip from 'jszip';
 import map from 'map-stream';
 import through2 from 'through2';
-import getLogger from './logger';
+
+import getLogger from './logger.js';
 
 const logger = getLogger('dataExport');
 
@@ -48,7 +49,11 @@ dataExportRouter.post('/models', async (req, res) => {
      * We can get a stream from arranger using the getAllData method and then can store the variant data for each model
      * for future processing.
      */
-    const allDataStream = await getAllData({ sqon, maxRows: 100, mock: {}, ctx: req.context });
+    const allDataStream = await getAllData({
+      sqon,
+      maxRows: 100,
+      ctx: req.context,
+    });
     const collectVariantData = through2.obj(function ({ hits }, enc, callback) {
       hits.forEach((model) => {
         if (model?.genomic_variants && model?.genomic_variants.length > 0) {

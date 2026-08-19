@@ -1,0 +1,10 @@
+{
+  "mappings": {
+    "properties": {
+      "date": {
+        "type": "date",
+        "format": "epoch_millis"
+      }
+    }
+  }
+}

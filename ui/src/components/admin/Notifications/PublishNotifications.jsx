@@ -105,8 +105,8 @@ export const PublishNotificationsProvider = ({ children }) => {
       linkText: 'View on model page to restart the publish.',
       timeout: false,
       modelName,
-      onClose: () => {
-        acknowledgeModelAndUpdateNotifications(modelName);
+      onClose: async () => {
+        await acknowledgeModelAndUpdateNotifications(modelName);
       },
     });
   };
@@ -124,8 +124,8 @@ export const PublishNotificationsProvider = ({ children }) => {
           details: `The model ${modelName} was not found in the HCMI database.`,
           timeout: false,
           modelName,
-          onClose: () => {
-            acknowledgeModelAndUpdateNotifications(modelName);
+          onClose: async () => {
+            await acknowledgeModelAndUpdateNotifications(modelName);
           },
         });
         break;
@@ -136,8 +136,8 @@ export const PublishNotificationsProvider = ({ children }) => {
           details: `The publish request for ${modelName} was not formed correctly: ${error.error.message}`,
           timeout: false,
           modelName,
-          onClose: () => {
-            acknowledgeModelAndUpdateNotifications(modelName);
+          onClose: async () => {
+            await acknowledgeModelAndUpdateNotifications(modelName);
           },
         });
         break;
@@ -163,8 +163,8 @@ export const PublishNotificationsProvider = ({ children }) => {
           ),
           timeout: false,
           modelName,
-          onClose: () => {
-            acknowledgeModelAndUpdateNotifications(modelName);
+          onClose: async () => {
+            await acknowledgeModelAndUpdateNotifications(modelName);
           },
         });
         break;
@@ -176,8 +176,8 @@ export const PublishNotificationsProvider = ({ children }) => {
           details: error.error.message,
           timeout: false,
           modelName,
-          onClose: () => {
-            acknowledgeModelAndUpdateNotifications(modelName);
+          onClose: async () => {
+            await acknowledgeModelAndUpdateNotifications(modelName);
           },
         });
         break;
@@ -209,10 +209,10 @@ export const PublishNotificationsProvider = ({ children }) => {
     const individualQueuedPublishes = (queue || []).filter(
       (x) => x.publishType === PUBLISH_TYPES.individual,
     );
-    individualQueuedPublishes.forEach((publishTask) => {
+    individualQueuedPublishes.forEach(async (publishTask) => {
       const modelName = publishTask.modelName;
       if (!getPublishNotifications().find((x) => x.modelName === modelName)) {
-        addPublishNotification(modelName);
+        await addPublishNotification(modelName);
       }
     });
 
