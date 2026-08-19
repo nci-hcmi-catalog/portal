@@ -4,12 +4,12 @@ import { makeOrDataQuery } from './queryFilters';
 const sortQuery = (sorted) => (sorted.desc ? `-${sorted.id}` : `${sorted.id}`);
 const paginatedUrl = ({ baseUrl, page, pageSize, filterValue, tableColumns, sorted }) =>
   (filterValue || '').length > 0
-    ? `${baseUrl}?skip=${page * pageSize}&limit=${page * pageSize + pageSize}&sort=${sortQuery(
-        sorted,
-      )}&query=${makeOrDataQuery(tableColumns, filterValue)}`
-    : `${baseUrl}?skip=${page * pageSize}&limit=${page * pageSize + pageSize}&sort=${sortQuery(
-        sorted,
-      )}`;
+    ? `${baseUrl}?skip=${page && pageSize ? page * pageSize : 0}&limit=${
+        page && pageSize ? page * pageSize + pageSize : 100
+      }&sort=${sortQuery(sorted)}&query=${makeOrDataQuery(tableColumns, filterValue)}`
+    : `${baseUrl}?skip=${page && pageSize ? page * pageSize : 0}&limit=${
+        page && pageSize ? page * pageSize + pageSize : 100
+      }&sort=${sortQuery(sorted)}`;
 
 export const getPageData = ({ baseUrl, page, pageSize, filterValue, tableColumns, sorted }) => {
   let url = paginatedUrl({ baseUrl, page, pageSize, filterValue, tableColumns, sorted });

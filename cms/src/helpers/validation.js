@@ -3,12 +3,12 @@
 import { ValidationError } from 'yup';
 
 export const runYupValidatorFailSlow = (validator, data) => {
-  const validatePromises = data.map(p =>
-    validator.validate(p, { abortEarly: false }).catch(Error => Error),
+  const validatePromises = data.map((p) =>
+    validator.validate(p, { abortEarly: false }).catch((Error) => Error),
   );
 
-  return Promise.all(validatePromises).then(results =>
-    results.map(result => {
+  return Promise.all(validatePromises).then((results) =>
+    results.map((result) => {
       if (!(result instanceof ValidationError)) {
         return {
           success: true,
@@ -37,12 +37,12 @@ export const runYupValidatorFailSlow = (validator, data) => {
 };
 
 export const runYupValidatorFailFast = (validator, data) => {
-  const validatePromises = data.map(p =>
-    validator.validate(p, { abortEarly: false, strict: false }).catch(Error => Error),
+  const validatePromises = data.map((p) =>
+    validator.validate(p, { abortEarly: false, strict: false }).catch((Error) => Error),
   );
 
-  return Promise.all(validatePromises).then(results => {
-    const failed = results.filter(result => result instanceof Error);
+  return Promise.all(validatePromises).then((results) => {
+    const failed = results.filter((result) => result instanceof Error);
     if (failed.length > 0) {
       const errors = {
         validationErrors: failed.map(({ value, inner }) => ({
@@ -62,5 +62,5 @@ export const runYupValidatorFailFast = (validator, data) => {
   });
 };
 
-const getErrorDetails = validationResult =>
-  validationResult.inner.flatMap(({ errors, path }) => errors.map(error => `${path}: ${error}`));
+const getErrorDetails = (validationResult) =>
+  validationResult.inner.flatMap(({ errors, path }) => errors.map((error) => `${path}: ${error}`));

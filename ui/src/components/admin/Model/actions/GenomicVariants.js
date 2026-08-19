@@ -1,5 +1,5 @@
-import { get, post } from '../../services/Fetcher';
-import config from '../../config';
+import config from '../../config.js';
+import { get, post } from '../../services/Fetcher.jsx';
 
 const GENOMIC_VARIANTS_URL = `${config.urls.cmsBase}/genomic-variants`;
 
@@ -36,9 +36,9 @@ export const auditGenomicVariantsSpecificModels = async (models) => {
 };
 
 export const clearGenomicVariants = async (modelName) => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const url = `${GENOMIC_VARIANTS_URL}/clear/${modelName}`;
-    await post({ url })
+    post({ url })
       .then((res) => {
         resolve(res.data);
       })
@@ -49,9 +49,9 @@ export const clearGenomicVariants = async (modelName) => {
 };
 
 export const checkImportStatus = async () => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const url = `${GENOMIC_VARIANTS_URL}/status`;
-    await get({ url })
+    get({ url })
       .then((res) => {
         resolve(res.data);
       })
@@ -62,9 +62,9 @@ export const checkImportStatus = async () => {
 };
 
 export const acknowledgeImportStatus = async (modelName) => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const url = `${GENOMIC_VARIANTS_URL}/acknowledge/${modelName}`;
-    await post({ url })
+    post({ url })
       .then((res) => {
         resolve(res.data);
       })
@@ -75,9 +75,9 @@ export const acknowledgeImportStatus = async (modelName) => {
 };
 
 export const acknowledgeBulkImportStatus = async (models) => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const url = `${GENOMIC_VARIANTS_URL}/acknowledge/bulk`;
-    await post({
+    post({
       url,
       data: {
         models,
@@ -93,9 +93,9 @@ export const acknowledgeBulkImportStatus = async (models) => {
 };
 
 export const resolveMafFileConflict = async (modelName, fileId, filename) => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const url = `${GENOMIC_VARIANTS_URL}/resolve`;
-    await post({
+    post({
       url,
       data: {
         name: modelName,
@@ -113,9 +113,9 @@ export const resolveMafFileConflict = async (modelName, fileId, filename) => {
 };
 
 export const stopAllImports = async () => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const url = `${GENOMIC_VARIANTS_URL}/stop/all`;
-    await post({ url })
+    post({ url })
       .then((res) => {
         resolve(res.data);
       })
@@ -126,9 +126,9 @@ export const stopAllImports = async () => {
 };
 
 export const manualMafImport = async (modelName, fileId, filename) => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const url = `${GENOMIC_VARIANTS_URL}/import/${modelName}`;
-    await post({
+    post({
       url,
       data: {
         fileId: fileId,

@@ -1,15 +1,27 @@
-// @ts-nocheck
 import 'babel-polyfill';
-import express from 'express';
-import { Server } from 'http';
-import cors from 'cors';
-import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
-import methodOverride from 'method-override';
-import restify from 'express-restify-mongoose';
-import pino from 'pino-http';
+import cors from 'cors';
+import express from 'express';
+import { serve as restify } from 'express-restify-mongoose';
 import helmet from 'helmet';
+import { Server } from 'http';
+import methodOverride from 'method-override';
+import mongoose from 'mongoose';
+import pino from 'pino-http';
 
+import pm2Config from './../pm2.config.js';
+
+import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess.js';
+import {
+  preUpdate,
+  validateYup,
+  preModelDelete,
+  postUpdate,
+  postCreate,
+  outputFn,
+  validateUserRequest,
+} from './hooks.js';
+import getLogger from './logger.js';
 import { data_sync_router } from './routes/sync-data.js';
 import {
   actionRouter,
@@ -23,23 +35,21 @@ import {
   publishRouter,
   authRouter,
 } from './routes/index.js';
-import {
-  preUpdate,
-  validateYup,
-  preModelDelete,
-  postUpdate,
-  postCreate,
-  outputFn,
-  validateUserRequest,
-} from './hooks.js';
 import Model from './schemas/model.js';
 import MatchedModels from './schemas/matchedModels.js';
 import User from './schemas/user.js';
-import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess.js';
 
-import getLogger from './logger.js';
+const pm2Env = process.env.ENV;
+if (!pm2Env) {
+  throw new Error('No ENV value provided!');
+}
+const pm2ConfigGeneric =
+  (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0].env) || {};
+const pm2ConfigForEnv =
+  (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0][`env_${pm2Env}`]) || {};
+export const pm2 = { ...pm2ConfigGeneric, ...pm2ConfigForEnv };
+
 const logger = getLogger('root');
-
 const port = process.env.PORT || 8080;
 const app = express();
 const modelRouter = express.Router();
@@ -86,7 +96,7 @@ if (process.env.AUTH_ENABLED !== 'false') {
 app.use(pino({ customProps: (req) => ({ user: getLoggedInUser(req).user_email }) }));
 
 // configure endpoints
-restify.serve(modelRouter, Model, {
+restify(modelRouter, Model, {
   preCreate: validateYup,
   postCreate,
   preUpdate,
@@ -96,10 +106,10 @@ restify.serve(modelRouter, Model, {
   idProperty: 'name',
 });
 
-restify.serve(matchedModelsRestifyRouter, MatchedModels);
+restify(matchedModelsRestifyRouter, MatchedModels);
 
 // configure endpoints
-restify.serve(userRouter, User, {
+restify(userRouter, User, {
   preCreate: validateUserRequest,
   preUpdate: validateUserRequest,
 });

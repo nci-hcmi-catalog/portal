@@ -5,7 +5,8 @@ import { PassThrough } from 'stream';
 import decompress from 'decompress';
 import zlib from 'zlib';
 import _ from 'lodash';
-const { get, flattenDeep, intersection, isEmpty } = _;
+
+import getLogger from '../../logger.js';
 
 import {
   GDC_MODEL_STATES,
@@ -14,10 +15,10 @@ import {
   FETCH_MODEL_FILE_DATA_QUERY,
 } from './gdcConstants.js';
 
-import getLogger from '../../logger.js';
+const { get, flattenDeep, intersection, isEmpty } = _;
 const logger = getLogger('services/gdc-importer/mafFiles');
 
-export const fetchModelFileData = async modelNames => {
+export const fetchModelFileData = async (modelNames) => {
   if (!Array.isArray(modelNames) || !modelNames.length) {
     logger.error('fetchModelFileData failed due to invalid input. `modelNames` must be an array.', {
       modelNames,
@@ -76,15 +77,15 @@ export const fetchModelFileData = async modelNames => {
       const caseId = get(cases[i], 'node.case_id');
       const modelName = get(cases[i], 'node.submitter_id');
 
-      const samples = get(cases[i], 'node.samples.hits.edges', []).map(sampleEdge => {
+      const samples = get(cases[i], 'node.samples.hits.edges', []).map((sampleEdge) => {
         const sampleType = get(sampleEdge, 'node.sample_type');
         const tissueType = get(sampleEdge, 'node.tissue_type');
         const tumorDescriptor = get(sampleEdge, 'node.tumor_descriptor');
         // aliquots will be an array of two ids
         const aliquots = flattenDeep(
-          get(sampleEdge, 'node.portions.hits.edges', []).map(portionEdge =>
-            get(portionEdge, 'node.analytes.hits.edges', []).map(analyteEdge =>
-              get(analyteEdge, 'node.aliquots.hits.edges', []).map(aliquot =>
+          get(sampleEdge, 'node.portions.hits.edges', []).map((portionEdge) =>
+            get(portionEdge, 'node.analytes.hits.edges', []).map((analyteEdge) =>
+              get(analyteEdge, 'node.aliquots.hits.edges', []).map((aliquot) =>
                 get(aliquot, 'node.aliquot_id'),
               ),
             ),
@@ -96,27 +97,27 @@ export const fetchModelFileData = async modelNames => {
       logger.debug({ caseId, samples }, `Case samples found for model ${modelName}`);
 
       const files = get(data, 'files.hits.edges', [])
-        .filter(fileEdge => {
+        .filter((fileEdge) => {
           const entitySubmitterIds = get(fileEdge, 'node.associated_entities.hits.edges', []).map(
-            entityEdge => get(entityEdge, 'node.entity_submitter_id'),
+            (entityEdge) => get(entityEdge, 'node.entity_submitter_id'),
           );
-          return entitySubmitterIds.some(submitterId => submitterId.includes(modelName));
+          return entitySubmitterIds.some((submitterId) => submitterId.includes(modelName));
         })
-        .map(fileEdge => {
+        .map((fileEdge) => {
           const fileId = get(fileEdge, 'node.file_id');
           const filename = get(fileEdge, 'node.file_name');
           const entityIds = get(fileEdge, 'node.associated_entities.hits.edges', []).map(
-            entityEdge => get(entityEdge, 'node.entity_id'),
+            (entityEdge) => get(entityEdge, 'node.entity_id'),
           );
 
           const entities = entityIds
-            .filter(entity => {
-              return samples.some(sample => sample.aliquots.includes(entity));
+            .filter((entity) => {
+              return samples.some((sample) => sample.aliquots.includes(entity));
             })
-            .map(entity => {
-              const matchingSample = samples.find(sample => sample.aliquots.includes(entity));
+            .map((entity) => {
+              const matchingSample = samples.find((sample) => sample.aliquots.includes(entity));
               const matchingEntity = get(fileEdge, 'node.associated_entities.hits.edges', []).find(
-                x => x.node.entity_id === entity,
+                (x) => x.node.entity_id === entity,
               );
               return {
                 entityId: entity,
@@ -143,7 +144,7 @@ export const fetchModelFileData = async modelNames => {
   return results;
 };
 
-export const getMafStatus = mafFileData => {
+export const getMafStatus = (mafFileData) => {
   if (!mafFileData.success) {
     // Model not found in GDC
     return GDC_MODEL_STATES.modelNotFound;
@@ -169,7 +170,7 @@ export const getMafStatus = mafFileData => {
     (totals, currentModelFile) => {
       let currentNgcmCount = 0;
       let currentEngcmCount = 0;
-      currentModelFile.entities.forEach(entity => {
+      currentModelFile.entities.forEach((entity) => {
         switch (entity.sampleType) {
           case GDC_CANCER_MODEL_SAMPLE_TYPES.NGCM:
             currentNgcmCount++;
@@ -206,7 +207,7 @@ export const getMafStatus = mafFileData => {
   }
 };
 
-export const getBulkMafStatus = bulkMafFileData => {
+export const getBulkMafStatus = (bulkMafFileData) => {
   const models = Object.keys(bulkMafFileData);
   const results = Object.values(GDC_MODEL_STATES).reduce((o, key) => ({ ...o, [key]: [] }), {});
 
@@ -276,7 +277,13 @@ const filterMafFilesBySampleTypes = (files, sampleTypes) => {
   }
 
   return files.filter(
-    file => !isEmpty(intersection(file.entities.map(entity => entity.sampleType), sampleTypes)),
+    (file) =>
+      !isEmpty(
+        intersection(
+          file.entities.map((entity) => entity.sampleType),
+          sampleTypes,
+        ),
+      ),
   );
 };
 
@@ -306,15 +313,15 @@ export const downloadMaf = async ({ filename, fileId, modelName }) => {
 
       const streamToBuffer = new PassThrough();
       const bufs = [];
-      streamToBuffer.on('data', data => {
+      streamToBuffer.on('data', (data) => {
         bufs.push(data);
       });
       streamToBuffer.on('end', () => {
         decompress(Buffer.concat(bufs), {
-          filter: file => file.path.includes(filename),
+          filter: (file) => file.path.includes(filename),
           strip: 1,
         })
-          .then(files => {
+          .then((files) => {
             try {
               const maf = zlib.gunzipSync(files[0].data).toString('utf8');
 
@@ -327,7 +334,7 @@ export const downloadMaf = async ({ filename, fileId, modelName }) => {
               reject(error);
             }
           })
-          .catch(error => {
+          .catch((error) => {
             logger.error(
               { error, filename, fileId, modelName },
               'Failure decompressing file from GDC',

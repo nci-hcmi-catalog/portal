@@ -10,6 +10,5 @@ export const singleAction = async (action, name = '') => {
     url,
     data: '',
     method: action === 'delete' ? 'delete' : 'post',
-    headers: '',
   });
 };

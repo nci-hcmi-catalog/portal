@@ -5,25 +5,30 @@ process.env = esUtils.config;
 
 import 'babel-polyfill';
 import mongoose from 'mongoose';
-import { publishModel } from '../../cms/src/services/elastic-search/publish.js';
-import { ModelES } from '../../cms/src/services/elastic-search/common/schemas/model.js';
-import '../../cms/src/schemas/variant.js';
-import '../../cms/src/schemas/matchedModels.js';
 
 import { modelStatus } from '../../cms/src/helpers/modelStatus.js';
+import { publishModel } from '../../cms/src/services/search-client/publish.js';
+import indexLastUpdated from '../../cms/src/services/search-client/indexLastUpdated.js';
 
-import indexEsUpdate from '../../cms/src/services/elastic-search/update.js';
+import '../../cms/src/schemas/variant.js';
+import '../../cms/src/schemas/matchedModels.js';
 
 export const republishModels = async () => {
   console.log('Connecting to MongoDB...');
   // Connect to database
 
-  await mongoose.connect(esUtils.config.MONGODB_URI);
+  const { MONGODB_URI, MONGO_COLLECTION = 'models' } = esUtils.config;
+
+  const client = await mongoose.connect(MONGODB_URI);
   console.log('\nConnected!');
 
-  const models = await ModelES.find({
-    status: { $in: [modelStatus.published, modelStatus.unpublishedChanges] },
-  });
+  const modelCollection = await client.connection.db.collection(MONGO_COLLECTION);
+
+  const models = await modelCollection
+    .find({
+      status: { $in: [modelStatus.published, modelStatus.unpublishedChanges] },
+    })
+    .toArray();
 
   console.log('\nSearching for models to publish...');
   const names = models.map((i) => i.name);
@@ -33,7 +38,7 @@ export const republishModels = async () => {
     await publishModel({ name: model.name });
   }
 
-  indexEsUpdate();
+  indexLastUpdated();
 
   mongoose.disconnect();
 };

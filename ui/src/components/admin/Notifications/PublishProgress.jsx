@@ -107,18 +107,21 @@ const PublishProgress = ({ renderIcon }) => {
 
   const getProgressBannerMessage = () => {
     let completePublishes;
-    switch (getBulkPublishState()) {
+    const bulkPublishState = getBulkPublishState();
+    const bulkPublishes = getBulkPublishes();
+
+    switch (bulkPublishState) {
       case BulkPublishState.complete:
-        completePublishes = getBulkPublishes().filter((x) => x.status === PUBLISH_STATUS.complete);
+        completePublishes = bulkPublishes.filter((x) => x.status === PUBLISH_STATUS.complete);
         return `Bulk Publish Complete: ${completePublishes.length} model${
           completePublishes.length === 1 ? ' has' : 's have'
         } been published.`;
       case BulkPublishState.publishing:
-        return `Publishing: ${getBulkPublishes().length} model${
-          getBulkPublishes().length === 1 ? ' is' : 's are'
+        return `Publishing: ${bulkPublishes.length} model${
+          bulkPublishes.length === 1 ? ' is' : 's are'
         } currently publishing.`;
       case BulkPublishState.stopped:
-        completePublishes = getBulkPublishes().filter((x) => x.status === PUBLISH_STATUS.complete);
+        completePublishes = bulkPublishes.filter((x) => x.status === PUBLISH_STATUS.complete);
         return `Bulk Publish Stopped: ${completePublishes.length} model${
           completePublishes.length === 1 ? ' has' : 's have'
         } successfully published.`;
@@ -129,6 +132,7 @@ const PublishProgress = ({ renderIcon }) => {
   };
 
   const ProgressBar = () => {
+    const bulkPublishState = getBulkPublishState();
     const success = getBulkPublishes().filter((x) => x.status === PUBLISH_STATUS.complete);
     const failed = getBulkPublishes().filter((x) => x.status === PUBLISH_STATUS.error);
     const incomplete = getBulkPublishes().filter(
@@ -139,7 +143,7 @@ const PublishProgress = ({ renderIcon }) => {
     );
 
     const meta = () => {
-      switch (getBulkPublishState()) {
+      switch (bulkPublishState) {
         case BulkPublishState.publishing:
           return `In Progress: ${incomplete.length}`;
         case BulkPublishState.complete:
@@ -163,7 +167,7 @@ const PublishProgress = ({ renderIcon }) => {
       }
 
       prevPublishState.current = getBulkPublishState();
-    }, [publishProgress]);
+    }, [bulkPublishState]);
 
     return (
       <Row>

@@ -23,16 +23,16 @@ import {
   ShowHideButtonLabel,
   PlusMinusIcon,
 } from '~/theme/adminNotificationStyles';
-import { Col } from '~/theme/system';
-import base from '~/theme/index';
+import base from '~/theme/index.js';
+import { Col } from '~/theme/system.jsx';
 import { PUBLISH_TYPES, VARIANT_IMPORT_TYPES } from '~/utils/constants';
 
-import { NotificationsContext } from './NotificationsController';
-import useGenomicVariantImportNotifications from './GenomicVariantImportNotifications';
-import usePublishNotifications from './PublishNotifications';
-import NOTIFICATION_TYPES from './NotificationTypes';
-import ProgressBanner from './ProgressBanner';
-import PublishProgress from './PublishProgress';
+import useGenomicVariantImportNotifications from './GenomicVariantImportNotifications.jsx';
+import { NotificationsContext } from './NotificationsController.jsx';
+import NOTIFICATION_TYPES from './NotificationTypes.js';
+import ProgressBanner from './ProgressBanner.jsx';
+import usePublishNotifications from './PublishNotifications.jsx';
+import PublishProgress from './PublishProgress.jsx';
 
 const {
   keyedPalette: { alizarinCrimson, pelorousapprox, trout, yellowOrange },

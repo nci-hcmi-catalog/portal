@@ -1,14 +1,19 @@
 // @ts-check
 
 import express from 'express';
-import esClient from './services/elasticsearch';
+
+import pm2 from './pm2.ts';
+import getClient from './services/searchClient.ts';
+import getLogger from './logger.js';
 
 const lastUpdatedRouter = express.Router();
+const logger = getLogger('lastUpdated Router');
 
 lastUpdatedRouter.get('/', async (req, res) => {
+  const searchClient = getClient(pm2);
   try {
-    const response = await esClient.search({
-      index: process.env.ES_UPDATE_INDEX,
+    const response = await searchClient?.search({
+      index: process.env.ES_UPDATE_INDEX || pm2.ES_UPDATE_INDEX || 'hcmi-update',
       body: {
         query: {
           match_all: {},
@@ -23,8 +28,9 @@ lastUpdatedRouter.get('/', async (req, res) => {
         ],
       },
     });
-    return res.json(response.body.hits.hits[0]._source);
+    return res.json(response?.body?.hits?.hits[0]?._source);
   } catch (error) {
+    logger.error(`Error retrieving last updated date from Arranger: ${error}`);
     return res.status(500).json({
       error: error,
     });

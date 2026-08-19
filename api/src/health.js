@@ -1,14 +1,10 @@
 import express from 'express';
-import elasticsearch from '@elastic/elasticsearch';
-
 import _ from 'lodash';
 
+import pm2 from './pm2.ts';
+import getClient from './services/searchClient.ts';
+
 const startTime = Date.now();
-
-const client = new elasticsearch.Client({
-  node: process.env.ES_URL,
-});
-
 const healthRouter = express.Router();
 
 healthRouter.get('/', async (req, res) => {
@@ -18,6 +14,7 @@ healthRouter.get('/', async (req, res) => {
 
 healthRouter.get('/es', async (req, res) => {
   try {
+    const client = getClient(pm2);
     const status = await client.ping();
     if (_.get(status, 'statusCode') === 200) {
       const response = _.omit(status, 'meta');
