@@ -1,9 +1,9 @@
 import pm2Config from './../pm2.config.js';
 
 // PM2 Env Setup
-type pm2EnvValues = 'dev' | 'prd' | 'staging';
+type pm2EnvValues = 'dev' | 'prd' | 'staging' | 'docker';
 
-const pm2EnvValues = ['dev', 'prd', 'staging'];
+const pm2EnvValues = ['dev', 'prd', 'staging', 'docker'];
 const pm2Env: pm2EnvValues =
   process.env.ENV && pm2EnvValues.includes(process.env.ENV)
     ? (process.env.ENV as pm2EnvValues)
