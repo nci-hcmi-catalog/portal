@@ -1,3 +1,91 @@
+#!groovy
+def CMS_PACKAGE_TYPE='cms'
+def API_PACKAGE_TYPE='api'
+def UI_PACKAGE_TYPE='ui'
+
+void failSafeBuild(configId, packageType){
+    try {
+        env.BUILD_STEP_SUCCESS = 'no'
+        def targetLocation = ''
+        
+        // set target location based on package type
+        if (packageType == 'cms'){
+            targetLocation =  './cms/pm2.config.js'
+
+            configFileProvider([
+                configFile(fileId: configId, targetLocation: targetLocation),
+                configFile(fileId: configId + '-migration', targetLocation: './cms/variant-migrations/config.js'),
+            ]) {
+                sh '''
+                    umask 022
+                    portal-ci/build_stage/build.sh portal-ci ''' + packageType + '''
+                '''
+                env.BUILD_STEP_SUCCESS = 'yes'
+            }
+            return
+        }
+
+        if (packageType == 'api') {
+            targetLocation = './api/pm2.config.js'
+        } else if (packageType == 'ui') {
+            targetLocation = './ui/.env'
+        }
+
+        configFileProvider([
+            configFile(fileId: configId, targetLocation: targetLocation)
+        ]) {
+            sh '''
+            umask 022
+            portal-ci/build_stage/build.sh portal-ci ''' + packageType + '''
+            '''
+            env.BUILD_STEP_SUCCESS = 'yes'
+        }
+
+    } catch (err) {
+        env.BUILD_STEP_SUCCESS = 'no'
+        echo "Required configuration for $packageType not found. Skipping the build for $packageType."
+    }
+}
+
+void getPipelineResult (){
+    script {
+        // fail the build if all deployment stages were skipped
+        if(env.DEV_DEPLOYMENT_STATUS == null && env.STAGING_DEPLOYMENT_STATUS == null && env.PRD_DEPLOYMENT_STATUS == null) {
+            echo 'Build failed because application was not deployed to any environment.'
+            echo 'Please make sure Jenkins has all required configuration files and variables.'
+            currentBuild.result = 'FAILURE'
+        } else {
+          echo 'Build is considered successful because application was successfully deployed in at least one target environment.'
+        }
+    }
+}
+
+node ('ecs-agent') {
+    configFileProvider([configFile(fileId: 'hcmi-env-config', variable: 'FILE')]) {
+        echo "FILE=$FILE"
+        load "$FILE"
+    }
+}
+pipeline {
+  agent { label 'ecs-agent' }
+  stages{
+    stage('Get Code') {
+      steps {
+        echo "Workspace directory is ${env.WORKSPACE}"
+          deleteDir()
+          checkout ([
+              $class: 'GitSCM',
+              branches: scm.branches,
+              doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+              extensions: [[$class: 'CloneOption', noTags: false, shallow: false, depth: 0, reference: '']],
+              userRemoteConfigs: scm.userRemoteConfigs,
+           ])
+           script {
+               tag=sh(returnStdout: true, script: "git tag -l --points-at HEAD").trim()
+               env.tag = tag
+             }
+      }
+    }
     stage('GetOpsScripts') {
       steps {
         echo "GETTING SCRIPTS"
