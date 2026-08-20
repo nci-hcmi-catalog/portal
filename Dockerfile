@@ -59,4 +59,5 @@ FROM hcmi-base AS hcmi-ui
 
 EXPOSE 3000
 
-CMD ["yarn", "ui"]
+# See https://vite.dev/config/server-options#server-host
+CMD ["yarn", "ui", "--host"]
