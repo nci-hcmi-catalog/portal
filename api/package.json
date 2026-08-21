@@ -13,7 +13,7 @@
   "dependencies": {
     "@aws-sdk/credential-provider-node": "^3.972.66",
     "@opensearch-project/opensearch": "^3.6.0",
-    "@overture-stack/arranger-graphql-router": "1.0.0-rc.4",
+    "@overture-stack/arranger-graphql-router": "1.0.0-rc.5",
     "@overture-stack/arranger-types": "1.0.0-rc.3",
     "@overture-stack/sqon-builder": "^1.1.0",
     "JSONStream": "^1.3.5",
