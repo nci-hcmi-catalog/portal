@@ -1,7 +1,7 @@
 # Setup Environment
 FROM node:24-alpine AS hcmi-base
 
-ARG ENV=prd
+ARG ENV=dev
 ARG ROOT_DIR=/hcmi
 ARG API_DIR=$ROOT_DIR/api/
 ARG CMS_DIR=$ROOT_DIR/cms/
