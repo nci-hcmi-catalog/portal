@@ -17,9 +17,11 @@ services:
       context: .
       target: hcmi-cms
     container_name: hcmi-cms
+    environment:
+      - MONGO_URL=http://mongo:27017
     depends_on:
-      - mongo
-      - hcmi-api
+      mongo:
+        condition: service_healthy
     image: hcmi-cms
     ports:
       - 8080:8080
@@ -31,13 +33,19 @@ services:
     container_name: hcmi-ui
     depends_on:
       - hcmi-api
-      - hcmi-cms
+    #  - hcmi-cms
     image: hcmi-ui
     ports:
       - 3000:3000
 
   mongo:
     container_name: hcmi-mongodb
+    healthcheck:
+      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     image: mongo
     ports:
       - 27017:27017
