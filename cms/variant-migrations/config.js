@@ -1,5 +1,4 @@
 'use strict';
-console.log(process.cwd());
 
 module.exports = {
   mongodb: {

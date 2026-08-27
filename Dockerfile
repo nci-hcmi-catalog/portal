@@ -45,33 +45,10 @@ FROM hcmi-base AS hcmi-cms
 
 EXPOSE 8080
 
-# Var 1
-# ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017
-# ARG MONGO_URL='mongodb://localhost:27017'
-
-# Var 2
-# ERROR: connect ECONNREFUSED 192.168.65.254:27017, connect ENETUNREACH fdc4:f303:9324::254:27017 [iPv6]
-# Works in CMS Application
-# ARG MONGO_URL='mongodb://host.docker.internal:27017'
-
-# Var 3
-# ERROR: connect ECONNREFUSED 127.0.0.1:27017 MongoServerSelectionError: connect ECONNREFUSED 127.0.0.1:27017
-#ARG MONGO_URL='mongodb://127.0.0.1:27017'
-
-# Var 4
-# ERROR: getaddrinfo ENOTFOUND mongo MongoServerSelectionError: getaddrinfo ENOTFOUND mongo
-# Using docker service name
-# ARG MONGO_URL='mongodb://mongo'
-# ARG MONGO_URL=mongodb://mongo:27017
-# ARG MONGO_URL=mongodb://hcmi-mongodb:27017
-# ARG MONGO_URL=mongodb://mongodb:27017
+ARG ENV=$ENV
 
 # Run Mongo Variant table migrations
-RUN MONGO_URL=$MONGO_URL yarn initializeMigrations
-
-RUN cd $CMS_DIR && pm2 startOrRestart pm2.config.js --env $ENV
-
-CMD ["yarn", "cms"]
+CMD ["sh", "-c", "yarn initializeMigrations && yarn cms"]
 
 ############
 # HCMI  UI #

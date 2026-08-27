@@ -18,7 +18,7 @@ services:
       target: hcmi-cms
     container_name: hcmi-cms
     environment:
-      - MONGO_URL=http://mongo:27017
+      - MONGO_URL=mongodb://mongo:27017
     depends_on:
       mongo:
         condition: service_healthy

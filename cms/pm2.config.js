@@ -13,6 +13,7 @@ module.exports = {
       },
       env_dev: {
         AUTH_ENABLED: false,
+        ENV: 'dev',
         ES_INDEX: 'hcmi',
         ES_HOST: 'http://host.docker.internal',
         ES_PASS: 'password',
@@ -37,6 +38,7 @@ module.exports = {
       },
       env_staging: {
         AUTH_ENABLED: process.env.AUTH_ENABLED,
+        ENV: process.env.ENV,
         ES_INDEX: process.env.ES_INDEX,
         ES_HOST: process.env.ES_HOST,
         ES_PASS: process.env.ES_PASS,
