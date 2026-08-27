@@ -33,7 +33,7 @@ services:
     container_name: hcmi-ui
     depends_on:
       - hcmi-api
-    #  - hcmi-cms
+      - hcmi-cms
     image: hcmi-ui
     ports:
       - 3000:3000
