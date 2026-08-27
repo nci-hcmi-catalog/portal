@@ -68,7 +68,7 @@ app.use(cors());
 // HealthRouter must be added before the declaration for isUserAuthorized filter
 app.use('/api/v1/health', healthRouter);
 
-if (pm2Config.AUTH_ENABLED !== 'false') {
+if (pm2Config.AUTH_ENABLED !== false) {
   app.use(async (req, res, next) => {
     const authorized = await isUserAuthorized(req);
     if (!authorized) {

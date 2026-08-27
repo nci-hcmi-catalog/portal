@@ -29,6 +29,8 @@ module.exports = {
         MONGODB_URI: 'mongodb://host.docker.internal:27017/hcmi',
         MONGO_URL: 'mongodb://host.docker.internal:27017',
         MONGO_USER_COLLECTION: 'users',
+        CLIENT_ID: process.env.CLIENT_ID,
+        CLIENT_SECRET: process.env.CLIENT_SECRET,
         REDIRECT_URIS: ['http://localhost:5050/'],
         S3_BUCKET: 'hcmi-demo',
         SEARCH_ENGINE: 'opensearch',
