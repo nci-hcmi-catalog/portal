@@ -11,7 +11,7 @@
   ],
   "description": "HCMI Portal",
   "scripts": {
-    "test": "cd data_model && yarn test",
+    "test": "yarn workspaces run test",
     "netlify": "cd ui && yarn && yarn build",
     "api": "cd api && yarn start",
     "cms": "cd cms && yarn start",
