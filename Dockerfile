@@ -19,9 +19,7 @@ COPY ./ui/package.json $UI_DIR
 RUN corepack enable
 
 # Install dependencies, then copy application files
-RUN yarn global add pm2
-
-RUN yarn
+RUN yarn install
 
 COPY . .
 
@@ -34,7 +32,6 @@ EXPOSE 5050
 
 # Initialize OpenSearch
 RUN yarn initializeEs
-
 
 CMD ["yarn", "api"]
 

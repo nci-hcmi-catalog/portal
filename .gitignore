@@ -16,10 +16,11 @@ node_modules
 .env.development.local
 .env.test.local
 .env.production.local
-.vscode/
-cms/env
+.vscode
 
 npm-debug.log*
+.pnp*
+.yarn
 yarn-debug.log*
 yarn-error.log*
 

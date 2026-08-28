@@ -1,4 +1,4 @@
-import ArrangerRouter, { type ArrangerBaseContext } from '@overture-stack/arranger-graphql-router';
+import ArrangerRouter, { type ArrangerBaseContext, wrapOpenSearchClient } from '@overture-stack/arranger-graphql-router';
 import type { ConfigsObject, DisplayType, ExtendedConfigs, FacetsConfigs, MatchBoxConfigs, TableConfigs } from '@overture-stack/arranger-types/configs';
 import 'babel-polyfill';
 import bodyParser from 'body-parser';
@@ -72,7 +72,7 @@ const configs: Partial<ConfigsObject<ArrangerBaseContext>> = {
 
 const esClient = getClient(pm2);
 
-ArrangerRouter({ configs, esClient }).then((router) => {
+ArrangerRouter({ configs, esClient: wrapOpenSearchClient(esClient) }).then((router) => {
   app.use(router);
   app.use('/last-updated', lastUpdatedRouter);
   app.use('/health', healthRouter);
