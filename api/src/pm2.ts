@@ -4,6 +4,10 @@ import pm2Config from './../pm2.config.js';
 type pm2EnvValues = 'dev' | 'prd' | 'staging';
 const pm2EnvValues: pm2EnvValues[] = ['dev', 'prd', 'staging'];
 
+if (!process.env.ENV) {
+  throw new Error('No PM2 ENV value provided');
+}
+
 const pm2Env: pm2EnvValues =
   process.env.ENV && pm2EnvValues.includes(process.env.ENV as pm2EnvValues)
     ? (process.env.ENV as pm2EnvValues)
