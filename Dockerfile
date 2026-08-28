@@ -1,6 +1,8 @@
 # Setup Environment
 FROM node:24-alpine AS hcmi-base
 
+ENV ENV=dev
+
 ARG ROOT_DIR=/hcmi
 ARG API_DIR=$ROOT_DIR/api/
 ARG CMS_DIR=$ROOT_DIR/cms/
@@ -31,9 +33,8 @@ FROM hcmi-base AS hcmi-api
 EXPOSE 5050
 
 # Initialize OpenSearch
-RUN ENV=$ENV yarn initializeEs
+RUN yarn initializeEs
 
-RUN cd $API_DIR && pm2 startOrRestart pm2.config.js --env $ENV
 
 CMD ["yarn", "api"]
 
@@ -43,8 +44,6 @@ CMD ["yarn", "api"]
 FROM hcmi-base AS hcmi-cms
 
 EXPOSE 8080
-
-ARG ENV=$ENV
 
 # Run Mongo Variant table migrations
 CMD ["sh", "-c", "yarn initializeMigrations && yarn cms"]
