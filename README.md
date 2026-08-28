@@ -52,7 +52,7 @@ docker compose up -d
 
 This will create Docker containers for each service and initialize the HCMI web catalog.
 
-Both OpenSearch and MongoDb are started and initilization scrpts are run.
+Both OpenSearch and MongoDb are started and initilization scripts are run.
 
 The UI application can be accessed in the browser at http://localhost:3000, CMS at http://localhost:8080, and API at http://localhost:5050.
 
