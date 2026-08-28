@@ -1,28 +1,14 @@
 import { get } from 'lodash';
+import { SqonBuilder } from '@overture-stack/sqon';
 
 /**
- * ARRANGER UTILS
- * The following utils are copied directly from the Arranger library, as we have been informed that
- * they were not intended to be exported. We will keep them here until we can find a better solution.
- * - compareTerms
- * - sortSQON
- * - addInValue
- * - addInSQON
- * - removeSQON
+ * SQON manipulation, backed by `@overture-stack/sqon`.
+ *
+ * `SqonBuilder` unwraps a single-clause combination to a bare leaf, so both exports below
+ * re-wrap: the portal hands SQONs straight to Arranger as an `and` combination.
  */
 
-// ARRANGER UTIL
-const compareTerms = (a, b) => {
-  return (
-    a.op.toLowerCase() === b.op.toLowerCase() &&
-    (a.content.fieldName
-      ? a.content.fieldName === b.content.fieldName
-      : a.content.entity === b.content.entity)
-  );
-};
-
-// ARRANGER UTIL
-const sortSQON = (a, b) => {
+const sortClauses = (a, b) => {
   if (a.content.fieldName && b.content.fieldName) {
     return a.content.fieldName.localeCompare(b.content.fieldName);
   } else if (a.content.fieldName || b.content.fieldName) {
@@ -32,78 +18,64 @@ const sortSQON = (a, b) => {
   }
 };
 
-// ARRANGER UTIL
-const addInValue = (x, y) => {
-  const xValue = [].concat(x.content.value || []);
-  const yValue = [].concat(y.content.value || []);
+const clausesOf = (node) => (node.op === 'and' && Array.isArray(node.content) ? node.content : [node]);
 
-  if (xValue.length === 0 && yValue.length === 0) return null;
-  if (xValue.length === 0) return y;
-  if (yValue.length === 0) return x;
+const clauseKey = (clause) =>
+  `${clause.op.toLowerCase()}|${clause.content.fieldName ?? clause.content.entity}`;
 
-  const merged = {
-    op: 'in',
-    content: {
-      fieldName: x.content.fieldName,
-      value: xValue
-        .reduce((acc, v) => {
-          if (acc.includes(v)) return acc;
-          return [...acc, v];
-        }, yValue)
-        .sort(),
-    },
-  };
+const valuesOf = (clause) => [].concat(clause.content.value ?? []);
 
-  return merged.content.value.length ? merged : null;
-};
-
-// ARRANGER UTIL
+/**
+ * Merge `ctxq`'s clauses into `q`, widening any `in` filter already on the same field.
+ *
+ * @param {object|null} q the SQON being added to
+ * @param {object|null} ctxq the SQON whose clauses are merged in
+ * @returns {object|null} an `and` combination ordered by field name, or null when empty
+ */
 export const addInSQON = (q, ctxq) => {
   if (!ctxq && !q) return null;
   if (!ctxq) return q;
   if (!q) return ctxq;
 
   try {
-    const merged = {
-      op: 'and',
-      content: ctxq.content
-        .reduce((acc, ctx) => {
-          const found = acc.find((a) => compareTerms(a, ctx));
-          if (!found) return [...acc, ctx];
-          return [
-            ...acc.filter((y) => y.content.fieldName !== found.content.fieldName),
-            addInValue(found, ctx),
-          ].filter(Boolean);
-        }, q.content)
-        .sort(sortSQON),
-    };
+    const existing = new Map(clausesOf(q).map((clause) => [clauseKey(clause), clause]));
 
-    return merged.content.length ? merged : null;
+    const merged = clausesOf(ctxq).reduce((builder, clause) => {
+      const prior = existing.get(clauseKey(clause));
+
+      // Selecting a second facet value widens the facet, so `in` unions here. The reducer will
+      // not do it: AND(in:[A], in:[B]) correctly means "A and B". Other ops reduce correctly.
+      if (prior && clause.op === 'in') {
+        const union = [...new Set([...valuesOf(prior), ...valuesOf(clause)])].sort();
+        return builder.setFilter(clause.content.fieldName, 'in', union);
+      }
+
+      return builder.and(clause);
+    }, SqonBuilder.from(q));
+
+    const clauses = clausesOf(merged.toValue());
+
+    return clauses.length ? { op: 'and', content: [...clauses].sort(sortClauses) } : null;
   } catch (e) {
     console.error('[addInSQON] Error:', e);
   }
 };
 
-// ARRANGER UTIL
+/**
+ * Remove every clause filtering on `fieldName`, preserving the order of those that remain.
+ *
+ * @param {string} fieldName the field whose clauses are removed
+ * @param {object|null} sqon the SQON to filter
+ * @returns {object|null} an `and` combination, or null when nothing is left
+ */
 export const removeSQON = (fieldName, sqon) => {
   if (!sqon) return null;
   if (!fieldName) return sqon;
   if (Object.keys(sqon).length === 0) return sqon;
 
-  if (!Array.isArray(sqon.content)) {
-    const fieldFilter =
-      typeof fieldName === 'function' ? fieldName : (input) => input === fieldName;
-    return fieldFilter(sqon.content.fieldName) ? null : sqon;
-  }
+  const clauses = clausesOf(SqonBuilder.from(sqon).removeFilter(fieldName).toValue());
 
-  const filteredContent = sqon.content.map((q) => removeSQON(fieldName, q)).filter(Boolean);
-
-  return filteredContent.length
-    ? {
-        ...sqon,
-        content: filteredContent,
-      }
-    : null;
+  return clauses.length ? { op: 'and', content: clauses } : null;
 };
 
 export const filterExpanded = (sqon, showExpandedStatus = false) => {
