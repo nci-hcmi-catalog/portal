@@ -1,13 +1,6 @@
 import { get } from 'lodash';
 import { SqonBuilder } from '@overture-stack/sqon';
 
-/**
- * SQON manipulation, backed by `@overture-stack/sqon`.
- *
- * `SqonBuilder` unwraps a single-clause combination to a bare leaf, so both exports below
- * re-wrap: the portal hands SQONs straight to Arranger as an `and` combination.
- */
-
 const sortClauses = (a, b) => {
   if (a.content.fieldName && b.content.fieldName) {
     return a.content.fieldName.localeCompare(b.content.fieldName);
@@ -18,7 +11,8 @@ const sortClauses = (a, b) => {
   }
 };
 
-const clausesOf = (node) => (node.op === 'and' && Array.isArray(node.content) ? node.content : [node]);
+const clausesOf = (node) =>
+  node.op === 'and' && Array.isArray(node.content) ? node.content : [node];
 
 const clauseKey = (clause) =>
   `${clause.op.toLowerCase()}|${clause.content.fieldName ?? clause.content.entity}`;
@@ -43,8 +37,6 @@ export const addInSQON = (q, ctxq) => {
     const merged = clausesOf(ctxq).reduce((builder, clause) => {
       const prior = existing.get(clauseKey(clause));
 
-      // Selecting a second facet value widens the facet, so `in` unions here. The reducer will
-      // not do it: AND(in:[A], in:[B]) correctly means "A and B". Other ops reduce correctly.
       if (prior && clause.op === 'in') {
         const union = [...new Set([...valuesOf(prior), ...valuesOf(clause)])].sort();
         return builder.setFilter(clause.content.fieldName, 'in', union);
