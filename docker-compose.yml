@@ -8,8 +8,6 @@ services:
     depends_on:
       opensearch:
         condition: service_healthy
-    environment:
-      - ENV=${ENV:-dev}
     image: hcmi-api
     ports:
       - 5050:5050
@@ -23,7 +21,6 @@ services:
       mongo:
         condition: service_healthy
     environment:
-      - ENV=${ENV:-dev}
       - MONGO_URL=mongodb://mongo:27017
     image: hcmi-cms
     ports:
