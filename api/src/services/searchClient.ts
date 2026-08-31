@@ -1,6 +1,6 @@
+import { defaultProvider } from '@aws-sdk/credential-provider-node';
 import { Client } from '@opensearch-project/opensearch';
 import { AwsSigv4Signer } from '@opensearch-project/opensearch/aws';
-import { defaultProvider } from '@aws-sdk/credential-provider-node';
 
 import type { PM2Config } from './../pm2.ts';
 

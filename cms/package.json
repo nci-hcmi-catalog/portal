@@ -14,7 +14,7 @@
   "dependencies": {
     "@aws-sdk/credential-provider-node": "^3.972.66",
     "@opensearch-project/opensearch": "^3.6.0",
-    "@overture-stack/arranger-graphql-router": "1.0.0-rc.4",
+    "@overture-stack/arranger-graphql-router": "1.0.0-rc.5",
     "@overture-stack/arranger-types": "1.0.0-rc.3",
     "aws-sdk": "^2.723.0",
     "axios": "^1.16.0",
@@ -52,7 +52,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "@babel/preset-env": "^7.2.3",
     "@babel/register": "^7.0.0",
-    "migrate-mongo": "8.2.2",
+    "migrate-mongo": "^14.0.7",
     "nodemon": "^2.0.16",
     "pino-pretty": "^4.1.0"
   }
