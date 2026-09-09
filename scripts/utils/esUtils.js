@@ -1,9 +1,9 @@
 import getSearchClient from '../../cms/src/services/search-client/client.js';
 
 /** Search index settings and mappings **/
-import modelsIndexConfig from '../../elasticsearch/modelsIndex.json' with { type: "json" };
-import updateIndexConfig from '../../elasticsearch/lastUpdated.json' with { type: "json" };
 import genesIndexConfig from '../../elasticsearch/genesIndex.json' with { type: "json" };
+import updateIndexConfig from '../../elasticsearch/lastUpdated.json' with { type: "json" };
+import modelsIndexConfig from '../../elasticsearch/modelsIndex.json' with { type: "json" };
 import variantsIndexConfig from '../../elasticsearch/variantsIndex.json' with { type: "json" };
 
 const pm2Path = process.env.CMS_CONFIG || '../../cms/pm2.config.js';
@@ -32,12 +32,7 @@ const VARIANTS_INDEX = 'genomic_variants';
 const createIndex = async (index, config) => {
   try {
     console.log(`\nCreating index: ${index}`);
-    const client = await getSearchClient({
-      node: esHost,
-      user,
-      password,
-      clientType
-    });
+    const client = await getSearchClient(pm2);
     await client.indices.create({
       index,
       body: config,
@@ -53,12 +48,7 @@ const createIndex = async (index, config) => {
 const deleteIndex = async index => {
   try {
     console.log(`\nDeleting existing index (if present): ${index}`);
-    const client = await getSearchClient({
-      node: esHost,
-      user,
-      password,
-      clientType
-    });
+    const client = await getSearchClient(pm2);
     await client.indices.delete({ index });
   } catch (e) {}
 };
@@ -87,12 +77,7 @@ const deleteVariantsIndex = async () => await deleteIndex(VARIANTS_INDEX);
 const updateIndex = async ({ index, settings = {}, mappings = {} } = {}) => {
   try {
     console.log('Updating mapping for:', index);
-    const client = await getSearchClient({
-      node: esHost,
-      user,
-      password,
-      clientType
-    });
+    const client = await getSearchClient(pm2);
     await client.indices.close({
       index,
     });
@@ -131,22 +116,12 @@ const updateSearchIndices = async () => {
 const configureArrangerSets = async () => {
   try {
     console.log(`\nDeleting existing index (if present): arranger-sets`);
-    const client = await getSearchClient({
-      node: esHost,
-      user,
-      password,
-      clientType
-    });
+    const client = await getSearchClient(pm2);
     await client.indices.delete({ index: `arranger-sets` });
   } catch (e) {}
   try {
     console.log(`Creating index: arranger-sets`);
-    const client = await getSearchClient({
-      node: esHost,
-      user,
-      password,
-      clientType
-    });
+    const client = await getSearchClient(pm2);
     await client.indices.create({
       index: 'arranger-sets',
       body: {

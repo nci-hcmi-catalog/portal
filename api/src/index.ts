@@ -5,7 +5,7 @@ import express from 'express';
 import expressSanitizer from 'express-sanitizer';
 import helmet from 'helmet';
 import { Server } from 'http';
-import ArrangerRouter, { type ArrangerBaseContext } from '@overture-stack/arranger-graphql-router';
+import ArrangerRouter, { type ArrangerBaseContext, wrapOpenSearchClient } from '@overture-stack/arranger-graphql-router';
 import type { ConfigsObject, DisplayType, ExtendedConfigs, FacetsConfigs, MatchBoxConfigs, TableConfigs } from '@overture-stack/arranger-types/configs';
 import * as path from 'path';
 
@@ -72,7 +72,7 @@ const configs: Partial<ConfigsObject<ArrangerBaseContext>> = {
 
 const esClient = getClient(pm2);
 
-ArrangerRouter({ configs, esClient }).then((router) => {
+ArrangerRouter({ configs, esClient: wrapOpenSearchClient(esClient) }).then((router) => {
   app.use(router);
   app.use('/last-updated', lastUpdatedRouter);
   app.use('/health', healthRouter);
