@@ -36,63 +36,25 @@ First time setup will require variants being loaded into mongo via a migration i
 
 To run the required migrations:
 
+From the project root directory:
+
 ```
-cd cms/variant-migrations
-../../node_modules/.bin/migrate-mongo up -f config.js
+yarn initializeMigrations
 ```
 
 ### Quickstart
 
-1. Run dependencies through docker:
+Run docker compose:
 
 ```
-docker compose up
+docker compose up -d
 ```
 
-2. Install node dependencies using yarn, from this project's root directory. This will not work correctly using `npm i`, the three projects are linked and yarn manages the shared dependencies.
+This will create Docker containers for each service and initialize the HCMI web catalog.
 
-```
-yarn
-```
+Both OpenSearch and MongoDb are started and initilization scripts are run.
 
-3. Run database migrations:
-
-```
-cd cms/variant-migrations
-../../node_modules/.bin/migrate-mongo up -f config.js
-```
-
-4. Initialize ElasticSearch:
-   From the project root directory run the following command. Note that you may need to change the ENV value used to match the environment declared in the `cms/pm2.config.json` file setup.
-
-```
-ENV=prd npm run initializeEs
-```
-
-5. Run the api:
-
-```
-cd api
-yarn start
-```
-
-6. Run the cms:
-
-```
-cd cms
-yarn start
-```
-
-7. Run the UI:
-
-```
-cd ui
-yarn start
-```
-
-Running the UI will attempt to open the site in your browser.
-
-These applications, when started with yarn, are running in a development mode and will be restarted automatically when you make any changes to their files.
+The UI application can be accessed in the browser at http://localhost:3000, CMS at http://localhost:8080, and API at http://localhost:5050.
 
 #### Specs
 

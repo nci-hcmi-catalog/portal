@@ -1,29 +1,29 @@
-import getSearchClient from '../../cms/src/services/search-client/client.js';
-
 /** Search index settings and mappings **/
-import genesIndexConfig from '../../elasticsearch/genesIndex.json' with { type: "json" };
-import updateIndexConfig from '../../elasticsearch/lastUpdated.json' with { type: "json" };
-import modelsIndexConfig from '../../elasticsearch/modelsIndex.json' with { type: "json" };
-import variantsIndexConfig from '../../elasticsearch/variantsIndex.json' with { type: "json" };
+import genesIndexConfig from '../../elasticsearch/genesIndex.json' with { type: 'json' };
+import updateIndexConfig from '../../elasticsearch/lastUpdated.json' with { type: 'json' };
+import modelsIndexConfig from '../../elasticsearch/modelsIndex.json' with { type: 'json' };
+import variantsIndexConfig from '../../elasticsearch/variantsIndex.json' with { type: 'json' };
 
-const pm2Path = process.env.CMS_CONFIG || '../../cms/pm2.config.js';
 const pm2Env = process.env.ENV;
+
 if (!pm2Env) {
   throw new Error('No ENV value provided!');
 }
-const pm2Config = await import(pm2Path).then(({ default: config }) => config );
+
+const pm2Path = process.env.CMS_CONFIG || '../../cms/pm2.config.js';
+const pm2Config = await import(pm2Path).then(({ default: config }) => config);
 const pm2ConfigGeneric =
   (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0].env) || {};
 const pm2ConfigForEnv =
   (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0][`env_${pm2Env}`]) || {};
 const pm2 = { ...pm2ConfigGeneric, ...pm2ConfigForEnv };
 
-const esHost = process.env.ES_HOST || `${pm2.ES_HOST}:${pm2.ES_PORT}`;
 const updateIndexName = process.env.ES_UPDATE_INDEX || pm2.ES_UPDATE_INDEX || 'hcmi-update';
 const modelsIndexName = process.env.ES_INDEX || pm2.ES_INDEX || 'hcmi';
-const user = pm2?.ES_USER || process.env.ES_USER || '';
-const password = pm2?.ES_PASS || process.env.ES_PASS || '';
-const clientType = pm2?.SEARCH_CLIENT_TYPE || process.env.SEARCH_CLIENT_TYPE || 'opensearch';
+
+const getSearchClient = import('../../cms/src/services/search-client/client.js').then(
+  ({ default: getClient }) => getClient,
+);
 
 const GENES_INDEX = 'genes';
 const VARIANTS_INDEX = 'genomic_variants';
@@ -32,7 +32,9 @@ const VARIANTS_INDEX = 'genomic_variants';
 const createIndex = async (index, config) => {
   try {
     console.log(`\nCreating index: ${index}`);
-    const client = await getSearchClient(pm2);
+    console.log('getSearchClient', getSearchClient);
+    const searchClientInit = await getSearchClient;
+    const client = await searchClientInit(pm2);
     await client.indices.create({
       index,
       body: config,
@@ -45,20 +47,20 @@ const createIndex = async (index, config) => {
   }
 };
 
-const deleteIndex = async index => {
+const deleteIndex = async (index) => {
   try {
     console.log(`\nDeleting existing index (if present): ${index}`);
-    const client = await getSearchClient(pm2);
+    console.log('getSearchClient', getSearchClient);
+    const searchClientInit = await getSearchClient;
+    const client = await searchClientInit(pm2);
     await client.indices.delete({ index });
   } catch (e) {}
 };
 
 /* ******* Models Index ******** */
-const createLastUpdatedIndex = async () =>
-  await createIndex(updateIndexName, updateIndexConfig);
+const createLastUpdatedIndex = async () => await createIndex(updateIndexName, updateIndexConfig);
 
-const createModelsIndex = async () =>
-  await createIndex(modelsIndexName, modelsIndexConfig);
+const createModelsIndex = async () => await createIndex(modelsIndexName, modelsIndexConfig);
 
 const deleteModelsIndex = async () => await deleteIndex(modelsIndexName);
 
@@ -68,8 +70,7 @@ const createGenesIndex = async () => await createIndex(GENES_INDEX, genesIndexCo
 const deleteGenesIndex = async () => await deleteIndex(GENES_INDEX);
 
 /* ******* Variants Index ******** */
-const createVariantsIndex = async () =>
-  await createIndex(VARIANTS_INDEX, variantsIndexConfig);
+const createVariantsIndex = async () => await createIndex(VARIANTS_INDEX, variantsIndexConfig);
 
 const deleteVariantsIndex = async () => await deleteIndex(VARIANTS_INDEX);
 
@@ -77,7 +78,9 @@ const deleteVariantsIndex = async () => await deleteIndex(VARIANTS_INDEX);
 const updateIndex = async ({ index, settings = {}, mappings = {} } = {}) => {
   try {
     console.log('Updating mapping for:', index);
-    const client = await getSearchClient(pm2);
+    console.log('getSearchClient', getSearchClient);
+    const searchClientInit = await getSearchClient;
+    const client = await searchClientInit(pm2);
     await client.indices.close({
       index,
     });
@@ -116,12 +119,16 @@ const updateSearchIndices = async () => {
 const configureArrangerSets = async () => {
   try {
     console.log(`\nDeleting existing index (if present): arranger-sets`);
-    const client = await getSearchClient(pm2);
+    console.log('getSearchClient', getSearchClient);
+    const searchClientInit = await getSearchClient;
+    const client = await searchClientInit(pm2);
     await client.indices.delete({ index: `arranger-sets` });
   } catch (e) {}
   try {
     console.log(`Creating index: arranger-sets`);
-    const client = await getSearchClient(pm2);
+    console.log('getSearchClient', getSearchClient);
+    const searchClientInit = await getSearchClient;
+    const client = await searchClientInit(pm2);
     await client.indices.create({
       index: 'arranger-sets',
       body: {

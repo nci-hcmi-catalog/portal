@@ -1,25 +1,80 @@
-# For a quick mongo/elasticSearch local environment
-
-version: '3'
+name: hcmi
 services:
+  hcmi-api:
+    build:
+      context: .
+      target: hcmi-api
+    container_name: hcmi-api
+    depends_on:
+      opensearch:
+        condition: service_healthy
+    image: hcmi-api
+    ports:
+      - 5050:5050
+
+  hcmi-cms:
+    build:
+      context: .
+      target: hcmi-cms
+    container_name: hcmi-cms
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+    image: hcmi-cms
+    ports:
+      - 8080:8080
+
+  hcmi-ui:
+    build:
+      context: .
+      target: hcmi-ui
+    container_name: hcmi-ui
+    depends_on:
+      - hcmi-api
+      - hcmi-cms
+    image: hcmi-ui
+    ports:
+      - 3000:3000
+
   mongo:
+    container_name: hcmi-mongodb
+    healthcheck:
+      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     image: mongo
-    restart: always
     ports:
       - 27017:27017
+    restart: always
     volumes:
       - ./docker/mongo/data:/data/db
+
   opensearch:
     container_name: hcmi-opensearch
+    environment:
+      - discovery.type=single-node
+      - cluster.name=hcmi.opensearch
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2048m
+      - DISABLE_SECURITY_PLUGIN=true
+    # Prevents API startup before container is ready for connections
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          "curl -s -k http://localhost:9200/_cluster/health | grep -q '\"status\":\"green\"\\|\"status\":\"yellow\"'",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
     image: 'opensearchproject/opensearch:latest'
     ports:
       - 9200:9200
       - 9300:9300
     volumes:
       - ./docker/opensearch/data:/usr/share/opensearch/data
-    environment:
-      - discovery.type=single-node
-      - cluster.name=workflow.opensearch
-      - cluster.routing.allocation.disk.threshold_enabled=false
-      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2048m
-      - DISABLE_SECURITY_PLUGIN=true
