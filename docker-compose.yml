@@ -46,7 +46,7 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
-    image: mongo
+    image: mongo:8.0.4
     ports:
       - 27017:27017
     restart: always

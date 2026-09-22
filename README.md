@@ -12,8 +12,8 @@ To work on this project, running the UI, CMS, and API on a local device, make su
 
 This project runs on **NodeJS v24**.
 
-- MongoDB v4.4.16 - All model and variant data configured in the CMS is stored in MongoDB
-- Elasticsearch v7.7.6 - The CMS publishes data into ElasticSearch and the API serves the ES data to the UI
+- MongoDB v8.0.4 - All model and variant data configured in the CMS is stored in MongoDB
+- OpenSearch v3.6.0 - The CMS publishes data into OpenSearch and the API serves the OS data to the UI
 - AWS S3 - Used for image storage and serving to the UI. One bucket with public READ access must be setup for this functionality. Alternately, an S3 compatible system such as MinIO can be used since it shares the same API.
 
   Note: This S3 bucket is only required for model images; the application will run without this, and local development can be done on all non-image functionality without S3 configured.

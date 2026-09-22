@@ -32,7 +32,6 @@ const VARIANTS_INDEX = 'genomic_variants';
 const createIndex = async (index, config) => {
   try {
     console.log(`\nCreating index: ${index}`);
-    console.log('getSearchClient', getSearchClient);
     const searchClientInit = await getSearchClient;
     const client = await searchClientInit(pm2);
     await client.indices.create({
@@ -50,7 +49,6 @@ const createIndex = async (index, config) => {
 const deleteIndex = async (index) => {
   try {
     console.log(`\nDeleting existing index (if present): ${index}`);
-    console.log('getSearchClient', getSearchClient);
     const searchClientInit = await getSearchClient;
     const client = await searchClientInit(pm2);
     await client.indices.delete({ index });
@@ -78,7 +76,6 @@ const deleteVariantsIndex = async () => await deleteIndex(VARIANTS_INDEX);
 const updateIndex = async ({ index, settings = {}, mappings = {} } = {}) => {
   try {
     console.log('Updating mapping for:', index);
-    console.log('getSearchClient', getSearchClient);
     const searchClientInit = await getSearchClient;
     const client = await searchClientInit(pm2);
     await client.indices.close({
@@ -119,14 +116,12 @@ const updateSearchIndices = async () => {
 const configureArrangerSets = async () => {
   try {
     console.log(`\nDeleting existing index (if present): arranger-sets`);
-    console.log('getSearchClient', getSearchClient);
     const searchClientInit = await getSearchClient;
     const client = await searchClientInit(pm2);
     await client.indices.delete({ index: `arranger-sets` });
   } catch (e) {}
   try {
     console.log(`Creating index: arranger-sets`);
-    console.log('getSearchClient', getSearchClient);
     const searchClientInit = await getSearchClient;
     const client = await searchClientInit(pm2);
     await client.indices.create({
