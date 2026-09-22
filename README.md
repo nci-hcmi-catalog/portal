@@ -42,6 +42,16 @@ From the project root directory:
 yarn initializeMigrations
 ```
 
+### Initialize OpenSearch:
+
+Run the following command to intialize OpenSearch indices. Note that you may need to change the ENV value used to match the environment declared in the `cms/pm2.config.json` file setup.
+
+From the project root directory:
+
+```
+ENV=dev yarn initializeEs
+```
+
 ### Quickstart
 
 Run docker compose:
