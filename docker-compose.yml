@@ -34,6 +34,15 @@ services:
     depends_on:
       - hcmi-api
       - hcmi-cms
+    environment:
+      - REACT_APP_ARRANGER_API=http://localhost:5050
+      - REACT_APP_BANNERS=[{"type":"INFO","dismissible":false,"title":"HCMI Portal Maintenance Notice","message":"Please note that the portal will be down for maintenance from December 21st 2024 at 3:00am to December 23rd 2024 at 10:00am. We apologize for the inconvenience."}]
+      - REACT_APP_CMS_API_URL=http://localhost:8080/api/v1
+      - REACT_APP_ENABLE_PROTEOMICS=true
+      - REACT_APP_GA4_TAG=
+      - REACT_APP_GOOGLE_CLIENT_ID=
+      - REACT_APP_LOGOUT_URL=
+      - REACT_APP_VERSION=hcmi
     image: hcmi-ui
     ports:
       - 3000:3000
