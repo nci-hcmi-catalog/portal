@@ -9,45 +9,34 @@ import methodOverride from 'method-override';
 import mongoose from 'mongoose';
 import pino from 'pino-http';
 
-import pm2Config from './../pm2.config.js';
-
 import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess.js';
 import {
-  preUpdate,
-  validateYup,
-  preModelDelete,
-  postUpdate,
-  postCreate,
   outputFn,
+  postCreate,
+  postUpdate,
+  preModelDelete,
+  preUpdate,
   validateUserRequest,
+  validateYup,
 } from './hooks.js';
 import getLogger from './logger.js';
-import { data_sync_router } from './routes/sync-data.js';
+import pm2Config from './pm2.js';
 import {
   actionRouter,
-  healthRouter,
+  authRouter,
   bulkRouter,
   dictionaryRouter,
+  healthRouter,
   imagesRouter,
   matchedModelsRouter as matchedModelsActionsRouter,
+  publishRouter,
   templatesRouter,
   variantsRouter,
-  publishRouter,
-  authRouter,
 } from './routes/index.js';
-import Model from './schemas/model.js';
+import { data_sync_router } from './routes/sync-data.js';
 import MatchedModels from './schemas/matchedModels.js';
+import Model from './schemas/model.js';
 import User from './schemas/user.js';
-
-const pm2Env = process.env.ENV;
-if (!pm2Env) {
-  throw new Error('No ENV value provided!');
-}
-const pm2ConfigGeneric =
-  (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0].env) || {};
-const pm2ConfigForEnv =
-  (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0][`env_${pm2Env}`]) || {};
-export const pm2 = { ...pm2ConfigGeneric, ...pm2ConfigForEnv };
 
 const logger = getLogger('root');
 const port = process.env.PORT || 8080;
@@ -63,7 +52,7 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 // Connect to database
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/test');
+mongoose.connect(pm2Config?.MONGODB_URI || 'mongodb://localhost:27017/test');
 
 // configure server
 app.use(helmet());
@@ -79,7 +68,7 @@ app.use(cors());
 // HealthRouter must be added before the declaration for isUserAuthorized filter
 app.use('/api/v1/health', healthRouter);
 
-if (process.env.AUTH_ENABLED !== 'false') {
+if (pm2Config.AUTH_ENABLED !== false) {
   app.use(async (req, res, next) => {
     const authorized = await isUserAuthorized(req);
     if (!authorized) {
