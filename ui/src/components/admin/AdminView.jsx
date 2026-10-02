@@ -58,9 +58,16 @@ const AdminView = ({ location }) => {
     publishRunning || !isEmpty(publishNotifications) ? publishPollingInterval : null,
   );
 
+  const GoogleAuthWrapper = ({ children }) =>
+    googleAppId ? (
+      <GoogleOAuthProvider clientId={googleAppId}>{children}</GoogleOAuthProvider>
+    ) : (
+      <>{children}</>
+    );
+
   return (
     <AdminWrapper>
-      <GoogleOAuthProvider clientId={googleAppId}>
+      <GoogleAuthWrapper googleAppId={googleAppId}>
         <AdminNav location={location} />
         <AdminMain id="main">
           <Route exact path="/admin" component={ModelsManager} />
@@ -68,7 +75,7 @@ const AdminView = ({ location }) => {
           <Route exact path="/admin/manage-users" component={UsersManager} />
           <Route exact path="/admin/data-dictionary" component={DataDictionary} />
         </AdminMain>
-      </GoogleOAuthProvider>
+      </GoogleAuthWrapper>
     </AdminWrapper>
   );
 };
