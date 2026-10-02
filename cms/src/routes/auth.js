@@ -1,16 +1,19 @@
 import express from 'express';
 import { OAuth2Client } from 'google-auth-library';
+import pm2 from './../pm2.js';
 
 import getLogger from '../logger.js';
-import pm2Config from '../pm2.js';
 
 const logger = getLogger('routes/auth');
 
 const authRouter = express.Router();
 
+const client_id = pm2.CLIENT_ID || process.env.CLIENT_ID;
+const client_secret = pm2.CLIENT_SECRET || process.env.CLIENT_SECRET;
+
 const oAuth2Client = new OAuth2Client(
-  pm2Config.CLIENT_ID || process.env.CLIENT_ID,
-  pm2Config.CLIENT_SECRET || process.env.CLIENT_SECRET,
+  client_id,
+  client_secret,
   'postmessage', // use 'postmessage' instead of actual redirect URI https://stackoverflow.com/a/18990247
 );
 
