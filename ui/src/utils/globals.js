@@ -1,4 +1,4 @@
-let globals = ['VERSION', 'ES_HOST', 'ARRANGER_API'];
+let globals = ['VERSION', 'ARRANGER_API'];
 
 export default globals.reduce(
   (acc, val) => ({

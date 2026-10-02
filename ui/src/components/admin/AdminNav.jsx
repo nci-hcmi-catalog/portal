@@ -1,4 +1,6 @@
-import { AdminNav as AdminNavWrapper, NavLink, Account } from '~/theme/adminNavStyles';
+import { Account, AdminNav as AdminNavWrapper, NavLink } from '~/theme/adminNavStyles';
+
+import config from './config';
 import { LoginWithGoogle } from './services/GoogleLink';
 import { LoggedInUserPill } from './services/LoggedInUser';
 
@@ -54,7 +56,7 @@ const AdminNav = ({ location }) => {
         </NavLink>
       </div>
       <Account>
-        <LoginWithGoogle />
+        {config.googleAppId && <LoginWithGoogle />}
         <LoggedInUserPill />
       </Account>
     </AdminNavWrapper>
