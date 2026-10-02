@@ -30,10 +30,8 @@ FROM hcmi-base AS hcmi-api
 
 EXPOSE 5050
 
-# Initialize OpenSearch
-RUN yarn initializeEs
-
-CMD ["yarn", "api"]
+# Initialize OpenSearch & Starts API server
+CMD ["sh", "-c", "yarn initializeEs && yarn api"]
 
 ############
 # HCMI CMS #
@@ -42,7 +40,7 @@ FROM hcmi-base AS hcmi-cms
 
 EXPOSE 8080
 
-# Run Mongo Variant table migrations
+# Run Mongo Variant table migrations & Starts CMS server
 CMD ["sh", "-c", "yarn initializeMigrations && yarn cms"]
 
 ############
@@ -52,5 +50,6 @@ FROM hcmi-base AS hcmi-ui
 
 EXPOSE 3000
 
+# Starts UI App
 # See https://vite.dev/config/server-options#server-host
 CMD ["yarn", "ui", "--host"]

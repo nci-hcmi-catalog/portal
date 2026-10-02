@@ -1,6 +1,6 @@
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useEffect, useRef, useState } from 'react';
 import { Route } from 'react-router-dom';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import { AdminMain, AdminWrapper } from '~/theme/adminStyles';
 import useInterval from '~/utils/useInterval';
@@ -12,10 +12,8 @@ import ModelsManager from './ModelsManager';
 import { useGenomicVariantImportNotifications, usePublishNotifications } from './Notifications';
 import UsersManager from './UsersManager';
 
-import config from './config';
 import { isEmpty } from 'lodash';
-
-const { googleAppId } = config;
+import config from './config';
 
 const AdminView = ({ location }) => {
   const didMountRef = useRef(false);
@@ -24,6 +22,7 @@ const AdminView = ({ location }) => {
   const { importNotifications, importRunning, fetchImportStatus } =
     useGenomicVariantImportNotifications();
   const { publishNotifications, publishRunning, fetchPublishStatus } = usePublishNotifications();
+  const { googleAppId } = config;
 
   // Check for active genomic variant imports or publishes on page load
   useEffect(() => {

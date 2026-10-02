@@ -17,7 +17,7 @@ module.exports = {
       env_dev: {
         NODE_ENV: 'dev',
         DISABLE_GRAPHQL_INTROSPECTION: false,
-        ES_URL: 'http://host.docker.internal:9200',
+        ES_URL: 'http://opensearch:9200',
         LOG_LEVEL: 'debug',
         ES_USER: 'elastic',
         ES_PASS: 'password',
