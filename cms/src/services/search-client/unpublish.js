@@ -12,7 +12,7 @@ import { indexMatchedModelsToES } from './publish.js';
 
 const logger = getLogger('services/search-client/unpublish');
 
-const index = pm2.ES_INDEX || process.env.ES_INDEX;
+const index = pm2.ES_INDEX || process.env.ES_INDEX || 'hcmi';
 
 export const unpublishModel = async (name) => {
   await unpublishOneFromES(name);
@@ -20,7 +20,7 @@ export const unpublishModel = async (name) => {
   await updateGeneSearchIndicies();
 };
 
-export const unpublishOneFromES = async (name, index) => {
+export const unpublishOneFromES = async (name) => {
   // Not waiting for update promise to
   // resolve as this is just bookkeeping
   await indexLastUpdated();

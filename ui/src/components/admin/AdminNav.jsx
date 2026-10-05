@@ -33,6 +33,9 @@ export const dataDictionaryUrlBase = '/admin/data-dictionary';
 
 const AdminNav = ({ location }) => {
   const pathname = location?.pathname;
+  if (!config.googleAppId) {
+    console.warn('Google Login credentials are not configured.');
+  }
   return (
     <AdminNavWrapper as="nav">
       <div>
