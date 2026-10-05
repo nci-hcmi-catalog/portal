@@ -17,6 +17,7 @@ void failSafeBuild(configId, packageType){
                 configFile(fileId: configId + '-migration', targetLocation: './cms/variant-migrations/config.js'),
             ]) {
                 sh '''
+                    umask 022
                     portal-ci/build_stage/build.sh portal-ci ''' + packageType + '''
                 '''
                 env.BUILD_STEP_SUCCESS = 'yes'
@@ -34,6 +35,7 @@ void failSafeBuild(configId, packageType){
             configFile(fileId: configId, targetLocation: targetLocation)
         ]) {
             sh '''
+            umask 022
             portal-ci/build_stage/build.sh portal-ci ''' + packageType + '''
             '''
             env.BUILD_STEP_SUCCESS = 'yes'
@@ -88,6 +90,7 @@ pipeline {
       steps {
         echo "GETTING SCRIPTS"
         sh '''
+        umask 022
         git clone '''+PORTAL_CI_URL+'''
         '''
       }
