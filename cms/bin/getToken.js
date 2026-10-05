@@ -9,8 +9,8 @@ const TOKEN_PATH = 'token.json';
 authorize(() => console.log(`authorized`));
 
 function authorize(callback) {
-  const client_id = process.env.CLIENT_ID;
-  const client_secret = process.env.CLIENT_SECRET;
+  const client_id = process.env.GOOGLE_CLIENT_ID;
+  const client_secret = process.env.GOOGLE_CLIENT_SECRET;
   const redirect_uris = JSON.parse(process.env.REDIRECT_URIS);
   console.log(redirect_uris[0]);
 

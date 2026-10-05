@@ -1,18 +1,18 @@
 // @ts-check
 
-import Model from '../../schemas/model.js';
 import { modelStatus } from '../../helpers/modelStatus.js';
 import getLogger from '../../logger.js';
 import pm2 from '../../pm2.js';
+import Model from '../../schemas/model.js';
 
 import getClient from './client.js';
+import { updateGeneSearchIndicies } from './genomicVariants.js';
 import indexLastUpdated from './indexLastUpdated.js';
 import { indexMatchedModelsToES } from './publish.js';
-import { updateGeneSearchIndicies } from './genomicVariants.js';
 
 const logger = getLogger('services/search-client/unpublish');
 
-const index = process.env.ES_INDEX;
+const index = pm2.ES_INDEX || process.env.ES_INDEX;
 
 export const unpublishModel = async (name) => {
   await unpublishOneFromES(name);
@@ -20,7 +20,7 @@ export const unpublishModel = async (name) => {
   await updateGeneSearchIndicies();
 };
 
-export const unpublishOneFromES = async (name) => {
+export const unpublishOneFromES = async (name, index) => {
   // Not waiting for update promise to
   // resolve as this is just bookkeeping
   await indexLastUpdated();

@@ -8,8 +8,8 @@ const logger = getLogger('routes/auth');
 
 const authRouter = express.Router();
 
-const client_id = pm2.CLIENT_ID || process.env.CLIENT_ID;
-const client_secret = pm2.CLIENT_SECRET || process.env.CLIENT_SECRET;
+const client_id = pm2.GOOGLE_CLIENT_ID || process.env.GOOGLE_CLIENT_ID;
+const client_secret = pm2.GOOGLE_CLIENT_SECRET || process.env.GOOGLE_CLIENT_SECRET;
 
 const oAuth2Client = new OAuth2Client(
   client_id,

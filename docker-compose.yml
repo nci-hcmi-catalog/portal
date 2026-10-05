@@ -22,6 +22,8 @@ services:
         condition: service_healthy
     environment:
       - MONGO_URL=mongodb://mongo:27017
+      - GOOGLE_CLIENT_ID=
+      - GOOGLE_CLIENT_SECRET=
     image: hcmi-cms
     ports:
       - 8080:8080
@@ -50,7 +52,7 @@ services:
   mongo:
     container_name: hcmi-mongodb
     healthcheck:
-      test: ['CMD', 'mongosh', '--eval', "db.adminCommand('ping')"]
+      test: ['CMD', 'mongosh', '--eval', 'db.adminCommand("ping")']
       interval: 10s
       timeout: 5s
       retries: 3
