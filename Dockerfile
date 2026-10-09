@@ -1,8 +1,6 @@
 # Setup Environment
 FROM node:24-alpine AS hcmi-base
 
-ENV ENV=dev
-
 ARG ROOT_DIR=/hcmi
 ARG API_DIR=$ROOT_DIR/api/
 ARG CMS_DIR=$ROOT_DIR/cms/
@@ -41,7 +39,7 @@ FROM hcmi-base AS hcmi-cms
 EXPOSE 8080
 
 # Run Mongo Variant table migrations & Starts CMS server
-CMD ["sh", "-c", "yarn initializeMigrations && yarn cms"]
+CMD ["sh", "-c", "yarn migrateUp && yarn cms"]
 
 ############
 # HCMI  UI #
