@@ -1,6 +1,6 @@
-import { getAuthClient } from '../services/import/SheetsToMongo.js';
+import getAuthClient from '../services/google-sheets/googleAuth.js';
 
-const ensureAuth = function(req) {
+const ensureAuth = function (req) {
   return new Promise((resolve, reject) => {
     const {
       headers: { authorization },

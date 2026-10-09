@@ -1,12 +1,12 @@
 // @ts-check
-import pm2 from '../../pm2.js';
 import getLogger from '../../logger.js';
+import pm2 from '../../pm2.js';
 
 import getClient from './client.js';
 
 const logger = getLogger('services/search-client/update');
 
-const index = process.env.ES_UPDATE_INDEX || 'hcmi-update';
+const index = pm2.ES_INDEX || process.env.ES_UPDATE_INDEX || 'hcmi-update';
 
 const indexLastUpdated = async () => {
   const searchClient = getClient(pm2);

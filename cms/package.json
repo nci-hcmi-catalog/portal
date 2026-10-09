@@ -6,8 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js | pino-pretty",
-    "test": "echo \"no tests specified\" && exit 0",
-    "getToken": "node bin/getToken.js"
+    "test": "echo \"no tests specified\" && exit 0"
   },
   "author": "OICR",
   "license": "ISC",
@@ -50,7 +49,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "@babel/preset-env": "^7.2.3",
     "@babel/register": "^7.0.0",
-    "migrate-mongo": "8.2.2",
+    "migrate-mongo": "^14.0.7",
     "nodemon": "^2.0.16",
     "pino-pretty": "^4.1.0"
   }

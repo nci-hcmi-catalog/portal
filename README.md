@@ -12,8 +12,8 @@ To work on this project, running the UI, CMS, and API on a local device, make su
 
 This project runs on **NodeJS v24**.
 
-- MongoDB v4.4.16 - All model and variant data configured in the CMS is stored in MongoDB
-- Elasticsearch v7.7.6 - The CMS publishes data into ElasticSearch and the API serves the ES data to the UI
+- MongoDB v8.0.4 - All model and variant data configured in the CMS is stored in MongoDB
+- OpenSearch v3.6.0 - The CMS publishes data into OpenSearch and the API serves the OS data to the UI
 - AWS S3 - Used for image storage and serving to the UI. One bucket with public READ access must be setup for this functionality. Alternately, an S3 compatible system such as MinIO can be used since it shares the same API.
 
   Note: This S3 bucket is only required for model images; the application will run without this, and local development can be done on all non-image functionality without S3 configured.
@@ -36,63 +36,38 @@ First time setup will require variants being loaded into mongo via a migration i
 
 To run the required migrations:
 
+From the project root directory:
+
 ```
-cd cms/variant-migrations
-../../node_modules/.bin/migrate-mongo up -f config.js
+yarn migrate-up
+```
+
+### Initialize OpenSearch:
+
+Run the following command to intialize OpenSearch indices. Note that you may need to change the ENV value used to match the environment declared in the `cms/pm2.config.json` file setup.
+
+From the project root directory:
+
+```
+ENV=dev yarn initializeEs
 ```
 
 ### Quickstart
 
-1. Run dependencies through docker:
+#### Option 1: Run Services with Docker (Easiest)
 
-```
-docker compose up
-```
+`docker compose --env-file ./.env up -d`
 
-2. Install node dependencies using yarn, from this project's root directory. This will not work correctly using `npm i`, the three projects are linked and yarn manages the shared dependencies.
+This will create Docker containers for each service and initialize the HCMI web catalog.
+Both OpenSearch and MongoDb are started, and initilization scripts are run.
 
-```
-yarn
-```
+#### Option 2: Run Services Individually (Best for Development)
 
-3. Run database migrations:
+`yarn api`
+`yarn cms`
+`yarn ui`
 
-```
-cd cms/variant-migrations
-../../node_modules/.bin/migrate-mongo up -f config.js
-```
-
-4. Initialize ElasticSearch:
-   From the project root directory run the following command. Note that you may need to change the ENV value used to match the environment declared in the `cms/pm2.config.json` file setup.
-
-```
-ENV=prd npm run initializeEs
-```
-
-5. Run the api:
-
-```
-cd api
-yarn start
-```
-
-6. Run the cms:
-
-```
-cd cms
-yarn start
-```
-
-7. Run the UI:
-
-```
-cd ui
-yarn start
-```
-
-Running the UI will attempt to open the site in your browser.
-
-These applications, when started with yarn, are running in a development mode and will be restarted automatically when you make any changes to their files.
+The UI application can be accessed in the browser at http://localhost:3000, CMS at http://localhost:8080, and API at http://localhost:5050.
 
 #### Specs
 

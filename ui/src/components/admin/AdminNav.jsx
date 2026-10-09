@@ -1,4 +1,6 @@
-import { AdminNav as AdminNavWrapper, NavLink, Account } from '~/theme/adminNavStyles';
+import { Account, AdminNav as AdminNavWrapper, NavLink } from '~/theme/adminNavStyles';
+
+import config from './config';
 import { LoginWithGoogle } from './services/GoogleLink';
 import { LoggedInUserPill } from './services/LoggedInUser';
 
@@ -31,6 +33,9 @@ export const dataDictionaryUrlBase = '/admin/data-dictionary';
 
 const AdminNav = ({ location }) => {
   const pathname = location?.pathname;
+  if (!config.googleAppId) {
+    console.warn('Google Login credentials are not configured.');
+  }
   return (
     <AdminNavWrapper as="nav">
       <div>
@@ -54,7 +59,7 @@ const AdminNav = ({ location }) => {
         </NavLink>
       </div>
       <Account>
-        <LoginWithGoogle />
+        {config.googleAppId && <LoginWithGoogle />}
         <LoggedInUserPill />
       </Account>
     </AdminNavWrapper>

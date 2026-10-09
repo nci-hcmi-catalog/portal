@@ -1,23 +1,23 @@
-import { useEffect, useContext, useState } from 'react';
-import Popup from 'reactjs-popup';
-import axios from 'axios';
 import { css } from '@emotion/react';
-import { useGoogleLogin, googleLogout } from '@react-oauth/google';
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
+import Popup from 'reactjs-popup';
 
-import { UserDropdown, DropdownItem } from '~/theme/adminNavStyles';
 import CollapsibleArrow from '~/icons/CollapsibleArrow';
 import GoogleLogo from '~/icons/GoogleLogo';
+import { DropdownItem, UserDropdown } from '~/theme/adminNavStyles';
 import { visuallyHidden } from '~/theme/index';
 
-import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
+import { NOTIFICATION_TYPES, NotificationsContext } from '../Notifications';
 import config from '../config';
 import {
   getAuth,
-  setAuth,
-  removeAuth,
+  getEmailFromToken,
   getToken,
   isTokenExpired,
-  getEmailFromToken,
+  removeAuth,
+  setAuth,
 } from '../helpers/googleAuth';
 
 export const LoginWithGoogle = ({ children }) => {
@@ -27,6 +27,9 @@ export const LoginWithGoogle = ({ children }) => {
   });
   const [isOpen, setIsOpen] = useState(false);
   const { appendNotification } = useContext(NotificationsContext);
+  const googleAuthKey = getAuth();
+  const googleToken = getToken();
+  const tokenExpired = isTokenExpired();
 
   const authError = (errorDetails) => {
     appendNotification({
@@ -74,7 +77,7 @@ export const LoginWithGoogle = ({ children }) => {
       console.error(error);
     }
 
-    if (response.data) {
+    if (response?.data) {
       setAuth(response.data);
       const email = getEmailFromToken(response.data.id_token);
 
@@ -105,7 +108,7 @@ export const LoginWithGoogle = ({ children }) => {
   });
 
   const checkGoogleAuth = async () => {
-    if (getAuth() && getToken() && !isTokenExpired()) {
+    if (googleAuthKey && googleToken && !tokenExpired) {
       setState({
         loggedIn: true,
         email: getEmailFromToken(),
@@ -115,7 +118,7 @@ export const LoginWithGoogle = ({ children }) => {
 
   useEffect(() => {
     checkGoogleAuth();
-  }, []);
+  }, [googleAuthKey, googleToken, tokenExpired]);
 
   return (
     <>
