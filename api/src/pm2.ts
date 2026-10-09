@@ -1,16 +1,16 @@
 import pm2Config from './../pm2.config.js';
 
 // PM2 Env Setup
-type pm2EnvValues = 'dev' | 'prd' | 'staging';
-const pm2EnvValues: pm2EnvValues[] = ['dev', 'prd', 'staging'];
+type pm2Env = 'dev' | 'prd' | 'staging';
+const pm2EnvValues: pm2Env[] = ['dev', 'prd', 'staging'];
 
 if (!process.env.ENV) {
   throw new Error('No PM2 ENV value provided');
 }
 
-const pm2Env: pm2EnvValues =
-  process.env.ENV && pm2EnvValues.includes(process.env.ENV as pm2EnvValues)
-    ? (process.env.ENV as pm2EnvValues)
+const pm2Env: pm2Env =
+  process.env.ENV && pm2EnvValues.includes(process.env.ENV as pm2Env)
+    ? (process.env.ENV as pm2Env)
     : 'dev';
 
 const pm2ConfigBase = pm2Config.apps[0].env;

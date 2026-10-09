@@ -52,7 +52,9 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 // Connect to database
-mongoose.connect(pm2Config?.MONGODB_URI || 'mongodb://localhost:27017/test');
+mongoose.connect(
+  pm2Config?.MONGODB_URI || process.env.MONGODB_URI || 'mongodb://localhost:27017/test',
+);
 
 // configure server
 app.use(helmet());
