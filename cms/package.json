@@ -6,8 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js | pino-pretty",
-    "test": "echo \"no tests specified\" && exit 0",
-    "getToken": "node bin/getToken.js"
+    "test": "echo \"no tests specified\" && exit 0"
   },
   "author": "OICR",
   "license": "ISC",
