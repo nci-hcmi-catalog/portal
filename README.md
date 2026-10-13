@@ -63,6 +63,7 @@ Both OpenSearch and MongoDb are started, and initilization scripts are run.
 
 #### Option 2: Run Services Individually (Best for Development)
 
+`docker compose up -d opensearch mongo`
 `yarn api`
 `yarn cms`
 `yarn ui`
