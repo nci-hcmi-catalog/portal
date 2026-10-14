@@ -1,4 +1,5 @@
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { isEmpty } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { Route } from 'react-router-dom';
 
@@ -12,7 +13,6 @@ import ModelsManager from './ModelsManager';
 import { useGenomicVariantImportNotifications, usePublishNotifications } from './Notifications';
 import UsersManager from './UsersManager';
 
-import { isEmpty } from 'lodash';
 import config from './config';
 
 const AdminView = ({ location }) => {
@@ -58,16 +58,9 @@ const AdminView = ({ location }) => {
     publishRunning || !isEmpty(publishNotifications) ? publishPollingInterval : null,
   );
 
-  const GoogleAuthWrapper = ({ children }) =>
-    googleAppId ? (
-      <GoogleOAuthProvider clientId={googleAppId}>{children}</GoogleOAuthProvider>
-    ) : (
-      <>{children}</>
-    );
-
   return (
     <AdminWrapper>
-      <GoogleAuthWrapper googleAppId={googleAppId}>
+      <GoogleOAuthProvider clientId={googleAppId}>
         <AdminNav location={location} />
         <AdminMain id="main">
           <Route exact path="/admin" component={ModelsManager} />
@@ -75,7 +68,7 @@ const AdminView = ({ location }) => {
           <Route exact path="/admin/manage-users" component={UsersManager} />
           <Route exact path="/admin/data-dictionary" component={DataDictionary} />
         </AdminMain>
-      </GoogleAuthWrapper>
+      </GoogleOAuthProvider>
     </AdminWrapper>
   );
 };

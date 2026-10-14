@@ -27,9 +27,6 @@ export const LoginWithGoogle = ({ children }) => {
   });
   const [isOpen, setIsOpen] = useState(false);
   const { appendNotification } = useContext(NotificationsContext);
-  const googleAuthKey = getAuth();
-  const googleToken = getToken();
-  const tokenExpired = isTokenExpired();
 
   const authError = (errorDetails) => {
     appendNotification({
@@ -108,7 +105,7 @@ export const LoginWithGoogle = ({ children }) => {
   });
 
   const checkGoogleAuth = async () => {
-    if (googleAuthKey && googleToken && !tokenExpired) {
+    if (getAuth() && getToken() && !isTokenExpired()) {
       setState({
         loggedIn: true,
         email: getEmailFromToken(),
@@ -118,7 +115,7 @@ export const LoginWithGoogle = ({ children }) => {
 
   useEffect(() => {
     checkGoogleAuth();
-  }, [googleAuthKey, googleToken, tokenExpired]);
+  }, []);
 
   return (
     <>
