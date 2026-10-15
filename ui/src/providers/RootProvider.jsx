@@ -1,14 +1,14 @@
+import { ArrangerDataProvider, TableContextProvider } from '@overture-stack/arranger-components';
 import axios from 'axios';
 import urlJoin from 'url-join';
-import { ArrangerDataProvider, TableContextProvider } from '@overture-stack/arranger-components';
 
 import globals from '~/utils/globals';
 import { toggleExpanded } from '~/utils/sqonHelpers';
 
+import { useExpandedUnexpanded } from './ExpandedUnexpanded';
+import ModalStateProvider from './ModalState';
 import SavedSetsProvider from './SavedSets';
 import SelectedModelsProvider from './SelectedModels';
-import ModalStateProvider from './ModalState';
-import { useExpandedUnexpanded } from './ExpandedUnexpanded';
 
 const arrangerFetcher = async ({
   body,
