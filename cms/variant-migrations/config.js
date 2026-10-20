@@ -7,8 +7,4 @@ module.exports = {
   },
   migrationsDir: './cms/variant-migrations/migrations',
   changelogCollectionName: 'changelog',
-  options: {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  },
 };
