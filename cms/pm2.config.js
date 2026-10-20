@@ -74,7 +74,7 @@ module.exports = {
         IAM_USER_KEY: process.env.IAM_USER_KEY,
         IAM_USER_SECRET: process.env.IAM_USER_SECRET,
         LOG_LEVEL: 'info',
-        NODE_ENV: 'staging',
+        NODE_ENV: 'production',
         MONGO_COLLECTION: process.env.MONGO_COLLECTION,
         MONGO_DB_NAME: process.env.MONGO_DB_NAME,
         MONGODB_URI: process.env.MONGODB_URI,

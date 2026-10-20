@@ -39,7 +39,7 @@ module.exports = {
         SEARCH_ENGINE_AUTH_REGION: process.env.SEARCH_ENGINE_AUTH_REGION,
       },
       env_prd: {
-        NODE_ENV: 'staging',
+        NODE_ENV: 'production',
         DISABLE_GRAPHQL_INTROSPECTION: true,
         ES_URL: process.env.ES_URL,
         LOG_LEVEL: 'info',
