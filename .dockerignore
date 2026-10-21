@@ -1,0 +1,9 @@
+/docker/
+**/.git/
+**/node_modules/
+/.vscode/
+
+# Never bake secrets into image layers
+**/.env
+**/.env.*
+!**/.env.schema

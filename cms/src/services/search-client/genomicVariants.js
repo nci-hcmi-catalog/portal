@@ -10,7 +10,7 @@ const { get, flatten, uniq } = _;
 
 const logger = getLogger('services/search-client/genomicVariants');
 
-const MODEL_INDEX = process.env.ES_INDEX;
+const MODEL_INDEX = pm2.ES_INDEX || process.env.ES_INDEX || 'hcmi';
 const GENES_INDEX = 'genes';
 const VARIANTS_INDEX = 'genomic_variants';
 

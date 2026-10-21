@@ -2,14 +2,16 @@
 //  Scripts executed directly and not run through babel have issues with import statements.
 
 import getLogger from '../../logger.js';
+import pm2 from '../../pm2.js';
+
 const logger = getLogger('services/s3');
 
 const aws = require('aws-sdk');
 const uuid = require('uuid');
 
-const S3_BUCKET = process.env.S3_BUCKET;
-const IAM_USER_KEY = process.env.IAM_USER_KEY;
-const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
+const S3_BUCKET = pm2.S3_BUCKET || process.env.S3_BUCKET;
+const IAM_USER_KEY = pm2.IAM_USER_KEY || process.env.IAM_USER_KEY;
+const IAM_USER_SECRET = pm2.IAM_USER_SECRET || process.env.IAM_USER_SECRET;
 
 const s3 = new aws.S3({
   accessKeyId: IAM_USER_KEY,

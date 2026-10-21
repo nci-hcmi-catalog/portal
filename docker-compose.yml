@@ -1,25 +1,101 @@
-# For a quick mongo/elasticSearch local environment
-
-version: '3'
+name: hcmi
 services:
-  mongo:
-    image: mongo
-    restart: always
+  hcmi-api:
+    build:
+      context: .
+      target: hcmi-api
+    container_name: hcmi-api
+    depends_on:
+      opensearch:
+        condition: service_healthy
+    env_file: ./api/.env
+    # Server-to-server URLs use compose service names; .env files keep localhost for non-Docker dev
+    environment:
+      - ES_URL=http://opensearch:9200
+      - ES_HOST=http://opensearch:9200
+    image: hcmi-api
     ports:
-      - 27017:27017
+      - 127.0.0.1:5050:5050
+
+  hcmi-cms:
+    build:
+      context: .
+      target: hcmi-cms
+    container_name: hcmi-cms
+    depends_on:
+      mongo:
+        condition: service_healthy
+      opensearch:
+        condition: service_healthy
+    env_file: ./cms/.env
+    # Server-to-server URLs use compose service names; .env files keep localhost for non-Docker dev
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+      - MONGODB_URI=mongodb://mongo:27017/hcmi
+      - ES_URL=http://opensearch:9200
+    image: hcmi-cms
+    ports:
+      - 127.0.0.1:8080:8080
+
+  hcmi-ui:
+    build:
+      context: .
+      target: hcmi-ui
+    container_name: hcmi-ui
+    depends_on:
+      - hcmi-api
+      - hcmi-cms
+    env_file: ./ui/.env
+    image: hcmi-ui
+    ports:
+      - 127.0.0.1:3000:3000
+
+  mongo:
+    container_name: hcmi-mongodb
+    healthcheck:
+      test: ['CMD', 'mongosh', '--eval', 'db.adminCommand("ping")']
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    environment:
+      - GLIBC_TUNABLES=glibc.pthread.rseq=1
+    image: mongo:8.0.4
+    # mongo:8.0.4 fails to start on Apple Silicon without GLIBC_TUNABLES, user and platform.
+    # user: any non-root UID works; starting as non-root makes the image skip its
+    # chown of /data/db and its switch to the mongodb user (via gosu).
+    # On Linux hosts, ./docker/mongo/data must be writable by this UID.
+    user: "1000:1000"
+    platform: linux/amd64
+    ports:
+      - 127.0.0.1:27017:27017
+    restart: always
     volumes:
       - ./docker/mongo/data:/data/db
+
   opensearch:
     container_name: hcmi-opensearch
-    image: 'opensearchproject/opensearch:latest'
-    ports:
-      - 9200:9200
-      - 9300:9300
-    volumes:
-      - ./docker/opensearch/data:/usr/share/opensearch/data
     environment:
+    # See https://opensearch.org/docs/latest/opensearch/install/docker/#docker-environment-variables for details on these variables.
       - discovery.type=single-node
-      - cluster.name=workflow.opensearch
+      - cluster.name=hcmi.opensearch
       - cluster.routing.allocation.disk.threshold_enabled=false
       - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx2048m
       - DISABLE_SECURITY_PLUGIN=true
+      - DISABLE_INSTALL_DEMO_CONFIG=true
+    # Prevents API startup before container is ready for connections
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          "curl -s -k http://localhost:9200/_cluster/health | grep -q '\"status\":\"green\"\\|\"status\":\"yellow\"'",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    image: 'opensearchproject/opensearch:latest'
+    ports:
+      - 127.0.0.1:9200:9200
+    volumes:
+      - ./docker/opensearch/data:/usr/share/opensearch/data
