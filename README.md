@@ -39,7 +39,7 @@ To run the required migrations:
 From the project root directory:
 
 ```
-yarn migrate-up
+yarn migrateUp
 ```
 
 ### Initialize OpenSearch:
@@ -56,10 +56,12 @@ ENV=dev yarn initializeEs
 
 #### Option 1: Run Services with Docker (Easiest)
 
-`docker compose --env-file ./.env up -d`
+`docker compose up -d`
 
 This will create Docker containers for each service and initialize the HCMI web catalog.
 Both OpenSearch and MongoDb are started, and initilization scripts are run.
+
+Inside Docker, server-to-server URLs (Mongo, OpenSearch) are set to compose service names via `environment:` in `docker-compose.yml`, overriding the `.env` files. Keep `localhost` values in each `.env` so Option 2 below still works.
 
 #### Option 2: Run Services Individually (Best for Development)
 
