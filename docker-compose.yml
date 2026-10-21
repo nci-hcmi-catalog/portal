@@ -62,8 +62,8 @@ services:
       - GLIBC_TUNABLES=glibc.pthread.rseq=1
     image: mongo:8.0.4
     # mongo:8.0.4 fails to start on Apple Silicon without GLIBC_TUNABLES, user and platform.
-    # user: any non-root UID works; it makes the image entrypoint skip its
-    # root-only chown of /data/db and gosu switch to the mongodb user.
+    # user: any non-root UID works; starting as non-root makes the image skip its
+    # chown of /data/db and its switch to the mongodb user (via gosu).
     # On Linux hosts, ./docker/mongo/data must be writable by this UID.
     user: "1000:1000"
     platform: linux/amd64
