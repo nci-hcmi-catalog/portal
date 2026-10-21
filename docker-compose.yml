@@ -76,6 +76,7 @@ services:
   opensearch:
     container_name: hcmi-opensearch
     environment:
+    # See https://opensearch.org/docs/latest/opensearch/install/docker/#docker-environment-variables for details on these variables.
       - discovery.type=single-node
       - cluster.name=hcmi.opensearch
       - cluster.routing.allocation.disk.threshold_enabled=false
