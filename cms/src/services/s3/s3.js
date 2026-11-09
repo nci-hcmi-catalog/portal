@@ -2,18 +2,21 @@
 //  Scripts executed directly and not run through babel have issues with import statements.
 
 import getLogger from '../../logger.js';
-const logger = getLogger('services/s3');
 
-const aws = require('aws-sdk');
+const { S3Client } = require('@aws-sdk/client-s3');
 const uuid = require('uuid');
+
+const logger = getLogger('services/s3');
 
 const S3_BUCKET = process.env.S3_BUCKET;
 const IAM_USER_KEY = process.env.IAM_USER_KEY;
 const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
 
-const s3 = new aws.S3({
-  accessKeyId: IAM_USER_KEY,
-  secretAccessKey: IAM_USER_SECRET,
+const s3 = new S3Client({
+  credentials: {
+    accessKeyId: IAM_USER_KEY,
+    secretAccessKey: IAM_USER_SECRET,
+  },
 });
 
 const uploadToS3 = async (fileName, fileStream, modelName) => {
