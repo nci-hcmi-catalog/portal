@@ -23,6 +23,10 @@ module.exports = {
         ES_API_VERSION: 6.1,
         ES_LOG_LEVEL: 'error',
         LOG_LEVEL: 'debug',
+        S3_BUCKET: process.env.S3_BUCKET,
+        S3_REGION: process.env.S3_REGION,
+        AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+        AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
       },
       env_staging: {
         NODE_ENV: 'staging',

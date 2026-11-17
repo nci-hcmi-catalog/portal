@@ -3,84 +3,90 @@
 
 import getLogger from '../../logger.js';
 
-const { S3Client } = require('@aws-sdk/client-s3');
+const {
+  S3Client,
+  PutObjectCommand,
+  DeleteObjectCommand,
+  HeadBucketCommand,
+} = require('@aws-sdk/client-s3');
+const { defaultProvider } = require('@aws-sdk/credential-provider-node');
 const uuid = require('uuid');
 
 const logger = getLogger('services/s3');
 
-const S3_BUCKET = process.env.S3_BUCKET;
-const IAM_USER_KEY = process.env.IAM_USER_KEY;
-const IAM_USER_SECRET = process.env.IAM_USER_SECRET;
+const Bucket = process.env.S3_BUCKET;
+const region = process.env.S3_REGION;
 
+const credentials = defaultProvider();
 const s3 = new S3Client({
-  credentials: {
-    accessKeyId: IAM_USER_KEY,
-    secretAccessKey: IAM_USER_SECRET,
-  },
+  region,
+  credentials,
 });
 
 const uploadToS3 = async (fileName, fileStream, modelName) => {
   const Key = `${uuid.v4()}-${fileName}`;
+
   const params = {
-    Bucket: S3_BUCKET,
-    Key,
+    Bucket,
     Body: fileStream,
+    ContentLength: fileStream.readableLength,
+    Key,
   };
+  const command = new PutObjectCommand(params);
   logger.debug({ Key }, 'Attempting upload of file to S3');
 
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     fileStream.once('error', (error) => reject({ error, fileName, modelName }));
-    s3.upload(params, (error, data) => {
-      if (error) {
-        reject({ error, fileName, modelName });
-      } else {
-        logger.info(
-          { Key, Bucket: S3_BUCKET, response: data },
-          's3 upload',
-          `Successfully uploaded object to S3`,
-        );
-        resolve({ data, fileName, modelName });
-      }
-    });
+    try {
+      const data = await s3.send(command);
+      logger.info(
+        { Key, Bucket, response: data },
+        's3 upload',
+        `Successfully uploaded object to S3`,
+      );
+      resolve({ data, fileName, modelName });
+    } catch (error) {
+      logger.error(`An error occured uploading image to S3. imageId: ${Key}`);
+      logger.error(error);
+      reject({ error, fileName, modelName });
+    }
   });
 };
 
 const deleteFromS3 = async (id) => {
   const params = {
-    Bucket: S3_BUCKET,
+    Bucket,
     Key: id,
   };
-
-  s3.deleteObject(params, (error, data) => {
-    if (error) {
-      logger.error(error, `An error occured deleting object from S3. imageId: ${id}`);
-      return {
-        code: 400,
-        msg: `image with id ${id} not found`,
-      };
-    } else {
-      logger.info(params, 's3 delete', 'Successfully deleted image from S3');
-      return {
-        code: 200,
-        msg: `image with id ${id} deleted`,
-      };
-    }
-  });
+  const command = new DeleteObjectCommand(params);
+  try {
+    await s3.send(command);
+    logger.info(params, 's3 delete', 'Successfully deleted image from S3');
+    return {
+      code: 200,
+      msg: `image with id ${id} deleted`,
+    };
+  } catch (error) {
+    logger.error(error, `An error occured deleting object from S3. imageId: ${id}`);
+    return {
+      code: 400,
+      msg: `image with id ${id} not found`,
+    };
+  }
 };
 
 const testS3Connection = () => {
   const params = {
-    Bucket: S3_BUCKET,
+    Bucket,
   };
-
-  return new Promise((resolve, reject) => {
-    s3.headBucket(params, (err, data) => {
-      if (err) {
-        reject(err);
-      } else {
+  return new Promise(async (resolve, reject) => {
+    try {
+      s3.send(new HeadBucketCommand(params)).then((data) => {
         resolve(data);
-      }
-    });
+      });
+    } catch {
+      reject(err);
+    }
   });
 };
 
