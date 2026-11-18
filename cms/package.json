@@ -14,6 +14,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1165.0",
     "@aws-sdk/credential-provider-node": "^3.972.66",
+    "@aws-sdk/s3-request-presigner": "^3.1171.0",
     "@opensearch-project/opensearch": "^3.6.0",
     "axios": "^1.21.1",
     "babel-polyfill": "^6.26.0",

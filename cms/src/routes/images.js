@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import { Readable } from 'stream';
-import { uploadToS3, deleteFromS3 } from './../services/s3/index.js';
+import { deleteFromS3, uploadToS3 } from './../services/s3/index.js';
 
 import getLogger from '../logger.js';
 const logger = getLogger('routes/images');
@@ -21,10 +21,10 @@ imagesRouter.post('/', async (req, res) => {
     fileStream.push(null); // push null to mark data end
 
     uploadToS3(fileName, fileStream)
-      .then(({ data }) => {
-        return res.status(201).json({ id: data.Key, url: data.Location, fileName });
+      .then(({ id, fileUrl }) => {
+        return res.status(201).json({ id, url: fileUrl, fileName });
       })
-      .catch(({ error }) => {
+      .catch((error) => {
         logger.error(error, 'An error occured during image upload to s3');
         return res.status(500).json({ error: 'Error uploading file' });
       });

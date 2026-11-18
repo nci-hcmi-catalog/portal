@@ -5,10 +5,12 @@ import getLogger from '../../logger.js';
 
 const {
   S3Client,
+  GetObjectCommand,
   PutObjectCommand,
   DeleteObjectCommand,
   HeadBucketCommand,
 } = require('@aws-sdk/client-s3');
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 const { defaultProvider } = require('@aws-sdk/credential-provider-node');
 const uuid = require('uuid');
 
@@ -32,19 +34,23 @@ const uploadToS3 = async (fileName, fileStream, modelName) => {
     ContentLength: fileStream.readableLength,
     Key,
   };
-  const command = new PutObjectCommand(params);
+  const putCommand = new PutObjectCommand(params);
   logger.debug({ Key }, 'Attempting upload of file to S3');
 
   return new Promise(async (resolve, reject) => {
     fileStream.once('error', (error) => reject({ error, fileName, modelName }));
     try {
-      const data = await s3.send(command);
+      const putResponse = await s3.send(putCommand);
       logger.info(
-        { Key, Bucket, response: data },
+        { Key, Bucket, response: putResponse },
         's3 upload',
         `Successfully uploaded object to S3`,
       );
-      resolve({ data, fileName, modelName });
+
+      const getCommand = new GetObjectCommand({ Key, Bucket });
+      const fileUrl = await getSignedUrl(s3, getCommand, { expiresIn: 604800 });
+
+      resolve({ id: Key, fileUrl, modelName });
     } catch (error) {
       logger.error(`An error occured uploading image to S3. imageId: ${Key}`);
       logger.error(error);

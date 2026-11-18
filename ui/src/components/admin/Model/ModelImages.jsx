@@ -1,21 +1,21 @@
-import { useContext } from 'react';
 import { css } from '@emotion/react';
 import { Field, Formik } from 'formik';
-import Dropzone from 'react-dropzone';
+import { useContext } from 'react';
 import Component from 'react-component-component';
+import Dropzone from 'react-dropzone';
 
 import { FormInput } from '~/components/FormComponents';
 import DragNDropIcon from '~/icons/DragNDrop';
-import PlusIcon from '~/icons/PlusIcon';
-import TrashIcon from '~/icons/TrashIcon';
 import EditIcon from '~/icons/EditIcon';
+import PlusIcon from '~/icons/PlusIcon';
 import SaveIcon from '~/icons/SaveIcon';
-import base from '~/theme/index';
+import TrashIcon from '~/icons/TrashIcon';
 import { ButtonPill } from '~/theme/adminControlsStyles';
-import { Row, Col } from '~/theme/system';
 import { FormContainer } from '~/theme/adminFormStyles';
+import base from '~/theme/index';
+import { Col, Row } from '~/theme/system';
 
-import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
+import { NOTIFICATION_TYPES, NotificationsContext } from '../Notifications';
 import { ModelSingleContext } from './ModelSingleController';
 
 import TabHeader from './TabHeader';
@@ -199,15 +199,19 @@ const ImagePreview = ({ file, queuedForDelete, onDelete, onMetaDataSave }) => (
 
 const ImageGallery = ({ acceptedFiles, toDeleteFiles, onDelete, onMetaDataSave }) => (
   <>
-    {acceptedFiles.map((file) => (
-      <ImagePreview
-        queuedForDelete={toDeleteFiles.map(({ file_id }) => file_id).includes(file.file_id)}
-        key={file.file_id}
-        file={file}
-        onDelete={onDelete}
-        onMetaDataSave={onMetaDataSave}
-      />
-    ))}
+    {acceptedFiles.map((file) => {
+      const { file_id, _id } = file;
+      const key = file_id || _id;
+      return (
+        <ImagePreview
+          queuedForDelete={toDeleteFiles.map(({ file_id }) => file_id).includes(file.file_id)}
+          key={key}
+          file={file}
+          onDelete={onDelete}
+          onMetaDataSave={onMetaDataSave}
+        />
+      );
+    })}
   </>
 );
 

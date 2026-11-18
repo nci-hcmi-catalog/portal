@@ -1,30 +1,30 @@
+import { debounce, get, isEqual, uniqBy } from 'lodash';
 import React from 'react';
 import Component from 'react-component-component';
-import { uniqBy, isEqual, get, debounce } from 'lodash';
 
-import { modelStatus, computeModelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
+import { computeModelStatus, modelStatus } from '@hcmi-portal/cms/src/helpers/modelStatus';
 import getPublishSchema from '@hcmi-portal/cms/src/validation/getPublishSchema';
 
-import { NotificationsContext, NOTIFICATION_TYPES } from '../Notifications';
-import { fetchData } from '../services/Fetcher';
 import {
-  isFormReadyToSave,
-  isFormReadyToPublish,
-  getModel,
-  saveModel,
-  deleteModel,
   attachVariants,
-  extractResultText,
-  extractErrorText,
-  generateTableActions,
-  isEmptyResult,
-  getOtherModelsList,
-  getMatchedModelSet,
   connectModelToSet,
+  deleteModel,
   disconnectModelFromSets,
+  extractErrorText,
+  extractResultText,
+  generateTableActions,
+  getMatchedModelSet,
+  getModel,
+  getOtherModelsList,
+  isEmptyResult,
+  isFormReadyToPublish,
+  isFormReadyToSave,
+  saveModel,
   singleAction,
 } from '../helpers';
 import { getDictionary } from '../helpers/dictionary';
+import { NOTIFICATION_TYPES, NotificationsContext } from '../Notifications';
+import { fetchData } from '../services/Fetcher';
 
 export const ModelSingleContext = React.createContext();
 
