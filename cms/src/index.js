@@ -13,30 +13,30 @@ import pm2Config from './../pm2.config.js';
 
 import isUserAuthorized, { USER_EMAIL, getLoggedInUser } from './helpers/authorizeUserAccess.js';
 import {
-  preUpdate,
-  validateYup,
-  preModelDelete,
-  postUpdate,
-  postCreate,
   outputFn,
+  postCreate,
+  postUpdate,
+  preModelDelete,
+  preUpdate,
   validateUserRequest,
+  validateYup,
 } from './hooks.js';
 import getLogger from './logger.js';
-import { data_sync_router } from './routes/sync-data.js';
 import {
   actionRouter,
-  healthRouter,
+  authRouter,
   bulkRouter,
   dictionaryRouter,
+  healthRouter,
   imagesRouter,
   matchedModelsRouter as matchedModelsActionsRouter,
+  publishRouter,
   templatesRouter,
   variantsRouter,
-  publishRouter,
-  authRouter,
 } from './routes/index.js';
-import Model from './schemas/model.js';
+import { data_sync_router } from './routes/sync-data.js';
 import MatchedModels from './schemas/matchedModels.js';
+import Model from './schemas/model.js';
 import User from './schemas/user.js';
 
 const pm2Env = process.env.ENV;
