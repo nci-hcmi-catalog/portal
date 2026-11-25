@@ -1,8 +1,4 @@
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const csv = require('csvtojson');
 
 const loadDataFromCSV = async (filename) => {
   const data = await csv().fromFile(__dirname + '/../data/' + filename);
