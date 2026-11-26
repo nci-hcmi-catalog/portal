@@ -25,7 +25,7 @@ import pm2 from './pm2.ts';
 import searchRouter from './search.js';
 import getClient from './services/searchClient.ts';
 
-const logger = getLogger('root');
+const logger = getLogger('API root');
 const port = process.env.PORT || 5050;
 const app = express();
 const http = new Server(app);

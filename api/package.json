@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js | pino-pretty",
+    "start": "node index.js",
     "test": "echo \"no tests specified\" && exit 0"
   },
   "author": "",
@@ -24,8 +24,9 @@
     "jszip": "^3.7.0",
     "map-stream": "^0.0.7",
     "mongoose": "^8.23.0",
-    "pino": "^9.13.1",
-    "pino-http": "^10.5.0",
+    "pino": "^10.4.0",
+    "pino-http": "^11.0.0",
+    "pino-pretty": "^13.2.0",
     "sharp": "0.34.4"
   },
   "devDependencies": {
@@ -34,8 +35,6 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "@babel/preset-env": "^7.2.3",
-    "@babel/register": "^7.0.0",
-    "nodemon": "^2.0.16",
-    "pino-pretty": "^4.1.0"
+    "@babel/register": "^7.0.0"
   }
 }

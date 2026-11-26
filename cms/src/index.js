@@ -49,7 +49,7 @@ const pm2ConfigForEnv =
   (pm2Config && pm2Config.apps && pm2Config.apps[0] && pm2Config.apps[0][`env_${pm2Env}`]) || {};
 export const pm2 = { ...pm2ConfigGeneric, ...pm2ConfigForEnv };
 
-const logger = getLogger('root');
+const logger = getLogger('CMS root');
 const port = process.env.PORT || 8080;
 const app = express();
 const modelRouter = express.Router();
