@@ -2,7 +2,6 @@
   "extended": [
     {
       "fieldName": "type",
-      "type": "all",
       "displayType": "keyword",
       "displayName": "Model Type",
       "isActive": false,
@@ -15,7 +14,6 @@
     },
     {
       "fieldName": "split_ratio",
-      "type": "all",
       "displayType": "keyword",
       "displayName": "Split Ratio",
       "isActive": false,
@@ -34,7 +32,6 @@
       "displayName": "Time to Split",
       "isActive": false,
       "isArray": false,
-      "type": "all",
       "displayType": "keyword",
       "primaryKey": false,
       "rangeStep": 1
@@ -42,7 +39,6 @@
     {
       "fieldName": "growth_rate",
       "displayType": "long",
-      "type": "number",
       "displayName": "Doubling Time",
       "isActive": false,
       "isArray": false,
@@ -55,7 +51,6 @@
     {
       "fieldName": "molecular_characterizations",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Available Molecular Characterizations",
       "isActive": false,
       "isArray": true,
@@ -74,14 +69,12 @@
       "isActive": false,
       "isArray": false,
       "displayType": "keyword",
-      "type": "all",
       "primaryKey": false,
       "rangeStep": 1
     },
     {
       "fieldName": "matched_models",
       "displayType": "nested",
-      "type": "nested",
       "displayName": "Multiple Models",
       "isActive": false,
       "isArray": false,
@@ -94,7 +87,6 @@
     {
       "fieldName": "matched_models.name",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Multiple Models From This Patient",
       "isActive": false,
       "isArray": false,
@@ -107,7 +99,6 @@
     {
       "fieldName": "matched_models.tissue_type",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Multiple Model Tissue Status",
       "isActive": false,
       "isArray": false,
@@ -120,7 +111,6 @@
     {
       "fieldName": "matched_models.hits.total",
       "displayType": "long",
-      "type": "number",
       "displayName": "Has Multiple Models",
       "isActive": false,
       "isArray": false,
@@ -133,7 +123,6 @@
     {
       "fieldName": "has_matched_models",
       "displayType": "boolean",
-      "type": "boolean",
       "displayName": "Has Multiple Models",
       "isActive": false,
       "isArray": false,
@@ -149,7 +138,6 @@
     {
       "fieldName": "matched_models_list",
       "displayType": "string",
-      "type": "list",
       "displayName": "Has Multiple Models",
       "isActive": false,
       "isArray": false,
@@ -162,7 +150,6 @@
     {
       "fieldName": "gender",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Sex",
       "isActive": false,
       "isArray": false,
@@ -175,7 +162,6 @@
     {
       "fieldName": "race",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Race",
       "isActive": false,
       "isArray": false,
@@ -188,7 +174,6 @@
     {
       "fieldName": "age_at_diagnosis",
       "displayType": "long",
-      "type": "number",
       "displayName": "Age At Diagnosis (Years)",
       "isActive": false,
       "isArray": false,
@@ -201,7 +186,6 @@
     {
       "fieldName": "age_at_sample_acquisition",
       "displayType": "long",
-      "type": "number",
       "displayName": "Age At Acquisition (Years)",
       "isActive": false,
       "isArray": false,
@@ -214,7 +198,6 @@
     {
       "fieldName": "disease_status",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Disease Status",
       "isActive": false,
       "isArray": false,
@@ -227,7 +210,6 @@
     {
       "fieldName": "vital_status",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Vital Status",
       "isActive": false,
       "isArray": false,
@@ -240,7 +222,6 @@
     {
       "fieldName": "neoadjuvant_therapy",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Neoadjuvant Therapy",
       "isActive": false,
       "isArray": false,
@@ -253,7 +234,6 @@
     {
       "fieldName": "therapy",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Therapy",
       "isActive": false,
       "isArray": true,
@@ -266,7 +246,6 @@
     {
       "fieldName": "chemotherapeutic_drugs",
       "displayType": "boolean",
-      "type": "boolean",
       "displayName": "Chemotherapeutic Drug List Available",
       "isActive": false,
       "isArray": false,
@@ -282,7 +261,6 @@
     {
       "fieldName": "clinical_diagnosis",
       "displayType": "object",
-      "type": "nested",
       "displayName": "Clinical Diagnosis",
       "isActive": false,
       "isArray": false,
@@ -295,7 +273,6 @@
     {
       "fieldName": "clinical_diagnosis.clinical_tumor_diagnosis",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Clinical Tumor Diagnosis",
       "isActive": false,
       "isArray": false,
@@ -308,7 +285,6 @@
     {
       "fieldName": "clinical_diagnosis.histological_type",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Histological Subtype",
       "isActive": false,
       "isArray": false,
@@ -321,7 +297,6 @@
     {
       "fieldName": "primary_site",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Primary Site",
       "isActive": false,
       "isArray": false,
@@ -334,7 +309,6 @@
     {
       "fieldName": "clinical_diagnosis.site_of_sample_acquisition",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Acquisition Site",
       "isActive": false,
       "isArray": false,
@@ -347,7 +321,6 @@
     {
       "fieldName": "tnm_stage",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "TNM Stage",
       "isActive": false,
       "isArray": false,
@@ -360,7 +333,6 @@
     {
       "fieldName": "clinical_diagnosis.clinical_stage_grouping",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Clinical Stage Grouping",
       "isActive": false,
       "isArray": false,
@@ -373,7 +345,6 @@
     {
       "fieldName": "clinical_diagnosis.tumor_histological_grade",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Histological Grade",
       "isActive": false,
       "isArray": false,
@@ -386,7 +357,6 @@
     {
       "fieldName": "updatedAt",
       "displayType": "date",
-      "type": "date",
       "displayName": "Date Updated",
       "isActive": false,
       "isArray": false,
@@ -399,7 +369,6 @@
     {
       "fieldName": "date_of_availability",
       "displayType": "date",
-      "type": "date",
       "displayName": "Date Of Availability",
       "isActive": false,
       "isArray": false,
@@ -412,7 +381,6 @@
     {
       "fieldName": "licensing_required",
       "displayType": "boolean",
-      "type": "boolean",
       "displayName": "Licensing Required For Commercial Use",
       "isActive": false,
       "isArray": false,
@@ -428,7 +396,6 @@
     {
       "fieldName": "createdAt",
       "displayType": "date",
-      "type": "date",
       "displayName": "Date Created",
       "isActive": false,
       "isArray": false,
@@ -442,7 +409,6 @@
     {
       "fieldName": "files",
       "displayType": "nested",
-      "type": "nested",
       "displayName": "Files",
       "isActive": false,
       "isArray": false,
@@ -455,7 +421,6 @@
     {
       "fieldName": "files.file_id",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "File ID",
       "isActive": false,
       "isArray": false,
@@ -468,7 +433,6 @@
     {
       "fieldName": "files.file_name",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Files File Name",
       "isActive": false,
       "isArray": false,
@@ -481,7 +445,6 @@
     {
       "fieldName": "files.file_type",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "File Type",
       "isActive": false,
       "isArray": false,
@@ -494,7 +457,6 @@
     {
       "fieldName": "files.magnification",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Files Magnification",
       "isActive": false,
       "isArray": false,
@@ -507,7 +469,6 @@
     {
       "fieldName": "files.passage_number",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Files Passage Number",
       "isActive": false,
       "isArray": false,
@@ -520,7 +481,6 @@
     {
       "fieldName": "files.scale_bar_length",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Files Scale Bar Length",
       "isActive": false,
       "isArray": false,
@@ -534,7 +494,6 @@
     {
       "fieldName": "name",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Name",
       "isActive": false,
       "isArray": false,
@@ -554,14 +513,12 @@
       "isActive": false,
       "isArray": false,
       "displayType": "keyword",
-      "type": "all",
       "primaryKey": false,
       "rangeStep": 1
     },
     {
       "fieldName": "proteomics_url",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Link To Proteomics Data",
       "isActive": false,
       "isArray": false,
@@ -574,7 +531,6 @@
     {
       "fieldName": "source_model_url",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Link to Model Details",
       "isActive": false,
       "isArray": false,
@@ -587,7 +543,6 @@
     {
       "fieldName": "source_sequence_url",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Link To Sequencing Data",
       "isActive": false,
       "isArray": false,
@@ -600,7 +555,6 @@
     {
       "fieldName": "somatic_maf_url",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Link To Masked Somatic MAF",
       "isActive": false,
       "isArray": false,
@@ -613,7 +567,6 @@
     {
       "fieldName": "status",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Status",
       "isActive": false,
       "isArray": false,
@@ -626,7 +579,6 @@
     {
       "fieldName": "variants",
       "displayType": "nested",
-      "type": "nested",
       "displayName": "Variants",
       "isActive": false,
       "isArray": false,
@@ -639,7 +591,6 @@
     {
       "fieldName": "variants.assessment_type",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Assessment Type",
       "isActive": false,
       "isArray": false,
@@ -652,7 +603,6 @@
     {
       "fieldName": "variants.category",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Category",
       "isActive": false,
       "isArray": false,
@@ -665,7 +615,6 @@
     {
       "fieldName": "variants.expression_level",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Expression Level",
       "isActive": false,
       "isArray": false,
@@ -678,7 +627,6 @@
     {
       "fieldName": "variants.genes",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Genes",
       "isActive": false,
       "isArray": true,
@@ -691,7 +639,6 @@
     {
       "fieldName": "variants.name",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Variant",
       "isActive": false,
       "isArray": false,
@@ -704,7 +651,6 @@
     {
       "fieldName": "variants.type",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Variants Type",
       "isActive": false,
       "isArray": false,
@@ -717,7 +663,6 @@
     {
       "fieldName": "genomic_variants",
       "displayType": "nested",
-      "type": "nested",
       "displayName": "Genomic Variants",
       "isActive": false,
       "isArray": false,
@@ -730,7 +675,6 @@
     {
       "fieldName": "variants.type",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Variants Type",
       "isActive": false,
       "isArray": false,
@@ -743,7 +687,6 @@
     {
       "fieldName": "autocomplete",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Autocomplete",
       "isActive": false,
       "isArray": true,
@@ -756,7 +699,6 @@
     {
       "fieldName": "expanded",
       "displayType": "boolean",
-      "type": "boolean",
       "displayName": "Expansion Status",
       "isActive": false,
       "isArray": false,
@@ -772,7 +714,6 @@
     {
       "fieldName": "genomic_variants",
       "displayType": "nested",
-      "type": "nested",
       "displayName": "Genomic Variants",
       "isActive": false,
       "isArray": false,
@@ -785,7 +726,6 @@
     {
       "fieldName": "genomic_variants.gene",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Gene",
       "isActive": false,
       "isArray": false,
@@ -798,7 +738,6 @@
     {
       "fieldName": "genomic_variants.transcript_id",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Research Somatic Variant Transcript ID",
       "isActive": false,
       "isArray": false,
@@ -811,7 +750,6 @@
     {
       "fieldName": "genomic_variants.variant_id",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Research Somatic Variant ID",
       "isActive": false,
       "isArray": false,
@@ -824,7 +762,6 @@
     {
       "fieldName": "genomic_variants.synonyms",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Gene Synonyms",
       "isActive": false,
       "isArray": true,
@@ -837,7 +774,6 @@
     {
       "fieldName": "genomic_variants.classification",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Research Somatic Variant Type",
       "isActive": false,
       "isArray": false,
@@ -850,7 +786,6 @@
     {
       "fieldName": "genomic_variants.consequence_type",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Consequence",
       "isActive": false,
       "isArray": false,
@@ -863,7 +798,6 @@
     {
       "fieldName": "gene_metadata",
       "displayType": "object",
-      "type": "nested",
       "displayName": "Gene Metadata",
       "isActive": false,
       "isArray": false,
@@ -876,7 +810,6 @@
     {
       "fieldName": "gene_metadata.genes",
       "displayType": "keyword",
-      "type": "all",
       "displayName": "Genes",
       "isActive": false,
       "isArray": true,
@@ -889,7 +822,6 @@
     {
       "fieldName": "gene_metadata.genes_count",
       "displayType": "long",
-      "type": "number",
       "displayName": "# Genes",
       "isActive": false,
       "isArray": false,
@@ -902,7 +834,6 @@
     {
       "fieldName": "gene_metadata.mutated_genes",
       "displayType": "list",
-      "type": "all",
       "displayName": "Mutated Genes",
       "isActive": false,
       "isArray": true,
@@ -915,7 +846,6 @@
     {
       "fieldName": "gene_metadata.mutated_genes_count",
       "displayType": "long",
-      "type": "number",
       "displayName": "# Mutated Genes",
       "isActive": false,
       "isArray": false,
@@ -928,7 +858,6 @@
     {
       "fieldName": "gene_metadata.genomic_variant_count",
       "displayType": "long",
-      "type": "number",
       "displayName": "# Research Somatic Variants",
       "isActive": false,
       "isArray": false,
@@ -941,7 +870,6 @@
     {
       "fieldName": "gene_metadata.clinical_variant_count",
       "displayType": "long",
-      "type": "number",
       "displayName": "# Clinical Variants",
       "isActive": false,
       "isArray": false,
@@ -954,7 +882,6 @@
     {
       "fieldName": "gene_metadata.histopathological_variant_count",
       "displayType": "long",
-      "type": "number",
       "displayName": "# Histo-pathological Biomarkers",
       "isActive": false,
       "isArray": false,

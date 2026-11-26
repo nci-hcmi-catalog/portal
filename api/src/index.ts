@@ -1,5 +1,5 @@
 import ArrangerRouter, { type ArrangerBaseContext, wrapOpenSearchClient } from '@overture-stack/arranger-graphql-router';
-import type { ConfigsObject, DisplayType, ExtendedConfigs, FacetsConfigs, MatchBoxConfigs, TableConfigs } from '@overture-stack/arranger-types/configs';
+import type { ConfigsObject, ExtendedConfigs, FacetsConfigs, MatchBoxConfigs, TableConfigs } from '@overture-stack/arranger-types/configs';
 import 'babel-polyfill';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -39,7 +39,7 @@ app.use(expressSanitizer()); // each route is responsible for sanitization
 app.use(cors());
 
 // Swagger
-app.use('/docs', (req, res) => {
+app.use('/api-docs', (req, res) => {
   res.sendFile(path.join(__dirname, '../redoc.html'));
 });
 app.use('/swagger', (req, res) => {
@@ -47,13 +47,8 @@ app.use('/swagger', (req, res) => {
 });
 
 // Arranger Configs
-const displayTypeValues: DisplayType[] = ['all' , 'bits' , 'boolean' , 'bytes' , 'date' , 'list' , 'nested' , 'number'];
-
-const extendedConfigs: ExtendedConfigs[] = extendedConfigFile['extended'].map(configRecord => {
-  const {type: stringType} = configRecord;
-  const displayType = displayTypeValues.find(type => stringType === type) || 'all';
-  return {...configRecord, type: displayType};
-});
+// TODO: Fix Type coercion / Update Arranger ExtendedConfigs['type'] definition
+const extendedConfigs = extendedConfigFile['extended'] as ExtendedConfigs[];
 const facetConfigs: FacetsConfigs = facetsConfigFile['facets'];
 const matchboxConfigs: MatchBoxConfigs[] = matchboxConfigFile['matchbox'];
 const tableConfigs: TableConfigs = tableConfigFile['table'];
